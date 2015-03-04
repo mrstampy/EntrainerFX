@@ -130,9 +130,6 @@ public class FlashPanel extends Rectangle {
 					setStarted(e.getBooleanValue());
 					checkStart();
 					break;
-				case MESSAGE:
-					setMessage(e.getStringValue());
-					break;
 				default:
 					break;
 				}
@@ -157,16 +154,6 @@ public class FlashPanel extends Rectangle {
 	 */
 	public void clearMediatorObjects() {
 		EntrainerMediator.getInstance().removeReceiver(this);
-	}
-
-	private void setMessage(final String msg) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				new NotificationWindow(msg, EntrainerFX.getInstance());
-			}
-		});
 	}
 
 	private boolean canFlash() {
