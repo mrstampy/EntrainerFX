@@ -19,18 +19,9 @@
     <socketPort>1234</socketPort>
     <socketConnected>false</socketConnected>
     <deltaSocketMessage>true</deltaSocketMessage>
-    <thinkgear.broadcast.messages>false</thinkgear.broadcast.messages>
-    <thinkgear.broadcast.port>13245</thinkgear.broadcast.port>
-    <send.neurosky.messages>false</send.neurosky.messages>
-    <thinkgear.eeg.volume.control>true</thinkgear.eeg.volume.control>
-    <steelseries.background>CARBON</steelseries.background>
-    <steelseries.frame.effect>EFFECT_INNER_FRAME</steelseries.frame.effect>
-    <steelseries.frame.design>BLACK_METAL</steelseries.frame.design>
-    <steelseries.gauge.type>TYPE2</steelseries.gauge.type>
-    <steelseries.knob.type>METAL_KNOB</steelseries.knob.type>
-    <steelseries.knob.style>BLACK</steelseries.knob.style>
     <shimmer.rectangle.implementation>Linear Gradient</shimmer.rectangle.implementation>
     <flash.red>158</flash.red>
     <flash.green>255</flash.green>
     <flash.blue>177</flash.blue>
+    <random.background>false</random.background>
 </entrainer.settings>
