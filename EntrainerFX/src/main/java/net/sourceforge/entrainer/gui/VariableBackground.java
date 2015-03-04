@@ -35,7 +35,7 @@ public class VariableBackground {
 
 	private ImageView current;
 	private ImageView old;
-	private AnchorPane stackPane = new AnchorPane();
+	private AnchorPane pane = new AnchorPane();
 
 	private FadeTransition fadeIn = new FadeTransition();
 	private FadeTransition fadeOut = new FadeTransition();
@@ -200,7 +200,7 @@ public class VariableBackground {
 			AnchorPane.setTopAnchor(current, offset);
 		}
 		
-		stackPane.getChildren().add(current);
+		pane.getChildren().add(current);
 		
 		if(shouldRun()) startTransition();
 	}
@@ -219,7 +219,7 @@ public class VariableBackground {
 		fadeOut.setToValue(0.0);
 		fadeOut.setDuration(Duration.seconds(getFadeTime()));
 		fadeOut.setInterpolator(Interpolator.LINEAR);
-		fadeOut.setOnFinished(e -> stackPane.getChildren().remove(old));
+		fadeOut.setOnFinished(e -> pane.getChildren().remove(old));
 	}
 
 	private void initMediator() {
@@ -316,7 +316,7 @@ public class VariableBackground {
 	}
 
 	public Pane getPane() {
-		return stackPane;
+		return pane;
 	}
 
 	public Image getCurrentImage() {
@@ -326,8 +326,8 @@ public class VariableBackground {
 	public void setDimension(double width, double height) {
 		setWidth(width);
 		setHeight(height);
-		stackPane.setMaxSize(width, height);
-		stackPane.setPrefSize(width, height);
+		pane.setMaxSize(width, height);
+		pane.setPrefSize(width, height);
 	}
 
 	public double getWidth() {
