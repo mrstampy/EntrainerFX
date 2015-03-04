@@ -199,7 +199,8 @@ public class EntrainerFX extends JFrame {
 
 	private GridPane gp = new GridPane();
 	private JFXPanel mainPanel;
-	private ImageView background = new ImageView();
+	// private ImageView background = new ImageView();
+	private VariableBackground background = new VariableBackground();
 	private PinkPanningPane pinkPanningPane = new PinkPanningPane();
 	private AnimationPane animations = new AnimationPane();
 	private Group group;
@@ -258,9 +259,10 @@ public class EntrainerFX extends JFrame {
 
 		return instance;
 	}
-	
+
 	Image getBackgroundImage() {
-		return background.getImage();
+		// TODO fix me
+		return background.getCurrentImage();
 	}
 
 	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
@@ -269,6 +271,7 @@ public class EntrainerFX extends JFrame {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.awt.Window#pack()
 	 */
 	public void pack() {
@@ -330,49 +333,13 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void scaleBackground() {
-		if (background.getImage() == null) {
-			setPreferredSize(new Dimension((int) gp.getWidth() + 10, MIN_HEIGHT));
-			setSize(getPreferredSize());
-			GuiUtil.centerOnScreen(EntrainerFX.this);
-			unexpandTitledPanes();
-			return;
-		}
-
-		double backWidth = background.getImage().getWidth();
-		double backHeight = background.getImage().getHeight();
-		final double ratio = backWidth / backHeight;
-
-		final double newWidth = gp.getWidth() + 10;
-
-		Platform.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				background.setFitWidth(ratio < 1 ? newWidth : newWidth * ratio);
-
-				double fitHeight = background.getFitWidth() / ratio;
-				double height = fitHeight < MIN_HEIGHT ? MIN_HEIGHT : fitHeight;
-
-				background.setFitHeight(height);
-				background.setFitWidth(background.getFitHeight() * ratio);
-
-				setPreferredSize(new Dimension((int) newWidth, (int) height));
-				setSize(getPreferredSize());
-
-				double xDiff = background.getFitWidth() - getWidth();
-				if (xDiff > 0) background.setX(0 - xDiff / 2);
-
-				double yDiff = background.getFitHeight() - height;
-				if (yDiff > 0) background.setY(0 - yDiff / 2);
-
-				GuiUtil.centerOnScreen(EntrainerFX.this);
-
-				// For strangely shaped pictures
-				if (getX() < 0 || getY() < 0) setLocation(10, 10);
-
-				unexpandTitledPanes();
-			}
-		});
+		setPreferredSize(new Dimension((int) gp.getWidth() + 10, MIN_HEIGHT));
+		setSize(getPreferredSize());
+		background.setDimension(gp.getWidth() + 10, MIN_HEIGHT);
+		background.start();
+		GuiUtil.centerOnScreen(EntrainerFX.this);
+		unexpandTitledPanes();
+		return;
 	}
 
 	private void unexpandTitledPanes() {
@@ -1132,7 +1099,9 @@ public class EntrainerFX extends JFrame {
 			if (Platform.isFxApplicationThread()) {
 				Dialogs.create().title("No ESP Device Selected").message("Choose an ESP device first").showWarning();
 			} else {
-				JOptionPane.showMessageDialog(this, "Choose an ESP device first", "No ESP Device Selected",
+				JOptionPane.showMessageDialog(this,
+						"Choose an ESP device first",
+						"No ESP Device Selected",
 						JOptionPane.ERROR_MESSAGE);
 			}
 			return false;
@@ -1175,11 +1144,11 @@ public class EntrainerFX extends JFrame {
 
 	private void setLabFrom(RawEspConnection connection) {
 		Lab connectionLab = connection.getDefaultLab();
-		
+
 		connectionLab.setNumBands(41);
-		
+
 		lab = connectionLab;
-		
+
 		neuralizer.setLab(lab);
 	}
 
@@ -1279,8 +1248,10 @@ public class EntrainerFX extends JFrame {
 			GuiUtil.handleProblem(e);
 			connect.setSelected(false);
 		} catch (InvalidPortNumberException e) {
-			JOptionPane.showMessageDialog(EntrainerFX.this, "The port number " + e.getPort() + " is not valid",
-					"Invalid Port Number", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(EntrainerFX.this,
+					"The port number " + e.getPort() + " is not valid",
+					"Invalid Port Number",
+					JOptionPane.ERROR_MESSAGE);
 			connect.setSelected(false);
 		}
 	}
@@ -1409,7 +1380,7 @@ public class EntrainerFX extends JFrame {
 			control.setRecord(false);
 		}
 	}
-	
+
 	private void recordClicked(boolean recording) {
 		soundControlPane.getRecord().setSelected(recording);
 		control.setRecord(recording);
@@ -1427,8 +1398,9 @@ public class EntrainerFX extends JFrame {
 		if (val == JFileChooser.APPROVE_OPTION) {
 			File wavFile = processFile(wavChooser.getSelectedFile());
 			if (!isValidFile(wavFile)) {
-				JOptionPane.showMessageDialog(this, wavFile.getName()
-						+ " is not a valid WAV file name\n(it must end with a '.wav' extension)", "Invalid WAV File Name",
+				JOptionPane.showMessageDialog(this,
+						wavFile.getName() + " is not a valid WAV file name\n(it must end with a '.wav' extension)",
+						"Invalid WAV File Name",
 						JOptionPane.WARNING_MESSAGE);
 				return false;
 			}
@@ -1703,8 +1675,14 @@ public class EntrainerFX extends JFrame {
 		GridPane.setConstraints(shimmerOptions, 0, 5, 2, 1);
 		GridPane.setConstraints(neuralizer, 0, 6, 2, 1);
 		gp.setPadding(new Insets(5));
-		gp.getChildren().addAll(soundControlPane, sliderControlPane, checkBoxPane, pinkPanningPane, messagePanel,
-				animations, shimmerOptions, neuralizer);
+		gp.getChildren().addAll(soundControlPane,
+				sliderControlPane,
+				checkBoxPane,
+				pinkPanningPane,
+				messagePanel,
+				animations,
+				shimmerOptions,
+				neuralizer);
 
 		final URI css = JFXUtils.getEntrainerCSS();
 
@@ -1715,14 +1693,16 @@ public class EntrainerFX extends JFrame {
 				group = new Group();
 
 				if (Settings.getInstance().isRandomBackground()) {
-					setRandomBackgroundImage();
+					// setRandomBackgroundImage();
 				} else {
-					background.setId("background-image");
+					// background.setId("background-image");
 				}
-				background.setOpacity(0.25);
-				group.getChildren().add(background);
-				new BackgroundFlasher(background);
-				gp.setMinSize(background.getFitWidth(), background.getFitHeight());
+				// background.setOpacity(0.25);
+				
+				group.getChildren().add(background.getPane());
+				// new BackgroundFlasher(background);
+				// gp.setMinSize(getBackgroundImage().getWidth(),
+				// getBackgroundImage().getHeight());
 				shimmer.setInUse(true);
 				group.getChildren().add(shimmer);
 				group.getChildren().add(gp);
@@ -1735,26 +1715,28 @@ public class EntrainerFX extends JFrame {
 		getContentPane().add(mainPanel);
 	}
 
-	private void setRandomBackgroundImage() {
-		Random rand = new Random(System.nanoTime());
-
-		File[] images = new File("css").listFiles(new FilenameFilter() {
-
-			@Override
-			public boolean accept(File dir, String name) {
-				return isImageFile(name);
-			}
-		});
-
-		File theChosenOne = images[rand.nextInt(images.length)];
-
-		try {
-			background.setImage(new Image(new FileInputStream(theChosenOne)));
-		} catch (FileNotFoundException e) {
-			log.warn("Cannot load image file {}, defaulting to entrainer.css", theChosenOne.getAbsolutePath(), e);
-			background.setId("background-image");
-		}
-	}
+	//
+	// private void setRandomBackgroundImage() {
+	// Random rand = new Random(System.nanoTime());
+	//
+	// File[] images = new File("css").listFiles(new FilenameFilter() {
+	//
+	// @Override
+	// public boolean accept(File dir, String name) {
+	// return isImageFile(name);
+	// }
+	// });
+	//
+	// File theChosenOne = images[rand.nextInt(images.length)];
+	//
+	// try {
+	// background.setImage(new Image(new FileInputStream(theChosenOne)));
+	// } catch (FileNotFoundException e) {
+	// log.warn("Cannot load image file {}, defaulting to entrainer.css",
+	// theChosenOne.getAbsolutePath(), e);
+	// background.setId("background-image");
+	// }
+	// }
 
 	private boolean isImageFile(String name) {
 		for (String sfx : picSuffixes) {
