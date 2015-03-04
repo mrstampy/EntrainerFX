@@ -1,0 +1,56 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-izpack-plugin:2.0'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'java-library-distribution'
+apply plugin: 'com.bmuschko.izpack'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.8
+version = '6.0'
+
+configurations {
+	izpack
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+    flatDir(dirs: 'lib')
+}
+
+dependencies {
+	compile 'org.slf4j:slf4j-api:1.7.10'
+	compile 'org.slf4j:log4j-over-slf4j:1.7.10'
+	compile 'com.github.insubstantial:trident:7.3'
+	compile 'com.miglayout:miglayout-swing:5.0'
+	compile 'io.netty:netty-all:4.0.26.Final'
+	compile 'org.jfree:jfreechart:1.0.19'
+	compile 'org.jfree:jcommon:1.0.23'
+	compile 'com.fasterxml.jackson.core:jackson-core:2.5.1'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
+	compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.1'
+	compile 'com.github.mrstampy:esp:2.1'
+	compile 'com.github.mrstampy:esplab:1.0'
+	compile 'com.github.mrstampy:PoisonIvy:1.4'
+	compile 'jsyn:jsyn:16.7.1'
+	compile 'entrainercommon:entrainercommon:5.0.0'
+	compile 'neuroph-core:neuroph-core:2.8.0'
+	compile 'com.netflix.rxjava:rxjava-core:0.17.5'
+	compile 'com.miglayout:miglayout-ideutil:5.0'
+	
+	izpack 'org.codehaus.izpack:izpack-standalone-compiler:4.3.4'
+}
