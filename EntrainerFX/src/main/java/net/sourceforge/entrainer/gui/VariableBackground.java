@@ -21,6 +21,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import net.sourceforge.entrainer.mediator.EntrainerMediator;
+import net.sourceforge.entrainer.mediator.ReceiverAdapter;
+import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
+import net.sourceforge.entrainer.sound.tools.FrequencyToHalfTimeCycle;
+import net.sourceforge.entrainer.util.Utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +46,7 @@ public class VariableBackground {
 	private int displayTime = 10;
 	private String directoryName = "css";
 
-	private ScheduledExecutorService switchSvc = Executors.newSingleThreadScheduledExecutor();
+	private ScheduledExecutorService switchSvc = Executors.newScheduledThreadPool(3);
 
 	private List<String> pictureNames = new ArrayList<>();
 
@@ -49,6 +54,16 @@ public class VariableBackground {
 	
 	private double width;
 	private double height;
+
+	private boolean flashBackground;
+
+	protected boolean running;
+
+	private FrequencyToHalfTimeCycle calculator = new FrequencyToHalfTimeCycle();
+	
+	public VariableBackground() {
+		initMediator();
+	}
 
 	public void start() {
 		Platform.runLater(() -> init());
@@ -136,7 +151,7 @@ public class VariableBackground {
 
 	private void createCurrent() {
 		current = new ImageView();
-		current.setOpacity(0);
+		current.setOpacity(0.01);
 		current.setSmooth(true);
 		current.setPreserveRatio(true);
 		current.setScaleX(1);
@@ -162,14 +177,8 @@ public class VariableBackground {
 		double vw = getWidth();
 		double vh = getHeight();
 		
-		System.out.println("Window: " + vw + ":" + vh);
-		System.out.println("Picture: " + pw + ":" + ph);
-		
 		double xr = 1 - (pw - vw) / pw;
 		double yr = 1 - (ph - vh) / ph;
-		
-		System.out.println("xr: " + xr);
-		System.out.println("yr: " + yr);
 
 		if (xr >= yr) {
 			current.setFitWidth(vw);
@@ -179,19 +188,21 @@ public class VariableBackground {
 
 		double xDiff = current.getFitWidth() - vw;
 		if (xDiff > 0) {
-			double offset = 0 - xDiff / 2;
+			double offset = 0 - xDiff * 2;
 			current.setX(offset);
 			AnchorPane.setRightAnchor(current, offset);
 		}
 
 		double yDiff = current.getFitHeight() - vh;
 		if (yDiff > 0) {
-			double offset = 0 - yDiff / 2;
+			double offset = 0 - yDiff * 2;
 			current.setY(offset);
 			AnchorPane.setTopAnchor(current, offset);
 		}
 		
 		stackPane.getChildren().add(current);
+		
+		if(shouldRun()) startTransition();
 	}
 
 	private void fadeIn() {
@@ -209,6 +220,75 @@ public class VariableBackground {
 		fadeOut.setDuration(Duration.seconds(getFadeTime()));
 		fadeOut.setInterpolator(Interpolator.LINEAR);
 		fadeOut.setOnFinished(e -> stackPane.getChildren().remove(old));
+	}
+
+	private void initMediator() {
+		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
+
+			@Override
+			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+				switch (e.getParm()) {
+				case FLASH_BACKGROUND:
+					flashBackground = e.getBooleanValue();
+					if(shouldRun()) startTransition();
+					break;
+				case START_ENTRAINMENT:
+					running = e.getBooleanValue();
+					if(shouldRun()) startTransition();
+					break;
+				default:
+					break;
+				}
+			}
+
+		});
+	}
+
+	private void startTransition() {
+		Runnable thread = new Runnable() {
+			private ImageView background = current;
+			public void run() {
+				while (shouldRun() && background.getOpacity() > 0) {
+					Utils.snooze(getMillis(), calculator.getNanos());
+
+					invert(background);
+				}
+
+				reset(background);
+			}
+
+			private long getMillis() {
+				long millis = calculator.getMillis();
+				return millis > 5000 ? 5000l : millis;
+			}
+		};
+		
+		switchSvc.execute(thread);
+	}
+
+	private void invert(ImageView background) {
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				double o = background.getOpacity() == 0.25 ? 0.60 : 0.25;
+				background.setOpacity(o);
+			}
+		});
+	}
+
+	private void reset(ImageView background) {
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				background.setOpacity(0.25);
+			}
+		});
+	}
+
+	private boolean shouldRun() {
+		return running && flashBackground;
 	}
 
 	public int getFadeTime() {
