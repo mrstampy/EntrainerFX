@@ -140,7 +140,7 @@ public class SliderControlPane extends GridPane {
 		
 		slider.setEffect(new Blend(BlendMode.COLOR_BURN, new InnerShadow(), reflection));
 
-		slider.setMinWidth(300);
+		slider.setMinWidth(350);
 
 		slider.valueProperty().addListener(new InvalidationListener() {
 
