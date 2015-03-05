@@ -28,7 +28,7 @@ import java.util.StringTokenizer;
 public class JavaVersionChecker {
 
 	/** The Constant MIN_VERSION. */
-	public static final JavaVersion MIN_VERSION = new JavaVersion(1, 8, 0, 0);
+	public static final JavaVersion MIN_VERSION = new JavaVersion(1, 8, 40, 0);
 	
 	/** The Constant CURRENT. */
 	public static final JavaVersion CURRENT;

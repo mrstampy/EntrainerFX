@@ -154,28 +154,30 @@ public class XmlEditor extends JDialog {
 	private ImageView background = new ImageView();
 
 	private volatile boolean closing = false;
-	
-	private BackgroundFlasher flasher = new BackgroundFlasher(background);
 
 	/**
 	 * Instantiates a new xml editor.
 	 *
-	 * @param owner the owner
-	 * @param file the file
+	 * @param owner
+	 *          the owner
+	 * @param file
+	 *          the file
 	 */
 	public XmlEditor(Frame owner, File file) {
 		super(owner, XEC_DIALOG_NAME, true);
 		init(file);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.awt.Window#pack()
 	 */
 	public void pack() {
 		units.setPreferredSize(units.getSize());
 		panel.setPreferredSize(new Dimension(panel.getWidth() + 10, 400));
 		super.pack();
-		if(background.getImage() != null) scaleBackground();
+		if (background.getImage() != null) scaleBackground();
 		animations.setMinWidth(getWidth() - 10);
 		Platform.runLater(new Runnable() {
 
@@ -209,7 +211,8 @@ public class XmlEditor extends JDialog {
 	/**
 	 * Adds the xml file save listener.
 	 *
-	 * @param l the l
+	 * @param l
+	 *          the l
 	 */
 	public void addXmlFileSaveListener(XmlFileSaveListener l) {
 		fileSaveListeners.add(l);
@@ -218,7 +221,8 @@ public class XmlEditor extends JDialog {
 	/**
 	 * Fire xml file save event.
 	 *
-	 * @param xmlFile the xml file
+	 * @param xmlFile
+	 *          the xml file
 	 */
 	protected void fireXmlFileSaveEvent(File xmlFile) {
 		XmlFileSaveEvent e = new XmlFileSaveEvent(this, xmlFile);
@@ -379,14 +383,9 @@ public class XmlEditor extends JDialog {
 	}
 
 	private void showChartPressed() {
-		try {
-			UnitChart chart = new UnitChart(this, getUnits(), xml.getFile() != null ? xml.getFile().getName()
-					: "New Entrainer Program", intervalMenu.getLoadedIntervals());
-			GuiUtil.showDialog(chart);
-		} catch (NoClassDefFoundError e) {
-			e.printStackTrace();
-			Main.resolve();
-		}
+		UnitChart chart = new UnitChart(this, getUnits(), xml.getFile() != null ? xml.getFile().getName()
+				: "New Entrainer Program", intervalMenu.getLoadedIntervals());
+		GuiUtil.showDialog(chart);
 	}
 
 	private void savePressed(boolean isSave) {
@@ -429,7 +428,9 @@ public class XmlEditor extends JDialog {
 			if (result == JFileChooser.APPROVE_OPTION) {
 				File f = processFile(xmlChooser.getSelectedFile());
 				if (!isValidFile(f)) {
-					JOptionPane.showMessageDialog(this, "The file " + f.getName() + " is invalid", "Invalid File Name",
+					JOptionPane.showMessageDialog(this,
+							"The file " + f.getName() + " is invalid",
+							"Invalid File Name",
 							JOptionPane.WARNING_MESSAGE);
 					return;
 				} else {
@@ -440,9 +441,10 @@ public class XmlEditor extends JDialog {
 			}
 		}
 		if (xml.getFile().exists()) {
-			int option = JOptionPane
-					.showConfirmDialog(this, "File " + xml.getFile().getName() + " already exists. Continue?", "File exists",
-							JOptionPane.OK_CANCEL_OPTION);
+			int option = JOptionPane.showConfirmDialog(this,
+					"File " + xml.getFile().getName() + " already exists. Continue?",
+					"File exists",
+					JOptionPane.OK_CANCEL_OPTION);
 			if (option != JOptionPane.OK_OPTION) {
 				return;
 			}
@@ -499,7 +501,9 @@ public class XmlEditor extends JDialog {
 
 	private void removeUnitPressed() {
 		if (units.getTabCount() > 0) {
-			int option = JOptionPane.showConfirmDialog(this, "About to remove this unit.  Continue?", "Remove Unit",
+			int option = JOptionPane.showConfirmDialog(this,
+					"About to remove this unit.  Continue?",
+					"Remove Unit",
 					JOptionPane.OK_CANCEL_OPTION);
 			if (option == JOptionPane.OK_OPTION) {
 				int idx = units.getSelectedIndex();
@@ -831,7 +835,7 @@ public class XmlEditor extends JDialog {
 		gp.getChildren().addAll(checkBoxPane, pinkPanning, animations, shimmers);
 
 		final URI css = JFXUtils.getEntrainerCSS();
-		
+
 		background.setImage(EntrainerFX.getInstance().getBackgroundImage());
 		background.setOpacity(0.25);
 
@@ -881,7 +885,6 @@ public class XmlEditor extends JDialog {
 		if (closing) return;
 		closing = true;
 		cancelPressed();
-		flasher.dispose();
 		GuiUtil.fadeOutAndDispose(this, 750);
 	}
 

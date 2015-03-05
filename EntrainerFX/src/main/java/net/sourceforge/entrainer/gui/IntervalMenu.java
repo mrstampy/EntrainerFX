@@ -83,10 +83,10 @@ public class IntervalMenu extends JMenu {
 
 	/** The add. */
 	protected JMenu add;
-	
+
 	/** The remove. */
 	protected JMenu remove;
-	
+
 	/** The delete. */
 	protected JMenu delete = new JMenu(IMC_DELETE_MENU_NAME);
 
@@ -177,7 +177,8 @@ public class IntervalMenu extends JMenu {
 	/**
 	 * Load intervals.
 	 *
-	 * @param toLoad the to load
+	 * @param toLoad
+	 *          the to load
 	 */
 	public void loadIntervals(List<String> toLoad) {
 		removeAllIntervals();
@@ -276,33 +277,29 @@ public class IntervalMenu extends JMenu {
 	}
 
 	private void showCustomDialog() {
-		try {
-			final CustomInterval ci = new CustomInterval(EntrainerFX.getInstance(), this);
+		final CustomInterval ci = new CustomInterval(EntrainerFX.getInstance(), this);
 
-			ci.addWindowListener(new WindowAdapter() {
-				public void windowClosed(WindowEvent e) {
-					if (ci.isOk()) {
-						String displayString = ci.getDisplayString();
-						if (!containsInterval(displayString)) {
-							addInOrder(add, createMenuItem(displayString));
-							addInOrder(delete, createDeleteItem(displayString));
-							fireIntervalEvent(displayString, CUSTOM_INTERVAL_ADD);
-						}
+		ci.addWindowListener(new WindowAdapter() {
+			public void windowClosed(WindowEvent e) {
+				if (ci.isOk()) {
+					String displayString = ci.getDisplayString();
+					if (!containsInterval(displayString)) {
+						addInOrder(add, createMenuItem(displayString));
+						addInOrder(delete, createDeleteItem(displayString));
+						fireIntervalEvent(displayString, CUSTOM_INTERVAL_ADD);
 					}
 				}
-			});
+			}
+		});
 
-			GuiUtil.showDialog(ci);
-		} catch (NoClassDefFoundError e) {
-			e.printStackTrace();
-			Main.resolve();
-		}
+		GuiUtil.showDialog(ci);
 	}
 
 	/**
 	 * Contains interval.
 	 *
-	 * @param displayString the display string
+	 * @param displayString
+	 *          the display string
 	 * @return true, if successful
 	 */
 	protected boolean containsInterval(String displayString) {
@@ -312,8 +309,10 @@ public class IntervalMenu extends JMenu {
 	/**
 	 * Contains interval.
 	 *
-	 * @param menu the menu
-	 * @param displayString the display string
+	 * @param menu
+	 *          the menu
+	 * @param displayString
+	 *          the display string
 	 * @return true, if successful
 	 */
 	protected boolean containsInterval(JMenu menu, String displayString) {
@@ -323,8 +322,10 @@ public class IntervalMenu extends JMenu {
 	/**
 	 * Gets the interval.
 	 *
-	 * @param menu the menu
-	 * @param displayString the display string
+	 * @param menu
+	 *          the menu
+	 * @param displayString
+	 *          the display string
 	 * @return the interval
 	 */
 	protected JMenuItem getInterval(JMenu menu, String displayString) {
@@ -347,7 +348,8 @@ public class IntervalMenu extends JMenu {
 	/**
 	 * Checks if is equivalent fraction.
 	 *
-	 * @param s the s
+	 * @param s
+	 *          the s
 	 * @return true, if is equivalent fraction
 	 */
 	public boolean isEquivalentFraction(String s) {
@@ -397,7 +399,8 @@ public class IntervalMenu extends JMenu {
 	/**
 	 * Creates the menu item.
 	 *
-	 * @param interval the interval
+	 * @param interval
+	 *          the interval
 	 * @return the j menu item
 	 */
 	protected JMenuItem createMenuItem(String interval) {
@@ -421,7 +424,8 @@ public class IntervalMenu extends JMenu {
 	/**
 	 * Creates the delete item.
 	 *
-	 * @param interval the interval
+	 * @param interval
+	 *          the interval
 	 * @return the j menu item
 	 */
 	protected JMenuItem createDeleteItem(String interval) {
@@ -439,8 +443,10 @@ public class IntervalMenu extends JMenu {
 	}
 
 	private void deleteItem(JMenuItem item) {
-		int choice = JOptionPane.showConfirmDialog(EntrainerFX.getInstance(), "Deleting " + item.getText() + ". Continue?",
-				"Delete Interval", JOptionPane.OK_CANCEL_OPTION);
+		int choice = JOptionPane.showConfirmDialog(EntrainerFX.getInstance(),
+				"Deleting " + item.getText() + ". Continue?",
+				"Delete Interval",
+				JOptionPane.OK_CANCEL_OPTION);
 		if (choice == JOptionPane.OK_OPTION) {
 			deleteItem(add, item.getText());
 			deleteItem(remove, item.getText());
@@ -483,7 +489,8 @@ public class IntervalMenu extends JMenu {
 	/**
 	 * Removes the interval.
 	 *
-	 * @param item the item
+	 * @param item
+	 *          the item
 	 */
 	protected synchronized void removeInterval(JMenuItem item) {
 		remove.remove(item);
@@ -494,7 +501,8 @@ public class IntervalMenu extends JMenu {
 	/**
 	 * Adds the interval.
 	 *
-	 * @param item the item
+	 * @param item
+	 *          the item
 	 */
 	protected synchronized void addInterval(JMenuItem item) {
 		add.remove(item);
@@ -505,7 +513,8 @@ public class IntervalMenu extends JMenu {
 	/**
 	 * Gets the adds the item.
 	 *
-	 * @param s the s
+	 * @param s
+	 *          the s
 	 * @return the adds the item
 	 */
 	protected JMenuItem getAddItem(String s) {
@@ -515,7 +524,8 @@ public class IntervalMenu extends JMenu {
 	/**
 	 * Gets the removes the item.
 	 *
-	 * @param s the s
+	 * @param s
+	 *          the s
 	 * @return the removes the item
 	 */
 	protected JMenuItem getRemoveItem(String s) {
@@ -525,7 +535,8 @@ public class IntervalMenu extends JMenu {
 	/**
 	 * Item added.
 	 *
-	 * @param item the item
+	 * @param item
+	 *          the item
 	 */
 	protected void itemAdded(JMenuItem item) {
 		fireIntervalEvent(item.getText(), INTERVAL_ADD);
@@ -534,7 +545,8 @@ public class IntervalMenu extends JMenu {
 	/**
 	 * Item removed.
 	 *
-	 * @param item the item
+	 * @param item
+	 *          the item
 	 */
 	protected void itemRemoved(JMenuItem item) {
 		fireIntervalEvent(item.getText(), INTERVAL_REMOVE);

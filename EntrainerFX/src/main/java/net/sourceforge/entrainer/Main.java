@@ -62,12 +62,6 @@ public class Main {
 			public void uncaughtException(Thread t, Throwable e) {
 				try {
 					e.printStackTrace();
-					if (e instanceof NoClassDefFoundError) {
-						System.out.println("Attempting to resolve EntrainerFX dependencies");
-						Thread thread = new Thread(new Resolver(), "EntrainerFX PoisonIvy Resolver Thread");
-
-						thread.start();
-					}
 				} catch (Throwable f) {
 					f.printStackTrace();
 				}
@@ -84,8 +78,6 @@ public class Main {
 	 *          the arguments
 	 */
 	public static void main(String[] args) {
-		if (args != null && args.length > 0) resolve(args);
-
 		Thread.currentThread().setName("EntrainerFX");
 		architectureCheck();
 
@@ -98,9 +90,6 @@ public class Main {
 
 					new JFXPanel(); // initializes JavaFX environment
 					startApplication();
-				} catch (NoClassDefFoundError e) {
-					e.printStackTrace();
-					resolve();
 				} catch (Throwable e) {
 					errorOnStartup(e);
 				}
@@ -120,9 +109,6 @@ public class Main {
 				checkForOldSubstanceJar();
 				try {
 					GuiUtil.loadAllLafs();
-				} catch (NoClassDefFoundError e) {
-					e.printStackTrace();
-					resolve();
 				} catch (Exception e) {
 					errorOnStartup(e);
 				}
@@ -196,19 +182,6 @@ public class Main {
 		System.out.println("Library Path: " + System.getProperty("java.library.path"));
 		About.showAboutDialog();
 		System.exit(0);
-	}
-
-	/**
-	 * Resolve.
-	 *
-	 * @param args
-	 *          the args
-	 */
-	public static void resolve(String... args) {
-		System.out.println("Attempting to resolve EntrainerFX dependencies");
-		Thread thread = new Thread(new Resolver(args), "EntrainerFX PoisonIvy Resolver Thread");
-
-		thread.start();
 	}
 
 }

@@ -45,7 +45,6 @@ dependencies {
 	compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.1'
 	compile 'com.github.mrstampy:esp:2.1'
 	compile 'com.github.mrstampy:esplab:1.0'
-	compile 'com.github.mrstampy:PoisonIvy:1.4'
 	compile 'jsyn:jsyn:16.7.1'
 	compile 'entrainercommon:entrainercommon:5.0.0'
 	compile 'neuroph-core:neuroph-core:2.8.0'

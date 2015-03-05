@@ -560,18 +560,13 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void initSocket() {
-		try {
-			if (socket == null) {
-				socket = new EntrainerSocketManager();
+		if (socket == null) {
+			socket = new EntrainerSocketManager();
 
-				if (settings.isSocketConnected()) {
-					bindSocket();
-					if (isSocketBound()) connect.setSelected(true);
-				}
+			if (settings.isSocketConnected()) {
+				bindSocket();
+				if (isSocketBound()) connect.setSelected(true);
 			}
-		} catch (NoClassDefFoundError e) {
-			e.printStackTrace();
-			Main.resolve();
 		}
 	}
 
@@ -1184,9 +1179,6 @@ public class EntrainerFX extends JFrame {
 			GuiUtil.fadeIn(esc, 500);
 		} catch (UnknownHostException e) {
 			GuiUtil.handleProblem(e);
-		} catch (NoClassDefFoundError e) {
-			e.printStackTrace();
-			Main.resolve();
 		}
 	}
 
@@ -1283,26 +1275,21 @@ public class EntrainerFX extends JFrame {
 
 	private void showXmlEditor(File f) {
 		intervalCache = intervalMenu.removeAllIntervals();
-		try {
-			final XmlEditor editor = new XmlEditor(this, f);
-			editor.addXmlFileSaveListener(new XmlFileSaveListener() {
-				public void xmlFileSaveEventPerformed(XmlFileSaveEvent e) {
-					xmlFileSaved(e.getXmlFile());
-				}
-			});
+		final XmlEditor editor = new XmlEditor(this, f);
+		editor.addXmlFileSaveListener(new XmlFileSaveListener() {
+			public void xmlFileSaveEventPerformed(XmlFileSaveEvent e) {
+				xmlFileSaved(e.getXmlFile());
+			}
+		});
 
-			editor.addWindowListener(new WindowAdapter() {
-				public void windowClosing(WindowEvent e) {
-					intervalMenu.loadIntervals(intervalCache);
-					intervalMenu.loadCustomIntervals();
-				}
-			});
+		editor.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				intervalMenu.loadIntervals(intervalCache);
+				intervalMenu.loadCustomIntervals();
+			}
+		});
 
-			GuiUtil.showDialog(editor);
-		} catch (NoClassDefFoundError e) {
-			e.printStackTrace();
-			Main.resolve();
-		}
+		GuiUtil.showDialog(editor);
 	}
 
 	private void xmlFileSaved(File xmlFile) {
@@ -1667,7 +1654,7 @@ public class EntrainerFX extends JFrame {
 		GridPane.setConstraints(soundControlPane, 0, 0);
 		GridPane.setConstraints(sliderControlPane, 1, 0);
 		GridPane.setValignment(sliderControlPane, VPos.BOTTOM);
-		
+
 		int v = 1;
 		GridPane.setValignment(messagePanel, VPos.BOTTOM);
 		GridPane.setVgrow(messagePanel, Priority.ALWAYS);
@@ -1678,7 +1665,7 @@ public class EntrainerFX extends JFrame {
 		GridPane.setConstraints(animations, 0, v++, 2, 1);
 		GridPane.setConstraints(shimmerOptions, 0, v++, 2, 1);
 		GridPane.setConstraints(neuralizer, 0, v++, 2, 1);
-		
+
 		gp.setPadding(new Insets(5));
 		gp.getChildren().addAll(soundControlPane,
 				sliderControlPane,
@@ -1704,7 +1691,7 @@ public class EntrainerFX extends JFrame {
 					// background.setId("background-image");
 				}
 				// background.setOpacity(0.25);
-				
+
 				group.getChildren().add(background.getPane());
 				// new BackgroundFlasher(background);
 				// gp.setMinSize(getBackgroundImage().getWidth(),
