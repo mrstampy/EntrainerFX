@@ -31,8 +31,11 @@ public class BackgroundPicturePane extends TitledPane {
 	
 	private Sender sender = new SenderAdapter();
 
-	private TextField directory = new TextField("css");
-	private TextField picture = new TextField("");
+	private String directoryName = "css";
+	private TextField directory = new TextField(directoryName);
+	private String pictureName = "";
+	private TextField picture = new TextField(pictureName);
+	
 	private ToggleButton staticPicture = new ToggleButton("Dynamic");
 	
 	private Spinner<Integer> duration = new Spinner<>(1, 120, 10);
@@ -54,11 +57,19 @@ public class BackgroundPicturePane extends TitledPane {
 		
 		initMediator();
 		setEventHandlers();
+		setTooltips();
 		layoutComponents();
 	}
 
-	private void setToolTip(final String toolTip, final Control node) {
-		Platform.runLater(() -> node.setTooltip(new Tooltip(toolTip)));
+	private void setTooltips() {
+		setTooltip(directory, "Single click to choose a new picture directory");
+		setTooltip(picture, "Single click to choose a new static picture");
+		setTooltip(duration, "Set the duration (seconds) a picture is displayed before it changes");
+		setTooltip(transition, "Set the transition time (seconds) to switch between pictures");
+	}
+	
+	private void setTooltip(Control node, String tip) {
+		node.setTooltip(new Tooltip(tip));
 	}
 
 	private void layoutComponents() {
@@ -159,12 +170,13 @@ public class BackgroundPicturePane extends TitledPane {
 	private void pictureClicked(MouseEvent e) {
 		if(e.getButton() != MouseButton.PRIMARY) return;
 		
-		String file = picture.getText();
+		String file = pictureName;
+		
 		if(file == null || file.trim().length() == 0) file = "./";
 		
 		File picFile = new File(file);
 		FileChooser fc = new FileChooser();
-		fc.setTitle("");
+		fc.setTitle("Choose static picture");
 		fc.setInitialDirectory(picFile.getParentFile());
 		fc.setInitialFileName(picFile.getName());
 		
@@ -172,9 +184,11 @@ public class BackgroundPicturePane extends TitledPane {
 		
 		if(newPic == null) return;
 		
-		picture.setText(newPic.getAbsolutePath());
+		pictureName = newPic.getAbsolutePath();
 		
-		fireReceiverChangeEvent(picture.getText(), MediatorConstants.BACKGROUND_PIC);
+		picture.setText(newPic.getName());
+		
+		fireReceiverChangeEvent(pictureName, MediatorConstants.BACKGROUND_PIC);
 	}
 
 	private void directoryClicked(MouseEvent e) {
@@ -183,14 +197,16 @@ public class BackgroundPicturePane extends TitledPane {
 		DirectoryChooser dc = new DirectoryChooser();
 		
 		dc.setTitle("Choose picture directory");
-		dc.setInitialDirectory(new File(directory.getText()));
+		dc.setInitialDirectory(new File(directoryName));
 		File newDir = dc.showDialog(null);
 		
 		if(newDir == null) return;
-
-		directory.setText(newDir.getAbsolutePath());
 		
-		fireReceiverChangeEvent(directory.getText(), MediatorConstants.BACKGROUND_PIC_DIR);
+		directoryName = newDir.getAbsolutePath();
+
+		directory.setText(newDir.getName());
+		
+		fireReceiverChangeEvent(directoryName, MediatorConstants.BACKGROUND_PIC_DIR);
 	}
 
 	private void staticPicButtonPressed() {
