@@ -199,7 +199,7 @@ public class AnimationPane extends TitledPane {
 		initCheckBox(animation, MediatorConstants.IS_ANIMATION);
 
 		FlowPane fp = new FlowPane();
-		fp.setPadding(new Insets(10, 10, 0, 10));
+		fp.setPadding(new Insets(10));
 		fp.setHgap(10);
 		fp.setVgap(10);
 
