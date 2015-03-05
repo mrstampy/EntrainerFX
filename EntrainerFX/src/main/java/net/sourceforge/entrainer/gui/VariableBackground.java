@@ -16,6 +16,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -32,6 +33,9 @@ import org.slf4j.LoggerFactory;
 
 public class VariableBackground {
 	private static final Logger log = LoggerFactory.getLogger(VariableBackground.class);
+	
+	private static String[] picSuffixes = { ".jpg", ".JPG", ".png", ".PNG", ".gif", ".GIF", ".jpeg", ".JPEG", ".bmp",
+	".BMP" };
 
 	private ImageView current;
 	private ImageView old;
@@ -104,16 +108,11 @@ public class VariableBackground {
 			
 			@Override
 			public boolean accept(File dir, String name) {
-				//@formatter:off
-				return name.endsWith(".jpg")
-						|| name.endsWith(".JPG")
-						|| name.endsWith(".gif")
-						|| name.endsWith(".GIF")
-						|| name.endsWith(".png")
-						|| name.endsWith(".PNG")
-						|| name.endsWith(".jpeg")
-						|| name.endsWith(".JPEG");
-				//@formatter:on
+				for(String sfx : picSuffixes) {
+					if(name.endsWith(sfx)) return true;
+				}
+				
+				return false;
 			}
 		});
 		
@@ -217,18 +216,16 @@ public class VariableBackground {
 	}
 
 	private void fadeIn() {
-		fadeIn.setNode(current);
+		fadeIn = new FadeTransition(Duration.seconds(getFadeTime()), current);
 		fadeIn.setFromValue(current.getOpacity());
 		fadeIn.setToValue(0.25);
-		fadeIn.setDuration(Duration.seconds(getFadeTime()));
 		fadeIn.setInterpolator(Interpolator.LINEAR);
 	}
 
 	private void fadeOut() {
-		fadeOut.setNode(old);
+		fadeOut = new FadeTransition(Duration.seconds(getFadeTime()), old);
 		fadeOut.setFromValue(old.getOpacity());
 		fadeOut.setToValue(0.0);
-		fadeOut.setDuration(Duration.seconds(getFadeTime()));
 		fadeOut.setInterpolator(Interpolator.LINEAR);
 		fadeOut.setOnFinished(e -> pane.getChildren().remove(old));
 	}
@@ -257,11 +254,18 @@ public class VariableBackground {
 					break;
 				case BACKGROUND_PIC_DIR:
 					directoryName = e.getStringValue();
+					pictureNames.clear();
 					loadFromDirectory();
 					break;
 				case VARIABLE_BACKGROUND_PAUSE:
 					staticBackground = e.getBooleanValue();
 					if(!staticBackground) start();
+					break;
+				case BACKGROUND_DURATION_SECONDS:
+					setDisplayTime((int)e.getDoubleValue());
+					break;
+				case BACKGROUND_TRANSITION_SECONDS:
+					setFadeTime((int)e.getDoubleValue());
 					break;
 				default:
 					break;
@@ -272,14 +276,21 @@ public class VariableBackground {
 	}
 	
 	private void evaluateStaticBackground() {
-		if(backgroundPic == null) return;
+		if(backgroundPic == null && staticBackground) return;
 		
 		if(!staticBackground) {
+			if(pt != null) pt.stop();
 			start();
 			return;
 		}
 		
-		if(pt != null) pt.stop();
+		if(pt != null) {
+			fadeIn.stop();
+			fadeOut.stop();
+			pt.stop();
+		}
+		
+		for(Node node : pane.getChildren()) node.setOpacity(0);
 		
 		pane.getChildren().clear();
 		

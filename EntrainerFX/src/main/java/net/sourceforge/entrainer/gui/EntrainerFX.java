@@ -94,6 +94,7 @@ import javax.swing.filechooser.FileFilter;
 import net.sourceforge.entrainer.Main;
 import net.sourceforge.entrainer.esp.EspConnectionRegister;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
+import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
 import net.sourceforge.entrainer.gui.jfx.EntrainerFXSplash;
 import net.sourceforge.entrainer.gui.jfx.FlashPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
@@ -153,11 +154,9 @@ import com.github.mrstampy.esplab.EspPowerLabWindow;
  * @author burton
  */
 public class EntrainerFX extends JFrame {
-	private static final int MIN_HEIGHT = 900;
+	private static final int MIN_HEIGHT = 1000;
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(EntrainerFX.class);
-	private static String[] picSuffixes = { ".jpg", ".JPG", ".png", ".PNG", ".gif", ".GIF", ".jpeg", ".JPEG", ".bmp",
-			".BMP" };
 
 	// JSyn classes
 	private SoundControl control;
@@ -203,6 +202,7 @@ public class EntrainerFX extends JFrame {
 	private VariableBackground background = new VariableBackground();
 	private PinkPanningPane pinkPanningPane = new PinkPanningPane();
 	private AnimationPane animations = new AnimationPane();
+	private BackgroundPicturePane pictures = new BackgroundPicturePane();
 	private Group group;
 
 	private ShimmerOptionsPane shimmerOptions = new ShimmerOptionsPane();
@@ -352,6 +352,7 @@ public class EntrainerFX extends JFrame {
 				animations.setExpanded(false);
 				shimmerOptions.setExpanded(false);
 				neuralizer.setExpanded(false);
+				pictures.setExpanded(false);
 			}
 		});
 	}
@@ -1666,14 +1667,18 @@ public class EntrainerFX extends JFrame {
 		GridPane.setConstraints(soundControlPane, 0, 0);
 		GridPane.setConstraints(sliderControlPane, 1, 0);
 		GridPane.setValignment(sliderControlPane, VPos.BOTTOM);
-		GridPane.setConstraints(messagePanel, 0, 1, 2, 1);
+		
+		int v = 1;
 		GridPane.setValignment(messagePanel, VPos.BOTTOM);
 		GridPane.setVgrow(messagePanel, Priority.ALWAYS);
-		GridPane.setConstraints(checkBoxPane, 0, 2, 2, 1);
-		GridPane.setConstraints(pinkPanningPane, 0, 3, 2, 1);
-		GridPane.setConstraints(animations, 0, 4, 2, 1);
-		GridPane.setConstraints(shimmerOptions, 0, 5, 2, 1);
-		GridPane.setConstraints(neuralizer, 0, 6, 2, 1);
+		GridPane.setConstraints(messagePanel, 0, v++, 2, 1);
+		GridPane.setConstraints(pictures, 0, v++, 2, 1);
+		GridPane.setConstraints(checkBoxPane, 0, v++, 2, 1);
+		GridPane.setConstraints(pinkPanningPane, 0, v++, 2, 1);
+		GridPane.setConstraints(animations, 0, v++, 2, 1);
+		GridPane.setConstraints(shimmerOptions, 0, v++, 2, 1);
+		GridPane.setConstraints(neuralizer, 0, v++, 2, 1);
+		
 		gp.setPadding(new Insets(5));
 		gp.getChildren().addAll(soundControlPane,
 				sliderControlPane,
@@ -1682,6 +1687,7 @@ public class EntrainerFX extends JFrame {
 				messagePanel,
 				animations,
 				shimmerOptions,
+				pictures,
 				neuralizer);
 
 		final URI css = JFXUtils.getEntrainerCSS();
@@ -1713,37 +1719,6 @@ public class EntrainerFX extends JFrame {
 		});
 
 		getContentPane().add(mainPanel);
-	}
-
-	//
-	// private void setRandomBackgroundImage() {
-	// Random rand = new Random(System.nanoTime());
-	//
-	// File[] images = new File("css").listFiles(new FilenameFilter() {
-	//
-	// @Override
-	// public boolean accept(File dir, String name) {
-	// return isImageFile(name);
-	// }
-	// });
-	//
-	// File theChosenOne = images[rand.nextInt(images.length)];
-	//
-	// try {
-	// background.setImage(new Image(new FileInputStream(theChosenOne)));
-	// } catch (FileNotFoundException e) {
-	// log.warn("Cannot load image file {}, defaulting to entrainer.css",
-	// theChosenOne.getAbsolutePath(), e);
-	// background.setId("background-image");
-	// }
-	// }
-
-	private boolean isImageFile(String name) {
-		for (String sfx : picSuffixes) {
-			if (name.endsWith(sfx)) return true;
-		}
-
-		return false;
 	}
 
 	private void setMessage(String s) {

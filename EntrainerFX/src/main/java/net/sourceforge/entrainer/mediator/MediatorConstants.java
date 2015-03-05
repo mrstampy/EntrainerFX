@@ -141,7 +141,11 @@ public enum MediatorConstants  {
 	
 	BACKGROUND_PIC("Static background picture path and filename"),
 	
-	VARIABLE_BACKGROUND_PAUSE("Pause background changing");
+	VARIABLE_BACKGROUND_PAUSE("Pause background changing"),
+	
+	BACKGROUND_TRANSITION_SECONDS("Seconds to transition between dynamic background pictures"),
+	
+	BACKGROUND_DURATION_SECONDS("Seconds to display a picture before transitioning to another");
 	
 	private String value;
 	
