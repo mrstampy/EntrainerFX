@@ -58,6 +58,7 @@ public class BackgroundPicturePane extends TitledPane {
 		initMediator();
 		setEventHandlers();
 		setTooltips();
+		setWidths();
 		layoutComponents();
 	}
 
@@ -83,6 +84,14 @@ public class BackgroundPicturePane extends TitledPane {
 		fp.getChildren().addAll(staticPicture, getFilePane(), getSpinnerPane());
 		
 		setContent(fp);
+	}
+
+	private void setWidths() {
+		duration.setPrefWidth(70);
+		transition.setPrefWidth(70);
+		
+		picture.setPrefWidth(200);
+		directory.setPrefWidth(200);
 	}
 
 	private Node getSpinnerPane() {
@@ -163,7 +172,7 @@ public class BackgroundPicturePane extends TitledPane {
 		if(durationValue == duration.getValue()) return;
 		
 		durationValue = duration.getValue();
-		
+
 		fireReceiverChangeEvent(durationValue, MediatorConstants.BACKGROUND_DURATION_SECONDS);
 	}
 
