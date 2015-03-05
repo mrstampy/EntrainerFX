@@ -61,11 +61,21 @@ public class VariableBackground {
 
 	private FrequencyToHalfTimeCycle calculator = new FrequencyToHalfTimeCycle();
 	
+	private boolean staticBackground;
+	
+	private String backgroundPic;
+
+	private ParallelTransition pt;
+	
 	public VariableBackground() {
 		initMediator();
 	}
 
 	public void start() {
+		if(staticBackground) {
+			return;
+		}
+		
 		Platform.runLater(() -> init());
 	}
 
@@ -74,10 +84,8 @@ public class VariableBackground {
 	}
 
 	private void init() {
-		File dir = new File(getDirectoryName());
-
 		pictureNames.clear();
-		loadFromDirectory(dir);
+		loadFromDirectory();
 		
 		createCurrent();
 		setFadeInImage();
@@ -87,28 +95,32 @@ public class VariableBackground {
 		switchPictures();
 	}
 
+	private void loadFromDirectory() {
+		loadFromDirectory(new File(getDirectoryName()));
+	}
+	
 	private void loadFromDirectory(File dir) {
 		File[] pics = dir.listFiles(new FilenameFilter() {
-
+			
 			@Override
 			public boolean accept(File dir, String name) {
 				//@formatter:off
 				return name.endsWith(".jpg")
-					|| name.endsWith(".JPG")
-					|| name.endsWith(".gif")
-					|| name.endsWith(".GIF")
-					|| name.endsWith(".png")
-					|| name.endsWith(".PNG")
-					|| name.endsWith(".jpeg")
-					|| name.endsWith(".JPEG");
+						|| name.endsWith(".JPG")
+						|| name.endsWith(".gif")
+						|| name.endsWith(".GIF")
+						|| name.endsWith(".png")
+						|| name.endsWith(".PNG")
+						|| name.endsWith(".jpeg")
+						|| name.endsWith(".JPEG");
 				//@formatter:on
 			}
 		});
-
+		
 		for (File pic : pics) {
 			pictureNames.add(pic.getAbsolutePath());
 		}
-
+		
 		loadFromSubDirectories(dir);
 	}
 
@@ -133,6 +145,10 @@ public class VariableBackground {
 	}
 
 	private void fadeInOut() {
+		if(staticBackground) {
+			return;
+		}
+		
 		old = current;
 		
 		createCurrent();
@@ -142,7 +158,7 @@ public class VariableBackground {
 		fadeOut();
 		fadeIn();
 
-		ParallelTransition pt = new ParallelTransition(fadeIn, fadeOut);
+		pt = new ParallelTransition(fadeIn, fadeOut);
 
 		pt.setOnFinished(e -> switchPictures());
 
@@ -180,27 +196,22 @@ public class VariableBackground {
 		double xr = 1 - (pw - vw) / pw;
 		double yr = 1 - (ph - vh) / ph;
 
+		double yDiff = 0;
+		double xDiff = 0;
+		
 		if (xr >= yr) {
 			current.setFitWidth(vw);
+			yDiff = (ph * vw / pw) - vh;
 		} else {
 			current.setFitHeight(vh);
-		}
-
-		double xDiff = current.getFitWidth() - vw;
-		if (xDiff > 0) {
-			double offset = 0 - xDiff * 2;
-			current.setX(offset);
-			AnchorPane.setRightAnchor(current, offset);
-		}
-
-		double yDiff = current.getFitHeight() - vh;
-		if (yDiff > 0) {
-			double offset = 0 - yDiff * 2;
-			current.setY(offset);
-			AnchorPane.setTopAnchor(current, offset);
+			xDiff = (pw * vh / ph) - vw;
 		}
 		
 		pane.getChildren().add(current);
+		
+		if (xDiff > 0) current.setX(0 - xDiff / 2);
+
+		if (yDiff > 0) current.setY(0 - yDiff / 2);
 		
 		if(shouldRun()) startTransition();
 	}
@@ -236,12 +247,51 @@ public class VariableBackground {
 					running = e.getBooleanValue();
 					if(shouldRun()) startTransition();
 					break;
+				case STATIC_BACKGROUND:
+					staticBackground = e.getBooleanValue();
+					Platform.runLater(() -> evaluateStaticBackground());
+					break;
+				case BACKGROUND_PIC:
+					backgroundPic = e.getStringValue();
+					Platform.runLater(() -> evaluateStaticBackground());
+					break;
+				case BACKGROUND_PIC_DIR:
+					directoryName = e.getStringValue();
+					loadFromDirectory();
+					break;
+				case VARIABLE_BACKGROUND_PAUSE:
+					staticBackground = e.getBooleanValue();
+					if(!staticBackground) start();
+					break;
 				default:
 					break;
 				}
 			}
 
 		});
+	}
+	
+	private void evaluateStaticBackground() {
+		if(backgroundPic == null) return;
+		
+		if(!staticBackground) {
+			start();
+			return;
+		}
+		
+		if(pt != null) pt.stop();
+		
+		pane.getChildren().clear();
+		
+		try {
+			currentImage = new Image(new FileInputStream(new File(backgroundPic)));
+			createCurrent();
+			scaleImage();
+			fadeIn();
+			fadeIn.play();
+		} catch (FileNotFoundException e) {
+			log.error("Unexpected exception", e);
+		}
 	}
 
 	private void startTransition() {
@@ -326,8 +376,6 @@ public class VariableBackground {
 	public void setDimension(double width, double height) {
 		setWidth(width);
 		setHeight(height);
-		pane.setMaxSize(width, height);
-		pane.setPrefSize(width, height);
 	}
 
 	public double getWidth() {

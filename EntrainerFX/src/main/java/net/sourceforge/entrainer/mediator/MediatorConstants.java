@@ -133,7 +133,15 @@ public enum MediatorConstants  {
 	ESP_START("ESP Device Start"),
 	
 	/** The esp connections reloaded. */
-	ESP_CONNECTIONS_RELOADED("ESP Connections Reloaded");
+	ESP_CONNECTIONS_RELOADED("ESP Connections Reloaded"),
+	
+	STATIC_BACKGROUND("Static background picture indicator"),
+	
+	BACKGROUND_PIC_DIR("Root directory for EntrainerFX background pics"),
+	
+	BACKGROUND_PIC("Static background picture path and filename"),
+	
+	VARIABLE_BACKGROUND_PAUSE("Pause background changing");
 	
 	private String value;
 	
