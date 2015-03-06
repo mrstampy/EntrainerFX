@@ -1632,7 +1632,7 @@ public class EntrainerFX extends JFrame {
 
 		int v = 1;
 		GridPane.setValignment(messagePanel, VPos.BOTTOM);
-		GridPane.setVgrow(messagePanel, Priority.ALWAYS);
+		GridPane.setFillWidth(messagePanel, true);
 		GridPane.setConstraints(messagePanel, 0, v++, 2, 1);
 		GridPane.setConstraints(pictures, 0, v++, 2, 1);
 		GridPane.setConstraints(checkBoxPane, 0, v++, 2, 1);

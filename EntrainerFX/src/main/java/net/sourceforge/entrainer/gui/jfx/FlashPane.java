@@ -95,7 +95,7 @@ public class FlashPane extends TitledPane {
 		});
 
 		HBox hbox = new HBox();
-		hbox.setPadding(new Insets(5));
+		hbox.setPadding(new Insets(5, 5, 5, 20));
 		
 		HBox.setMargin(flash, new Insets(5));
 		HBox.setMargin(psychedelic, new Insets(5));
