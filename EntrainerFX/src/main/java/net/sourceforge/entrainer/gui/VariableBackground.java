@@ -44,6 +44,12 @@ public class VariableBackground {
 			".BMP" };
 
 	private Sender sender = new SenderAdapter();
+	
+	private enum BackgroundMode {
+		DYNAMIC, STATIC, NO_BACKGROUND;
+	}
+	
+	private BackgroundMode mode;
 
 	private ImageView current;
 	private String currentFile;
@@ -72,13 +78,7 @@ public class VariableBackground {
 
 	private boolean running;
 
-	private boolean noBackground = false;
-
 	private FrequencyToHalfTimeCycle calculator = new FrequencyToHalfTimeCycle();
-
-	private boolean staticBackground = false;
-	
-	private boolean dynamicBackground = false;
 
 	private String backgroundPic;
 
@@ -90,14 +90,6 @@ public class VariableBackground {
 
 	public VariableBackground() {
 		initMediator();
-	}
-
-	private void start() {
-		noBackground = false;
-		staticBackground = false;
-		dynamicBackground = true;
-		
-		init();
 	}
 
 	private void init() {
@@ -166,7 +158,7 @@ public class VariableBackground {
 	}
 
 	private void fadeInOut() {
-		if (staticBackground || noBackground) {
+		if (!isDynamic()) {
 			return;
 		}
 
@@ -268,21 +260,18 @@ public class VariableBackground {
 					if (shouldRun()) startTransition();
 					break;
 				case STATIC_BACKGROUND:
-					if(staticBackground) return;
-					noBackground = false;
-					staticBackground = true;
-					dynamicBackground = false;
+					if(isStatic()) return;
+					mode = BackgroundMode.STATIC;
 					Platform.runLater(() -> evaluateStaticBackground(true));
 					break;
 				case DYNAMIC_BACKGROUND:
-					if(dynamicBackground) return;
-					Platform.runLater(() -> start());
+					if(isDynamic()) return;
+					mode = BackgroundMode.DYNAMIC;
+					Platform.runLater(() -> init());
 					break;
 				case NO_BACKGROUND:
-					if(noBackground) return;
-					noBackground = true;
-					staticBackground = false;
-					dynamicBackground = false;
+					if(isNoBackground()) return;
+					mode = BackgroundMode.NO_BACKGROUND;
 					Platform.runLater(() -> clearBackground());
 					break;
 				case NO_BACKGROUND_COLOUR:
@@ -332,11 +321,11 @@ public class VariableBackground {
 	}
 	
 	private boolean isShowBackgroundFill() {
-		return noBackground && backgroundColor != null;
+		return isNoBackground() && backgroundColor != null;
 	}
 
 	private void evaluateStaticBackground(boolean useCurrent) {
-		if(!staticBackground) return;
+		if(!isStatic()) return;
 		
 		if(useCurrent && currentFile != null) {
 			backgroundPic = currentFile;
@@ -370,7 +359,7 @@ public class VariableBackground {
 
 	private void startTransition() {
 		Runnable thread = new Runnable() {
-			private Node background = noBackground ? rect : current;
+			private Node background = isNoBackground() ? rect : current;
 
 			public void run() {
 				while (shouldRun() && background.getOpacity() > 0) {
@@ -427,6 +416,26 @@ public class VariableBackground {
 
 	private boolean shouldRun() {
 		return running && flashBackground;
+	}
+	
+	public BackgroundMode getMode() {
+		return mode;
+	}
+	
+	public boolean isDynamic() {
+		return isMode(BackgroundMode.DYNAMIC);
+	}
+	
+	public boolean isStatic() {
+		return isMode(BackgroundMode.STATIC);
+	}
+	
+	public boolean isNoBackground() {
+		return isMode(BackgroundMode.NO_BACKGROUND);
+	}
+
+	private boolean isMode(BackgroundMode mode) {
+		return this.mode == mode;
 	}
 
 	public int getFadeTime() {
