@@ -82,6 +82,8 @@ public class VariableBackground {
 
 	private ParallelTransition pt;
 
+	private Rectangle rect;
+
 	public VariableBackground() {
 		initMediator();
 	}
@@ -292,9 +294,11 @@ public class VariableBackground {
 
 		javafx.scene.paint.Color jfx = JFXUtils.toJFXColor(color);
 
-		Rectangle rect = new Rectangle(pane.getWidth(), pane.getHeight(), jfx);
+		rect = new Rectangle(pane.getWidth(), pane.getHeight(), jfx);
 
 		pane.getChildren().add(rect);
+		
+		if(shouldRun()) startTransition();
 	}
 
 	private void evaluateStaticBackground() {
@@ -306,8 +310,7 @@ public class VariableBackground {
 
 		createCurrent();
 		scaleImage();
-		fadeIn();
-		fadeIn.play();
+		current.setOpacity(0.25);
 
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, backgroundPic, MediatorConstants.BACKGROUND_PIC));
 	}
@@ -322,7 +325,7 @@ public class VariableBackground {
 
 	private void startTransition() {
 		Runnable thread = new Runnable() {
-			private ImageView background = current;
+			private Node background = noBackground ? rect : current;
 
 			public void run() {
 				while (shouldRun() && background.getOpacity() > 0) {
@@ -343,29 +346,38 @@ public class VariableBackground {
 		switchSvc.execute(thread);
 	}
 
-	private void invert(ImageView background) {
+	private void invert(Node background) {
 		Platform.runLater(new Runnable() {
 
 			@Override
 			public void run() {
-				double o = background.getOpacity() == 0.25 ? 0.60 : 0.25;
+				double o = 0;
+				if(background instanceof ImageView) {
+					o = background.getOpacity() == 0.25 ? 0.60 : 0.25;
+				} else {
+					o = background.getOpacity() == 1.0 ? 0.50 : 1.0;
+				}
 				background.setOpacity(o);
 			}
 		});
 	}
 
-	private void reset(ImageView background) {
+	private void reset(Node background) {
 		Platform.runLater(new Runnable() {
 
 			@Override
 			public void run() {
-				background.setOpacity(0.25);
+				if(background instanceof ImageView) {
+					background.setOpacity(0.25);
+				} else {
+					background.setOpacity(1);
+				}
 			}
 		});
 	}
 
 	private boolean shouldRun() {
-		return running && flashBackground && !noBackground;
+		return running && flashBackground;
 	}
 
 	public int getFadeTime() {
