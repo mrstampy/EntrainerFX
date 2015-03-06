@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -71,7 +72,9 @@ public class VariableBackground {
 	private int displayTime = 10;
 	private String directoryName = "css";
 
-	private ScheduledExecutorService switchSvc = Executors.newScheduledThreadPool(3);
+	private ScheduledExecutorService switchSvc = Executors.newSingleThreadScheduledExecutor();
+	
+	private ExecutorService flashSvc = Executors.newSingleThreadExecutor();
 
 	private List<String> pictureNames = new ArrayList<>();
 
@@ -413,7 +416,7 @@ public class VariableBackground {
 			}
 		};
 
-		switchSvc.execute(thread);
+		flashSvc.execute(thread);
 	}
 
 	private void invert(Node background) {
