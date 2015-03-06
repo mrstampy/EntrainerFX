@@ -384,6 +384,8 @@ public class VariableBackground {
 	}
 
 	private void invert(Node background) {
+		if(background.getOpacity() == 0) return;
+		
 		Platform.runLater(new Runnable() {
 
 			@Override
@@ -400,6 +402,8 @@ public class VariableBackground {
 	}
 
 	private void reset(Node background) {
+		if(background.getOpacity() == 0) return;
+		
 		Platform.runLater(new Runnable() {
 
 			@Override
