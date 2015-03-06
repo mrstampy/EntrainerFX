@@ -126,7 +126,7 @@ public class ShimmerOptionsPane extends TitledPane {
 
 	private void setSelected(final boolean selected, final CheckBox checkBox) {
 		if (checkBox.isSelected() == selected) return;
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -136,7 +136,7 @@ public class ShimmerOptionsPane extends TitledPane {
 	}
 
 	private void setToolTip(final String toolTip, final Control node) {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -194,7 +194,7 @@ public class ShimmerOptionsPane extends TitledPane {
 		String selected = shimmers.getValue();
 		if (selected != null && selected.equals(shimmer.toString())) return;
 
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 			
 			@Override
 			public void run() {

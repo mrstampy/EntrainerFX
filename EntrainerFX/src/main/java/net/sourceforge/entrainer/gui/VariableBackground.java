@@ -107,11 +107,7 @@ public class VariableBackground {
 	private void init() {
 		pictureNames.clear();
 		loadFromDirectory();
-		if (Platform.isFxApplicationThread()) {
-			initContent();
-		} else {
-			Platform.runLater(() -> initContent());
-		}
+		JFXUtils.runLater(() -> initContent());
 	}
 
 	private void initContent() {
@@ -193,7 +189,7 @@ public class VariableBackground {
 
 		pt.setOnFinished(e -> switchPictures());
 
-		Platform.runLater(() -> pt.play());
+		JFXUtils.runLater(() -> pt.play());
 	}
 
 	private void createCurrent() {
@@ -211,7 +207,7 @@ public class VariableBackground {
 		try {
 			currentFile = pictureNames.get(idx);
 			currentImage = new Image(new FileInputStream(currentFile));
-			Platform.runLater(() -> scaleImage());
+			JFXUtils.runLater(() -> scaleImage());
 		} catch (FileNotFoundException e) {
 			log.error("Unexpected exception for picture {}", pictureNames.get(idx), e);
 		}
@@ -281,25 +277,25 @@ public class VariableBackground {
 					if (isStatic()) return;
 					mode = BackgroundMode.STATIC;
 					clearFutures();
-					Platform.runLater(() -> evaluateStaticBackground(true));
+					JFXUtils.runLater(() -> evaluateStaticBackground(true));
 					break;
 				case DYNAMIC_BACKGROUND:
 					if (isDynamic()) return;
 					mode = BackgroundMode.DYNAMIC;
-					Platform.runLater(() -> init());
+					JFXUtils.runLater(() -> init());
 					break;
 				case NO_BACKGROUND:
 					if (isNoBackground()) return;
 					mode = BackgroundMode.NO_BACKGROUND;
 					clearFutures();
-					Platform.runLater(() -> clearBackground());
+					JFXUtils.runLater(() -> clearBackground());
 					break;
 				case NO_BACKGROUND_COLOUR:
-					Platform.runLater(() -> setBackgroundColor(e.getColourValue()));
+					JFXUtils.runLater(() -> setBackgroundColor(e.getColourValue()));
 					break;
 				case BACKGROUND_PIC:
 					backgroundPic = e.getStringValue();
-					Platform.runLater(() -> evaluateStaticBackground(false));
+					JFXUtils.runLater(() -> evaluateStaticBackground(false));
 					break;
 				case BACKGROUND_PIC_DIR:
 					directoryName = e.getStringValue();
@@ -415,7 +411,7 @@ public class VariableBackground {
 	private void invert(Node background) {
 		if (background.getOpacity() == 0) return;
 
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -433,7 +429,7 @@ public class VariableBackground {
 	private void reset(Node background) {
 		if (background.getOpacity() == 0) return;
 
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {

@@ -209,7 +209,7 @@ public class EntrainerFXLite extends Application {
 		final AbstractShimmer<?> shimmer = ShimmerRegister.getShimmer(stringValue);
 		if (shimmer == null) return;
 
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -283,7 +283,7 @@ public class EntrainerFXLite extends Application {
 	}
 
 	private void unexpandTitledPanes() {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {

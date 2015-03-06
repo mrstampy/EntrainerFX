@@ -195,7 +195,7 @@ public class SoundControlPane extends VBox {
 	}
 
 	private void setToolTip(final ButtonBase button, final String toolTip) {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -210,7 +210,7 @@ public class SoundControlPane extends VBox {
 	 * @param playing the new playing
 	 */
 	public void setPlaying(final boolean playing) {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {

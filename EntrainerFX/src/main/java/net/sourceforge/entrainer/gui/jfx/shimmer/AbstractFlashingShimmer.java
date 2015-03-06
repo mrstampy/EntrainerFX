@@ -18,8 +18,8 @@
  */
 package net.sourceforge.entrainer.gui.jfx.shimmer;
 
-import javafx.application.Platform;
 import javafx.scene.paint.Paint;
+import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.sound.tools.FrequencyToHalfTimeCycle;
 import net.sourceforge.entrainer.util.Utils;
 
@@ -79,7 +79,7 @@ public abstract class AbstractFlashingShimmer<P extends Paint> extends AbstractS
 	}
 	
 	private void setShimmerOpacity(final double o) {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 			
 			@Override
 			public void run() {

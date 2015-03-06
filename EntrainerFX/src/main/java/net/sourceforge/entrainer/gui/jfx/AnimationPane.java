@@ -117,7 +117,7 @@ public class AnimationPane extends TitledPane {
 
 	private void setSelected(final boolean selected, final CheckBox checkBox) {
 		if (checkBox.isSelected() == selected) return;
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -136,7 +136,7 @@ public class AnimationPane extends TitledPane {
 	}
 
 	private void setToolTip(final String toolTip, final Control node) {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -259,7 +259,7 @@ public class AnimationPane extends TitledPane {
 		if (comboBoxInited) return;
 
 		// Resize the combo box
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -329,7 +329,7 @@ public class AnimationPane extends TitledPane {
 					break;
 				case ANIMATION_DESKTOP_BACKGROUND:
 					initEntrainerAnimations();
-					Platform.runLater(new Runnable() {
+					JFXUtils.runLater(new Runnable() {
 						
 						@Override
 						public void run() {
@@ -342,7 +342,7 @@ public class AnimationPane extends TitledPane {
 					initEntrainerAnimation(e.getStringValue());
 					break;
 				case START_ENTRAINMENT:
-					Platform.runLater(new Runnable() {
+					JFXUtils.runLater(new Runnable() {
 
 						@Override
 						public void run() {
@@ -364,7 +364,7 @@ public class AnimationPane extends TitledPane {
 
 	private void initEntrainerAnimation(final String animationProgram) {
 		if (animationProgram != null && animationProgram.trim().length() > 0) {
-			Platform.runLater(new Runnable() {
+			JFXUtils.runLater(new Runnable() {
 
 				@Override
 				public void run() {
@@ -395,7 +395,7 @@ public class AnimationPane extends TitledPane {
 	}
 
 	private void initAnimationBackground(final String s) {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 			
 			@Override
 			public void run() {

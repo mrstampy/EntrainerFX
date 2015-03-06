@@ -20,11 +20,11 @@ package net.sourceforge.entrainer.gui.jfx.shimmer;
 
 import java.util.Random;
 
-import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import net.sourceforge.entrainer.gui.EntrainerFX;
+import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
@@ -130,7 +130,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	 * {@link EntrainerFX}.
 	 */
 	public void start() {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 			
 			@Override
 			public void run() {
@@ -180,7 +180,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 			@Override
 			public void onTimelineStateChanged(TimelineState arg0, TimelineState arg1, float arg2, float arg3) {
 				if (arg1.equals(TimelineState.DONE)) {
-					Platform.runLater(new Runnable() {
+					JFXUtils.runLater(new Runnable() {
 						
 						@Override
 						public void run() {
@@ -246,7 +246,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	}
 
 	private void fill() {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {

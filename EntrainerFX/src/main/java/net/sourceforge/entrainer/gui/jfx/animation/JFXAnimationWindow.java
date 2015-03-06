@@ -124,7 +124,7 @@ public class JFXAnimationWindow extends JWindow {
 	}
 
 	private void paint() {
-		Platform.runLater(animator);
+		JFXUtils.runLater(animator);
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class JFXAnimationWindow extends JWindow {
 		setLocation(new Point(0, getYOffset()));
 		initBackground(size);
 
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {

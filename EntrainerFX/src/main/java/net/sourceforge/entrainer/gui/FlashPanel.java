@@ -84,7 +84,7 @@ public class FlashPanel extends Rectangle {
 			}
 		};
 		initMediator();
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 			
 			@Override
 			public void run() {
@@ -226,14 +226,14 @@ public class FlashPanel extends Rectangle {
 	}
 
 	private void changeBackground() {
-		Platform.runLater(flashRunner);
+		JFXUtils.runLater(flashRunner);
 	}
 
 	/**
 	 * Reset background.
 	 */
 	public void resetBackground() {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {

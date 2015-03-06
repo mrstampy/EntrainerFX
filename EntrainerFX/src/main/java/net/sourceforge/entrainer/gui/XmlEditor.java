@@ -179,7 +179,7 @@ public class XmlEditor extends JDialog {
 		super.pack();
 		if (background.getImage() != null) scaleBackground();
 		animations.setMinWidth(getWidth() - 10);
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -198,7 +198,7 @@ public class XmlEditor extends JDialog {
 
 		final double newWidth = panel.getWidth() + 10;
 
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -839,7 +839,7 @@ public class XmlEditor extends JDialog {
 		background.setImage(EntrainerFX.getInstance().getBackgroundImage());
 		background.setOpacity(0.25);
 
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {

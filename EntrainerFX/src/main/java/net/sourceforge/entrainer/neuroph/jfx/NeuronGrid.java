@@ -18,10 +18,10 @@
  */
 package net.sourceforge.entrainer.neuroph.jfx;
 
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.neuroph.Neuralizer;
 
 // TODO: Auto-generated Javadoc
@@ -74,7 +74,7 @@ public class NeuronGrid {
 	}
 
 	private void init(Neuralizer neuralizer) {
-		neuralizer.addNetworkProcessedListener(t1 -> Platform.runLater(() -> setValues(t1)));
+		neuralizer.addNetworkProcessedListener(t1 -> JFXUtils.runLater(() -> setValues(t1)));
 
 		for (int i = 0; i < flattened.length; i++) {
 			flattened[i].setTooltip(neuralizer.getNetwork().getOutputNeurons()[i].getLabel());

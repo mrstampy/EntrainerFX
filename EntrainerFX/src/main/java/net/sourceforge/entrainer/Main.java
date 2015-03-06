@@ -33,6 +33,7 @@ import javax.swing.SwingUtilities;
 import net.sourceforge.entrainer.gui.About;
 import net.sourceforge.entrainer.gui.EntrainerFX;
 import net.sourceforge.entrainer.gui.jfx.EntrainerFXSplash;
+import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.gui.jfx.trident.ColorPropertyInterpolator;
 import net.sourceforge.entrainer.gui.jfx.trident.LinearGradientInterpolator;
 import net.sourceforge.entrainer.gui.jfx.trident.RadialGradientInterpolator;
@@ -160,7 +161,7 @@ public class Main {
 					public void onTimelineStateChanged(TimelineState oldState, TimelineState newState, float durationFraction,
 							float timelinePosition) {
 						if (TimelineState.PLAYING_FORWARD.equals(newState) && splash != null) {
-							Platform.runLater(new Runnable() {
+							JFXUtils.runLater(new Runnable() {
 
 								@Override
 								public void run() {

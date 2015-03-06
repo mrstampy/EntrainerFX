@@ -21,6 +21,12 @@ package net.sourceforge.entrainer.gui.jfx;
 import java.io.File;
 import java.net.URI;
 
+import net.sourceforge.entrainer.guitools.GuiUtil;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
 // TODO: Auto-generated Javadoc
@@ -28,6 +34,7 @@ import javafx.scene.paint.Color;
  * The Class JFXUtils.
  */
 public class JFXUtils {
+	private static final Logger log = LoggerFactory.getLogger(JFXUtils.class);
 
 	/**
 	 * To jfx color.
@@ -67,6 +74,23 @@ public class JFXUtils {
 		File css = new File("css/entrainer.css");
 		
 		return css.exists() ? css.toURI() : null;
+	}
+	
+	public static void runLater(Runnable run) {
+		if(Platform.isFxApplicationThread()) {
+			runNow(run);
+		} else {
+			Platform.runLater(run);
+		}
+	}
+
+	private static void runNow(Runnable run) {
+		try {
+			run.run();
+		} catch(Exception e) {
+			log.error("Unexpected exception", e);
+			GuiUtil.handleProblem(e);
+		}
 	}
 
 }

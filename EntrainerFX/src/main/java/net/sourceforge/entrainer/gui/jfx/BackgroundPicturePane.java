@@ -313,38 +313,38 @@ public class BackgroundPicturePane extends TitledPane {
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
 				case STATIC_BACKGROUND:
-					Platform.runLater(() -> setStaticButton());
+					JFXUtils.runLater(() -> setStaticButton());
 					break;
 				case DYNAMIC_BACKGROUND:
-					Platform.runLater(() -> setDynamicButton());
+					JFXUtils.runLater(() -> setDynamicButton());
 					break;
 				case NO_BACKGROUND:
-					Platform.runLater(() -> setNoBackgroundButton());
+					JFXUtils.runLater(() -> setNoBackgroundButton());
 					break;
 				case NO_BACKGROUND_COLOUR:
-					Platform.runLater(() -> setNoBackgroundColour(e.getColourValue()));
+					JFXUtils.runLater(() -> setNoBackgroundColour(e.getColourValue()));
 					break;
 				case BACKGROUND_PIC:
-					Platform.runLater(() -> setPicture(e.getStringValue()));
+					JFXUtils.runLater(() -> setPicture(e.getStringValue()));
 					break;
 				case BACKGROUND_PIC_DIR:
-					Platform.runLater(() -> setDirectory(e.getStringValue()));
+					JFXUtils.runLater(() -> setDirectory(e.getStringValue()));
 					break;
 				case BACKGROUND_DURATION_SECONDS:
 					durationValue = (int)e.getDoubleValue();
-					Platform.runLater(() -> duration.getValueFactory().setValue(durationValue));
+					JFXUtils.runLater(() -> duration.getValueFactory().setValue(durationValue));
 					break;
 				case BACKGROUND_TRANSITION_SECONDS:
 					transitionValue = (int)e.getDoubleValue();
-					Platform.runLater(() -> transition.getValueFactory().setValue(transitionValue));
+					JFXUtils.runLater(() -> transition.getValueFactory().setValue(transitionValue));
 					break;
 				case FLASH_BACKGROUND:
 					if(flashBackground.isSelected() == e.getBooleanValue()) return;
-					Platform.runLater(() -> flashBackground.setSelected(e.getBooleanValue()));
+					JFXUtils.runLater(() -> flashBackground.setSelected(e.getBooleanValue()));
 					break;
 				case STATIC_PICTURE_LOCK:
 					if(staticPictureLock.isSelected() == e.getBooleanValue()) return;
-					Platform.runLater(() -> staticPictureLock.setSelected(e.getBooleanValue()));
+					JFXUtils.runLater(() -> staticPictureLock.setSelected(e.getBooleanValue()));
 					break;
 				default:
 					break;

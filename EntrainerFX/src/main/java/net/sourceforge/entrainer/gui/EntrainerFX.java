@@ -315,7 +315,7 @@ public class EntrainerFX extends JFrame {
 			}
 		});
 
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -342,7 +342,7 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void unexpandTitledPanes() {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -512,7 +512,7 @@ public class EntrainerFX extends JFrame {
 		final AbstractShimmer<?> shimmer = ShimmerRegister.getShimmer(stringValue);
 		if (shimmer == null) return;
 
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -936,7 +936,7 @@ public class EntrainerFX extends JFrame {
 	private JMenuItem chooseChannelMenu() {
 		chooseChannel = new JMenuItem("Choose Channel");
 
-		chooseChannel.addActionListener(e -> Platform.runLater(() -> chooseChannel()));
+		chooseChannel.addActionListener(e -> JFXUtils.runLater(() -> chooseChannel()));
 
 		return chooseChannel;
 	}
@@ -956,7 +956,7 @@ public class EntrainerFX extends JFrame {
 	private JMenuItem loadLabMenu() {
 		loadEspLab = new JMenuItem("Load ESP Lab Settings");
 
-		loadEspLab.addActionListener(e -> Platform.runLater(() -> loadLabSettings()));
+		loadEspLab.addActionListener(e -> JFXUtils.runLater(() -> loadLabSettings()));
 
 		return loadEspLab;
 	}
@@ -980,7 +980,7 @@ public class EntrainerFX extends JFrame {
 	private JMenuItem saveLabMenu() {
 		saveEspLab = new JMenuItem("Save ESP Lab Settings");
 
-		saveEspLab.addActionListener(e -> Platform.runLater(() -> showSaveLabSettings()));
+		saveEspLab.addActionListener(e -> JFXUtils.runLater(() -> showSaveLabSettings()));
 
 		return saveEspLab;
 	}
@@ -1029,7 +1029,7 @@ public class EntrainerFX extends JFrame {
 	private JMenuItem showEspLabMenu() {
 		showEspLab = new JMenuItem("Show ESP Lab");
 
-		showEspLab.addActionListener(e -> Platform.runLater(() -> showEspLab()));
+		showEspLab.addActionListener(e -> JFXUtils.runLater(() -> showEspLab()));
 
 		return showEspLab;
 	}
@@ -1060,7 +1060,7 @@ public class EntrainerFX extends JFrame {
 
 		if (!lab.getConnection().isConnected()) return;
 
-		Platform.runLater(() -> lab.getConnection().stop());
+		JFXUtils.runLater(() -> lab.getConnection().stop());
 	}
 
 	private JMenuItem getStartEspMenu() {
@@ -1076,7 +1076,7 @@ public class EntrainerFX extends JFrame {
 
 		if (lab.getConnection().isConnected()) return;
 
-		Platform.runLater(() -> {
+		JFXUtils.runLater(() -> {
 			try {
 				lab.getConnection().start();
 			} catch (MultiConnectionSocketException e) {
@@ -1353,7 +1353,7 @@ public class EntrainerFX extends JFrame {
 				@Override
 				public void run() {
 					boolean recording = showWavFileChooser();
-					Platform.runLater(() -> recordClicked(recording));
+					JFXUtils.runLater(() -> recordClicked(recording));
 				}
 			});
 		} else {
@@ -1542,7 +1542,7 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void enableControls(final boolean enabled) {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -1674,7 +1674,7 @@ public class EntrainerFX extends JFrame {
 
 		final URI css = JFXUtils.getEntrainerCSS();
 
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {

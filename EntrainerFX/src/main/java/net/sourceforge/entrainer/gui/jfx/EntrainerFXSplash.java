@@ -83,7 +83,7 @@ public class EntrainerFXSplash extends Application implements Version {
 	 */
 	public EntrainerFXSplash(boolean fromApp) {
 		init();
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {

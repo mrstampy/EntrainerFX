@@ -145,7 +145,7 @@ public class FlashPane extends TitledPane {
 		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
 
 			public void receiverChangeEventPerformed(final ReceiverChangeEvent e) {
-				Platform.runLater(new Runnable() {
+				JFXUtils.runLater(new Runnable() {
 
 					@Override
 					public void run() {
@@ -183,7 +183,7 @@ public class FlashPane extends TitledPane {
 	}
 
 	private void fireReceiverChangeEvent(final Color value) {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -255,7 +255,7 @@ public class FlashPane extends TitledPane {
 
 	private void setSelected(final boolean selected, final CheckBox checkBox) {
 		if (checkBox.isSelected() == selected) return;
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -265,7 +265,7 @@ public class FlashPane extends TitledPane {
 	}
 
 	private void setToolTip(final String toolTip, final Control node) {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {

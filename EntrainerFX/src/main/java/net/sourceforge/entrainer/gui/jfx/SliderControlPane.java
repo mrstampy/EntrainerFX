@@ -204,7 +204,7 @@ public class SliderControlPane extends GridPane {
 	}
 
 	private void setValue(final double value, final Slider slider) {
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {

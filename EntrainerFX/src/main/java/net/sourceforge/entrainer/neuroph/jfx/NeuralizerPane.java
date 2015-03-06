@@ -29,7 +29,6 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import javafx.animation.FadeTransition;
-import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.EventHandler;
@@ -43,6 +42,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
@@ -363,7 +363,7 @@ public class NeuralizerPane extends TitledPane {
 		Thread thread = new Thread() {
 			public void run() {
 				Utils.snooze(1000);
-				Platform.runLater(new Runnable() {
+				JFXUtils.runLater(new Runnable() {
 
 					@Override
 					public void run() {

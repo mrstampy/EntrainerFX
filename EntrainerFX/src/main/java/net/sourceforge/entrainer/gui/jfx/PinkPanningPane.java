@@ -228,7 +228,7 @@ public class PinkPanningPane extends TitledPane {
 			return;
 		}
 
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -261,7 +261,7 @@ public class PinkPanningPane extends TitledPane {
 			return;
 		}
 
-		Platform.runLater(new Runnable() {
+		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
