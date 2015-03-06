@@ -18,7 +18,12 @@
  */
 package net.sourceforge.entrainer.xml;
 
-import static net.sourceforge.entrainer.mediator.MediatorConstants.*;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.DELTA_AMPLITUDE;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.DELTA_ENTRAINMENT_FREQUENCY;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.DELTA_FREQUENCY;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.DELTA_PINK_ENTRAINER_MULTIPLE;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.DELTA_PINK_NOISE_AMPLITUDE;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.DELTA_PINK_PAN_AMPLITUDE;
 
 import java.util.List;
 

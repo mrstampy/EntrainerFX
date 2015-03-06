@@ -20,7 +20,6 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import java.awt.Color;
 
-import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;

@@ -18,8 +18,12 @@
  */
 package net.sourceforge.entrainer.gui;
 
-import static net.sourceforge.entrainer.gui.AnimationChooserDialogConstants.*;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.*;
+import static net.sourceforge.entrainer.gui.AnimationChooserDialogConstants.ACD_ANIMATIONS_COMBOBOX_NAME;
+import static net.sourceforge.entrainer.gui.AnimationChooserDialogConstants.ACD_ANIMATION_BACKGROUND;
+import static net.sourceforge.entrainer.gui.AnimationChooserDialogConstants.ACD_USE_DESKTOP_BACKGROUND_NAME;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_BACKGROUND;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_DESKTOP_BACKGROUND;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_PROGRAM;
 import static net.sourceforge.entrainer.util.Utils.openBrowser;
 
 import java.awt.Container;

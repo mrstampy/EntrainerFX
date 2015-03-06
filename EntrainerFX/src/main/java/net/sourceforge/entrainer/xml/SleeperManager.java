@@ -18,7 +18,14 @@
  */
 package net.sourceforge.entrainer.xml;
 
-import static net.sourceforge.entrainer.mediator.MediatorConstants.*;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.AMPLITUDE;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.ENTRAINMENT_FREQUENCY;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.FREQUENCY;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.INTERVAL_ADD;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_ENTRAINER_MULTIPLE;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_NOISE_AMPLITUDE;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_PAN;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_PAN_AMPLITUDE;
 import static net.sourceforge.entrainer.xml.program.EntrainerProgramUtil.unmarshal;
 
 import java.util.ArrayList;

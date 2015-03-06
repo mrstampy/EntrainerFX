@@ -19,10 +19,10 @@
 package net.sourceforge.entrainer.xml.program;
 
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
+import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
-import net.sourceforge.entrainer.mediator.MediatorConstants;
 
 // TODO: Auto-generated Javadoc
 /**

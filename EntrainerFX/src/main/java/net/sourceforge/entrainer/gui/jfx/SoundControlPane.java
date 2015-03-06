@@ -20,7 +20,6 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import static net.sourceforge.entrainer.mediator.MediatorConstants.START_ENTRAINMENT;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.START_FLASHING;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;

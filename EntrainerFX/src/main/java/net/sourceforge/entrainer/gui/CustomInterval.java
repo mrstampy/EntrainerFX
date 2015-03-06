@@ -18,6 +18,11 @@
  */
 package net.sourceforge.entrainer.gui;
 
+import static net.sourceforge.entrainer.gui.CustomIntervalConstants.CIC_DENOMINATOR_NAME;
+import static net.sourceforge.entrainer.gui.CustomIntervalConstants.CIC_DIALOG_NAME;
+import static net.sourceforge.entrainer.gui.CustomIntervalConstants.CIC_NUMERATOR_NAME;
+import static net.sourceforge.entrainer.gui.CustomIntervalConstants.CIC_OK_BUTTON;
+
 import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -33,7 +38,6 @@ import javax.swing.border.BevelBorder;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.guitools.MigHelper;
 import net.sourceforge.entrainer.widgets.IntegerTextField;
-import static net.sourceforge.entrainer.gui.CustomIntervalConstants.*;
 
 // TODO: Auto-generated Javadoc
 /**

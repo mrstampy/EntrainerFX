@@ -18,8 +18,15 @@
  */
 package net.sourceforge.entrainer.gui;
 
-import static net.sourceforge.entrainer.gui.PinkPanningConstants.*;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.*;
+import static net.sourceforge.entrainer.gui.PinkPanningConstants.PPC_AMPLITUDE_SLIDER_NAME;
+import static net.sourceforge.entrainer.gui.PinkPanningConstants.PPC_AMPLITUDE_VALUE_NAME;
+import static net.sourceforge.entrainer.gui.PinkPanningConstants.PPC_MULTIPLE_SLIDER_NAME;
+import static net.sourceforge.entrainer.gui.PinkPanningConstants.PPC_MULTIPLE_VALUE_NAME;
+import static net.sourceforge.entrainer.gui.PinkPanningConstants.PPC_OK_BUTTON;
+import static net.sourceforge.entrainer.gui.PinkPanningConstants.PPC_PAN_CHECKBOX_NAME;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_ENTRAINER_MULTIPLE;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_PAN;
+import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_PAN_AMPLITUDE;
 import static net.sourceforge.entrainer.util.Utils.openBrowser;
 
 import java.awt.Container;

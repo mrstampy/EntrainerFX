@@ -21,13 +21,12 @@ package net.sourceforge.entrainer.gui.jfx;
 import java.io.File;
 import java.net.URI;
 
+import javafx.application.Platform;
+import javafx.scene.paint.Color;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javafx.application.Platform;
-import javafx.scene.paint.Color;
 
 // TODO: Auto-generated Javadoc
 /**

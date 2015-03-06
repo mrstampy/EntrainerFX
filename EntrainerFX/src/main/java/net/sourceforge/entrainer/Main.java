@@ -23,7 +23,6 @@ import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.URISyntaxException;
 
-import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 
 import javax.swing.JDialog;

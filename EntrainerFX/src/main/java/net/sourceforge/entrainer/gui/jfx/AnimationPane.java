@@ -27,7 +27,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.ListIterator;
 
-import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;

@@ -62,7 +62,6 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
-import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -89,7 +88,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sourceforge.entrainer.Main;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.FlashPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;

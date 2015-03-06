@@ -22,7 +22,6 @@ import java.util.Calendar;
 import java.util.Random;
 
 import javafx.animation.FillTransition;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Color;

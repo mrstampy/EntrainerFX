@@ -27,7 +27,6 @@ import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
