@@ -393,7 +393,7 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void setPicture(String name) {
-		if(staticPictureLock.isSelected() && pictureName != null) return;
+		if(staticPictureLock.isSelected() && pictureName != null && !"".equals(pictureName)) return;
 		
 		File pic = new File(name);
 		

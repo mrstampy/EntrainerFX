@@ -280,9 +280,7 @@ public class VariableBackground {
 					Platform.runLater(() -> setBackgroundColor(e.getColourValue()));
 					break;
 				case BACKGROUND_PIC:
-					if (!staticPictureLock || backgroundPic == null) {
-						backgroundPic = e.getStringValue();
-					}
+					backgroundPic = e.getStringValue();
 					Platform.runLater(() -> evaluateStaticBackground(false));
 					break;
 				case BACKGROUND_PIC_DIR:
