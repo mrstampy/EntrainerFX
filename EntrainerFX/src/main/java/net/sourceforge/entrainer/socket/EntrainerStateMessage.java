@@ -239,6 +239,9 @@ public class EntrainerStateMessage {
 
 	@XmlElement
 	private String staticPictureFile;
+	
+	@XmlElement
+	private Boolean staticPictureLock;
 
 	@XmlElement
 	private Boolean noPicture;
@@ -829,6 +832,14 @@ public class EntrainerStateMessage {
 
 	public void setDynamicTransition(Integer dynamicTransition) {
 		this.dynamicTransition = dynamicTransition;
+	}
+
+	public Boolean getStaticPictureLock() {
+		return staticPictureLock;
+	}
+
+	public void setStaticPictureLock(Boolean staticPictureLock) {
+		this.staticPictureLock = staticPictureLock;
 	}
 
 }

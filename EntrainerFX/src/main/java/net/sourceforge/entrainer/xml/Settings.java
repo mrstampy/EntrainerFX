@@ -184,6 +184,9 @@ public class Settings {
 
 	@XmlElement(name = "static.background.picture")
 	private String staticPictureFile;
+	
+	@XmlElement(name = "static.picture.lock")
+	private boolean staticPictureLock;
 
 	@XmlElement(name = "no.background")
 	private boolean noPicture;
@@ -417,6 +420,9 @@ public class Settings {
 				case BACKGROUND_TRANSITION_SECONDS:
 					setDynamicTransition((int) e.getDoubleValue());
 					break;
+				case STATIC_PICTURE_LOCK:
+					setStaticPictureLock(e.getBooleanValue());
+					break;
 				default:
 					break;
 				}
@@ -458,6 +464,7 @@ public class Settings {
 
 		fireReceiverChangeEvent(getDynamicDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);
 		fireReceiverChangeEvent(getDynamicTransition(), MediatorConstants.BACKGROUND_TRANSITION_SECONDS);
+		fireReceiverChangeEvent(isStaticPictureLock(), MediatorConstants.STATIC_PICTURE_LOCK);
 
 		for (EntrainerProgramInterval interval : intervals) {
 			fireReceiverChangeEvent(interval.getValue());
@@ -1171,6 +1178,14 @@ public class Settings {
 
 	public void setDynamicTransition(int dynamicTransition) {
 		this.dynamicTransition = dynamicTransition;
+	}
+
+	public boolean isStaticPictureLock() {
+		return staticPictureLock;
+	}
+
+	public void setStaticPictureLock(boolean staticPictureLock) {
+		this.staticPictureLock = staticPictureLock;
 	}
 
 }

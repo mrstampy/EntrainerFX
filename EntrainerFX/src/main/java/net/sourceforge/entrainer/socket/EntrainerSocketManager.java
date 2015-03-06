@@ -386,6 +386,14 @@ public class EntrainerSocketManager {
 					currentState.setStartEntrainment(e.getBooleanValue());
 
 					break;
+				case STATIC_PICTURE_LOCK:
+					processing = currentState.getStaticPictureLock() == null || e.getBooleanValue() != currentState.getStaticPictureLock();
+					if(!processing) break;
+					
+					message.setStaticPictureLock(e.getBooleanValue());
+					currentState.setStaticPictureLock(e.getBooleanValue());
+					
+					break;
 				case START_FLASHING:
 					processing = currentState.getStartFlashing() == null
 							|| e.getBooleanValue() != currentState.getStartFlashing();

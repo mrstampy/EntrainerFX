@@ -341,6 +341,11 @@ public class BackgroundPicturePane extends TitledPane {
 				case FLASH_BACKGROUND:
 					if(flashBackground.isSelected() == e.getBooleanValue()) return;
 					Platform.runLater(() -> flashBackground.setSelected(e.getBooleanValue()));
+					break;
+				case STATIC_PICTURE_LOCK:
+					if(staticPictureLock.isSelected() == e.getBooleanValue()) return;
+					Platform.runLater(() -> staticPictureLock.setSelected(e.getBooleanValue()));
+					break;
 				default:
 					break;
 				}
