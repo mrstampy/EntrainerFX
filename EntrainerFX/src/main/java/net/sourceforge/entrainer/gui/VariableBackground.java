@@ -7,11 +7,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -89,6 +95,10 @@ public class VariableBackground {
 	private javafx.scene.paint.Color backgroundColor;
 
 	private boolean staticPictureLock;
+	
+	private AtomicInteger ai = new AtomicInteger(1);
+	
+	private Map<Integer, ScheduledFuture<?>> futures = new ConcurrentHashMap<>();
 
 	public VariableBackground() {
 		initMediator();
@@ -156,10 +166,16 @@ public class VariableBackground {
 	}
 
 	private void switchPictures() {
-		switchSvc.schedule(() -> fadeInOut(), getDisplayTime(), TimeUnit.SECONDS);
+		int key = ai.getAndIncrement();
+		ScheduledFuture<?> sf = switchSvc.schedule(() -> fadeInOut(key), getDisplayTime(), TimeUnit.SECONDS);
+		futures.put(key, sf);
 	}
 
-	private void fadeInOut() {
+	private void fadeInOut(int key) {
+		ScheduledFuture<?> sf = futures.remove(key);
+		
+		if(sf == null || sf.isCancelled()) return;
+		
 		if (!isDynamic()) {
 			return;
 		}
@@ -264,6 +280,7 @@ public class VariableBackground {
 				case STATIC_BACKGROUND:
 					if (isStatic()) return;
 					mode = BackgroundMode.STATIC;
+					clearFutures();
 					Platform.runLater(() -> evaluateStaticBackground(true));
 					break;
 				case DYNAMIC_BACKGROUND:
@@ -274,6 +291,7 @@ public class VariableBackground {
 				case NO_BACKGROUND:
 					if (isNoBackground()) return;
 					mode = BackgroundMode.NO_BACKGROUND;
+					clearFutures();
 					Platform.runLater(() -> clearBackground());
 					break;
 				case NO_BACKGROUND_COLOUR:
@@ -303,6 +321,15 @@ public class VariableBackground {
 			}
 
 		});
+	}
+
+	private void clearFutures() {
+		Set<Integer> set = futures.keySet();
+		
+		for(Integer i : set) {
+			ScheduledFuture<?> sf = futures.remove(i);
+			if(sf != null) sf.cancel(true);
+		}
 	}
 
 	private void setBackgroundColor(Color colourValue) {
