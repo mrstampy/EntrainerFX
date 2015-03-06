@@ -273,6 +273,11 @@ public class BackgroundPicturePane extends TitledPane {
 		picture.setText(newPic.getName());
 
 		fireReceiverChangeEvent(pictureName, MediatorConstants.BACKGROUND_PIC);
+		
+		if(!staticPictureLock.isSelected()) {
+			staticPictureLock.setSelected(true);
+			pictureLockClicked();
+		}
 	}
 
 	private void directoryClicked(MouseEvent e) {
