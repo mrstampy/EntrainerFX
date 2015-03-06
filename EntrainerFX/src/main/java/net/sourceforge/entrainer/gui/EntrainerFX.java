@@ -602,9 +602,9 @@ public class EntrainerFX extends JFrame {
 
 	private JMenuItem getSplashOnStartupItem() {
 		splashOnStartup = new JCheckBoxMenuItem("Splash on Startup");
-		
+
 		splashOnStartup.setToolTipText("Enables/Disables splash screen on startup");
-		
+
 		splashOnStartup.addActionListener(e -> enableSplashOnStartup(splashOnStartup.isSelected()));
 
 		return splashOnStartup;

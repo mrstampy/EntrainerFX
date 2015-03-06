@@ -47,7 +47,8 @@ public class ShimmerRectangle {
 	/**
 	 * Instantiates a new shimmer rectangle.
 	 *
-	 * @param panelSize the panel size
+	 * @param panelSize
+	 *          the panel size
 	 */
 	public ShimmerRectangle(Dimension panelSize) {
 		init(panelSize);
@@ -56,7 +57,8 @@ public class ShimmerRectangle {
 	/**
 	 * Called from {@link ShimmerPane}'s paint method.
 	 *
-	 * @param g2d the g2d
+	 * @param g2d
+	 *          the g2d
 	 */
 	public void paint(Graphics2D g2d) {
 		g2d.setPaint(getGradientPaint());
@@ -74,7 +76,8 @@ public class ShimmerRectangle {
 	/**
 	 * Inits the.
 	 *
-	 * @param panelSize the panel size
+	 * @param panelSize
+	 *          the panel size
 	 */
 	void init(Dimension panelSize) {
 		setPanelSize(panelSize);
@@ -109,7 +112,8 @@ public class ShimmerRectangle {
 	/**
 	 * Sets the color1.
 	 *
-	 * @param color the new color1
+	 * @param color
+	 *          the new color1
 	 */
 	public void setColor1(Color color) {
 		this.color1 = color;
@@ -127,7 +131,8 @@ public class ShimmerRectangle {
 	/**
 	 * Sets the color2.
 	 *
-	 * @param color2 the new color2
+	 * @param color2
+	 *          the new color2
 	 */
 	public void setColor2(Color color2) {
 		this.color2 = color2;
@@ -145,7 +150,8 @@ public class ShimmerRectangle {
 	/**
 	 * Sets the opacity.
 	 *
-	 * @param opacity the new opacity
+	 * @param opacity
+	 *          the new opacity
 	 */
 	public void setOpacity(float opacity) {
 		this.opacity = opacity;

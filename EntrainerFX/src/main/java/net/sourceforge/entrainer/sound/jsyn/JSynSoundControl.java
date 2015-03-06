@@ -56,7 +56,7 @@ import com.softsynth.jsyn.util.WAVFileWriter;
  * @author burton
  */
 public class JSynSoundControl extends AbstractSoundControl {
-	
+
 	/** The Constant J_SYN_SOUND_CONTROL_CLASS. */
 	public static final String J_SYN_SOUND_CONTROL_CLASS = "net.sourceforge.entrainer.sound.jsyn.JSynSoundControl";
 
@@ -92,7 +92,9 @@ public class JSynSoundControl extends AbstractSoundControl {
 		init();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.AbstractSoundControl#initMediator()
 	 */
 	@Override
@@ -142,7 +144,9 @@ public class JSynSoundControl extends AbstractSoundControl {
 		thread.start();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundControl#teardown()
 	 */
 	public void teardown() {
@@ -160,6 +164,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#start()
 	 */
 	public void start() {
@@ -201,6 +206,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#stop()
 	 */
 	public void stop() {
@@ -221,7 +227,9 @@ public class JSynSoundControl extends AbstractSoundControl {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#pause()
 	 */
 	public void pause() {
@@ -236,7 +244,9 @@ public class JSynSoundControl extends AbstractSoundControl {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#resume()
 	 */
 	public void resume() {
@@ -275,6 +285,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#setLeftFrequency(double)
 	 */
 	public void setLeftFrequency(double d) {
@@ -284,6 +295,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#getLeftFrequency()
 	 */
 	public double getLeftFrequency() {
@@ -292,6 +304,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#setRightFrequency(double)
 	 */
 	public void setRightFrequency(double d) {
@@ -300,6 +313,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#getRightFrequency()
 	 */
 	public double getRightFrequency() {
@@ -308,6 +322,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#setPinkAmplitude(double)
 	 */
 	public void setPinkNoiseAmplitude(double d) {
@@ -316,6 +331,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#getPinkAmplitude()
 	 */
 	public double getPinkNoiseAmplitude() {
@@ -324,6 +340,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#setLeftAmplitude(double)
 	 */
 	public void setLeftAmplitude(double d) {
@@ -333,6 +350,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#getLeftAmplitude()
 	 */
 	public double getLeftAmplitude() {
@@ -341,6 +359,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#setRightAmplitude(double)
 	 */
 	public void setRightAmplitude(double d) {
@@ -349,6 +368,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#getRightAmplitude()
 	 */
 	public double getRightAmplitude() {
@@ -357,6 +377,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#setPinkPanLeft(double)
 	 */
 	public void setPinkPanLeftAmplitude(double d) {
@@ -365,6 +386,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#setPinkPanRight(double)
 	 */
 	public void setPinkPanRightAmplitude(double d) {
@@ -373,6 +395,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#getPinkPanLeft()
 	 */
 	public double getPinkPanLeftAmplitude() {
@@ -381,6 +404,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.jsyn.SoundControl#getPinkPanRight()
 	 */
 	public double getPinkPanRightAmplitude() {
@@ -481,8 +505,11 @@ public class JSynSoundControl extends AbstractSoundControl {
 		raf.close();
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundControl#addIntervalControl(int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sourceforge.entrainer.sound.SoundControl#addIntervalControl(int,
+	 * int)
 	 */
 	public synchronized void addIntervalControl(int intervalNumerator, int intervalDenominator) {
 		if (!containsInterval(intervalNumerator, intervalDenominator)) {
@@ -501,8 +528,12 @@ public class JSynSoundControl extends AbstractSoundControl {
 		interval.setLeftAmplitude(getLeftAmplitude());
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundControl#removeIntervalControl(int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundControl#removeIntervalControl(int,
+	 * int)
 	 */
 	public void removeIntervalControl(int intervalNumerator, int intervalDenominator) {
 		JSynInterval interval = getInterval(intervalNumerator, intervalDenominator);
@@ -516,8 +547,10 @@ public class JSynSoundControl extends AbstractSoundControl {
 	/**
 	 * Gets the interval.
 	 *
-	 * @param num the num
-	 * @param denom the denom
+	 * @param num
+	 *          the num
+	 * @param denom
+	 *          the denom
 	 * @return the interval
 	 */
 	public JSynInterval getInterval(int num, int denom) {
@@ -534,21 +567,31 @@ public class JSynSoundControl extends AbstractSoundControl {
 		return getInterval(num, denom) != null;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundControl#addIntervalControl(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundControl#addIntervalControl(java.lang
+	 * .String)
 	 */
 	public void addIntervalControl(String displayString) {
 		addIntervalControl(JSynInterval.getNumerator(displayString), JSynInterval.getDenominator(displayString));
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundControl#removeIntervalControl(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundControl#removeIntervalControl(java
+	 * .lang.String)
 	 */
 	public void removeIntervalControl(String displayString) {
 		removeIntervalControl(JSynInterval.getNumerator(displayString), JSynInterval.getDenominator(displayString));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundControl#getIntervals()
 	 */
 	public List<String> getIntervals() {
@@ -572,7 +615,9 @@ public class JSynSoundControl extends AbstractSoundControl {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundControl#exit()
 	 */
 	public void exit() {

@@ -32,8 +32,11 @@ import org.pushingpixels.trident.interpolator.PropertyInterpolator;
  */
 public class ColorPropertyInterpolator implements PropertyInterpolator<Color> {
 
-	/* (non-Javadoc)
-	 * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#getBasePropertyClass()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#
+	 * getBasePropertyClass()
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -41,8 +44,12 @@ public class ColorPropertyInterpolator implements PropertyInterpolator<Color> {
 		return Color.class;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#interpolate(java.lang.Object, java.lang.Object, float)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.pushingpixels.trident.interpolator.PropertyInterpolator#interpolate
+	 * (java.lang.Object, java.lang.Object, float)
 	 */
 	@Override
 	public Color interpolate(Color from, Color to, float fraction) {

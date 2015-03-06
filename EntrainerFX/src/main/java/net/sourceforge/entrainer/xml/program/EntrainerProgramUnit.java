@@ -85,7 +85,7 @@ public class EntrainerProgramUnit {
 	private StartUnitSetter startUnitSetter;
 	@XmlTransient
 	private EndUnitSetter endUnitSetter;
-	
+
 	/**
 	 * Instantiates a new entrainer program unit.
 	 */
@@ -94,14 +94,13 @@ public class EntrainerProgramUnit {
 		endUnitSetter = new EndUnitSetter(this);
 	}
 
-
 	/**
 	 * Gets the time.
 	 *
 	 * @return the time
 	 */
 	public EntrainerProgramUnitTime getTime() {
-		if(time == null) {
+		if (time == null) {
 			time = new EntrainerProgramUnitTime();
 		}
 		return time;
@@ -110,7 +109,8 @@ public class EntrainerProgramUnit {
 	/**
 	 * Sets the time.
 	 *
-	 * @param time the new time
+	 * @param time
+	 *          the new time
 	 */
 	public void setTime(EntrainerProgramUnitTime time) {
 		this.time = time;
@@ -128,7 +128,8 @@ public class EntrainerProgramUnit {
 	/**
 	 * Sets the amplitude.
 	 *
-	 * @param amplitude the new amplitude
+	 * @param amplitude
+	 *          the new amplitude
 	 */
 	public void setAmplitude(EntrainerProgramUnitAttribute amplitude) {
 		this.amplitude = amplitude;
@@ -146,7 +147,8 @@ public class EntrainerProgramUnit {
 	/**
 	 * Sets the frequency.
 	 *
-	 * @param frequency the new frequency
+	 * @param frequency
+	 *          the new frequency
 	 */
 	public void setFrequency(EntrainerProgramUnitAttribute frequency) {
 		this.frequency = frequency;
@@ -164,7 +166,8 @@ public class EntrainerProgramUnit {
 	/**
 	 * Sets the entrainment frequency.
 	 *
-	 * @param entrainmentFrequency the new entrainment frequency
+	 * @param entrainmentFrequency
+	 *          the new entrainment frequency
 	 */
 	public void setEntrainmentFrequency(EntrainerProgramUnitAttribute entrainmentFrequency) {
 		this.entrainmentFrequency = entrainmentFrequency;
@@ -182,7 +185,8 @@ public class EntrainerProgramUnit {
 	/**
 	 * Sets the pink noise.
 	 *
-	 * @param pinkNoise the new pink noise
+	 * @param pinkNoise
+	 *          the new pink noise
 	 */
 	public void setPinkNoise(EntrainerProgramUnitAttribute pinkNoise) {
 		this.pinkNoise = pinkNoise;
@@ -200,7 +204,8 @@ public class EntrainerProgramUnit {
 	/**
 	 * Sets the pink pan.
 	 *
-	 * @param pinkPan the new pink pan
+	 * @param pinkPan
+	 *          the new pink pan
 	 */
 	public void setPinkPan(EntrainerProgramUnitAttribute pinkPan) {
 		this.pinkPan = pinkPan;
@@ -218,42 +223,43 @@ public class EntrainerProgramUnit {
 	/**
 	 * Sets the pink entrainer multiple.
 	 *
-	 * @param pinkEntrainerMultiple the new pink entrainer multiple
+	 * @param pinkEntrainerMultiple
+	 *          the new pink entrainer multiple
 	 */
 	public void setPinkEntrainerMultiple(EntrainerProgramUnitAttribute pinkEntrainerMultiple) {
 		this.pinkEntrainerMultiple = pinkEntrainerMultiple;
 	}
-	
+
 	/**
 	 * Gets the time in millis.
 	 *
 	 * @return the time in millis
 	 */
 	public long getTimeInMillis() {
-		if(getTime() == null) {
+		if (getTime() == null) {
 			return 0;
 		}
-		
+
 		long milliMinutes = getTime().getMinutes() * 60 * 1000;
 		long milliSeconds = getTime().getSeconds() * 1000;
-		
+
 		return milliMinutes + milliSeconds;
 	}
-	
+
 	/**
 	 * Returns the pink noise entrainer multiple delta (change/second).
 	 *
 	 * @return the pink entrainer multiple delta per second
 	 */
 	public double getPinkEntrainerMultipleDeltaPerSecond() {
-		if(! hasDeltaPinkEntrainerMultiple) {
+		if (!hasDeltaPinkEntrainerMultiple) {
 			deltaPinkEntrainerMultiple = getDeltaPerSecond(getStartPinkEntrainerMultiple(), getEndPinkEntrainerMultiple());
 			hasDeltaPinkEntrainerMultiple = true;
 		}
-		
+
 		return deltaPinkEntrainerMultiple;
 	}
-	
+
 	/**
 	 * Gets the start pink entrainer multiple.
 	 *
@@ -262,11 +268,12 @@ public class EntrainerProgramUnit {
 	public double getStartPinkEntrainerMultiple() {
 		return getPinkEntrainerMultiple() == null ? 100 : getPinkEntrainerMultiple().getStart();
 	}
-	
+
 	/**
 	 * Sets the start pink entrainer multiple.
 	 *
-	 * @param start the new start pink entrainer multiple
+	 * @param start
+	 *          the new start pink entrainer multiple
 	 */
 	public void setStartPinkEntrainerMultiple(double start) {
 		setPinkEntrainerMultiple(getStartProgramUnit(getPinkEntrainerMultiple(), start));
@@ -280,11 +287,12 @@ public class EntrainerProgramUnit {
 	public double getEndPinkEntrainerMultiple() {
 		return getPinkEntrainerMultiple() == null ? 100 : getPinkEntrainerMultiple().getEnd();
 	}
-	
+
 	/**
 	 * Sets the end pink entrainer multiple.
 	 *
-	 * @param end the new end pink entrainer multiple
+	 * @param end
+	 *          the new end pink entrainer multiple
 	 */
 	public void setEndPinkEntrainerMultiple(double end) {
 		setPinkEntrainerMultiple(getEndProgramUnit(getPinkEntrainerMultiple(), end));
@@ -296,13 +304,13 @@ public class EntrainerProgramUnit {
 	 * @return the frequency delta per second
 	 */
 	public double getFrequencyDeltaPerSecond() {
-		if(! hasDeltaFrequency) {
+		if (!hasDeltaFrequency) {
 			deltaFrequency = getDeltaPerSecond(getStartFrequency(), getEndFrequency());
 			hasDeltaFrequency = true;
 		}
 		return deltaFrequency;
 	}
-	
+
 	/**
 	 * Gets the start frequency.
 	 *
@@ -311,11 +319,12 @@ public class EntrainerProgramUnit {
 	public double getStartFrequency() {
 		return getFrequency() == null ? 100 : getFrequency().getStart();
 	}
-	
+
 	/**
 	 * Sets the start frequency.
 	 *
-	 * @param start the new start frequency
+	 * @param start
+	 *          the new start frequency
 	 */
 	public void setStartFrequency(double start) {
 		setFrequency(getStartProgramUnit(getFrequency(), start));
@@ -329,11 +338,12 @@ public class EntrainerProgramUnit {
 	public double getEndFrequency() {
 		return getFrequency() == null ? 100 : getFrequency().getEnd();
 	}
-	
+
 	/**
 	 * Sets the end frequency.
 	 *
-	 * @param end the new end frequency
+	 * @param end
+	 *          the new end frequency
 	 */
 	public void setEndFrequency(double end) {
 		setFrequency(getEndProgramUnit(getFrequency(), end));
@@ -345,13 +355,13 @@ public class EntrainerProgramUnit {
 	 * @return the entrainment frequency delta per second
 	 */
 	public double getEntrainmentFrequencyDeltaPerSecond() {
-		if(! hasDeltaEntrainment) {
+		if (!hasDeltaEntrainment) {
 			deltaEntrainment = getDeltaPerSecond(getStartEntrainmentFrequency(), getEndEntrainmentFrequency());
 			hasDeltaEntrainment = true;
 		}
 		return deltaEntrainment;
 	}
-	
+
 	/**
 	 * Gets the end entrainment frequency.
 	 *
@@ -360,11 +370,12 @@ public class EntrainerProgramUnit {
 	public double getEndEntrainmentFrequency() {
 		return getEntrainmentFrequency() == null ? 10 : getEntrainmentFrequency().getEnd();
 	}
-	
+
 	/**
 	 * Sets the end entrainment frequency.
 	 *
-	 * @param end the new end entrainment frequency
+	 * @param end
+	 *          the new end entrainment frequency
 	 */
 	public void setEndEntrainmentFrequency(double end) {
 		setEntrainmentFrequency(getEndProgramUnit(getEntrainmentFrequency(), end));
@@ -378,11 +389,12 @@ public class EntrainerProgramUnit {
 	public double getStartEntrainmentFrequency() {
 		return getEntrainmentFrequency() == null ? 10 : getEntrainmentFrequency().getStart();
 	}
-	
+
 	/**
 	 * Sets the start entrainment frequency.
 	 *
-	 * @param start the new start entrainment frequency
+	 * @param start
+	 *          the new start entrainment frequency
 	 */
 	public void setStartEntrainmentFrequency(double start) {
 		setEntrainmentFrequency(getStartProgramUnit(getEntrainmentFrequency(), start));
@@ -394,13 +406,13 @@ public class EntrainerProgramUnit {
 	 * @return the amplitude delta per second
 	 */
 	public double getAmplitudeDeltaPerSecond() {
-		if(! hasDeltaAmplitude) {
+		if (!hasDeltaAmplitude) {
 			deltaAmplitude = getDeltaPerSecond(getStartAmplitude(), getEndAmplitude());
 			hasDeltaAmplitude = true;
 		}
 		return deltaAmplitude;
 	}
-	
+
 	/**
 	 * Gets the start amplitude.
 	 *
@@ -409,33 +421,34 @@ public class EntrainerProgramUnit {
 	public double getStartAmplitude() {
 		return getAmplitude() == null ? 0.5 : getAmplitude().getStart();
 	}
-	
+
 	/**
 	 * Sets the start amplitude.
 	 *
-	 * @param start the new start amplitude
+	 * @param start
+	 *          the new start amplitude
 	 */
 	public void setStartAmplitude(double start) {
 		setAmplitude(getStartProgramUnit(getAmplitude(), start));
 	}
 
 	private EntrainerProgramUnitAttribute getStartProgramUnit(EntrainerProgramUnitAttribute unitAttribute, double start) {
-		if(unitAttribute == null) {
+		if (unitAttribute == null) {
 			unitAttribute = new EntrainerProgramUnitAttribute(start, 0);
 		} else {
 			unitAttribute.setStart(start);
 		}
-		
+
 		return unitAttribute;
 	}
 
 	private EntrainerProgramUnitAttribute getEndProgramUnit(EntrainerProgramUnitAttribute unitAttribute, double end) {
-		if(unitAttribute == null) {
+		if (unitAttribute == null) {
 			unitAttribute = new EntrainerProgramUnitAttribute(0, end);
 		} else {
 			unitAttribute.setEnd(end);
 		}
-		
+
 		return unitAttribute;
 	}
 
@@ -447,11 +460,12 @@ public class EntrainerProgramUnit {
 	public double getEndAmplitude() {
 		return getAmplitude() == null ? 0.5 : getAmplitude().getEnd();
 	}
-	
+
 	/**
 	 * Sets the end amplitude.
 	 *
-	 * @param end the new end amplitude
+	 * @param end
+	 *          the new end amplitude
 	 */
 	public void setEndAmplitude(double end) {
 		setAmplitude(getEndProgramUnit(getAmplitude(), end));
@@ -463,14 +477,14 @@ public class EntrainerProgramUnit {
 	 * @return the pink noise delta per second
 	 */
 	public double getPinkNoiseDeltaPerSecond() {
-		if(! hasDeltaPinkNoise) {
+		if (!hasDeltaPinkNoise) {
 			deltaPinkNoise = getDeltaPerSecond(getStartPinkNoise(), getEndPinkNoise());
 			hasDeltaPinkNoise = true;
 		}
-		
+
 		return deltaPinkNoise;
 	}
-	
+
 	/**
 	 * Gets the end pink noise.
 	 *
@@ -479,11 +493,12 @@ public class EntrainerProgramUnit {
 	public double getEndPinkNoise() {
 		return getPinkNoise() == null ? 0.5 : getPinkNoise().getEnd();
 	}
-	
+
 	/**
 	 * Sets the end pink noise.
 	 *
-	 * @param end the new end pink noise
+	 * @param end
+	 *          the new end pink noise
 	 */
 	public void setEndPinkNoise(double end) {
 		setPinkNoise(getEndProgramUnit(getPinkNoise(), end));
@@ -497,11 +512,12 @@ public class EntrainerProgramUnit {
 	public double getStartPinkNoise() {
 		return getPinkNoise() == null ? 0.5 : getPinkNoise().getStart();
 	}
-	
+
 	/**
 	 * Sets the start pink noise.
 	 *
-	 * @param start the new start pink noise
+	 * @param start
+	 *          the new start pink noise
 	 */
 	public void setStartPinkNoise(double start) {
 		setPinkNoise(getStartProgramUnit(getPinkNoise(), start));
@@ -513,14 +529,14 @@ public class EntrainerProgramUnit {
 	 * @return the pink pan delta per second
 	 */
 	public double getPinkPanDeltaPerSecond() {
-		if(! hasDeltaPinkPan) {
+		if (!hasDeltaPinkPan) {
 			deltaPinkPan = getDeltaPerSecond(getStartPinkPan(), getEndPinkPan());
 			hasDeltaPinkPan = true;
 		}
-		
+
 		return deltaPinkPan;
 	}
-	
+
 	/**
 	 * Gets the end pink pan.
 	 *
@@ -529,11 +545,12 @@ public class EntrainerProgramUnit {
 	public double getEndPinkPan() {
 		return getPinkPan() == null ? 0.5 : getPinkPan().getEnd();
 	}
-	
+
 	/**
 	 * Sets the end pink pan.
 	 *
-	 * @param end the new end pink pan
+	 * @param end
+	 *          the new end pink pan
 	 */
 	public void setEndPinkPan(double end) {
 		setPinkPan(getEndProgramUnit(getPinkPan(), end));
@@ -547,11 +564,12 @@ public class EntrainerProgramUnit {
 	public double getStartPinkPan() {
 		return getPinkPan() == null ? 0.5 : getPinkPan().getStart();
 	}
-	
+
 	/**
 	 * Sets the start pink pan.
 	 *
-	 * @param start the new start pink pan
+	 * @param start
+	 *          the new start pink pan
 	 */
 	public void setStartPinkPan(double start) {
 		setPinkPan(getStartProgramUnit(getPinkPan(), start));
@@ -562,22 +580,22 @@ public class EntrainerProgramUnit {
 		BigDecimal bigStart = new BigDecimal(start);
 		BigDecimal bigEnd = new BigDecimal(end);
 		BigDecimal millis = new BigDecimal(getTimeInMillis() / 1000);
-		
+
 		BigDecimal difference = bigEnd.subtract(bigStart, MathContext.DECIMAL64);
-		
+
 		// if there is no time, this is a transitional unit created from
 		// the end values of the last as the start values, and the start
-		// values of the current as the end values.  Return the
+		// values of the current as the end values. Return the
 		// difference.
-		if(millis.doubleValue() == 0) {
+		if (millis.doubleValue() == 0) {
 			return difference.doubleValue();
 		}
-		
+
 		BigDecimal delta = difference.divide(millis, MathContext.DECIMAL64);
-		
+
 		return delta.doubleValue();
 	}
-	
+
 	/**
 	 * Gets the start unit setter.
 	 *
@@ -586,7 +604,7 @@ public class EntrainerProgramUnit {
 	public UnitSetter getStartUnitSetter() {
 		return startUnitSetter;
 	}
-	
+
 	/**
 	 * Gets the end unit setter.
 	 *

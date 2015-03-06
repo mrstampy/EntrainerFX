@@ -58,7 +58,8 @@ public class ShimmerRegister {
 	 * Returns a shimmer instance based upon the
 	 * {@link AbstractShimmer#toString()} implementation.
 	 *
-	 * @param name the name
+	 * @param name
+	 *          the name
 	 * @return the shimmer
 	 */
 	public static AbstractShimmer<?> getShimmer(String name) {

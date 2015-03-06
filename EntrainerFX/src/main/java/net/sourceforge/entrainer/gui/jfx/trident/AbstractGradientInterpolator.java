@@ -42,12 +42,18 @@ public abstract class AbstractGradientInterpolator {
 	 * order to perform a meaningful interpolation. Should any of these properties
 	 * differ an {@link UnsupportedOperationException} will be thrown.
 	 *
-	 * @param prop1 the prop1
-	 * @param prop2 the prop2
-	 * @param cyc1 the cyc1
-	 * @param cyc2 the cyc2
-	 * @param st1 must be the same size as st2
-	 * @param st2 must be the same size as st1
+	 * @param prop1
+	 *          the prop1
+	 * @param prop2
+	 *          the prop2
+	 * @param cyc1
+	 *          the cyc1
+	 * @param cyc2
+	 *          the cyc2
+	 * @param st1
+	 *          must be the same size as st2
+	 * @param st2
+	 *          must be the same size as st1
 	 */
 	protected void validate(boolean prop1, boolean prop2, CycleMethod cyc1, CycleMethod cyc2, List<Stop> st1,
 			List<Stop> st2) {
@@ -67,9 +73,12 @@ public abstract class AbstractGradientInterpolator {
 	/**
 	 * Interpolate stops.
 	 *
-	 * @param f the f
-	 * @param startStops the start stops
-	 * @param endStops the end stops
+	 * @param f
+	 *          the f
+	 * @param startStops
+	 *          the start stops
+	 * @param endStops
+	 *          the end stops
 	 * @return the list
 	 */
 	protected List<Stop> interpolateStops(float f, List<Stop> startStops, List<Stop> endStops) {

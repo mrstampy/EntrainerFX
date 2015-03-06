@@ -35,7 +35,7 @@ import net.sourceforge.entrainer.guitools.GuiUtil;
  * The Class JSynClassLoader.
  */
 public class JSynClassLoader extends URLClassLoader {
-	
+
 	/** The Constant J_SYN_SOUND_CONTROL_CLASS. */
 	public static final String J_SYN_SOUND_CONTROL_CLASS = "net.sourceforge.entrainer.sound.jsyn.JSynSoundControl";
 	private Map<String, Class<?>> loadedClasses = new HashMap<String, Class<?>>();
@@ -43,7 +43,8 @@ public class JSynClassLoader extends URLClassLoader {
 	/**
 	 * Instantiates a new j syn class loader.
 	 *
-	 * @param urls the urls
+	 * @param urls
+	 *          the urls
 	 */
 	public JSynClassLoader(URL[] urls) {
 		super(urls, JSynClassLoader.class.getClassLoader());
@@ -54,7 +55,9 @@ public class JSynClassLoader extends URLClassLoader {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.net.URLClassLoader#findClass(java.lang.String)
 	 */
 	@Override
@@ -80,8 +83,7 @@ public class JSynClassLoader extends URLClassLoader {
 
 	private void loadJSynJarFile() throws IOException {
 		for (URL url : getURLs()) {
-			if (url == null)
-				continue;
+			if (url == null) continue;
 			File file = new File(url.getFile());
 			if (!file.isDirectory() && file.exists() && file.canRead()) {
 				ZipFile zipFile = null;

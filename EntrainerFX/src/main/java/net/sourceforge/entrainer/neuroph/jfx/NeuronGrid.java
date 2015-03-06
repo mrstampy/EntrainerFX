@@ -40,8 +40,10 @@ public class NeuronGrid {
 	/**
 	 * Instantiates a new neuron grid.
 	 *
-	 * @param rows the rows
-	 * @param cols the cols
+	 * @param rows
+	 *          the rows
+	 * @param cols
+	 *          the cols
 	 */
 	NeuronGrid(int rows, int cols) {
 		setRows(rows);
@@ -53,7 +55,8 @@ public class NeuronGrid {
 	/**
 	 * Instantiates a new neuron grid.
 	 *
-	 * @param neuralizer the neuralizer
+	 * @param neuralizer
+	 *          the neuralizer
 	 */
 	public NeuronGrid(Neuralizer neuralizer) {
 		this(1, neuralizer);
@@ -62,8 +65,10 @@ public class NeuronGrid {
 	/**
 	 * Instantiates a new neuron grid.
 	 *
-	 * @param rows the rows
-	 * @param neuralizer the neuralizer
+	 * @param rows
+	 *          the rows
+	 * @param neuralizer
+	 *          the neuralizer
 	 */
 	public NeuronGrid(int rows, Neuralizer neuralizer) {
 		this(rows, neuralizer.getNetwork().getOutputsCount() / rows);
@@ -102,7 +107,8 @@ public class NeuronGrid {
 	/**
 	 * Sets the WMA size.
 	 *
-	 * @param wmaSize the new WMA size
+	 * @param wmaSize
+	 *          the new WMA size
 	 */
 	public void setWMASize(int wmaSize) {
 		assert wmaSize > 1;
@@ -153,7 +159,8 @@ public class NeuronGrid {
 	/**
 	 * Sets the color.
 	 *
-	 * @param c the new color
+	 * @param c
+	 *          the new color
 	 */
 	public void setColor(Color c) {
 		for (NeuronFx neuron : flattened) {
@@ -164,8 +171,10 @@ public class NeuronGrid {
 	/**
 	 * Gets the neuron.
 	 *
-	 * @param colIdx the col idx
-	 * @param rowIdx the row idx
+	 * @param colIdx
+	 *          the col idx
+	 * @param rowIdx
+	 *          the row idx
 	 * @return the neuron
 	 */
 	public NeuronFx getNeuron(int colIdx, int rowIdx) {
@@ -201,7 +210,8 @@ public class NeuronGrid {
 	/**
 	 * Sets the rows.
 	 *
-	 * @param rows the new rows
+	 * @param rows
+	 *          the new rows
 	 */
 	public void setRows(int rows) {
 		this.rows = rows;
@@ -219,7 +229,8 @@ public class NeuronGrid {
 	/**
 	 * Sets the cols.
 	 *
-	 * @param cols the new cols
+	 * @param cols
+	 *          the new cols
 	 */
 	public void setCols(int cols) {
 		this.cols = cols;

@@ -111,8 +111,10 @@ public class JFXAnimationLoader {
 			@Override
 			public void run() {
 				try {
-					WatchKey key = directory.register(getWatchService(), StandardWatchEventKinds.ENTRY_CREATE,
-							StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY);
+					WatchKey key = directory.register(getWatchService(),
+							StandardWatchEventKinds.ENTRY_CREATE,
+							StandardWatchEventKinds.ENTRY_DELETE,
+							StandardWatchEventKinds.ENTRY_MODIFY);
 
 					List<WatchEvent<?>> events = key.pollEvents();
 					while (events.isEmpty()) {

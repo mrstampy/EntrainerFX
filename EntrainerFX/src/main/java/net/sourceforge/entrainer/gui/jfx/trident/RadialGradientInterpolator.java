@@ -38,8 +38,11 @@ import org.pushingpixels.trident.interpolator.PropertyInterpolator;
 public class RadialGradientInterpolator extends AbstractGradientInterpolator implements
 		PropertyInterpolator<RadialGradient> {
 
-	/* (non-Javadoc)
-	 * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#getBasePropertyClass()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#
+	 * getBasePropertyClass()
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -50,9 +53,12 @@ public class RadialGradientInterpolator extends AbstractGradientInterpolator imp
 	/**
 	 * Only works for clockwise focus angle rotations!.
 	 *
-	 * @param rg1 the rg1
-	 * @param rg2 the rg2
-	 * @param f the f
+	 * @param rg1
+	 *          the rg1
+	 * @param rg2
+	 *          the rg2
+	 * @param f
+	 *          the f
 	 * @return the radial gradient
 	 */
 	@Override
@@ -60,7 +66,11 @@ public class RadialGradientInterpolator extends AbstractGradientInterpolator imp
 		List<Stop> startStops = rg1.getStops();
 		List<Stop> endStops = rg2.getStops();
 
-		validate(rg1.isProportional(), rg2.isProportional(), rg1.getCycleMethod(), rg2.getCycleMethod(), startStops,
+		validate(rg1.isProportional(),
+				rg2.isProportional(),
+				rg1.getCycleMethod(),
+				rg2.getCycleMethod(),
+				startStops,
 				endStops);
 
 		List<Stop> newStops = interpolateStops(f, startStops, endStops);

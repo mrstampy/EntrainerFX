@@ -36,10 +36,14 @@ public class JSynJarLoader {
 	/**
 	 * Load j syn jar.
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws InstantiationException the instantiation exception
-	 * @throws IllegalAccessException the illegal access exception
+	 * @throws IOException
+	 *           Signals that an I/O exception has occurred.
+	 * @throws ClassNotFoundException
+	 *           the class not found exception
+	 * @throws InstantiationException
+	 *           the instantiation exception
+	 * @throws IllegalAccessException
+	 *           the illegal access exception
 	 */
 	@SuppressWarnings("deprecation")
 	public static void loadJSynJar() throws IOException, ClassNotFoundException, InstantiationException,
@@ -67,7 +71,7 @@ public class JSynJarLoader {
 		classLoader = new JSynClassLoader(urls);
 
 		Class<?> c = classLoader.findClass(JSynClassLoader.J_SYN_SOUND_CONTROL_CLASS);
-		if(c == null) {
+		if (c == null) {
 			c = ClassLoader.getSystemClassLoader().loadClass(JSynClassLoader.J_SYN_SOUND_CONTROL_CLASS);
 		}
 		Object soundControl = c.newInstance();

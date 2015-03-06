@@ -22,34 +22,37 @@ import java.util.EventObject;
 
 // TODO: Auto-generated Javadoc
 /**
- * This event indicates either the start or the finish of an Entrainer XML file execution.
+ * This event indicates either the start or the finish of an Entrainer XML file
+ * execution.
  * 
  * @author burton
  *
  */
 public class SleeperManagerEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The Constant STARTED. */
 	public static final int STARTED = 0;
-	
+
 	/** The Constant STOPPED. */
 	public static final int STOPPED = 1;
-	
+
 	private int action;
-	
+
 	/**
 	 * Instantiates a new sleeper manager event.
 	 *
-	 * @param source the source
-	 * @param action the action
+	 * @param source
+	 *          the source
+	 * @param action
+	 *          the action
 	 */
 	public SleeperManagerEvent(Object source, int action) {
 		super(source);
-		
+
 		setAction(action);
 	}
-	
+
 	/**
 	 * Checks if is started.
 	 *
@@ -58,7 +61,7 @@ public class SleeperManagerEvent extends EventObject {
 	public boolean isStarted() {
 		return action == STARTED;
 	}
-	
+
 	/**
 	 * Checks if is stopped.
 	 *

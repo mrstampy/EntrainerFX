@@ -81,7 +81,7 @@ public class EntrainerProgram {
 
 	@XmlAttribute
 	private boolean pinkPan;
-	
+
 	@XmlAttribute
 	private boolean flashBackground;
 
@@ -117,7 +117,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the colour.
 	 *
-	 * @param colour the new colour
+	 * @param colour
+	 *          the new colour
 	 */
 	public void setColour(Color colour) {
 		this.colour = colour;
@@ -135,7 +136,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the flash.
 	 *
-	 * @param flash the new flash
+	 * @param flash
+	 *          the new flash
 	 */
 	public void setFlash(boolean flash) {
 		this.flash = flash;
@@ -153,7 +155,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the psychedelic.
 	 *
-	 * @param psychedelic the new psychedelic
+	 * @param psychedelic
+	 *          the new psychedelic
 	 */
 	public void setPsychedelic(boolean psychedelic) {
 		this.psychedelic = psychedelic;
@@ -171,7 +174,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the intervals.
 	 *
-	 * @param intervals the new intervals
+	 * @param intervals
+	 *          the new intervals
 	 */
 	public void setIntervals(List<EntrainerProgramInterval> intervals) {
 		this.intervals = intervals;
@@ -189,7 +193,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the units.
 	 *
-	 * @param units the new units
+	 * @param units
+	 *          the new units
 	 */
 	public void setUnits(List<EntrainerProgramUnit> units) {
 		this.units = units;
@@ -207,7 +212,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the animation.
 	 *
-	 * @param animation the new animation
+	 * @param animation
+	 *          the new animation
 	 */
 	public void setAnimation(boolean animation) {
 		this.animation = animation;
@@ -225,7 +231,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the animation background.
 	 *
-	 * @param animationBackground the new animation background
+	 * @param animationBackground
+	 *          the new animation background
 	 */
 	public void setAnimationBackground(String animationBackground) {
 		this.animationBackground = animationBackground;
@@ -243,7 +250,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the animation program.
 	 *
-	 * @param animationProgram the new animation program
+	 * @param animationProgram
+	 *          the new animation program
 	 */
 	public void setAnimationProgram(String animationProgram) {
 		this.animationProgram = animationProgram;
@@ -261,7 +269,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the shimmer.
 	 *
-	 * @param shimmer the new shimmer
+	 * @param shimmer
+	 *          the new shimmer
 	 */
 	public void setShimmer(boolean shimmer) {
 		this.shimmer = shimmer;
@@ -279,7 +288,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the pink pan.
 	 *
-	 * @param pinkPan the new pink pan
+	 * @param pinkPan
+	 *          the new pink pan
 	 */
 	public void setPinkPan(boolean pinkPan) {
 		this.pinkPan = pinkPan;
@@ -335,7 +345,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the file.
 	 *
-	 * @param file the new file
+	 * @param file
+	 *          the new file
 	 */
 	public void setFile(File file) {
 		this.file = file;
@@ -353,7 +364,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the shimmer name.
 	 *
-	 * @param shimmerName the new shimmer name
+	 * @param shimmerName
+	 *          the new shimmer name
 	 */
 	public void setShimmerName(String shimmerName) {
 		this.shimmerName = shimmerName;
@@ -371,7 +383,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the flash background.
 	 *
-	 * @param flashBackground the new flash background
+	 * @param flashBackground
+	 *          the new flash background
 	 */
 	public void setFlashBackground(boolean flashBackground) {
 		this.flashBackground = flashBackground;

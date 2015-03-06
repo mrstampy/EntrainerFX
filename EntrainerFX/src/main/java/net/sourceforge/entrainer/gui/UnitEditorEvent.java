@@ -26,7 +26,7 @@ import java.util.EventObject;
  */
 @SuppressWarnings("serial")
 public class UnitEditorEvent extends EventObject {
-	
+
 	private final int idx;
 	private final UnitEditorParm parm;
 	private final double value;
@@ -34,10 +34,14 @@ public class UnitEditorEvent extends EventObject {
 	/**
 	 * Instantiates a new unit editor event.
 	 *
-	 * @param source the source
-	 * @param idx the idx
-	 * @param parm the parm
-	 * @param value the value
+	 * @param source
+	 *          the source
+	 * @param idx
+	 *          the idx
+	 * @param parm
+	 *          the parm
+	 * @param value
+	 *          the value
 	 */
 	public UnitEditorEvent(Object source, int idx, UnitEditorParm parm, double value) {
 		super(source);
@@ -63,7 +67,7 @@ public class UnitEditorEvent extends EventObject {
 	public UnitEditorParm getParm() {
 		return parm;
 	}
-	
+
 	/**
 	 * Gets the idx.
 	 *

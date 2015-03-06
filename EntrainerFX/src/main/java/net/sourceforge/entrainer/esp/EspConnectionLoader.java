@@ -53,16 +53,16 @@ import com.github.mrstampy.esp.dsp.lab.RawEspConnection;
  */
 public class EspConnectionLoader {
 	private static final Logger log = LoggerFactory.getLogger(EspConnectionLoader.class);
-	
+
 	/** The Constant ESP_DIR. */
 	public static final String ESP_DIR = "esp";
-	
+
 	private List<RawEspConnection> connections = Collections.synchronizedList(new ArrayList<>());
 	private List<Path> jarFiles = Collections.synchronizedList(new ArrayList<Path>());
 	private Timer timer = new Timer("Raw Esp Connection Watch Timer", true);
 
 	private Sender sender = new SenderAdapter();
-	
+
 	/**
 	 * Instantiates a new esp connection loader.
 	 */
@@ -78,7 +78,7 @@ public class EspConnectionLoader {
 	public List<RawEspConnection> getEspConnections() {
 		return connections;
 	}
-	
+
 	/**
 	 * Checks if is empty.
 	 *
@@ -126,8 +126,10 @@ public class EspConnectionLoader {
 			@Override
 			public void run() {
 				try {
-					WatchKey key = directory.register(getWatchService(), StandardWatchEventKinds.ENTRY_CREATE,
-							StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY);
+					WatchKey key = directory.register(getWatchService(),
+							StandardWatchEventKinds.ENTRY_CREATE,
+							StandardWatchEventKinds.ENTRY_DELETE,
+							StandardWatchEventKinds.ENTRY_MODIFY);
 
 					List<WatchEvent<?>> events = key.pollEvents();
 					while (events.isEmpty()) {

@@ -24,21 +24,23 @@ import java.util.EventObject;
 // TODO: Auto-generated Javadoc
 /**
  * Event fired upon save of an xml file.
- *  
+ * 
  * @author burton
  *
  */
 public class XmlFileSaveEvent extends EventObject {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private File xmlFile;
 
 	/**
 	 * Instantiates a new xml file save event.
 	 *
-	 * @param source the source
-	 * @param xmlFile the xml file
+	 * @param source
+	 *          the source
+	 * @param xmlFile
+	 *          the xml file
 	 */
 	public XmlFileSaveEvent(Object source, File xmlFile) {
 		super(source);
@@ -57,7 +59,8 @@ public class XmlFileSaveEvent extends EventObject {
 	/**
 	 * Sets the xml file.
 	 *
-	 * @param xmlFile the new xml file
+	 * @param xmlFile
+	 *          the new xml file
 	 */
 	protected void setXmlFile(File xmlFile) {
 		this.xmlFile = xmlFile;

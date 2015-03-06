@@ -20,11 +20,11 @@ package net.sourceforge.entrainer.neuroph;
 
 // TODO: Auto-generated Javadoc
 /**
- * The listener interface for receiving networkProcessed events.
- * The class that is interested in processing a networkProcessed
- * event implements this interface, and the object created
- * with that class is registered with a component using the
- * component's <code>addNetworkProcessedListener<code> method. When
+ * The listener interface for receiving networkProcessed events. The class that
+ * is interested in processing a networkProcessed event implements this
+ * interface, and the object created with that class is registered with a
+ * component using the component's
+ * <code>addNetworkProcessedListener<code> method. When
  * the networkProcessed event occurs, that object's appropriate
  * method is invoked.
  *
@@ -35,7 +35,8 @@ public interface NetworkProcessedListener {
 	/**
 	 * Network processed.
 	 *
-	 * @param processed the processed
+	 * @param processed
+	 *          the processed
 	 */
 	void networkProcessed(double[] processed);
 }

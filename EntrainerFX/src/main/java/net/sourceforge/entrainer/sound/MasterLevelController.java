@@ -50,7 +50,8 @@ public class MasterLevelController {
 	/**
 	 * Instantiates a new master level controller.
 	 *
-	 * @param soundControl the sound control
+	 * @param soundControl
+	 *          the sound control
 	 */
 	public MasterLevelController(SoundControl soundControl) {
 		this.soundControl = soundControl;

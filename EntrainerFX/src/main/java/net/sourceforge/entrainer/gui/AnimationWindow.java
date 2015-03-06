@@ -78,7 +78,9 @@ public class AnimationWindow extends JWindow {
 		initMediator();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.awt.Window#setVisible(boolean)
 	 */
 	public void setVisible(boolean b) {
@@ -93,7 +95,8 @@ public class AnimationWindow extends JWindow {
 	/**
 	 * Overridden. Not invoked directly; called via <code>repaint();</code>
 	 *
-	 * @param g the g
+	 * @param g
+	 *          the g
 	 */
 	public void paint(Graphics g) {
 		BufferedImage offscreenImage = getCompatibleImage();
@@ -125,7 +128,8 @@ public class AnimationWindow extends JWindow {
 	/**
 	 * Sets the entrainer animation.
 	 *
-	 * @param entrainerAnimation the new entrainer animation
+	 * @param entrainerAnimation
+	 *          the new entrainer animation
 	 */
 	void setEntrainerAnimation(EntrainerAnimation entrainerAnimation) {
 		if (this.entrainerAnimation != null) {

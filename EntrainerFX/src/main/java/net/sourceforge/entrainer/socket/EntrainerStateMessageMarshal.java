@@ -60,9 +60,11 @@ public class EntrainerStateMessageMarshal {
 	/**
 	 * Marshal message.
 	 *
-	 * @param message the message
+	 * @param message
+	 *          the message
 	 * @return the string
-	 * @throws JAXBException the JAXB exception
+	 * @throws JAXBException
+	 *           the JAXB exception
 	 */
 	public String marshalMessage(EntrainerStateMessage message) throws JAXBException {
 		marshalLock.lock();
@@ -80,9 +82,11 @@ public class EntrainerStateMessageMarshal {
 	/**
 	 * Unmarshal.
 	 *
-	 * @param message the message
+	 * @param message
+	 *          the message
 	 * @return the entrainer state message
-	 * @throws JAXBException the JAXB exception
+	 * @throws JAXBException
+	 *           the JAXB exception
 	 */
 	public EntrainerStateMessage unmarshal(Object message) throws JAXBException {
 		unmarshalLock.lock();

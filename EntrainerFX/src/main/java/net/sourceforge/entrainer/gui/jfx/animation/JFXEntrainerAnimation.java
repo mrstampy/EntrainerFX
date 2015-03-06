@@ -116,7 +116,8 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 	 * Implement to return a new shape. Typically called by the
 	 * <code>maybeAddNewAnimationRectangle2D();</code> implementation.
 	 *
-	 * @param position the position
+	 * @param position
+	 *          the position
 	 * @return the new animation rectangle2 d
 	 */
 	protected abstract AnimationRectangle2D getNewAnimationRectangle2D(Point2D position);
@@ -125,8 +126,10 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 	 * Implement to decide how to move, change colours of, etc. the specified
 	 * shape. The implementation must also draw the shape.
 	 *
-	 * @param gc the gc
-	 * @param shape the shape
+	 * @param gc
+	 *          the gc
+	 * @param shape
+	 *          the shape
 	 */
 	protected abstract void move(GraphicsContext gc, AnimationRectangle2D shape);
 
@@ -140,7 +143,8 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 	/**
 	 * Call this method to add the specified shape to the animation.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 */
 	protected synchronized void add(AnimationRectangle2D shape) {
 		shapes.add(shape);
@@ -159,7 +163,8 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 	 * <code>moveAnimationRectangle2D(Graphics2D, AnimationRectangle2D);</code>
 	 * method for each.
 	 *
-	 * @param gc the gc
+	 * @param gc
+	 *          the gc
 	 */
 	public synchronized void animate(GraphicsContext gc) {
 		maybeAddNewAnimationRectangle();
@@ -167,8 +172,12 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 		super.animate(gc);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.gui.jfx.animation.AbstractJFXAnimation#animateImpl(javafx.scene.canvas.GraphicsContext)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.gui.jfx.animation.AbstractJFXAnimation#animateImpl
+	 * (javafx.scene.canvas.GraphicsContext)
 	 */
 	@Override
 	protected void animateImpl(GraphicsContext gc) {
@@ -182,7 +191,8 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape is intersecting (touching) the Entrainer frame.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is intersecting with entrainer frame
 	 */
 	protected boolean isIntersectingWithEntrainerFrame(AnimationRectangle2D shape) {
@@ -242,7 +252,8 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 	/**
 	 * Call this method to remove the specified shape from the animation.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 */
 	protected void removeFromAnimation(AnimationRectangle2D shape) {
 		removables.add(shape);

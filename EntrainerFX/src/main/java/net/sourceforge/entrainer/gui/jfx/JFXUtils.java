@@ -38,7 +38,8 @@ public class JFXUtils {
 	/**
 	 * To jfx color.
 	 *
-	 * @param awt the awt
+	 * @param awt
+	 *          the awt
 	 * @return the color
 	 */
 	public static Color toJFXColor(java.awt.Color awt) {
@@ -55,7 +56,8 @@ public class JFXUtils {
 	/**
 	 * From jfx color.
 	 *
-	 * @param c the c
+	 * @param c
+	 *          the c
 	 * @return the java.awt. color
 	 */
 	public static java.awt.Color fromJFXColor(Color c) {
@@ -63,7 +65,7 @@ public class JFXUtils {
 
 		return new java.awt.Color((float) c.getRed(), (float) c.getGreen(), (float) c.getBlue(), (float) c.getOpacity());
 	}
-	
+
 	/**
 	 * Gets the entrainer css.
 	 *
@@ -71,12 +73,12 @@ public class JFXUtils {
 	 */
 	public static URI getEntrainerCSS() {
 		File css = new File("css/entrainer.css");
-		
+
 		return css.exists() ? css.toURI() : null;
 	}
-	
+
 	public static void runLater(Runnable run) {
-		if(Platform.isFxApplicationThread()) {
+		if (Platform.isFxApplicationThread()) {
 			runNow(run);
 		} else {
 			Platform.runLater(run);
@@ -86,7 +88,7 @@ public class JFXUtils {
 	private static void runNow(Runnable run) {
 		try {
 			run.run();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			log.error("Unexpected exception", e);
 			GuiUtil.handleProblem(e);
 		}

@@ -48,15 +48,21 @@ public class InversionRadialShimmerRectangle extends AbstractShimmer<RadialGradi
 		setId(CSS_ID);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
+	 * (double)
 	 */
 	@Override
 	protected RadialGradient createNewPaint(double opacity) {
 		return new RadialGradient(getAngle(), 0.20, 0.5, 0.5, 0.5, true, CycleMethod.REFLECT, createStops(opacity));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
 	 */
 	public String toString() {

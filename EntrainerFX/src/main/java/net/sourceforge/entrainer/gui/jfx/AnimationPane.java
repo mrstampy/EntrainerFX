@@ -80,12 +80,13 @@ public class AnimationPane extends TitledPane {
 	/**
 	 * Sets the animation selected.
 	 *
-	 * @param selected the new animation selected
+	 * @param selected
+	 *          the new animation selected
 	 */
 	public void setAnimationSelected(boolean selected) {
 		setSelected(selected, animation);
 	}
-	
+
 	/**
 	 * Clear mediator objects.
 	 */
@@ -93,7 +94,7 @@ public class AnimationPane extends TitledPane {
 		EntrainerMediator.getInstance().removeReceiver(this);
 		EntrainerMediator.getInstance().removeSender(sender);
 	}
-	
+
 	/**
 	 * Gets the selected animation name.
 	 *
@@ -101,10 +102,10 @@ public class AnimationPane extends TitledPane {
 	 */
 	public String getSelectedAnimationName() {
 		JFXEntrainerAnimation selected = animations.getValue();
-		
+
 		return selected == null ? null : selected.toString();
 	}
-	
+
 	/**
 	 * Gets the animation background picture.
 	 *
@@ -128,7 +129,8 @@ public class AnimationPane extends TitledPane {
 	/**
 	 * Sets the animation tool tip.
 	 *
-	 * @param toolTip the new animation tool tip
+	 * @param toolTip
+	 *          the new animation tool tip
 	 */
 	public void setAnimationToolTip(String toolTip) {
 		setToolTip(toolTip, animation);
@@ -286,10 +288,10 @@ public class AnimationPane extends TitledPane {
 		HBox hbox = new HBox();
 		Label label = new Label("Select Background Picture");
 		HBox.setMargin(label, new Insets(0, 5, 5, 5));
-		
+
 		hbox.getChildren().add(label);
 		hbox.getChildren().add(animationBackground);
-		
+
 		return hbox;
 	}
 
@@ -299,8 +301,8 @@ public class AnimationPane extends TitledPane {
 	protected void showImageChooser() {
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Choose Background Image for Animation");
-		chooser.getExtensionFilters().add(
-				new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.gif", "*.bmp", "*.png"));
+		chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.gif",
+				"*.bmp", "*.png"));
 
 		File f = chooser.showOpenDialog(null);
 
@@ -329,7 +331,7 @@ public class AnimationPane extends TitledPane {
 				case ANIMATION_DESKTOP_BACKGROUND:
 					initEntrainerAnimations();
 					JFXUtils.runLater(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							useDesktopAsBackground.setSelected(e.getBooleanValue());
@@ -395,7 +397,7 @@ public class AnimationPane extends TitledPane {
 
 	private void initAnimationBackground(final String s) {
 		JFXUtils.runLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				useDesktopAsBackground.setSelected(null == s);

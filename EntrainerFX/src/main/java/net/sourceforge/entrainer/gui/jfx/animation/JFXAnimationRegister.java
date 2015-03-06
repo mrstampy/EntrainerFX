@@ -63,7 +63,8 @@ public final class JFXAnimationRegister {
 	 * Returns the {@link JFXEntrainerAnimation} specified by its
 	 * <code>toString();</code> implementation.
 	 *
-	 * @param stringRep the string rep
+	 * @param stringRep
+	 *          the string rep
 	 * @return the entrainer animation
 	 */
 	public static JFXEntrainerAnimation getEntrainerAnimation(String stringRep) {

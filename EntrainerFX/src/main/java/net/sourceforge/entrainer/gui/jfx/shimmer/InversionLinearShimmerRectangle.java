@@ -26,6 +26,7 @@ import javafx.scene.paint.Stop;
 // TODO: Auto-generated Javadoc
 /**
  * Linear gradient shimmer using inverted colours.
+ * 
  * @author burton
  *
  */
@@ -42,7 +43,9 @@ public class InversionLinearShimmerRectangle extends AbstractShimmer<LinearGradi
 		setId(CSS_ID);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
 	 */
 	@Override
@@ -50,8 +53,12 @@ public class InversionLinearShimmerRectangle extends AbstractShimmer<LinearGradi
 		return "Inversion Linear Gradient";
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
+	 * (double)
 	 */
 	@Override
 	protected LinearGradient createNewPaint(double opacity) {

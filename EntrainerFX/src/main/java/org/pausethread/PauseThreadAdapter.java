@@ -17,48 +17,59 @@
  * 
  */
 package org.pausethread;
+
 // TODO: Auto-generated Javadoc
 /**
  * Code from the PauseThreads project
  * 
  * https://sourceforge.net/projects/pausethreads/
  *
- * Implements the Adapter pattern so every abstract method in PauseThread 
- * does not have to be implemented
+ * Implements the Adapter pattern so every abstract method in PauseThread does
+ * not have to be implemented
  */
 public class PauseThreadAdapter extends PauseThreadImpl {
-	
+
 	/**
 	 * Instantiates a new pause thread adapter.
 	 */
 	public PauseThreadAdapter() {
 		super();
 	}
-	
+
 	/**
 	 * Instantiates a new pause thread adapter.
 	 *
-	 * @param name the name
+	 * @param name
+	 *          the name
 	 */
 	public PauseThreadAdapter(String name) {
 		super(name);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.pausethread.PauseThreadImpl#doWork()
 	 */
 	@Override
-	public void doWork() throws InterruptedException {}
+	public void doWork() throws InterruptedException {
+	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.pausethread.PauseThreadImpl#workDone()
 	 */
 	@Override
-	public void workDone() {}
+	public void workDone() {
+	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.pausethread.PauseThreadImpl#workCanceled()
 	 */
 	@Override
-	public void workCanceled() {}
+	public void workCanceled() {
+	}
 }

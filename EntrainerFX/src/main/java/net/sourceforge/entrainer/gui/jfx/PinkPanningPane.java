@@ -64,7 +64,7 @@ public class PinkPanningPane extends TitledPane {
 	private Sender sender = new SenderAdapter();
 
 	private GridPane gridPane = new GridPane();
-	
+
 	private MasterLevelController masterLevelController = new MasterLevelController();
 
 	/**
@@ -77,7 +77,8 @@ public class PinkPanningPane extends TitledPane {
 	/**
 	 * Instantiates a new pink panning pane.
 	 *
-	 * @param showSliders the show sliders
+	 * @param showSliders
+	 *          the show sliders
 	 */
 	public PinkPanningPane(boolean showSliders) {
 		super();
@@ -92,11 +93,12 @@ public class PinkPanningPane extends TitledPane {
 		EntrainerMediator.getInstance().removeSender(sender);
 		masterLevelController.clearMediator();
 	}
-	
+
 	/**
 	 * Sets the enabled.
 	 *
-	 * @param enable the new enabled
+	 * @param enable
+	 *          the new enabled
 	 */
 	public void setEnabled(boolean enable) {
 		amplitude.setDisable(!enable);
@@ -219,7 +221,8 @@ public class PinkPanningPane extends TitledPane {
 	/**
 	 * Sets the pan.
 	 *
-	 * @param booleanValue the new pan
+	 * @param booleanValue
+	 *          the new pan
 	 */
 	public void setPan(final boolean booleanValue) {
 		if (panCheck.getUserData() != null) {
@@ -239,7 +242,8 @@ public class PinkPanningPane extends TitledPane {
 	/**
 	 * Sets the multiple.
 	 *
-	 * @param value the new multiple
+	 * @param value
+	 *          the new multiple
 	 */
 	public void setMultiple(double value) {
 		setValue(value, multiple);
@@ -248,7 +252,8 @@ public class PinkPanningPane extends TitledPane {
 	/**
 	 * Sets the amplitude.
 	 *
-	 * @param value the new amplitude
+	 * @param value
+	 *          the new amplitude
 	 */
 	public void setAmplitude(double value) {
 		setValue(value, amplitude);

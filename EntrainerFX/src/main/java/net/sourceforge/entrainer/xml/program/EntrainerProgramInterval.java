@@ -33,18 +33,19 @@ public class EntrainerProgramInterval {
 
 	@XmlAttribute
 	private String value;
-	
+
 	/**
 	 * Instantiates a new entrainer program interval.
 	 */
 	public EntrainerProgramInterval() {
 		//
 	}
-	
+
 	/**
 	 * Instantiates a new entrainer program interval.
 	 *
-	 * @param value the value
+	 * @param value
+	 *          the value
 	 */
 	public EntrainerProgramInterval(String value) {
 		setValue(value);
@@ -62,24 +63,29 @@ public class EntrainerProgramInterval {
 	/**
 	 * Sets the value.
 	 *
-	 * @param value the new value
+	 * @param value
+	 *          the new value
 	 */
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object o) {
-		if(o == null) return false;
-		
-		if(o instanceof EntrainerProgramInterval) return getValue().equals(((EntrainerProgramInterval)o).getValue());
-		
+		if (o == null) return false;
+
+		if (o instanceof EntrainerProgramInterval) return getValue().equals(((EntrainerProgramInterval) o).getValue());
+
 		return false;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	public int hashCode() {

@@ -33,7 +33,7 @@ import net.sourceforge.entrainer.gui.ShimmerRectangle;
  */
 @SuppressWarnings("deprecation")
 public class LinearShimmerRectangle extends AbstractShimmer<LinearGradient> {
-	
+
 	/** The Constant NAME. */
 	public static final String NAME = "Linear Gradient";
 
@@ -48,8 +48,12 @@ public class LinearShimmerRectangle extends AbstractShimmer<LinearGradient> {
 		setId(CSS_ID);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
+	 * (double)
 	 */
 	@Override
 	protected LinearGradient createNewPaint(double opacity) {
@@ -57,7 +61,9 @@ public class LinearShimmerRectangle extends AbstractShimmer<LinearGradient> {
 				createStop(1, opacity));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
 	 */
 	public String toString() {

@@ -144,7 +144,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Implement to decide how to move, change colours etc.
 	 *
-	 * @param gc the gc
+	 * @param gc
+	 *          the gc
 	 */
 	protected abstract void animateImpl(GraphicsContext gc);
 
@@ -179,7 +180,8 @@ public abstract class AbstractJFXAnimation {
 	 * Iterates thru the added shapes and calls the
 	 * <code>move(GraphicsContext, AnimationRectangle2D);</code> method for each.
 	 *
-	 * @param gc the gc
+	 * @param gc
+	 *          the gc
 	 */
 	public synchronized void animate(GraphicsContext gc) {
 		animateImpl(gc);
@@ -200,7 +202,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape has reached the screen edge.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is at screen edge
 	 */
 	protected boolean isAtScreenEdge(AnimationRectangle2D shape) {
@@ -210,7 +213,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape is at the top edge of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is at bottom
 	 */
 	protected boolean isAtBottom(AnimationRectangle2D shape) {
@@ -220,7 +224,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape is at the bottom edge of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is at top
 	 */
 	protected boolean isAtTop(AnimationRectangle2D shape) {
@@ -232,7 +237,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape is at the left or right edge of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is at screen horizontal edge
 	 */
 	protected boolean isAtScreenHorizontalEdge(AnimationRectangle2D shape) {
@@ -242,7 +248,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape is at the top or bottom edge of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is at screen vertical edge
 	 */
 	protected boolean isAtScreenVerticalEdge(AnimationRectangle2D shape) {
@@ -252,7 +259,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape is at the right edge of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is at right
 	 */
 	protected boolean isAtRight(AnimationRectangle2D shape) {
@@ -264,7 +272,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape is at the left edge of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is at left
 	 */
 	protected boolean isAtLeft(AnimationRectangle2D shape) {
@@ -274,7 +283,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape is off the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is off screen
 	 */
 	protected boolean isOffScreen(AnimationRectangle2D shape) {
@@ -284,7 +294,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape is off the right side of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is off screen right
 	 */
 	protected boolean isOffScreenRight(AnimationRectangle2D shape) {
@@ -295,7 +306,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape is off the left side of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is off screen left
 	 */
 	protected boolean isOffScreenLeft(AnimationRectangle2D shape) {
@@ -305,7 +317,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape is off the bottom of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is off screen bottom
 	 */
 	protected boolean isOffScreenBottom(AnimationRectangle2D shape) {
@@ -316,7 +329,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Returns true if the shape is off the top of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is off screen top
 	 */
 	protected boolean isOffScreenTop(AnimationRectangle2D shape) {
@@ -418,7 +432,8 @@ public abstract class AbstractJFXAnimation {
 	 * If the <code>useDesktopBackground();</code> implementation returns false,
 	 * call this method in the subclass's initialization with a non-null value.
 	 *
-	 * @param customImage the new custom image
+	 * @param customImage
+	 *          the new custom image
 	 */
 	protected void setCustomImage(Image customImage) {
 		this.customImage = customImage;
@@ -439,7 +454,8 @@ public abstract class AbstractJFXAnimation {
 	 * If the <code>useBackgroundColour();</code> implementation returns true,
 	 * call this method in the subclass's initialization with a non-null value.
 	 *
-	 * @param backgroundColour the new background colour
+	 * @param backgroundColour
+	 *          the new background colour
 	 */
 	protected void setBackgroundColour(Color backgroundColour) {
 		this.backgroundColour = backgroundColour;
@@ -637,7 +653,8 @@ public abstract class AbstractJFXAnimation {
 	/**
 	 * Sets the hide entrainer frame.
 	 *
-	 * @param hideEntrainerFrame the new hide entrainer frame
+	 * @param hideEntrainerFrame
+	 *          the new hide entrainer frame
 	 */
 	protected void setHideEntrainerFrame(boolean hideEntrainerFrame) {
 		this.hideEntrainerFrame = hideEntrainerFrame;

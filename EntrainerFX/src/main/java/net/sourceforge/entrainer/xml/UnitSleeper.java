@@ -52,9 +52,11 @@ public class UnitSleeper {
 	private Sender sender = new SenderAdapter();
 
 	/**
-	 * Instantiate with a list of {@link EntrainerProgramUnit}'s and the sleeper type.
+	 * Instantiate with a list of {@link EntrainerProgramUnit}'s and the sleeper
+	 * type.
 	 *
-	 * @param units the units
+	 * @param units
+	 *          the units
 	 */
 	public UnitSleeper(List<EntrainerProgramUnit> units) {
 		super();
@@ -185,9 +187,11 @@ public class UnitSleeper {
 		EntrainerProgramUnit unit = new EntrainerProgramUnit();
 
 		unit.setAmplitude(new EntrainerProgramUnitAttribute(last.getEndAmplitude(), current.getStartAmplitude()));
-		unit.setEntrainmentFrequency(new EntrainerProgramUnitAttribute(last.getEndEntrainmentFrequency(), current.getStartEntrainmentFrequency()));
+		unit.setEntrainmentFrequency(new EntrainerProgramUnitAttribute(last.getEndEntrainmentFrequency(), current
+				.getStartEntrainmentFrequency()));
 		unit.setFrequency(new EntrainerProgramUnitAttribute(last.getEndFrequency(), current.getStartFrequency()));
-		unit.setPinkEntrainerMultiple(new EntrainerProgramUnitAttribute(last.getEndPinkEntrainerMultiple(), current.getStartPinkEntrainerMultiple()));
+		unit.setPinkEntrainerMultiple(new EntrainerProgramUnitAttribute(last.getEndPinkEntrainerMultiple(), current
+				.getStartPinkEntrainerMultiple()));
 		unit.setPinkNoise(new EntrainerProgramUnitAttribute(last.getEndPinkNoise(), current.getStartPinkNoise()));
 		unit.setPinkPan(new EntrainerProgramUnitAttribute(last.getEndPinkPan(), current.getStartPinkPan()));
 
@@ -197,14 +201,17 @@ public class UnitSleeper {
 	/**
 	 * Fires a sleeper event with the given delta.
 	 *
-	 * @param unit the unit
+	 * @param unit
+	 *          the unit
 	 */
 	protected void fireUnitSleeperEvent(EntrainerProgramUnit unit) {
 		fireReceiverChangeEvent(unit.getAmplitudeDeltaPerSecond(), unit.getEndAmplitude(), DELTA_AMPLITUDE);
 		fireReceiverChangeEvent(unit.getFrequencyDeltaPerSecond(), unit.getEndFrequency(), DELTA_FREQUENCY);
-		fireReceiverChangeEvent(unit.getEntrainmentFrequencyDeltaPerSecond(), unit.getEndEntrainmentFrequency(),
+		fireReceiverChangeEvent(unit.getEntrainmentFrequencyDeltaPerSecond(),
+				unit.getEndEntrainmentFrequency(),
 				DELTA_ENTRAINMENT_FREQUENCY);
-		fireReceiverChangeEvent(unit.getPinkEntrainerMultipleDeltaPerSecond(), unit.getEndPinkEntrainerMultiple(),
+		fireReceiverChangeEvent(unit.getPinkEntrainerMultipleDeltaPerSecond(),
+				unit.getEndPinkEntrainerMultiple(),
 				DELTA_PINK_ENTRAINER_MULTIPLE);
 		fireReceiverChangeEvent(unit.getPinkNoiseDeltaPerSecond(), unit.getEndPinkNoise(), DELTA_PINK_NOISE_AMPLITUDE);
 		fireReceiverChangeEvent(unit.getPinkPanDeltaPerSecond(), unit.getEndPinkPan(), DELTA_PINK_PAN_AMPLITUDE);

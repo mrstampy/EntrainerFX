@@ -33,7 +33,7 @@ import net.sourceforge.entrainer.mediator.MediatorConstants;
 // TODO: Auto-generated Javadoc
 /**
  * Convenience class to create a property change listener for unit setters.
- *  
+ * 
  * @author burton
  *
  */
@@ -42,17 +42,21 @@ public abstract class UnitSetterPropertyChangeListener implements PropertyChange
 	private double oldValue;
 	private double newValue;
 
-	/* (non-Javadoc)
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent
+	 * )
 	 */
 	public void propertyChange(PropertyChangeEvent e) {
 		setPropertyName(e.getPropertyName());
-		setOldValue(((Double)e.getOldValue()).doubleValue());
-		setNewValue(((Double)e.getNewValue()).doubleValue());
-		
+		setOldValue(((Double) e.getOldValue()).doubleValue());
+		setNewValue(((Double) e.getNewValue()).doubleValue());
+
 		propertyChangeImpl();
 	}
-	
+
 	/**
 	 * Implement in subclasses to deal with the property change event.
 	 */
@@ -70,7 +74,8 @@ public abstract class UnitSetterPropertyChangeListener implements PropertyChange
 	/**
 	 * Sets the property name.
 	 *
-	 * @param propertyName the new property name
+	 * @param propertyName
+	 *          the new property name
 	 */
 	public void setPropertyName(String propertyName) {
 		this.propertyName = propertyName;
@@ -88,7 +93,8 @@ public abstract class UnitSetterPropertyChangeListener implements PropertyChange
 	/**
 	 * Sets the old value.
 	 *
-	 * @param oldValue the new old value
+	 * @param oldValue
+	 *          the new old value
 	 */
 	public void setOldValue(double oldValue) {
 		this.oldValue = oldValue;
@@ -106,12 +112,13 @@ public abstract class UnitSetterPropertyChangeListener implements PropertyChange
 	/**
 	 * Sets the new value.
 	 *
-	 * @param newValue the new new value
+	 * @param newValue
+	 *          the new new value
 	 */
 	public void setNewValue(double newValue) {
 		this.newValue = newValue;
 	}
-	
+
 	/**
 	 * Checks if is amplitude.
 	 *
@@ -120,7 +127,7 @@ public abstract class UnitSetterPropertyChangeListener implements PropertyChange
 	public boolean isAmplitude() {
 		return isProperty(AMPLITUDE);
 	}
-	
+
 	/**
 	 * Checks if is entrainment frequency.
 	 *
@@ -129,7 +136,7 @@ public abstract class UnitSetterPropertyChangeListener implements PropertyChange
 	public boolean isEntrainmentFrequency() {
 		return isProperty(ENTRAINMENT_FREQUENCY);
 	}
-	
+
 	/**
 	 * Checks if is frequency.
 	 *
@@ -138,7 +145,7 @@ public abstract class UnitSetterPropertyChangeListener implements PropertyChange
 	public boolean isFrequency() {
 		return isProperty(FREQUENCY);
 	}
-	
+
 	/**
 	 * Checks if is pink entrainer multiple.
 	 *
@@ -147,7 +154,7 @@ public abstract class UnitSetterPropertyChangeListener implements PropertyChange
 	public boolean isPinkEntrainerMultiple() {
 		return isProperty(PINK_ENTRAINER_MULTIPLE);
 	}
-	
+
 	/**
 	 * Checks if is pink noise.
 	 *
@@ -156,7 +163,7 @@ public abstract class UnitSetterPropertyChangeListener implements PropertyChange
 	public boolean isPinkNoise() {
 		return isProperty(PINK_NOISE_AMPLITUDE);
 	}
-	
+
 	/**
 	 * Checks if is pink pan.
 	 *
@@ -165,11 +172,12 @@ public abstract class UnitSetterPropertyChangeListener implements PropertyChange
 	public boolean isPinkPan() {
 		return isProperty(PINK_PAN_AMPLITUDE);
 	}
-	
+
 	/**
 	 * Checks if is property.
 	 *
-	 * @param name the name
+	 * @param name
+	 *          the name
 	 * @return true, if is property
 	 */
 	protected boolean isProperty(MediatorConstants name) {

@@ -35,7 +35,8 @@ public class NetworkContainer {
 	/**
 	 * Instantiates a new network container.
 	 *
-	 * @param network the network
+	 * @param network
+	 *          the network
 	 */
 	public NetworkContainer(NeuralNetwork<?> network) {
 		setNetwork(network);
@@ -44,8 +45,10 @@ public class NetworkContainer {
 	/**
 	 * Train network.
 	 *
-	 * @param dataSet the data set
-	 * @param weights the weights
+	 * @param dataSet
+	 *          the data set
+	 * @param weights
+	 *          the weights
 	 * @return the double[]
 	 */
 	public double[] trainNetwork(DataSet dataSet, double... weights) {
@@ -58,9 +61,12 @@ public class NetworkContainer {
 	/**
 	 * Train network.
 	 *
-	 * @param inputs the inputs
-	 * @param expectedOutput the expected output
-	 * @param weights the weights
+	 * @param inputs
+	 *          the inputs
+	 * @param expectedOutput
+	 *          the expected output
+	 * @param weights
+	 *          the weights
 	 * @return the double[]
 	 */
 	public double[] trainNetwork(double[][] inputs, double[] expectedOutput, double... weights) {
@@ -72,13 +78,16 @@ public class NetworkContainer {
 	}
 
 	/**
-	 * Gets the weighting between the specified neurons. The inNeuronIdx
-	 * is expected to exist in the layer specified by layerIdx, and the 
-	 * outNeuronIdx is expected to exist in layerIdx + 1.
+	 * Gets the weighting between the specified neurons. The inNeuronIdx is
+	 * expected to exist in the layer specified by layerIdx, and the outNeuronIdx
+	 * is expected to exist in layerIdx + 1.
 	 *
-	 * @param inNeuronIdx the in neuron idx
-	 * @param outNeuronIdx the out neuron idx
-	 * @param layerIdx the layer idx
+	 * @param inNeuronIdx
+	 *          the in neuron idx
+	 * @param outNeuronIdx
+	 *          the out neuron idx
+	 * @param layerIdx
+	 *          the layer idx
 	 * @return the weight
 	 */
 	public double getWeight(int inNeuronIdx, int outNeuronIdx, int layerIdx) {
@@ -90,14 +99,18 @@ public class NetworkContainer {
 	}
 
 	/**
-	 * Sets the weight. The inNeuronIdx
-	 * is expected to exist in the layer specified by layerIdx, and the 
-	 * outNeuronIdx is expected to exist in layerIdx + 1.
+	 * Sets the weight. The inNeuronIdx is expected to exist in the layer
+	 * specified by layerIdx, and the outNeuronIdx is expected to exist in
+	 * layerIdx + 1.
 	 *
-	 * @param inNeuronIdx the in neuron idx
-	 * @param outNeuronIdx the out neuron idx
-	 * @param weight the weight
-	 * @param layerIdx the layer idx
+	 * @param inNeuronIdx
+	 *          the in neuron idx
+	 * @param outNeuronIdx
+	 *          the out neuron idx
+	 * @param weight
+	 *          the weight
+	 * @param layerIdx
+	 *          the layer idx
 	 */
 	public void setWeight(int inNeuronIdx, int outNeuronIdx, double weight, int layerIdx) {
 		assertForWeights(inNeuronIdx, outNeuronIdx, layerIdx);
@@ -110,7 +123,8 @@ public class NetworkContainer {
 	/**
 	 * Process the specified input, returning the output.
 	 *
-	 * @param input the input
+	 * @param input
+	 *          the input
 	 * @return the double[]
 	 */
 	public double[] process(double[] input) {
@@ -125,7 +139,8 @@ public class NetworkContainer {
 	/**
 	 * Save the network to the specified file.
 	 *
-	 * @param file the file
+	 * @param file
+	 *          the file
 	 */
 	public void save(String file) {
 		assert file != null;
@@ -136,7 +151,8 @@ public class NetworkContainer {
 	/**
 	 * Load a network.
 	 *
-	 * @param file the file
+	 * @param file
+	 *          the file
 	 * @return the network container
 	 */
 	public static NetworkContainer load(String file) {
@@ -173,8 +189,10 @@ public class NetworkContainer {
 	/**
 	 * Convenience method to create a data set for training.
 	 *
-	 * @param inputs the inputs
-	 * @param expectedOutput the expected output
+	 * @param inputs
+	 *          the inputs
+	 * @param expectedOutput
+	 *          the expected output
 	 * @return the data set
 	 */
 	public DataSet createDataSet(double[][] inputs, double[] expectedOutput) {
@@ -199,7 +217,8 @@ public class NetworkContainer {
 	/**
 	 * Sets the weights.
 	 *
-	 * @param weights the new weights
+	 * @param weights
+	 *          the new weights
 	 */
 	public void setWeights(double[] weights) {
 		network.setWeights(weights);
@@ -217,7 +236,8 @@ public class NetworkContainer {
 	/**
 	 * Gets the neurons count.
 	 *
-	 * @param layerIdx the layer idx
+	 * @param layerIdx
+	 *          the layer idx
 	 * @return the neurons count
 	 */
 	public int getNeuronsCount(int layerIdx) {
@@ -238,7 +258,8 @@ public class NetworkContainer {
 	/**
 	 * Sets the network.
 	 *
-	 * @param network the new network
+	 * @param network
+	 *          the new network
 	 */
 	public void setNetwork(NeuralNetwork<?> network) {
 		assert network != null;

@@ -71,7 +71,7 @@ public class VariableBackground {
 	private String directoryName = "css";
 
 	private ScheduledExecutorService switchSvc = Executors.newSingleThreadScheduledExecutor();
-	
+
 	private ExecutorService flashSvc = Executors.newSingleThreadExecutor();
 
 	private List<String> pictureNames = new ArrayList<>();
@@ -96,9 +96,9 @@ public class VariableBackground {
 	private javafx.scene.paint.Color backgroundColor;
 
 	private boolean staticPictureLock;
-	
+
 	private AtomicInteger ai = new AtomicInteger(1);
-	
+
 	private Map<Integer, ScheduledFuture<?>> futures = new ConcurrentHashMap<>();
 
 	private boolean ptRunning;
@@ -173,9 +173,9 @@ public class VariableBackground {
 
 	private void fadeInOut(int key) {
 		ScheduledFuture<?> sf = futures.remove(key);
-		
-		if(sf == null || sf.isCancelled()) return;
-		
+
+		if (sf == null || sf.isCancelled()) return;
+
 		if (!isDynamic()) {
 			return;
 		}
@@ -326,10 +326,10 @@ public class VariableBackground {
 
 	private void clearFutures() {
 		Set<Integer> set = futures.keySet();
-		
-		for(Integer i : set) {
+
+		for (Integer i : set) {
 			ScheduledFuture<?> sf = futures.remove(i);
-			if(sf != null) sf.cancel(true);
+			if (sf != null) sf.cancel(true);
 		}
 	}
 
@@ -397,11 +397,11 @@ public class VariableBackground {
 			public void run() {
 				while (canRun()) {
 					Utils.snooze(getMillis(), calculator.getNanos());
-					
-					if(canRun() && !ptRunning) invert(background);
+
+					if (canRun() && !ptRunning) invert(background);
 				}
 
-				if(background.getOpacity() > 0) reset(background);
+				if (background.getOpacity() > 0) reset(background);
 			}
 
 			private boolean canRun() {

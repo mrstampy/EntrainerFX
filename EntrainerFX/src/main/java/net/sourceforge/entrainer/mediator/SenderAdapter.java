@@ -37,8 +37,11 @@ public class SenderAdapter implements Sender {
 		super();
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.mediator.Sender#fireReceiverChangeEvent(net.sourceforge.entrainer.mediator.ReceiverChangeEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sourceforge.entrainer.mediator.Sender#fireReceiverChangeEvent(net.
+	 * sourceforge.entrainer.mediator.ReceiverChangeEvent)
 	 */
 	public synchronized void fireReceiverChangeEvent(ReceiverChangeEvent e) {
 		EntrainerMediator.getInstance().notifyReceivers(e);

@@ -24,13 +24,14 @@ package net.sourceforge.entrainer.socket;
  */
 public class InvalidPortNumberException extends Exception {
 	private static final long serialVersionUID = 4761430971124130720L;
-	
+
 	private int port;
-	
+
 	/**
 	 * Instantiates a new invalid port number exception.
 	 *
-	 * @param port the port
+	 * @param port
+	 *          the port
 	 */
 	public InvalidPortNumberException(int port) {
 		setPort(port);
@@ -48,7 +49,8 @@ public class InvalidPortNumberException extends Exception {
 	/**
 	 * Sets the port.
 	 *
-	 * @param port the new port
+	 * @param port
+	 *          the new port
 	 */
 	public void setPort(int port) {
 		this.port = port;

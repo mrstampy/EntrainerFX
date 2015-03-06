@@ -132,11 +132,11 @@ public class SliderControlPane extends GridPane {
 
 	private void initSlider(final Slider slider, final Label label, final DecimalFormat format,
 			final MediatorConstants event) {
-		
+
 		Reflection reflection = new Reflection();
 		reflection.setFraction(0.5);
 		reflection.setTopOffset(0.1);
-		
+
 		slider.setEffect(new Blend(BlendMode.COLOR_BURN, new InnerShadow(), reflection));
 
 		slider.setMinWidth(350);
@@ -158,7 +158,7 @@ public class SliderControlPane extends GridPane {
 	private void fireReceiverChangeEvent(double value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
-	
+
 	/**
 	 * Fire entrainment frequency value.
 	 */
@@ -169,7 +169,8 @@ public class SliderControlPane extends GridPane {
 	/**
 	 * Sets the amplitude value.
 	 *
-	 * @param value the new amplitude value
+	 * @param value
+	 *          the new amplitude value
 	 */
 	public void setAmplitudeValue(double value) {
 		setValue(value, amplitude);
@@ -178,7 +179,8 @@ public class SliderControlPane extends GridPane {
 	/**
 	 * Sets the entrainment frequency value.
 	 *
-	 * @param value the new entrainment frequency value
+	 * @param value
+	 *          the new entrainment frequency value
 	 */
 	public void setEntrainmentFrequencyValue(double value) {
 		setValue(value, entrainmentFrequency);
@@ -187,7 +189,8 @@ public class SliderControlPane extends GridPane {
 	/**
 	 * Sets the frequency value.
 	 *
-	 * @param value the new frequency value
+	 * @param value
+	 *          the new frequency value
 	 */
 	public void setFrequencyValue(double value) {
 		setValue(value, frequency);
@@ -196,7 +199,8 @@ public class SliderControlPane extends GridPane {
 	/**
 	 * Sets the pink noise value.
 	 *
-	 * @param value the new pink noise value
+	 * @param value
+	 *          the new pink noise value
 	 */
 	public void setPinkNoiseValue(double value) {
 		setValue(value, pinkNoise);

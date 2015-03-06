@@ -227,7 +227,7 @@ public class EntrainerStateMessage {
 
 	@XmlElement
 	private Boolean requestState;
-	
+
 	@XmlElement
 	private Boolean flashBackground;
 
@@ -239,7 +239,7 @@ public class EntrainerStateMessage {
 
 	@XmlElement
 	private String staticPictureFile;
-	
+
 	@XmlElement
 	private Boolean staticPictureLock;
 
@@ -270,7 +270,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the amplitude.
 	 *
-	 * @param amplitude the new amplitude
+	 * @param amplitude
+	 *          the new amplitude
 	 */
 	public void setAmplitude(Double amplitude) {
 		doubleCheck(amplitude, 0, 1);
@@ -289,7 +290,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the entrainment frequency.
 	 *
-	 * @param entrainmentFrequency the new entrainment frequency
+	 * @param entrainmentFrequency
+	 *          the new entrainment frequency
 	 */
 	public void setEntrainmentFrequency(Double entrainmentFrequency) {
 		doubleCheck(entrainmentFrequency, 0, 40);
@@ -308,7 +310,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the frequency.
 	 *
-	 * @param frequency the new frequency
+	 * @param frequency
+	 *          the new frequency
 	 */
 	public void setFrequency(Double frequency) {
 		doubleCheck(frequency, 20, 500);
@@ -328,7 +331,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the pink noise multiple.
 	 *
-	 * @param pinkNoiseMultiple the new pink noise multiple
+	 * @param pinkNoiseMultiple
+	 *          the new pink noise multiple
 	 */
 	public void setPinkNoiseMultiple(Double pinkNoiseMultiple) {
 		doubleCheck(pinkNoiseMultiple, 1, 512);
@@ -347,7 +351,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the pink noise amplitude.
 	 *
-	 * @param pinkNoiseAmplitude the new pink noise amplitude
+	 * @param pinkNoiseAmplitude
+	 *          the new pink noise amplitude
 	 */
 	public void setPinkNoiseAmplitude(Double pinkNoiseAmplitude) {
 		doubleCheck(pinkNoiseAmplitude, 0, 1);
@@ -367,7 +372,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the pink pan amplitude.
 	 *
-	 * @param pinkPanAmplitude the new pink pan amplitude
+	 * @param pinkPanAmplitude
+	 *          the new pink pan amplitude
 	 */
 	public void setPinkPanAmplitude(Double pinkPanAmplitude) {
 		doubleCheck(pinkPanAmplitude, 0, 1);
@@ -386,7 +392,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the pink pan.
 	 *
-	 * @param pinkPan the new pink pan
+	 * @param pinkPan
+	 *          the new pink pan
 	 */
 	public void setPinkPan(Boolean pinkPan) {
 		this.pinkPan = pinkPan;
@@ -405,7 +412,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the delta amplitude.
 	 *
-	 * @param deltaAmplitude the new delta amplitude
+	 * @param deltaAmplitude
+	 *          the new delta amplitude
 	 */
 	public void setDeltaAmplitude(Double deltaAmplitude) {
 		this.deltaAmplitude = deltaAmplitude;
@@ -424,7 +432,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the delta entrainment frequency.
 	 *
-	 * @param deltaEntrainmentFrequency the new delta entrainment frequency
+	 * @param deltaEntrainmentFrequency
+	 *          the new delta entrainment frequency
 	 */
 	public void setDeltaEntrainmentFrequency(Double deltaEntrainmentFrequency) {
 		this.deltaEntrainmentFrequency = deltaEntrainmentFrequency;
@@ -443,7 +452,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the delta frequency.
 	 *
-	 * @param deltaFrequency the new delta frequency
+	 * @param deltaFrequency
+	 *          the new delta frequency
 	 */
 	public void setDeltaFrequency(Double deltaFrequency) {
 		this.deltaFrequency = deltaFrequency;
@@ -462,7 +472,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the delta pink entrainer multiple.
 	 *
-	 * @param deltaPinkEntrainerMultiple the new delta pink entrainer multiple
+	 * @param deltaPinkEntrainerMultiple
+	 *          the new delta pink entrainer multiple
 	 */
 	public void setDeltaPinkEntrainerMultiple(Double deltaPinkEntrainerMultiple) {
 		this.deltaPinkEntrainerMultiple = deltaPinkEntrainerMultiple;
@@ -481,7 +492,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the delta pink noise amplitude.
 	 *
-	 * @param deltaPinkNoiseAmplitude the new delta pink noise amplitude
+	 * @param deltaPinkNoiseAmplitude
+	 *          the new delta pink noise amplitude
 	 */
 	public void setDeltaPinkNoiseAmplitude(Double deltaPinkNoiseAmplitude) {
 		this.deltaPinkNoiseAmplitude = deltaPinkNoiseAmplitude;
@@ -500,7 +512,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the delta pink pan amplitude.
 	 *
-	 * @param deltaPinkPanAmplitude the new delta pink pan amplitude
+	 * @param deltaPinkPanAmplitude
+	 *          the new delta pink pan amplitude
 	 */
 	public void setDeltaPinkPanAmplitude(Double deltaPinkPanAmplitude) {
 		this.deltaPinkPanAmplitude = deltaPinkPanAmplitude;
@@ -520,7 +533,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the interval add.
 	 *
-	 * @param intervalAdd the new interval add
+	 * @param intervalAdd
+	 *          the new interval add
 	 */
 	public void setIntervalAdd(String intervalAdd) {
 		intervalCheck(intervalAdd);
@@ -540,7 +554,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the interval remove.
 	 *
-	 * @param intervalRemove the new interval remove
+	 * @param intervalRemove
+	 *          the new interval remove
 	 */
 	public void setIntervalRemove(String intervalRemove) {
 		intervalCheck(intervalRemove);
@@ -560,7 +575,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the start entrainment.
 	 *
-	 * @param startEntrainment the new start entrainment
+	 * @param startEntrainment
+	 *          the new start entrainment
 	 */
 	public void setStartEntrainment(Boolean startEntrainment) {
 		this.startEntrainment = startEntrainment;
@@ -580,7 +596,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the start flashing.
 	 *
-	 * @param startFlashing the new start flashing
+	 * @param startFlashing
+	 *          the new start flashing
 	 */
 	public void setStartFlashing(Boolean startFlashing) {
 		this.startFlashing = startFlashing;
@@ -601,7 +618,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the colour.
 	 *
-	 * @param c the new colour
+	 * @param c
+	 *          the new colour
 	 */
 	@JsonIgnore
 	public void setColour(Color c) {
@@ -621,7 +639,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the flash colour.
 	 *
-	 * @param flashColour the new flash colour
+	 * @param flashColour
+	 *          the new flash colour
 	 */
 	public void setFlashColour(FlashColour flashColour) {
 		this.flashColour = flashColour;
@@ -641,7 +660,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the flash.
 	 *
-	 * @param flash the new flash
+	 * @param flash
+	 *          the new flash
 	 */
 	public void setFlash(Boolean flash) {
 		this.flash = flash;
@@ -659,7 +679,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the animation.
 	 *
-	 * @param animation the new animation
+	 * @param animation
+	 *          the new animation
 	 */
 	public void setAnimation(Boolean animation) {
 		this.animation = animation;
@@ -679,7 +700,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the psychedelic.
 	 *
-	 * @param psychedelic the new psychedelic
+	 * @param psychedelic
+	 *          the new psychedelic
 	 */
 	public void setPsychedelic(Boolean psychedelic) {
 		this.psychedelic = psychedelic;
@@ -697,7 +719,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the shimmer.
 	 *
-	 * @param shimmer the new shimmer
+	 * @param shimmer
+	 *          the new shimmer
 	 */
 	public void setShimmer(Boolean shimmer) {
 		this.shimmer = shimmer;
@@ -734,7 +757,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the request state.
 	 *
-	 * @param requestState the new request state
+	 * @param requestState
+	 *          the new request state
 	 */
 	public void setRequestState(Boolean requestState) {
 		this.requestState = requestState;
@@ -752,7 +776,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the flash background.
 	 *
-	 * @param flashBackground the new flash background
+	 * @param flashBackground
+	 *          the new flash background
 	 */
 	public void setFlashBackground(Boolean flashBackground) {
 		this.flashBackground = flashBackground;
@@ -805,14 +830,14 @@ public class EntrainerStateMessage {
 	public void setBackgroundColour(FlashColour backgroundColour) {
 		this.backgroundColour = backgroundColour;
 	}
-	
+
 	@JsonIgnore
 	public void setNoBackgroundColor(Color c) {
 		FlashColour fc = new FlashColour();
 		fc.setColor(c);
 		setBackgroundColour(fc);
 	}
-	
+
 	@JsonIgnore
 	public Color getNoBackgroundColor() {
 		return getBackgroundColour() == null ? null : getBackgroundColour().getColor();

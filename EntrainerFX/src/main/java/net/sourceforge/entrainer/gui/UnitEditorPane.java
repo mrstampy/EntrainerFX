@@ -94,7 +94,8 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	/**
 	 * Instantiates a new unit editor pane.
 	 *
-	 * @param unit the unit
+	 * @param unit
+	 *          the unit
 	 */
 	public UnitEditorPane(EntrainerProgramUnit unit) {
 		super();
@@ -112,8 +113,12 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 		listeners.remove(this);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.gui.UnitEditorListener#unitEditorEventPerformed(net.sourceforge.entrainer.gui.UnitEditorEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.gui.UnitEditorListener#unitEditorEventPerformed
+	 * (net.sourceforge.entrainer.gui.UnitEditorEvent)
 	 */
 	@Override
 	public void unitEditorEventPerformed(UnitEditorEvent e) {
@@ -193,7 +198,8 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	 * Adds the specified {@link ChangeListener} to the minutes and seconds
 	 * fields.
 	 *
-	 * @param l the l
+	 * @param l
+	 *          the l
 	 */
 	public void addTimeChangeListener(ChangeListener l) {
 		minutes.addChangeListener(l);
@@ -203,7 +209,8 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	/**
 	 * Adds the specified {@link TestUnitListener} to the list.
 	 *
-	 * @param l the l
+	 * @param l
+	 *          the l
 	 */
 	public void addTestUnitListener(TestUnitListener l) {
 		if (l != null & !testListeners.contains(l)) {
@@ -214,7 +221,8 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	/**
 	 * Fire test unit event.
 	 *
-	 * @param button the button
+	 * @param button
+	 *          the button
 	 */
 	protected void fireTestUnitEvent(JToggleButton button) {
 		int action = button.isSelected() ? TestUnitEvent.ACTION_START : TestUnitEvent.ACTION_STOP;
@@ -524,7 +532,9 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 		addLine(mh, "Amplitude (0 -> 100)", startAmplitude, endAmplitude);
 		addLine(mh, "Pink Noise (0 -> 100)", startPinkNoise, endPinkNoise);
 		addLine(mh, "Pink Noise Pan (0 -> 100)", startPinkPanAmplitude, endPinkPanAmplitude);
-		addLine(mh, "Pink Noise Entrainment Frequency Multiple (1 -> 512)", startPinkEntrainerMultiple,
+		addLine(mh,
+				"Pink Noise Entrainment Frequency Multiple (1 -> 512)",
+				startPinkEntrainerMultiple,
 				endPinkEntrainerMultiple);
 
 		mh.skip(2).add(testStart).skip().add(testEnd);
@@ -718,7 +728,8 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	/**
 	 * Sets the specified {@link EntrainerProgramUnit} to this panel.
 	 *
-	 * @param unit the new unit
+	 * @param unit
+	 *          the new unit
 	 */
 	public void setUnit(EntrainerProgramUnit unit) {
 		if (unit == null) {
@@ -818,44 +829,44 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 
 		return d;
 	}
-	
+
 	/**
 	 * Fire all changed.
 	 */
 	public void fireAllChanged() {
 		Double value = getValue(startAmplitude.getValue());
 		fireUnitEditorEvent(UnitEditorParm.START_AMPLITUDE, value);
-		
+
 		value = getValue(startEntrainmentFrequency.getValue());
 		fireUnitEditorEvent(UnitEditorParm.START_ENTRAINMENT_FREQUENCY, value);
-		
+
 		value = getValue(startFrequency.getValue());
 		fireUnitEditorEvent(UnitEditorParm.START_FREQUENCY, value);
-		
+
 		value = getValue(startPinkEntrainerMultiple.getValue());
 		fireUnitEditorEvent(UnitEditorParm.START_PINK_ENTRAINER_MULTIPLE, value);
-		
+
 		value = getValue(startPinkNoise.getValue());
 		fireUnitEditorEvent(UnitEditorParm.START_PINK_NOISE, value);
-		
+
 		value = getValue(startPinkPanAmplitude.getValue());
 		fireUnitEditorEvent(UnitEditorParm.START_PINK_PAN_AMPLITUDE, value);
 
 		value = getValue(endAmplitude.getValue());
 		fireUnitEditorEvent(UnitEditorParm.END_AMPLITUDE, value);
-		
+
 		value = getValue(endEntrainmentFrequency.getValue());
 		fireUnitEditorEvent(UnitEditorParm.END_ENTRAINMENT_FREQUENCY, value);
-		
+
 		value = getValue(endFrequency.getValue());
 		fireUnitEditorEvent(UnitEditorParm.END_FREQUENCY, value);
-		
+
 		value = getValue(endPinkEntrainerMultiple.getValue());
 		fireUnitEditorEvent(UnitEditorParm.END_PINK_ENTRAINER_MULTIPLE, value);
-		
+
 		value = getValue(endPinkNoise.getValue());
 		fireUnitEditorEvent(UnitEditorParm.END_PINK_NOISE, value);
-		
+
 		value = getValue(endPinkPanAmplitude.getValue());
 		fireUnitEditorEvent(UnitEditorParm.END_PINK_PAN_AMPLITUDE, value);
 	}

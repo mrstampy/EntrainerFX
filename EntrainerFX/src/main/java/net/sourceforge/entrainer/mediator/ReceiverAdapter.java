@@ -35,7 +35,8 @@ public abstract class ReceiverAdapter implements Receiver {
 	 * Instantiate with the object which is interested in notification of property
 	 * changes.
 	 *
-	 * @param source the source
+	 * @param source
+	 *          the source
 	 */
 	public ReceiverAdapter(Object source) {
 		super();
@@ -49,7 +50,8 @@ public abstract class ReceiverAdapter implements Receiver {
 	 * the mediator. Should future development require this, simply create a blank
 	 * subclass for one of the instances.
 	 *
-	 * @param e the e
+	 * @param e
+	 *          the e
 	 */
 	public void receiverChangeEventPerformed(ReceiverChangeEvent e) {
 		if (!e.getSource().getClass().equals(getSource().getClass())) {
@@ -60,7 +62,8 @@ public abstract class ReceiverAdapter implements Receiver {
 	/**
 	 * Implement appropriately in subclasses to deal with event notification.
 	 *
-	 * @param e the e
+	 * @param e
+	 *          the e
 	 */
 	protected abstract void processReceiverChangeEvent(ReceiverChangeEvent e);
 
@@ -76,7 +79,8 @@ public abstract class ReceiverAdapter implements Receiver {
 	/**
 	 * Sets the source.
 	 *
-	 * @param source the new source
+	 * @param source
+	 *          the new source
 	 */
 	protected void setSource(Object source) {
 		this.source = source;
@@ -87,9 +91,12 @@ public abstract class ReceiverAdapter implements Receiver {
 	 * Prevents the property from exceeding the end value. Returns -
 	 * Double.MAX_VALUE should this method be called inappropriately.
 	 *
-	 * @param e the e
-	 * @param current the current
-	 * @param end the end
+	 * @param e
+	 *          the e
+	 * @param current
+	 *          the current
+	 * @param end
+	 *          the end
 	 * @return the delta
 	 * @see EntrainerProgramUnit
 	 */

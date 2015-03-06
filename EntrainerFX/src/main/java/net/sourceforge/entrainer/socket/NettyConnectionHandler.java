@@ -34,14 +34,19 @@ public class NettyConnectionHandler extends AbstractNettyHandler<String> {
 	/**
 	 * Instantiates a new netty connection handler.
 	 *
-	 * @param currentState the current state
+	 * @param currentState
+	 *          the current state
 	 */
 	public NettyConnectionHandler(EntrainerStateMessage currentState) {
 		super(currentState);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.socket.AbstractNettyHandler#channelRead1(io.netty.channel.ChannelHandlerContext, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.socket.AbstractNettyHandler#channelRead1(io.netty
+	 * .channel.ChannelHandlerContext, java.lang.Object)
 	 */
 	@Override
 	protected void channelRead1(ChannelHandlerContext ctx, String msg) throws Exception {

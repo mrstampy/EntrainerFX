@@ -24,16 +24,16 @@ package org.pausethread;
  * 
  * https://sourceforge.net/projects/pausethreads/
  *
- * Extend this class to create a thread that can be paused, resumed and 
+ * Extend this class to create a thread that can be paused, resumed and
  * canceled. For an example check the source of the FileThread class.
  */
 public abstract class PauseThreadImpl extends Thread implements PauseThread {
 	private static int NORMAL = 0;
 	private static int PAUSE = 1;
 	private static int RESUME = 2;
-	
+
 	private int request;
-	
+
 	/**
 	 * Constructs a PauseThread without setting the name.
 	 */
@@ -41,40 +41,48 @@ public abstract class PauseThreadImpl extends Thread implements PauseThread {
 		this("Pause Thread");
 		request = NORMAL;
 	}
-	
+
 	/**
 	 * Constructs a PauseThread with the given name.
-	 * @param name Pause Thread name
+	 * 
+	 * @param name
+	 *          Pause Thread name
 	 */
 	public PauseThreadImpl(String name) {
 		super(name);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.pausethread.Pause#cancelWork()
 	 */
 	public final synchronized void cancelWork() {
 		interrupt();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.pausethread.Pause#pauseWork()
 	 */
 	public final synchronized void pauseWork() {
 		request = PAUSE;
 		notify();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.pausethread.Pause#resumeWork()
 	 */
 	public final synchronized void resumeWork() {
-		if(request == PAUSE) {
+		if (request == PAUSE) {
 			request = RESUME;
 			notify();
 		}
 	}
-	
+
 	/**
 	 * Checks if is paused.
 	 *
@@ -83,7 +91,7 @@ public abstract class PauseThreadImpl extends Thread implements PauseThread {
 	public final boolean isPaused() {
 		return request == PAUSE;
 	}
-	
+
 	/**
 	 * Checks if is resumed.
 	 *
@@ -92,19 +100,20 @@ public abstract class PauseThreadImpl extends Thread implements PauseThread {
 	public final boolean isResumed() {
 		return request == RESUME;
 	}
-	
+
 	/**
-	 * Calling this method will pause the thread if a pause has been
-	 * requested by calling the pauseWork() method. The thread will 
-	 * pause until resumeWork() is called.
-	 * @throws InterruptedException thrown if the cancelWork() is called
+	 * Calling this method will pause the thread if a pause has been requested by
+	 * calling the pauseWork() method. The thread will pause until resumeWork() is
+	 * called.
+	 * 
+	 * @throws InterruptedException
+	 *           thrown if the cancelWork() is called
 	 */
 	protected final void waitIfPauseRequest() throws InterruptedException {
-		synchronized(this) {
-			if(isInterrupted()) {
+		synchronized (this) {
+			if (isInterrupted()) {
 				throw new InterruptedException("Thread has been stopped.");
-			}
-			else if(request == PAUSE) {
+			} else if (request == PAUSE) {
 				while (request != RESUME) {
 					wait();
 				}
@@ -112,39 +121,38 @@ public abstract class PauseThreadImpl extends Thread implements PauseThread {
 			}
 		}
 	}
-	
+
 	/**
-	 * This method invokes threadRun(). If cancelWork() is called 
-	 * threadStopped() is invoked.
+	 * This method invokes threadRun(). If cancelWork() is called threadStopped()
+	 * is invoked.
 	 */
 	public final void run() {
 		try {
 			doWork();
 			workDone();
-		}
-		catch(InterruptedException e) {
+		} catch (InterruptedException e) {
 			workCanceled();
 		}
 	}
-	
+
 	/**
-	 * Implement this method to do the actual work.
-	 * waitIfPauseRequest() has to be called repeatingly 
-	 * so the thread will pause if a pause has been requested.
+	 * Implement this method to do the actual work. waitIfPauseRequest() has to be
+	 * called repeatingly so the thread will pause if a pause has been requested.
 	 *
-	 * @throws InterruptedException the interrupted exception
+	 * @throws InterruptedException
+	 *           the interrupted exception
 	 */
 	public abstract void doWork() throws InterruptedException;
-	
+
 	/**
-	 * This method is invoked after doWork() has returned. Cleaning 
-	 * up any resources used should be done in this method.
+	 * This method is invoked after doWork() has returned. Cleaning up any
+	 * resources used should be done in this method.
 	 */
 	public abstract void workDone();
-	
+
 	/**
-	 * This method is invoked after cancelWork() has been invoked. Cleaning 
-	 * up any resources used should be done in this method.
+	 * This method is invoked after cancelWork() has been invoked. Cleaning up any
+	 * resources used should be done in this method.
 	 */
 	public abstract void workCanceled();
 }

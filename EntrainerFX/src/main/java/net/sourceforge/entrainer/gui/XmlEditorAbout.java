@@ -23,7 +23,7 @@ import net.sourceforge.entrainer.guitools.GuiUtil;
 // TODO: Auto-generated Javadoc
 /**
  * Basic overview for the xml editor.
- *  
+ * 
  * @author burton
  *
  */
@@ -35,7 +35,7 @@ public class XmlEditorAbout extends InformationDialog {
 	private XmlEditorAbout() {
 		super("XML Editor Help");
 	}
-	
+
 	/**
 	 * Show dialog.
 	 */
@@ -43,35 +43,37 @@ public class XmlEditorAbout extends InformationDialog {
 		GuiUtil.showDialog(instance);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.InformationDialog#getContent()
 	 */
 	@Override
 	protected String getContent() {
 		StringBuffer buf = new StringBuffer();
-		
+
 		buf.append("The XML Editor allows the user to edit or create Entrainer xml files.");
 		buf.append(" Each tab represents a unit of time in which each of the fields vary by");
 		buf.append("<br>the specified amounts.  The tab title reflects the cumulative time of each");
 		buf.append(" of the previous units, and indicates the range of time in which the unit");
 		buf.append("<br>will be executed.  During unit execution the properties vary from the");
 		buf.append(" 'Start' value to the 'End' value.");
-		
+
 		buf.append("<br><br><u><b>Global Values:</b></u>");
 		buf.append("<br><br>Flash - true or false.  Will cause Entrainer to change colour at the");
 		buf.append(" specified entrainment frequency if true.");
-		
+
 		buf.append("<br><br>Psychedelic - true or false.  Will randomly change the colour Entrainer");
 		buf.append(" uses to flash.  Flash must be set to true for this to have meaning.");
-		
+
 		buf.append("<br><br>Choose Colour (default yellow) - Sets the colour Entrainer uses to");
 		buf.append(" flash.  Flash must be true, and this value is overridden when Psychedelic");
 		buf.append(" is true.");
-		
+
 		buf.append("<br><br><u><b>Unit Values:</b></u>");
 		buf.append("<br><br>Minutes/Seconds - The total time the unit is executed to vary the properties");
 		buf.append(" from the 'Start' values to the 'End' values");
-		
+
 		buf.append("<br><br><u><b>Unit Properties:</b></u>");
 		buf.append("<br><br>Entrainment Frequency - The entrainment frequency in Hz, from 0 to 40Hz");
 		buf.append("<br><br>Frequency - The base frequency in Hz, from 20 to 500Hz");
@@ -81,7 +83,7 @@ public class XmlEditorAbout extends InformationDialog {
 		buf.append("<br><br>Pink Noise Entrainment Frequency Multiple - The value used as a multiple");
 		buf.append(" of the entrainment frequency to determine the frequency of the pink noise");
 		buf.append("<br>panning, from 1 to 512");
-		
+
 		return buf.toString();
 	}
 

@@ -65,7 +65,8 @@ public class EntrainerMediator {
 	/**
 	 * Adds a {@link Sender} to the list of senders.
 	 *
-	 * @param sender the sender
+	 * @param sender
+	 *          the sender
 	 */
 	public synchronized void addSender(Sender sender) {
 		senders.add(sender);
@@ -74,7 +75,8 @@ public class EntrainerMediator {
 	/**
 	 * Removes the specified {@link Sender} from the list.
 	 *
-	 * @param sender the sender
+	 * @param sender
+	 *          the sender
 	 */
 	public synchronized void removeSender(Sender sender) {
 		senders.remove(sender);
@@ -83,7 +85,8 @@ public class EntrainerMediator {
 	/**
 	 * Adds a {@link Receiver} to the list of receivers.
 	 *
-	 * @param receiver the receiver
+	 * @param receiver
+	 *          the receiver
 	 */
 	public void addReceiver(Receiver receiver) {
 		receivers.add(receiver);
@@ -92,7 +95,8 @@ public class EntrainerMediator {
 	/**
 	 * Adds the first receiver.
 	 *
-	 * @param receiver the receiver
+	 * @param receiver
+	 *          the receiver
 	 */
 	public void addFirstReceiver(Receiver receiver) {
 		receivers.add(0, receiver);
@@ -102,7 +106,8 @@ public class EntrainerMediator {
 	 * Removes the {@link Receiver} associated with the object which instantiated
 	 * it.
 	 *
-	 * @param source the source
+	 * @param source
+	 *          the source
 	 */
 	public void removeReceiver(Object source) {
 		if (source != null) {
@@ -117,7 +122,8 @@ public class EntrainerMediator {
 	/**
 	 * Notify receivers.
 	 *
-	 * @param e the e
+	 * @param e
+	 *          the e
 	 */
 	void notifyReceivers(final ReceiverChangeEvent e) {
 		executor.execute(new Runnable() {

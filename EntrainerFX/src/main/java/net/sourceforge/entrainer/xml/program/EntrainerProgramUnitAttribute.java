@@ -30,25 +30,27 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 @XmlAccessorType(value = XmlAccessType.FIELD)
 public class EntrainerProgramUnitAttribute {
-	
+
 	@XmlAttribute
 	private double start;
-	
+
 	@XmlAttribute
 	private double end;
-	
+
 	/**
 	 * Instantiates a new entrainer program unit attribute.
 	 */
 	public EntrainerProgramUnitAttribute() {
-		
+
 	}
-	
+
 	/**
 	 * Instantiates a new entrainer program unit attribute.
 	 *
-	 * @param start the start
-	 * @param end the end
+	 * @param start
+	 *          the start
+	 * @param end
+	 *          the end
 	 */
 	public EntrainerProgramUnitAttribute(double start, double end) {
 		setStart(start);
@@ -67,7 +69,8 @@ public class EntrainerProgramUnitAttribute {
 	/**
 	 * Sets the start.
 	 *
-	 * @param start the new start
+	 * @param start
+	 *          the new start
 	 */
 	public void setStart(double start) {
 		this.start = start;
@@ -85,11 +88,11 @@ public class EntrainerProgramUnitAttribute {
 	/**
 	 * Sets the end.
 	 *
-	 * @param end the new end
+	 * @param end
+	 *          the new end
 	 */
 	public void setEnd(double end) {
 		this.end = end;
 	}
-	
 
 }

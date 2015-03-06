@@ -84,8 +84,12 @@ public class SignalDataAggregator implements SignalProcessedListener {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.github.mrstampy.esp.dsp.lab.SignalProcessedListener#signalProcessed(double[])
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.github.mrstampy.esp.dsp.lab.SignalProcessedListener#signalProcessed
+	 * (double[])
 	 */
 	@Override
 	public void signalProcessed(double[] processed) {

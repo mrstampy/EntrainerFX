@@ -38,8 +38,8 @@ public interface PauseThread {
 	public abstract void pauseWork();
 
 	/**
-	 * Calling this method will resume the work the thread is doing,
-	 * if and only if the thread is currently paused.
+	 * Calling this method will resume the work the thread is doing, if and only
+	 * if the thread is currently paused.
 	 */
 	public abstract void resumeWork();
 }

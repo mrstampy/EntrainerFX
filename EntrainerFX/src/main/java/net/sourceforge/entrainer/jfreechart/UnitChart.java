@@ -76,10 +76,14 @@ public class UnitChart extends JDialog {
 	/**
 	 * Instantiates a new unit chart.
 	 *
-	 * @param owner the owner
-	 * @param units the units
-	 * @param name the name
-	 * @param intervals the intervals
+	 * @param owner
+	 *          the owner
+	 * @param units
+	 *          the units
+	 * @param name
+	 *          the name
+	 * @param intervals
+	 *          the intervals
 	 */
 	public UnitChart(Frame owner, List<EntrainerProgramUnit> units, String name, List<EntrainerProgramInterval> intervals) {
 		super(owner, "Unit Chart for " + name, true);
@@ -92,10 +96,14 @@ public class UnitChart extends JDialog {
 	/**
 	 * Instantiates a new unit chart.
 	 *
-	 * @param owner the owner
-	 * @param units the units
-	 * @param name the name
-	 * @param intervals the intervals
+	 * @param owner
+	 *          the owner
+	 * @param units
+	 *          the units
+	 * @param name
+	 *          the name
+	 * @param intervals
+	 *          the intervals
 	 */
 	public UnitChart(Dialog owner, List<EntrainerProgramUnit> units, String name, List<EntrainerProgramInterval> intervals) {
 		super(owner, "Unit Chart for " + name, true);
@@ -127,10 +135,10 @@ public class UnitChart extends JDialog {
 		});
 
 		getContentPane().add(chartPanel);
-		
+
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if(e.isControlDown() && e.getClickCount() == 1) {
+				if (e.isControlDown() && e.getClickCount() == 1) {
 					openBrowser(getLocalDocAddress());
 				}
 			}
@@ -362,7 +370,8 @@ public class UnitChart extends JDialog {
 	/**
 	 * Sets the units.
 	 *
-	 * @param units the new units
+	 * @param units
+	 *          the new units
 	 */
 	public void setUnits(List<EntrainerProgramUnit> units) {
 		this.units = units;
@@ -383,9 +392,12 @@ public class UnitChart extends JDialog {
 		/**
 		 * Instantiates a new unit value timer.
 		 *
-		 * @param parameterName the parameter name
-		 * @param value the value
-		 * @param time the time
+		 * @param parameterName
+		 *          the parameter name
+		 * @param value
+		 *          the value
+		 * @param time
+		 *          the time
 		 */
 		public UnitValueTimer(MediatorConstants parameterName, double value, double time) {
 			super();
@@ -394,7 +406,9 @@ public class UnitChart extends JDialog {
 			this.time = time;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see net.sourceforge.entrainer.gui.popup.InfoTimer#createNewInfo()
 		 */
 		@Override
@@ -406,7 +420,9 @@ public class UnitChart extends JDialog {
 			}
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see net.sourceforge.entrainer.gui.popup.InfoTimer#shouldShowInfo()
 		 */
 		@Override

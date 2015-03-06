@@ -23,22 +23,22 @@ package net.sourceforge.entrainer.gui;
  * The Interface PinkPanningConstants.
  */
 public interface PinkPanningConstants {
-	
+
 	/** The ppc amplitude slider name. */
 	String PPC_AMPLITUDE_SLIDER_NAME = "amplitudeSlider";
-	
+
 	/** The ppc multiple slider name. */
 	String PPC_MULTIPLE_SLIDER_NAME = "multipleSlider";
-	
+
 	/** The ppc amplitude value name. */
-	String PPC_AMPLITUDE_VALUE_NAME	= "amplitudeValue";
-	
+	String PPC_AMPLITUDE_VALUE_NAME = "amplitudeValue";
+
 	/** The ppc multiple value name. */
 	String PPC_MULTIPLE_VALUE_NAME = "multipleValue";
-	
+
 	/** The ppc pan checkbox name. */
 	String PPC_PAN_CHECKBOX_NAME = "panCheck";
-	
+
 	/** The ppc ok button. */
 	String PPC_OK_BUTTON = "Ok";
 }

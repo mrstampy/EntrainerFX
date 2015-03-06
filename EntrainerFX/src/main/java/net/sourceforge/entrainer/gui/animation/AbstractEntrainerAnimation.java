@@ -45,7 +45,8 @@ import net.sourceforge.entrainer.util.Utils;
  * animation classes dynamically - there is no need to recompile the app to run
  * new animations. Consequently, anyone can write new animations for Entrainer
  * and they can be deployed separately.<br>
- * <br> {@link AbstractEntrainerAnimation} has available all current values ie.
+ * <br>
+ * {@link AbstractEntrainerAnimation} has available all current values ie.
  * amplitude, entrainment frequency etc. to its subclasses. Consequently
  * animation can respond to changes in these values.<br>
  * <br>
@@ -158,7 +159,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Implement to decide how to move, change colours etc.
 	 *
-	 * @param g2d the g2d
+	 * @param g2d
+	 *          the g2d
 	 */
 	protected abstract void animateImpl(Graphics2D g2d);
 
@@ -193,7 +195,8 @@ public abstract class AbstractEntrainerAnimation {
 	 * Iterates thru the added shapes and calls the
 	 * <code>moveShape(Graphics2D, Shape);</code> method for each.
 	 *
-	 * @param g2d the g2d
+	 * @param g2d
+	 *          the g2d
 	 */
 	public synchronized void animate(Graphics2D g2d) {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -221,7 +224,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Returns true if the shape has reached the screen edge.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is shape at screen edge
 	 */
 	protected boolean isShapeAtScreenEdge(Shape shape) {
@@ -231,7 +235,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Returns true if the shape is at the top edge of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is shape at bottom
 	 */
 	protected boolean isShapeAtBottom(Shape shape) {
@@ -241,7 +246,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Returns true if the shape is at the bottom edge of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is shape at top
 	 */
 	protected boolean isShapeAtTop(Shape shape) {
@@ -251,7 +257,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Returns true if the shape is at the left or right edge of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is shape at screen horizontal edge
 	 */
 	protected boolean isShapeAtScreenHorizontalEdge(Shape shape) {
@@ -261,7 +268,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Returns true if the shape is at the top or bottom edge of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is shape at screen vertical edge
 	 */
 	protected boolean isShapeAtScreenVerticalEdge(Shape shape) {
@@ -271,7 +279,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Returns true if the shape is at the right edge of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is shape at right
 	 */
 	protected boolean isShapeAtRight(Shape shape) {
@@ -281,7 +290,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Returns true if the shape is at the left edge of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is shape at left
 	 */
 	protected boolean isShapeAtLeft(Shape shape) {
@@ -291,7 +301,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Returns true if the shape is off the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is shape off screen
 	 */
 	protected boolean isShapeOffScreen(Shape shape) {
@@ -302,7 +313,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Returns true if the shape is off the right side of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is shape off screen right
 	 */
 	protected boolean isShapeOffScreenRight(Shape shape) {
@@ -314,7 +326,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Returns true if the shape is off the left side of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is shape off screen left
 	 */
 	protected boolean isShapeOffScreenLeft(Shape shape) {
@@ -325,7 +338,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Returns true if the shape is off the bottom of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is shape off screen bottom
 	 */
 	protected boolean isShapeOffScreenBottom(Shape shape) {
@@ -337,7 +351,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Returns true if the shape is off the top of the screen.
 	 *
-	 * @param shape the shape
+	 * @param shape
+	 *          the shape
 	 * @return true, if is shape off screen top
 	 */
 	protected boolean isShapeOffScreenTop(Shape shape) {
@@ -440,7 +455,8 @@ public abstract class AbstractEntrainerAnimation {
 	 * If the <code>useDesktopBackground();</code> implementation returns false,
 	 * call this method in the subclass's initialization with a non-null value.
 	 *
-	 * @param customImage the new custom image
+	 * @param customImage
+	 *          the new custom image
 	 */
 	protected void setCustomImage(Image customImage) {
 		this.customImage = customImage;
@@ -461,7 +477,8 @@ public abstract class AbstractEntrainerAnimation {
 	 * If the <code>useBackgroundColour();</code> implementation returns true,
 	 * call this method in the subclass's initialization with a non-null value.
 	 *
-	 * @param backgroundColour the new background colour
+	 * @param backgroundColour
+	 *          the new background colour
 	 */
 	protected void setBackgroundColour(Color backgroundColour) {
 		this.backgroundColour = backgroundColour;
@@ -608,8 +625,8 @@ public abstract class AbstractEntrainerAnimation {
 	}
 
 	private void removeIntervalControl(String displayString) {
-		removeIntervalControl(AnimationInterval.getNumerator(displayString), AnimationInterval
-				.getDenominator(displayString));
+		removeIntervalControl(AnimationInterval.getNumerator(displayString),
+				AnimationInterval.getDenominator(displayString));
 	}
 
 	private void initInterval(AnimationInterval interval) {
@@ -659,7 +676,8 @@ public abstract class AbstractEntrainerAnimation {
 	/**
 	 * Sets the hide entrainer frame.
 	 *
-	 * @param hideEntrainerFrame the new hide entrainer frame
+	 * @param hideEntrainerFrame
+	 *          the new hide entrainer frame
 	 */
 	protected void setHideEntrainerFrame(boolean hideEntrainerFrame) {
 		this.hideEntrainerFrame = hideEntrainerFrame;

@@ -437,7 +437,10 @@ public class EntrainerSocketConnector extends JFrame {
 				HttpHeaders customHeaders = new DefaultHttpHeaders();
 
 				private final WebSocketClientHandshaker handshaker = WebSocketClientHandshakerFactory.newHandshaker(uri,
-						WebSocketVersion.V13, null, false, customHeaders);
+						WebSocketVersion.V13,
+						null,
+						false,
+						customHeaders);
 				private ChannelPromise handshakeFuture;
 
 				@Override

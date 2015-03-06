@@ -32,9 +32,12 @@ public class NeurophUtil {
 	/**
 	 * Weighted moving average.
 	 *
-	 * @param wma the wma
-	 * @param current the current
-	 * @param size the size
+	 * @param wma
+	 *          the wma
+	 * @param current
+	 *          the current
+	 * @param size
+	 *          the size
 	 * @return the double
 	 */
 	public static double weightedMovingAverage(List<Double> wma, double current, int size) {
@@ -49,7 +52,8 @@ public class NeurophUtil {
 	/**
 	 * Weighted moving average.
 	 *
-	 * @param wma the wma
+	 * @param wma
+	 *          the wma
 	 * @return the double
 	 */
 	public static double weightedMovingAverage(List<Double> wma) {
@@ -69,7 +73,8 @@ public class NeurophUtil {
 	/**
 	 * Normalize.
 	 *
-	 * @param raw the raw
+	 * @param raw
+	 *          the raw
 	 * @return the list
 	 */
 	public static List<Double> normalize(List<Double> raw) {

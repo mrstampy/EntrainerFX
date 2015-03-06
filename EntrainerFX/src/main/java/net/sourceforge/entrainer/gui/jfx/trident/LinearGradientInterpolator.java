@@ -37,8 +37,11 @@ import org.pushingpixels.trident.interpolator.PropertyInterpolator;
 public class LinearGradientInterpolator extends AbstractGradientInterpolator implements
 		PropertyInterpolator<LinearGradient> {
 
-	/* (non-Javadoc)
-	 * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#getBasePropertyClass()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#
+	 * getBasePropertyClass()
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -46,15 +49,23 @@ public class LinearGradientInterpolator extends AbstractGradientInterpolator imp
 		return LinearGradient.class;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#interpolate(java.lang.Object, java.lang.Object, float)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.pushingpixels.trident.interpolator.PropertyInterpolator#interpolate
+	 * (java.lang.Object, java.lang.Object, float)
 	 */
 	@Override
 	public LinearGradient interpolate(LinearGradient lg1, LinearGradient lg2, float f) {
 		List<Stop> startStops = lg1.getStops();
 		List<Stop> endStops = lg2.getStops();
 
-		validate(lg1.isProportional(), lg2.isProportional(), lg1.getCycleMethod(), lg2.getCycleMethod(), startStops,
+		validate(lg1.isProportional(),
+				lg2.isProportional(),
+				lg1.getCycleMethod(),
+				lg2.getCycleMethod(),
+				startStops,
 				endStops);
 
 		double startX = lg1.getStartX() + ((lg2.getStartX() - lg1.getStartX()) * f);

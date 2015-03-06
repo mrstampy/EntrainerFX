@@ -25,30 +25,31 @@ package net.sourceforge.entrainer.sound.jsyn;
  * @author burton
  */
 public enum JSynChannels {
-	
+
 	/** The lineout left. */
 	LINEOUT_LEFT(0),
-	
+
 	/** The lineout right. */
 	LINEOUT_RIGHT(1),
-	
+
 	/** The recording left. */
 	RECORDING_LEFT(2),
-	
+
 	/** The recording right. */
 	RECORDING_RIGHT(3);
-	
+
 	private int channel;
-	
+
 	/**
 	 * Instantiates a new j syn channels.
 	 *
-	 * @param channel the channel
+	 * @param channel
+	 *          the channel
 	 */
 	JSynChannels(int channel) {
 		this.channel = channel;
 	}
-	
+
 	/**
 	 * Gets the channel.
 	 *

@@ -63,7 +63,8 @@ public class SleeperManager {
 	/**
 	 * Instantiates a new sleeper manager.
 	 *
-	 * @param fileName the file name
+	 * @param fileName
+	 *          the file name
 	 */
 	public SleeperManager(String fileName) {
 		super();
@@ -121,7 +122,8 @@ public class SleeperManager {
 	/**
 	 * Adds the sleeper manager listener.
 	 *
-	 * @param l the l
+	 * @param l
+	 *          the l
 	 */
 	public void addSleeperManagerListener(SleeperManagerListener l) {
 		listeners.add(l);
@@ -130,7 +132,8 @@ public class SleeperManager {
 	/**
 	 * Fire sleeper manager event.
 	 *
-	 * @param action the action
+	 * @param action
+	 *          the action
 	 */
 	protected void fireSleeperManagerEvent(int action) {
 		SleeperManagerEvent e = new SleeperManagerEvent(this, action);
@@ -193,7 +196,8 @@ public class SleeperManager {
 	}
 
 	/**
-	 * Gets the starting entrainment frequency from the {@link EntrainerProgramUnit} list.
+	 * Gets the starting entrainment frequency from the
+	 * {@link EntrainerProgramUnit} list.
 	 *
 	 * @return the start entrainment frequency
 	 */
@@ -211,7 +215,8 @@ public class SleeperManager {
 	}
 
 	/**
-	 * Gets the starting pink noise value from the {@link EntrainerProgramUnit} list.
+	 * Gets the starting pink noise value from the {@link EntrainerProgramUnit}
+	 * list.
 	 *
 	 * @return the start pink noise
 	 */
@@ -220,7 +225,8 @@ public class SleeperManager {
 	}
 
 	/**
-	 * Gets the starting pink noise panning from the {@link EntrainerProgramUnit} list.
+	 * Gets the starting pink noise panning from the {@link EntrainerProgramUnit}
+	 * list.
 	 *
 	 * @return the start pink pan
 	 */
@@ -229,8 +235,8 @@ public class SleeperManager {
 	}
 
 	/**
-	 * Gets the starting pink noise entrainer multiple value from the {@link EntrainerProgramUnit}
-	 * list.
+	 * Gets the starting pink noise entrainer multiple value from the
+	 * {@link EntrainerProgramUnit} list.
 	 *
 	 * @return the start pink entrainer multiple
 	 */

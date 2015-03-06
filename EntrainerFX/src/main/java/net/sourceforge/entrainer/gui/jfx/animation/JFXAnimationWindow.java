@@ -110,7 +110,9 @@ public class JFXAnimationWindow extends JWindow {
 		};
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.awt.Window#setVisible(boolean)
 	 */
 	public void setVisible(boolean b) {
@@ -138,7 +140,8 @@ public class JFXAnimationWindow extends JWindow {
 	/**
 	 * Sets the entrainer animation.
 	 *
-	 * @param entrainerAnimation the new entrainer animation
+	 * @param entrainerAnimation
+	 *          the new entrainer animation
 	 */
 	public void setEntrainerAnimation(JFXEntrainerAnimation entrainerAnimation) {
 		if (this.entrainerAnimation != null) {

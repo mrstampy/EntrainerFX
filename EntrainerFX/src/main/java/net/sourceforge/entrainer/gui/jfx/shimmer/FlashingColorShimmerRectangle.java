@@ -27,7 +27,7 @@ import javafx.scene.paint.Color;
  * @author burton
  */
 public class FlashingColorShimmerRectangle extends AbstractFlashingShimmer<Color> {
-	
+
 	/** The Constant CSS_ID. */
 	public static final String CSS_ID = "shimmer-rectangle";
 
@@ -39,15 +39,21 @@ public class FlashingColorShimmerRectangle extends AbstractFlashingShimmer<Color
 		setId(CSS_ID);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
+	 * (double)
 	 */
 	@Override
 	protected Color createNewPaint(double opacity) {
 		return generateColor(opacity);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
 	 */
 	public String toString() {

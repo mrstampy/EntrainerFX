@@ -30,7 +30,7 @@ import net.sourceforge.entrainer.xml.program.EntrainerProgramInterval;
 // TODO: Auto-generated Javadoc
 /**
  * Class to display the value of a unit parameter.
- *  
+ * 
  * @author burton
  *
  */
@@ -46,30 +46,41 @@ public class UnitValuePopup extends InfoPopup {
 	/**
 	 * Instantiates a new unit value popup.
 	 *
-	 * @param owner the owner
-	 * @param parameterName the parameter name
-	 * @param value the value
-	 * @param time the time
-	 * @param units the units
+	 * @param owner
+	 *          the owner
+	 * @param parameterName
+	 *          the parameter name
+	 * @param value
+	 *          the value
+	 * @param time
+	 *          the time
+	 * @param units
+	 *          the units
 	 */
 	public UnitValuePopup(Window owner, MediatorConstants parameterName, double value, double time, String units) {
 		this(owner, parameterName, value, time, units, new ArrayList<EntrainerProgramInterval>());
 	}
-	
 
 	/**
 	 * Instantiates a new unit value popup.
 	 *
-	 * @param owner the owner
-	 * @param parameterName the parameter name
-	 * @param value the value
-	 * @param time the time
-	 * @param units the units
-	 * @param intervals the intervals
+	 * @param owner
+	 *          the owner
+	 * @param parameterName
+	 *          the parameter name
+	 * @param value
+	 *          the value
+	 * @param time
+	 *          the time
+	 * @param units
+	 *          the units
+	 * @param intervals
+	 *          the intervals
 	 */
-	public UnitValuePopup(Window owner, MediatorConstants parameterName, double value, double time, String units, List<EntrainerProgramInterval> intervals) {
+	public UnitValuePopup(Window owner, MediatorConstants parameterName, double value, double time, String units,
+			List<EntrainerProgramInterval> intervals) {
 		super(owner);
-		this.intervals = intervals; 
+		this.intervals = intervals;
 		setParameterName(parameterName);
 		setValue(value);
 		setTime(time);
@@ -77,8 +88,9 @@ public class UnitValuePopup extends InfoPopup {
 		init();
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.popup.InfoPopup#getContent()
 	 */
 	@Override
@@ -87,33 +99,33 @@ public class UnitValuePopup extends InfoPopup {
 		buf.append("<html><b>&nbsp;<u>" + getParameterName() + "</u>&nbsp;</b><br><br>");
 		buf.append("Time: " + getMinutes() + ":" + getSeconds() + "<br>");
 		buf.append("Value: " + getValue() + getUnits() + "<br>");
-		
-		if(intervals.size() > 0) {
+
+		if (intervals.size() > 0) {
 			buf.append("<br><b>&nbsp;<u>Intervals</u>&nbsp;</b><br><br>");
 			int i = 1;
-			for(EntrainerProgramInterval s : intervals) {
+			for (EntrainerProgramInterval s : intervals) {
 				double d = AbstractSoundInterval.getInterval(s.getValue());
 				buf.append("Interval " + i + ": " + getInterval(getValue(), d) + getUnits() + "<br>");
 				i++;
 			}
-			
+
 			buf.append("</html>");
 		}
-		
+
 		return buf.toString();
 	}
-	
+
 	private double getInterval(double base, double interval) {
 		return base + (base * interval);
 	}
-	
+
 	private int getMinutes() {
-		return ((int)getTime()) / 60;
+		return ((int) getTime()) / 60;
 	}
-	
+
 	private String getSeconds() {
-		int value = ((int)getTime()) % 60;
-		
+		int value = ((int) getTime()) % 60;
+
 		DecimalFormat format = new DecimalFormat("00");
 		return format.format(value);
 	}
@@ -130,7 +142,8 @@ public class UnitValuePopup extends InfoPopup {
 	/**
 	 * Sets the parameter name.
 	 *
-	 * @param name the new parameter name
+	 * @param name
+	 *          the new parameter name
 	 */
 	public void setParameterName(MediatorConstants name) {
 		this.parameterName = name;
@@ -148,7 +161,8 @@ public class UnitValuePopup extends InfoPopup {
 	/**
 	 * Sets the value.
 	 *
-	 * @param value the new value
+	 * @param value
+	 *          the new value
 	 */
 	public void setValue(double value) {
 		this.value = value;
@@ -166,7 +180,8 @@ public class UnitValuePopup extends InfoPopup {
 	/**
 	 * Sets the time.
 	 *
-	 * @param time the new time
+	 * @param time
+	 *          the new time
 	 */
 	public void setTime(double time) {
 		this.time = time;
@@ -184,7 +199,8 @@ public class UnitValuePopup extends InfoPopup {
 	/**
 	 * Sets the units.
 	 *
-	 * @param units the new units
+	 * @param units
+	 *          the new units
 	 */
 	public void setUnits(String units) {
 		this.units = units;

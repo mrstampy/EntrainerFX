@@ -25,41 +25,44 @@ package net.sourceforge.entrainer.sound;
  * @author burton
  */
 public interface SoundInterval extends SoundSettings {
-	
+
 	/**
 	 * Gets the display string.
 	 *
 	 * @return the display string
 	 */
 	String getDisplayString();
-	
+
 	/**
 	 * Checks if is interval display string.
 	 *
-	 * @param displayString the display string
+	 * @param displayString
+	 *          the display string
 	 * @return true, if is interval display string
 	 */
 	boolean isIntervalDisplayString(String displayString);
-	
+
 	/**
 	 * Gets the interval numerator.
 	 *
 	 * @return the interval numerator
 	 */
 	int getIntervalNumerator();
-	
+
 	/**
 	 * Gets the interval numerator.
 	 *
-	 * @param displayString the display string
+	 * @param displayString
+	 *          the display string
 	 * @return the interval numerator
 	 */
 	int getIntervalNumerator(String displayString);
-	
+
 	/**
 	 * Gets the interval denominator.
 	 *
-	 * @param displayString the display string
+	 * @param displayString
+	 *          the display string
 	 * @return the interval denominator
 	 */
 	int getIntervalDenominator(String displayString);
@@ -67,10 +70,11 @@ public interface SoundInterval extends SoundSettings {
 	/**
 	 * Sets the interval numerator.
 	 *
-	 * @param intervalNumerator the new interval numerator
+	 * @param intervalNumerator
+	 *          the new interval numerator
 	 */
 	void setIntervalNumerator(int intervalNumerator);
-	
+
 	/**
 	 * Gets the interval denominator.
 	 *
@@ -81,22 +85,25 @@ public interface SoundInterval extends SoundSettings {
 	/**
 	 * Sets the interval denominator.
 	 *
-	 * @param intervalDenominator the new interval denominator
+	 * @param intervalDenominator
+	 *          the new interval denominator
 	 */
 	void setIntervalDenominator(int intervalDenominator);
-	
+
 	/**
 	 * Gets the interval.
 	 *
 	 * @return the interval
 	 */
 	double getInterval();
-	
+
 	/**
 	 * Checks if is interval.
 	 *
-	 * @param num the num
-	 * @param denom the denom
+	 * @param num
+	 *          the num
+	 * @param denom
+	 *          the denom
 	 * @return true, if is interval
 	 */
 	boolean isInterval(int num, int denom);

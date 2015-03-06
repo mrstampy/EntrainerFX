@@ -458,7 +458,7 @@ public class XmlEditor extends JDialog {
 		xml.setColour(JFXUtils.fromJFXColor((Color) checkBoxPane.getColourChooser().getTextFill()));
 		xml.setIntervals(intervalMenu.getLoadedIntervals());
 		xml.setShimmerName(shimmers.getShimmers().getValue());
-//		xml.setFlashBackground(checkBoxPane.getFlashBackground().isSelected());
+		// xml.setFlashBackground(checkBoxPane.getFlashBackground().isSelected());
 
 		try {
 			marshal(xml, xml.getFile().getName());
@@ -557,7 +557,7 @@ public class XmlEditor extends JDialog {
 	private void initFields() {
 		checkBoxPane.getFlash().setSelected(xml.isFlash());
 		checkBoxPane.getPsychedelic().setSelected(xml.isPsychedelic());
-//		checkBoxPane.getFlashBackground().setSelected(xml.isFlashBackground());
+		// checkBoxPane.getFlashBackground().setSelected(xml.isFlashBackground());
 		fireReceiverChangeEvent(checkBoxPane.getFlash().isSelected(), IS_FLASH);
 		fireReceiverChangeEvent(checkBoxPane.getPsychedelic().isSelected(), IS_PSYCHEDELIC);
 

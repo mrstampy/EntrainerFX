@@ -62,7 +62,7 @@ public class FlashPanel extends Rectangle {
 	private Runnable flashRunner;
 	private volatile boolean timelineStarting;
 	private volatile boolean flashEnabled;
-	
+
 	private FillTransition fill;
 
 	/**
@@ -84,7 +84,7 @@ public class FlashPanel extends Rectangle {
 		};
 		initMediator();
 		JFXUtils.runLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				setFill(transparent);
@@ -208,14 +208,14 @@ public class FlashPanel extends Rectangle {
 
 	private void startNewFillTimeline() {
 		Color to = flashEnabled ? antiFlashColor : transparent;
-		
+
 		fill = new FillTransition(Duration.seconds(2), this);
 		fill.setToValue(to);
 		fill.setOnFinished(new EventHandler<ActionEvent>() {
-			
+
 			@Override
 			public void handle(ActionEvent event) {
-				if(timelineStarting) {
+				if (timelineStarting) {
 					startColourFlashingThread();
 				}
 			}
@@ -271,7 +271,8 @@ public class FlashPanel extends Rectangle {
 	/**
 	 * Sets the flash.
 	 *
-	 * @param isFlash the new flash
+	 * @param isFlash
+	 *          the new flash
 	 */
 	public void setFlash(boolean isFlash) {
 		this.isFlash = isFlash;
@@ -290,7 +291,8 @@ public class FlashPanel extends Rectangle {
 	/**
 	 * Sets the psychedelic.
 	 *
-	 * @param isPsychedelic the new psychedelic
+	 * @param isPsychedelic
+	 *          the new psychedelic
 	 */
 	public void setPsychedelic(boolean isPsychedelic) {
 		this.isPsychedelic = isPsychedelic;
@@ -308,7 +310,8 @@ public class FlashPanel extends Rectangle {
 	/**
 	 * Sets the flash color.
 	 *
-	 * @param flashColor the new flash color
+	 * @param flashColor
+	 *          the new flash color
 	 */
 	public void setFlashColor(java.awt.Color flashColor) {
 		this.flashColor = JFXUtils.toJFXColor(flashColor);
@@ -326,7 +329,8 @@ public class FlashPanel extends Rectangle {
 	/**
 	 * Sets the started.
 	 *
-	 * @param isStarted the new started
+	 * @param isStarted
+	 *          the new started
 	 */
 	public void setStarted(boolean isStarted) {
 		this.isStarted = isStarted;

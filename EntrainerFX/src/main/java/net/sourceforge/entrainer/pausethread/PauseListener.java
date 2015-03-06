@@ -22,18 +22,19 @@ import java.util.EventListener;
 
 // TODO: Auto-generated Javadoc
 /**
- * Implemented by {@link EntrainerPausibleThread} to receive {@link PauseEvent}s 
+ * Implemented by {@link EntrainerPausibleThread} to receive {@link PauseEvent}s
  * instructing to either pause or resume the thread.
  * 
  * @author burton
  *
  */
 public interface PauseListener extends EventListener {
-	
+
 	/**
 	 * Pause event performed.
 	 *
-	 * @param e the e
+	 * @param e
+	 *          the e
 	 */
 	void pauseEventPerformed(PauseEvent e);
 }

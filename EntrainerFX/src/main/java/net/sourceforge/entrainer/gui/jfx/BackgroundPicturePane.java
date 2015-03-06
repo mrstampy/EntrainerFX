@@ -30,44 +30,44 @@ import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
 
 public class BackgroundPicturePane extends TitledPane {
-	
+
 	private Sender sender = new SenderAdapter();
 
 	private String directoryName = "css";
 	private TextField directory = new TextField(directoryName);
 	private String pictureName = "";
 	private TextField picture = new TextField(pictureName);
-	
+
 	private RadioButton dynamic = new RadioButton("Dynamic");
 	private RadioButton staticPic = new RadioButton("Static");
 	private RadioButton noPic = new RadioButton("No Picture");
-	
+
 	private ToggleGroup picGroup = new ToggleGroup();
 	private ColorPicker picker = new ColorPicker();
-	
+
 	private Spinner<Integer> duration = new Spinner<>(1, 120, 10);
 	private int durationValue = 10;
-	
+
 	private Spinner<Integer> transition = new Spinner<>(1, 60, 5);
 	private int transitionValue = 5;
-	
+
 	private CheckBox flashBackground = new CheckBox("Flash Background");
-	
+
 	private CheckBox staticPictureLock = new CheckBox("Lock Picture");
-	
+
 	public BackgroundPicturePane() {
 		super();
 		init();
 	}
-	
+
 	private void init() {
 		setText("Background Picture Controls");
-		
+
 		directory.setEditable(false);
 		picture.setEditable(false);
-		
+
 		initMediator();
-		initRadioButtons();		
+		initRadioButtons();
 		setEventHandlers();
 		setTooltips();
 		setWidths();
@@ -85,42 +85,42 @@ public class BackgroundPicturePane extends TitledPane {
 		setTooltip(flashBackground, "Flash Background Image at the Chosen Entrainment Frequency");
 		setTooltip(staticPictureLock, "Prevents inadvertent static picture changing if selected");
 	}
-	
+
 	private void setTooltip(Control node, String tip) {
 		node.setTooltip(new Tooltip(tip));
 	}
 
 	private void layoutComponents() {
 		HBox box = new HBox(10);
-		
+
 		box.getChildren().addAll(getRadioButtons(), getFilePane(), getSpinnerPane());
-		
+
 		setContent(box);
 	}
 
 	private Node getRadioButtons() {
 		VBox box = new VBox(10);
-		
+
 		box.getChildren().addAll(flashBackground, dynamic, staticPic, noPic, picker);
-		
+
 		return box;
 	}
 
 	private void setWidths() {
 		duration.setPrefWidth(70);
 		transition.setPrefWidth(70);
-		
+
 		picture.setPrefWidth(200);
 		directory.setPrefWidth(200);
-		
+
 		picker.setPrefWidth(100);
 	}
 
 	private Node getSpinnerPane() {
 		VBox box = new VBox(10);
-		
+
 		box.getChildren().addAll(getDurationPane(), getTransitionPane());
-		
+
 		return box;
 	}
 
@@ -129,24 +129,24 @@ public class BackgroundPicturePane extends TitledPane {
 
 		hbox.setAlignment(Pos.CENTER_RIGHT);
 		hbox.getChildren().addAll(new Label("Duration (sec)"), duration);
-		
+
 		return hbox;
 	}
 
 	private Node getTransitionPane() {
 		HBox hbox = new HBox(10);
-		
+
 		hbox.setAlignment(Pos.CENTER_RIGHT);
 		hbox.getChildren().addAll(new Label("Transition (sec)"), transition);
-		
+
 		return hbox;
 	}
 
 	private Node getFilePane() {
 		VBox box = new VBox(10);
-		
+
 		staticPictureLock.setTextAlignment(TextAlignment.LEFT);
-		
+
 		box.getChildren().addAll(getDirectoryPane(), getPicFilePane(), staticPictureLock);
 
 		return box;
@@ -157,13 +157,13 @@ public class BackgroundPicturePane extends TitledPane {
 
 		box.setAlignment(Pos.CENTER_RIGHT);
 		box.getChildren().addAll(new Label("Static Picture"), picture);
-		
+
 		return box;
 	}
 
 	private Node getDirectoryPane() {
 		HBox box = new HBox(10);
-		
+
 		box.setAlignment(Pos.CENTER_RIGHT);
 		box.getChildren().addAll(new Label("Picture Directory"), directory);
 
@@ -172,23 +172,23 @@ public class BackgroundPicturePane extends TitledPane {
 
 	private void setEventHandlers() {
 		dynamic.setOnAction(e -> dynamicButtonPressed());
-		
+
 		staticPic.setOnAction(e -> staticButtonPressed());
-		
+
 		noPic.setOnAction(e -> noPicButtonPressed());
-		
+
 		picker.setOnAction(e -> setBackgroundColour(picker.getValue()));
-		
-		directory.setOnMouseClicked(e ->  directoryClicked(e));
-		
-		picture.setOnMouseClicked(e ->  pictureClicked(e));
+
+		directory.setOnMouseClicked(e -> directoryClicked(e));
+
+		picture.setOnMouseClicked(e -> pictureClicked(e));
 
 		duration.setOnMouseClicked(e -> durationChanged());
-		
+
 		transition.setOnMouseClicked(e -> transitionChanged());
-		
+
 		flashBackground.setOnAction(e -> flashBackgroundClicked());
-		
+
 		staticPictureLock.setOnAction(e -> pictureLockClicked());
 
 		expandedProperty().addListener(e -> setOpacity(isExpanded() ? 1 : 0.25));
@@ -211,60 +211,60 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void transitionChanged() {
-		if(transitionValue == transition.getValue()) return;
-		
+		if (transitionValue == transition.getValue()) return;
+
 		transitionValue = transition.getValue();
-		
+
 		fireReceiverChangeEvent(transitionValue, MediatorConstants.BACKGROUND_TRANSITION_SECONDS);
 	}
 
 	private void durationChanged() {
-		if(durationValue == duration.getValue()) return;
-		
+		if (durationValue == duration.getValue()) return;
+
 		durationValue = duration.getValue();
 
 		fireReceiverChangeEvent(durationValue, MediatorConstants.BACKGROUND_DURATION_SECONDS);
 	}
 
 	private void pictureClicked(MouseEvent e) {
-		if(e.getButton() != MouseButton.PRIMARY) return;
-		
+		if (e.getButton() != MouseButton.PRIMARY) return;
+
 		String file = pictureName;
-		
-		if(file == null || file.trim().length() == 0) file = "./";
-		
+
+		if (file == null || file.trim().length() == 0) file = "./";
+
 		File picFile = new File(file);
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Choose static picture");
 		fc.setInitialDirectory(picFile.getParentFile());
 		fc.setInitialFileName(picFile.getName());
-		
+
 		File newPic = fc.showOpenDialog(null);
-		
-		if(newPic == null) return;
-		
+
+		if (newPic == null) return;
+
 		pictureName = newPic.getAbsolutePath();
-		
+
 		picture.setText(newPic.getName());
-		
+
 		fireReceiverChangeEvent(pictureName, MediatorConstants.BACKGROUND_PIC);
 	}
 
 	private void directoryClicked(MouseEvent e) {
-		if(e.getButton() != MouseButton.PRIMARY) return;
-		
+		if (e.getButton() != MouseButton.PRIMARY) return;
+
 		DirectoryChooser dc = new DirectoryChooser();
-		
+
 		dc.setTitle("Choose picture directory");
 		dc.setInitialDirectory(new File(directoryName));
 		File newDir = dc.showDialog(null);
-		
-		if(newDir == null) return;
-		
+
+		if (newDir == null) return;
+
 		directoryName = newDir.getAbsolutePath();
 
 		directory.setText(newDir.getName());
-		
+
 		fireReceiverChangeEvent(directoryName, MediatorConstants.BACKGROUND_PIC_DIR);
 	}
 
@@ -280,15 +280,15 @@ public class BackgroundPicturePane extends TitledPane {
 		picker.setDisable(false);
 		setSpinnersDisabled(true);
 		setTextFieldsDisabled(true);
-		
+
 		fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
-		
+
 		setBackgroundColour(picker.getValue());
 	}
 
 	private void setBackgroundColour(Color color) {
 		java.awt.Color awt = JFXUtils.fromJFXColor(color);
-		
+
 		fireReceiverChangeEvent(awt, MediatorConstants.NO_BACKGROUND_COLOUR);
 	}
 
@@ -296,8 +296,9 @@ public class BackgroundPicturePane extends TitledPane {
 		setSpinnersDisabled(pressed);
 		setTextFieldsDisabled(false);
 		picker.setDisable(true);
-		
-		fireReceiverChangeEvent(pressed, pressed ? MediatorConstants.STATIC_BACKGROUND : MediatorConstants.DYNAMIC_BACKGROUND);
+
+		fireReceiverChangeEvent(pressed, pressed ? MediatorConstants.STATIC_BACKGROUND
+				: MediatorConstants.DYNAMIC_BACKGROUND);
 	}
 
 	private void setSpinnersDisabled(boolean pressed) {
@@ -330,19 +331,19 @@ public class BackgroundPicturePane extends TitledPane {
 					JFXUtils.runLater(() -> setDirectory(e.getStringValue()));
 					break;
 				case BACKGROUND_DURATION_SECONDS:
-					durationValue = (int)e.getDoubleValue();
+					durationValue = (int) e.getDoubleValue();
 					JFXUtils.runLater(() -> duration.getValueFactory().setValue(durationValue));
 					break;
 				case BACKGROUND_TRANSITION_SECONDS:
-					transitionValue = (int)e.getDoubleValue();
+					transitionValue = (int) e.getDoubleValue();
 					JFXUtils.runLater(() -> transition.getValueFactory().setValue(transitionValue));
 					break;
 				case FLASH_BACKGROUND:
-					if(flashBackground.isSelected() == e.getBooleanValue()) return;
+					if (flashBackground.isSelected() == e.getBooleanValue()) return;
 					JFXUtils.runLater(() -> flashBackground.setSelected(e.getBooleanValue()));
 					break;
 				case STATIC_PICTURE_LOCK:
-					if(staticPictureLock.isSelected() == e.getBooleanValue()) return;
+					if (staticPictureLock.isSelected() == e.getBooleanValue()) return;
 					JFXUtils.runLater(() -> staticPictureLock.setSelected(e.getBooleanValue()));
 					break;
 				default:
@@ -355,7 +356,7 @@ public class BackgroundPicturePane extends TitledPane {
 
 	private void setNoBackgroundColour(java.awt.Color color) {
 		Color jfx = JFXUtils.toJFXColor(color);
-		
+
 		picker.setValue(jfx);
 	}
 
@@ -377,7 +378,7 @@ public class BackgroundPicturePane extends TitledPane {
 		setTextFieldsDisabled(false);
 		staticPic.setSelected(true);
 	}
-	
+
 	private void setTextFieldsDisabled(boolean b) {
 		directory.setDisable(b);
 		picture.setDisable(b);
@@ -385,19 +386,19 @@ public class BackgroundPicturePane extends TitledPane {
 
 	private void setDirectory(String name) {
 		File dir = new File(name);
-		
+
 		directoryName = dir.getAbsolutePath();
-		
+
 		directory.setText(dir.getName());
 	}
 
 	private void setPicture(String name) {
-		if(staticPictureLock.isSelected() && pictureName != null && !"".equals(pictureName)) return;
-		
+		if (staticPictureLock.isSelected() && pictureName != null && !"".equals(pictureName)) return;
+
 		File pic = new File(name);
-		
+
 		pictureName = pic.getAbsolutePath();
-		
+
 		picture.setText(pic.getName());
 	}
 

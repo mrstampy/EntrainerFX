@@ -104,14 +104,19 @@ public class WebSocketHandler extends AbstractNettyHandler<Object> {
 	/**
 	 * Instantiates a new web socket handler.
 	 *
-	 * @param currentState the current state
+	 * @param currentState
+	 *          the current state
 	 */
 	public WebSocketHandler(EntrainerStateMessage currentState) {
 		super(currentState);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.socket.AbstractNettyHandler#channelRead1(io.netty.channel.ChannelHandlerContext, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.socket.AbstractNettyHandler#channelRead1(io.netty
+	 * .channel.ChannelHandlerContext, java.lang.Object)
 	 */
 	@Override
 	public void channelRead1(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -127,8 +132,12 @@ public class WebSocketHandler extends AbstractNettyHandler<Object> {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see io.netty.channel.ChannelInboundHandlerAdapter#channelReadComplete(io.netty.channel.ChannelHandlerContext)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * io.netty.channel.ChannelInboundHandlerAdapter#channelReadComplete(io.netty
+	 * .channel.ChannelHandlerContext)
 	 */
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
@@ -197,8 +206,12 @@ public class WebSocketHandler extends AbstractNettyHandler<Object> {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.socket.AbstractNettyHandler#exceptionCaught(io.netty.channel.ChannelHandlerContext, java.lang.Throwable)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.socket.AbstractNettyHandler#exceptionCaught(io
+	 * .netty.channel.ChannelHandlerContext, java.lang.Throwable)
 	 */
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {

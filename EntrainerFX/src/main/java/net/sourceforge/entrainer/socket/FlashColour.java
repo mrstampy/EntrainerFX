@@ -57,7 +57,8 @@ public class FlashColour {
 	/**
 	 * Sets the red.
 	 *
-	 * @param red the new red
+	 * @param red
+	 *          the new red
 	 */
 	public void setRed(int red) {
 		this.red = red;
@@ -75,7 +76,8 @@ public class FlashColour {
 	/**
 	 * Sets the green.
 	 *
-	 * @param green the new green
+	 * @param green
+	 *          the new green
 	 */
 	public void setGreen(int green) {
 		this.green = green;
@@ -93,7 +95,8 @@ public class FlashColour {
 	/**
 	 * Sets the blue.
 	 *
-	 * @param blue the new blue
+	 * @param blue
+	 *          the new blue
 	 */
 	public void setBlue(int blue) {
 		this.blue = blue;
@@ -111,7 +114,8 @@ public class FlashColour {
 	/**
 	 * Sets the alpha.
 	 *
-	 * @param alpha the new alpha
+	 * @param alpha
+	 *          the new alpha
 	 */
 	public void setAlpha(int alpha) {
 		this.alpha = alpha;
@@ -130,7 +134,8 @@ public class FlashColour {
 	/**
 	 * Sets the color.
 	 *
-	 * @param c the new color
+	 * @param c
+	 *          the new color
 	 */
 	@JsonIgnore
 	public void setColor(Color c) {

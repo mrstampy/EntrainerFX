@@ -28,11 +28,12 @@ import java.util.EventListener;
  *
  */
 public interface SleeperManagerListener extends EventListener {
-	
+
 	/**
 	 * Sleeper manager event performed.
 	 *
-	 * @param e the e
+	 * @param e
+	 *          the e
 	 */
 	public void sleeperManagerEventPerformed(SleeperManagerEvent e);
 }

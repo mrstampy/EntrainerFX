@@ -85,7 +85,8 @@ public class PinkPanning extends JDialog {
 	/**
 	 * Instantiates a new pink panning.
 	 *
-	 * @param owner the owner
+	 * @param owner
+	 *          the owner
 	 */
 	public PinkPanning(Frame owner) {
 		super(owner, "Pink Noise Options", true);
@@ -112,10 +113,10 @@ public class PinkPanning extends JDialog {
 		layoutComponents();
 		initMediator();
 		setComponentNames();
-		
+
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if(e.isControlDown() && e.getClickCount() == 1) {
+				if (e.isControlDown() && e.getClickCount() == 1) {
 					openBrowser(getLocalDocAddress());
 				}
 			}
@@ -150,7 +151,7 @@ public class PinkPanning extends JDialog {
 				switch (e.getParm()) {
 				case PINK_PAN_AMPLITUDE:
 					setAmplitude(e.getDoubleValue());
-					if(! panCheck.isSelected()) panCheck.doClick();
+					if (!panCheck.isSelected()) panCheck.doClick();
 					break;
 				case PINK_ENTRAINER_MULTIPLE:
 					setMultiple((int) e.getDoubleValue());

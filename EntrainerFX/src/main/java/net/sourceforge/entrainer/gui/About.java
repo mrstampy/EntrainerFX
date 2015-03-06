@@ -25,7 +25,7 @@ import net.sourceforge.entrainer.guitools.GuiUtil;
 /**
  * Simple dialog to display information about {@link EntrainerFX}.
  * 
- * TODO extract html to separate html file. 
+ * TODO extract html to separate html file.
  * 
  * @author burton
  *
@@ -33,7 +33,7 @@ import net.sourceforge.entrainer.guitools.GuiUtil;
 public class About extends InformationDialog implements Version {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static About instance;
 
 	private About() {
@@ -44,7 +44,7 @@ public class About extends InformationDialog implements Version {
 	 * Instantiates and shows the dialog.
 	 */
 	public static void showAboutDialog() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new About();
 		}
 		instance.pack();
@@ -53,7 +53,9 @@ public class About extends InformationDialog implements Version {
 		GuiUtil.fadeIn(instance, 500);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.InformationDialog#getContent()
 	 */
 	@Override
@@ -61,22 +63,22 @@ public class About extends InformationDialog implements Version {
 		StringBuffer buf = new StringBuffer("<b><center>Entrainer ");
 		buf.append(VERSION);
 		buf.append("</center></b>");
-		
+
 		buf.append("<br><b><u>Release Date:</u></b> ");
 		buf.append(RELEASE);
 		buf.append("<br><br><b><u>Entrainer Home Page:</u></b> http://entrainer.sourceforge.net/");
 		buf.append("<br><b><u>Project Home Page:</u></b> https://sourceforge.net/projects/entrainer");
-		
+
 		buf.append("<br><br>Copyright Burton Alexander, 2008 - 2014");
 		buf.append("<br><br>This program creates entrainment frequencies, allowing the user to control the base frequency, the entrainment frequency");
 		buf.append("<br>and the amplitude of the sound waves.  It is best used with high quality headphones.");
-		
+
 		buf.append("<br><br>JSyn binaries provided under license from Mobileer Incorporated solely for use with Entrainer.");
-		
+
 		buf.append("<br><br>Written to scratch an entrainment itch.");
-		
+
 		buf.append("<br><br><b><u>WARNING WARNING WARNING!!!</u></b> Do not use if you suffer from epilepsy or any related medical conditions.");
-		
+
 		return buf.toString();
 	}
 

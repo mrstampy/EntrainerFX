@@ -63,12 +63,14 @@ public class EntrainerSplash extends JWindow {
 		GuiUtil.centerOnScreen(this);
 		animateBackground();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.awt.Window#setVisible(boolean)
 	 */
 	public void setVisible(boolean b) {
-		if(b) {
+		if (b) {
 			super.setVisible(b);
 		} else {
 			GuiUtil.fadeOutAndDispose(this, 5000);
@@ -87,7 +89,7 @@ public class EntrainerSplash extends JWindow {
 
 	private void animateBackground() {
 		GuiUtil.fadeIn(this, 3000);
-		
+
 		chain = new TimelineChain(getContentPane());
 
 		chain.addTimeline(400, null, RepeatBehavior.REVERSE, 2);
@@ -103,7 +105,7 @@ public class EntrainerSplash extends JWindow {
 	}
 
 	private void layoutComponents() {
-		((JPanel)getContentPane()).setBorder(new BevelBorder(BevelBorder.RAISED));
+		((JPanel) getContentPane()).setBorder(new BevelBorder(BevelBorder.RAISED));
 		MigHelper mh = new MigHelper(getContentPane());
 		mh.setLayoutInsets(15, 5, 15, 5);
 

@@ -29,7 +29,7 @@ public class JavaVersionChecker {
 
 	/** The Constant MIN_VERSION. */
 	public static final JavaVersion MIN_VERSION = new JavaVersion(1, 8, 0, 40);
-	
+
 	/** The Constant CURRENT. */
 	public static final JavaVersion CURRENT;
 
@@ -47,26 +47,30 @@ public class JavaVersionChecker {
 	 */
 	public static class JavaVersion {
 		private DecimalFormat releaseFormat = new DecimalFormat("00");
-		
+
 		/** The major. */
 		public int major;
-		
+
 		/** The minor. */
 		public int minor;
-		
+
 		/** The milli. */
 		public int milli;
-		
+
 		/** The release. */
 		public int release;
 
 		/**
 		 * Instantiates a new java version.
 		 *
-		 * @param major the major
-		 * @param minor the minor
-		 * @param milli the milli
-		 * @param release the release
+		 * @param major
+		 *          the major
+		 * @param minor
+		 *          the minor
+		 * @param milli
+		 *          the milli
+		 * @param release
+		 *          the release
 		 */
 		public JavaVersion(int major, int minor, int milli, int release) {
 			this.major = major;
@@ -78,18 +82,19 @@ public class JavaVersionChecker {
 		/**
 		 * Checks if is ok.
 		 *
-		 * @param jv the jv
+		 * @param jv
+		 *          the jv
 		 * @return true, if is ok
 		 */
 		public boolean isOk(JavaVersion jv) {
-			if(jv.major > major) return false;
-			if(jv.major < major) return true;
-			if(jv.minor > minor) return false;
-			if(jv.minor < minor) return true;
-			if(jv.milli > milli) return false;
-			if(jv.milli < milli) return true;
-			if(jv.release > release) return false;
-			
+			if (jv.major > major) return false;
+			if (jv.major < major) return true;
+			if (jv.minor > minor) return false;
+			if (jv.minor < minor) return true;
+			if (jv.milli > milli) return false;
+			if (jv.milli < milli) return true;
+			if (jv.release > release) return false;
+
 			return true;
 		}
 
@@ -112,7 +117,9 @@ public class JavaVersionChecker {
 			return new JavaVersion(major, minor, milli, release);
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Object#toString()
 		 */
 		public String toString() {
@@ -123,7 +130,8 @@ public class JavaVersionChecker {
 	/**
 	 * The main method.
 	 *
-	 * @param args the arguments
+	 * @param args
+	 *          the arguments
 	 */
 	public static void main(String[] args) {
 		System.out.println(VERSION_OK);

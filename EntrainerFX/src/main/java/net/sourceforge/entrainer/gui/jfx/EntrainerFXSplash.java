@@ -78,7 +78,8 @@ public class EntrainerFXSplash extends Application implements Version {
 	/**
 	 * Instantiates a new entrainer fx splash.
 	 *
-	 * @param fromApp the from app
+	 * @param fromApp
+	 *          the from app
 	 */
 	public EntrainerFXSplash(boolean fromApp) {
 		init();
@@ -98,7 +99,8 @@ public class EntrainerFXSplash extends Application implements Version {
 	/**
 	 * The main method.
 	 *
-	 * @param args the arguments
+	 * @param args
+	 *          the arguments
 	 */
 	public static void main(String[] args) {
 		launch(args);
@@ -111,7 +113,9 @@ public class EntrainerFXSplash extends Application implements Version {
 		stage.toFront();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javafx.application.Application#init()
 	 */
 	@Override
@@ -154,7 +158,9 @@ public class EntrainerFXSplash extends Application implements Version {
 		stack.setAlignment(Pos.CENTER);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 */
 	@Override
@@ -225,13 +231,13 @@ public class EntrainerFXSplash extends Application implements Version {
 				initStage.close();
 			}
 		});
-		
+
 		RotateTransition rt = new RotateTransition(Duration.millis(600), splash);
-		
+
 		rt.setInterpolator(Interpolator.LINEAR);
 		rt.setCycleCount(5);
 		rt.setToAngle(360);
-		
+
 		ScaleTransition st = new ScaleTransition(Duration.seconds(3), splash);
 
 		st.setByX(-2.0);

@@ -65,7 +65,8 @@ public final class AnimationRegister {
 	 * Returns the {@link EntrainerAnimation} specified by its
 	 * <code>toString();</code> implementation.
 	 *
-	 * @param stringRep the string rep
+	 * @param stringRep
+	 *          the string rep
 	 * @return the entrainer animation
 	 */
 	public static EntrainerAnimation getEntrainerAnimation(String stringRep) {

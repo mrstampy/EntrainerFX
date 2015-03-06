@@ -63,7 +63,8 @@ public class SoundControlPane extends VBox {
 	/**
 	 * Instantiates a new sound control pane.
 	 *
-	 * @param arg0 the arg0
+	 * @param arg0
+	 *          the arg0
 	 */
 	public SoundControlPane(double arg0) {
 		super(arg0);
@@ -151,7 +152,8 @@ public class SoundControlPane extends VBox {
 	/**
 	 * Sets the playing entrainer program.
 	 *
-	 * @param playingEntrainerProgram the new playing entrainer program
+	 * @param playingEntrainerProgram
+	 *          the new playing entrainer program
 	 */
 	public void setPlayingEntrainerProgram(boolean playingEntrainerProgram) {
 		this.playingEntrainerProgram = playingEntrainerProgram;
@@ -160,7 +162,8 @@ public class SoundControlPane extends VBox {
 	/**
 	 * Sets the play tool tip.
 	 *
-	 * @param toolTip the new play tool tip
+	 * @param toolTip
+	 *          the new play tool tip
 	 */
 	public void setPlayToolTip(String toolTip) {
 		setToolTip(getPlay(), toolTip);
@@ -169,7 +172,8 @@ public class SoundControlPane extends VBox {
 	/**
 	 * Sets the record tool tip.
 	 *
-	 * @param toolTip the new record tool tip
+	 * @param toolTip
+	 *          the new record tool tip
 	 */
 	public void setRecordToolTip(String toolTip) {
 		setToolTip(getRecord(), toolTip);
@@ -178,7 +182,8 @@ public class SoundControlPane extends VBox {
 	/**
 	 * Sets the pause tool tip.
 	 *
-	 * @param toolTip the new pause tool tip
+	 * @param toolTip
+	 *          the new pause tool tip
 	 */
 	public void setPauseToolTip(String toolTip) {
 		setToolTip(getPause(), toolTip);
@@ -187,7 +192,8 @@ public class SoundControlPane extends VBox {
 	/**
 	 * Sets the stop tool tip.
 	 *
-	 * @param toolTip the new stop tool tip
+	 * @param toolTip
+	 *          the new stop tool tip
 	 */
 	public void setStopToolTip(String toolTip) {
 		setToolTip(getStop(), toolTip);
@@ -206,7 +212,8 @@ public class SoundControlPane extends VBox {
 	/**
 	 * Sets the playing.
 	 *
-	 * @param playing the new playing
+	 * @param playing
+	 *          the new playing
 	 */
 	public void setPlaying(final boolean playing) {
 		JFXUtils.runLater(new Runnable() {
@@ -270,7 +277,8 @@ public class SoundControlPane extends VBox {
 	/**
 	 * Sets the recording entrainer program.
 	 *
-	 * @param recordingEntrainerProgram the new recording entrainer program
+	 * @param recordingEntrainerProgram
+	 *          the new recording entrainer program
 	 */
 	public void setRecordingEntrainerProgram(boolean recordingEntrainerProgram) {
 		this.recordingEntrainerProgram = recordingEntrainerProgram;

@@ -27,8 +27,9 @@ import net.sourceforge.entrainer.util.Utils;
 
 // TODO: Auto-generated Javadoc
 /**
- * This is a superclass to control the appearance / dismissal of {@link InfoPopup}'s.
- *  
+ * This is a superclass to control the appearance / dismissal of
+ * {@link InfoPopup}'s.
+ * 
  * @author burton
  *
  */
@@ -42,7 +43,7 @@ public abstract class InfoTimer extends Thread {
 	public InfoTimer() {
 		super();
 	}
-	
+
 	/**
 	 * Use the start() method to execute this thread.
 	 */
@@ -61,17 +62,17 @@ public abstract class InfoTimer extends Thread {
 		}
 		shouldStop = true;
 	}
-	
+
 	/**
 	 * Implement in subclasses to return true if the popup should be displayed.
 	 *
 	 * @return true, if successful
 	 */
 	protected abstract boolean shouldShowInfo();
-	
+
 	/**
-	 * Subclasses should instantiate an {@link InfoPopup} subclass and set it
-	 * as a property of this class via the setInfo() method.
+	 * Subclasses should instantiate an {@link InfoPopup} subclass and set it as a
+	 * property of this class via the setInfo() method.
 	 * 
 	 * @see InfoPopup
 	 */
@@ -124,7 +125,8 @@ public abstract class InfoTimer extends Thread {
 	/**
 	 * Sets the should stop.
 	 *
-	 * @param shouldStop the new should stop
+	 * @param shouldStop
+	 *          the new should stop
 	 */
 	public void setShouldStop(boolean shouldStop) {
 		this.shouldStop = shouldStop;
@@ -140,10 +142,11 @@ public abstract class InfoTimer extends Thread {
 	}
 
 	/**
-	 * Call this method from the createNewInfo() implementation with the appropriate
-	 * {@link InfoPopup} subclass.
+	 * Call this method from the createNewInfo() implementation with the
+	 * appropriate {@link InfoPopup} subclass.
 	 *
-	 * @param info the new info
+	 * @param info
+	 *          the new info
 	 */
 	protected void setInfo(InfoPopup info) {
 		this.info = info;

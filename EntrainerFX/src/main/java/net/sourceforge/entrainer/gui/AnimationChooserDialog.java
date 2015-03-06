@@ -83,7 +83,8 @@ public class AnimationChooserDialog extends JDialog {
 	/**
 	 * Instantiates a new animation chooser dialog.
 	 *
-	 * @param frame the frame
+	 * @param frame
+	 *          the frame
 	 */
 	public AnimationChooserDialog(Frame frame) {
 		super(frame, "Animation Chooser", true);
@@ -98,8 +99,10 @@ public class AnimationChooserDialog extends JDialog {
 	/**
 	 * Instantiates a new animation chooser dialog.
 	 *
-	 * @param dialog the dialog
-	 * @param xml the xml
+	 * @param dialog
+	 *          the dialog
+	 * @param xml
+	 *          the xml
 	 */
 	public AnimationChooserDialog(Dialog dialog, EntrainerProgram xml) {
 		super(dialog, "Animation Chooser", true);
@@ -179,10 +182,10 @@ public class AnimationChooserDialog extends JDialog {
 
 		mh.add(getAnimationSelectionContainer()).add(getBackgroundImageContainer());
 		setComponentNames();
-		
+
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if(e.isControlDown() && e.getClickCount() == 1) {
+				if (e.isControlDown() && e.getClickCount() == 1) {
 					openBrowser(getLocalDocAddress());
 				}
 			}

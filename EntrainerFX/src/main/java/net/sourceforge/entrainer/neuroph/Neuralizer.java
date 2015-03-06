@@ -33,59 +33,61 @@ import com.github.mrstampy.esp.dsp.lab.SignalProcessedListener;
  * The Class Neuralizer.
  */
 public class Neuralizer implements SignalProcessedListener {
-	
+
 	/** The Constant BUF_SIZE. */
 	static final int BUF_SIZE = 41;
 
 	private NetworkContainer network;
 
 	private int numOutputNeurons;
-	
+
 	private List<NetworkProcessedListener> listeners = new ArrayList<>();
 
 	/**
 	 * Instantiates a new neuralizer.
 	 *
 	 * @param numNeurons
-	 *          the num  neurons
+	 *          the num neurons
 	 */
 	public Neuralizer(int numNeurons) {
 		setNumOutputNeurons(numNeurons);
 		initNetwork();
 	}
-	
+
 	/**
 	 * Adds the network processed listener.
 	 *
-	 * @param l the l
+	 * @param l
+	 *          the l
 	 */
 	public void addNetworkProcessedListener(NetworkProcessedListener l) {
 		listeners.add(l);
 	}
-	
+
 	/**
 	 * Removes the network processed listener.
 	 *
-	 * @param l the l
+	 * @param l
+	 *          the l
 	 */
 	public void removeNetworkProcessedListener(NetworkProcessedListener l) {
 		listeners.remove(l);
 	}
 
 	/**
-	 * Gets the  signal weights.
+	 * Gets the signal weights.
 	 *
-	 * @return the  signal weights
+	 * @return the signal weights
 	 */
 	public Double[] getSignalWeights() {
 		return network.getWeights();
 	}
 
 	/**
-	 * Sets the  signal weights.
+	 * Sets the signal weights.
 	 *
 	 * @param weights
-	 *          the new  signal weights
+	 *          the new signal weights
 	 */
 	public void setSignalWeights(double[] weights) {
 		assert weights != null && weights.length == getSignalWeights().length;
@@ -94,7 +96,7 @@ public class Neuralizer implements SignalProcessedListener {
 	}
 
 	/**
-	 * Gets the  weight.
+	 * Gets the weight.
 	 *
 	 * @param inNeuronIdx
 	 *          the in neuron idx
@@ -102,14 +104,14 @@ public class Neuralizer implements SignalProcessedListener {
 	 *          the out neuron idx
 	 * @param inLayerIdx
 	 *          the in layer idx
-	 * @return the  weight
+	 * @return the weight
 	 */
 	public double getWeight(int inNeuronIdx, int outNeuronIdx, int inLayerIdx) {
 		return network.getWeight(inNeuronIdx, outNeuronIdx, inLayerIdx);
 	}
 
 	/**
-	 * Sets the  weight.
+	 * Sets the weight.
 	 *
 	 * @param inNeuronIdx
 	 *          the in neuron idx
@@ -125,7 +127,7 @@ public class Neuralizer implements SignalProcessedListener {
 	}
 
 	/**
-	 * Train  signal network.
+	 * Train signal network.
 	 *
 	 * @param inputs
 	 *          the inputs
@@ -140,7 +142,7 @@ public class Neuralizer implements SignalProcessedListener {
 	}
 
 	/**
-	 * Train  signal network.
+	 * Train signal network.
 	 *
 	 * @param dataSet
 	 *          the data set
@@ -153,14 +155,18 @@ public class Neuralizer implements SignalProcessedListener {
 	}
 
 	/**
-	 * Randomize  signal weights.
+	 * Randomize signal weights.
 	 */
 	public void randomizeSignalWeights() {
 		network.getNetwork().randomizeWeights();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.github.mrstampy.esp.dsp.lab.SignalProcessedListener#signalProcessed(double[])
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.github.mrstampy.esp.dsp.lab.SignalProcessedListener#signalProcessed
+	 * (double[])
 	 */
 	@Override
 	public void signalProcessed(double[] processed) {
@@ -168,9 +174,9 @@ public class Neuralizer implements SignalProcessedListener {
 		System.arraycopy(processed, 0, trimmed, 0, BUF_SIZE);
 		notifyListeners(network.process(trimmed));
 	}
-	
+
 	private void notifyListeners(double[] processed) {
-		for(NetworkProcessedListener l : listeners) {
+		for (NetworkProcessedListener l : listeners) {
 			l.networkProcessed(processed);
 		}
 	}
@@ -191,62 +197,63 @@ public class Neuralizer implements SignalProcessedListener {
 	}
 
 	/**
-	 * Gets the num  output neurons.
+	 * Gets the num output neurons.
 	 *
-	 * @return the num  output neurons
+	 * @return the num output neurons
 	 */
 	public int getNumOutputNeurons() {
 		return numOutputNeurons;
 	}
 
 	/**
-	 * Sets the num  output neurons.
+	 * Sets the num output neurons.
 	 *
 	 * @param numNeurons
-	 *          the new num  output neurons
+	 *          the new num output neurons
 	 */
 	public void setNumOutputNeurons(int numNeurons) {
 		this.numOutputNeurons = numNeurons;
 	}
 
 	/**
-	 * Gets the  network layers count.
+	 * Gets the network layers count.
 	 *
-	 * @return the  network layers count
+	 * @return the network layers count
 	 */
 	public int getNetworkLayersCount() {
 		return network.getLayersCount();
 	}
 
 	/**
-	 * Gets the  network neurons count.
+	 * Gets the network neurons count.
 	 *
 	 * @param layerIdx
 	 *          the layer idx
-	 * @return the  network neurons count
+	 * @return the network neurons count
 	 */
 	public int getNetworkNeuronsCount(int layerIdx) {
 		return network.getNeuronsCount(layerIdx);
 	}
 
 	/**
-	 * Gets the  network.
+	 * Gets the network.
 	 *
-	 * @return the  network
+	 * @return the network
 	 */
 	public NeuralNetwork<?> getNetwork() {
 		return network.getNetwork();
 	}
 
 	/**
-	 * Sets the  network.
+	 * Sets the network.
 	 *
-	 * @param nn the new network
+	 * @param nn
+	 *          the new network
 	 */
 	public void setNetwork(NeuralNetwork<?> nn) {
 		network.setNetwork(nn);
 	}
-	
+
 	/**
 	 * Gets the network container.
 	 *

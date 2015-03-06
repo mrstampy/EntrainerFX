@@ -95,7 +95,7 @@ public class FlashPane extends TitledPane {
 
 		HBox hbox = new HBox();
 		hbox.setPadding(new Insets(5, 5, 5, 20));
-		
+
 		HBox.setMargin(flash, new Insets(5));
 		HBox.setMargin(psychedelic, new Insets(5));
 		HBox.setMargin(colourChooser, new Insets(5));
@@ -130,7 +130,8 @@ public class FlashPane extends TitledPane {
 
 			@Override
 			public void run() {
-				Color c = JColorChooser.showDialog(null, "Entrainment Colour",
+				Color c = JColorChooser.showDialog(null,
+						"Entrainment Colour",
 						JFXUtils.fromJFXColor((javafx.scene.paint.Color) colourChooser.getTextFill()));
 
 				if (c != null) {
@@ -219,7 +220,8 @@ public class FlashPane extends TitledPane {
 	/**
 	 * Sets the flash selected.
 	 *
-	 * @param selected the new flash selected
+	 * @param selected
+	 *          the new flash selected
 	 */
 	public void setFlashSelected(boolean selected) {
 		setSelected(selected, flash);
@@ -228,7 +230,8 @@ public class FlashPane extends TitledPane {
 	/**
 	 * Sets the psychedelic selected.
 	 *
-	 * @param selected the new psychedelic selected
+	 * @param selected
+	 *          the new psychedelic selected
 	 */
 	public void setPsychedelicSelected(boolean selected) {
 		setSelected(selected, psychedelic);
@@ -237,7 +240,8 @@ public class FlashPane extends TitledPane {
 	/**
 	 * Sets the flash tool tip.
 	 *
-	 * @param toolTip the new flash tool tip
+	 * @param toolTip
+	 *          the new flash tool tip
 	 */
 	public void setFlashToolTip(String toolTip) {
 		setToolTip(toolTip, flash);
@@ -246,7 +250,8 @@ public class FlashPane extends TitledPane {
 	/**
 	 * Sets the psychedelic tool tip.
 	 *
-	 * @param toolTip the new psychedelic tool tip
+	 * @param toolTip
+	 *          the new psychedelic tool tip
 	 */
 	public void setPsychedelicToolTip(String toolTip) {
 		setToolTip(toolTip, psychedelic);
@@ -273,7 +278,9 @@ public class FlashPane extends TitledPane {
 		});
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object o) {
@@ -282,7 +289,9 @@ public class FlashPane extends TitledPane {
 		return fp.id == id;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	public int hashCode() {

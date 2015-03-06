@@ -20,7 +20,6 @@ package net.sourceforge.entrainer.mediator;
 
 import java.util.EventListener;
 
-
 // TODO: Auto-generated Javadoc
 /**
  * Interface for receiver objects.
@@ -31,30 +30,34 @@ import java.util.EventListener;
  *
  */
 public interface Receiver extends EventListener {
-	
+
 	/**
 	 * Implement to process delta changes.
 	 *
-	 * @param e the e
-	 * @param current the current
-	 * @param end the end
+	 * @param e
+	 *          the e
+	 * @param current
+	 *          the current
+	 * @param end
+	 *          the end
 	 * @return the delta
 	 */
 	double getDelta(ReceiverChangeEvent e, double current, double end);
-	
+
 	/**
 	 * Implement to deal with the {@link ReceiverChangeEvent} appropriately.
 	 *
-	 * @param e the e
+	 * @param e
+	 *          the e
 	 */
 	void receiverChangeEventPerformed(ReceiverChangeEvent e);
-	
+
 	/**
-	 * Implement to return the object which instantiated the implementation 
-	 * of this interface.
+	 * Implement to return the object which instantiated the implementation of
+	 * this interface.
 	 *
 	 * @return the source
 	 */
 	Object getSource();
-	
+
 }

@@ -37,16 +37,18 @@ import org.pushingpixels.trident.callback.TimelineCallbackAdapter;
  */
 @SuppressWarnings("serial")
 public class NotificationWindow extends JWindow {
-	
+
 	private JPanel panel = new JPanel();
-	
+
 	private Color background = new Color(145, 140, 247);
 
 	/**
 	 * Instantiates a new notification window.
 	 *
-	 * @param message the message
-	 * @param container the container
+	 * @param message
+	 *          the message
+	 * @param container
+	 *          the container
 	 */
 	public NotificationWindow(String message, Container container) {
 		initGui(message, container);
@@ -58,24 +60,25 @@ public class NotificationWindow extends JWindow {
 		panel.setBackground(background);
 		panel.setBorder(new BevelBorder(BevelBorder.RAISED));
 		panel.add(new JLabel(message));
-		
+
 		add(panel);
 
 		setLocationRelativeTo(container);
 	}
-	
+
 	private void execute() {
 		TimelineCallbackAdapter tca = new TimelineCallbackAdapter() {
-			
-			public void onTimelineStateChanged(TimelineState oldState, TimelineState newState, float durationFraction, float timelinePosition) {
+
+			public void onTimelineStateChanged(TimelineState oldState, TimelineState newState, float durationFraction,
+					float timelinePosition) {
 				toFront();
-				
-				if(TimelineState.DONE == newState) {
+
+				if (TimelineState.DONE == newState) {
 					fadeOut();
 				}
 			}
 		};
-		
+
 		GuiUtil.fadeIn(this, 500, tca);
 	}
 

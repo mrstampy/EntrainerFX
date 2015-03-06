@@ -67,28 +67,36 @@ public abstract class AbstractSoundControl extends AbstractSoundSettings impleme
 		});
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundControl#getWavFile()
 	 */
 	public File getWavFile() {
 		return wavFile;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundControl#setWavFile(java.io.File)
 	 */
 	public void setWavFile(File wavFile) {
 		this.wavFile = wavFile;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundControl#isRecord()
 	 */
 	public boolean isRecord() {
 		return isRecord;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundControl#setRecord(boolean)
 	 */
 	public void setRecord(boolean isRecord) {

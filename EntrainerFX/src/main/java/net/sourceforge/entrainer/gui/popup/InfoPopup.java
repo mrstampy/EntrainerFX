@@ -26,10 +26,10 @@ import javax.swing.JWindow;
 
 // TODO: Auto-generated Javadoc
 /**
- * A superclass for all informational popup windows.  Implement the getContent method
- * as appropriate, and call the init method after instantiation.  The information is
- * displayed as an html string; html code necessary.
- *  
+ * A superclass for all informational popup windows. Implement the getContent
+ * method as appropriate, and call the init method after instantiation. The
+ * information is displayed as an html string; html code necessary.
+ * 
  * @author burton
  *
  */
@@ -42,23 +42,25 @@ public abstract class InfoPopup extends JWindow {
 	/**
 	 * Instantiate with the owner window.
 	 *
-	 * @param owner the owner
+	 * @param owner
+	 *          the owner
 	 */
 	public InfoPopup(Window owner) {
 		super(owner);
 		cleanup();
 	}
-	
+
 	private void cleanup() {
-		if(previous != null) {
+		if (previous != null) {
 			previous.dispose();
 		}
-		
+
 		previous = this;
 	}
 
 	/**
-	 * Mandatory: call this method after subclass has been instantiated ie. last method call in constructor.
+	 * Mandatory: call this method after subclass has been instantiated ie. last
+	 * method call in constructor.
 	 */
 	protected void init() {
 		setBackground(background);
@@ -88,7 +90,8 @@ public abstract class InfoPopup extends JWindow {
 	/**
 	 * Sets the display area.
 	 *
-	 * @param displayArea the new display area
+	 * @param displayArea
+	 *          the new display area
 	 */
 	protected void setDisplayArea(JEditorPane displayArea) {
 		this.displayArea = displayArea;

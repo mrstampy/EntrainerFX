@@ -47,7 +47,8 @@ public class ReceiverChangeEvent extends EventObject {
 	/**
 	 * Instantiates a new receiver change event.
 	 *
-	 * @param source the source
+	 * @param source
+	 *          the source
 	 */
 	protected ReceiverChangeEvent(Object source) {
 		super(source);
@@ -56,9 +57,12 @@ public class ReceiverChangeEvent extends EventObject {
 	/**
 	 * Instantiates a new receiver change event.
 	 *
-	 * @param source the source
-	 * @param value the value
-	 * @param parm the parm
+	 * @param source
+	 *          the source
+	 * @param value
+	 *          the value
+	 * @param parm
+	 *          the parm
 	 */
 	public ReceiverChangeEvent(Object source, double value, MediatorConstants parm) {
 		super(source);
@@ -69,10 +73,14 @@ public class ReceiverChangeEvent extends EventObject {
 	/**
 	 * Instantiates a new receiver change event.
 	 *
-	 * @param source the source
-	 * @param delta the delta
-	 * @param endValue the end value
-	 * @param parm the parm
+	 * @param source
+	 *          the source
+	 * @param delta
+	 *          the delta
+	 * @param endValue
+	 *          the end value
+	 * @param parm
+	 *          the parm
 	 */
 	public ReceiverChangeEvent(Object source, double delta, double endValue, MediatorConstants parm) {
 		this(source, delta, parm);
@@ -83,9 +91,12 @@ public class ReceiverChangeEvent extends EventObject {
 	/**
 	 * Instantiates a new receiver change event.
 	 *
-	 * @param source the source
-	 * @param b the b
-	 * @param parm the parm
+	 * @param source
+	 *          the source
+	 * @param b
+	 *          the b
+	 * @param parm
+	 *          the parm
 	 */
 	public ReceiverChangeEvent(Object source, boolean b, MediatorConstants parm) {
 		super(source);
@@ -96,9 +107,12 @@ public class ReceiverChangeEvent extends EventObject {
 	/**
 	 * Instantiates a new receiver change event.
 	 *
-	 * @param source the source
-	 * @param value the value
-	 * @param parm the parm
+	 * @param source
+	 *          the source
+	 * @param value
+	 *          the value
+	 * @param parm
+	 *          the parm
 	 */
 	public ReceiverChangeEvent(Object source, String value, MediatorConstants parm) {
 		super(source);
@@ -109,8 +123,10 @@ public class ReceiverChangeEvent extends EventObject {
 	/**
 	 * Instantiates a new receiver change event.
 	 *
-	 * @param source the source
-	 * @param c the c
+	 * @param source
+	 *          the source
+	 * @param c
+	 *          the c
 	 */
 	public ReceiverChangeEvent(Object source, Color c) {
 		this(source, c, FLASH_COLOUR);
@@ -119,8 +135,10 @@ public class ReceiverChangeEvent extends EventObject {
 	/**
 	 * Instantiates a new receiver change event.
 	 *
-	 * @param source the source
-	 * @param c the c
+	 * @param source
+	 *          the source
+	 * @param c
+	 *          the c
 	 */
 	public ReceiverChangeEvent(Object source, Color c, MediatorConstants parm) {
 		super(source);
@@ -140,7 +158,8 @@ public class ReceiverChangeEvent extends EventObject {
 	/**
 	 * Sets the parm.
 	 *
-	 * @param parm the new parm
+	 * @param parm
+	 *          the new parm
 	 */
 	protected void setParm(MediatorConstants parm) {
 		this.parm = parm;
@@ -158,7 +177,8 @@ public class ReceiverChangeEvent extends EventObject {
 	/**
 	 * Sets the end value.
 	 *
-	 * @param endValue the new end value
+	 * @param endValue
+	 *          the new end value
 	 */
 	public void setEndValue(double endValue) {
 		this.endValue = endValue;

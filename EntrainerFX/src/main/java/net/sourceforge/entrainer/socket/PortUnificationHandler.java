@@ -43,16 +43,21 @@ public class PortUnificationHandler extends ByteToMessageDecoder {
 	/**
 	 * Instantiates a new port unification handler.
 	 *
-	 * @param nettyConnectionHandler the netty connection handler
-	 * @param webSocketHandler the web socket handler
+	 * @param nettyConnectionHandler
+	 *          the netty connection handler
+	 * @param webSocketHandler
+	 *          the web socket handler
 	 */
 	public PortUnificationHandler(NettyConnectionHandler nettyConnectionHandler, WebSocketHandler webSocketHandler) {
 		this.nettyConnectionHandler = nettyConnectionHandler;
 		this.webSocketHandler = webSocketHandler;
 	}
 
-	/* (non-Javadoc)
-	 * @see io.netty.handler.codec.ByteToMessageDecoder#decode(io.netty.channel.ChannelHandlerContext, io.netty.buffer.ByteBuf, java.util.List)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see io.netty.handler.codec.ByteToMessageDecoder#decode(io.netty.channel.
+	 * ChannelHandlerContext, io.netty.buffer.ByteBuf, java.util.List)
 	 */
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {

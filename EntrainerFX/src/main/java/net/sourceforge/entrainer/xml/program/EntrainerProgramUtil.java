@@ -34,72 +34,77 @@ public class EntrainerProgramUtil {
 
 	private static Marshaller marshaller;
 	private static Unmarshaller unmarshaller;
-	
+
 	static {
 		try {
 			JAXBContext context = JAXBContext.newInstance(EntrainerProgram.class);
 			marshaller = context.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			unmarshaller = context.createUnmarshaller();
-		} catch(JAXBException e) {
+		} catch (JAXBException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	/**
 	 * Unmarshal.
 	 *
-	 * @param fileName the file name
+	 * @param fileName
+	 *          the file name
 	 * @return the entrainer program
 	 */
 	public static EntrainerProgram unmarshal(String fileName) {
 		File file = new File("xml", fileName);
-		
+
 		return unmarshal(file);
 	}
-	
+
 	/**
 	 * Unmarshal.
 	 *
-	 * @param file the file
+	 * @param file
+	 *          the file
 	 * @return the entrainer program
 	 */
 	public static EntrainerProgram unmarshal(File file) {
 		EntrainerProgram program;
 		try {
-			if(file != null && file.exists()) {
-				program = (EntrainerProgram)unmarshaller.unmarshal(file);
+			if (file != null && file.exists()) {
+				program = (EntrainerProgram) unmarshaller.unmarshal(file);
 			} else {
 				program = new EntrainerProgram();
 			}
 			program.setFile(file);
-			
+
 			return program;
-		} catch(JAXBException e) {
+		} catch (JAXBException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	/**
 	 * Marshal.
 	 *
-	 * @param program the program
-	 * @param fileName the file name
+	 * @param program
+	 *          the program
+	 * @param fileName
+	 *          the file name
 	 */
 	public static void marshal(EntrainerProgram program, String fileName) {
 		File file = new File("xml", fileName);
 
 		try {
 			marshaller.marshal(program, file);
-		} catch(JAXBException e) {
+		} catch (JAXBException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	/**
 	 * Marshal.
 	 *
-	 * @param program the program
+	 * @param program
+	 *          the program
 	 * @return the string
 	 */
 	public static String marshal(EntrainerProgram program) {
@@ -108,7 +113,7 @@ public class EntrainerProgramUtil {
 		try {
 			marshaller.marshal(program, writer);
 			return writer.toString();
-		} catch(JAXBException e) {
+		} catch (JAXBException e) {
 			throw new RuntimeException(e);
 		}
 	}

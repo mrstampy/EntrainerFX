@@ -40,20 +40,21 @@ public class ControlButtonFactory {
 
 	/** The Constant NORMAL_PART. */
 	public static final String NORMAL_PART = "-Normal.png";
-	
+
 	/** The Constant HOT_PART. */
 	public static final String HOT_PART = "-Hot.png";
-	
+
 	/** The Constant PRESSED_PART. */
 	public static final String PRESSED_PART = "-Pressed.png";
-	
+
 	/** The Constant DISABLED_PART. */
 	public static final String DISABLED_PART = "-Disabled.png";
 
 	/**
 	 * Creates a new ControlButton object.
 	 *
-	 * @param baseName the base name
+	 * @param baseName
+	 *          the base name
 	 * @return the button base
 	 */
 	public static ButtonBase createButton(String baseName) {
@@ -70,7 +71,7 @@ public class ControlButtonFactory {
 		final ImageView disabled = new ImageView("/" + baseName + DISABLED_PART);
 
 		button.setGraphic(normal);
-		
+
 		button.setEffect(new DropShadow());
 
 		button.setOnMouseEntered(new EventHandler<MouseEvent>() {

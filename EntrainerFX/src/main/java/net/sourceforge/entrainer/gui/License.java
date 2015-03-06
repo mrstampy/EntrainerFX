@@ -36,7 +36,7 @@ import net.sourceforge.entrainer.guitools.MigHelper;
 // TODO: Auto-generated Javadoc
 /**
  * Dialog to display the LICENSE.txt file.
- *  
+ * 
  * @author burton
  *
  */
@@ -46,23 +46,25 @@ public class License extends InformationDialog {
 	private static String NOT_FOUND = "License not found.  Released under the GPL";
 
 	private static License instance;
-	
+
 	private License() {
 		super("License");
 	}
-	
+
 	/**
 	 * Convenience method to display the license dialog.
 	 */
 	public static void showLicenseDialog() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new License();
 		}
-		
+
 		GuiUtil.showDialog(instance);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.InformationDialog#getButtonPanel()
 	 */
 	protected Container getButtonPanel() {
@@ -72,26 +74,31 @@ public class License extends InformationDialog {
 		jp.setBorder(new BevelBorder(BevelBorder.RAISED));
 		MigHelper mh = new MigHelper(jp);
 		mh.add(ok);
-		
+
 		return mh.getContainer();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.InformationDialog#layoutComponents()
 	 */
 	@Override
 	protected void layoutComponents() {
 		MigHelper mh = new MigHelper(getContentPane());
 		mh.setLayoutInsets(0, 0, 0, 0).setLayoutFill(true);
-		
+
 		JEditorPane pane = getInfoPane();
-		JScrollPane scroll = new JScrollPane(pane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scroll = new JScrollPane(pane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.setPreferredSize(new Dimension(500, 500));
-		
+
 		mh.grow(100).addLast(scroll).grow(100).add(getButtonPanel());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.InformationDialog#getContent()
 	 */
 	@Override
@@ -118,11 +125,11 @@ public class License extends InformationDialog {
 		} catch (Exception e) {
 			GuiUtil.handleProblem(e);
 		} finally {
-			if(reader != null) {
+			if (reader != null) {
 				try {
 					reader.close();
-				} catch(IOException e) {
-					//ignore
+				} catch (IOException e) {
+					// ignore
 				}
 			}
 		}

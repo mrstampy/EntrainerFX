@@ -54,7 +54,7 @@ public class ShimmerOptionsPane extends TitledPane {
 	public ShimmerOptionsPane() {
 		init();
 	}
-	
+
 	/**
 	 * Clear mediator objects.
 	 */
@@ -75,7 +75,8 @@ public class ShimmerOptionsPane extends TitledPane {
 	/**
 	 * Sets the shimmer selected.
 	 *
-	 * @param selected the new shimmer selected
+	 * @param selected
+	 *          the new shimmer selected
 	 */
 	public void setShimmerSelected(boolean selected) {
 		setSelected(selected, shimmer);
@@ -84,7 +85,8 @@ public class ShimmerOptionsPane extends TitledPane {
 	/**
 	 * Sets the shimmer tool tip.
 	 *
-	 * @param toolTip the new shimmer tool tip
+	 * @param toolTip
+	 *          the new shimmer tool tip
 	 */
 	public void setShimmerToolTip(String toolTip) {
 		setToolTip(toolTip, shimmer);
@@ -194,7 +196,7 @@ public class ShimmerOptionsPane extends TitledPane {
 		if (selected != null && selected.equals(shimmer.toString())) return;
 
 		JFXUtils.runLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				shimmers.setValue(stringValue);

@@ -23,6 +23,7 @@ import net.sourceforge.entrainer.sound.AbstractSoundInterval;
 // TODO: Auto-generated Javadoc
 /**
  * Blank implementation of AbstractSoundInterval for animations.
+ * 
  * @author burton
  *
  */
@@ -31,28 +32,36 @@ public class AnimationInterval extends AbstractSoundInterval {
 	/**
 	 * Instantiates a new animation interval.
 	 *
-	 * @param numerator the numerator
-	 * @param denominator the denominator
+	 * @param numerator
+	 *          the numerator
+	 * @param denominator
+	 *          the denominator
 	 */
 	public AnimationInterval(int numerator, int denominator) {
 		super(numerator, denominator);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundInterval#getInterval()
 	 */
 	public double getInterval() {
-		return ((double)getIntervalNumerator()) / ((double)getIntervalDenominator());
+		return ((double) getIntervalNumerator()) / ((double) getIntervalDenominator());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundInterval#isInterval(int, int)
 	 */
 	public boolean isInterval(int num, int denom) {
 		return num == getIntervalNumerator() && denom == getIntervalDenominator();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#getLeftAmplitude()
 	 */
 	public double getLeftAmplitude() {
@@ -60,7 +69,9 @@ public class AnimationInterval extends AbstractSoundInterval {
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#getLeftFrequency()
 	 */
 	public double getLeftFrequency() {
@@ -68,7 +79,9 @@ public class AnimationInterval extends AbstractSoundInterval {
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#getPinkNoiseAmplitude()
 	 */
 	public double getPinkNoiseAmplitude() {
@@ -76,23 +89,31 @@ public class AnimationInterval extends AbstractSoundInterval {
 		return 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#getPinkPanLeftAmplitude()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundSettings#getPinkPanLeftAmplitude()
 	 */
 	public double getPinkPanLeftAmplitude() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#getPinkPanRightAmplitude()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundSettings#getPinkPanRightAmplitude()
 	 */
 	public double getPinkPanRightAmplitude() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#getRightAmplitude()
 	 */
 	public double getRightAmplitude() {
@@ -100,7 +121,9 @@ public class AnimationInterval extends AbstractSoundInterval {
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#getRightFrequency()
 	 */
 	public double getRightFrequency() {
@@ -108,7 +131,9 @@ public class AnimationInterval extends AbstractSoundInterval {
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#setLeftAmplitude(double)
 	 */
 	public void setLeftAmplitude(double d) {
@@ -116,7 +141,9 @@ public class AnimationInterval extends AbstractSoundInterval {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#setLeftFrequency(double)
 	 */
 	public void setLeftFrequency(double d) {
@@ -124,47 +151,66 @@ public class AnimationInterval extends AbstractSoundInterval {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#setPinkNoiseAmplitude(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundSettings#setPinkNoiseAmplitude(double)
 	 */
 	public void setPinkNoiseAmplitude(double d) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#setPinkPanLeftAmplitude(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundSettings#setPinkPanLeftAmplitude(double
+	 * )
 	 */
 	public void setPinkPanLeftAmplitude(double d) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#setPinkPanRightAmplitude(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundSettings#setPinkPanRightAmplitude(
+	 * double)
 	 */
 	public void setPinkPanRightAmplitude(double d) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#setRightAmplitude(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundSettings#setRightAmplitude(double)
 	 */
 	public void setRightAmplitude(double d) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#setRightFrequency(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundSettings#setRightFrequency(double)
 	 */
 	public void setRightFrequency(double d) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#start()
 	 */
 	public void start() {
@@ -172,7 +218,9 @@ public class AnimationInterval extends AbstractSoundInterval {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#stop()
 	 */
 	public void stop() {

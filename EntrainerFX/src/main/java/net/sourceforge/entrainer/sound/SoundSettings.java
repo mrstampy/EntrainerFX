@@ -36,14 +36,16 @@ public interface SoundSettings {
 	/**
 	 * Sets the entrainment frequency.
 	 *
-	 * @param d the new entrainment frequency
+	 * @param d
+	 *          the new entrainment frequency
 	 */
 	void setEntrainmentFrequency(double d);
 
 	/**
 	 * Sets the left frequency.
 	 *
-	 * @param d the new left frequency
+	 * @param d
+	 *          the new left frequency
 	 */
 	void setLeftFrequency(double d);
 
@@ -57,7 +59,8 @@ public interface SoundSettings {
 	/**
 	 * Sets the right frequency.
 	 *
-	 * @param d the new right frequency
+	 * @param d
+	 *          the new right frequency
 	 */
 	void setRightFrequency(double d);
 
@@ -71,14 +74,16 @@ public interface SoundSettings {
 	/**
 	 * Sets the amplitude.
 	 *
-	 * @param d the new amplitude
+	 * @param d
+	 *          the new amplitude
 	 */
 	void setAmplitude(double d);
 
 	/**
 	 * Sets the pink noise amplitude.
 	 *
-	 * @param d the new pink noise amplitude
+	 * @param d
+	 *          the new pink noise amplitude
 	 */
 	void setPinkNoiseAmplitude(double d);
 
@@ -92,7 +97,8 @@ public interface SoundSettings {
 	/**
 	 * Sets the left amplitude.
 	 *
-	 * @param d the new left amplitude
+	 * @param d
+	 *          the new left amplitude
 	 */
 	void setLeftAmplitude(double d);
 
@@ -106,7 +112,8 @@ public interface SoundSettings {
 	/**
 	 * Sets the right amplitude.
 	 *
-	 * @param d the new right amplitude
+	 * @param d
+	 *          the new right amplitude
 	 */
 	void setRightAmplitude(double d);
 
@@ -120,21 +127,24 @@ public interface SoundSettings {
 	/**
 	 * Sets the pink pan left amplitude.
 	 *
-	 * @param d the new pink pan left amplitude
+	 * @param d
+	 *          the new pink pan left amplitude
 	 */
 	void setPinkPanLeftAmplitude(double d);
 
 	/**
 	 * Sets the pink pan right amplitude.
 	 *
-	 * @param d the new pink pan right amplitude
+	 * @param d
+	 *          the new pink pan right amplitude
 	 */
 	void setPinkPanRightAmplitude(double d);
-	
+
 	/**
 	 * Sets the pink pan amplitude.
 	 *
-	 * @param d the new pink pan amplitude
+	 * @param d
+	 *          the new pink pan amplitude
 	 */
 	void setPinkPanAmplitude(double d);
 
@@ -161,42 +171,44 @@ public interface SoundSettings {
 	 * Call this method to stop the JSyn sound classes.
 	 */
 	void stop();
-	
+
 	/**
 	 * Pause.
 	 */
 	void pause();
-	
+
 	/**
 	 * Sets the paused.
 	 *
-	 * @param isPaused the new paused
+	 * @param isPaused
+	 *          the new paused
 	 */
 	void setPaused(boolean isPaused);
-	
+
 	/**
 	 * Resume.
 	 */
 	void resume();
-	
+
 	/**
 	 * Checks if is paused.
 	 *
 	 * @return true, if is paused
 	 */
 	boolean isPaused();
-	
+
 	/**
 	 * Ensure subclasses set this appropriately from start() method calls.
 	 *
 	 * @return true, if is playing
 	 */
 	boolean isPlaying();
-	
+
 	/**
 	 * Ensure subclasses set this appropriately from stop() method calls.
 	 *
-	 * @param isPlaying the new playing
+	 * @param isPlaying
+	 *          the new playing
 	 */
 	void setPlaying(boolean isPlaying);
 

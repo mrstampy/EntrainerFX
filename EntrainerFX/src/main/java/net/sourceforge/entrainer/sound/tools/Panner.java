@@ -159,7 +159,7 @@ public class Panner {
 
 		BigDecimal delta = new BigDecimal(masterLevelController.getPinkPanAmplitude(), MathContext.DECIMAL64)
 				.multiply(fraction);
-		
+
 		double maxMinusDelta = getMaxAmplitude() - delta.doubleValue();
 		double minPlusDelta = getMinAmplitude() + delta.doubleValue();
 

@@ -34,7 +34,7 @@ import javafx.scene.paint.Stop;
  * @author burton
  */
 public class FlashingWaveShimmerRectangle extends AbstractFlashingShimmer<LinearGradient> {
-	
+
 	/** The Constant NAME. */
 	public static final String NAME = "Flashing Wave Gradient";
 
@@ -51,8 +51,12 @@ public class FlashingWaveShimmerRectangle extends AbstractFlashingShimmer<Linear
 		setId(CSS_ID);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
+	 * (double)
 	 */
 	@Override
 	protected LinearGradient createNewPaint(double opacity) {
@@ -76,7 +80,7 @@ public class FlashingWaveShimmerRectangle extends AbstractFlashingShimmer<Linear
 		to.add(new Stop(0, generateColor(rand.nextDouble())));
 
 		for (double i = 1; i <= NUM_STOPS.intValue(); i++) {
-			to.add(new Stop(createDouble(i), from.get((int)i - 1).getColor()));
+			to.add(new Stop(createDouble(i), from.get((int) i - 1).getColor()));
 		}
 
 		return to;
@@ -94,7 +98,9 @@ public class FlashingWaveShimmerRectangle extends AbstractFlashingShimmer<Linear
 		return new Stop(offset, generateColor(a));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
 	 */
 	public String toString() {

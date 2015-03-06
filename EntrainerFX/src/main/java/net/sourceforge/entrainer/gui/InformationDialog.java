@@ -35,29 +35,30 @@ import net.sourceforge.entrainer.guitools.MigHelper;
 
 // TODO: Auto-generated Javadoc
 /**
- * Superclass to display help dialogs in html.  Subclasses must override
- * the getContent() method.
+ * Superclass to display help dialogs in html. Subclasses must override the
+ * getContent() method.
  * 
  * @author burton
  *
  */
 public abstract class InformationDialog extends JDialog {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The ok. */
 	protected JButton ok = new JButton("Ok");
 
 	/**
 	 * Instantiate with the title of the dialog.
 	 *
-	 * @param title the title
+	 * @param title
+	 *          the title
 	 */
 	protected InformationDialog(String title) {
-		super((Frame)null, title, true);
+		super((Frame) null, title, true);
 		init();
 	}
-	
+
 	/**
 	 * Override in subclasses to return the html string for display.
 	 *
@@ -68,21 +69,22 @@ public abstract class InformationDialog extends JDialog {
 	/**
 	 * Returns the String representation of the URL of the given resource.
 	 *
-	 * @param img the img
+	 * @param img
+	 *          the img
 	 * @return the image url
 	 */
 	protected String getImageUrl(String img) {
 		URL url = getClass().getResource(img);
-		
+
 		return url.toExternalForm();
 	}
-	
+
 	private void init() {
 		addListeners();
-		
+
 		layoutComponents();
 	}
-	
+
 	/**
 	 * Override in subclasses, if necessary.
 	 * 
@@ -91,10 +93,10 @@ public abstract class InformationDialog extends JDialog {
 	protected void layoutComponents() {
 		MigHelper mh = new MigHelper(getContentPane());
 		mh.setLayoutInsets(0, 0, 0, 0);
-		
+
 		mh.grow(100).addLast(getInfoPane()).grow(100).add(getButtonPanel());
 	}
-	
+
 	private void addListeners() {
 		ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -102,7 +104,7 @@ public abstract class InformationDialog extends JDialog {
 			}
 		});
 	}
-	
+
 	/**
 	 * Gets the button panel.
 	 *
@@ -113,20 +115,20 @@ public abstract class InformationDialog extends JDialog {
 		jp.setBorder(new BevelBorder(BevelBorder.RAISED));
 		MigHelper mh = new MigHelper(jp);
 		mh.add(ok);
-		
+
 		return mh.getContainer();
 	}
-	
+
 	/**
-	 * Returns the {@link JEditorPane} containing the html
-	 * returned from the implementation of getContents().
+	 * Returns the {@link JEditorPane} containing the html returned from the
+	 * implementation of getContents().
 	 *
 	 * @return the info pane
 	 */
 	protected JEditorPane getInfoPane() {
 		JEditorPane pane = new JEditorPane("text/html", getContent());
 		pane.setEditable(false);
-		
+
 		return pane;
 	}
 

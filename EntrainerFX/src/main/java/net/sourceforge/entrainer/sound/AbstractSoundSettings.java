@@ -36,14 +36,20 @@ public abstract class AbstractSoundSettings implements SoundSettings {
 		super();
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#setEntrainmentFrequency(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundSettings#setEntrainmentFrequency(double
+	 * )
 	 */
 	public void setEntrainmentFrequency(double d) {
 		setRightFrequency(getLeftFrequency() + d);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#setAmplitude(double)
 	 */
 	public void setAmplitude(double d) {
@@ -51,15 +57,21 @@ public abstract class AbstractSoundSettings implements SoundSettings {
 		setRightAmplitude(d);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#getEntrainmentFrequency()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundSettings#getEntrainmentFrequency()
 	 */
 	public double getEntrainmentFrequency() {
 		return getRightFrequency() - getLeftFrequency();
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#setPinkPanAmplitude(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.sound.SoundSettings#setPinkPanAmplitude(double)
 	 */
 	public void setPinkPanAmplitude(double d) {
 		pinkPan = d;
@@ -82,28 +94,36 @@ public abstract class AbstractSoundSettings implements SoundSettings {
 		return pinkPan;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#isPlaying()
 	 */
 	public boolean isPlaying() {
 		return isPlaying;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#setPlaying(boolean)
 	 */
 	public void setPlaying(boolean isPlaying) {
 		this.isPlaying = isPlaying;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#isPaused()
 	 */
 	public boolean isPaused() {
 		return isPaused;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.sound.SoundSettings#setPaused(boolean)
 	 */
 	public void setPaused(boolean isPaused) {

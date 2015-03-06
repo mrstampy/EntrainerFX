@@ -184,7 +184,7 @@ public class Settings {
 
 	@XmlElement(name = "static.background.picture")
 	private String staticPictureFile;
-	
+
 	@XmlElement(name = "static.picture.lock")
 	private boolean staticPictureLock;
 
@@ -208,7 +208,7 @@ public class Settings {
 
 	@XmlElement(name = "dynamic.transition")
 	private int dynamicTransition;
-	
+
 	@XmlElement(name = "splash.on.startup")
 	private boolean splashOnStartup;
 

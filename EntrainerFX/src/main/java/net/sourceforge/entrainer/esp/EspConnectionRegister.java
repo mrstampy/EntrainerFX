@@ -73,7 +73,8 @@ public final class EspConnectionRegister {
 	/**
 	 * Gets the esp connection.
 	 *
-	 * @param name the name
+	 * @param name
+	 *          the name
 	 * @return the esp connection
 	 */
 	public static RawEspConnection getEspConnection(String name) {

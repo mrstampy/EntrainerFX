@@ -95,7 +95,9 @@ public class EntrainerFXLite extends Application {
 		masterLevelController = new MasterLevelController(control);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javafx.application.Application#init()
 	 */
 	@Override
@@ -115,7 +117,11 @@ public class EntrainerFXLite extends Application {
 		GridPane.setConstraints(pinkPanningPane, 0, 3, 2, 1);
 		GridPane.setConstraints(shimmerOptions, 0, 4, 2, 1);
 		gp.setPadding(new Insets(5));
-		gp.getChildren().addAll(soundControlPane, sliderControlPane, checkBoxPane, pinkPanningPane, messagePanel,
+		gp.getChildren().addAll(soundControlPane,
+				sliderControlPane,
+				checkBoxPane,
+				pinkPanningPane,
+				messagePanel,
 				shimmerOptions);
 
 		wireButtons();
@@ -144,7 +150,9 @@ public class EntrainerFXLite extends Application {
 		fireReceiverChangeEvent(true, MediatorConstants.IS_PSYCHEDELIC);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 */
 	@Override
@@ -339,7 +347,8 @@ public class EntrainerFXLite extends Application {
 	/**
 	 * The main method.
 	 *
-	 * @param args the arguments
+	 * @param args
+	 *          the arguments
 	 */
 	public static void main(String[] args) {
 		launch(args);

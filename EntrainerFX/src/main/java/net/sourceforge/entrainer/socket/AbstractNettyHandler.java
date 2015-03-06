@@ -52,7 +52,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 /**
  * The Class AbstractNettyHandler.
  *
- * @param <I> the generic type
+ * @param <I>
+ *          the generic type
  */
 public abstract class AbstractNettyHandler<I extends Object> extends SimpleChannelInboundHandler<I> {
 	private static final Logger log = Logger.getLogger(AbstractNettyHandler.class);
@@ -73,7 +74,8 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 	/**
 	 * Instantiates a new abstract netty handler.
 	 *
-	 * @param currentState the current state
+	 * @param currentState
+	 *          the current state
 	 */
 	protected AbstractNettyHandler(EntrainerStateMessage currentState) {
 		this.currentState = currentState;
@@ -82,8 +84,12 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 		jsonMapper.setSerializationInclusion(Include.NON_NULL);
 	}
 
-	/* (non-Javadoc)
-	 * @see io.netty.channel.ChannelInboundHandlerAdapter#channelActive(io.netty.channel.ChannelHandlerContext)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * io.netty.channel.ChannelInboundHandlerAdapter#channelActive(io.netty.channel
+	 * .ChannelHandlerContext)
 	 */
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -91,16 +97,24 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 		uncategorized.add(channel);
 	}
 
-	/* (non-Javadoc)
-	 * @see io.netty.channel.ChannelInboundHandlerAdapter#channelInactive(io.netty.channel.ChannelHandlerContext)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * io.netty.channel.ChannelInboundHandlerAdapter#channelInactive(io.netty.
+	 * channel.ChannelHandlerContext)
 	 */
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		jsonGroup.remove(ctx.channel());
 		xmlGroup.remove(ctx.channel());
 	}
 
-	/* (non-Javadoc)
-	 * @see io.netty.channel.SimpleChannelInboundHandler#channelRead0(io.netty.channel.ChannelHandlerContext, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * io.netty.channel.SimpleChannelInboundHandler#channelRead0(io.netty.channel
+	 * .ChannelHandlerContext, java.lang.Object)
 	 */
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, I msg) throws Exception {
@@ -111,8 +125,12 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 		channelRead1(ctx, msg);
 	}
 
-	/* (non-Javadoc)
-	 * @see io.netty.channel.ChannelInboundHandlerAdapter#exceptionCaught(io.netty.channel.ChannelHandlerContext, java.lang.Throwable)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * io.netty.channel.ChannelInboundHandlerAdapter#exceptionCaught(io.netty.
+	 * channel.ChannelHandlerContext, java.lang.Throwable)
 	 */
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
@@ -128,16 +146,20 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 	/**
 	 * Channel read1.
 	 *
-	 * @param ctx the ctx
-	 * @param msg the msg
-	 * @throws Exception the exception
+	 * @param ctx
+	 *          the ctx
+	 * @param msg
+	 *          the msg
+	 * @throws Exception
+	 *           the exception
 	 */
 	protected abstract void channelRead1(ChannelHandlerContext ctx, I msg) throws Exception;
 
 	/**
 	 * Checks if is json.
 	 *
-	 * @param ctx the ctx
+	 * @param ctx
+	 *          the ctx
 	 * @return true, if is json
 	 */
 	protected boolean isJson(ChannelHandlerContext ctx) {
@@ -147,9 +169,12 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 	/**
 	 * Sets the entrainer state.
 	 *
-	 * @param ctx the ctx
-	 * @param message the message
-	 * @throws Exception the exception
+	 * @param ctx
+	 *          the ctx
+	 * @param message
+	 *          the message
+	 * @throws Exception
+	 *           the exception
 	 */
 	protected void setEntrainerState(ChannelHandlerContext ctx, String message) throws Exception {
 		if (isJson(ctx)) {
@@ -173,8 +198,10 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 	/**
 	 * Broadcast.
 	 *
-	 * @param message the message
-	 * @throws Exception the exception
+	 * @param message
+	 *          the message
+	 * @throws Exception
+	 *           the exception
 	 */
 	public void broadcast(final EntrainerStateMessage message) throws Exception {
 		if (!jsonGroup.isEmpty()) {

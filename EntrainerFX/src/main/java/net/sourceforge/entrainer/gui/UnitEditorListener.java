@@ -22,10 +22,9 @@ import java.util.EventListener;
 
 // TODO: Auto-generated Javadoc
 /**
- * The listener interface for receiving unitEditor events.
- * The class that is interested in processing a unitEditor
- * event implements this interface, and the object created
- * with that class is registered with a component using the
+ * The listener interface for receiving unitEditor events. The class that is
+ * interested in processing a unitEditor event implements this interface, and
+ * the object created with that class is registered with a component using the
  * component's <code>addUnitEditorListener<code> method. When
  * the unitEditor event occurs, that object's appropriate
  * method is invoked.
@@ -37,7 +36,8 @@ public interface UnitEditorListener extends EventListener {
 	/**
 	 * Unit editor event performed.
 	 *
-	 * @param e the e
+	 * @param e
+	 *          the e
 	 */
 	void unitEditorEventPerformed(UnitEditorEvent e);
 }

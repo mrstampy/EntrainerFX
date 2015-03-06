@@ -30,26 +30,28 @@ import java.util.EventObject;
 public class PauseEvent extends EventObject {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The Constant PAUSE. */
 	public static final int PAUSE = 0;
-	
+
 	/** The Constant RESUME. */
 	public static final int RESUME = 1;
-	
+
 	private int action;
 
 	/**
 	 * Instantiates a new pause event.
 	 *
-	 * @param source the source
-	 * @param action the action
+	 * @param source
+	 *          the source
+	 * @param action
+	 *          the action
 	 */
 	public PauseEvent(Object source, int action) {
 		super(source);
 		setAction(action);
 	}
-	
+
 	/**
 	 * Checks if is pause.
 	 *
@@ -58,7 +60,7 @@ public class PauseEvent extends EventObject {
 	public boolean isPause() {
 		return getAction() == PAUSE;
 	}
-	
+
 	/**
 	 * Checks if is resume.
 	 *

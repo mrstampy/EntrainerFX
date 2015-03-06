@@ -19,6 +19,7 @@
 package net.sourceforge.entrainer.gui;
 
 import java.util.EventListener;
+
 // TODO: Auto-generated Javadoc
 /**
  * Listener interface for {@link XmlFileSaveEvent}'s.
@@ -27,11 +28,12 @@ import java.util.EventListener;
  *
  */
 public interface XmlFileSaveListener extends EventListener {
-	
+
 	/**
 	 * Xml file save event performed.
 	 *
-	 * @param e the e
+	 * @param e
+	 *          the e
 	 */
 	public void xmlFileSaveEventPerformed(XmlFileSaveEvent e);
 }

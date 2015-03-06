@@ -27,7 +27,8 @@ import net.sourceforge.entrainer.util.Utils;
 /**
  * The Class AbstractFlashingShimmer.
  *
- * @param <P> the generic type
+ * @param <P>
+ *          the generic type
  */
 public abstract class AbstractFlashingShimmer<P extends Paint> extends AbstractShimmer<P> {
 
@@ -42,7 +43,9 @@ public abstract class AbstractFlashingShimmer<P extends Paint> extends AbstractS
 		super();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#start()
 	 */
 	public void start() {
@@ -50,7 +53,9 @@ public abstract class AbstractFlashingShimmer<P extends Paint> extends AbstractS
 		startOpacityFlashingThread();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#stop()
 	 */
 	public void stop() {
@@ -74,13 +79,13 @@ public abstract class AbstractFlashingShimmer<P extends Paint> extends AbstractS
 				setShimmerOpacity(o);
 			}
 		};
-		
+
 		t.start();
 	}
-	
+
 	private void setShimmerOpacity(final double o) {
 		JFXUtils.runLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				setOpacity(o);

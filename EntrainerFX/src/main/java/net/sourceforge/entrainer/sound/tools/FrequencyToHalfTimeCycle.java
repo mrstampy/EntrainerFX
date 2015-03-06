@@ -45,7 +45,7 @@ public class FrequencyToHalfTimeCycle {
 	private long millis;
 	private int nanos;
 	private double frequency;
-	
+
 	/**
 	 * Instantiates a new frequency to half time cycle.
 	 */
@@ -56,7 +56,8 @@ public class FrequencyToHalfTimeCycle {
 	/**
 	 * Sets the frequency.
 	 *
-	 * @param frequency the new frequency
+	 * @param frequency
+	 *          the new frequency
 	 */
 	public void setFrequency(double frequency) {
 		this.frequency = frequency;
@@ -72,7 +73,7 @@ public class FrequencyToHalfTimeCycle {
 
 		setNanos(getNanoValue(nanos));
 	}
-	
+
 	/**
 	 * Cleanup.
 	 */
@@ -103,7 +104,7 @@ public class FrequencyToHalfTimeCycle {
 
 	private int getNanoValue(BigDecimal nanos) {
 		int val = nanos.intValue();
-		
+
 		return val < 0 ? 0 : val;
 	}
 
@@ -130,7 +131,7 @@ public class FrequencyToHalfTimeCycle {
 	}
 
 	private void setNanos(int nanos) {
-		if(nanos < 0 || nanos > 999999) nanos = 0;
+		if (nanos < 0 || nanos > 999999) nanos = 0;
 		this.nanos = nanos;
 	}
 

@@ -23,37 +23,37 @@ package net.sourceforge.entrainer.gui;
  * The Interface XmlEditorConstants.
  */
 public interface XmlEditorConstants {
-	
+
 	/** The xec dialog name. */
 	String XEC_DIALOG_NAME = "EntrainerFX Program Editor";
-	
+
 	/** The xec colour chooser name. */
 	String XEC_COLOUR_CHOOSER_NAME = "colourChooser";
-	
+
 	/** The xec colour name. */
 	String XEC_COLOUR_NAME = "colour";
-	
+
 	/** The xec units name. */
 	String XEC_UNITS_NAME = "units";
-	
+
 	/** The xec save name. */
 	String XEC_SAVE_NAME = "Save";
-	
+
 	/** The xec save as name. */
 	String XEC_SAVE_AS_NAME = "Save As";
-	
+
 	/** The xec cancel name. */
 	String XEC_CANCEL_NAME = "Cancel";
-	
+
 	/** The xec remove unit name. */
 	String XEC_REMOVE_UNIT_NAME = "removeUnit";
-	
+
 	/** The xec add unit name. */
 	String XEC_ADD_UNIT_NAME = "addUnit";
-	
+
 	/** The xec show chart name. */
 	String XEC_SHOW_CHART_NAME = "showChart";
-	
+
 	/** The xec about menu name. */
 	String XEC_ABOUT_MENU_NAME = "About";
 }

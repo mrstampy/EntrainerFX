@@ -23,8 +23,8 @@ import javafx.geometry.Rectangle2D;
 
 // TODO: Auto-generated Javadoc
 /**
- * Convenience class to enable modification of {@link Rectangle2D} settings.  Provides
- * convenience methods to determine and set center & radius.
+ * Convenience class to enable modification of {@link Rectangle2D} settings.
+ * Provides convenience methods to determine and set center & radius.
  * 
  * @author burton
  * @see JFXEntrainerAnimation
@@ -37,10 +37,14 @@ public class AnimationRectangle2D {
 	/**
 	 * Instantiates a new animation rectangle2 d.
 	 *
-	 * @param arg0 the arg0
-	 * @param arg1 the arg1
-	 * @param arg2 the arg2
-	 * @param arg3 the arg3
+	 * @param arg0
+	 *          the arg0
+	 * @param arg1
+	 *          the arg1
+	 * @param arg2
+	 *          the arg2
+	 * @param arg3
+	 *          the arg3
 	 */
 	public AnimationRectangle2D(double arg0, double arg1, double arg2, double arg3) {
 		delegate = new Rectangle2D(arg0, arg1, arg2, arg3);
@@ -49,8 +53,10 @@ public class AnimationRectangle2D {
 	/**
 	 * Contains.
 	 *
-	 * @param x the x
-	 * @param y the y
+	 * @param x
+	 *          the x
+	 * @param y
+	 *          the y
 	 * @return true, if successful
 	 */
 	public boolean contains(double x, double y) {
@@ -60,10 +66,14 @@ public class AnimationRectangle2D {
 	/**
 	 * Contains.
 	 *
-	 * @param x the x
-	 * @param y the y
-	 * @param w the w
-	 * @param h the h
+	 * @param x
+	 *          the x
+	 * @param y
+	 *          the y
+	 * @param w
+	 *          the w
+	 * @param h
+	 *          the h
 	 * @return true, if successful
 	 */
 	public boolean contains(double x, double y, double w, double h) {
@@ -73,17 +83,19 @@ public class AnimationRectangle2D {
 	/**
 	 * Contains.
 	 *
-	 * @param p the p
+	 * @param p
+	 *          the p
 	 * @return true, if successful
 	 */
 	public boolean contains(Point2D p) {
 		return delegate.contains(p);
 	}
-	
+
 	/**
 	 * Contains.
 	 *
-	 * @param rect the rect
+	 * @param rect
+	 *          the rect
 	 * @return true, if successful
 	 */
 	public boolean contains(AnimationRectangle2D rect) {
@@ -147,10 +159,14 @@ public class AnimationRectangle2D {
 	/**
 	 * Intersects.
 	 *
-	 * @param x the x
-	 * @param y the y
-	 * @param w the w
-	 * @param h the h
+	 * @param x
+	 *          the x
+	 * @param y
+	 *          the y
+	 * @param w
+	 *          the w
+	 * @param h
+	 *          the h
 	 * @return true, if successful
 	 */
 	public boolean intersects(double x, double y, double w, double h) {
@@ -160,31 +176,37 @@ public class AnimationRectangle2D {
 	/**
 	 * Intersects.
 	 *
-	 * @param rect the rect
+	 * @param rect
+	 *          the rect
 	 * @return true, if successful
 	 */
 	public boolean intersects(Rectangle2D rect) {
 		return delegate.intersects(rect);
 	}
-	
+
 	/**
 	 * Intersects.
 	 *
-	 * @param rect the rect
+	 * @param rect
+	 *          the rect
 	 * @return true, if successful
 	 */
 	public boolean intersects(AnimationRectangle2D rect) {
 		return intersects(rect.getDelegate());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	public int hashCode() {
 		return delegate.hashCode() + super.hashCode();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
@@ -194,12 +216,13 @@ public class AnimationRectangle2D {
 	/**
 	 * Sets the delegate.
 	 *
-	 * @param delegate the new delegate
+	 * @param delegate
+	 *          the new delegate
 	 */
 	public void setDelegate(Rectangle2D delegate) {
 		this.delegate = delegate;
 	}
-	
+
 	/**
 	 * Gets the delegate.
 	 *
@@ -212,7 +235,8 @@ public class AnimationRectangle2D {
 	/**
 	 * Sets the x.
 	 *
-	 * @param x the new x
+	 * @param x
+	 *          the new x
 	 */
 	public void setX(double x) {
 		setDelegate(new Rectangle2D(x, getMinY(), getWidth(), getHeight()));
@@ -221,7 +245,8 @@ public class AnimationRectangle2D {
 	/**
 	 * Sets the y.
 	 *
-	 * @param y the new y
+	 * @param y
+	 *          the new y
 	 */
 	public void setY(double y) {
 		setDelegate(new Rectangle2D(getMinX(), y, getWidth(), getHeight()));
@@ -230,7 +255,8 @@ public class AnimationRectangle2D {
 	/**
 	 * Sets the width.
 	 *
-	 * @param w the new width
+	 * @param w
+	 *          the new width
 	 */
 	public void setWidth(double w) {
 		setDelegate(new Rectangle2D(getMinX(), getMinY(), w, getHeight()));
@@ -239,7 +265,8 @@ public class AnimationRectangle2D {
 	/**
 	 * Sets the height.
 	 *
-	 * @param h the new height
+	 * @param h
+	 *          the new height
 	 */
 	public void setHeight(double h) {
 		setDelegate(new Rectangle2D(getMinX(), getMinY(), getWidth(), h));
@@ -266,7 +293,8 @@ public class AnimationRectangle2D {
 	/**
 	 * Sets the center x.
 	 *
-	 * @param xCenter the new center x
+	 * @param xCenter
+	 *          the new center x
 	 */
 	public void setCenterX(double xCenter) {
 		double current = getCenterX();
@@ -278,7 +306,8 @@ public class AnimationRectangle2D {
 	/**
 	 * Sets the center y.
 	 *
-	 * @param yCenter the new center y
+	 * @param yCenter
+	 *          the new center y
 	 */
 	public void setCenterY(double yCenter) {
 		double current = getCenterY();
@@ -308,7 +337,8 @@ public class AnimationRectangle2D {
 	/**
 	 * Sets the radius x.
 	 *
-	 * @param xRad the new radius x
+	 * @param xRad
+	 *          the new radius x
 	 */
 	public void setRadiusX(double xRad) {
 		double current = getRadiusX();
@@ -321,7 +351,8 @@ public class AnimationRectangle2D {
 	/**
 	 * Sets the radius y.
 	 *
-	 * @param yRad the new radius y
+	 * @param yRad
+	 *          the new radius y
 	 */
 	public void setRadiusY(double yRad) {
 		double current = getRadiusY();

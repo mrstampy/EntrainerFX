@@ -34,7 +34,7 @@ import javafx.scene.paint.Stop;
  * @author burton
  */
 public class WaveShimmerRectangle extends AbstractShimmer<LinearGradient> {
-	
+
 	/** The Constant NAME. */
 	public static final String NAME = "Wave Gradient";
 
@@ -51,8 +51,12 @@ public class WaveShimmerRectangle extends AbstractShimmer<LinearGradient> {
 		setId(CSS_ID);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint(double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
+	 * (double)
 	 */
 	@Override
 	protected LinearGradient createNewPaint(double opacity) {
@@ -94,7 +98,9 @@ public class WaveShimmerRectangle extends AbstractShimmer<LinearGradient> {
 		return new Stop(offset, generateColor(a));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
 	 */
 	public String toString() {

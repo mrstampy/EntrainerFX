@@ -23,13 +23,13 @@ package net.sourceforge.entrainer.gui;
  * The Interface AnimationChooserDialogConstants.
  */
 public interface AnimationChooserDialogConstants {
-	
+
 	/** The acd animations combobox name. */
 	String ACD_ANIMATIONS_COMBOBOX_NAME = "animations";
-	
+
 	/** The acd use desktop background name. */
 	String ACD_USE_DESKTOP_BACKGROUND_NAME = "useDesktopBackground";
-	
+
 	/** The acd animation background. */
 	String ACD_ANIMATION_BACKGROUND = "animationBackground";
 }

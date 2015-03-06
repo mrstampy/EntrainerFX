@@ -59,7 +59,7 @@ public class ShimmerPane extends JComponent {
 	private Color c4;
 	private Float op1;
 	private Float op2;
-	
+
 	/** The is first. */
 	boolean isFirst = true;
 	private Timeline tl;
@@ -74,7 +74,9 @@ public class ShimmerPane extends JComponent {
 		initMediator();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
 	 */
 	@Override

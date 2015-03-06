@@ -38,7 +38,8 @@ import org.pushingpixels.trident.callback.TimelineCallback;
  * Abstract superclass for all shimmer effects.
  *
  * @author burton
- * @param <P>          the {@link Paint} subclass
+ * @param <P>
+ *          the {@link Paint} subclass
  */
 public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 
@@ -68,12 +69,12 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 
 		setFill(null);
 	}
-	
+
 	/**
 	 * Pre init.
 	 */
 	protected void preInit() {
-		
+
 	}
 
 	/**
@@ -86,7 +87,8 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	/**
 	 * Generates a random colour using the specified opacity.
 	 *
-	 * @param a          the alpha (opacity) value.
+	 * @param a
+	 *          the alpha (opacity) value.
 	 * @return the color
 	 */
 	protected Color generateColor(double a) {
@@ -131,7 +133,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	 */
 	public void start() {
 		JFXUtils.runLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				fadeIn();
@@ -181,7 +183,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 			public void onTimelineStateChanged(TimelineState arg0, TimelineState arg1, float arg2, float arg3) {
 				if (arg1.equals(TimelineState.DONE)) {
 					JFXUtils.runLater(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							setFill(null);
@@ -232,17 +234,18 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 
 		timeLine.setDuration(1000);
 		modifyTimeline(timeLine);
-		
+
 		timeLine.play();
 	}
-	
+
 	/**
 	 * Modify timeline.
 	 *
-	 * @param timeLine the time line
+	 * @param timeLine
+	 *          the time line
 	 */
 	protected void modifyTimeline(Timeline timeLine) {
-		
+
 	}
 
 	private void fill() {
@@ -304,7 +307,8 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	/**
 	 * Sets the p1.
 	 *
-	 * @param p1 the new p1
+	 * @param p1
+	 *          the new p1
 	 */
 	public void setP1(P p1) {
 		this.p1 = p1;
@@ -322,7 +326,8 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	/**
 	 * Sets the p2.
 	 *
-	 * @param p2 the new p2
+	 * @param p2
+	 *          the new p2
 	 */
 	public void setP2(P p2) {
 		this.p2 = p2;
@@ -340,7 +345,8 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	/**
 	 * Creates the new paint.
 	 *
-	 * @param opacity the opacity
+	 * @param opacity
+	 *          the opacity
 	 * @return the p
 	 */
 	protected abstract P createNewPaint(double opacity);
@@ -357,7 +363,8 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	/**
 	 * Sets the in use.
 	 *
-	 * @param inUse the new in use
+	 * @param inUse
+	 *          the new in use
 	 */
 	public void setInUse(boolean inUse) {
 		this.inUse = inUse;

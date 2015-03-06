@@ -36,7 +36,8 @@ abstract class AbstractUnitSetter implements UnitSetter {
 	/**
 	 * Instantiates a new abstract unit setter.
 	 *
-	 * @param unit the unit
+	 * @param unit
+	 *          the unit
 	 */
 	public AbstractUnitSetter(EntrainerProgramUnit unit) {
 		super();
@@ -48,7 +49,9 @@ abstract class AbstractUnitSetter implements UnitSetter {
 		EntrainerMediator.getInstance().addSender(sender);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.xml.program.UnitSetter#getUnit()
 	 */
 	public EntrainerProgramUnit getUnit() {
@@ -58,7 +61,8 @@ abstract class AbstractUnitSetter implements UnitSetter {
 	/**
 	 * Sets the unit.
 	 *
-	 * @param unit the new unit
+	 * @param unit
+	 *          the new unit
 	 */
 	public void setUnit(EntrainerProgramUnit unit) {
 		this.unit = unit;
@@ -67,9 +71,12 @@ abstract class AbstractUnitSetter implements UnitSetter {
 	/**
 	 * Fire property change event.
 	 *
-	 * @param name the name
-	 * @param oldValue the old value
-	 * @param newValue the new value
+	 * @param name
+	 *          the name
+	 * @param oldValue
+	 *          the old value
+	 * @param newValue
+	 *          the new value
 	 */
 	protected void firePropertyChangeEvent(MediatorConstants name, double oldValue, double newValue) {
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, newValue, name);

@@ -35,23 +35,28 @@ public abstract class EntrainerPausibleThread extends PauseThreadAdapter impleme
 	public EntrainerPausibleThread() {
 		super();
 	}
-	
+
 	/**
 	 * Instantiates a new entrainer pausible thread.
 	 *
-	 * @param name the name
+	 * @param name
+	 *          the name
 	 */
 	public EntrainerPausibleThread(String name) {
 		super(name);
 	}
-	
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.pausethread.PauseListener#pauseEventPerformed(net.sourceforge.entrainer.pausethread.PauseEvent)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.pausethread.PauseListener#pauseEventPerformed
+	 * (net.sourceforge.entrainer.pausethread.PauseEvent)
 	 */
 	public void pauseEventPerformed(PauseEvent e) {
-		if(e.isPause()) {
+		if (e.isPause()) {
 			pauseWork();
-		} else if(e.isResume()) {
+		} else if (e.isResume()) {
 			resumeWork();
 		}
 	}

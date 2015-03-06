@@ -80,7 +80,8 @@ public class NeuronFx extends VBox {
 	/**
 	 * Sets the neuron opacity.
 	 *
-	 * @param o the new neuron opacity
+	 * @param o
+	 *          the new neuron opacity
 	 */
 	public void setNeuronOpacity(double o) {
 		fader.stop();
@@ -94,7 +95,8 @@ public class NeuronFx extends VBox {
 	/**
 	 * Sets the neuron fill.
 	 *
-	 * @param c the new neuron fill
+	 * @param c
+	 *          the new neuron fill
 	 */
 	public void setNeuronFill(Color c) {
 		filler.stop();
@@ -162,7 +164,8 @@ public class NeuronFx extends VBox {
 	/**
 	 * Sets the value.
 	 *
-	 * @param value the new value
+	 * @param value
+	 *          the new value
 	 */
 	public void setValue(double value) {
 		this.value = value;
@@ -220,7 +223,8 @@ public class NeuronFx extends VBox {
 	/**
 	 * Sets the default color.
 	 *
-	 * @param defaultColor the new default color
+	 * @param defaultColor
+	 *          the new default color
 	 */
 	public void setDefaultColor(Color defaultColor) {
 		this.defaultColor = defaultColor;
@@ -247,7 +251,8 @@ public class NeuronFx extends VBox {
 	/**
 	 * Sets the reflection color.
 	 *
-	 * @param reflectionColor the new reflection color
+	 * @param reflectionColor
+	 *          the new reflection color
 	 */
 	public void setReflectionColor(Color reflectionColor) {
 		this.reflectionColor = reflectionColor;
@@ -265,7 +270,8 @@ public class NeuronFx extends VBox {
 	/**
 	 * Sets the WMA size.
 	 *
-	 * @param wmaSize the new WMA size
+	 * @param wmaSize
+	 *          the new WMA size
 	 */
 	public void setWMASize(int wmaSize) {
 		assert wmaSize > 1;
@@ -293,7 +299,8 @@ public class NeuronFx extends VBox {
 	/**
 	 * Sets the tooltip.
 	 *
-	 * @param tooltip the new tooltip
+	 * @param tooltip
+	 *          the new tooltip
 	 */
 	public void setTooltip(String tooltip) {
 		this.tooltip = tooltip;
@@ -311,7 +318,8 @@ public class NeuronFx extends VBox {
 	/**
 	 * Sets the selected.
 	 *
-	 * @param selected the new selected
+	 * @param selected
+	 *          the new selected
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
