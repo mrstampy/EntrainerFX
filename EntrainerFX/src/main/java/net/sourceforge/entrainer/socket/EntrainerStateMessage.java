@@ -231,6 +231,30 @@ public class EntrainerStateMessage {
 	@XmlElement
 	private Boolean flashBackground;
 
+	@XmlElement
+	private Boolean dynamicPicture;
+
+	@XmlElement
+	private Boolean staticPicture;
+
+	@XmlElement
+	private String staticPictureFile;
+
+	@XmlElement
+	private Boolean noPicture;
+
+	@XmlElement
+	private String pictureDirectory;
+
+	@XmlElement
+	private FlashColour backgroundColour;
+
+	@XmlElement
+	private Integer dynamicDuration;
+
+	@XmlElement
+	private Integer dynamicTransition;
+
 	/**
 	 * The volume of Entrainer. Valid values are between 0 and 1.
 	 *
@@ -729,6 +753,82 @@ public class EntrainerStateMessage {
 	 */
 	public void setFlashBackground(Boolean flashBackground) {
 		this.flashBackground = flashBackground;
+	}
+
+	public Boolean isDynamicPicture() {
+		return dynamicPicture;
+	}
+
+	public void setDynamicPicture(Boolean dynamicPicture) {
+		this.dynamicPicture = dynamicPicture;
+	}
+
+	public Boolean isStaticPicture() {
+		return staticPicture;
+	}
+
+	public void setStaticPicture(Boolean staticPicture) {
+		this.staticPicture = staticPicture;
+	}
+
+	public String getStaticPictureFile() {
+		return staticPictureFile;
+	}
+
+	public void setStaticPictureFile(String staticPictureFile) {
+		this.staticPictureFile = staticPictureFile;
+	}
+
+	public Boolean isNoPicture() {
+		return noPicture;
+	}
+
+	public void setNoPicture(Boolean noPicture) {
+		this.noPicture = noPicture;
+	}
+
+	public String getPictureDirectory() {
+		return pictureDirectory;
+	}
+
+	public void setPictureDirectory(String pictureDirectory) {
+		this.pictureDirectory = pictureDirectory;
+	}
+
+	public FlashColour getBackgroundColour() {
+		return backgroundColour;
+	}
+
+	public void setBackgroundColour(FlashColour backgroundColour) {
+		this.backgroundColour = backgroundColour;
+	}
+	
+	@JsonIgnore
+	public void setNoBackgroundColor(Color c) {
+		FlashColour fc = new FlashColour();
+		fc.setColor(c);
+		setBackgroundColour(fc);
+	}
+	
+	@JsonIgnore
+	public Color getNoBackgroundColor() {
+		return getBackgroundColour() == null ? null : getBackgroundColour().getColor();
+	}
+
+	public Integer getDynamicDuration() {
+		return dynamicDuration;
+	}
+
+	public void setDynamicDuration(Integer dynamicDuration) {
+		this.dynamicDuration = dynamicDuration;
+	}
+
+	public Integer getDynamicTransition() {
+		return dynamicTransition;
+	}
+
+	public void setDynamicTransition(Integer dynamicTransition) {
+		this.dynamicTransition = dynamicTransition;
 	}
 
 }

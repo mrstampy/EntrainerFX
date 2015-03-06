@@ -28,6 +28,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -79,8 +80,10 @@ public class EntrainerSocketManager {
 	/**
 	 * Binds the socket to the port specified in {@link Settings}.
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws InvalidPortNumberException           if the port number <= 0.
+	 * @throws IOException
+	 *           Signals that an I/O exception has occurred.
+	 * @throws InvalidPortNumberException
+	 *           if the port number <= 0.
 	 */
 	public void bind() throws IOException, InvalidPortNumberException {
 		if (isBound()) return;
@@ -287,12 +290,13 @@ public class EntrainerSocketManager {
 
 					break;
 				case FLASH_BACKGROUND:
-					processing = currentState.getFlashBackground() == null || e.getBooleanValue() != currentState.getFlashBackground();
-					if(!processing) break;
-					
+					processing = currentState.getFlashBackground() == null
+							|| e.getBooleanValue() != currentState.getFlashBackground();
+					if (!processing) break;
+
 					message.setFlashBackground(e.getBooleanValue());
 					currentState.setFlashBackground(e.getBooleanValue());
-					
+
 					break;
 				case FREQUENCY:
 					processing = currentState.getFrequency() == null || e.getDoubleValue() != currentState.getFrequency();
@@ -405,6 +409,90 @@ public class EntrainerSocketManager {
 
 					message.setShimmer(e.getBooleanValue());
 					currentState.setShimmer(e.getBooleanValue());
+
+					break;
+				case DYNAMIC_BACKGROUND:
+					processing = currentState.isDynamicPicture() == null
+							|| e.getBooleanValue() != currentState.isDynamicPicture();
+					if (!processing) break;
+
+					message.setDynamicPicture(true);
+					message.setStaticPicture(false);
+					message.setNoPicture(false);
+
+					currentState.setDynamicPicture(true);
+					currentState.setStaticPicture(false);
+					currentState.setNoPicture(false);
+
+					break;
+				case STATIC_BACKGROUND:
+					processing = currentState.isStaticPicture() == null || e.getBooleanValue() != currentState.isStaticPicture();
+					if (!processing) break;
+
+					message.setDynamicPicture(false);
+					message.setStaticPicture(true);
+					message.setNoPicture(false);
+
+					currentState.setDynamicPicture(false);
+					currentState.setStaticPicture(true);
+					currentState.setNoPicture(false);
+
+					break;
+				case NO_BACKGROUND:
+					processing = currentState.isNoPicture() == null || e.getBooleanValue() != currentState.isNoPicture();
+					if (!processing) break;
+
+					message.setDynamicPicture(false);
+					message.setStaticPicture(false);
+					message.setNoPicture(true);
+
+					currentState.setDynamicPicture(false);
+					currentState.setStaticPicture(false);
+					currentState.setNoPicture(true);
+
+					break;
+				case NO_BACKGROUND_COLOUR:
+					Color cb = e.getColourValue();
+					processing = currentState.getBackgroundColour() == null
+							|| (cb != null && !cb.equals(currentState.getBackgroundColour()));
+					if (!processing) break;
+
+					message.setNoBackgroundColor(cb);
+					currentState.setNoBackgroundColor(cb);
+
+					break;
+				case BACKGROUND_PIC:
+					processing = !e.getStringValue().equals(currentState.getStaticPictureFile());
+					if (!processing) break;
+
+					message.setStaticPictureFile(e.getStringValue());
+					currentState.setStaticPictureFile(e.getStringValue());
+
+					break;
+				case BACKGROUND_PIC_DIR:
+					processing = !e.getStringValue().equals(currentState.getPictureDirectory());
+					if (!processing) break;
+
+					message.setPictureDirectory(e.getStringValue());
+					currentState.setPictureDirectory(e.getStringValue());
+
+					break;
+				case BACKGROUND_DURATION_SECONDS:
+					processing = currentState.getDynamicDuration() == null
+							|| !currentState.getDynamicDuration().equals(e.getDoubleValue());
+					if (!processing) break;
+
+					message.setDynamicDuration((int) e.getDoubleValue());
+					currentState.setDynamicDuration((int) e.getDoubleValue());
+
+					break;
+				case BACKGROUND_TRANSITION_SECONDS:
+					processing = currentState.getDynamicTransition() == null
+							|| !currentState.getDynamicTransition().equals(e.getDoubleValue());
+					if (!processing) break;
+
+					message.setDynamicTransition((int) e.getDoubleValue());
+					currentState.setDynamicTransition((int) e.getDoubleValue());
 
 					break;
 				default:
