@@ -91,14 +91,22 @@ public class VariableBackground {
 	public void start() {
 		noBackground = false;
 		staticBackground = false;
-
-		Platform.runLater(() -> init());
+		
+		init();
 	}
 
 	private void init() {
 		pictureNames.clear();
-		clearPictures();
 		loadFromDirectory();
+		if(Platform.isFxApplicationThread()) {
+			initContent();
+		} else {
+			Platform.runLater(() -> initContent());
+		}
+	}
+
+	private void initContent() {
+		clearPictures();
 
 		createCurrent();
 		setFadeInImage();
@@ -255,7 +263,7 @@ public class VariableBackground {
 					if (shouldRun()) startTransition();
 					break;
 				case STATIC_BACKGROUND:
-					Platform.runLater(() -> evaluateStaticBackground());
+					Platform.runLater(() -> evaluateStaticBackground(true));
 					break;
 				case DYNAMIC_BACKGROUND:
 					Platform.runLater(() -> start());
@@ -265,7 +273,7 @@ public class VariableBackground {
 					break;
 				case BACKGROUND_PIC:
 					backgroundPic = e.getStringValue();
-					Platform.runLater(() -> evaluateStaticBackground());
+					Platform.runLater(() -> evaluateStaticBackground(false));
 					break;
 				case BACKGROUND_PIC_DIR:
 					directoryName = e.getStringValue();
@@ -301,11 +309,23 @@ public class VariableBackground {
 		if(shouldRun()) startTransition();
 	}
 
-	private void evaluateStaticBackground() {
+	private void evaluateStaticBackground(boolean useCurrent) {
 		noBackground = false;
 		staticBackground = true;
 
-		backgroundPic = currentFile;
+		if(useCurrent) {
+			backgroundPic = currentFile;
+		}
+		
+		if(backgroundPic == null) return;
+		
+		try {
+			currentImage = new Image(new FileInputStream(backgroundPic));
+		} catch (FileNotFoundException e) {
+			log.error("Unexpected exception", e);
+			return;
+		}
+		
 		clearPictures();
 
 		createCurrent();
