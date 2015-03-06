@@ -417,37 +417,31 @@ public class EntrainerSocketManager {
 					if (!processing) break;
 
 					message.setDynamicPicture(true);
-					message.setStaticPicture(false);
-					message.setNoPicture(false);
 
 					currentState.setDynamicPicture(true);
-					currentState.setStaticPicture(false);
-					currentState.setNoPicture(false);
+					currentState.setStaticPicture(null);
+					currentState.setNoPicture(null);
 
 					break;
 				case STATIC_BACKGROUND:
 					processing = currentState.isStaticPicture() == null || e.getBooleanValue() != currentState.isStaticPicture();
 					if (!processing) break;
 
-					message.setDynamicPicture(false);
 					message.setStaticPicture(true);
-					message.setNoPicture(false);
 
-					currentState.setDynamicPicture(false);
+					currentState.setDynamicPicture(null);
 					currentState.setStaticPicture(true);
-					currentState.setNoPicture(false);
+					currentState.setNoPicture(null);
 
 					break;
 				case NO_BACKGROUND:
 					processing = currentState.isNoPicture() == null || e.getBooleanValue() != currentState.isNoPicture();
 					if (!processing) break;
 
-					message.setDynamicPicture(false);
-					message.setStaticPicture(false);
 					message.setNoPicture(true);
 
-					currentState.setDynamicPicture(false);
-					currentState.setStaticPicture(false);
+					currentState.setDynamicPicture(null);
+					currentState.setStaticPicture(null);
 					currentState.setNoPicture(true);
 
 					break;
