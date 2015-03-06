@@ -100,6 +100,8 @@ public class VariableBackground {
 	
 	private Map<Integer, ScheduledFuture<?>> futures = new ConcurrentHashMap<>();
 
+	private boolean ptRunning;
+
 	public VariableBackground() {
 		initMediator();
 	}
@@ -162,6 +164,7 @@ public class VariableBackground {
 	}
 
 	private void switchPictures() {
+		ptRunning = false;
 		int key = ai.getAndIncrement();
 		ScheduledFuture<?> sf = switchSvc.schedule(() -> fadeInOut(key), getDisplayTime(), TimeUnit.SECONDS);
 		futures.put(key, sf);
@@ -189,6 +192,7 @@ public class VariableBackground {
 
 		pt.setOnFinished(e -> switchPictures());
 
+		ptRunning = true;
 		JFXUtils.runLater(() -> pt.play());
 	}
 
@@ -390,13 +394,17 @@ public class VariableBackground {
 			private Node background = isNoBackground() ? rect : current;
 
 			public void run() {
-				while (shouldRun() && background.getOpacity() > 0) {
+				while (canRun()) {
 					Utils.snooze(getMillis(), calculator.getNanos());
-
-					invert(background);
+					
+					if(canRun() && !ptRunning) invert(background);
 				}
 
-				reset(background);
+				if(background.getOpacity() > 0) reset(background);
+			}
+
+			private boolean canRun() {
+				return shouldRun() && background.getOpacity() > 0;
 			}
 
 			private long getMillis() {
@@ -409,8 +417,6 @@ public class VariableBackground {
 	}
 
 	private void invert(Node background) {
-		if (background.getOpacity() == 0) return;
-
 		JFXUtils.runLater(new Runnable() {
 
 			@Override
@@ -427,8 +433,6 @@ public class VariableBackground {
 	}
 
 	private void reset(Node background) {
-		if (background.getOpacity() == 0) return;
-
 		JFXUtils.runLater(new Runnable() {
 
 			@Override
