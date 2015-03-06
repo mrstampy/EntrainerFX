@@ -98,7 +98,7 @@ public class BackgroundPicturePane extends TitledPane {
 	private Node getRadioButtons() {
 		VBox box = new VBox(10);
 		
-		box.getChildren().addAll(dynamic, staticPic, noPic, picker);
+		box.getChildren().addAll(flashBackground, dynamic, staticPic, noPic, picker);
 		
 		return box;
 	}
@@ -116,7 +116,7 @@ public class BackgroundPicturePane extends TitledPane {
 	private Node getSpinnerPane() {
 		VBox box = new VBox(10);
 		
-		box.getChildren().addAll(getDurationPane(), getTransitionPane(), flashBackground);
+		box.getChildren().addAll(getDurationPane(), getTransitionPane());
 		
 		return box;
 	}
