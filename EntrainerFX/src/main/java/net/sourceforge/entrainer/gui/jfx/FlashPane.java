@@ -55,7 +55,6 @@ public class FlashPane extends TitledPane {
 	public static final String CSS_ID = "checkbox-pane";
 	private CheckBox flash = new CheckBox("Flash Colours");
 	private CheckBox psychedelic = new CheckBox("Psychedelic");
-	private CheckBox flashBackground = new CheckBox("Flash Background");
 	private Button colourChooser = new Button("Choose Entrainment Colour");
 
 	private Sender sender = new SenderAdapter();
@@ -86,7 +85,6 @@ public class FlashPane extends TitledPane {
 		initMediator();
 		initCheckBox(flash, MediatorConstants.IS_FLASH);
 		initCheckBox(psychedelic, MediatorConstants.IS_PSYCHEDELIC);
-		initCheckBox(flashBackground, MediatorConstants.FLASH_BACKGROUND);
 
 		psychedelic.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
@@ -101,10 +99,8 @@ public class FlashPane extends TitledPane {
 		
 		HBox.setMargin(flash, new Insets(5));
 		HBox.setMargin(psychedelic, new Insets(5));
-		HBox.setMargin(flashBackground, new Insets(5));
 		HBox.setMargin(colourChooser, new Insets(5));
 
-		hbox.getChildren().add(flashBackground);
 		VBox vBox = new VBox(5);
 		vBox.getChildren().addAll(flash, psychedelic);
 		hbox.getChildren().add(vBox);
@@ -176,9 +172,6 @@ public class FlashPane extends TitledPane {
 					colourChooser.setTextFill(c);
 					setColourChooserEffect();
 					break;
-				case FLASH_BACKGROUND:
-					if(flashBackground.isSelected() == e.getBooleanValue()) return;
-					setFlashBackgroundSelected(e.getBooleanValue());
 				default:
 					break;
 
@@ -223,15 +216,6 @@ public class FlashPane extends TitledPane {
 	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
-	
-	/**
-	 * Sets the flash background selected.
-	 *
-	 * @param selected the new flash background selected
-	 */
-	public void setFlashBackgroundSelected(boolean selected) {
-		setSelected(selected, flashBackground);
-	}
 
 	/**
 	 * Sets the flash selected.
@@ -258,15 +242,6 @@ public class FlashPane extends TitledPane {
 	 */
 	public void setFlashToolTip(String toolTip) {
 		setToolTip(toolTip, flash);
-	}
-	
-	/**
-	 * Sets the flash background tool tip.
-	 *
-	 * @param toolTip the new flash background tool tip
-	 */
-	public void setFlashBackgroundToolTip(String toolTip) {
-		setToolTip(toolTip, flashBackground);
 	}
 
 	/**
@@ -340,15 +315,6 @@ public class FlashPane extends TitledPane {
 	 */
 	public Button getColourChooser() {
 		return colourChooser;
-	}
-	
-	/**
-	 * Gets the flash background.
-	 *
-	 * @return the flash background
-	 */
-	public CheckBox getFlashBackground() {
-		return flashBackground;
 	}
 
 }

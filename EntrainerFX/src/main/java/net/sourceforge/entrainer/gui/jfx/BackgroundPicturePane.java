@@ -5,6 +5,7 @@ import java.io.File;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -50,6 +51,8 @@ public class BackgroundPicturePane extends TitledPane {
 	private Spinner<Integer> transition = new Spinner<>(1, 60, 5);
 	private int transitionValue = 5;
 	
+	private CheckBox flashBackground = new CheckBox("Flash Background");
+	
 	public BackgroundPicturePane() {
 		super();
 		init();
@@ -77,6 +80,7 @@ public class BackgroundPicturePane extends TitledPane {
 		setTooltip(dynamic, "Random background picture from the chosen directory");
 		setTooltip(staticPic, "Single background picture");
 		setTooltip(noPic, "No background picture (choose colour)");
+		setTooltip(flashBackground, "Flash Background Image at the Chosen Entrainment Frequency");
 	}
 	
 	private void setTooltip(Control node, String tip) {
@@ -112,7 +116,7 @@ public class BackgroundPicturePane extends TitledPane {
 	private Node getSpinnerPane() {
 		VBox box = new VBox(10);
 		
-		box.getChildren().addAll(getDurationPane(), getTransitionPane());
+		box.getChildren().addAll(getDurationPane(), getTransitionPane(), flashBackground);
 		
 		return box;
 	}
@@ -177,8 +181,14 @@ public class BackgroundPicturePane extends TitledPane {
 		duration.setOnMouseClicked(e -> durationChanged());
 		
 		transition.setOnMouseClicked(e -> transitionChanged());
+		
+		flashBackground.setOnAction(e -> flashBackgroundClicked());
 
 		expandedProperty().addListener(e -> setOpacity(isExpanded() ? 1 : 0.25));
+	}
+
+	private void flashBackgroundClicked() {
+		fireReceiverChangeEvent(flashBackground.isSelected(), MediatorConstants.FLASH_BACKGROUND);
 	}
 
 	private void initRadioButtons() {
@@ -316,6 +326,9 @@ public class BackgroundPicturePane extends TitledPane {
 					transitionValue = (int)e.getDoubleValue();
 					Platform.runLater(() -> transition.getValueFactory().setValue(transitionValue));
 					break;
+				case FLASH_BACKGROUND:
+					if(flashBackground.isSelected() == e.getBooleanValue()) return;
+					Platform.runLater(() -> flashBackground.setSelected(e.getBooleanValue()));
 				default:
 					break;
 				}

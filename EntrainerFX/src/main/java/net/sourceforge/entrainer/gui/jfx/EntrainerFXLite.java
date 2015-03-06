@@ -302,7 +302,6 @@ public class EntrainerFXLite extends Application {
 
 		checkBoxPane.setPsychedelicToolTip("Cause the Flashing Colour to Randomly Change");
 		checkBoxPane.setFlashToolTip("Flash Colours at the Chosen Entrainment Frequency");
-		checkBoxPane.setFlashBackgroundToolTip("Flash Background Image at the Chosen Entrainment Frequency");
 		shimmerOptions.setShimmerToolTip("Adds a shimmer effect to the application");
 	}
 

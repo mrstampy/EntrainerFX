@@ -76,7 +76,9 @@ public class VariableBackground {
 
 	private FrequencyToHalfTimeCycle calculator = new FrequencyToHalfTimeCycle();
 
-	private boolean staticBackground;
+	private boolean staticBackground = false;
+	
+	private boolean dynamicBackground = false;
 
 	private String backgroundPic;
 
@@ -93,6 +95,7 @@ public class VariableBackground {
 	private void start() {
 		noBackground = false;
 		staticBackground = false;
+		dynamicBackground = true;
 		
 		init();
 	}
@@ -265,16 +268,21 @@ public class VariableBackground {
 					if (shouldRun()) startTransition();
 					break;
 				case STATIC_BACKGROUND:
+					if(staticBackground) return;
 					noBackground = false;
 					staticBackground = true;
+					dynamicBackground = false;
 					Platform.runLater(() -> evaluateStaticBackground(true));
 					break;
 				case DYNAMIC_BACKGROUND:
+					if(dynamicBackground) return;
 					Platform.runLater(() -> start());
 					break;
 				case NO_BACKGROUND:
+					if(noBackground) return;
 					noBackground = true;
 					staticBackground = false;
+					dynamicBackground = false;
 					Platform.runLater(() -> clearBackground());
 					break;
 				case NO_BACKGROUND_COLOUR:

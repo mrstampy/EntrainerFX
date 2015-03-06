@@ -539,7 +539,6 @@ public class EntrainerFX extends JFrame {
 
 		checkBoxPane.setPsychedelicToolTip("Cause the Flashing Colour to Randomly Change");
 		checkBoxPane.setFlashToolTip("Flash Colours at the Chosen Entrainment Frequency");
-		checkBoxPane.setFlashBackgroundToolTip("Flash Background Image at the Chosen Entrainment Frequency");
 		animations.setAnimationToolTip("Run Animation During Entrainment Session");
 		shimmerOptions.setShimmerToolTip("Adds a shimmer effect to the application");
 	}
