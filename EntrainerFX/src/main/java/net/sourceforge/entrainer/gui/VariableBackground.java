@@ -44,11 +44,11 @@ public class VariableBackground {
 			".BMP" };
 
 	private Sender sender = new SenderAdapter();
-	
+
 	private enum BackgroundMode {
 		DYNAMIC, STATIC, NO_BACKGROUND;
 	}
-	
+
 	private BackgroundMode mode;
 
 	private ImageView current;
@@ -88,6 +88,8 @@ public class VariableBackground {
 
 	private javafx.scene.paint.Color backgroundColor;
 
+	private boolean staticPictureLock;
+
 	public VariableBackground() {
 		initMediator();
 	}
@@ -95,7 +97,7 @@ public class VariableBackground {
 	private void init() {
 		pictureNames.clear();
 		loadFromDirectory();
-		if(Platform.isFxApplicationThread()) {
+		if (Platform.isFxApplicationThread()) {
 			initContent();
 		} else {
 			Platform.runLater(() -> initContent());
@@ -260,17 +262,17 @@ public class VariableBackground {
 					if (shouldRun()) startTransition();
 					break;
 				case STATIC_BACKGROUND:
-					if(isStatic()) return;
+					if (isStatic()) return;
 					mode = BackgroundMode.STATIC;
 					Platform.runLater(() -> evaluateStaticBackground(true));
 					break;
 				case DYNAMIC_BACKGROUND:
-					if(isDynamic()) return;
+					if (isDynamic()) return;
 					mode = BackgroundMode.DYNAMIC;
 					Platform.runLater(() -> init());
 					break;
 				case NO_BACKGROUND:
-					if(isNoBackground()) return;
+					if (isNoBackground()) return;
 					mode = BackgroundMode.NO_BACKGROUND;
 					Platform.runLater(() -> clearBackground());
 					break;
@@ -278,7 +280,9 @@ public class VariableBackground {
 					Platform.runLater(() -> setBackgroundColor(e.getColourValue()));
 					break;
 				case BACKGROUND_PIC:
-					backgroundPic = e.getStringValue();
+					if (!staticPictureLock || backgroundPic == null) {
+						backgroundPic = e.getStringValue();
+					}
 					Platform.runLater(() -> evaluateStaticBackground(false));
 					break;
 				case BACKGROUND_PIC_DIR:
@@ -292,6 +296,9 @@ public class VariableBackground {
 				case BACKGROUND_TRANSITION_SECONDS:
 					setFadeTime((int) e.getDoubleValue());
 					break;
+				case STATIC_PICTURE_LOCK:
+					staticPictureLock = e.getBooleanValue();
+					break;
 				default:
 					break;
 				}
@@ -302,44 +309,44 @@ public class VariableBackground {
 
 	private void setBackgroundColor(Color colourValue) {
 		backgroundColor = JFXUtils.toJFXColor(colourValue);
-		
-		if(isShowBackgroundFill()) showBackgroundFill();
+
+		if (isShowBackgroundFill()) showBackgroundFill();
 	}
 
 	private void clearBackground() {
-		if(isShowBackgroundFill()) showBackgroundFill();
+		if (isShowBackgroundFill()) showBackgroundFill();
 	}
-	
+
 	private void showBackgroundFill() {
 		clearPictures();
-		
+
 		rect = new Rectangle(pane.getWidth(), pane.getHeight(), backgroundColor);
-		
+
 		pane.getChildren().add(rect);
-		
-		if(shouldRun()) startTransition();
+
+		if (shouldRun()) startTransition();
 	}
-	
+
 	private boolean isShowBackgroundFill() {
 		return isNoBackground() && backgroundColor != null;
 	}
 
 	private void evaluateStaticBackground(boolean useCurrent) {
-		if(!isStatic()) return;
-		
-		if(useCurrent && currentFile != null) {
+		if (!isStatic()) return;
+
+		if (useCurrent && !staticPictureLock && currentFile != null) {
 			backgroundPic = currentFile;
 		}
-		
-		if(backgroundPic == null) return;
-		
+
+		if (backgroundPic == null) return;
+
 		try {
 			currentImage = new Image(new FileInputStream(backgroundPic));
 		} catch (FileNotFoundException e) {
 			log.error("Unexpected exception", e);
 			return;
 		}
-		
+
 		clearPictures();
 
 		createCurrent();
@@ -381,14 +388,14 @@ public class VariableBackground {
 	}
 
 	private void invert(Node background) {
-		if(background.getOpacity() == 0) return;
-		
+		if (background.getOpacity() == 0) return;
+
 		Platform.runLater(new Runnable() {
 
 			@Override
 			public void run() {
 				double o = 0;
-				if(background instanceof ImageView) {
+				if (background instanceof ImageView) {
 					o = background.getOpacity() == 0.25 ? 0.60 : 0.25;
 				} else {
 					o = background.getOpacity() == 1.0 ? 0.50 : 1.0;
@@ -399,13 +406,13 @@ public class VariableBackground {
 	}
 
 	private void reset(Node background) {
-		if(background.getOpacity() == 0) return;
-		
+		if (background.getOpacity() == 0) return;
+
 		Platform.runLater(new Runnable() {
 
 			@Override
 			public void run() {
-				if(background instanceof ImageView) {
+				if (background instanceof ImageView) {
 					background.setOpacity(0.25);
 				} else {
 					background.setOpacity(1);
@@ -417,19 +424,19 @@ public class VariableBackground {
 	private boolean shouldRun() {
 		return running && flashBackground;
 	}
-	
+
 	public BackgroundMode getMode() {
 		return mode;
 	}
-	
+
 	public boolean isDynamic() {
 		return isMode(BackgroundMode.DYNAMIC);
 	}
-	
+
 	public boolean isStatic() {
 		return isMode(BackgroundMode.STATIC);
 	}
-	
+
 	public boolean isNoBackground() {
 		return isMode(BackgroundMode.NO_BACKGROUND);
 	}
@@ -473,8 +480,8 @@ public class VariableBackground {
 	public void setDimension(double width, double height) {
 		setWidth(width);
 		setHeight(height);
-		
-		if(rect != null) {
+
+		if (rect != null) {
 			rect.setWidth(width);
 			rect.setHeight(height);
 		}

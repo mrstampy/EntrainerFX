@@ -334,6 +334,7 @@ public class EntrainerFX extends JFrame {
 		setPreferredSize(new Dimension((int) gp.getWidth() + 10, MIN_HEIGHT));
 		setSize(getPreferredSize());
 		background.setDimension(gp.getWidth() + 10, MIN_HEIGHT);
+		messagePanel.setWidth(gp.getWidth() - 15);
 		GuiUtil.centerOnScreen(EntrainerFX.this);
 		unexpandTitledPanes();
 		return;

@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
@@ -53,6 +54,8 @@ public class BackgroundPicturePane extends TitledPane {
 	
 	private CheckBox flashBackground = new CheckBox("Flash Background");
 	
+	private CheckBox staticPictureLock = new CheckBox("Lock Picture");
+	
 	public BackgroundPicturePane() {
 		super();
 		init();
@@ -81,6 +84,7 @@ public class BackgroundPicturePane extends TitledPane {
 		setTooltip(staticPic, "Single background picture");
 		setTooltip(noPic, "No background picture (choose colour)");
 		setTooltip(flashBackground, "Flash Background Image at the Chosen Entrainment Frequency");
+		setTooltip(staticPictureLock, "Prevents inadvertent static picture changing if selected");
 	}
 	
 	private void setTooltip(Control node, String tip) {
@@ -142,7 +146,9 @@ public class BackgroundPicturePane extends TitledPane {
 	private Node getFilePane() {
 		VBox box = new VBox(10);
 		
-		box.getChildren().addAll(getDirectoryPane(), getPicFilePane());
+		staticPictureLock.setTextAlignment(TextAlignment.LEFT);
+		
+		box.getChildren().addAll(getDirectoryPane(), getPicFilePane(), staticPictureLock);
 
 		return box;
 	}
@@ -183,8 +189,14 @@ public class BackgroundPicturePane extends TitledPane {
 		transition.setOnMouseClicked(e -> transitionChanged());
 		
 		flashBackground.setOnAction(e -> flashBackgroundClicked());
+		
+		staticPictureLock.setOnAction(e -> pictureLockClicked());
 
 		expandedProperty().addListener(e -> setOpacity(isExpanded() ? 1 : 0.25));
+	}
+
+	private void pictureLockClicked() {
+		fireReceiverChangeEvent(staticPictureLock.isSelected(), MediatorConstants.STATIC_PICTURE_LOCK);
 	}
 
 	private void flashBackgroundClicked() {
@@ -376,6 +388,8 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void setPicture(String name) {
+		if(staticPictureLock.isSelected() && pictureName != null) return;
+		
 		File pic = new File(name);
 		
 		pictureName = pic.getAbsolutePath();

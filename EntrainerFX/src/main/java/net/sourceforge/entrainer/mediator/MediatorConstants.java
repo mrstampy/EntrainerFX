@@ -146,7 +146,9 @@ public enum MediatorConstants  {
 	
 	BACKGROUND_TRANSITION_SECONDS("Seconds to transition between dynamic background pictures"),
 	
-	BACKGROUND_DURATION_SECONDS("Seconds to display a picture before transitioning to another");
+	BACKGROUND_DURATION_SECONDS("Seconds to display a picture before transitioning to another"),
+	
+	STATIC_PICTURE_LOCK("If true will prevent chosen picture from being overwritten switching to & from dynamic");
 	
 	private String value;
 	
