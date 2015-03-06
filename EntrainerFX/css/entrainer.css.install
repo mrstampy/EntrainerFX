@@ -17,20 +17,6 @@
 }
 
 /*
- * Change this to change the background picture of the Entrainer application.
- * Remove this setting to avoid a background picture in the application.
- * To use your own picture copy it into the 'css' directory under Entrainer
- * and modify the url accordingly.
- *
- * http://www.freenaturepictures.com/beach-sunset-pictures.php
- * http://www.freenaturepictures.com/lake-sunset-pictures.php
- * http://science.nationalgeographic.com/science/photos
- */
-#background-image {
-  -fx-image: url("indian-ocean-space.jpg");
-}
-
-/*
  * Properties for all check boxes
  */
 .check-box {
