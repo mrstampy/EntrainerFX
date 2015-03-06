@@ -456,6 +456,11 @@ public class VariableBackground {
 	public void setDimension(double width, double height) {
 		setWidth(width);
 		setHeight(height);
+		
+		if(rect != null) {
+			rect.setWidth(width);
+			rect.setHeight(height);
+		}
 	}
 
 	public double getWidth() {
