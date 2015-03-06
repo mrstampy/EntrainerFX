@@ -260,13 +260,15 @@ public class BackgroundPicturePane extends TitledPane {
 		setSpinnersDisabled(true);
 		setTextFieldsDisabled(true);
 		
+		fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
+		
 		setBackgroundColour(picker.getValue());
 	}
 
 	private void setBackgroundColour(Color color) {
 		java.awt.Color awt = JFXUtils.fromJFXColor(color);
 		
-		fireReceiverChangeEvent(awt, MediatorConstants.NO_BACKGROUND);
+		fireReceiverChangeEvent(awt, MediatorConstants.NO_BACKGROUND_COLOUR);
 	}
 
 	private void staticButtonPressed(boolean pressed) {
@@ -297,6 +299,9 @@ public class BackgroundPicturePane extends TitledPane {
 				case NO_BACKGROUND:
 					Platform.runLater(() -> setNoBackgroundButton());
 					break;
+				case NO_BACKGROUND_COLOUR:
+					Platform.runLater(() -> setNoBackgroundColour(e.getColourValue()));
+					break;
 				case BACKGROUND_PIC:
 					Platform.runLater(() -> setPicture(e.getStringValue()));
 					break;
@@ -319,10 +324,17 @@ public class BackgroundPicturePane extends TitledPane {
 		});
 	}
 
+	private void setNoBackgroundColour(java.awt.Color color) {
+		Color jfx = JFXUtils.toJFXColor(color);
+		
+		picker.setValue(jfx);
+	}
+
 	private void setNoBackgroundButton() {
 		setSpinnersDisabled(true);
 		setTextFieldsDisabled(true);
 		noPic.setSelected(true);
+		picker.setDisable(false);
 	}
 
 	private void setDynamicButton() {

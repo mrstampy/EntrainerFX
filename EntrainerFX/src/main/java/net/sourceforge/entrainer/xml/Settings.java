@@ -32,7 +32,6 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_ENTRAINE
 import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_NOISE_AMPLITUDE;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_PAN;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_PAN_AMPLITUDE;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.RANDOM_BACKGROUND;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.SHIMMER_RECTANGLE;
 
 import java.awt.Color;
@@ -177,8 +176,35 @@ public class Settings {
 	@XmlElement(name = "flash.blue")
 	private int flashBlue;
 
-	@XmlElement(name = "random.background")
-	private boolean randomBackground;
+	@XmlElement(name = "dynamic.background")
+	private boolean dynamicPicture;
+
+	@XmlElement(name = "static.background")
+	private boolean staticPicture;
+
+	@XmlElement(name = "static.background.picture")
+	private String staticPictureFile;
+
+	@XmlElement(name = "no.background")
+	private boolean noPicture;
+
+	@XmlElement(name = "picture.directory")
+	private String pictureDirectory;
+
+	@XmlElement(name = "background.red")
+	private int backgroundRed;
+
+	@XmlElement(name = "background.green")
+	private int backgroundGreen;
+
+	@XmlElement(name = "background.blue")
+	private int backgroundBlue;
+
+	@XmlElement(name = "dynamic.duration")
+	private int dynamicDuration;
+
+	@XmlElement(name = "dynamic.transition")
+	private int dynamicTransition;
 
 	static {
 		try {
@@ -358,8 +384,39 @@ public class Settings {
 				case FLASH_BACKGROUND:
 					setFlashBackground(e.getBooleanValue());
 					break;
-				case RANDOM_BACKGROUND:
-					setRandomBackground(e.getBooleanValue());
+				case DYNAMIC_BACKGROUND:
+					setDynamicPicture(true);
+					setStaticPicture(false);
+					setNoPicture(false);
+					break;
+				case STATIC_BACKGROUND:
+					setDynamicPicture(false);
+					setStaticPicture(true);
+					setNoPicture(false);
+					break;
+				case NO_BACKGROUND:
+					setDynamicPicture(false);
+					setStaticPicture(false);
+					setNoPicture(true);
+					break;
+				case NO_BACKGROUND_COLOUR:
+					Color cb = e.getColourValue();
+					setBackgroundRed(cb.getRed());
+					setBackgroundGreen(cb.getGreen());
+					setBackgroundBlue(cb.getBlue());
+					break;
+				case BACKGROUND_PIC:
+					setStaticPictureFile(e.getStringValue());
+					break;
+				case BACKGROUND_PIC_DIR:
+					setPictureDirectory(e.getStringValue());
+					break;
+				case BACKGROUND_DURATION_SECONDS:
+					setDynamicDuration((int) e.getDoubleValue());
+					break;
+				case BACKGROUND_TRANSITION_SECONDS:
+					setDynamicTransition((int) e.getDoubleValue());
+					break;
 				default:
 					break;
 				}
@@ -382,7 +439,25 @@ public class Settings {
 		fireReceiverChangeEvent(getShimmerRectangle(), SHIMMER_RECTANGLE);
 		fireReceiverChangeEvent(new Color(getFlashRed(), getFlashGreen(), getFlashBlue()));
 		fireReceiverChangeEvent(isFlashBackground(), FLASH_BACKGROUND);
-		fireReceiverChangeEvent(isRandomBackground(), RANDOM_BACKGROUND);
+
+		if (getStaticPictureFile() != null) {
+			fireReceiverChangeEvent(getStaticPictureFile(), MediatorConstants.BACKGROUND_PIC);
+		}
+
+		if (getPictureDirectory() != null) {
+			fireReceiverChangeEvent(getPictureDirectory(), MediatorConstants.BACKGROUND_PIC_DIR);
+		}
+
+		if (isDynamicPicture()) fireReceiverChangeEvent(true, MediatorConstants.DYNAMIC_BACKGROUND);
+		if (isStaticPicture()) fireReceiverChangeEvent(true, MediatorConstants.STATIC_BACKGROUND);
+		if (isNoPicture()) fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
+
+		ReceiverChangeEvent e = new ReceiverChangeEvent(this, new Color(getBackgroundRed(), getBackgroundGreen(),
+				getBackgroundBlue()), MediatorConstants.NO_BACKGROUND_COLOUR);
+		sender.fireReceiverChangeEvent(e);
+
+		fireReceiverChangeEvent(getDynamicDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);
+		fireReceiverChangeEvent(getDynamicTransition(), MediatorConstants.BACKGROUND_TRANSITION_SECONDS);
 
 		for (EntrainerProgramInterval interval : intervals) {
 			fireReceiverChangeEvent(interval.getValue());
@@ -392,7 +467,8 @@ public class Settings {
 	/**
 	 * Checks for interval.
 	 *
-	 * @param s the s
+	 * @param s
+	 *          the s
 	 * @return true, if successful
 	 */
 	public boolean hasInterval(String s) {
@@ -506,7 +582,8 @@ public class Settings {
 	/**
 	 * Sets the xml program.
 	 *
-	 * @param xmlProgram the new xml program
+	 * @param xmlProgram
+	 *          the new xml program
 	 */
 	public void setXmlProgram(String xmlProgram) {
 		this.xmlProgram = xmlProgram;
@@ -524,7 +601,8 @@ public class Settings {
 	/**
 	 * Sets the laf class.
 	 *
-	 * @param lafClass the new laf class
+	 * @param lafClass
+	 *          the new laf class
 	 */
 	public void setLafClass(String lafClass) {
 		this.lafClass = lafClass;
@@ -542,7 +620,8 @@ public class Settings {
 	/**
 	 * Sets the laf theme pack.
 	 *
-	 * @param lafThemePack the new laf theme pack
+	 * @param lafThemePack
+	 *          the new laf theme pack
 	 */
 	public void setLafThemePack(String lafThemePack) {
 		this.lafThemePack = lafThemePack;
@@ -616,7 +695,8 @@ public class Settings {
 	/**
 	 * Sets the animation program.
 	 *
-	 * @param animationProgram the new animation program
+	 * @param animationProgram
+	 *          the new animation program
 	 */
 	public void setAnimationProgram(String animationProgram) {
 		this.animationProgram = animationProgram;
@@ -634,7 +714,8 @@ public class Settings {
 	/**
 	 * Sets the animation background.
 	 *
-	 * @param animationBackground the new animation background
+	 * @param animationBackground
+	 *          the new animation background
 	 */
 	public void setAnimationBackground(String animationBackground) {
 		this.animationBackground = animationBackground;
@@ -652,7 +733,8 @@ public class Settings {
 	/**
 	 * Sets the animation.
 	 *
-	 * @param isAnimation the new animation
+	 * @param isAnimation
+	 *          the new animation
 	 */
 	public void setAnimation(boolean isAnimation) {
 		this.isAnimation = isAnimation;
@@ -670,7 +752,8 @@ public class Settings {
 	/**
 	 * Sets the flash.
 	 *
-	 * @param isFlash the new flash
+	 * @param isFlash
+	 *          the new flash
 	 */
 	public void setFlash(boolean isFlash) {
 		this.isFlash = isFlash;
@@ -688,7 +771,8 @@ public class Settings {
 	/**
 	 * Sets the psychedelic.
 	 *
-	 * @param isPsychedelic the new psychedelic
+	 * @param isPsychedelic
+	 *          the new psychedelic
 	 */
 	public void setPsychedelic(boolean isPsychedelic) {
 		this.isPsychedelic = isPsychedelic;
@@ -706,7 +790,8 @@ public class Settings {
 	/**
 	 * Sets the shimmer.
 	 *
-	 * @param isShimmer the new shimmer
+	 * @param isShimmer
+	 *          the new shimmer
 	 */
 	public void setShimmer(boolean isShimmer) {
 		this.isShimmer = isShimmer;
@@ -724,7 +809,8 @@ public class Settings {
 	/**
 	 * Sets the desktop background.
 	 *
-	 * @param isDesktopBackground the new desktop background
+	 * @param isDesktopBackground
+	 *          the new desktop background
 	 */
 	public void setDesktopBackground(boolean isDesktopBackground) {
 		this.isDesktopBackground = isDesktopBackground;
@@ -742,7 +828,8 @@ public class Settings {
 	/**
 	 * Sets the jsyn native jar.
 	 *
-	 * @param jsynNativeJar the new jsyn native jar
+	 * @param jsynNativeJar
+	 *          the new jsyn native jar
 	 */
 	public void setJsynNativeJar(String jsynNativeJar) {
 		this.jsynNativeJar = jsynNativeJar;
@@ -760,7 +847,8 @@ public class Settings {
 	/**
 	 * Sets the jsyn java jar.
 	 *
-	 * @param jsynJavaJar the new jsyn java jar
+	 * @param jsynJavaJar
+	 *          the new jsyn java jar
 	 */
 	public void setJsynJavaJar(String jsynJavaJar) {
 		this.jsynJavaJar = jsynJavaJar;
@@ -778,7 +866,8 @@ public class Settings {
 	/**
 	 * Sets the native jsyn.
 	 *
-	 * @param isNativeJsyn the new native jsyn
+	 * @param isNativeJsyn
+	 *          the new native jsyn
 	 */
 	public void setNativeJsyn(boolean isNativeJsyn) {
 		this.isNativeJsyn = isNativeJsyn;
@@ -796,7 +885,8 @@ public class Settings {
 	/**
 	 * Sets the socket port.
 	 *
-	 * @param socketPort the new socket port
+	 * @param socketPort
+	 *          the new socket port
 	 */
 	public void setSocketPort(int socketPort) {
 		this.socketPort = socketPort;
@@ -814,7 +904,8 @@ public class Settings {
 	/**
 	 * Sets the delta socket message.
 	 *
-	 * @param fullSocketMessage the new delta socket message
+	 * @param fullSocketMessage
+	 *          the new delta socket message
 	 */
 	public void setDeltaSocketMessage(boolean fullSocketMessage) {
 		this.deltaSocketMessage = fullSocketMessage;
@@ -832,7 +923,8 @@ public class Settings {
 	/**
 	 * Sets the socket connected.
 	 *
-	 * @param socketConnected the new socket connected
+	 * @param socketConnected
+	 *          the new socket connected
 	 */
 	public void setSocketConnected(boolean socketConnected) {
 		this.socketConnected = socketConnected;
@@ -850,7 +942,8 @@ public class Settings {
 	/**
 	 * Sets the socket ip address.
 	 *
-	 * @param socketIPAddress the new socket ip address
+	 * @param socketIPAddress
+	 *          the new socket ip address
 	 */
 	public void setSocketIPAddress(String socketIPAddress) {
 		this.socketIPAddress = socketIPAddress;
@@ -868,7 +961,8 @@ public class Settings {
 	/**
 	 * Sets the shimmer rectangle.
 	 *
-	 * @param shimmerRectangle the new shimmer rectangle
+	 * @param shimmerRectangle
+	 *          the new shimmer rectangle
 	 */
 	public void setShimmerRectangle(String shimmerRectangle) {
 		this.shimmerRectangle = shimmerRectangle;
@@ -886,7 +980,8 @@ public class Settings {
 	/**
 	 * Sets the min width.
 	 *
-	 * @param minWidth the new min width
+	 * @param minWidth
+	 *          the new min width
 	 */
 	public void setMinWidth(int minWidth) {
 		this.minWidth = minWidth;
@@ -904,7 +999,8 @@ public class Settings {
 	/**
 	 * Sets the min height.
 	 *
-	 * @param minHeight the new min height
+	 * @param minHeight
+	 *          the new min height
 	 */
 	public void setMinHeight(int minHeight) {
 		this.minHeight = minHeight;
@@ -933,7 +1029,8 @@ public class Settings {
 	/**
 	 * Sets the flash red.
 	 *
-	 * @param flashRed the new flash red
+	 * @param flashRed
+	 *          the new flash red
 	 */
 	public void setFlashRed(int flashRed) {
 		this.flashRed = flashRed;
@@ -951,7 +1048,8 @@ public class Settings {
 	/**
 	 * Sets the flash green.
 	 *
-	 * @param flashGreen the new flash green
+	 * @param flashGreen
+	 *          the new flash green
 	 */
 	public void setFlashGreen(int flashGreen) {
 		this.flashGreen = flashGreen;
@@ -969,7 +1067,8 @@ public class Settings {
 	/**
 	 * Sets the flash blue.
 	 *
-	 * @param flashBlue the new flash blue
+	 * @param flashBlue
+	 *          the new flash blue
 	 */
 	public void setFlashBlue(int flashBlue) {
 		this.flashBlue = flashBlue;
@@ -987,28 +1086,91 @@ public class Settings {
 	/**
 	 * Sets the flash background.
 	 *
-	 * @param flashBackground the new flash background
+	 * @param flashBackground
+	 *          the new flash background
 	 */
 	public void setFlashBackground(boolean flashBackground) {
 		this.flashBackground = flashBackground;
 	}
 
-	/**
-	 * Checks if is random background.
-	 *
-	 * @return true, if is random background
-	 */
-	public boolean isRandomBackground() {
-		return randomBackground;
+	public boolean isDynamicPicture() {
+		return dynamicPicture;
 	}
 
-	/**
-	 * Sets the random background.
-	 *
-	 * @param randomBackground the new random background
-	 */
-	public void setRandomBackground(boolean randomBackground) {
-		this.randomBackground = randomBackground;
+	public void setDynamicPicture(boolean dynamicPicture) {
+		this.dynamicPicture = dynamicPicture;
+	}
+
+	public boolean isStaticPicture() {
+		return staticPicture;
+	}
+
+	public void setStaticPicture(boolean staticPicture) {
+		this.staticPicture = staticPicture;
+	}
+
+	public String getStaticPictureFile() {
+		return staticPictureFile;
+	}
+
+	public void setStaticPictureFile(String staticPictureFile) {
+		this.staticPictureFile = staticPictureFile;
+	}
+
+	public boolean isNoPicture() {
+		return noPicture;
+	}
+
+	public void setNoPicture(boolean noPicture) {
+		this.noPicture = noPicture;
+	}
+
+	public String getPictureDirectory() {
+		return pictureDirectory;
+	}
+
+	public void setPictureDirectory(String pictureDirectory) {
+		this.pictureDirectory = pictureDirectory;
+	}
+
+	public int getBackgroundRed() {
+		return backgroundRed;
+	}
+
+	public void setBackgroundRed(int backgroundRed) {
+		this.backgroundRed = backgroundRed;
+	}
+
+	public int getBackgroundGreen() {
+		return backgroundGreen;
+	}
+
+	public void setBackgroundGreen(int backgroundGreen) {
+		this.backgroundGreen = backgroundGreen;
+	}
+
+	public int getBackgroundBlue() {
+		return backgroundBlue;
+	}
+
+	public void setBackgroundBlue(int backgroundBlue) {
+		this.backgroundBlue = backgroundBlue;
+	}
+
+	public int getDynamicDuration() {
+		return dynamicDuration;
+	}
+
+	public void setDynamicDuration(int dynamicDuration) {
+		this.dynamicDuration = dynamicDuration;
+	}
+
+	public int getDynamicTransition() {
+		return dynamicTransition;
+	}
+
+	public void setDynamicTransition(int dynamicTransition) {
+		this.dynamicTransition = dynamicTransition;
 	}
 
 }

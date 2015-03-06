@@ -126,9 +126,6 @@ public enum MediatorConstants  {
 	/** The theme pack. */
 	THEME_PACK("Theme Pack"),
 	
-	/** The random background. */
-	RANDOM_BACKGROUND("Random Application Background"),
-	
 	/** The esp start. */
 	ESP_START("ESP Device Start"),
 	
@@ -140,6 +137,8 @@ public enum MediatorConstants  {
 	DYNAMIC_BACKGROUND("Dynamic background picture indicator"),
 	
 	NO_BACKGROUND("No background picture indicator"),
+	
+	NO_BACKGROUND_COLOUR("Fill colour for no background picture"),
 	
 	BACKGROUND_PIC_DIR("Root directory for EntrainerFX background pics"),
 	

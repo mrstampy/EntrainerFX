@@ -190,8 +190,6 @@ public class EntrainerFX extends JFrame {
 
 	private JCheckBoxMenuItem connect;
 
-	private JCheckBoxMenuItem randomBackgroundItem;
-
 	private final ImageIcon icon = GuiUtil.getIcon("/Brain.png");
 
 	private AbstractShimmer<?> shimmer = ShimmerRegister.getShimmer(LinearShimmerRectangle.NAME);
@@ -336,7 +334,6 @@ public class EntrainerFX extends JFrame {
 		setPreferredSize(new Dimension((int) gp.getWidth() + 10, MIN_HEIGHT));
 		setSize(getPreferredSize());
 		background.setDimension(gp.getWidth() + 10, MIN_HEIGHT);
-		background.start();
 		GuiUtil.centerOnScreen(EntrainerFX.this);
 		unexpandTitledPanes();
 		return;
@@ -485,9 +482,6 @@ public class EntrainerFX extends JFrame {
 				case SHIMMER_RECTANGLE:
 					setShimmerRectangle(e.getStringValue());
 					break;
-				case RANDOM_BACKGROUND:
-					randomBackgroundItem.setSelected(e.getBooleanValue());
-					break;
 				case ESP_CONNECTIONS_RELOADED:
 					espDevices.removeAll();
 					SwingUtilities.invokeLater(() -> addEspDevices(espDevices));
@@ -584,8 +578,6 @@ public class EntrainerFX extends JFrame {
 		menu.add(getEditXmlItem());
 		menu.add(getNewXmlItem());
 		menu.add(new JSeparator());
-		menu.add(getRandomBackgroundItem());
-		menu.add(new JSeparator());
 		menu.add(getExitItem());
 		bar.add(menu);
 
@@ -608,22 +600,6 @@ public class EntrainerFX extends JFrame {
 		bar.add(help);
 
 		setJMenuBar(bar);
-	}
-
-	private JMenuItem getRandomBackgroundItem() {
-		randomBackgroundItem = new JCheckBoxMenuItem("Random Background");
-
-		randomBackgroundItem
-				.setToolTipText("Chooses a random image file from EntrainerFX's 'css' directory as a background on startup");
-		randomBackgroundItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				fireReceiverChangeEvent(randomBackgroundItem.isSelected(), MediatorConstants.RANDOM_BACKGROUND);
-			}
-		});
-
-		return randomBackgroundItem;
 	}
 
 	private JMenuItem getRemoteDocItem() {
@@ -1684,13 +1660,6 @@ public class EntrainerFX extends JFrame {
 			@Override
 			public void run() {
 				group = new Group();
-
-				if (Settings.getInstance().isRandomBackground()) {
-					// setRandomBackgroundImage();
-				} else {
-					// background.setId("background-image");
-				}
-				// background.setOpacity(0.25);
 
 				group.getChildren().add(background.getPane());
 				// new BackgroundFlasher(background);

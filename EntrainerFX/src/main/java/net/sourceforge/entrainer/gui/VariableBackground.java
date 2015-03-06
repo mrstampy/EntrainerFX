@@ -84,11 +84,13 @@ public class VariableBackground {
 
 	private Rectangle rect;
 
+	private javafx.scene.paint.Color backgroundColor;
+
 	public VariableBackground() {
 		initMediator();
 	}
 
-	public void start() {
+	private void start() {
 		noBackground = false;
 		staticBackground = false;
 		
@@ -263,13 +265,20 @@ public class VariableBackground {
 					if (shouldRun()) startTransition();
 					break;
 				case STATIC_BACKGROUND:
+					noBackground = false;
+					staticBackground = true;
 					Platform.runLater(() -> evaluateStaticBackground(true));
 					break;
 				case DYNAMIC_BACKGROUND:
 					Platform.runLater(() -> start());
 					break;
 				case NO_BACKGROUND:
-					Platform.runLater(() -> clearBackground(e.getColourValue()));
+					noBackground = true;
+					staticBackground = false;
+					Platform.runLater(() -> clearBackground());
+					break;
+				case NO_BACKGROUND_COLOUR:
+					Platform.runLater(() -> setBackgroundColor(e.getColourValue()));
 					break;
 				case BACKGROUND_PIC:
 					backgroundPic = e.getStringValue();
@@ -294,26 +303,34 @@ public class VariableBackground {
 		});
 	}
 
-	private void clearBackground(Color color) {
-		noBackground = true;
-		staticBackground = true;
+	private void setBackgroundColor(Color colourValue) {
+		backgroundColor = JFXUtils.toJFXColor(colourValue);
+		
+		if(isShowBackgroundFill()) showBackgroundFill();
+	}
 
+	private void clearBackground() {
+		if(isShowBackgroundFill()) showBackgroundFill();
+	}
+	
+	private void showBackgroundFill() {
 		clearPictures();
-
-		javafx.scene.paint.Color jfx = JFXUtils.toJFXColor(color);
-
-		rect = new Rectangle(pane.getWidth(), pane.getHeight(), jfx);
-
+		
+		rect = new Rectangle(pane.getWidth(), pane.getHeight(), backgroundColor);
+		
 		pane.getChildren().add(rect);
 		
 		if(shouldRun()) startTransition();
 	}
+	
+	private boolean isShowBackgroundFill() {
+		return noBackground && backgroundColor != null;
+	}
 
 	private void evaluateStaticBackground(boolean useCurrent) {
-		noBackground = false;
-		staticBackground = true;
-
-		if(useCurrent) {
+		if(!staticBackground) return;
+		
+		if(useCurrent && currentFile != null) {
 			backgroundPic = currentFile;
 		}
 		

@@ -23,5 +23,13 @@
     <flash.red>158</flash.red>
     <flash.green>255</flash.green>
     <flash.blue>177</flash.blue>
-    <random.background>false</random.background>
+    <dynamic.background>true</dynamic.background>
+    <static.background>false</static.background>
+    <no.background>false</no.background>
+    <picture.directory>css</picture.directory>
+    <background.red>0</background.red>
+    <background.green>0</background.green>
+    <background.blue>0</background.blue>
+    <dynamic.duration>10</dynamic.duration>
+    <dynamic.transition>5</dynamic.transition>
 </entrainer.settings>
