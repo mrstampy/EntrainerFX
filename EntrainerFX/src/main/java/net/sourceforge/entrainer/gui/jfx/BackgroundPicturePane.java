@@ -86,7 +86,7 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void init() {
-		setText("Background Picture Controls");
+		setText("Background Picture Options");
 
 		directory.setEditable(false);
 		picture.setEditable(false);
