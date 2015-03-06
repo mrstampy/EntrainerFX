@@ -101,7 +101,8 @@ public class Main {
 			URISyntaxException, InterruptedException {
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JDialog.setDefaultLookAndFeelDecorated(true);
-		final EntrainerFXSplash splash = new EntrainerFXSplash(true);
+		Settings settings = Settings.getInstance();
+		final EntrainerFXSplash splash = settings.isSplashOnStartup() ? new EntrainerFXSplash(true) : null;
 		Thread thread = new Thread(new Runnable() {
 
 			@Override
@@ -112,7 +113,6 @@ public class Main {
 				} catch (Exception e) {
 					errorOnStartup(e);
 				}
-				Settings settings = Settings.getInstance();
 				GuiUtil.changeLookAndFeel(settings.getLafClass(), settings.getLafThemePack(), new Component[] {});
 				showGui(splash);
 			}
@@ -159,7 +159,7 @@ public class Main {
 				GuiUtil.fadeIn(entrainer, 5000, new TimelineCallbackAdapter() {
 					public void onTimelineStateChanged(TimelineState oldState, TimelineState newState, float durationFraction,
 							float timelinePosition) {
-						if (TimelineState.PLAYING_FORWARD.equals(newState)) {
+						if (TimelineState.PLAYING_FORWARD.equals(newState) && splash != null) {
 							Platform.runLater(new Runnable() {
 
 								@Override

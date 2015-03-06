@@ -208,6 +208,9 @@ public class Settings {
 
 	@XmlElement(name = "dynamic.transition")
 	private int dynamicTransition;
+	
+	@XmlElement(name = "splash.on.startup")
+	private boolean splashOnStartup;
 
 	static {
 		try {
@@ -423,6 +426,9 @@ public class Settings {
 				case STATIC_PICTURE_LOCK:
 					setStaticPictureLock(e.getBooleanValue());
 					break;
+				case SPLASH_ON_STARTUP:
+					setSplashOnStartup(e.getBooleanValue());
+					break;
 				default:
 					break;
 				}
@@ -465,6 +471,7 @@ public class Settings {
 		fireReceiverChangeEvent(getDynamicDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);
 		fireReceiverChangeEvent(getDynamicTransition(), MediatorConstants.BACKGROUND_TRANSITION_SECONDS);
 		fireReceiverChangeEvent(isStaticPictureLock(), MediatorConstants.STATIC_PICTURE_LOCK);
+		fireReceiverChangeEvent(isSplashOnStartup(), MediatorConstants.SPLASH_ON_STARTUP);
 
 		for (EntrainerProgramInterval interval : intervals) {
 			fireReceiverChangeEvent(interval.getValue());
@@ -1186,6 +1193,14 @@ public class Settings {
 
 	public void setStaticPictureLock(boolean staticPictureLock) {
 		this.staticPictureLock = staticPictureLock;
+	}
+
+	public boolean isSplashOnStartup() {
+		return splashOnStartup;
+	}
+
+	public void setSplashOnStartup(boolean splashOnStartup) {
+		this.splashOnStartup = splashOnStartup;
 	}
 
 }

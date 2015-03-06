@@ -220,6 +220,7 @@ public class EntrainerFX extends JFrame {
 	private EspConnectionListener espConnectionListener = new EspConnectionListener();
 
 	private ObjectMapper jsonMapper = new ObjectMapper();
+	private JCheckBoxMenuItem splashOnStartup;
 
 	private EntrainerFX() {
 		super("Entrainer FX");
@@ -487,6 +488,9 @@ public class EntrainerFX extends JFrame {
 					espDevices.removeAll();
 					SwingUtilities.invokeLater(() -> addEspDevices(espDevices));
 					break;
+				case SPLASH_ON_STARTUP:
+					SwingUtilities.invokeLater(() -> splashOnStartup.setSelected(e.getBooleanValue()));
+					break;
 				default:
 					break;
 
@@ -597,9 +601,24 @@ public class EntrainerFX extends JFrame {
 		help.add(getLocalDocItem());
 		help.add(getRemoteDocItem());
 		help.add(getSplashItem());
+		help.add(getSplashOnStartupItem());
 		bar.add(help);
 
 		setJMenuBar(bar);
+	}
+
+	private JMenuItem getSplashOnStartupItem() {
+		splashOnStartup = new JCheckBoxMenuItem("Splash on Startup");
+		
+		splashOnStartup.setToolTipText("Enables/Disables splash screen on startup");
+		
+		splashOnStartup.addActionListener(e -> enableSplashOnStartup(splashOnStartup.isSelected()));
+
+		return splashOnStartup;
+	}
+
+	private void enableSplashOnStartup(boolean selected) {
+		fireReceiverChangeEvent(selected, MediatorConstants.SPLASH_ON_STARTUP);
 	}
 
 	private JMenuItem getRemoteDocItem() {

@@ -32,4 +32,5 @@
     <background.blue>0</background.blue>
     <dynamic.duration>10</dynamic.duration>
     <dynamic.transition>5</dynamic.transition>
+    <splash.on.startup>true</splash.on.startup>
 </entrainer.settings>

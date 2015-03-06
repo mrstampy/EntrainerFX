@@ -148,7 +148,9 @@ public enum MediatorConstants  {
 	
 	BACKGROUND_DURATION_SECONDS("Seconds to display a picture before transitioning to another"),
 	
-	STATIC_PICTURE_LOCK("If true will prevent chosen picture from being overwritten switching to & from dynamic");
+	STATIC_PICTURE_LOCK("If true will prevent chosen picture from being overwritten switching to & from dynamic"),
+	
+	SPLASH_ON_STARTUP("If true will enable the splash screen on startup");
 	
 	private String value;
 	
