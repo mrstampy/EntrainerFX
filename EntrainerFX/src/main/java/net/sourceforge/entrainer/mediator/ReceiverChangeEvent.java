@@ -113,8 +113,18 @@ public class ReceiverChangeEvent extends EventObject {
 	 * @param c the c
 	 */
 	public ReceiverChangeEvent(Object source, Color c) {
+		this(source, c, FLASH_COLOUR);
+	}
+
+	/**
+	 * Instantiates a new receiver change event.
+	 *
+	 * @param source the source
+	 * @param c the c
+	 */
+	public ReceiverChangeEvent(Object source, Color c, MediatorConstants parm) {
 		super(source);
-		setParm(FLASH_COLOUR);
+		setParm(parm);
 		setColourValue(c);
 	}
 

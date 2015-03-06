@@ -137,11 +137,13 @@ public enum MediatorConstants  {
 	
 	STATIC_BACKGROUND("Static background picture indicator"),
 	
+	DYNAMIC_BACKGROUND("Dynamic background picture indicator"),
+	
+	NO_BACKGROUND("No background picture indicator"),
+	
 	BACKGROUND_PIC_DIR("Root directory for EntrainerFX background pics"),
 	
 	BACKGROUND_PIC("Static background picture path and filename"),
-	
-	VARIABLE_BACKGROUND_PAUSE("Pause background changing"),
 	
 	BACKGROUND_TRANSITION_SECONDS("Seconds to transition between dynamic background pictures"),
 	

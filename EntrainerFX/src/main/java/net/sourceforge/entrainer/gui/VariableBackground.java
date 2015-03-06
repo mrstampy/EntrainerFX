@@ -1,5 +1,6 @@
 package net.sourceforge.entrainer.gui;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -21,10 +22,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
+import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
+import net.sourceforge.entrainer.mediator.Sender;
+import net.sourceforge.entrainer.mediator.SenderAdapter;
 import net.sourceforge.entrainer.sound.tools.FrequencyToHalfTimeCycle;
 import net.sourceforge.entrainer.util.Utils;
 
@@ -33,11 +39,14 @@ import org.slf4j.LoggerFactory;
 
 public class VariableBackground {
 	private static final Logger log = LoggerFactory.getLogger(VariableBackground.class);
-	
+
 	private static String[] picSuffixes = { ".jpg", ".JPG", ".png", ".PNG", ".gif", ".GIF", ".jpeg", ".JPEG", ".bmp",
-	".BMP" };
+			".BMP" };
+
+	private Sender sender = new SenderAdapter();
 
 	private ImageView current;
+	private String currentFile;
 	private ImageView old;
 	private AnchorPane pane = new AnchorPane();
 
@@ -55,71 +64,69 @@ public class VariableBackground {
 	private List<String> pictureNames = new ArrayList<>();
 
 	private Random rand = new Random(System.nanoTime());
-	
+
 	private double width;
 	private double height;
 
 	private boolean flashBackground;
 
-	protected boolean running;
+	private boolean running;
+
+	private boolean noBackground = false;
 
 	private FrequencyToHalfTimeCycle calculator = new FrequencyToHalfTimeCycle();
-	
+
 	private boolean staticBackground;
-	
+
 	private String backgroundPic;
 
 	private ParallelTransition pt;
-	
+
 	public VariableBackground() {
 		initMediator();
 	}
 
 	public void start() {
-		if(staticBackground) {
-			return;
-		}
-		
+		noBackground = false;
+		staticBackground = false;
+
 		Platform.runLater(() -> init());
-	}
-
-	public void stop() {
-
 	}
 
 	private void init() {
 		pictureNames.clear();
+		clearPictures();
 		loadFromDirectory();
-		
+
 		createCurrent();
 		setFadeInImage();
 		fadeIn();
 		fadeIn.play();
-		
+
 		switchPictures();
 	}
 
 	private void loadFromDirectory() {
 		loadFromDirectory(new File(getDirectoryName()));
 	}
-	
+
 	private void loadFromDirectory(File dir) {
 		File[] pics = dir.listFiles(new FilenameFilter() {
-			
+
 			@Override
 			public boolean accept(File dir, String name) {
-				for(String sfx : picSuffixes) {
-					if(name.endsWith(sfx)) return true;
+				for (String sfx : picSuffixes) {
+					if (name.endsWith(sfx)) return true;
 				}
-				
+
 				return false;
 			}
 		});
-		
+
 		for (File pic : pics) {
 			pictureNames.add(pic.getAbsolutePath());
 		}
-		
+
 		loadFromSubDirectories(dir);
 	}
 
@@ -144,14 +151,14 @@ public class VariableBackground {
 	}
 
 	private void fadeInOut() {
-		if(staticBackground) {
+		if (staticBackground || noBackground) {
 			return;
 		}
-		
+
 		old = current;
-		
+
 		createCurrent();
-		
+
 		setFadeInImage();
 
 		fadeOut();
@@ -177,7 +184,8 @@ public class VariableBackground {
 		int idx = rand.nextInt(pictureNames.size());
 
 		try {
-			currentImage = new Image(new FileInputStream(pictureNames.get(idx)));
+			currentFile = pictureNames.get(idx);
+			currentImage = new Image(new FileInputStream(currentFile));
 			Platform.runLater(() -> scaleImage());
 		} catch (FileNotFoundException e) {
 			log.error("Unexpected exception for picture {}", pictureNames.get(idx), e);
@@ -186,18 +194,18 @@ public class VariableBackground {
 
 	private void scaleImage() {
 		current.setImage(currentImage);
-		
+
 		double pw = currentImage.getWidth();
 		double ph = currentImage.getHeight();
 		double vw = getWidth();
 		double vh = getHeight();
-		
+
 		double xr = 1 - (pw - vw) / pw;
 		double yr = 1 - (ph - vh) / ph;
 
 		double yDiff = 0;
 		double xDiff = 0;
-		
+
 		if (xr >= yr) {
 			current.setFitWidth(vw);
 			yDiff = (ph * vw / pw) - vh;
@@ -205,14 +213,14 @@ public class VariableBackground {
 			current.setFitHeight(vh);
 			xDiff = (pw * vh / ph) - vw;
 		}
-		
+
 		pane.getChildren().add(current);
-		
+
 		if (xDiff > 0) current.setX(0 - xDiff / 2);
 
 		if (yDiff > 0) current.setY(0 - yDiff / 2);
-		
-		if(shouldRun()) startTransition();
+
+		if (shouldRun()) startTransition();
 	}
 
 	private void fadeIn() {
@@ -238,15 +246,20 @@ public class VariableBackground {
 				switch (e.getParm()) {
 				case FLASH_BACKGROUND:
 					flashBackground = e.getBooleanValue();
-					if(shouldRun()) startTransition();
+					if (shouldRun()) startTransition();
 					break;
 				case START_ENTRAINMENT:
 					running = e.getBooleanValue();
-					if(shouldRun()) startTransition();
+					if (shouldRun()) startTransition();
 					break;
 				case STATIC_BACKGROUND:
-					staticBackground = e.getBooleanValue();
 					Platform.runLater(() -> evaluateStaticBackground());
+					break;
+				case DYNAMIC_BACKGROUND:
+					Platform.runLater(() -> start());
+					break;
+				case NO_BACKGROUND:
+					Platform.runLater(() -> clearBackground(e.getColourValue()));
 					break;
 				case BACKGROUND_PIC:
 					backgroundPic = e.getStringValue();
@@ -257,15 +270,11 @@ public class VariableBackground {
 					pictureNames.clear();
 					loadFromDirectory();
 					break;
-				case VARIABLE_BACKGROUND_PAUSE:
-					staticBackground = e.getBooleanValue();
-					if(!staticBackground) start();
-					break;
 				case BACKGROUND_DURATION_SECONDS:
-					setDisplayTime((int)e.getDoubleValue());
+					setDisplayTime((int) e.getDoubleValue());
 					break;
 				case BACKGROUND_TRANSITION_SECONDS:
-					setFadeTime((int)e.getDoubleValue());
+					setFadeTime((int) e.getDoubleValue());
 					break;
 				default:
 					break;
@@ -274,40 +283,47 @@ public class VariableBackground {
 
 		});
 	}
-	
+
+	private void clearBackground(Color color) {
+		noBackground = true;
+		staticBackground = true;
+
+		clearPictures();
+
+		javafx.scene.paint.Color jfx = JFXUtils.toJFXColor(color);
+
+		Rectangle rect = new Rectangle(pane.getWidth(), pane.getHeight(), jfx);
+
+		pane.getChildren().add(rect);
+	}
+
 	private void evaluateStaticBackground() {
-		if(backgroundPic == null && staticBackground) return;
-		
-		if(!staticBackground) {
-			if(pt != null) pt.stop();
-			start();
-			return;
-		}
-		
-		if(pt != null) {
-			fadeIn.stop();
-			fadeOut.stop();
-			pt.stop();
-		}
-		
-		for(Node node : pane.getChildren()) node.setOpacity(0);
-		
+		noBackground = false;
+		staticBackground = true;
+
+		backgroundPic = currentFile;
+		clearPictures();
+
+		createCurrent();
+		scaleImage();
+		fadeIn();
+		fadeIn.play();
+
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, backgroundPic, MediatorConstants.BACKGROUND_PIC));
+	}
+
+	private void clearPictures() {
+		//@formatter:off
+		for (Node node : pane.getChildren()) node.setOpacity(0);
+		//@formatter:on
+
 		pane.getChildren().clear();
-		
-		try {
-			currentImage = new Image(new FileInputStream(new File(backgroundPic)));
-			createCurrent();
-			scaleImage();
-			fadeIn();
-			fadeIn.play();
-		} catch (FileNotFoundException e) {
-			log.error("Unexpected exception", e);
-		}
 	}
 
 	private void startTransition() {
 		Runnable thread = new Runnable() {
 			private ImageView background = current;
+
 			public void run() {
 				while (shouldRun() && background.getOpacity() > 0) {
 					Utils.snooze(getMillis(), calculator.getNanos());
@@ -323,7 +339,7 @@ public class VariableBackground {
 				return millis > 5000 ? 5000l : millis;
 			}
 		};
-		
+
 		switchSvc.execute(thread);
 	}
 
@@ -349,7 +365,7 @@ public class VariableBackground {
 	}
 
 	private boolean shouldRun() {
-		return running && flashBackground;
+		return running && flashBackground && !noBackground;
 	}
 
 	public int getFadeTime() {
@@ -383,7 +399,7 @@ public class VariableBackground {
 	public Image getCurrentImage() {
 		return current.getImage();
 	}
-	
+
 	public void setDimension(double width, double height) {
 		setWidth(width);
 		setHeight(height);

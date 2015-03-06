@@ -3,21 +3,22 @@ package net.sourceforge.entrainer.gui.jfx;
 import java.io.File;
 
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
@@ -36,7 +37,12 @@ public class BackgroundPicturePane extends TitledPane {
 	private String pictureName = "";
 	private TextField picture = new TextField(pictureName);
 	
-	private ToggleButton staticPicture = new ToggleButton("Dynamic");
+	private RadioButton dynamic = new RadioButton("Dynamic");
+	private RadioButton staticPic = new RadioButton("Static");
+	private RadioButton noPic = new RadioButton("No Picture");
+	
+	private ToggleGroup picGroup = new ToggleGroup();
+	private ColorPicker picker = new ColorPicker();
 	
 	private Spinner<Integer> duration = new Spinner<>(1, 120, 10);
 	private int durationValue = 10;
@@ -56,6 +62,7 @@ public class BackgroundPicturePane extends TitledPane {
 		picture.setEditable(false);
 		
 		initMediator();
+		initRadioButtons();		
 		setEventHandlers();
 		setTooltips();
 		setWidths();
@@ -67,6 +74,9 @@ public class BackgroundPicturePane extends TitledPane {
 		setTooltip(picture, "Single click to choose a new static picture");
 		setTooltip(duration, "Set the duration (seconds) a picture is displayed before it changes");
 		setTooltip(transition, "Set the transition time (seconds) to switch between pictures");
+		setTooltip(dynamic, "Random background picture from the chosen directory");
+		setTooltip(staticPic, "Single background picture");
+		setTooltip(noPic, "No background picture (choose colour)");
 	}
 	
 	private void setTooltip(Control node, String tip) {
@@ -74,16 +84,19 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void layoutComponents() {
-		FlowPane fp = new FlowPane();
+		HBox box = new HBox(10);
 		
-		fp.setPadding(new Insets(10));
-		fp.setHgap(10);
-		fp.setVgap(10);
-		fp.setAlignment(Pos.CENTER);
+		box.getChildren().addAll(getRadioButtons(), getFilePane(), getSpinnerPane());
 		
-		fp.getChildren().addAll(staticPicture, getFilePane(), getSpinnerPane());
+		setContent(box);
+	}
+
+	private Node getRadioButtons() {
+		VBox box = new VBox(10);
 		
-		setContent(fp);
+		box.getChildren().addAll(dynamic, staticPic, noPic, picker);
+		
+		return box;
 	}
 
 	private void setWidths() {
@@ -92,6 +105,8 @@ public class BackgroundPicturePane extends TitledPane {
 		
 		picture.setPrefWidth(200);
 		directory.setPrefWidth(200);
+		
+		picker.setPrefWidth(100);
 	}
 
 	private Node getSpinnerPane() {
@@ -147,17 +162,31 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void setEventHandlers() {
-		staticPicture.setOnAction(e -> Platform.runLater(() -> staticPicButtonPressed()));
+		dynamic.setOnAction(e -> dynamicButtonPressed());
 		
-		directory.setOnMouseClicked(e -> Platform.runLater(() -> directoryClicked(e)));
+		staticPic.setOnAction(e -> staticButtonPressed());
 		
-		picture.setOnMouseClicked(e -> Platform.runLater(() -> pictureClicked(e)));
+		noPic.setOnAction(e -> noPicButtonPressed());
+		
+		picker.setOnAction(e -> setBackgroundColour(picker.getValue()));
+		
+		directory.setOnMouseClicked(e ->  directoryClicked(e));
+		
+		picture.setOnMouseClicked(e ->  pictureClicked(e));
 
 		duration.setOnMouseClicked(e -> durationChanged());
 		
 		transition.setOnMouseClicked(e -> transitionChanged());
 
 		expandedProperty().addListener(e -> setOpacity(isExpanded() ? 1 : 0.25));
+	}
+
+	private void initRadioButtons() {
+		dynamic.setToggleGroup(picGroup);
+		staticPic.setToggleGroup(picGroup);
+		noPic.setToggleGroup(picGroup);
+		dynamic.setSelected(true);
+		picker.setDisable(true);
 	}
 
 	private void transitionChanged() {
@@ -218,14 +247,39 @@ public class BackgroundPicturePane extends TitledPane {
 		fireReceiverChangeEvent(directoryName, MediatorConstants.BACKGROUND_PIC_DIR);
 	}
 
-	private void staticPicButtonPressed() {
-		boolean pressed = staticPicture.isSelected();
+	private void staticButtonPressed() {
+		staticButtonPressed(true);
+	}
+
+	private void dynamicButtonPressed() {
+		staticButtonPressed(false);
+	}
+
+	private void noPicButtonPressed() {
+		picker.setDisable(false);
+		setSpinnersDisabled(true);
+		setTextFieldsDisabled(true);
 		
-		staticPicture.setText(pressed ? "Static" : "Dynamic");
+		setBackgroundColour(picker.getValue());
+	}
+
+	private void setBackgroundColour(Color color) {
+		java.awt.Color awt = JFXUtils.fromJFXColor(color);
+		
+		fireReceiverChangeEvent(awt, MediatorConstants.NO_BACKGROUND);
+	}
+
+	private void staticButtonPressed(boolean pressed) {
+		setSpinnersDisabled(pressed);
+		setTextFieldsDisabled(false);
+		picker.setDisable(true);
+		
+		fireReceiverChangeEvent(pressed, pressed ? MediatorConstants.STATIC_BACKGROUND : MediatorConstants.DYNAMIC_BACKGROUND);
+	}
+
+	private void setSpinnersDisabled(boolean pressed) {
 		duration.setDisable(pressed);
 		transition.setDisable(pressed);
-		
-		fireReceiverChangeEvent(pressed, MediatorConstants.STATIC_BACKGROUND);
 	}
 
 	private void initMediator() {
@@ -235,15 +289,19 @@ public class BackgroundPicturePane extends TitledPane {
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
 				case STATIC_BACKGROUND:
-					Platform.runLater(() -> staticPicture.setSelected(e.getBooleanValue()));
+					Platform.runLater(() -> setStaticButton());
+					break;
+				case DYNAMIC_BACKGROUND:
+					Platform.runLater(() -> setDynamicButton());
+					break;
+				case NO_BACKGROUND:
+					Platform.runLater(() -> setNoBackgroundButton());
 					break;
 				case BACKGROUND_PIC:
-					Platform.runLater(() -> picture.setText(e.getStringValue()));
+					Platform.runLater(() -> setPicture(e.getStringValue()));
 					break;
 				case BACKGROUND_PIC_DIR:
-					Platform.runLater(() -> directory.setText(e.getStringValue()));
-					break;
-				case VARIABLE_BACKGROUND_PAUSE:
+					Platform.runLater(() -> setDirectory(e.getStringValue()));
 					break;
 				case BACKGROUND_DURATION_SECONDS:
 					durationValue = (int)e.getDoubleValue();
@@ -261,7 +319,50 @@ public class BackgroundPicturePane extends TitledPane {
 		});
 	}
 
+	private void setNoBackgroundButton() {
+		setSpinnersDisabled(true);
+		setTextFieldsDisabled(true);
+		noPic.setSelected(true);
+	}
+
+	private void setDynamicButton() {
+		setSpinnersDisabled(false);
+		setTextFieldsDisabled(false);
+		dynamic.setSelected(true);
+	}
+
+	private void setStaticButton() {
+		setSpinnersDisabled(true);
+		setTextFieldsDisabled(false);
+		staticPic.setSelected(true);
+	}
+	
+	private void setTextFieldsDisabled(boolean b) {
+		directory.setDisable(b);
+		picture.setDisable(b);
+	}
+
+	private void setDirectory(String name) {
+		File dir = new File(name);
+		
+		directoryName = dir.getAbsolutePath();
+		
+		directory.setText(dir.getName());
+	}
+
+	private void setPicture(String name) {
+		File pic = new File(name);
+		
+		pictureName = pic.getAbsolutePath();
+		
+		picture.setText(pic.getName());
+	}
+
 	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
+	}
+
+	private void fireReceiverChangeEvent(java.awt.Color value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
 
