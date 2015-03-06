@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 - 2014 Burton Alexander
+ * Copyright (C) 2008 - 2015 Burton Alexander
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -132,24 +132,34 @@ public enum MediatorConstants {
 	/** The esp connections reloaded. */
 	ESP_CONNECTIONS_RELOADED("ESP Connections Reloaded"),
 
+	/** The static background. */
 	STATIC_BACKGROUND("Static background picture indicator"),
 
+	/** The dynamic background. */
 	DYNAMIC_BACKGROUND("Dynamic background picture indicator"),
 
+	/** The no background. */
 	NO_BACKGROUND("No background picture indicator"),
 
+	/** The no background colour. */
 	NO_BACKGROUND_COLOUR("Fill colour for no background picture"),
 
+	/** The background pic dir. */
 	BACKGROUND_PIC_DIR("Root directory for EntrainerFX background pics"),
 
+	/** The background pic. */
 	BACKGROUND_PIC("Static background picture path and filename"),
 
+	/** The background transition seconds. */
 	BACKGROUND_TRANSITION_SECONDS("Seconds to transition between dynamic background pictures"),
 
+	/** The background duration seconds. */
 	BACKGROUND_DURATION_SECONDS("Seconds to display a picture before transitioning to another"),
 
+	/** The static picture lock. */
 	STATIC_PICTURE_LOCK("If true will prevent chosen picture from being overwritten switching to & from dynamic"),
 
+	/** The splash on startup. */
 	SPLASH_ON_STARTUP("If true will enable the splash screen on startup");
 
 	private String value;

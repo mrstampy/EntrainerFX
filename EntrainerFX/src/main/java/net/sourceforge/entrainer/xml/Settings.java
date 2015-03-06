@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 - 2014 Burton Alexander
+ * Copyright (C) 2008 - 2015 Burton Alexander
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -1107,98 +1107,218 @@ public class Settings {
 		this.flashBackground = flashBackground;
 	}
 
+	/**
+	 * Checks if is dynamic picture.
+	 *
+	 * @return true, if is dynamic picture
+	 */
 	public boolean isDynamicPicture() {
 		return dynamicPicture;
 	}
 
+	/**
+	 * Sets the dynamic picture.
+	 *
+	 * @param dynamicPicture the new dynamic picture
+	 */
 	public void setDynamicPicture(boolean dynamicPicture) {
 		this.dynamicPicture = dynamicPicture;
 	}
 
+	/**
+	 * Checks if is static picture.
+	 *
+	 * @return true, if is static picture
+	 */
 	public boolean isStaticPicture() {
 		return staticPicture;
 	}
 
+	/**
+	 * Sets the static picture.
+	 *
+	 * @param staticPicture the new static picture
+	 */
 	public void setStaticPicture(boolean staticPicture) {
 		this.staticPicture = staticPicture;
 	}
 
+	/**
+	 * Gets the static picture file.
+	 *
+	 * @return the static picture file
+	 */
 	public String getStaticPictureFile() {
 		return staticPictureFile;
 	}
 
+	/**
+	 * Sets the static picture file.
+	 *
+	 * @param staticPictureFile the new static picture file
+	 */
 	public void setStaticPictureFile(String staticPictureFile) {
 		this.staticPictureFile = staticPictureFile;
 	}
 
+	/**
+	 * Checks if is no picture.
+	 *
+	 * @return true, if is no picture
+	 */
 	public boolean isNoPicture() {
 		return noPicture;
 	}
 
+	/**
+	 * Sets the no picture.
+	 *
+	 * @param noPicture the new no picture
+	 */
 	public void setNoPicture(boolean noPicture) {
 		this.noPicture = noPicture;
 	}
 
+	/**
+	 * Gets the picture directory.
+	 *
+	 * @return the picture directory
+	 */
 	public String getPictureDirectory() {
 		return pictureDirectory;
 	}
 
+	/**
+	 * Sets the picture directory.
+	 *
+	 * @param pictureDirectory the new picture directory
+	 */
 	public void setPictureDirectory(String pictureDirectory) {
 		this.pictureDirectory = pictureDirectory;
 	}
 
+	/**
+	 * Gets the background red.
+	 *
+	 * @return the background red
+	 */
 	public int getBackgroundRed() {
 		return backgroundRed;
 	}
 
+	/**
+	 * Sets the background red.
+	 *
+	 * @param backgroundRed the new background red
+	 */
 	public void setBackgroundRed(int backgroundRed) {
 		this.backgroundRed = backgroundRed;
 	}
 
+	/**
+	 * Gets the background green.
+	 *
+	 * @return the background green
+	 */
 	public int getBackgroundGreen() {
 		return backgroundGreen;
 	}
 
+	/**
+	 * Sets the background green.
+	 *
+	 * @param backgroundGreen the new background green
+	 */
 	public void setBackgroundGreen(int backgroundGreen) {
 		this.backgroundGreen = backgroundGreen;
 	}
 
+	/**
+	 * Gets the background blue.
+	 *
+	 * @return the background blue
+	 */
 	public int getBackgroundBlue() {
 		return backgroundBlue;
 	}
 
+	/**
+	 * Sets the background blue.
+	 *
+	 * @param backgroundBlue the new background blue
+	 */
 	public void setBackgroundBlue(int backgroundBlue) {
 		this.backgroundBlue = backgroundBlue;
 	}
 
+	/**
+	 * Gets the dynamic duration.
+	 *
+	 * @return the dynamic duration
+	 */
 	public int getDynamicDuration() {
 		return dynamicDuration;
 	}
 
+	/**
+	 * Sets the dynamic duration.
+	 *
+	 * @param dynamicDuration the new dynamic duration
+	 */
 	public void setDynamicDuration(int dynamicDuration) {
 		this.dynamicDuration = dynamicDuration;
 	}
 
+	/**
+	 * Gets the dynamic transition.
+	 *
+	 * @return the dynamic transition
+	 */
 	public int getDynamicTransition() {
 		return dynamicTransition;
 	}
 
+	/**
+	 * Sets the dynamic transition.
+	 *
+	 * @param dynamicTransition the new dynamic transition
+	 */
 	public void setDynamicTransition(int dynamicTransition) {
 		this.dynamicTransition = dynamicTransition;
 	}
 
+	/**
+	 * Checks if is static picture lock.
+	 *
+	 * @return true, if is static picture lock
+	 */
 	public boolean isStaticPictureLock() {
 		return staticPictureLock;
 	}
 
+	/**
+	 * Sets the static picture lock.
+	 *
+	 * @param staticPictureLock the new static picture lock
+	 */
 	public void setStaticPictureLock(boolean staticPictureLock) {
 		this.staticPictureLock = staticPictureLock;
 	}
 
+	/**
+	 * Checks if is splash on startup.
+	 *
+	 * @return true, if is splash on startup
+	 */
 	public boolean isSplashOnStartup() {
 		return splashOnStartup;
 	}
 
+	/**
+	 * Sets the splash on startup.
+	 *
+	 * @param splashOnStartup the new splash on startup
+	 */
 	public void setSplashOnStartup(boolean splashOnStartup) {
 		this.splashOnStartup = splashOnStartup;
 	}

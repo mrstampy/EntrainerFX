@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 - 2014 Burton Alexander
+ * Copyright (C) 2008 - 2015 Burton Alexander
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -135,10 +135,9 @@ public class ReceiverChangeEvent extends EventObject {
 	/**
 	 * Instantiates a new receiver change event.
 	 *
-	 * @param source
-	 *          the source
-	 * @param c
-	 *          the c
+	 * @param source          the source
+	 * @param c          the c
+	 * @param parm the parm
 	 */
 	public ReceiverChangeEvent(Object source, Color c, MediatorConstants parm) {
 		super(source);

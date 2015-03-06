@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 - 2014 Burton Alexander
+ * Copyright (C) 2008 - 2015 Burton Alexander
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -69,7 +69,7 @@ public class About extends InformationDialog implements Version {
 		buf.append("<br><br><b><u>Entrainer Home Page:</u></b> http://entrainer.sourceforge.net/");
 		buf.append("<br><b><u>Project Home Page:</u></b> https://sourceforge.net/projects/entrainer");
 
-		buf.append("<br><br>Copyright Burton Alexander, 2008 - 2014");
+		buf.append("<br><br>Copyright Burton Alexander, 2008 - 2015");
 		buf.append("<br><br>This program creates entrainment frequencies, allowing the user to control the base frequency, the entrainment frequency");
 		buf.append("<br>and the amplitude of the sound waves.  It is best used with high quality headphones.");
 

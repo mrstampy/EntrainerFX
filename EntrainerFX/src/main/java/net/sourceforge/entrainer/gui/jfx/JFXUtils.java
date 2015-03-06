@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 - 2014 Burton Alexander
+ * Copyright (C) 2008 - 2015 Burton Alexander
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -77,6 +77,11 @@ public class JFXUtils {
 		return css.exists() ? css.toURI() : null;
 	}
 
+	/**
+	 * Run later.
+	 *
+	 * @param run the run
+	 */
 	public static void runLater(Runnable run) {
 		if (Platform.isFxApplicationThread()) {
 			runNow(run);

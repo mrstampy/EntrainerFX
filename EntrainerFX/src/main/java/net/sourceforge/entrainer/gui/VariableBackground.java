@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2008 - 2015 Burton Alexander
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * 
+ */
 package net.sourceforge.entrainer.gui;
 
 import java.awt.Color;
@@ -42,6 +60,10 @@ import net.sourceforge.entrainer.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class VariableBackground.
+ */
 public class VariableBackground {
 	private static final Logger log = LoggerFactory.getLogger(VariableBackground.class);
 
@@ -103,6 +125,9 @@ public class VariableBackground {
 
 	private boolean ptRunning;
 
+	/**
+	 * Instantiates a new variable background.
+	 */
 	public VariableBackground() {
 		initMediator();
 	}
@@ -451,18 +476,38 @@ public class VariableBackground {
 		return running && flashBackground;
 	}
 
+	/**
+	 * Gets the mode.
+	 *
+	 * @return the mode
+	 */
 	public BackgroundMode getMode() {
 		return mode;
 	}
 
+	/**
+	 * Checks if is dynamic.
+	 *
+	 * @return true, if is dynamic
+	 */
 	public boolean isDynamic() {
 		return isMode(BackgroundMode.DYNAMIC);
 	}
 
+	/**
+	 * Checks if is static.
+	 *
+	 * @return true, if is static
+	 */
 	public boolean isStatic() {
 		return isMode(BackgroundMode.STATIC);
 	}
 
+	/**
+	 * Checks if is no background.
+	 *
+	 * @return true, if is no background
+	 */
 	public boolean isNoBackground() {
 		return isMode(BackgroundMode.NO_BACKGROUND);
 	}
@@ -471,38 +516,84 @@ public class VariableBackground {
 		return this.mode == mode;
 	}
 
+	/**
+	 * Gets the fade time.
+	 *
+	 * @return the fade time
+	 */
 	public int getFadeTime() {
 		return fadeTime;
 	}
 
+	/**
+	 * Sets the fade time.
+	 *
+	 * @param fadeTime the new fade time
+	 */
 	public void setFadeTime(int fadeTime) {
 		this.fadeTime = fadeTime;
 	}
 
+	/**
+	 * Gets the display time.
+	 *
+	 * @return the display time
+	 */
 	public int getDisplayTime() {
 		return displayTime;
 	}
 
+	/**
+	 * Sets the display time.
+	 *
+	 * @param displayTime the new display time
+	 */
 	public void setDisplayTime(int displayTime) {
 		this.displayTime = displayTime;
 	}
 
+	/**
+	 * Gets the directory name.
+	 *
+	 * @return the directory name
+	 */
 	public String getDirectoryName() {
 		return directoryName;
 	}
 
+	/**
+	 * Sets the directory name.
+	 *
+	 * @param directoryName the new directory name
+	 */
 	public void setDirectoryName(String directoryName) {
 		this.directoryName = directoryName;
 	}
 
+	/**
+	 * Gets the pane.
+	 *
+	 * @return the pane
+	 */
 	public Pane getPane() {
 		return pane;
 	}
 
+	/**
+	 * Gets the current image.
+	 *
+	 * @return the current image
+	 */
 	public Image getCurrentImage() {
 		return current.getImage();
 	}
 
+	/**
+	 * Sets the dimension.
+	 *
+	 * @param width the width
+	 * @param height the height
+	 */
 	public void setDimension(double width, double height) {
 		setWidth(width);
 		setHeight(height);
@@ -513,18 +604,38 @@ public class VariableBackground {
 		}
 	}
 
+	/**
+	 * Gets the width.
+	 *
+	 * @return the width
+	 */
 	public double getWidth() {
 		return width;
 	}
 
+	/**
+	 * Sets the width.
+	 *
+	 * @param width the new width
+	 */
 	public void setWidth(double width) {
 		this.width = width;
 	}
 
+	/**
+	 * Gets the height.
+	 *
+	 * @return the height
+	 */
 	public double getHeight() {
 		return height;
 	}
 
+	/**
+	 * Sets the height.
+	 *
+	 * @param height the new height
+	 */
 	public void setHeight(double height) {
 		this.height = height;
 	}

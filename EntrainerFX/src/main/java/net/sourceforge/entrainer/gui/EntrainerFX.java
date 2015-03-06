@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 - 2014 Burton Alexander
+ * Copyright (C) 2008 - 2015 Burton Alexander
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -252,6 +252,11 @@ public class EntrainerFX extends JFrame {
 		return instance;
 	}
 
+	/**
+	 * Gets the background image.
+	 *
+	 * @return the background image
+	 */
 	Image getBackgroundImage() {
 		// TODO fix me
 		return background.getCurrentImage();
