@@ -66,7 +66,8 @@ public abstract class EntrainerTextField extends JTextField implements KeyEventD
 	/**
 	 * Instantiates a new entrainer text field.
 	 *
-	 * @param text the text
+	 * @param text
+	 *          the text
 	 */
 	public EntrainerTextField(String text) {
 		super(text);
@@ -76,7 +77,8 @@ public abstract class EntrainerTextField extends JTextField implements KeyEventD
 	/**
 	 * Instantiates a new entrainer text field.
 	 *
-	 * @param columns the columns
+	 * @param columns
+	 *          the columns
 	 */
 	public EntrainerTextField(int columns) {
 		super(columns);
@@ -86,8 +88,10 @@ public abstract class EntrainerTextField extends JTextField implements KeyEventD
 	/**
 	 * Instantiates a new entrainer text field.
 	 *
-	 * @param text the text
-	 * @param columns the columns
+	 * @param text
+	 *          the text
+	 * @param columns
+	 *          the columns
 	 */
 	public EntrainerTextField(String text, int columns) {
 		super(text, columns);
@@ -97,9 +101,12 @@ public abstract class EntrainerTextField extends JTextField implements KeyEventD
 	/**
 	 * Instantiates a new entrainer text field.
 	 *
-	 * @param doc the doc
-	 * @param text the text
-	 * @param columns the columns
+	 * @param doc
+	 *          the doc
+	 * @param text
+	 *          the text
+	 * @param columns
+	 *          the columns
 	 */
 	public EntrainerTextField(Document doc, String text, int columns) {
 		super(doc, text, columns);
@@ -109,8 +116,10 @@ public abstract class EntrainerTextField extends JTextField implements KeyEventD
 	/**
 	 * Implement in subclasses to specify valid values.
 	 *
-	 * @param key the key
-	 * @param position the position
+	 * @param key
+	 *          the key
+	 * @param position
+	 *          the position
 	 * @return true, if is valid character
 	 */
 	protected abstract boolean isValidCharacter(char key, int position);
@@ -118,14 +127,17 @@ public abstract class EntrainerTextField extends JTextField implements KeyEventD
 	/**
 	 * Checks if is null or blank.
 	 *
-	 * @param text the text
+	 * @param text
+	 *          the text
 	 * @return true, if is null or blank
 	 */
 	public boolean isNullOrBlank(String text) {
 		return text == null || text.trim().length() == 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.awt.KeyEventDispatcher#dispatchKeyEvent(java.awt.event.KeyEvent)
 	 */
 	public boolean dispatchKeyEvent(KeyEvent e) {
@@ -141,7 +153,8 @@ public abstract class EntrainerTextField extends JTextField implements KeyEventD
 	/**
 	 * Checks if is numeric.
 	 *
-	 * @param key the key
+	 * @param key
+	 *          the key
 	 * @return true, if is numeric
 	 */
 	protected boolean isNumeric(char key) {
@@ -151,7 +164,8 @@ public abstract class EntrainerTextField extends JTextField implements KeyEventD
 	/**
 	 * Checks if is letter.
 	 *
-	 * @param key the key
+	 * @param key
+	 *          the key
 	 * @return true, if is letter
 	 */
 	protected boolean isLetter(char key) {
@@ -161,7 +175,8 @@ public abstract class EntrainerTextField extends JTextField implements KeyEventD
 	/**
 	 * Checks if is displayable character.
 	 *
-	 * @param key the key
+	 * @param key
+	 *          the key
 	 * @return true, if is displayable character
 	 */
 	protected boolean isDisplayableCharacter(char key) {

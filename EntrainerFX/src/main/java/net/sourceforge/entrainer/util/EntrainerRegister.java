@@ -73,7 +73,8 @@ public class EntrainerRegister {
 	/**
 	 * Returns a list of jar and zip files in the specified directory.
 	 *
-	 * @param directory the directory
+	 * @param directory
+	 *          the directory
 	 * @return the package urls
 	 */
 	public static List<URL> getPackageUrls(String directory) {
@@ -105,7 +106,8 @@ public class EntrainerRegister {
 	 * Recursively determines the jar & zip files in the given root directory &
 	 * returns the list.
 	 *
-	 * @param directory the directory
+	 * @param directory
+	 *          the directory
 	 * @return the jar files in directory
 	 */
 	public static List<Path> getJarFilesInDirectory(String directory) {
@@ -135,10 +137,14 @@ public class EntrainerRegister {
 	/**
 	 * Loads the classes specified by the list of URL's.
 	 *
-	 * @param <T> the generic type
-	 * @param jarUrls the jar urls
-	 * @param clazz the clazz
-	 * @param list the list
+	 * @param <T>
+	 *          the generic type
+	 * @param jarUrls
+	 *          the jar urls
+	 * @param clazz
+	 *          the clazz
+	 * @param list
+	 *          the list
 	 * @return the entrainer class loader
 	 */
 	@SuppressWarnings("unchecked")

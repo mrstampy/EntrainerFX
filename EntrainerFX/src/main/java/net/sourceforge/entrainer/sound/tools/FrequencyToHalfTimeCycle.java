@@ -64,12 +64,12 @@ public class FrequencyToHalfTimeCycle {
 		BigDecimal denominator = frequency > 0 ? new BigDecimal(frequency, MathContext.DECIMAL64) : lessThanZero;
 
 		BigDecimal result = oneHalfSecond.divide(denominator, MathContext.DECIMAL64);
-		
+
 		setNanoValue(result.longValue());
 
 		setMillis(new BigDecimal(getNanoValue()).divide(oneMillion).longValue());
-		
-		setNanos((int)(getNanoValue() - (getMillis() * oneMillion.longValue())));
+
+		setNanos((int) (getNanoValue() - (getMillis() * oneMillion.longValue())));
 	}
 
 	/**
@@ -135,11 +135,11 @@ public class FrequencyToHalfTimeCycle {
 	public double getFrequency() {
 		return frequency;
 	}
-	
+
 	public long getNanoValue() {
 		return nanoValue;
 	}
-	
+
 	private void setNanoValue(long nanoValue) {
 		this.nanoValue = nanoValue;
 	}

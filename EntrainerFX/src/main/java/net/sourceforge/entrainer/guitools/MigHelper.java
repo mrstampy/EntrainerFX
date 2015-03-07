@@ -108,7 +108,8 @@ public class MigHelper {
 	/**
 	 * Instantiate with the container on which you wish to lay out components.
 	 *
-	 * @param container the container
+	 * @param container
+	 *          the container
 	 */
 	public MigHelper(Container container) {
 		super();
@@ -128,7 +129,8 @@ public class MigHelper {
 	 * Adds the specified component to the current row, flowing from left to
 	 * right.
 	 *
-	 * @param c the c
+	 * @param c
+	 *          the c
 	 * @return the mig helper
 	 */
 	public MigHelper add(Component c) {
@@ -138,7 +140,8 @@ public class MigHelper {
 	/**
 	 * Adds the specified component as the last component of the current row.
 	 *
-	 * @param c the c
+	 * @param c
+	 *          the c
 	 * @return the mig helper
 	 */
 	public MigHelper addLast(Component c) {
@@ -172,7 +175,8 @@ public class MigHelper {
 	/**
 	 * Convenience method to add a JLabel as the next component.
 	 *
-	 * @param label the label
+	 * @param label
+	 *          the label
 	 * @return the mig helper
 	 */
 	public MigHelper add(String label) {
@@ -183,7 +187,8 @@ public class MigHelper {
 	 * Convenience method to add a JLabel as the last component of the current
 	 * row.
 	 *
-	 * @param label the label
+	 * @param label
+	 *          the label
 	 * @return the mig helper
 	 */
 	public MigHelper addLast(String label) {
@@ -195,8 +200,10 @@ public class MigHelper {
 	 * constraints. See the documentation included with MigLayout for correct
 	 * syntax.
 	 *
-	 * @param c the c
-	 * @param constraints the constraints
+	 * @param c
+	 *          the c
+	 * @param constraints
+	 *          the constraints
 	 * @return the mig helper
 	 */
 	public MigHelper add(Component c, String constraints) {
@@ -224,7 +231,8 @@ public class MigHelper {
 	/**
 	 * Sets the layout constraints object.
 	 *
-	 * @param lc the lc
+	 * @param lc
+	 *          the lc
 	 * @return the mig helper
 	 */
 	public MigHelper setLayoutConstraints(LC lc) {
@@ -238,7 +246,8 @@ public class MigHelper {
 	 * Sets the layout constraints with the specified string. Refer to the
 	 * documentation included with MigLayout for the correct syntax.
 	 *
-	 * @param lc the lc
+	 * @param lc
+	 *          the lc
 	 * @return the mig helper
 	 */
 	public MigHelper setLayoutConstraints(String lc) {
@@ -283,7 +292,8 @@ public class MigHelper {
 	/**
 	 * Sets the row constraints.
 	 *
-	 * @param rc the rc
+	 * @param rc
+	 *          the rc
 	 * @return the mig helper
 	 */
 	public MigHelper setRowConstraints(AC rc) {
@@ -296,7 +306,8 @@ public class MigHelper {
 	 * Allows the row constraints to be set with the specified string. See the
 	 * documentation included with MigLayout for correct syntax.
 	 *
-	 * @param rc the rc
+	 * @param rc
+	 *          the rc
 	 * @return the mig helper
 	 */
 	public MigHelper setRowConstraints(String rc) {
@@ -308,7 +319,8 @@ public class MigHelper {
 	/**
 	 * Sets the column constraints.
 	 *
-	 * @param cc the cc
+	 * @param cc
+	 *          the cc
 	 * @return the mig helper
 	 */
 	public MigHelper setColumnConstraints(AC cc) {
@@ -321,7 +333,8 @@ public class MigHelper {
 	 * Allows the column constraints to be set with the specified string. See the
 	 * documentation included with MigLayout for correct syntax.
 	 *
-	 * @param cc the cc
+	 * @param cc
+	 *          the cc
 	 * @return the mig helper
 	 */
 	public MigHelper setColumnConstraints(String cc) {
@@ -343,7 +356,8 @@ public class MigHelper {
 	 * Sets the current component constraints object, overriding the internal
 	 * instance.
 	 *
-	 * @param componentConstraints the new component constraints
+	 * @param componentConstraints
+	 *          the new component constraints
 	 */
 	public void setComponentConstraints(CC componentConstraints) {
 		this.componentConstraints = componentConstraints;
@@ -352,7 +366,8 @@ public class MigHelper {
 	/**
 	 * Sets the grow weight for the current column.
 	 *
-	 * @param weight the weight
+	 * @param weight
+	 *          the weight
 	 * @return the mig helper
 	 */
 	public MigHelper setColumnGrowWeight(float weight) {
@@ -362,8 +377,10 @@ public class MigHelper {
 	/**
 	 * Sets the grow weight for the specified columns.
 	 *
-	 * @param weight the weight
-	 * @param indexes the indexes
+	 * @param weight
+	 *          the weight
+	 * @param indexes
+	 *          the indexes
 	 * @return the mig helper
 	 */
 	public MigHelper setColumnGrowWeights(float weight, int... indexes) {
@@ -378,7 +395,8 @@ public class MigHelper {
 	/**
 	 * Sets the grow weight for the current row.
 	 *
-	 * @param weight the weight
+	 * @param weight
+	 *          the weight
 	 * @return the mig helper
 	 */
 	public MigHelper setRowGrowWeight(float weight) {
@@ -388,8 +406,10 @@ public class MigHelper {
 	/**
 	 * Sets the grow weight for the specified rows.
 	 *
-	 * @param weight the weight
-	 * @param indexes the indexes
+	 * @param weight
+	 *          the weight
+	 * @param indexes
+	 *          the indexes
 	 * @return the mig helper
 	 */
 	public MigHelper setRowGrowWeights(float weight, int... indexes) {
@@ -404,7 +424,8 @@ public class MigHelper {
 	/**
 	 * Sets the shrink weight for the current column.
 	 *
-	 * @param weight the weight
+	 * @param weight
+	 *          the weight
 	 * @return the mig helper
 	 */
 	public MigHelper setColumnShrinkWeight(float weight) {
@@ -414,8 +435,10 @@ public class MigHelper {
 	/**
 	 * Sets the shrink weight for the specified columns.
 	 *
-	 * @param weight the weight
-	 * @param indexes the indexes
+	 * @param weight
+	 *          the weight
+	 * @param indexes
+	 *          the indexes
 	 * @return the mig helper
 	 */
 	public MigHelper setColumnShrinkWeights(float weight, int... indexes) {
@@ -430,7 +453,8 @@ public class MigHelper {
 	/**
 	 * Sets the shrink weight for the current row.
 	 *
-	 * @param weight the weight
+	 * @param weight
+	 *          the weight
 	 * @return the mig helper
 	 */
 	public MigHelper setRowShrinkWeight(float weight) {
@@ -440,8 +464,10 @@ public class MigHelper {
 	/**
 	 * Sets the shrink weight for the specified rows.
 	 *
-	 * @param weight the weight
-	 * @param indexes the indexes
+	 * @param weight
+	 *          the weight
+	 * @param indexes
+	 *          the indexes
 	 * @return the mig helper
 	 */
 	public MigHelper setRowShrinkWeights(float weight, int... indexes) {
@@ -483,7 +509,8 @@ public class MigHelper {
 	 * Pushes the next added component in the x direction with the specified
 	 * weighting.
 	 *
-	 * @param f the f
+	 * @param f
+	 *          the f
 	 * @return the mig helper
 	 */
 	public MigHelper pushX(float f) {
@@ -507,7 +534,8 @@ public class MigHelper {
 	 * Pushes the next added component in the y direction with the specified
 	 * weighting.
 	 *
-	 * @param f the f
+	 * @param f
+	 *          the f
 	 * @return the mig helper
 	 */
 	public MigHelper pushY(float f) {
@@ -528,7 +556,8 @@ public class MigHelper {
 	/**
 	 * Increments the x position by the specified value.
 	 *
-	 * @param val the val
+	 * @param val
+	 *          the val
 	 * @return the mig helper
 	 */
 	public MigHelper incrX(int val) {
@@ -600,7 +629,8 @@ public class MigHelper {
 	/**
 	 * Sets the number of cells to span in the x direction.
 	 *
-	 * @param width the width
+	 * @param width
+	 *          the width
 	 * @return the mig helper
 	 */
 	public MigHelper setSpanX(int width) {
@@ -622,7 +652,8 @@ public class MigHelper {
 	/**
 	 * Sets the number of cells to span in the y direction.
 	 *
-	 * @param height the height
+	 * @param height
+	 *          the height
 	 * @return the mig helper
 	 */
 	public MigHelper setSpanY(int height) {
@@ -667,7 +698,8 @@ public class MigHelper {
 	 * If invoked the next component added will skip the specified number of row
 	 * (x) positions.
 	 *
-	 * @param cells the cells
+	 * @param cells
+	 *          the cells
 	 * @return the mig helper
 	 */
 	public MigHelper skip(int cells) {
@@ -680,10 +712,14 @@ public class MigHelper {
 	/**
 	 * Sets the padding around the next component added.
 	 *
-	 * @param top the top
-	 * @param left the left
-	 * @param bottom the bottom
-	 * @param right the right
+	 * @param top
+	 *          the top
+	 * @param left
+	 *          the left
+	 * @param bottom
+	 *          the bottom
+	 * @param right
+	 *          the right
 	 * @return the mig helper
 	 */
 	public MigHelper pad(int top, int left, int bottom, int right) {
@@ -697,7 +733,8 @@ public class MigHelper {
 	 * both the x and y directions. Must be in the range of 0 -> 100. Analogous to
 	 * weightx and weighty of GridBagConstraints.
 	 *
-	 * @param f the f
+	 * @param f
+	 *          the f
 	 * @return the mig helper
 	 */
 	public MigHelper grow(float f) {
@@ -709,7 +746,8 @@ public class MigHelper {
 	 * Tells the layout manager to grow the next added component by what factor in
 	 * the x direction. Must be in the range of 0 -> 100.
 	 *
-	 * @param f the f
+	 * @param f
+	 *          the f
 	 * @return the mig helper
 	 */
 	public MigHelper growX(float f) {
@@ -722,7 +760,8 @@ public class MigHelper {
 	 * Tells the layout manager to grow the next added component and by what
 	 * factor in the y direction. Must be in the range of 0 -> 100.
 	 *
-	 * @param f the f
+	 * @param f
+	 *          the f
 	 * @return the mig helper
 	 */
 	public MigHelper growY(float f) {
@@ -736,7 +775,8 @@ public class MigHelper {
 	 * in both the x and y directions. Must be in the range of 0 -> 100. Analogous
 	 * to weightx and weighty of GridBagConstraints.
 	 *
-	 * @param f the f
+	 * @param f
+	 *          the f
 	 * @return the mig helper
 	 */
 	public MigHelper shrink(float f) {
@@ -748,7 +788,8 @@ public class MigHelper {
 	 * Tells the layout manager to shrink the next added component by what factor
 	 * in the x direction. Must be in the range of 0 -> 100.
 	 *
-	 * @param f the f
+	 * @param f
+	 *          the f
 	 * @return the mig helper
 	 */
 	public MigHelper shrinkX(float f) {
@@ -761,7 +802,8 @@ public class MigHelper {
 	 * Tells the layout manager to shrink the next added component by what factor
 	 * in the y direction. Must be in the range of 0 -> 100.
 	 *
-	 * @param f the f
+	 * @param f
+	 *          the f
 	 * @return the mig helper
 	 */
 	public MigHelper shrinkY(float f) {
@@ -969,7 +1011,8 @@ public class MigHelper {
 	/**
 	 * Sets the grow priority in the x direction of the next component added.
 	 *
-	 * @param priority the priority
+	 * @param priority
+	 *          the priority
 	 * @return the mig helper
 	 */
 	public MigHelper setGrowPriorityX(int priority) {
@@ -981,7 +1024,8 @@ public class MigHelper {
 	/**
 	 * Sets the grow priority in the y direction of the next component added.
 	 *
-	 * @param priority the priority
+	 * @param priority
+	 *          the priority
 	 * @return the mig helper
 	 */
 	public MigHelper setGrowPriorityY(int priority) {
@@ -993,7 +1037,8 @@ public class MigHelper {
 	/**
 	 * Sets the shrink priority in the x direction of the next component added.
 	 *
-	 * @param priority the priority
+	 * @param priority
+	 *          the priority
 	 * @return the mig helper
 	 */
 	public MigHelper setShrinkPriorityX(int priority) {
@@ -1005,7 +1050,8 @@ public class MigHelper {
 	/**
 	 * Sets the shrink priority in the y direction of the next component added.
 	 *
-	 * @param priority the priority
+	 * @param priority
+	 *          the priority
 	 * @return the mig helper
 	 */
 	public MigHelper setShrinkPriorityY(int priority) {
@@ -1022,7 +1068,8 @@ public class MigHelper {
 	 * split that big cell for two components. Split can be set to a very high
 	 * value to make all components in the same row/column share the same cell
 	 *
-	 * @param parts the parts
+	 * @param parts
+	 *          the parts
 	 * @return the mig helper
 	 */
 	public MigHelper setSplit(int parts) {
@@ -1036,7 +1083,8 @@ public class MigHelper {
 	 * Sets a metadata tag name for the next component. See the MigLayout
 	 * documentation for a thorough explanation.
 	 *
-	 * @param tagName the tag name
+	 * @param tagName
+	 *          the tag name
 	 * @return the mig helper
 	 */
 	public MigHelper setTag(String tagName) {
@@ -1048,8 +1096,10 @@ public class MigHelper {
 	/**
 	 * Sets the gap before and after the component in the x direction.
 	 *
-	 * @param before the before
-	 * @param after the after
+	 * @param before
+	 *          the before
+	 * @param after
+	 *          the after
 	 * @return the mig helper
 	 */
 	public MigHelper gapX(int before, int after) {
@@ -1059,8 +1109,10 @@ public class MigHelper {
 	/**
 	 * Sets the gap before and after the component in the x direction.
 	 *
-	 * @param before the before
-	 * @param after the after
+	 * @param before
+	 *          the before
+	 * @param after
+	 *          the after
 	 * @return the mig helper
 	 */
 	public MigHelper gapX(String before, String after) {
@@ -1072,8 +1124,10 @@ public class MigHelper {
 	/**
 	 * Sets the gap before and after the component in the y direction.
 	 *
-	 * @param before the before
-	 * @param after the after
+	 * @param before
+	 *          the before
+	 * @param after
+	 *          the after
 	 * @return the mig helper
 	 */
 	public MigHelper gapY(int before, int after) {
@@ -1083,8 +1137,10 @@ public class MigHelper {
 	/**
 	 * Sets the gap before and after the component in the x direction.
 	 *
-	 * @param before the before
-	 * @param after the after
+	 * @param before
+	 *          the before
+	 * @param after
+	 *          the after
 	 * @return the mig helper
 	 */
 	public MigHelper gapY(String before, String after) {
@@ -1096,7 +1152,8 @@ public class MigHelper {
 	/**
 	 * Sets the width.
 	 *
-	 * @param width the width
+	 * @param width
+	 *          the width
 	 * @return the mig helper
 	 */
 	public MigHelper setWidth(int width) {
@@ -1108,7 +1165,8 @@ public class MigHelper {
 	/**
 	 * Sets the height.
 	 *
-	 * @param height the height
+	 * @param height
+	 *          the height
 	 * @return the mig helper
 	 */
 	public MigHelper setHeight(int height) {
@@ -1120,10 +1178,14 @@ public class MigHelper {
 	/**
 	 * Sets the insets for the layout.
 	 *
-	 * @param top the top
-	 * @param left the left
-	 * @param bottom the bottom
-	 * @param right the right
+	 * @param top
+	 *          the top
+	 * @param left
+	 *          the left
+	 * @param bottom
+	 *          the bottom
+	 * @param right
+	 *          the right
 	 * @return the mig helper
 	 */
 	public MigHelper setLayoutInsets(int top, int left, int bottom, int right) {
@@ -1134,10 +1196,14 @@ public class MigHelper {
 	 * Sets the insets for the layout. See the documentation included with
 	 * MigLayout for the correct syntax.
 	 *
-	 * @param top the top
-	 * @param left the left
-	 * @param bottom the bottom
-	 * @param right the right
+	 * @param top
+	 *          the top
+	 * @param left
+	 *          the left
+	 * @param bottom
+	 *          the bottom
+	 * @param right
+	 *          the right
 	 * @return the mig helper
 	 */
 	public MigHelper setLayoutInsets(String top, String left, String bottom, String right) {
@@ -1149,8 +1215,10 @@ public class MigHelper {
 	/**
 	 * Sets the grid gap for the layout.
 	 *
-	 * @param gapX the gap x
-	 * @param gapY the gap y
+	 * @param gapX
+	 *          the gap x
+	 * @param gapY
+	 *          the gap y
 	 * @return the mig helper
 	 */
 	public MigHelper setLayoutGridGap(int gapX, int gapY) {
@@ -1161,8 +1229,10 @@ public class MigHelper {
 	 * Sets the grid gap for the layout. See the documentation included with
 	 * MigLayout for the correct syntax.
 	 *
-	 * @param gapX the gap x
-	 * @param gapY the gap y
+	 * @param gapX
+	 *          the gap x
+	 * @param gapY
+	 *          the gap y
 	 * @return the mig helper
 	 */
 	public MigHelper setLayoutGridGap(String gapX, String gapY) {
@@ -1174,7 +1244,8 @@ public class MigHelper {
 	/**
 	 * Sets the fill to true or false for the layout.
 	 *
-	 * @param b the b
+	 * @param b
+	 *          the b
 	 * @return the mig helper
 	 */
 	public MigHelper setLayoutFill(boolean b) {
@@ -1185,7 +1256,8 @@ public class MigHelper {
 	/**
 	 * Sets the fill in the x direction for the layout.
 	 *
-	 * @param b the b
+	 * @param b
+	 *          the b
 	 * @return the mig helper
 	 */
 	public MigHelper setLayoutFillX(boolean b) {
@@ -1197,7 +1269,8 @@ public class MigHelper {
 	/**
 	 * Sets the fill in the y direction for the layout.
 	 *
-	 * @param b the b
+	 * @param b
+	 *          the b
 	 * @return the mig helper
 	 */
 	public MigHelper setLayoutFillY(boolean b) {
@@ -1318,7 +1391,8 @@ public class MigHelper {
 	 * Sets the container for the MigLayout, and initializes the MigLayout
 	 * components.
 	 *
-	 * @param container the container
+	 * @param container
+	 *          the container
 	 * @return the mig helper
 	 */
 	public MigHelper setContainer(Container container) {

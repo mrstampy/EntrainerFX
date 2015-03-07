@@ -58,7 +58,8 @@ public class Utils {
 	/**
 	 * Snooze.
 	 *
-	 * @param time the time
+	 * @param time
+	 *          the time
 	 */
 	public static void snooze(long time) {
 		try {
@@ -71,8 +72,10 @@ public class Utils {
 	/**
 	 * Snooze.
 	 *
-	 * @param time the time
-	 * @param nanos the nanos
+	 * @param time
+	 *          the time
+	 * @param nanos
+	 *          the nanos
 	 */
 	public static void snooze(long time, int nanos) {
 		try {
@@ -97,7 +100,8 @@ public class Utils {
 	/**
 	 * Open browser.
 	 *
-	 * @param address the address
+	 * @param address
+	 *          the address
 	 */
 	public static void openBrowser(String address) {
 		address = address.replace("\\", "/");
@@ -112,7 +116,8 @@ public class Utils {
 	/**
 	 * Open browser.
 	 *
-	 * @param uri the uri
+	 * @param uri
+	 *          the uri
 	 */
 	public static void openBrowser(URI uri) {
 		try {

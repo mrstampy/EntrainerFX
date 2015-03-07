@@ -60,23 +60,26 @@ public class StatefulTimeline extends Timeline {
 	 * The Enum PlayDirection.
 	 */
 	public enum PlayDirection {
-		
+
 		/** The forward. */
-		FORWARD, 
- /** The reverse. */
- REVERSE;
+		FORWARD,
+		/** The reverse. */
+		REVERSE;
 	}
 
 	/**
 	 * Instantiate with the object to animate.
 	 *
-	 * @param mainTimelineObject the main timeline object
+	 * @param mainTimelineObject
+	 *          the main timeline object
 	 */
 	public StatefulTimeline(Object mainTimelineObject) {
 		super(mainTimelineObject);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.pushingpixels.trident.Timeline#play()
 	 */
 	public void play() {
@@ -139,7 +142,8 @@ public class StatefulTimeline extends Timeline {
 	/**
 	 * Set the repeat behaviour for this timeline.
 	 *
-	 * @param repeatBehavior the new repeat behavior
+	 * @param repeatBehavior
+	 *          the new repeat behavior
 	 */
 	public void setRepeatBehavior(RepeatBehavior repeatBehavior) {
 		this.repeatBehavior = repeatBehavior;
@@ -157,7 +161,8 @@ public class StatefulTimeline extends Timeline {
 	/**
 	 * Set the number of loops this timeline will execute.
 	 *
-	 * @param loopCount the new loop count
+	 * @param loopCount
+	 *          the new loop count
 	 */
 	public void setLoopCount(int loopCount) {
 		this.loopCount = loopCount;
@@ -175,7 +180,8 @@ public class StatefulTimeline extends Timeline {
 	/**
 	 * Set the number of milliseconds to skip prior to starting.
 	 *
-	 * @param msToSkip the new ms to skip
+	 * @param msToSkip
+	 *          the new ms to skip
 	 */
 	public void setMsToSkip(long msToSkip) {
 		this.msToSkip = msToSkip;
@@ -193,7 +199,8 @@ public class StatefulTimeline extends Timeline {
 	/**
 	 * Set to play the timeline either forward or reverse.
 	 *
-	 * @param playDirection the new play direction
+	 * @param playDirection
+	 *          the new play direction
 	 */
 	public void setPlayDirection(PlayDirection playDirection) {
 		this.playDirection = playDirection;

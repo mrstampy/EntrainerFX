@@ -91,7 +91,8 @@ public class GuiUtil {
 	/**
 	 * Centers the given {@link Window} on the screen.
 	 *
-	 * @param w the w
+	 * @param w
+	 *          the w
 	 */
 	public static void centerOnScreen(Window w) {
 		Dimension screenSize = getScreenSize();
@@ -133,7 +134,8 @@ public class GuiUtil {
 	/**
 	 * Packs and shows the specified {@link JDialog} in the center of the screen.
 	 *
-	 * @param jd the jd
+	 * @param jd
+	 *          the jd
 	 */
 	public static void showDialog(final JDialog jd) {
 		addFadeOutInvisibleListener(jd, 500);
@@ -151,7 +153,8 @@ public class GuiUtil {
 	/**
 	 * Returns the parent dialog of the given {@link Container}.
 	 *
-	 * @param c the c
+	 * @param c
+	 *          the c
 	 * @return the parent dialog
 	 */
 	public static JDialog getParentDialog(Container c) {
@@ -169,7 +172,8 @@ public class GuiUtil {
 	 * Returns an {@link ImageIcon} object from the given resource (representing
 	 * the image) name.
 	 *
-	 * @param name the name
+	 * @param name
+	 *          the name
 	 * @return the icon
 	 */
 	public static ImageIcon getIcon(String name) {
@@ -180,7 +184,8 @@ public class GuiUtil {
 	/**
 	 * Returns an image specified by its URL.
 	 *
-	 * @param urlName the url name
+	 * @param urlName
+	 *          the url name
 	 * @return the image
 	 */
 	public static Image getImage(String urlName) {
@@ -197,8 +202,10 @@ public class GuiUtil {
 	/**
 	 * Scales the specified image to the specified size.
 	 *
-	 * @param img the img
-	 * @param size the size
+	 * @param img
+	 *          the img
+	 * @param size
+	 *          the size
 	 * @return the image
 	 */
 	public static Image scaleImage(Image img, Dimension size) {
@@ -217,7 +224,8 @@ public class GuiUtil {
 	 * Displays a message pane for the user containing the error, prints the stack
 	 * trace and logs the error in the entrainer.log file.
 	 *
-	 * @param e the e
+	 * @param e
+	 *          the e
 	 */
 	public static void handleProblem(Throwable e) {
 		e.printStackTrace();
@@ -247,7 +255,8 @@ public class GuiUtil {
 	/**
 	 * Unused currently.
 	 *
-	 * @param e the e
+	 * @param e
+	 *          the e
 	 * @return the string
 	 */
 	protected static String stackTraceToString(Throwable e) {
@@ -263,9 +272,12 @@ public class GuiUtil {
 	 * http://www.iconarchive.com/category/application/
 	 * play-stop-pause-icons-by-icons-land.html
 	 *
-	 * @param prefix the prefix
-	 * @param button the button
-	 * @param toolTip the tool tip
+	 * @param prefix
+	 *          the prefix
+	 * @param button
+	 *          the button
+	 * @param toolTip
+	 *          the tool tip
 	 */
 	public static void initButton(String prefix, AbstractButton button, String toolTip) {
 		button.setIcon(getIcon("/" + prefix + "-Normal.png"));
@@ -278,8 +290,10 @@ public class GuiUtil {
 	/**
 	 * Inits the icon button.
 	 *
-	 * @param button the button
-	 * @param toolTip the tool tip
+	 * @param button
+	 *          the button
+	 * @param toolTip
+	 *          the tool tip
 	 */
 	public static void initIconButton(AbstractButton button, String toolTip) {
 		button.setBorderPainted(false);
@@ -290,9 +304,12 @@ public class GuiUtil {
 	/**
 	 * Change look and feel.
 	 *
-	 * @param className the class name
-	 * @param themePackName the theme pack name
-	 * @param components the components
+	 * @param className
+	 *          the class name
+	 * @param themePackName
+	 *          the theme pack name
+	 * @param components
+	 *          the components
 	 */
 	public static void changeLookAndFeel(String className, String themePackName, Component... components) {
 		try {
@@ -313,10 +330,14 @@ public class GuiUtil {
 	/**
 	 * Load all lafs.
 	 *
-	 * @throws URISyntaxException the URI syntax exception
-	 * @throws InstantiationException the instantiation exception
-	 * @throws IllegalAccessException the illegal access exception
-	 * @throws ClassNotFoundException the class not found exception
+	 * @throws URISyntaxException
+	 *           the URI syntax exception
+	 * @throws InstantiationException
+	 *           the instantiation exception
+	 * @throws IllegalAccessException
+	 *           the illegal access exception
+	 * @throws ClassNotFoundException
+	 *           the class not found exception
 	 */
 	public static void loadAllLafs() throws URISyntaxException, InstantiationException, IllegalAccessException,
 			ClassNotFoundException {
@@ -362,9 +383,12 @@ public class GuiUtil {
 	/**
 	 * Fade in.
 	 *
-	 * @param window the window
-	 * @param millis the millis
-	 * @param callbacks the callbacks
+	 * @param window
+	 *          the window
+	 * @param millis
+	 *          the millis
+	 * @param callbacks
+	 *          the callbacks
 	 */
 	public static void fadeIn(final Window window, int millis, TimelineCallback... callbacks) {
 		try {
@@ -434,9 +458,12 @@ public class GuiUtil {
 	/**
 	 * Fade out.
 	 *
-	 * @param window the window
-	 * @param millis the millis
-	 * @param callbacks the callbacks
+	 * @param window
+	 *          the window
+	 * @param millis
+	 *          the millis
+	 * @param callbacks
+	 *          the callbacks
 	 */
 	public static void fadeOut(final Window window, int millis, TimelineCallback... callbacks) {
 		final Timeline tl = new Timeline();
@@ -467,8 +494,10 @@ public class GuiUtil {
 	/**
 	 * Fade out and dispose.
 	 *
-	 * @param window the window
-	 * @param millis the millis
+	 * @param window
+	 *          the window
+	 * @param millis
+	 *          the millis
 	 */
 	public static void fadeOutAndDispose(final Window window, int millis) {
 		TimelineCallbackAdapter tca = new TimelineCallbackAdapter() {
@@ -487,8 +516,10 @@ public class GuiUtil {
 	/**
 	 * Adds the fade out invisible listener.
 	 *
-	 * @param window the window
-	 * @param millis the millis
+	 * @param window
+	 *          the window
+	 * @param millis
+	 *          the millis
 	 */
 	public static void addFadeOutInvisibleListener(final Window window, final int millis) {
 		WindowAdapter wa = new WindowAdapter() {
@@ -505,8 +536,10 @@ public class GuiUtil {
 	/**
 	 * Fade out visible false.
 	 *
-	 * @param window the window
-	 * @param millis the millis
+	 * @param window
+	 *          the window
+	 * @param millis
+	 *          the millis
 	 */
 	public static void fadeOutVisibleFalse(final Window window, final int millis) {
 		TimelineCallbackAdapter tca = new TimelineCallbackAdapter() {

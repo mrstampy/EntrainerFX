@@ -61,7 +61,8 @@ public class NumericTextField extends EntrainerTextField {
 	/**
 	 * Instantiates a new numeric text field.
 	 *
-	 * @param text the text
+	 * @param text
+	 *          the text
 	 */
 	public NumericTextField(String text) {
 		this();
@@ -71,7 +72,8 @@ public class NumericTextField extends EntrainerTextField {
 	/**
 	 * Instantiates a new numeric text field.
 	 *
-	 * @param columns the columns
+	 * @param columns
+	 *          the columns
 	 */
 	public NumericTextField(int columns) {
 		super(columns);
@@ -81,8 +83,10 @@ public class NumericTextField extends EntrainerTextField {
 	/**
 	 * Instantiates a new numeric text field.
 	 *
-	 * @param text the text
-	 * @param columns the columns
+	 * @param text
+	 *          the text
+	 * @param columns
+	 *          the columns
 	 */
 	public NumericTextField(String text, int columns) {
 		this(columns);
@@ -92,7 +96,8 @@ public class NumericTextField extends EntrainerTextField {
 	/**
 	 * Parses the text.
 	 *
-	 * @param text the text
+	 * @param text
+	 *          the text
 	 * @return the double
 	 */
 	protected double parseText(String text) {
@@ -103,8 +108,12 @@ public class NumericTextField extends EntrainerTextField {
 		return 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.widgets.EntrainerTextField#isValidCharacter(char, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.widgets.EntrainerTextField#isValidCharacter(char,
+	 * int)
 	 */
 	protected boolean isValidCharacter(char key, int position) {
 		if (isValidMinus(key)) return true;
@@ -153,7 +162,8 @@ public class NumericTextField extends EntrainerTextField {
 	/**
 	 * Inits the.
 	 *
-	 * @param text the text
+	 * @param text
+	 *          the text
 	 */
 	protected void init(String text) {
 		// check to see if valid.
@@ -180,7 +190,8 @@ public class NumericTextField extends EntrainerTextField {
 	/**
 	 * Sets the number.
 	 *
-	 * @param d the new number
+	 * @param d
+	 *          the new number
 	 */
 	public void setNumber(double d) {
 		setText("" + d);
@@ -189,7 +200,8 @@ public class NumericTextField extends EntrainerTextField {
 	/**
 	 * Sets the number.
 	 *
-	 * @param l the new number
+	 * @param l
+	 *          the new number
 	 */
 	public void setNumber(long l) {
 		setText("" + l);
@@ -198,7 +210,8 @@ public class NumericTextField extends EntrainerTextField {
 	/**
 	 * Sets the number.
 	 *
-	 * @param i the new number
+	 * @param i
+	 *          the new number
 	 */
 	public void setNumber(int i) {
 		setText("" + i);
@@ -216,7 +229,8 @@ public class NumericTextField extends EntrainerTextField {
 	/**
 	 * Sets the max value.
 	 *
-	 * @param maxValue the new max value
+	 * @param maxValue
+	 *          the new max value
 	 */
 	public void setMaxValue(double maxValue) {
 		this.maxValue = maxValue;
@@ -234,7 +248,8 @@ public class NumericTextField extends EntrainerTextField {
 	/**
 	 * Sets the min value.
 	 *
-	 * @param minValue the new min value
+	 * @param minValue
+	 *          the new min value
 	 */
 	public void setMinValue(double minValue) {
 		this.minValue = minValue;

@@ -160,13 +160,6 @@ public class SliderControlPane extends GridPane {
 	}
 
 	/**
-	 * Fire entrainment frequency value.
-	 */
-	public void fireEntrainmentFrequencyValue() {
-		fireReceiverChangeEvent(entrainmentFrequency.getValue(), MediatorConstants.ENTRAINMENT_FREQUENCY);
-	}
-
-	/**
 	 * Sets the amplitude value.
 	 *
 	 * @param value

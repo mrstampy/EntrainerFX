@@ -58,12 +58,18 @@ public class LAFRegister {
 	/**
 	 * Sets the look and feel.
 	 *
-	 * @param lafClass the laf class
-	 * @param components the components
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IllegalAccessException the illegal access exception
-	 * @throws InstantiationException the instantiation exception
-	 * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
+	 * @param lafClass
+	 *          the laf class
+	 * @param components
+	 *          the components
+	 * @throws ClassNotFoundException
+	 *           the class not found exception
+	 * @throws IllegalAccessException
+	 *           the illegal access exception
+	 * @throws InstantiationException
+	 *           the instantiation exception
+	 * @throws UnsupportedLookAndFeelException
+	 *           the unsupported look and feel exception
 	 */
 	public static void setLookAndFeel(String lafClass, Component... components) throws ClassNotFoundException,
 			IllegalAccessException, InstantiationException, UnsupportedLookAndFeelException {
@@ -73,13 +79,20 @@ public class LAFRegister {
 	/**
 	 * Sets the look and feel.
 	 *
-	 * @param lafClassName the laf class name
-	 * @param themePackName the theme pack name
-	 * @param components the components
-	 * @throws ClassNotFoundException the class not found exception
-	 * @throws IllegalAccessException the illegal access exception
-	 * @throws InstantiationException the instantiation exception
-	 * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
+	 * @param lafClassName
+	 *          the laf class name
+	 * @param themePackName
+	 *          the theme pack name
+	 * @param components
+	 *          the components
+	 * @throws ClassNotFoundException
+	 *           the class not found exception
+	 * @throws IllegalAccessException
+	 *           the illegal access exception
+	 * @throws InstantiationException
+	 *           the instantiation exception
+	 * @throws UnsupportedLookAndFeelException
+	 *           the unsupported look and feel exception
 	 */
 	public static void setLookAndFeel(String lafClassName, String themePackName, final Component[] components)
 			throws ClassNotFoundException, IllegalAccessException, InstantiationException, UnsupportedLookAndFeelException {
@@ -127,10 +140,14 @@ public class LAFRegister {
 	/**
 	 * Load all lafs.
 	 *
-	 * @throws URISyntaxException the URI syntax exception
-	 * @throws InstantiationException the instantiation exception
-	 * @throws IllegalAccessException the illegal access exception
-	 * @throws ClassNotFoundException the class not found exception
+	 * @throws URISyntaxException
+	 *           the URI syntax exception
+	 * @throws InstantiationException
+	 *           the instantiation exception
+	 * @throws IllegalAccessException
+	 *           the illegal access exception
+	 * @throws ClassNotFoundException
+	 *           the class not found exception
 	 */
 	public static void loadAllLafs() throws URISyntaxException, InstantiationException, IllegalAccessException,
 			ClassNotFoundException {

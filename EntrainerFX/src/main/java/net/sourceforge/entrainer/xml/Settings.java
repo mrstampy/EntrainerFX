@@ -215,7 +215,8 @@ public class Settings {
 	private boolean splashOnStartup;
 
 	private static Lock lock = new ReentrantLock();
-	
+
+	@XmlTransient
 	private boolean acceptUpdates = false;
 
 	public void setAcceptUpdates(boolean acceptUpdates) {
@@ -236,7 +237,7 @@ public class Settings {
 	/**
 	 * Save settings.
 	 */
-	public static void saveSettings() {
+	private void saveSettings() {
 		lock.lock();
 		try {
 			File file = new File("settings.xml");

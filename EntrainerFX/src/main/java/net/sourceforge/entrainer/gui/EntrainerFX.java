@@ -221,6 +221,14 @@ public class EntrainerFX extends JFrame {
 
 		jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
 		setIconImage(icon.getImage());
+
+		addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				settings.setAcceptUpdates(true);
+			}
+		});
 	}
 
 	/**
@@ -548,7 +556,6 @@ public class EntrainerFX extends JFrame {
 
 	private void initSettings() {
 		settings = Settings.reload();
-		settings.setAcceptUpdates(true);
 		if (settings.getXmlProgram() != null && !settings.getXmlProgram().isEmpty() && isVisible()) {
 			readXmlFile(settings.getXmlProgram());
 		} else {
@@ -1579,7 +1586,6 @@ public class EntrainerFX extends JFrame {
 		if (option == JOptionPane.YES_OPTION) {
 			new NotificationWindow("Exiting Entrainer", this);
 
-			saveSettings();
 			control.exit();
 
 			exitApplication();
@@ -1598,14 +1604,6 @@ public class EntrainerFX extends JFrame {
 		};
 
 		GuiUtil.fadeOut(this, 5000, tca);
-	}
-
-	private void saveSettings() {
-		try {
-			Settings.saveSettings();
-		} catch (Exception e) {
-			GuiUtil.handleProblem(e);
-		}
 	}
 
 	private void start() {

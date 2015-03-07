@@ -58,7 +58,8 @@ public class IntegerTextField extends NumericTextField {
 	/**
 	 * Instantiates a new integer text field.
 	 *
-	 * @param text the text
+	 * @param text
+	 *          the text
 	 */
 	public IntegerTextField(String text) {
 		super(text);
@@ -67,7 +68,8 @@ public class IntegerTextField extends NumericTextField {
 	/**
 	 * Instantiates a new integer text field.
 	 *
-	 * @param columns the columns
+	 * @param columns
+	 *          the columns
 	 */
 	public IntegerTextField(int columns) {
 		super(columns);
@@ -76,36 +78,50 @@ public class IntegerTextField extends NumericTextField {
 	/**
 	 * Instantiates a new integer text field.
 	 *
-	 * @param text the text
-	 * @param columns the columns
+	 * @param text
+	 *          the text
+	 * @param columns
+	 *          the columns
 	 */
 	public IntegerTextField(String text, int columns) {
 		super(text, columns);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.widgets.NumericTextField#isValidCharacter(char, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.widgets.NumericTextField#isValidCharacter(char,
+	 * int)
 	 */
 	protected boolean isValidCharacter(char key, int position) {
 		return isNumeric(key);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.widgets.NumericTextField#setNumber(double)
 	 */
 	public void setNumber(double d) {
 		setNumber((int) d);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.widgets.NumericTextField#setNumber(long)
 	 */
 	public void setNumber(long l) {
 		setNumber((int) l);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.widgets.NumericTextField#parseText(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.widgets.NumericTextField#parseText(java.lang.
+	 * String)
 	 */
 	protected double parseText(String text) {
 		return (int) super.parseText(text);

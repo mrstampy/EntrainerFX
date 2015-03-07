@@ -68,8 +68,10 @@ public class EntrainerClassLoader extends URLClassLoader {
 	/**
 	 * Instantiates a new entrainer class loader.
 	 *
-	 * @param filename the filename
-	 * @throws MalformedURLException the malformed url exception
+	 * @param filename
+	 *          the filename
+	 * @throws MalformedURLException
+	 *           the malformed url exception
 	 */
 	public EntrainerClassLoader(String filename) throws MalformedURLException {
 		this(new File(filename).toURI().toURL());
@@ -78,7 +80,8 @@ public class EntrainerClassLoader extends URLClassLoader {
 	/**
 	 * Instantiates a new entrainer class loader.
 	 *
-	 * @param url the url
+	 * @param url
+	 *          the url
 	 */
 	public EntrainerClassLoader(URL url) {
 		this(new URL[] { url });
@@ -87,7 +90,8 @@ public class EntrainerClassLoader extends URLClassLoader {
 	/**
 	 * Instantiates a new entrainer class loader.
 	 *
-	 * @param urls the urls
+	 * @param urls
+	 *          the urls
 	 */
 	public EntrainerClassLoader(URL[] urls) {
 		super(urls);
@@ -96,8 +100,10 @@ public class EntrainerClassLoader extends URLClassLoader {
 	/**
 	 * Instantiates a new entrainer class loader.
 	 *
-	 * @param urls the urls
-	 * @param parent the parent
+	 * @param urls
+	 *          the urls
+	 * @param parent
+	 *          the parent
 	 */
 	public EntrainerClassLoader(URL[] urls, ClassLoader parent) {
 		super(urls, parent);
@@ -106,15 +112,20 @@ public class EntrainerClassLoader extends URLClassLoader {
 	/**
 	 * Instantiates a new entrainer class loader.
 	 *
-	 * @param urls the urls
-	 * @param parent the parent
-	 * @param factory the factory
+	 * @param urls
+	 *          the urls
+	 * @param parent
+	 *          the parent
+	 * @param factory
+	 *          the factory
 	 */
 	public EntrainerClassLoader(URL[] urls, ClassLoader parent, URLStreamHandlerFactory factory) {
 		super(urls, parent, factory);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.ClassLoader#loadClass(java.lang.String)
 	 */
 	public Class<?> loadClass(String className) throws ClassNotFoundException {
@@ -129,9 +140,11 @@ public class EntrainerClassLoader extends URLClassLoader {
 	/**
 	 * Gets the assignable classes.
 	 *
-	 * @param type the type
+	 * @param type
+	 *          the type
 	 * @return the assignable classes
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException
+	 *           Signals that an I/O exception has occurred.
 	 */
 	public Class<?>[] getAssignableClasses(Class<?> type) throws IOException {
 		List<Class<?>> classes = new ArrayList<Class<?>>();
@@ -181,7 +194,9 @@ public class EntrainerClassLoader extends URLClassLoader {
 		return className;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.net.URLClassLoader#findClass(java.lang.String)
 	 */
 	protected Class<?> findClass(String className) throws ClassNotFoundException {

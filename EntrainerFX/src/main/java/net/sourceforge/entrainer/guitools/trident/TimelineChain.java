@@ -71,7 +71,8 @@ public class TimelineChain {
 	/**
 	 * Instantiates a new timeline chain.
 	 *
-	 * @param mainObject the main object
+	 * @param mainObject
+	 *          the main object
 	 */
 	public TimelineChain(Object mainObject) {
 		setMainObject(mainObject);
@@ -81,7 +82,8 @@ public class TimelineChain {
 	 * Adds a new timeline to the chain which will execute with the specified
 	 * duration.
 	 *
-	 * @param time the time
+	 * @param time
+	 *          the time
 	 */
 	public void addTimeline(long time) {
 		addTimeline(time, null);
@@ -91,8 +93,10 @@ public class TimelineChain {
 	 * Adds a new timeline to the chain which will execute with the specified
 	 * duration and ease.
 	 *
-	 * @param time the time
-	 * @param ease the ease
+	 * @param time
+	 *          the time
+	 * @param ease
+	 *          the ease
 	 * @see TimelineEase
 	 */
 	public void addTimeline(long time, TimelineEase ease) {
@@ -105,9 +109,12 @@ public class TimelineChain {
 	 * timelines added after will never be executed - this should be the last
 	 * timeline in the chain.
 	 *
-	 * @param time the time
-	 * @param ease the ease
-	 * @param repeatBehavior the repeat behavior
+	 * @param time
+	 *          the time
+	 * @param ease
+	 *          the ease
+	 * @param repeatBehavior
+	 *          the repeat behavior
 	 * @see TimelineEase
 	 * @see RepeatBehavior
 	 */
@@ -119,10 +126,14 @@ public class TimelineChain {
 	 * Adds a new timeline to the chain which will execute with the specified
 	 * duration, ease and repeat behaviour for the number of loop counts.
 	 *
-	 * @param time the time
-	 * @param ease the ease
-	 * @param repeatBehavior the repeat behavior
-	 * @param loopCount the loop count
+	 * @param time
+	 *          the time
+	 * @param ease
+	 *          the ease
+	 * @param repeatBehavior
+	 *          the repeat behavior
+	 * @param loopCount
+	 *          the loop count
 	 * @see TimelineEase
 	 * @see RepeatBehavior
 	 */
@@ -142,7 +153,8 @@ public class TimelineChain {
 	/**
 	 * Adds the timeline.
 	 *
-	 * @param tl the tl
+	 * @param tl
+	 *          the tl
 	 */
 	public void addTimeline(Timeline tl) {
 		if (tl != null) {
@@ -163,7 +175,8 @@ public class TimelineChain {
 	/**
 	 * Appends the specified chain to this chain.
 	 *
-	 * @param chain the chain
+	 * @param chain
+	 *          the chain
 	 * @return the timeline chain
 	 */
 	public TimelineChain addChain(TimelineChain chain) {
@@ -180,9 +193,12 @@ public class TimelineChain {
 	 * implicitly the state of the property in the main object at the start of the
 	 * animation.
 	 *
-	 * @param <T> the generic type
-	 * @param property the property
-	 * @param to the to
+	 * @param <T>
+	 *          the generic type
+	 * @param property
+	 *          the property
+	 * @param to
+	 *          the to
 	 */
 	public <T> void addTransition(String property, T to) {
 		if (currentTimeline == null) {
@@ -281,7 +297,8 @@ public class TimelineChain {
 	/**
 	 * Sets the main object.
 	 *
-	 * @param mainObject the new main object
+	 * @param mainObject
+	 *          the new main object
 	 */
 	protected void setMainObject(Object mainObject) {
 		this.mainObject = mainObject;
@@ -299,7 +316,8 @@ public class TimelineChain {
 	/**
 	 * Sets the current playing.
 	 *
-	 * @param currentPlaying the new current playing
+	 * @param currentPlaying
+	 *          the new current playing
 	 */
 	protected void setCurrentPlaying(Timeline currentPlaying) {
 		this.currentTimeline = currentPlaying;
