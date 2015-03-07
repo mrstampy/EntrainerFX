@@ -215,6 +215,12 @@ public class Settings {
 	private boolean splashOnStartup;
 
 	private static Lock lock = new ReentrantLock();
+	
+	private boolean acceptUpdates = false;
+
+	public void setAcceptUpdates(boolean acceptUpdates) {
+		this.acceptUpdates = acceptUpdates;
+	}
 
 	static {
 		try {
@@ -442,7 +448,7 @@ public class Settings {
 					break;
 				}
 
-				if (save) saveSettings();
+				if (save && acceptUpdates) saveSettings();
 			}
 
 		});

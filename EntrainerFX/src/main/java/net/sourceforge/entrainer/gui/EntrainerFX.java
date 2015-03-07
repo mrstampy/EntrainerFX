@@ -548,6 +548,7 @@ public class EntrainerFX extends JFrame {
 
 	private void initSettings() {
 		settings = Settings.reload();
+		settings.setAcceptUpdates(true);
 		if (settings.getXmlProgram() != null && !settings.getXmlProgram().isEmpty() && isVisible()) {
 			readXmlFile(settings.getXmlProgram());
 		} else {
