@@ -416,30 +416,26 @@ public class VariableBackground {
 	}
 
 	private void startTransition() {
-		Runnable thread = new Runnable() {
-			private Node background = isNoBackground() ? rect : current;
-
-			public void run() {
-				while (canRun()) {
-					Utils.snooze(getMillis(), calculator.getNanos());
-
-					if (canRun() && !ptRunning) invert(background);
-				}
-
-				if (background.getOpacity() > 0) reset(background);
-			}
-
-			private boolean canRun() {
-				return shouldRun() && background.getOpacity() > 0;
-			}
-
-			private long getMillis() {
-				long millis = calculator.getMillis();
-				return millis > 5000 ? 5000l : millis;
-			}
-		};
-
-		flashSvc.execute(thread);
+		flashSvc.execute(() -> transition(isNoBackground() ? rect : current));
+	}
+	
+	private void transition(Node background) {
+		while (canRun(background)) {
+			Utils.snooze(getMillis(), calculator.getNanos());
+			
+			if (canRun(background) && !ptRunning) invert(background);
+		}
+		
+		if (background.getOpacity() > 0) reset(background);
+	}
+	
+	private boolean canRun(Node background) {
+		return shouldRun() && background.getOpacity() > 0;
+	}
+	
+	private long getMillis() {
+		long millis = calculator.getMillis();
+		return millis > 5000 ? 5000l : millis;
 	}
 
 	private void invert(Node background) {
