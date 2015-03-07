@@ -20,7 +20,6 @@ package net.sourceforge.entrainer.sound.tools;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.math.RoundingMode;
 
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
@@ -37,12 +36,12 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
  */
 public class FrequencyToHalfTimeCycle {
 
-	private static final BigDecimal oneHalfSecond = new BigDecimal(500, MathContext.DECIMAL64);
+	private static final BigDecimal oneHalfSecond = new BigDecimal(500000000, MathContext.DECIMAL64);
 	private static final BigDecimal lessThanZero = new BigDecimal(0.01, MathContext.DECIMAL64);
 	private static final BigDecimal oneMillion = new BigDecimal(1000000);
-	private static final MathContext scaleSix = new MathContext(6, RoundingMode.HALF_UP);
 
 	private long millis;
+	private long nanoValue;
 	private int nanos;
 	private double frequency;
 
@@ -65,13 +64,12 @@ public class FrequencyToHalfTimeCycle {
 		BigDecimal denominator = frequency > 0 ? new BigDecimal(frequency, MathContext.DECIMAL64) : lessThanZero;
 
 		BigDecimal result = oneHalfSecond.divide(denominator, MathContext.DECIMAL64);
+		
+		setNanoValue(result.longValue());
 
-		setMillis(result.longValue());
-
-		BigDecimal nanos = result.subtract(new BigDecimal(getMillis()), MathContext.DECIMAL64);
-		nanos = nanos.multiply(oneMillion).round(scaleSix);
-
-		setNanos(getNanoValue(nanos));
+		setMillis(new BigDecimal(getNanoValue()).divide(oneMillion).longValue());
+		
+		setNanos((int)(getNanoValue() - (getMillis() * oneMillion.longValue())));
 	}
 
 	/**
@@ -100,12 +98,6 @@ public class FrequencyToHalfTimeCycle {
 			}
 
 		});
-	}
-
-	private int getNanoValue(BigDecimal nanos) {
-		int val = nanos.intValue();
-
-		return val < 0 ? 0 : val;
 	}
 
 	/**
@@ -142,6 +134,14 @@ public class FrequencyToHalfTimeCycle {
 	 */
 	public double getFrequency() {
 		return frequency;
+	}
+	
+	public long getNanoValue() {
+		return nanoValue;
+	}
+	
+	private void setNanoValue(long nanoValue) {
+		this.nanoValue = nanoValue;
 	}
 
 }
