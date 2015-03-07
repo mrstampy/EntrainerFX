@@ -418,54 +418,44 @@ public class VariableBackground {
 	private void startTransition() {
 		flashSvc.execute(() -> transition(isNoBackground() ? rect : current));
 	}
-	
+
 	private void transition(Node background) {
 		while (canRun(background)) {
 			Utils.snooze(getMillis(), calculator.getNanos());
-			
-			if (canRun(background) && !ptRunning) invert(background);
+
+			if (canRun(background) && !ptRunning) JFXUtils.runLater(() -> invert(background));
 		}
-		
-		if (background.getOpacity() > 0) reset(background);
+
+		if (background.getOpacity() > 0) JFXUtils.runLater(() -> reset(background));
 	}
-	
+
 	private boolean canRun(Node background) {
 		return shouldRun() && background.getOpacity() > 0;
 	}
-	
+
 	private long getMillis() {
 		long millis = calculator.getMillis();
 		return millis > 5000 ? 5000l : millis;
 	}
 
 	private void invert(Node background) {
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				double o = 0;
-				if (background instanceof ImageView) {
-					o = background.getOpacity() == 0.25 ? 0.60 : 0.25;
-				} else {
-					o = background.getOpacity() == 1.0 ? 0.50 : 1.0;
-				}
-				background.setOpacity(o);
-			}
-		});
+		double o = 0;
+		
+		if (background instanceof ImageView) {
+			o = background.getOpacity() == 0.25 ? 0.60 : 0.25;
+		} else {
+			o = background.getOpacity() == 1.0 ? 0.50 : 1.0;
+		}
+		
+		background.setOpacity(o);
 	}
 
 	private void reset(Node background) {
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				if (background instanceof ImageView) {
-					background.setOpacity(0.25);
-				} else {
-					background.setOpacity(1);
-				}
-			}
-		});
+		if (background instanceof ImageView) {
+			background.setOpacity(0.25);
+		} else {
+			background.setOpacity(1);
+		}
 	}
 
 	private boolean shouldRun() {
