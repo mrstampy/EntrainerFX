@@ -795,7 +795,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the dynamic picture.
 	 *
-	 * @param dynamicPicture the new dynamic picture
+	 * @param dynamicPicture
+	 *          the new dynamic picture
 	 */
 	public void setDynamicPicture(Boolean dynamicPicture) {
 		this.dynamicPicture = dynamicPicture;
@@ -813,7 +814,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the static picture.
 	 *
-	 * @param staticPicture the new static picture
+	 * @param staticPicture
+	 *          the new static picture
 	 */
 	public void setStaticPicture(Boolean staticPicture) {
 		this.staticPicture = staticPicture;
@@ -831,7 +833,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the static picture file.
 	 *
-	 * @param staticPictureFile the new static picture file
+	 * @param staticPictureFile
+	 *          the new static picture file
 	 */
 	public void setStaticPictureFile(String staticPictureFile) {
 		this.staticPictureFile = staticPictureFile;
@@ -849,7 +852,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the no picture.
 	 *
-	 * @param noPicture the new no picture
+	 * @param noPicture
+	 *          the new no picture
 	 */
 	public void setNoPicture(Boolean noPicture) {
 		this.noPicture = noPicture;
@@ -867,7 +871,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the picture directory.
 	 *
-	 * @param pictureDirectory the new picture directory
+	 * @param pictureDirectory
+	 *          the new picture directory
 	 */
 	public void setPictureDirectory(String pictureDirectory) {
 		this.pictureDirectory = pictureDirectory;
@@ -885,7 +890,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the background colour.
 	 *
-	 * @param backgroundColour the new background colour
+	 * @param backgroundColour
+	 *          the new background colour
 	 */
 	public void setBackgroundColour(FlashColour backgroundColour) {
 		this.backgroundColour = backgroundColour;
@@ -894,7 +900,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the no background color.
 	 *
-	 * @param c the new no background color
+	 * @param c
+	 *          the new no background color
 	 */
 	@JsonIgnore
 	public void setNoBackgroundColor(Color c) {
@@ -925,7 +932,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the dynamic duration.
 	 *
-	 * @param dynamicDuration the new dynamic duration
+	 * @param dynamicDuration
+	 *          the new dynamic duration
 	 */
 	public void setDynamicDuration(Integer dynamicDuration) {
 		this.dynamicDuration = dynamicDuration;
@@ -943,7 +951,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the dynamic transition.
 	 *
-	 * @param dynamicTransition the new dynamic transition
+	 * @param dynamicTransition
+	 *          the new dynamic transition
 	 */
 	public void setDynamicTransition(Integer dynamicTransition) {
 		this.dynamicTransition = dynamicTransition;
@@ -961,7 +970,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the static picture lock.
 	 *
-	 * @param staticPictureLock the new static picture lock
+	 * @param staticPictureLock
+	 *          the new static picture lock
 	 */
 	public void setStaticPictureLock(Boolean staticPictureLock) {
 		this.staticPictureLock = staticPictureLock;

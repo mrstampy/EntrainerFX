@@ -135,9 +135,12 @@ public class ReceiverChangeEvent extends EventObject {
 	/**
 	 * Instantiates a new receiver change event.
 	 *
-	 * @param source          the source
-	 * @param c          the c
-	 * @param parm the parm
+	 * @param source
+	 *          the source
+	 * @param c
+	 *          the c
+	 * @param parm
+	 *          the parm
 	 */
 	public ReceiverChangeEvent(Object source, Color c, MediatorConstants parm) {
 		super(source);

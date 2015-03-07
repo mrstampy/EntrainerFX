@@ -213,7 +213,7 @@ public class Settings {
 
 	@XmlElement(name = "splash.on.startup")
 	private boolean splashOnStartup;
-	
+
 	private static Lock lock = new ReentrantLock();
 
 	static {
@@ -441,8 +441,8 @@ public class Settings {
 					save = false;
 					break;
 				}
-				
-				if(save) saveSettings();
+
+				if (save) saveSettings();
 			}
 
 		});
@@ -1130,7 +1130,8 @@ public class Settings {
 	/**
 	 * Sets the dynamic picture.
 	 *
-	 * @param dynamicPicture the new dynamic picture
+	 * @param dynamicPicture
+	 *          the new dynamic picture
 	 */
 	public void setDynamicPicture(boolean dynamicPicture) {
 		this.dynamicPicture = dynamicPicture;
@@ -1148,7 +1149,8 @@ public class Settings {
 	/**
 	 * Sets the static picture.
 	 *
-	 * @param staticPicture the new static picture
+	 * @param staticPicture
+	 *          the new static picture
 	 */
 	public void setStaticPicture(boolean staticPicture) {
 		this.staticPicture = staticPicture;
@@ -1166,7 +1168,8 @@ public class Settings {
 	/**
 	 * Sets the static picture file.
 	 *
-	 * @param staticPictureFile the new static picture file
+	 * @param staticPictureFile
+	 *          the new static picture file
 	 */
 	public void setStaticPictureFile(String staticPictureFile) {
 		this.staticPictureFile = staticPictureFile;
@@ -1184,7 +1187,8 @@ public class Settings {
 	/**
 	 * Sets the no picture.
 	 *
-	 * @param noPicture the new no picture
+	 * @param noPicture
+	 *          the new no picture
 	 */
 	public void setNoPicture(boolean noPicture) {
 		this.noPicture = noPicture;
@@ -1202,7 +1206,8 @@ public class Settings {
 	/**
 	 * Sets the picture directory.
 	 *
-	 * @param pictureDirectory the new picture directory
+	 * @param pictureDirectory
+	 *          the new picture directory
 	 */
 	public void setPictureDirectory(String pictureDirectory) {
 		this.pictureDirectory = pictureDirectory;
@@ -1220,7 +1225,8 @@ public class Settings {
 	/**
 	 * Sets the background red.
 	 *
-	 * @param backgroundRed the new background red
+	 * @param backgroundRed
+	 *          the new background red
 	 */
 	public void setBackgroundRed(int backgroundRed) {
 		this.backgroundRed = backgroundRed;
@@ -1238,7 +1244,8 @@ public class Settings {
 	/**
 	 * Sets the background green.
 	 *
-	 * @param backgroundGreen the new background green
+	 * @param backgroundGreen
+	 *          the new background green
 	 */
 	public void setBackgroundGreen(int backgroundGreen) {
 		this.backgroundGreen = backgroundGreen;
@@ -1256,7 +1263,8 @@ public class Settings {
 	/**
 	 * Sets the background blue.
 	 *
-	 * @param backgroundBlue the new background blue
+	 * @param backgroundBlue
+	 *          the new background blue
 	 */
 	public void setBackgroundBlue(int backgroundBlue) {
 		this.backgroundBlue = backgroundBlue;
@@ -1274,7 +1282,8 @@ public class Settings {
 	/**
 	 * Sets the dynamic duration.
 	 *
-	 * @param dynamicDuration the new dynamic duration
+	 * @param dynamicDuration
+	 *          the new dynamic duration
 	 */
 	public void setDynamicDuration(int dynamicDuration) {
 		this.dynamicDuration = dynamicDuration;
@@ -1292,7 +1301,8 @@ public class Settings {
 	/**
 	 * Sets the dynamic transition.
 	 *
-	 * @param dynamicTransition the new dynamic transition
+	 * @param dynamicTransition
+	 *          the new dynamic transition
 	 */
 	public void setDynamicTransition(int dynamicTransition) {
 		this.dynamicTransition = dynamicTransition;
@@ -1310,7 +1320,8 @@ public class Settings {
 	/**
 	 * Sets the static picture lock.
 	 *
-	 * @param staticPictureLock the new static picture lock
+	 * @param staticPictureLock
+	 *          the new static picture lock
 	 */
 	public void setStaticPictureLock(boolean staticPictureLock) {
 		this.staticPictureLock = staticPictureLock;
@@ -1328,7 +1339,8 @@ public class Settings {
 	/**
 	 * Sets the splash on startup.
 	 *
-	 * @param splashOnStartup the new splash on startup
+	 * @param splashOnStartup
+	 *          the new splash on startup
 	 */
 	public void setSplashOnStartup(boolean splashOnStartup) {
 		this.splashOnStartup = splashOnStartup;

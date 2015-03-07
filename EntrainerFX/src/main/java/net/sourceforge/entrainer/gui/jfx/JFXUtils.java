@@ -80,7 +80,8 @@ public class JFXUtils {
 	/**
 	 * Run later.
 	 *
-	 * @param run the run
+	 * @param run
+	 *          the run
 	 */
 	public static void runLater(Runnable run) {
 		if (Platform.isFxApplicationThread()) {

@@ -528,7 +528,8 @@ public class VariableBackground {
 	/**
 	 * Sets the fade time.
 	 *
-	 * @param fadeTime the new fade time
+	 * @param fadeTime
+	 *          the new fade time
 	 */
 	public void setFadeTime(int fadeTime) {
 		this.fadeTime = fadeTime;
@@ -546,7 +547,8 @@ public class VariableBackground {
 	/**
 	 * Sets the display time.
 	 *
-	 * @param displayTime the new display time
+	 * @param displayTime
+	 *          the new display time
 	 */
 	public void setDisplayTime(int displayTime) {
 		this.displayTime = displayTime;
@@ -564,7 +566,8 @@ public class VariableBackground {
 	/**
 	 * Sets the directory name.
 	 *
-	 * @param directoryName the new directory name
+	 * @param directoryName
+	 *          the new directory name
 	 */
 	public void setDirectoryName(String directoryName) {
 		this.directoryName = directoryName;
@@ -591,8 +594,10 @@ public class VariableBackground {
 	/**
 	 * Sets the dimension.
 	 *
-	 * @param width the width
-	 * @param height the height
+	 * @param width
+	 *          the width
+	 * @param height
+	 *          the height
 	 */
 	public void setDimension(double width, double height) {
 		setWidth(width);
@@ -616,7 +621,8 @@ public class VariableBackground {
 	/**
 	 * Sets the width.
 	 *
-	 * @param width the new width
+	 * @param width
+	 *          the new width
 	 */
 	public void setWidth(double width) {
 		this.width = width;
@@ -634,7 +640,8 @@ public class VariableBackground {
 	/**
 	 * Sets the height.
 	 *
-	 * @param height the new height
+	 * @param height
+	 *          the new height
 	 */
 	public void setHeight(double height) {
 		this.height = height;
