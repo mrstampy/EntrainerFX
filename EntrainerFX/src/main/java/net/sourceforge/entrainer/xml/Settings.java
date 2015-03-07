@@ -40,6 +40,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -211,6 +213,8 @@ public class Settings {
 
 	@XmlElement(name = "splash.on.startup")
 	private boolean splashOnStartup;
+	
+	private static Lock lock = new ReentrantLock();
 
 	static {
 		try {
@@ -227,12 +231,15 @@ public class Settings {
 	 * Save settings.
 	 */
 	public static void saveSettings() {
+		lock.lock();
 		try {
 			File file = new File("settings.xml");
 
 			marshal.marshal(instance, file);
 		} catch (JAXBException e) {
 			throw new RuntimeException(e);
+		} finally {
+			lock.unlock();
 		}
 	}
 
@@ -314,6 +321,7 @@ public class Settings {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+				boolean save = true;
 				switch (e.getParm()) {
 				case AMPLITUDE:
 					setAmplitude(e.getDoubleValue());
@@ -430,8 +438,11 @@ public class Settings {
 					setSplashOnStartup(e.getBooleanValue());
 					break;
 				default:
+					save = false;
 					break;
 				}
+				
+				if(save) saveSettings();
 			}
 
 		});
