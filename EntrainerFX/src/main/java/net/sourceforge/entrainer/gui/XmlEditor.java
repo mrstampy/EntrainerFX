@@ -461,6 +461,7 @@ public class XmlEditor extends JDialog {
 		xml.setShimmer(shimmers.getShimmer().isSelected());
 		xml.setAnimationBackground(animations.getAnimationBackgroundPicture());
 		xml.setAnimationProgram(animations.getSelectedAnimationName());
+		xml.setUseDesktopAsBackground(animations.getUseDesktopAsBackground().isSelected());
 		xml.setColour(JFXUtils.fromJFXColor((Color) checkBoxPane.getColourChooser().getTextFill()));
 		xml.setIntervals(intervalMenu.getLoadedIntervals());
 		xml.setShimmerName(shimmers.getShimmers().getValue());
@@ -585,6 +586,8 @@ public class XmlEditor extends JDialog {
 			animations.refreshAnimations();
 			fireReceiverChangeEvent(xml.getAnimationProgram(), ANIMATION_PROGRAM);
 		}
+		animations.getUseDesktopAsBackground().setSelected(xml.isUseDesktopAsBackground());
+		
 		pinkPanning.getPanCheck().setSelected(xml.isPinkPan());
 		shimmers.getShimmer().setSelected(xml.isShimmer());
 		if (xml.getAnimationBackground() != null) {

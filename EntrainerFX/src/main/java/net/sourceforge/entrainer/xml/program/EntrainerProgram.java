@@ -123,6 +123,9 @@ public class EntrainerProgram {
 
 	@XmlElement(name = "dynamic.transition")
 	private int dynamicTransition;
+	
+	@XmlElement
+	private boolean useDesktopAsBackground;
 
 	/**
 	 * Instantiates a new entrainer program.
@@ -336,6 +339,7 @@ public class EntrainerProgram {
 		if (getAnimationProgram() != null && getAnimationProgram().trim().length() > 0) {
 			fireReceiverChangeEvent(getAnimationProgram(), ANIMATION_PROGRAM);
 		}
+		fireReceiverChangeEvent(isUseDesktopAsBackground(), MediatorConstants.ANIMATION_DESKTOP_BACKGROUND);
 		if (getShimmerName() != null && isShimmer()) {
 			fireReceiverChangeEvent(getShimmerName(), SHIMMER_RECTANGLE);
 		}
@@ -527,6 +531,14 @@ public class EntrainerProgram {
 
 	public void setBackgroundColour(Color backgroundColour) {
 		this.backgroundColour = backgroundColour;
+	}
+
+	public boolean isUseDesktopAsBackground() {
+		return useDesktopAsBackground;
+	}
+
+	public void setUseDesktopAsBackground(boolean useDesktopAsBackground) {
+		this.useDesktopAsBackground = useDesktopAsBackground;
 	}
 
 }
