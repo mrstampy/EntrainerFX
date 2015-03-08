@@ -124,6 +124,8 @@ public class EntrainerBackground {
 	private Map<Integer, ScheduledFuture<?>> futures = new ConcurrentHashMap<>();
 
 	private boolean ptRunning;
+	
+	private boolean psychedelic;
 
 	/**
 	 * Instantiates a new variable background.
@@ -363,6 +365,9 @@ public class EntrainerBackground {
 				case STATIC_PICTURE_LOCK:
 					staticPictureLock = e.getBooleanValue();
 					break;
+				case IS_PSYCHEDELIC:
+					psychedelic = e.getBooleanValue();
+					break;
 				default:
 					break;
 				}
@@ -393,11 +398,23 @@ public class EntrainerBackground {
 	private void showBackgroundFill() {
 		clearPictures();
 
-		rect = new Rectangle(pane.getWidth(), pane.getHeight(), backgroundColor);
+		rect = new Rectangle(pane.getWidth(), pane.getHeight(), getInitialColour());
 
 		pane.getChildren().add(rect);
 
 		if (shouldRun()) startTransition();
+	}
+	
+	private javafx.scene.paint.Color getInitialColour() {
+		return psychedelic || backgroundColor == null ? randomColour() : backgroundColor;
+	}
+	
+	private javafx.scene.paint.Color randomColour() {
+		double r = rand.nextDouble();
+		double g = rand.nextDouble();
+		double b = rand.nextDouble();
+		
+		return new javafx.scene.paint.Color(r, g, b, 1);
 	}
 
 	private boolean isShowBackgroundFill() {
@@ -470,6 +487,10 @@ public class EntrainerBackground {
 		}
 
 		background.setOpacity(o);
+		
+		if(psychedelic && background instanceof Rectangle) {
+			((Rectangle)background).setFill(randomColour());
+		}
 	}
 
 	private void reset(Node background) {

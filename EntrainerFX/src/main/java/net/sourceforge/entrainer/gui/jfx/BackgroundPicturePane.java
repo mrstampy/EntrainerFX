@@ -76,6 +76,8 @@ public class BackgroundPicturePane extends TitledPane {
 	private CheckBox flashBackground = new CheckBox("Flash Background");
 
 	private CheckBox staticPictureLock = new CheckBox("Lock Picture");
+	
+	private CheckBox psychedelic = new CheckBox("Psychedelic");
 
 	/**
 	 * Instantiates a new background picture pane.
@@ -132,6 +134,10 @@ public class BackgroundPicturePane extends TitledPane {
 	public Color getBackgroundColour() {
 		return picker.getValue();
 	}
+	
+	public boolean isPsychedelic() {
+		return psychedelic.isSelected();
+	}
 
 	public void setFlashBackground(boolean b) {
 		flashBackground.setSelected(b);
@@ -174,6 +180,11 @@ public class BackgroundPicturePane extends TitledPane {
 	public void setBackgroundColor(Color c) {
 		picker.setValue(c);
 	}
+	
+	public void setPsychedelic(boolean b) {
+		psychedelic.setSelected(b);
+		setNoPicState();
+	}
 
 	private void setRadioButton(RadioButton rb, boolean b) {
 		rb.setSelected(b);
@@ -204,6 +215,7 @@ public class BackgroundPicturePane extends TitledPane {
 		setTooltip(noPic, "No background picture (choose colour)");
 		setTooltip(flashBackground, "Flash Background Image at the Chosen Entrainment Frequency");
 		setTooltip(staticPictureLock, "Prevents inadvertent static picture changing if selected");
+		setTooltip(psychedelic, "Background uses random flashing colours if selected");
 	}
 
 	private void setTooltip(Control node, String tip) {
@@ -221,7 +233,7 @@ public class BackgroundPicturePane extends TitledPane {
 	private Node getRadioButtons() {
 		VBox box = new VBox(10);
 
-		box.getChildren().addAll(flashBackground, dynamic, staticPic, noPic, picker);
+		box.getChildren().addAll(flashBackground, dynamic, staticPic, noPic, picker, psychedelic);
 
 		return box;
 	}
@@ -310,8 +322,20 @@ public class BackgroundPicturePane extends TitledPane {
 		flashBackground.setOnAction(e -> flashBackgroundClicked());
 
 		staticPictureLock.setOnAction(e -> pictureLockClicked());
+		
+		psychedelic.setOnAction(e -> psychedelicClicked());
 
 		expandedProperty().addListener(e -> setOpacity(isExpanded() ? 1 : 0.25));
+	}
+
+	private void psychedelicClicked() {
+		fireReceiverChangeEvent(psychedelic.isSelected(), MediatorConstants.IS_PSYCHEDELIC);
+		setNoPicState();
+	}
+	
+	private void setNoPicState() {
+		picker.setDisable(psychedelic.isSelected() || !noPic.isSelected());
+		psychedelic.setDisable(!noPic.isSelected());
 	}
 
 	private void pictureLockClicked() {
@@ -327,7 +351,7 @@ public class BackgroundPicturePane extends TitledPane {
 		staticPic.setToggleGroup(picGroup);
 		noPic.setToggleGroup(picGroup);
 		dynamic.setSelected(true);
-		picker.setDisable(true);
+		setNoPicState();
 	}
 
 	private void transitionChanged() {
@@ -402,7 +426,7 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void noPicButtonPressed() {
-		picker.setDisable(false);
+		setNoPicState();
 		setSpinnersDisabled(true);
 		setTextFieldsDisabled(true);
 
@@ -420,7 +444,7 @@ public class BackgroundPicturePane extends TitledPane {
 	private void staticButtonPressed(boolean pressed) {
 		setSpinnersDisabled(pressed);
 		setTextFieldsDisabled(false);
-		picker.setDisable(true);
+		setNoPicState();
 
 		fireReceiverChangeEvent(pressed, pressed ? MediatorConstants.STATIC_BACKGROUND
 				: MediatorConstants.DYNAMIC_BACKGROUND);
@@ -471,6 +495,9 @@ public class BackgroundPicturePane extends TitledPane {
 					if (staticPictureLock.isSelected() == e.getBooleanValue()) return;
 					JFXUtils.runLater(() -> staticPictureLock.setSelected(e.getBooleanValue()));
 					break;
+				case IS_PSYCHEDELIC:
+					if(psychedelic.isSelected() == e.getBooleanValue()) return;
+					JFXUtils.runLater(() -> setPsychedelic(e.getBooleanValue()));
 				default:
 					break;
 				}
@@ -489,21 +516,21 @@ public class BackgroundPicturePane extends TitledPane {
 		setSpinnersDisabled(true);
 		setTextFieldsDisabled(true);
 		noPic.setSelected(true);
-		picker.setDisable(false);
+		setNoPicState();
 	}
 
 	private void setDynamicButton() {
 		setSpinnersDisabled(false);
 		setTextFieldsDisabled(false);
 		dynamic.setSelected(true);
-		picker.setDisable(true);
+		setNoPicState();
 	}
 
 	private void setStaticButton() {
 		setSpinnersDisabled(true);
 		setTextFieldsDisabled(false);
 		staticPic.setSelected(true);
-		picker.setDisable(true);
+		setNoPicState();
 	}
 
 	private void setTextFieldsDisabled(boolean b) {
