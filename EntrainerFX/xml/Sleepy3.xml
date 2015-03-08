@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<entrainer pinkPan="true" shimmer="false" animationProgram="Hypno Bubbles!!!" animation="false" psychedelic="true" flash="true" colour="200,200,200">
+    <unit>
+        <time seconds="0" minutes="5"/>
+        <amplitude end="0.4" start="0.6"/>
+        <frequency end="70.0" start="120.0"/>
+        <entrainmentFrequency end="5.0" start="12.0"/>
+        <pinkNoise end="0.3" start="0.45"/>
+        <pinkPan end="0.8" start="0.5"/>
+        <pinkEntrainerMultiple end="100.0" start="100.0"/>
+    </unit>
+    <unit>
+        <time seconds="0" minutes="10"/>
+        <amplitude end="0.4" start="0.4"/>
+        <frequency end="60.0" start="70.0"/>
+        <entrainmentFrequency end="3.5" start="5.0"/>
+        <pinkNoise end="0.3" start="0.3"/>
+        <pinkPan end="0.8" start="0.8"/>
+        <pinkEntrainerMultiple end="150.0" start="100.0"/>
+    </unit>
+    <unit>
+        <time seconds="0" minutes="15"/>
+        <amplitude end="0.0" start="0.4"/>
+        <frequency end="60.0" start="60.0"/>
+        <entrainmentFrequency end="2.0" start="3.5"/>
+        <pinkNoise end="0.0" start="0.3"/>
+        <pinkPan end="0.8" start="0.8"/>
+        <pinkEntrainerMultiple end="150.0" start="150.0"/>
+    </unit>
+    <dynamic.background>true</dynamic.background>
+    <static.background>false</static.background>
+    <static.picture.lock>false</static.picture.lock>
+    <no.background>false</no.background>
+    <picture.directory>./css</picture.directory>
+    <dynamic.duration>10</dynamic.duration>
+    <dynamic.transition>5</dynamic.transition>
+</entrainer>

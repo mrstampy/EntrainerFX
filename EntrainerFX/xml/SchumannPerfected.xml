@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<entrainer colour="194,255,197" flash="false" psychedelic="false" animation="false" animationBackground="" shimmer="true" shimmerName="Linear Gradient" pinkPan="true">
+    <interval value="-800000/2103444"/>
+    <interval value="1300000/2103444"/>
+    <unit>
+        <time minutes="4" seconds="30"/>
+        <amplitude start="0.8" end="0.5"/>
+        <frequency start="150.0" end="80.0"/>
+        <entrainmentFrequency start="7.83" end="7.83"/>
+        <pinkNoise start="0.6" end="0.3"/>
+        <pinkPan start="0.5" end="0.8"/>
+        <pinkEntrainerMultiple start="100.0" end="100.0"/>
+    </unit>
+    <unit>
+        <time minutes="2" seconds="0"/>
+        <amplitude start="0.5" end="0.3"/>
+        <frequency start="80.0" end="80.0"/>
+        <entrainmentFrequency start="7.83" end="7.83"/>
+        <pinkNoise start="0.3" end="0.3"/>
+        <pinkPan start="0.8" end="0.8"/>
+        <pinkEntrainerMultiple start="100.0" end="120.0"/>
+    </unit>
+    <unit>
+        <time minutes="3" seconds="30"/>
+        <amplitude start="0.3" end="0.8"/>
+        <frequency start="80.0" end="150.0"/>
+        <entrainmentFrequency start="7.83" end="7.83"/>
+        <pinkNoise start="0.3" end="0.8"/>
+        <pinkPan start="0.8" end="0.8"/>
+        <pinkEntrainerMultiple start="120.0" end="100.0"/>
+    </unit>
+    <unit>
+        <time minutes="4" seconds="0"/>
+        <amplitude start="0.8" end="0.0"/>
+        <frequency start="150.0" end="150.0"/>
+        <entrainmentFrequency start="7.83" end="7.83"/>
+        <pinkNoise start="0.8" end="0.1"/>
+        <pinkPan start="0.8" end="0.8"/>
+        <pinkEntrainerMultiple start="100.0" end="100.0"/>
+    </unit>
+    <dynamic.background>true</dynamic.background>
+    <static.background>false</static.background>
+    <static.picture.lock>false</static.picture.lock>
+    <no.background>false</no.background>
+    <picture.directory>./css</picture.directory>
+    <dynamic.duration>10</dynamic.duration>
+    <dynamic.transition>5</dynamic.transition>
+</entrainer>

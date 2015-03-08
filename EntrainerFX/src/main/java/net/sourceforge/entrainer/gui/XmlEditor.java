@@ -611,8 +611,10 @@ public class XmlEditor extends JDialog {
 		pics.setPictureDirectory(xml.getPictureDirectory());
 		fireReceiverChangeEvent(pics.getPictureDirectory(), MediatorConstants.BACKGROUND_PIC_DIR);
 		
-		pics.setStaticPicture(xml.getStaticPictureFile());
-		fireReceiverChangeEvent(pics.getStaticPicture(), MediatorConstants.BACKGROUND_PIC);
+		if(xml.getStaticPictureFile() != null) {
+			pics.setStaticPicture(xml.getStaticPictureFile());
+			fireReceiverChangeEvent(pics.getStaticPicture(), MediatorConstants.BACKGROUND_PIC);
+		}
 		
 		pics.setPictureLock(xml.isStaticPictureLock());
 		fireReceiverChangeEvent(pics.isPictureLock(), MediatorConstants.STATIC_PICTURE_LOCK);

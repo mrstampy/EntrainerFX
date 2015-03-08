@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<entrainer pinkPan="true" shimmer="false" animation="false" psychedelic="true" flash="true" colour="200,200,200">
+    <unit>
+        <time seconds="0" minutes="5"/>
+        <amplitude end="0.5" start="0.3"/>
+        <frequency end="120.0" start="80.0"/>
+        <entrainmentFrequency end="8.0" start="6.0"/>
+        <pinkNoise end="0.25" start="0.15"/>
+        <pinkPan end="0.8" start="0.5"/>
+        <pinkEntrainerMultiple end="80.0" start="120.0"/>
+    </unit>
+    <unit>
+        <time seconds="0" minutes="5"/>
+        <amplitude end="0.65" start="0.5"/>
+        <frequency end="150.0" start="120.0"/>
+        <entrainmentFrequency end="12.0" start="8.0"/>
+        <pinkNoise end="0.35" start="0.25"/>
+        <pinkPan end="0.8" start="0.8"/>
+        <pinkEntrainerMultiple end="60.0" start="80.0"/>
+    </unit>
+    <unit>
+        <time seconds="0" minutes="5"/>
+        <amplitude end="0.025" start="0.65"/>
+        <frequency end="150.0" start="150.0"/>
+        <entrainmentFrequency end="20.0" start="12.0"/>
+        <pinkNoise end="0.025" start="0.35"/>
+        <pinkPan end="0.8" start="0.8"/>
+        <pinkEntrainerMultiple end="40.0" start="60.0"/>
+    </unit>
+    <dynamic.background>true</dynamic.background>
+    <static.background>false</static.background>
+    <static.picture.lock>false</static.picture.lock>
+    <no.background>false</no.background>
+    <picture.directory>./css</picture.directory>
+    <dynamic.duration>10</dynamic.duration>
+    <dynamic.transition>5</dynamic.transition>
+</entrainer>

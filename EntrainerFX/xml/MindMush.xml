@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<entrainer pinkPan="true" shimmer="false" animation="false" psychedelic="true" flash="true" colour="178,231,164">
+    <unit>
+        <time seconds="30" minutes="4"/>
+        <amplitude end="0.98" start="0.5"/>
+        <frequency end="40.0" start="60.0"/>
+        <entrainmentFrequency end="7.83" start="15.0"/>
+        <pinkNoise end="0.6" start="0.2"/>
+        <pinkPan end="0.8" start="0.5"/>
+        <pinkEntrainerMultiple end="70.0" start="20.0"/>
+    </unit>
+    <unit>
+        <time seconds="0" minutes="2"/>
+        <amplitude end="0.98" start="0.98"/>
+        <frequency end="40.0" start="40.0"/>
+        <entrainmentFrequency end="7.83" start="7.83"/>
+        <pinkNoise end="0.6" start="0.6"/>
+        <pinkPan end="0.8" start="0.8"/>
+        <pinkEntrainerMultiple end="50.0" start="70.0"/>
+    </unit>
+    <unit>
+        <time seconds="30" minutes="3"/>
+        <amplitude end="0.98" start="0.98"/>
+        <frequency end="40.0" start="40.0"/>
+        <entrainmentFrequency end="4.0" start="7.83"/>
+        <pinkNoise end="0.6" start="0.6"/>
+        <pinkPan end="0.5" start="0.8"/>
+        <pinkEntrainerMultiple end="30.0" start="50.0"/>
+    </unit>
+    <unit>
+        <time seconds="30" minutes="3"/>
+        <amplitude end="0.98" start="0.98"/>
+        <frequency end="40.0" start="40.0"/>
+        <entrainmentFrequency end="4.0" start="4.0"/>
+        <pinkNoise end="0.6" start="0.6"/>
+        <pinkPan end="0.5" start="0.5"/>
+        <pinkEntrainerMultiple end="70.0" start="30.0"/>
+    </unit>
+    <unit>
+        <time seconds="0" minutes="2"/>
+        <amplitude end="0.0" start="0.98"/>
+        <frequency end="60.0" start="40.0"/>
+        <entrainmentFrequency end="10.0" start="4.0"/>
+        <pinkNoise end="0.0" start="0.6"/>
+        <pinkPan end="0.0" start="0.5"/>
+        <pinkEntrainerMultiple end="70.0" start="70.0"/>
+    </unit>
+    <dynamic.background>true</dynamic.background>
+    <static.background>false</static.background>
+    <static.picture.lock>false</static.picture.lock>
+    <no.background>false</no.background>
+    <picture.directory>./css</picture.directory>
+    <dynamic.duration>10</dynamic.duration>
+    <dynamic.transition>5</dynamic.transition>
+</entrainer>
