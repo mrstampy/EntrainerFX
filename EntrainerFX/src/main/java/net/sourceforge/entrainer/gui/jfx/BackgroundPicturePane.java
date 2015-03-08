@@ -20,6 +20,7 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import java.io.File;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
@@ -34,10 +35,10 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
@@ -183,7 +184,7 @@ public class BackgroundPicturePane extends TitledPane {
 
 	public void setPsychedelic(boolean b) {
 		psychedelic.setSelected(b);
-		setNoPicState();
+		JFXUtils.runLater(() -> setState());
 	}
 
 	private void setRadioButton(RadioButton rb, boolean b) {
@@ -192,7 +193,7 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void init() {
-		setText("Background Picture Options");
+		setText("Background Options");
 
 		directory.setEditable(false);
 		picture.setEditable(false);
@@ -223,54 +224,94 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void layoutComponents() {
-		VBox box = new VBox(10);
-		
-		box.setAlignment(Pos.TOP_LEFT);
+		GridPane pane = new GridPane();
+		pane.setPadding(new Insets(10));
 
-		box.getChildren().addAll(flashBackground, getDynamic(), getStatic(), getNoBackground());
+		int col = 0;
+		int row = 0;
 
-		setContent(box);
+		GridPane.setConstraints(flashBackground, col, row++, 2, 1);
+		GridPane.setMargin(flashBackground, new Insets(0, 0, 0, 5));
+
+		GridPane.setConstraints(dynamic, col++, row);
+		GridPane.setMargin(dynamic, new Insets(5));
+
+		Node dir = getDirectoryPane();
+		GridPane.setConstraints(dir, col++, row, 2, 1);
+		GridPane.setMargin(dir, new Insets(5));
+
+		col++;
+		Node spin = getTransitionDurationPane();
+		GridPane.setConstraints(spin, col, row, 4, 1);
+		GridPane.setMargin(spin, new Insets(5));
+
+		row++;
+		col = 0;
+
+		GridPane.setConstraints(staticPic, col++, row);
+		GridPane.setMargin(staticPic, new Insets(0, 5,5,5));
+		Node pic = getPicFilePane();
+		GridPane.setConstraints(pic, col++, row, 2, 1);
+		GridPane.setMargin(pic, new Insets(0,5,5,5));
+
+		col++;
+		GridPane.setConstraints(staticPictureLock, col, row);
+		GridPane.setMargin(staticPictureLock, new Insets(0,5,5,5));
+
+		row++;
+		col = 0;
+
+		GridPane.setConstraints(noPic, col++, row);
+		GridPane.setMargin(noPic, new Insets(15, 5, 5, 5));
+		GridPane.setConstraints(picker, col++, row);
+		GridPane.setMargin(picker, new Insets(15, 5, 5, 5));
+		GridPane.setConstraints(psychedelic, col, row);
+		GridPane.setMargin(psychedelic, new Insets(15, 5, 5, 5));
+
+		pane.getChildren().addAll(flashBackground,
+				dynamic,
+				dir,
+				spin,
+				staticPic,
+				pic,
+				staticPictureLock,
+				noPic,
+				picker,
+				psychedelic);
+
+		setContent(pane);
 	}
 
-	private Node getNoBackground() {
-		HBox box = new HBox(10);
-		
-		VBox vb = new VBox(10);
-		
-		box.getChildren().addAll(picker, psychedelic);
-		
-		vb.getChildren().addAll(noPic, box);
-		
-		return vb;
+	private void setState() {
+		setDynamicState();
+		setStaticState();
+		setNoPicState();
 	}
 
-	private Node getStatic() {
-		HBox box = new HBox(10);
-		
-		VBox vb = new VBox(10);
-		
-		box.getChildren().addAll(getPicFilePane(), staticPictureLock);
-		
-		vb.getChildren().addAll(staticPic, box);
-		
-		return vb;
+	private void setDynamicState() {
+		boolean b = !dynamic.isSelected();
+
+		directory.setDisable(b);
+		transition.setDisable(b);
+		duration.setDisable(b);
 	}
 
-	private Node getDynamic() {
-		HBox box = new HBox(10);
-		
-		VBox vb = new VBox(10);
-		
-		box.getChildren().addAll(getDirectoryPane(), getTransitionDurationPane());
-		
-		vb.getChildren().addAll(dynamic, box);
-		
-		return vb;
+	private void setStaticState() {
+		boolean b = !staticPic.isSelected();
+
+		picture.setDisable(b);
+	}
+
+	private void setNoPicState() {
+		boolean b = !noPic.isSelected();
+
+		picker.setDisable(b || psychedelic.isSelected());
+		psychedelic.setDisable(b);
 	}
 
 	private Node getTransitionDurationPane() {
-		HBox box = new HBox(10);
-		
+		VBox box = new VBox(10);
+
 		box.getChildren().addAll(getDurationPane(), getTransitionPane());
 
 		return box;
@@ -282,8 +323,6 @@ public class BackgroundPicturePane extends TitledPane {
 
 		picture.setPrefWidth(200);
 		directory.setPrefWidth(200);
-
-		picker.setPrefWidth(100);
 	}
 
 	private Node getDurationPane() {
@@ -308,7 +347,7 @@ public class BackgroundPicturePane extends TitledPane {
 		HBox box = new HBox(10);
 
 		box.setAlignment(Pos.CENTER_RIGHT);
-		box.getChildren().addAll(new Label("Static Image"), picture);
+		box.getChildren().addAll(new Label("Image File"), picture);
 
 		return box;
 	}
@@ -350,12 +389,7 @@ public class BackgroundPicturePane extends TitledPane {
 
 	private void psychedelicClicked() {
 		fireReceiverChangeEvent(psychedelic.isSelected(), MediatorConstants.IS_PSYCHEDELIC);
-		setNoPicState();
-	}
-
-	private void setNoPicState() {
-		picker.setDisable(psychedelic.isSelected() || !noPic.isSelected());
-		psychedelic.setDisable(!noPic.isSelected());
+		JFXUtils.runLater(() -> setState());
 	}
 
 	private void pictureLockClicked() {
@@ -371,7 +405,7 @@ public class BackgroundPicturePane extends TitledPane {
 		staticPic.setToggleGroup(picGroup);
 		noPic.setToggleGroup(picGroup);
 		dynamic.setSelected(true);
-		setNoPicState();
+		JFXUtils.runLater(() -> setState());
 	}
 
 	private void transitionChanged() {
@@ -446,7 +480,7 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void noPicButtonPressed() {
-		setNoPicState();
+		JFXUtils.runLater(() -> setState());
 		setSpinnersDisabled(true);
 		setTextFieldsDisabled(true);
 
@@ -464,7 +498,7 @@ public class BackgroundPicturePane extends TitledPane {
 	private void staticButtonPressed(boolean pressed) {
 		setSpinnersDisabled(pressed);
 		setTextFieldsDisabled(false);
-		setNoPicState();
+		JFXUtils.runLater(() -> setState());
 
 		fireReceiverChangeEvent(pressed, pressed ? MediatorConstants.STATIC_BACKGROUND
 				: MediatorConstants.DYNAMIC_BACKGROUND);
@@ -536,21 +570,21 @@ public class BackgroundPicturePane extends TitledPane {
 		setSpinnersDisabled(true);
 		setTextFieldsDisabled(true);
 		noPic.setSelected(true);
-		setNoPicState();
+		JFXUtils.runLater(() -> setState());
 	}
 
 	private void setDynamicButton() {
 		setSpinnersDisabled(false);
 		setTextFieldsDisabled(false);
 		dynamic.setSelected(true);
-		setNoPicState();
+		JFXUtils.runLater(() -> setState());
 	}
 
 	private void setStaticButton() {
 		setSpinnersDisabled(true);
 		setTextFieldsDisabled(false);
 		staticPic.setSelected(true);
-		setNoPicState();
+		JFXUtils.runLater(() -> setState());
 	}
 
 	private void setTextFieldsDisabled(boolean b) {
