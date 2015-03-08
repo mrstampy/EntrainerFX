@@ -340,6 +340,10 @@ public class EntrainerProgram {
 			fireReceiverChangeEvent(getShimmerName(), SHIMMER_RECTANGLE);
 		}
 
+		if (getPictureDirectory() != null) {
+			fireReceiverChangeEvent(getPictureDirectory(), MediatorConstants.BACKGROUND_PIC_DIR);
+		}
+
 		if (isDynamicPicture()) {
 			fireReceiverChangeEvent(true, MediatorConstants.DYNAMIC_BACKGROUND);
 		}
@@ -357,9 +361,6 @@ public class EntrainerProgram {
 		fireReceiverChangeEvent(isStaticPictureLock(), MediatorConstants.STATIC_PICTURE_LOCK);
 		fireReceiverChangeEvent(getDynamicDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);
 		fireReceiverChangeEvent(getDynamicTransition(), MediatorConstants.BACKGROUND_TRANSITION_SECONDS);
-		if (getPictureDirectory() != null) {
-			fireReceiverChangeEvent(getPictureDirectory(), MediatorConstants.BACKGROUND_PIC_DIR);
-		}
 
 		fireReceiverChangeEvent(isFlashBackground(), FLASH_BACKGROUND);
 	}

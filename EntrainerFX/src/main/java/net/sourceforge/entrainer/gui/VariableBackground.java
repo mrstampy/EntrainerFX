@@ -249,7 +249,7 @@ public class VariableBackground {
 		scale();
 
 		if (shouldRun()) startTransition();
-		
+
 		pane.getChildren().add(current);
 	}
 
@@ -333,8 +333,13 @@ public class VariableBackground {
 					break;
 				case BACKGROUND_PIC_DIR:
 					directoryName = e.getStringValue();
-					pictureNames.clear();
-					loadFromDirectory();
+					if (isDynamic()) {
+						clearFutures();
+						JFXUtils.runLater(() -> init());
+					} else {
+						pictureNames.clear();
+						loadFromDirectory();
+					}
 					break;
 				case BACKGROUND_DURATION_SECONDS:
 					setDisplayTime((int) e.getDoubleValue());
@@ -444,13 +449,13 @@ public class VariableBackground {
 
 	private void invert(Node background) {
 		double o = 0;
-		
+
 		if (background instanceof ImageView) {
 			o = background.getOpacity() == 0.25 ? 0.60 : 0.25;
 		} else {
 			o = background.getOpacity() == 1.0 ? 0.50 : 1.0;
 		}
-		
+
 		background.setOpacity(o);
 	}
 
@@ -597,8 +602,8 @@ public class VariableBackground {
 			rect.setWidth(width);
 			rect.setHeight(height);
 		}
-		
-		if(current != null) scale();
+
+		if (current != null) scale();
 	}
 
 	/**

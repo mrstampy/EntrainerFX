@@ -96,90 +96,90 @@ public class BackgroundPicturePane extends TitledPane {
 	public boolean isFlashBackground() {
 		return flashBackground.isSelected();
 	}
-	
+
 	public int getDuration() {
 		return durationValue;
 	}
-	
+
 	public int getTransition() {
 		return transitionValue;
 	}
-	
+
 	public String getPictureDirectory() {
 		return directoryName;
 	}
-	
+
 	public String getStaticPicture() {
 		return pictureName;
 	}
-	
+
 	public boolean isDynamic() {
 		return dynamic.isSelected();
 	}
-	
+
 	public boolean isStatic() {
 		return staticPic.isSelected();
 	}
-	
+
 	public boolean isNoBackground() {
 		return noPic.isSelected();
 	}
-	
+
 	public boolean isPictureLock() {
 		return staticPictureLock.isSelected();
 	}
-	
+
 	public Color getBackgroundColour() {
 		return picker.getValue();
 	}
-	
+
 	public void setFlashBackground(boolean b) {
 		flashBackground.setSelected(b);
 	}
-	
+
 	public void setDuration(int i) {
 		durationValue = i;
 		duration.getValueFactory().setValue(i);
 	}
-	
+
 	public void setTransition(int i) {
 		transitionValue = i;
 		transition.getValueFactory().setValue(i);
 	}
-	
+
 	public void setPictureDirectory(String dir) {
 		setDirectory(dir);
 	}
-	
+
 	public void setStaticPicture(String pic) {
 		setPicture(pic);
 	}
-	
+
 	public void setDynamic(boolean b) {
 		setRadioButton(dynamic, b);
 	}
-	
+
 	public void setStatic(boolean b) {
 		setRadioButton(staticPic, b);
 	}
-	
+
 	public void setNoBackground(boolean b) {
 		setRadioButton(noPic, b);
 	}
-	
+
 	public void setPictureLock(boolean b) {
 		staticPictureLock.setSelected(b);
 	}
-	
+
 	public void setBackgroundColor(Color c) {
 		picker.setValue(c);
 	}
-	
+
 	private void setRadioButton(RadioButton rb, boolean b) {
 		rb.setSelected(b);
-		if(b) rb.fire();
+		if (b) rb.fire();
 	}
-	
+
 	private void init() {
 		setText("Background Picture Options");
 

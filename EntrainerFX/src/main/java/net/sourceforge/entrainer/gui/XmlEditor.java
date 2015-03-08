@@ -596,12 +596,12 @@ public class XmlEditor extends JDialog {
 		}
 		if (!xml.getIntervals().isEmpty()) intervalMenu.loadIntervals(getIntervals(xml.getIntervals()));
 		if (xml.getShimmerName() != null) shimmers.getShimmers().setValue(xml.getShimmerName());
-		
+
 		pics.setFlashBackground(xml.isFlashBackground());
 		pics.setDuration(xml.getDynamicDuration());
 		pics.setTransition(xml.getDynamicTransition());
 		pics.setBackgroundColor(JFXUtils.toJFXColor(xml.getBackgroundColour()));
-		
+
 		pics.setPictureDirectory(xml.getPictureDirectory());
 		pics.setStaticPicture(xml.getStaticPictureFile());
 		pics.setPictureLock(xml.isStaticPictureLock());
@@ -858,7 +858,7 @@ public class XmlEditor extends JDialog {
 	private Container getMessagePanel() {
 		final GridPane gp = new GridPane();
 		gp.setPadding(new Insets(10, 0, 10, 0));
-		
+
 		int h = 0;
 		GridPane.setConstraints(pics, 0, h++);
 		GridPane.setConstraints(checkBoxPane, 0, h++);
@@ -870,14 +870,14 @@ public class XmlEditor extends JDialog {
 		final URI css = JFXUtils.getEntrainerCSS();
 
 		Image image = null;
-		if(pics.getStaticPicture() != null) {
+		if (pics.getStaticPicture() != null) {
 			try {
 				image = new Image(new FileInputStream(pics.getStaticPicture()));
 			} catch (FileNotFoundException e) {
 				log.error("Unexpected exception", e);
 			}
 		}
-		if(image == null) image = EntrainerFX.getInstance().getBackgroundImage();
+		if (image == null) image = EntrainerFX.getInstance().getBackgroundImage();
 		background.setImage(image);
 		background.setOpacity(0.25);
 
