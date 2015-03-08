@@ -54,6 +54,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
@@ -66,6 +68,7 @@ import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -89,6 +92,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
+import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
 import net.sourceforge.entrainer.gui.jfx.FlashPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.gui.jfx.PinkPanningPane;
@@ -106,6 +110,8 @@ import net.sourceforge.entrainer.xml.program.EntrainerProgramInterval;
 import net.sourceforge.entrainer.xml.program.EntrainerProgramUnit;
 import net.sourceforge.entrainer.xml.program.UnitSetter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 // TODO: Auto-generated Javadoc
@@ -116,6 +122,7 @@ import org.xml.sax.SAXException;
  */
 public class XmlEditor extends JDialog {
 
+	private static final Logger log = LoggerFactory.getLogger(XmlEditor.class);
 	private static final long serialVersionUID = 1L;
 
 	private EntrainerProgram xml;
@@ -140,6 +147,7 @@ public class XmlEditor extends JDialog {
 	private FlashPane checkBoxPane = new FlashPane();
 	private ShimmerOptionsPane shimmers = new ShimmerOptionsPane();
 	private PinkPanningPane pinkPanning = new PinkPanningPane(false);
+	private BackgroundPicturePane pics = new BackgroundPicturePane();
 
 	private boolean cancelPressed = false;
 
@@ -173,7 +181,7 @@ public class XmlEditor extends JDialog {
 	 */
 	public void pack() {
 		units.setPreferredSize(units.getSize());
-		panel.setPreferredSize(new Dimension(panel.getWidth() + 10, 400));
+		setPreferredSize(EntrainerFX.getInstance().getSize());
 		super.pack();
 		if (background.getImage() != null) scaleBackground();
 		animations.setMinWidth(getWidth() - 10);
@@ -185,6 +193,7 @@ public class XmlEditor extends JDialog {
 				checkBoxPane.setExpanded(false);
 				shimmers.setExpanded(false);
 				pinkPanning.setExpanded(false);
+				pics.setExpanded(false);
 			}
 		});
 	}
@@ -417,6 +426,7 @@ public class XmlEditor extends JDialog {
 		checkBoxPane.clearMediatorObjects();
 		pinkPanning.clearMediatorObjects();
 		shimmers.clearMediatorObjects();
+		pics.clearMediatorObjects();
 	}
 
 	private void saveXmlFile(boolean isSave) throws ParserConfigurationException, SAXException, IOException {
@@ -458,7 +468,17 @@ public class XmlEditor extends JDialog {
 		xml.setColour(JFXUtils.fromJFXColor((Color) checkBoxPane.getColourChooser().getTextFill()));
 		xml.setIntervals(intervalMenu.getLoadedIntervals());
 		xml.setShimmerName(shimmers.getShimmers().getValue());
-		// xml.setFlashBackground(checkBoxPane.getFlashBackground().isSelected());
+
+		xml.setBackgroundColour(JFXUtils.fromJFXColor(pics.getBackgroundColour()));
+		xml.setDynamicDuration(pics.getDuration());
+		xml.setDynamicPicture(pics.isDynamic());
+		xml.setDynamicTransition(pics.getTransition());
+		xml.setFlashBackground(pics.isFlashBackground());
+		xml.setNoPicture(pics.isNoBackground());
+		xml.setPictureDirectory(pics.getPictureDirectory());
+		xml.setStaticPicture(pics.isStatic());
+		xml.setStaticPictureFile(pics.getStaticPicture());
+		xml.setStaticPictureLock(pics.isPictureLock());
 
 		try {
 			marshal(xml, xml.getFile().getName());
@@ -576,6 +596,18 @@ public class XmlEditor extends JDialog {
 		}
 		if (!xml.getIntervals().isEmpty()) intervalMenu.loadIntervals(getIntervals(xml.getIntervals()));
 		if (xml.getShimmerName() != null) shimmers.getShimmers().setValue(xml.getShimmerName());
+		
+		pics.setFlashBackground(xml.isFlashBackground());
+		pics.setDuration(xml.getDynamicDuration());
+		pics.setTransition(xml.getDynamicTransition());
+		pics.setBackgroundColor(JFXUtils.toJFXColor(xml.getBackgroundColour()));
+		
+		pics.setPictureDirectory(xml.getPictureDirectory());
+		pics.setStaticPicture(xml.getStaticPictureFile());
+		pics.setPictureLock(xml.isStaticPictureLock());
+		pics.setDynamic(xml.isDynamicPicture());
+		pics.setStatic(xml.isStaticPicture());
+		pics.setNoBackground(xml.isNoPicture());
 	}
 
 	private List<String> getIntervals(List<EntrainerProgramInterval> intervals) {
@@ -826,15 +858,27 @@ public class XmlEditor extends JDialog {
 	private Container getMessagePanel() {
 		final GridPane gp = new GridPane();
 		gp.setPadding(new Insets(10, 0, 10, 0));
-		GridPane.setConstraints(checkBoxPane, 0, 0);
-		GridPane.setConstraints(pinkPanning, 0, 1);
-		GridPane.setConstraints(animations, 0, 2);
-		GridPane.setConstraints(shimmers, 0, 3);
-		gp.getChildren().addAll(checkBoxPane, pinkPanning, animations, shimmers);
+		
+		int h = 0;
+		GridPane.setConstraints(pics, 0, h++);
+		GridPane.setConstraints(checkBoxPane, 0, h++);
+		GridPane.setConstraints(pinkPanning, 0, h++);
+		GridPane.setConstraints(animations, 0, h++);
+		GridPane.setConstraints(shimmers, 0, h++);
+		gp.getChildren().addAll(checkBoxPane, pinkPanning, animations, shimmers, pics);
 
 		final URI css = JFXUtils.getEntrainerCSS();
 
-		background.setImage(EntrainerFX.getInstance().getBackgroundImage());
+		Image image = null;
+		if(pics.getStaticPicture() != null) {
+			try {
+				image = new Image(new FileInputStream(pics.getStaticPicture()));
+			} catch (FileNotFoundException e) {
+				log.error("Unexpected exception", e);
+			}
+		}
+		if(image == null) image = EntrainerFX.getInstance().getBackgroundImage();
+		background.setImage(image);
 		background.setOpacity(0.25);
 
 		JFXUtils.runLater(new Runnable() {

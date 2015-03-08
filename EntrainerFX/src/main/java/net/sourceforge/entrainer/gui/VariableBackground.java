@@ -246,6 +246,14 @@ public class VariableBackground {
 	private void scaleImage() {
 		current.setImage(currentImage);
 
+		scale();
+
+		if (shouldRun()) startTransition();
+		
+		pane.getChildren().add(current);
+	}
+
+	private void scale() {
 		double pw = currentImage.getWidth();
 		double ph = currentImage.getHeight();
 		double vw = getWidth();
@@ -265,13 +273,9 @@ public class VariableBackground {
 			xDiff = (pw * vh / ph) - vw;
 		}
 
-		pane.getChildren().add(current);
-
 		if (xDiff > 0) current.setX(0 - xDiff / 2);
 
 		if (yDiff > 0) current.setY(0 - yDiff / 2);
-
-		if (shouldRun()) startTransition();
 	}
 
 	private void fadeIn() {
@@ -593,6 +597,8 @@ public class VariableBackground {
 			rect.setWidth(width);
 			rect.setHeight(height);
 		}
+		
+		if(current != null) scale();
 	}
 
 	/**

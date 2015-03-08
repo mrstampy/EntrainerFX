@@ -97,6 +97,33 @@ public class EntrainerProgram {
 	@XmlTransient
 	private File file;
 
+	@XmlElement(name = "dynamic.background")
+	private boolean dynamicPicture;
+
+	@XmlElement(name = "static.background")
+	private boolean staticPicture;
+
+	@XmlElement(name = "static.background.picture")
+	private String staticPictureFile;
+
+	@XmlElement(name = "static.picture.lock")
+	private boolean staticPictureLock;
+
+	@XmlElement(name = "no.background")
+	private boolean noPicture;
+
+	@XmlElement(name = "picture.directory")
+	private String pictureDirectory;
+
+	@XmlElement(name = "background.colour")
+	private Color backgroundColour;
+
+	@XmlElement(name = "dynamic.duration")
+	private int dynamicDuration;
+
+	@XmlElement(name = "dynamic.transition")
+	private int dynamicTransition;
+
 	/**
 	 * Instantiates a new entrainer program.
 	 */
@@ -312,6 +339,29 @@ public class EntrainerProgram {
 		if (getShimmerName() != null && isShimmer()) {
 			fireReceiverChangeEvent(getShimmerName(), SHIMMER_RECTANGLE);
 		}
+
+		if (isDynamicPicture()) {
+			fireReceiverChangeEvent(true, MediatorConstants.DYNAMIC_BACKGROUND);
+		}
+
+		if (isStaticPicture()) {
+			fireReceiverChangeEvent(true, MediatorConstants.STATIC_BACKGROUND);
+			fireReceiverChangeEvent(getStaticPictureFile(), MediatorConstants.BACKGROUND_PIC);
+		}
+
+		if (isNoPicture()) {
+			fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
+			fireReceiverChangeEvent(getBackgroundColour(), MediatorConstants.NO_BACKGROUND_COLOUR);
+		}
+
+		fireReceiverChangeEvent(isStaticPictureLock(), MediatorConstants.STATIC_PICTURE_LOCK);
+		fireReceiverChangeEvent(getDynamicDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);
+		fireReceiverChangeEvent(getDynamicTransition(), MediatorConstants.BACKGROUND_TRANSITION_SECONDS);
+		if (getPictureDirectory() != null) {
+			fireReceiverChangeEvent(getPictureDirectory(), MediatorConstants.BACKGROUND_PIC_DIR);
+		}
+
+		fireReceiverChangeEvent(isFlashBackground(), FLASH_BACKGROUND);
 	}
 
 	/**
@@ -325,11 +375,19 @@ public class EntrainerProgram {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, c));
 	}
 
+	private void fireReceiverChangeEvent(Color c, MediatorConstants parm) {
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, c, parm));
+	}
+
 	private void fireReceiverChangeEvent(String value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
 
 	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
+	}
+
+	private void fireReceiverChangeEvent(int value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
 
@@ -388,6 +446,86 @@ public class EntrainerProgram {
 	 */
 	public void setFlashBackground(boolean flashBackground) {
 		this.flashBackground = flashBackground;
+	}
+
+	public Sender getSender() {
+		return sender;
+	}
+
+	public void setSender(Sender sender) {
+		this.sender = sender;
+	}
+
+	public boolean isDynamicPicture() {
+		return dynamicPicture;
+	}
+
+	public void setDynamicPicture(boolean dynamicPicture) {
+		this.dynamicPicture = dynamicPicture;
+	}
+
+	public boolean isStaticPicture() {
+		return staticPicture;
+	}
+
+	public void setStaticPicture(boolean staticPicture) {
+		this.staticPicture = staticPicture;
+	}
+
+	public String getStaticPictureFile() {
+		return staticPictureFile;
+	}
+
+	public void setStaticPictureFile(String staticPictureFile) {
+		this.staticPictureFile = staticPictureFile;
+	}
+
+	public boolean isStaticPictureLock() {
+		return staticPictureLock;
+	}
+
+	public void setStaticPictureLock(boolean staticPictureLock) {
+		this.staticPictureLock = staticPictureLock;
+	}
+
+	public boolean isNoPicture() {
+		return noPicture;
+	}
+
+	public void setNoPicture(boolean noPicture) {
+		this.noPicture = noPicture;
+	}
+
+	public String getPictureDirectory() {
+		return pictureDirectory;
+	}
+
+	public void setPictureDirectory(String pictureDirectory) {
+		this.pictureDirectory = pictureDirectory;
+	}
+
+	public int getDynamicDuration() {
+		return dynamicDuration;
+	}
+
+	public void setDynamicDuration(int dynamicDuration) {
+		this.dynamicDuration = dynamicDuration;
+	}
+
+	public int getDynamicTransition() {
+		return dynamicTransition;
+	}
+
+	public void setDynamicTransition(int dynamicTransition) {
+		this.dynamicTransition = dynamicTransition;
+	}
+
+	public Color getBackgroundColour() {
+		return backgroundColour;
+	}
+
+	public void setBackgroundColour(Color backgroundColour) {
+		this.backgroundColour = backgroundColour;
 	}
 
 }
