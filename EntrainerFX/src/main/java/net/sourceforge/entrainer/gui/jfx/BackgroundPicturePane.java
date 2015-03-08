@@ -30,7 +30,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
@@ -45,16 +44,12 @@ import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
-import net.sourceforge.entrainer.mediator.Sender;
-import net.sourceforge.entrainer.mediator.SenderAdapter;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class BackgroundPicturePane.
  */
-public class BackgroundPicturePane extends TitledPane {
-
-	private Sender sender = new SenderAdapter();
+public class BackgroundPicturePane extends AbstractTitledPane {
 
 	private String directoryName = "css";
 	private TextField directory = new TextField(directoryName);
@@ -80,20 +75,19 @@ public class BackgroundPicturePane extends TitledPane {
 
 	private CheckBox psychedelic = new CheckBox("Psychedelic");
 
+	private GridPane pane;
+
 	/**
 	 * Instantiates a new background picture pane.
 	 */
 	public BackgroundPicturePane() {
-		super();
+		super("Background Options");
 		init();
 	}
 
-	/**
-	 * Clear mediator objects.
-	 */
-	public void clearMediatorObjects() {
-		EntrainerMediator.getInstance().removeReceiver(this);
-		EntrainerMediator.getInstance().removeSender(sender);
+	@Override
+	protected Node getContentPane() {
+		return pane;
 	}
 
 	public boolean isFlashBackground() {
@@ -192,9 +186,7 @@ public class BackgroundPicturePane extends TitledPane {
 		if (b) rb.fire();
 	}
 
-	private void init() {
-		setText("Background Options");
-
+	protected void init() {
 		directory.setEditable(false);
 		picture.setEditable(false);
 
@@ -204,6 +196,7 @@ public class BackgroundPicturePane extends TitledPane {
 		setTooltips();
 		setWidths();
 		layoutComponents();
+		super.init();
 	}
 
 	private void setTooltips() {
@@ -224,7 +217,7 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void layoutComponents() {
-		GridPane pane = new GridPane();
+		pane = new GridPane();
 		pane.setPadding(new Insets(10));
 
 		int col = 0;
@@ -278,8 +271,10 @@ public class BackgroundPicturePane extends TitledPane {
 				noPic,
 				picker,
 				psychedelic);
-
-		setContent(pane);
+	}
+	
+	private void initRadioButton(RadioButton rb) {
+		setTextFill(rb);
 	}
 
 	private void setState() {
@@ -329,16 +324,22 @@ public class BackgroundPicturePane extends TitledPane {
 		HBox hbox = new HBox(10);
 
 		hbox.setAlignment(Pos.CENTER_RIGHT);
-		hbox.getChildren().addAll(new Label("Duration (sec)"), duration);
+		hbox.getChildren().addAll(createLabel("Duration (sec)"), duration);
 
 		return hbox;
+	}
+	
+	private Label createLabel(String text) {
+		Label label = new Label(text);
+		setTextFill(label);
+		return label;
 	}
 
 	private Node getTransitionPane() {
 		HBox hbox = new HBox(10);
 
 		hbox.setAlignment(Pos.CENTER_RIGHT);
-		hbox.getChildren().addAll(new Label("Transition (sec)"), transition);
+		hbox.getChildren().addAll(createLabel("Transition (sec)"), transition);
 
 		return hbox;
 	}
@@ -347,7 +348,7 @@ public class BackgroundPicturePane extends TitledPane {
 		HBox box = new HBox(10);
 
 		box.setAlignment(Pos.CENTER_RIGHT);
-		box.getChildren().addAll(new Label("Image File"), picture);
+		box.getChildren().addAll(createLabel("Image File"), picture);
 
 		return box;
 	}
@@ -356,7 +357,7 @@ public class BackgroundPicturePane extends TitledPane {
 		HBox box = new HBox(10);
 
 		box.setAlignment(Pos.CENTER_RIGHT);
-		box.getChildren().addAll(new Label("Image Directory"), directory);
+		box.getChildren().addAll(createLabel("Image Directory"), directory);
 
 		return box;
 	}
@@ -383,13 +384,15 @@ public class BackgroundPicturePane extends TitledPane {
 		staticPictureLock.setOnAction(e -> pictureLockClicked());
 
 		psychedelic.setOnAction(e -> psychedelicClicked());
-
-		expandedProperty().addListener(e -> setOpacity(isExpanded() ? 1 : 0.25));
 	}
 
 	private void psychedelicClicked() {
 		fireReceiverChangeEvent(psychedelic.isSelected(), MediatorConstants.IS_PSYCHEDELIC);
 		JFXUtils.runLater(() -> setState());
+		if(!psychedelic.isSelected()) {
+			Color c = picker.getValue();
+			if(c != null)	JFXUtils.runLater(() -> setBackgroundColour(c));
+		}
 	}
 
 	private void pictureLockClicked() {
@@ -404,6 +407,11 @@ public class BackgroundPicturePane extends TitledPane {
 		dynamic.setToggleGroup(picGroup);
 		staticPic.setToggleGroup(picGroup);
 		noPic.setToggleGroup(picGroup);
+		
+		initRadioButton(dynamic);
+		initRadioButton(staticPic);
+		initRadioButton(noPic);
+		
 		dynamic.setSelected(true);
 		JFXUtils.runLater(() -> setState());
 	}
@@ -608,22 +616,6 @@ public class BackgroundPicturePane extends TitledPane {
 		pictureName = pic.getAbsolutePath();
 
 		picture.setText(pic.getName());
-	}
-
-	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
-	}
-
-	private void fireReceiverChangeEvent(java.awt.Color value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
-	}
-
-	private void fireReceiverChangeEvent(String value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
-	}
-
-	private void fireReceiverChangeEvent(double value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
 
 }

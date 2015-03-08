@@ -26,28 +26,23 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TitledPane;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.InnerShadow;
-import javafx.scene.effect.Reflection;
 import javafx.scene.layout.GridPane;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
-import net.sourceforge.entrainer.mediator.Sender;
-import net.sourceforge.entrainer.mediator.SenderAdapter;
 import net.sourceforge.entrainer.sound.MasterLevelController;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class PinkPanningPane.
  */
-public class PinkPanningPane extends TitledPane {
+public class PinkPanningPane extends AbstractTitledPane {
 
 	/** The Constant CSS_ID. */
 	public static final String CSS_ID = "pink-panning-pane";
@@ -60,8 +55,6 @@ public class PinkPanningPane extends TitledPane {
 
 	private Label amplitudeValue = new Label("100");
 	private Label multipleValue = new Label("1.00");
-
-	private Sender sender = new SenderAdapter();
 
 	private GridPane gridPane = new GridPane();
 
@@ -81,16 +74,20 @@ public class PinkPanningPane extends TitledPane {
 	 *          the show sliders
 	 */
 	public PinkPanningPane(boolean showSliders) {
-		super();
+		super("Pink Noise Pan Options");
 		init(showSliders);
+	}
+
+	@Override
+	protected Node getContentPane() {
+		return gridPane;
 	}
 
 	/**
 	 * Clear mediator objects.
 	 */
 	public void clearMediatorObjects() {
-		EntrainerMediator.getInstance().removeReceiver(this);
-		EntrainerMediator.getInstance().removeSender(sender);
+		super.clearMediatorObjects();
 		masterLevelController.clearMediator();
 	}
 
@@ -108,16 +105,6 @@ public class PinkPanningPane extends TitledPane {
 
 	private void init(boolean showSliders) {
 		setId(CSS_ID);
-		setContent(gridPane);
-		setText("Pink Noise Pan Options");
-
-		expandedProperty().addListener(new InvalidationListener() {
-
-			@Override
-			public void invalidated(Observable arg0) {
-				setOpacity(isExpanded() ? 1 : 0.25);
-			}
-		});
 
 		initMediator();
 
@@ -149,10 +136,11 @@ public class PinkPanningPane extends TitledPane {
 			addSlider("Pan Amplitude", amplitude, amplitudeValue, 1);
 			addSlider("Entrainer Multiple", multiple, multipleValue, 2);
 		}
+		
+		super.init();
 	}
 
 	private void initMediator() {
-		EntrainerMediator.getInstance().addSender(sender);
 		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
 
 			@Override
@@ -184,14 +172,18 @@ public class PinkPanningPane extends TitledPane {
 
 	private void addSlider(String label, Slider slider, Label value, int row) {
 		slider.setId(label);
-		gridPane.add(new Label(label), 0, row);
+		Label title = new Label(label);
+		setTextFill(title);
+		setTextFill(value);
+		gridPane.add(title, 0, row);
 		gridPane.add(slider, 1, row);
 		gridPane.add(value, 2, row);
 	}
 
 	private void initSlider(final Slider slider, final Label label, final DecimalFormat format,
 			final MediatorConstants event) {
-		slider.setEffect(new Blend(BlendMode.COLOR_BURN, new InnerShadow(), new Reflection()));
+		setTextFill(label);
+		slider.setEffect(new InnerShadow());
 
 		slider.setMinWidth(300);
 
@@ -208,14 +200,6 @@ public class PinkPanningPane extends TitledPane {
 
 		label.setText(format.format(slider.getValue()));
 		fireReceiverChangeEvent(slider.getValue(), event);
-	}
-
-	private void fireReceiverChangeEvent(double value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
-	}
-
-	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
 
 	/**

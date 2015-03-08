@@ -18,15 +18,13 @@
  */
 package net.sourceforge.entrainer.gui.jfx;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer;
@@ -35,32 +33,23 @@ import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
-import net.sourceforge.entrainer.mediator.Sender;
-import net.sourceforge.entrainer.mediator.SenderAdapter;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class ShimmerOptionsPane.
  */
-public class ShimmerOptionsPane extends TitledPane {
+public class ShimmerOptionsPane extends AbstractTitledPane {
 
 	private ComboBox<String> shimmers = new ComboBox<String>();
-	private Sender sender = new SenderAdapter();
 	private CheckBox shimmer = new CheckBox("Shimmer");
+	private HBox fp;
 
 	/**
 	 * Instantiates a new shimmer options pane.
 	 */
 	public ShimmerOptionsPane() {
+		super("Shimmer Options");
 		init();
-	}
-
-	/**
-	 * Clear mediator objects.
-	 */
-	public void clearMediatorObjects() {
-		EntrainerMediator.getInstance().removeReceiver(this);
-		EntrainerMediator.getInstance().removeSender(sender);
 	}
 
 	/**
@@ -92,29 +81,19 @@ public class ShimmerOptionsPane extends TitledPane {
 		setToolTip(toolTip, shimmer);
 	}
 
-	private void init() {
+	protected void init() {
 		initMediator();
 		setText("Shimmer Options");
 
 		shimmers.getItems().addAll(ShimmerRegister.getShimmerNames());
 		initCheckBox(shimmer, MediatorConstants.IS_SHIMMER);
 
-		HBox fp = new HBox();
+		fp = new HBox();
 		HBox.setMargin(shimmer, new Insets(5, 15, 5, 15));
 		HBox.setMargin(shimmers, new Insets(0, 5, 0, 5));
 		fp.setPadding(new Insets(10));
 		fp.getChildren().add(shimmer);
 		fp.getChildren().add(shimmers);
-
-		setContent(fp);
-
-		expandedProperty().addListener(new InvalidationListener() {
-
-			@Override
-			public void invalidated(Observable arg0) {
-				setOpacity(isExpanded() ? 1 : 0.25);
-			}
-		});
 
 		shimmers.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
@@ -123,6 +102,7 @@ public class ShimmerOptionsPane extends TitledPane {
 				fireShimmerSelected(ShimmerRegister.getShimmer(shimmers.getValue()));
 			}
 		});
+		super.init();
 	}
 
 	private void setSelected(final boolean selected, final CheckBox checkBox) {
@@ -156,18 +136,12 @@ public class ShimmerOptionsPane extends TitledPane {
 		});
 	}
 
-	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
-	}
-
 	private void fireShimmerSelected(AbstractShimmer<?> shimmer) {
 		if (shimmer == null) return;
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, shimmer.toString(),
-				MediatorConstants.SHIMMER_RECTANGLE));
+		fireReceiverChangeEvent(shimmer.toString(), MediatorConstants.SHIMMER_RECTANGLE);
 	}
 
 	private void initMediator() {
-		EntrainerMediator.getInstance().addSender(sender);
 		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
 
 			@Override
@@ -211,6 +185,11 @@ public class ShimmerOptionsPane extends TitledPane {
 	 */
 	public ComboBox<String> getShimmers() {
 		return shimmers;
+	}
+
+	@Override
+	protected Node getContentPane() {
+		return fp;
 	}
 
 }

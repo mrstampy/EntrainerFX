@@ -38,7 +38,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
@@ -51,29 +50,26 @@ import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
-import net.sourceforge.entrainer.mediator.Sender;
-import net.sourceforge.entrainer.mediator.SenderAdapter;
 import net.sourceforge.entrainer.xml.Settings;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class AnimationPane.
  */
-public class AnimationPane extends TitledPane {
-
-	private Sender sender = new SenderAdapter();
+public class AnimationPane extends AbstractTitledPane {
 
 	private ComboBox<JFXEntrainerAnimation> animations = new ComboBox<JFXEntrainerAnimation>();
 	private CheckBox animation = new CheckBox("Run Animations");
 	private CheckBox useDesktopAsBackground = new CheckBox("Use Desktop Background");
 	private TextField animationBackground = new TextField();
 	private boolean comboBoxInited = false;
+	private FlowPane fp;
 
 	/**
 	 * Instantiates a new animation pane.
 	 */
 	public AnimationPane() {
-		super();
+		super("Animation Options");
 		init();
 	}
 
@@ -85,14 +81,6 @@ public class AnimationPane extends TitledPane {
 	 */
 	public void setAnimationSelected(boolean selected) {
 		setSelected(selected, animation);
-	}
-
-	/**
-	 * Clear mediator objects.
-	 */
-	public void clearMediatorObjects() {
-		EntrainerMediator.getInstance().removeReceiver(this);
-		EntrainerMediator.getInstance().removeSender(sender);
 	}
 
 	/**
@@ -159,9 +147,10 @@ public class AnimationPane extends TitledPane {
 		return useDesktopAsBackground;
 	}
 
-	private void init() {
+	protected void init() {
 		initMediator();
 		initGui();
+		super.init();
 	}
 
 	private void initGui() {
@@ -203,7 +192,7 @@ public class AnimationPane extends TitledPane {
 
 		initCheckBox(animation, MediatorConstants.IS_ANIMATION);
 
-		FlowPane fp = new FlowPane();
+		fp = new FlowPane();
 		fp.setPadding(new Insets(10));
 		fp.setHgap(10);
 		fp.setVgap(10);
@@ -211,15 +200,11 @@ public class AnimationPane extends TitledPane {
 		fp.getChildren().add(animations);
 		fp.getChildren().add(getVBox());
 
-		setContent(fp);
-		setText("Animation Options");
-
 		expandedProperty().addListener(new InvalidationListener() {
 
 			@Override
 			public void invalidated(Observable arg0) {
 				refreshAnimations();
-				setOpacity(isExpanded() ? 1 : 0.25);
 			}
 		});
 	}
@@ -291,6 +276,7 @@ public class AnimationPane extends TitledPane {
 	private HBox getAnimationBackground() {
 		HBox hbox = new HBox();
 		Label label = new Label("Select Background Picture");
+		setTextFill(label);
 		HBox.setMargin(label, new Insets(0, 5, 5, 5));
 
 		hbox.getChildren().add(label);
@@ -321,7 +307,6 @@ public class AnimationPane extends TitledPane {
 	}
 
 	private void initMediator() {
-		EntrainerMediator.getInstance().addSender(sender);
 		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
 
 			@Override
@@ -413,16 +398,15 @@ public class AnimationPane extends TitledPane {
 	}
 
 	private void fireDesktopBackground() {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, useDesktopAsBackground.isSelected(),
-				ANIMATION_DESKTOP_BACKGROUND));
+		fireReceiverChangeEvent(useDesktopAsBackground.isSelected(), ANIMATION_DESKTOP_BACKGROUND);
 	}
 
 	private void fireAnimationSelection(String name) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, name, ANIMATION_PROGRAM));
+		fireReceiverChangeEvent(name, ANIMATION_PROGRAM);
 	}
 
 	private void fireBackgroundSelection(String name) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, name, ANIMATION_BACKGROUND));
+		fireReceiverChangeEvent(name, ANIMATION_BACKGROUND);
 	}
 
 	private void initCheckBox(final CheckBox checkBox, final MediatorConstants parm) {
@@ -435,8 +419,9 @@ public class AnimationPane extends TitledPane {
 		});
 	}
 
-	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
+	@Override
+	protected Node getContentPane() {
+		return fp;
 	}
 
 }

@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -127,6 +128,8 @@ public class EntrainerBackground {
 
 	private boolean psychedelic;
 
+	private Future<?> flashFuture;
+
 	/**
 	 * Instantiates a new variable background.
 	 */
@@ -143,6 +146,7 @@ public class EntrainerBackground {
 	}
 
 	private void init() {
+		killCurrent();
 		pictureNames.clear();
 		loadFromDirectory();
 		JFXUtils.runLater(() -> initContent());
@@ -241,6 +245,14 @@ public class EntrainerBackground {
 		current.setScaleY(1);
 	}
 
+	private void killCurrent() {
+		clearFutures();
+		
+		if(current != null) current.setOpacity(0);
+		if(old != null) old.setOpacity(0);
+		if(flashFuture != null) flashFuture.cancel(true);
+	}
+
 	private void setFadeInImage() {
 		int idx = rand.nextInt(pictureNames.size());
 
@@ -325,7 +337,6 @@ public class EntrainerBackground {
 				case STATIC_BACKGROUND:
 					if (isStatic()) return;
 					mode = BackgroundMode.STATIC;
-					clearFutures();
 					JFXUtils.runLater(() -> evaluateStaticBackground(true));
 					break;
 				case DYNAMIC_BACKGROUND:
@@ -336,7 +347,6 @@ public class EntrainerBackground {
 				case NO_BACKGROUND:
 					if (isNoBackground()) return;
 					mode = BackgroundMode.NO_BACKGROUND;
-					clearFutures();
 					JFXUtils.runLater(() -> clearBackground());
 					break;
 				case NO_BACKGROUND_COLOUR:
@@ -349,7 +359,6 @@ public class EntrainerBackground {
 				case BACKGROUND_PIC_DIR:
 					directoryName = e.getStringValue();
 					if (isDynamic()) {
-						clearFutures();
 						JFXUtils.runLater(() -> init());
 					} else {
 						pictureNames.clear();
@@ -392,6 +401,7 @@ public class EntrainerBackground {
 	}
 
 	private void clearBackground() {
+		killCurrent();
 		if (isShowBackgroundFill()) showBackgroundFill();
 	}
 
@@ -436,6 +446,8 @@ public class EntrainerBackground {
 			log.error("Unexpected exception", e);
 			return;
 		}
+		
+		killCurrent();
 
 		clearPictures();
 
@@ -455,7 +467,7 @@ public class EntrainerBackground {
 	}
 
 	private void startTransition() {
-		flashSvc.execute(() -> transition(isNoBackground() ? rect : current));
+		flashFuture = flashSvc.submit(() -> transition(isNoBackground() ? rect : current));
 	}
 
 	private void transition(Node background) {
