@@ -190,7 +190,7 @@ public class EntrainerFX extends JFrame {
 	private GridPane gp = new GridPane();
 	private JFXPanel mainPanel;
 	// private ImageView background = new ImageView();
-	private VariableBackground background = new VariableBackground();
+	private EntrainerBackground background = new EntrainerBackground();
 	private PinkPanningPane pinkPanningPane = new PinkPanningPane();
 	private AnimationPane animations = new AnimationPane();
 	private BackgroundPicturePane pictures = new BackgroundPicturePane();

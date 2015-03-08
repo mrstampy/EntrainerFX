@@ -62,10 +62,10 @@ import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class VariableBackground.
+ * The Class EntrainerBackground.
  */
-public class VariableBackground {
-	private static final Logger log = LoggerFactory.getLogger(VariableBackground.class);
+public class EntrainerBackground {
+	private static final Logger log = LoggerFactory.getLogger(EntrainerBackground.class);
 
 	private static String[] picSuffixes = { ".jpg", ".JPG", ".png", ".PNG", ".gif", ".GIF", ".jpeg", ".JPEG", ".bmp",
 			".BMP" };
@@ -128,7 +128,7 @@ public class VariableBackground {
 	/**
 	 * Instantiates a new variable background.
 	 */
-	public VariableBackground() {
+	public EntrainerBackground() {
 		initMediator();
 	}
 
