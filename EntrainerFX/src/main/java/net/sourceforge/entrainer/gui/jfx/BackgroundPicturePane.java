@@ -496,12 +496,14 @@ public class BackgroundPicturePane extends TitledPane {
 		setSpinnersDisabled(false);
 		setTextFieldsDisabled(false);
 		dynamic.setSelected(true);
+		picker.setDisable(true);
 	}
 
 	private void setStaticButton() {
 		setSpinnersDisabled(true);
 		setTextFieldsDisabled(false);
 		staticPic.setSelected(true);
+		picker.setDisable(true);
 	}
 
 	private void setTextFieldsDisabled(boolean b) {

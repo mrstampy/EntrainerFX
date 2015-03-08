@@ -422,6 +422,7 @@ public class XmlEditor extends JDialog {
 		pinkPanning.clearMediatorObjects();
 		shimmers.clearMediatorObjects();
 		pics.clearMediatorObjects();
+		background.clearMediatorObjects();
 	}
 
 	private void saveXmlFile(boolean isSave) throws ParserConfigurationException, SAXException, IOException {

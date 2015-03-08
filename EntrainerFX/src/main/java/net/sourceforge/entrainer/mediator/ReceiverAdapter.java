@@ -54,9 +54,7 @@ public abstract class ReceiverAdapter implements Receiver {
 	 *          the e
 	 */
 	public void receiverChangeEventPerformed(ReceiverChangeEvent e) {
-		if (!e.getSource().getClass().equals(getSource().getClass())) {
-			processReceiverChangeEvent(e);
-		}
+		processReceiverChangeEvent(e);
 	}
 
 	/**

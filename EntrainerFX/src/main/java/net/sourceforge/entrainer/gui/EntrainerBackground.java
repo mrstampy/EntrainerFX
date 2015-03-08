@@ -132,6 +132,14 @@ public class EntrainerBackground {
 		initMediator();
 	}
 
+	/**
+	 * Clear mediator objects.
+	 */
+	public void clearMediatorObjects() {
+		EntrainerMediator.getInstance().removeReceiver(this);
+		EntrainerMediator.getInstance().removeSender(sender);
+	}
+
 	private void init() {
 		pictureNames.clear();
 		loadFromDirectory();
@@ -397,7 +405,7 @@ public class EntrainerBackground {
 	}
 
 	private void evaluateStaticBackground(boolean useCurrent) {
-		if (!isStatic()) return;
+		if (!isStatic() || backgroundPic == currentFile) return;
 
 		if (useCurrent && !staticPictureLock && currentFile != null) {
 			backgroundPic = currentFile;
