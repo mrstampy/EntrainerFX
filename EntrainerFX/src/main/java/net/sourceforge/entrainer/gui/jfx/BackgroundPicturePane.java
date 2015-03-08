@@ -76,7 +76,7 @@ public class BackgroundPicturePane extends TitledPane {
 	private CheckBox flashBackground = new CheckBox("Flash Background");
 
 	private CheckBox staticPictureLock = new CheckBox("Lock Picture");
-	
+
 	private CheckBox psychedelic = new CheckBox("Psychedelic");
 
 	/**
@@ -134,7 +134,7 @@ public class BackgroundPicturePane extends TitledPane {
 	public Color getBackgroundColour() {
 		return picker.getValue();
 	}
-	
+
 	public boolean isPsychedelic() {
 		return psychedelic.isSelected();
 	}
@@ -180,7 +180,7 @@ public class BackgroundPicturePane extends TitledPane {
 	public void setBackgroundColor(Color c) {
 		picker.setValue(c);
 	}
-	
+
 	public void setPsychedelic(boolean b) {
 		psychedelic.setSelected(b);
 		setNoPicState();
@@ -322,7 +322,7 @@ public class BackgroundPicturePane extends TitledPane {
 		flashBackground.setOnAction(e -> flashBackgroundClicked());
 
 		staticPictureLock.setOnAction(e -> pictureLockClicked());
-		
+
 		psychedelic.setOnAction(e -> psychedelicClicked());
 
 		expandedProperty().addListener(e -> setOpacity(isExpanded() ? 1 : 0.25));
@@ -332,7 +332,7 @@ public class BackgroundPicturePane extends TitledPane {
 		fireReceiverChangeEvent(psychedelic.isSelected(), MediatorConstants.IS_PSYCHEDELIC);
 		setNoPicState();
 	}
-	
+
 	private void setNoPicState() {
 		picker.setDisable(psychedelic.isSelected() || !noPic.isSelected());
 		psychedelic.setDisable(!noPic.isSelected());
@@ -496,7 +496,7 @@ public class BackgroundPicturePane extends TitledPane {
 					JFXUtils.runLater(() -> staticPictureLock.setSelected(e.getBooleanValue()));
 					break;
 				case IS_PSYCHEDELIC:
-					if(psychedelic.isSelected() == e.getBooleanValue()) return;
+					if (psychedelic.isSelected() == e.getBooleanValue()) return;
 					JFXUtils.runLater(() -> setPsychedelic(e.getBooleanValue()));
 				default:
 					break;

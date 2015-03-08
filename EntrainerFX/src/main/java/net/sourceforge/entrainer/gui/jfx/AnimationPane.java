@@ -154,7 +154,7 @@ public class AnimationPane extends TitledPane {
 	public CheckBox getAnimation() {
 		return animation;
 	}
-	
+
 	public CheckBox getUseDesktopAsBackground() {
 		return useDesktopAsBackground;
 	}

@@ -30,7 +30,6 @@ import java.util.List;
 
 import net.sourceforge.entrainer.gui.AnimationWindow;
 import net.sourceforge.entrainer.gui.EntrainerFX;
-import net.sourceforge.entrainer.gui.FlashPanel;
 import net.sourceforge.entrainer.gui.jfx.animation.JFXEntrainerAnimation;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.guitools.MigHelper;
@@ -45,7 +44,7 @@ import net.sourceforge.entrainer.guitools.MigHelper;
  * 
  * {@link AnimationWindow} calls the <code>moveShape(Graphics2D, Shape);</code>
  * method twice for each Hz of the entrainment frequency. This is analogous to
- * how the {@link FlashPanel} flashes, and facilitates smoother animation.<br>
+ * how the EntrainerBackground flashes, and facilitates smoother animation.<br>
  * <br>
  * 
  * {@link EntrainerAnimation} has available all current values ie. amplitude,

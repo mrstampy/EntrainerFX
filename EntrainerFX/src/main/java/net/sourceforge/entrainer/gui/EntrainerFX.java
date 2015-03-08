@@ -89,7 +89,6 @@ import net.sourceforge.entrainer.esp.EspConnectionRegister;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
 import net.sourceforge.entrainer.gui.jfx.EntrainerFXSplash;
-import net.sourceforge.entrainer.gui.jfx.FlashPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.gui.jfx.PinkPanningPane;
 import net.sourceforge.entrainer.gui.jfx.ShimmerOptionsPane;
@@ -147,19 +146,16 @@ import com.github.mrstampy.esplab.EspPowerLabWindow;
  * @author burton
  */
 public class EntrainerFX extends JFrame {
-	private static final int MIN_HEIGHT = 1000;
+	private static final int MIN_HEIGHT = 900;
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(EntrainerFX.class);
 
 	// JSyn classes
 	private SoundControl control;
 
-	private FlashPanel messagePanel = new FlashPanel();
-
 	// Button controls
 	private SoundControlPane soundControlPane = new SoundControlPane();
 	private SliderControlPane sliderControlPane = new SliderControlPane();
-	private FlashPane checkBoxPane = new FlashPane();
 
 	private IntervalMenu intervalMenu;
 
@@ -341,7 +337,6 @@ public class EntrainerFX extends JFrame {
 		setPreferredSize(new Dimension((int) gp.getWidth() + 10, MIN_HEIGHT));
 		setSize(getPreferredSize());
 		background.setDimension(gp.getWidth() + 10, MIN_HEIGHT);
-		messagePanel.setWidth(gp.getWidth() - 15);
 		GuiUtil.centerOnScreen(EntrainerFX.this);
 		unexpandTitledPanes();
 		return;
@@ -352,7 +347,6 @@ public class EntrainerFX extends JFrame {
 
 			@Override
 			public void run() {
-				checkBoxPane.setExpanded(false);
 				pinkPanningPane.setExpanded(false);
 				animations.setExpanded(false);
 				shimmerOptions.setExpanded(false);
@@ -548,8 +542,6 @@ public class EntrainerFX extends JFrame {
 		soundControlPane.setStopToolTip("Stop Entrainment");
 		soundControlPane.setPauseToolTip("Pause/Resume an Entrainer Program");
 
-		checkBoxPane.setPsychedelicToolTip("Cause the Flashing Colour to Randomly Change");
-		checkBoxPane.setFlashToolTip("Flash Colours at the Chosen Entrainment Frequency");
 		animations.setAnimationToolTip("Run Animation During Entrainment Session");
 		shimmerOptions.setShimmerToolTip("Adds a shimmer effect to the application");
 	}
@@ -1340,15 +1332,6 @@ public class EntrainerFX extends JFrame {
 						recordClicked();
 					}
 				});
-
-		checkBoxPane.getFlash().addEventHandler(javafx.event.ActionEvent.ACTION,
-				new EventHandler<javafx.event.ActionEvent>() {
-
-					@Override
-					public void handle(javafx.event.ActionEvent arg0) {
-						flashClicked();
-					}
-				});
 	}
 
 	private void recordClicked() {
@@ -1434,11 +1417,6 @@ public class EntrainerFX extends JFrame {
 		});
 
 		return wavChooser;
-	}
-
-	private void flashClicked() {
-		fireReceiverChangeEvent(checkBoxPane.getFlash().isSelected() && !soundControlPane.getStop().isDisabled(),
-				START_FLASHING);
 	}
 
 	private void stopPressed() {
@@ -1648,11 +1626,7 @@ public class EntrainerFX extends JFrame {
 		GridPane.setValignment(sliderControlPane, VPos.BOTTOM);
 
 		int v = 1;
-		GridPane.setValignment(messagePanel, VPos.BOTTOM);
-		GridPane.setFillWidth(messagePanel, true);
-		GridPane.setConstraints(messagePanel, 0, v++, 2, 1);
 		GridPane.setConstraints(pictures, 0, v++, 2, 1);
-		GridPane.setConstraints(checkBoxPane, 0, v++, 2, 1);
 		GridPane.setConstraints(pinkPanningPane, 0, v++, 2, 1);
 		GridPane.setConstraints(animations, 0, v++, 2, 1);
 		GridPane.setConstraints(shimmerOptions, 0, v++, 2, 1);
@@ -1661,9 +1635,7 @@ public class EntrainerFX extends JFrame {
 		gp.setPadding(new Insets(5));
 		gp.getChildren().addAll(soundControlPane,
 				sliderControlPane,
-				checkBoxPane,
 				pinkPanningPane,
-				messagePanel,
 				animations,
 				shimmerOptions,
 				pictures,

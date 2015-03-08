@@ -124,7 +124,7 @@ public class EntrainerBackground {
 	private Map<Integer, ScheduledFuture<?>> futures = new ConcurrentHashMap<>();
 
 	private boolean ptRunning;
-	
+
 	private boolean psychedelic;
 
 	/**
@@ -257,8 +257,8 @@ public class EntrainerBackground {
 		current.setImage(currentImage);
 
 		scale();
-		
-		if(pane.getChildren().contains(current)) {
+
+		if (pane.getChildren().contains(current)) {
 			System.out.println("ping");
 			setFadeInImage();
 		}
@@ -404,16 +404,16 @@ public class EntrainerBackground {
 
 		if (shouldRun()) startTransition();
 	}
-	
+
 	private javafx.scene.paint.Color getInitialColour() {
 		return psychedelic || backgroundColor == null ? randomColour() : backgroundColor;
 	}
-	
+
 	private javafx.scene.paint.Color randomColour() {
 		double r = rand.nextDouble();
 		double g = rand.nextDouble();
 		double b = rand.nextDouble();
-		
+
 		return new javafx.scene.paint.Color(r, g, b, 1);
 	}
 
@@ -487,9 +487,9 @@ public class EntrainerBackground {
 		}
 
 		background.setOpacity(o);
-		
-		if(psychedelic && background instanceof Rectangle) {
-			((Rectangle)background).setFill(randomColour());
+
+		if (psychedelic && background instanceof Rectangle) {
+			((Rectangle) background).setFill(randomColour());
 		}
 	}
 

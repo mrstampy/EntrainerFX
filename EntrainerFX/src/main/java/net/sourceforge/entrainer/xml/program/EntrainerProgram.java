@@ -123,7 +123,7 @@ public class EntrainerProgram {
 
 	@XmlElement(name = "dynamic.transition")
 	private int dynamicTransition;
-	
+
 	@XmlElement
 	private boolean useDesktopAsBackground;
 

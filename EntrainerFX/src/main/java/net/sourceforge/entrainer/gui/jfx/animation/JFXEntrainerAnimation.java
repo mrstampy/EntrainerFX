@@ -28,8 +28,8 @@ import java.util.List;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import net.sourceforge.entrainer.gui.AnimationWindow;
+import net.sourceforge.entrainer.gui.EntrainerBackground;
 import net.sourceforge.entrainer.gui.EntrainerFX;
-import net.sourceforge.entrainer.gui.FlashPanel;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -41,7 +41,8 @@ import net.sourceforge.entrainer.gui.FlashPanel;
  * {@link JFXAnimationWindow} calls the
  * <code>moveAnimationRectangle2D(GraphicsContext, AnimationRectangle2D);</code>
  * method twice for each Hz of the entrainment frequency. This is analogous to
- * how the {@link FlashPanel} flashes, and facilitates smoother animation.<br>
+ * how the {@link EntrainerBackground} flashes, and facilitates smoother
+ * animation.<br>
  * <br>
  * {@link JFXEntrainerAnimation} has available all current values ie. amplitude,
  * entrainment frequency etc. to its subclasses. Consequently animation can

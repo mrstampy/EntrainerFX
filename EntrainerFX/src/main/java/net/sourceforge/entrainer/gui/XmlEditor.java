@@ -31,7 +31,6 @@ import static net.sourceforge.entrainer.gui.XmlEditorConstants.XEC_UNITS_NAME;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_BACKGROUND;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_PROGRAM;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_ANIMATION;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_FLASH;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_PSYCHEDELIC;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_SHIMMER;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.MESSAGE;
@@ -43,7 +42,6 @@ import static net.sourceforge.entrainer.xml.program.EntrainerProgramUtil.marshal
 import static net.sourceforge.entrainer.xml.program.EntrainerProgramUtil.unmarshal;
 
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,10 +51,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
@@ -69,8 +64,6 @@ import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -94,7 +87,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
-import net.sourceforge.entrainer.gui.jfx.FlashPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.gui.jfx.PinkPanningPane;
 import net.sourceforge.entrainer.gui.jfx.ShimmerOptionsPane;
@@ -145,7 +137,6 @@ public class XmlEditor extends JDialog {
 	private Calendar titleGenerator = Calendar.getInstance();
 
 	private AnimationPane animations = new AnimationPane();
-	private FlashPane checkBoxPane = new FlashPane();
 	private ShimmerOptionsPane shimmers = new ShimmerOptionsPane();
 	private PinkPanningPane pinkPanning = new PinkPanningPane(false);
 	private BackgroundPicturePane pics = new BackgroundPicturePane();
@@ -190,7 +181,6 @@ public class XmlEditor extends JDialog {
 			@Override
 			public void run() {
 				animations.setExpanded(false);
-				checkBoxPane.setExpanded(false);
 				shimmers.setExpanded(false);
 				pinkPanning.setExpanded(false);
 				pics.setExpanded(false);
@@ -243,9 +233,9 @@ public class XmlEditor extends JDialog {
 				}
 			}
 		});
-		
+
 		addWindowListener(new WindowAdapter() {
-			
+
 			@Override
 			public void windowOpened(WindowEvent e) {
 				JFXUtils.runLater(() -> resizeBackground());
@@ -418,7 +408,6 @@ public class XmlEditor extends JDialog {
 		xml.clearMediatorObjects();
 		intervalMenu.clearMediatorObjects();
 		animations.clearMediatorObjects();
-		checkBoxPane.clearMediatorObjects();
 		pinkPanning.clearMediatorObjects();
 		shimmers.clearMediatorObjects();
 		pics.clearMediatorObjects();
@@ -454,15 +443,13 @@ public class XmlEditor extends JDialog {
 			}
 		}
 		xml.setUnits(getUnits());
-		xml.setFlash(checkBoxPane.getFlash().isSelected());
-		xml.setPsychedelic(checkBoxPane.getPsychedelic().isSelected());
+		xml.setPsychedelic(pics.isPsychedelic());
 		xml.setAnimation(animations.getAnimation().isSelected());
 		xml.setPinkPan(pinkPanning.getPanCheck().isSelected());
 		xml.setShimmer(shimmers.getShimmer().isSelected());
 		xml.setAnimationBackground(animations.getAnimationBackgroundPicture());
 		xml.setAnimationProgram(animations.getSelectedAnimationName());
 		xml.setUseDesktopAsBackground(animations.getUseDesktopAsBackground().isSelected());
-		xml.setColour(JFXUtils.fromJFXColor((Color) checkBoxPane.getColourChooser().getTextFill()));
 		xml.setIntervals(intervalMenu.getLoadedIntervals());
 		xml.setShimmerName(shimmers.getShimmers().getValue());
 
@@ -572,11 +559,7 @@ public class XmlEditor extends JDialog {
 	}
 
 	private void initFields() {
-		checkBoxPane.getFlash().setSelected(xml.isFlash());
-		checkBoxPane.getPsychedelic().setSelected(xml.isPsychedelic());
-		// checkBoxPane.getFlashBackground().setSelected(xml.isFlashBackground());
-		fireReceiverChangeEvent(checkBoxPane.getFlash().isSelected(), IS_FLASH);
-		fireReceiverChangeEvent(checkBoxPane.getPsychedelic().isSelected(), IS_PSYCHEDELIC);
+		fireReceiverChangeEvent(xml.isPsychedelic(), IS_PSYCHEDELIC);
 
 		Color c = JFXUtils.toJFXColor(xml.getColour());
 		if (c != null) fireReceiverChangeEvent(c);
@@ -587,7 +570,7 @@ public class XmlEditor extends JDialog {
 			fireReceiverChangeEvent(xml.getAnimationProgram(), ANIMATION_PROGRAM);
 		}
 		animations.getUseDesktopAsBackground().setSelected(xml.isUseDesktopAsBackground());
-		
+
 		pinkPanning.getPanCheck().setSelected(xml.isPinkPan());
 		shimmers.getShimmer().setSelected(xml.isShimmer());
 		if (xml.getAnimationBackground() != null) {
@@ -598,35 +581,35 @@ public class XmlEditor extends JDialog {
 
 		pics.setFlashBackground(xml.isFlashBackground());
 		fireReceiverChangeEvent(pics.isFlashBackground(), MediatorConstants.FLASH_BACKGROUND);
-		
+
 		pics.setDuration(xml.getDynamicDuration());
 		fireReceiverChangeEvent(pics.getDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);
-		
+
 		pics.setTransition(xml.getDynamicTransition());
 		fireReceiverChangeEvent(pics.getTransition(), MediatorConstants.BACKGROUND_TRANSITION_SECONDS);
-		
+
 		pics.setBackgroundColor(JFXUtils.toJFXColor(xml.getBackgroundColour()));
 		fireReceiverChangeEvent(xml.getBackgroundColour(), MediatorConstants.NO_BACKGROUND_COLOUR);
 
 		pics.setPictureDirectory(xml.getPictureDirectory());
 		fireReceiverChangeEvent(pics.getPictureDirectory(), MediatorConstants.BACKGROUND_PIC_DIR);
-		
-		if(xml.getStaticPictureFile() != null) {
+
+		if (xml.getStaticPictureFile() != null) {
 			pics.setStaticPicture(xml.getStaticPictureFile());
 			fireReceiverChangeEvent(pics.getStaticPicture(), MediatorConstants.BACKGROUND_PIC);
 		}
-		
+
 		pics.setPictureLock(xml.isStaticPictureLock());
 		fireReceiverChangeEvent(pics.isPictureLock(), MediatorConstants.STATIC_PICTURE_LOCK);
-		
+
 		pics.setDynamic(xml.isDynamicPicture());
-		if(pics.isDynamic()) fireReceiverChangeEvent(true, MediatorConstants.DYNAMIC_BACKGROUND);
-		
+		if (pics.isDynamic()) fireReceiverChangeEvent(true, MediatorConstants.DYNAMIC_BACKGROUND);
+
 		pics.setStatic(xml.isStaticPicture());
-		if(pics.isStatic()) fireReceiverChangeEvent(true, MediatorConstants.STATIC_BACKGROUND);
-		
+		if (pics.isStatic()) fireReceiverChangeEvent(true, MediatorConstants.STATIC_BACKGROUND);
+
 		pics.setNoBackground(xml.isNoPicture());
-		if(pics.isNoBackground()) fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
+		if (pics.isNoBackground()) fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
 	}
 
 	private List<String> getIntervals(List<EntrainerProgramInterval> intervals) {
@@ -748,7 +731,7 @@ public class XmlEditor extends JDialog {
 	private void fireReceiverChangeEvent(int i, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, i, parm));
 	}
-	
+
 	private void fireReceiverChangeEvent(java.awt.Color c, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, c, parm));
 	}
@@ -782,8 +765,7 @@ public class XmlEditor extends JDialog {
 			public void testUnitEventPerformed(TestUnitEvent e) {
 				enableControls(e.isActionStop());
 
-				fireReceiverChangeEvent(checkBoxPane.getFlash().isSelected(), IS_FLASH);
-				fireReceiverChangeEvent(checkBoxPane.getPsychedelic().isSelected(), IS_PSYCHEDELIC);
+				fireReceiverChangeEvent(pics.isPsychedelic(), IS_PSYCHEDELIC);
 				fireReceiverChangeEvent(animations.getAnimation().isSelected(), IS_ANIMATION);
 				fireReceiverChangeEvent(pinkPanning.getPanCheck().isSelected(), PINK_PAN);
 				fireReceiverChangeEvent(shimmers.getShimmer().isSelected(), IS_SHIMMER);
@@ -887,11 +869,10 @@ public class XmlEditor extends JDialog {
 
 		int h = 0;
 		GridPane.setConstraints(pics, 0, h++);
-		GridPane.setConstraints(checkBoxPane, 0, h++);
 		GridPane.setConstraints(pinkPanning, 0, h++);
 		GridPane.setConstraints(animations, 0, h++);
 		GridPane.setConstraints(shimmers, 0, h++);
-		gp.getChildren().addAll(checkBoxPane, pinkPanning, animations, shimmers, pics);
+		gp.getChildren().addAll(pinkPanning, animations, shimmers, pics);
 
 		final URI css = JFXUtils.getEntrainerCSS();
 
