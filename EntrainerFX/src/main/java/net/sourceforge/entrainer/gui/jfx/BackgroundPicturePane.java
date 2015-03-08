@@ -62,7 +62,7 @@ public class BackgroundPicturePane extends TitledPane {
 
 	private RadioButton dynamic = new RadioButton("Dynamic");
 	private RadioButton staticPic = new RadioButton("Static");
-	private RadioButton noPic = new RadioButton("No Picture");
+	private RadioButton noPic = new RadioButton("No Image");
 
 	private ToggleGroup picGroup = new ToggleGroup();
 	private ColorPicker picker = new ColorPicker();
@@ -75,7 +75,7 @@ public class BackgroundPicturePane extends TitledPane {
 
 	private CheckBox flashBackground = new CheckBox("Flash Background");
 
-	private CheckBox staticPictureLock = new CheckBox("Lock Picture");
+	private CheckBox staticPictureLock = new CheckBox("Lock Image");
 
 	private CheckBox psychedelic = new CheckBox("Psychedelic");
 
@@ -206,15 +206,15 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void setTooltips() {
-		setTooltip(directory, "Single click to choose a new picture directory");
-		setTooltip(picture, "Single click to choose a new static picture");
-		setTooltip(duration, "Set the duration (seconds) a picture is displayed before it changes");
-		setTooltip(transition, "Set the transition time (seconds) to switch between pictures");
-		setTooltip(dynamic, "Random background picture from the chosen directory");
-		setTooltip(staticPic, "Single background picture");
-		setTooltip(noPic, "No background picture (choose colour)");
+		setTooltip(directory, "Single click to choose a new image directory");
+		setTooltip(picture, "Single click to choose a new static image");
+		setTooltip(duration, "Set the duration (seconds) a image is displayed before it changes");
+		setTooltip(transition, "Set the transition time (seconds) to switch between images");
+		setTooltip(dynamic, "Random background image from the chosen directory");
+		setTooltip(staticPic, "Single background image");
+		setTooltip(noPic, "No background image (choose colour)");
 		setTooltip(flashBackground, "Flash Background Image at the Chosen Entrainment Frequency");
-		setTooltip(staticPictureLock, "Prevents inadvertent static picture changing if selected");
+		setTooltip(staticPictureLock, "Prevents inadvertent static image changing if selected");
 		setTooltip(psychedelic, "Background uses random flashing colours if selected");
 	}
 
@@ -223,17 +223,55 @@ public class BackgroundPicturePane extends TitledPane {
 	}
 
 	private void layoutComponents() {
-		HBox box = new HBox(10);
+		VBox box = new VBox(10);
+		
+		box.setAlignment(Pos.TOP_LEFT);
 
-		box.getChildren().addAll(getRadioButtons(), getFilePane(), getSpinnerPane());
+		box.getChildren().addAll(flashBackground, getDynamic(), getStatic(), getNoBackground());
 
 		setContent(box);
 	}
 
-	private Node getRadioButtons() {
-		VBox box = new VBox(10);
+	private Node getNoBackground() {
+		HBox box = new HBox(10);
+		
+		VBox vb = new VBox(10);
+		
+		box.getChildren().addAll(picker, psychedelic);
+		
+		vb.getChildren().addAll(noPic, box);
+		
+		return vb;
+	}
 
-		box.getChildren().addAll(flashBackground, dynamic, staticPic, noPic, picker, psychedelic);
+	private Node getStatic() {
+		HBox box = new HBox(10);
+		
+		VBox vb = new VBox(10);
+		
+		box.getChildren().addAll(getPicFilePane(), staticPictureLock);
+		
+		vb.getChildren().addAll(staticPic, box);
+		
+		return vb;
+	}
+
+	private Node getDynamic() {
+		HBox box = new HBox(10);
+		
+		VBox vb = new VBox(10);
+		
+		box.getChildren().addAll(getDirectoryPane(), getTransitionDurationPane());
+		
+		vb.getChildren().addAll(dynamic, box);
+		
+		return vb;
+	}
+
+	private Node getTransitionDurationPane() {
+		HBox box = new HBox(10);
+		
+		box.getChildren().addAll(getDurationPane(), getTransitionPane());
 
 		return box;
 	}
@@ -246,14 +284,6 @@ public class BackgroundPicturePane extends TitledPane {
 		directory.setPrefWidth(200);
 
 		picker.setPrefWidth(100);
-	}
-
-	private Node getSpinnerPane() {
-		VBox box = new VBox(10);
-
-		box.getChildren().addAll(getDurationPane(), getTransitionPane());
-
-		return box;
 	}
 
 	private Node getDurationPane() {
@@ -274,21 +304,11 @@ public class BackgroundPicturePane extends TitledPane {
 		return hbox;
 	}
 
-	private Node getFilePane() {
-		VBox box = new VBox(10);
-
-		staticPictureLock.setTextAlignment(TextAlignment.LEFT);
-
-		box.getChildren().addAll(getDirectoryPane(), getPicFilePane(), staticPictureLock);
-
-		return box;
-	}
-
 	private Node getPicFilePane() {
 		HBox box = new HBox(10);
 
 		box.setAlignment(Pos.CENTER_RIGHT);
-		box.getChildren().addAll(new Label("Static Picture"), picture);
+		box.getChildren().addAll(new Label("Static Image"), picture);
 
 		return box;
 	}
@@ -297,7 +317,7 @@ public class BackgroundPicturePane extends TitledPane {
 		HBox box = new HBox(10);
 
 		box.setAlignment(Pos.CENTER_RIGHT);
-		box.getChildren().addAll(new Label("Picture Directory"), directory);
+		box.getChildren().addAll(new Label("Image Directory"), directory);
 
 		return box;
 	}
