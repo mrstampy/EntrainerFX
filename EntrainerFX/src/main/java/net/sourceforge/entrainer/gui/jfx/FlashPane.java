@@ -20,8 +20,6 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import java.awt.Color;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -85,14 +83,8 @@ public class FlashPane extends TitledPane {
 		initCheckBox(flash, MediatorConstants.IS_FLASH);
 		initCheckBox(psychedelic, MediatorConstants.IS_PSYCHEDELIC);
 
-		psychedelic.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				colourChooser.setDisable(psychedelic.isSelected());
-			}
-		});
-
+		psychedelic.setOnAction(e -> colourChooser.setDisable(psychedelic.isSelected()));
+		
 		HBox hbox = new HBox();
 		hbox.setPadding(new Insets(5, 5, 5, 20));
 
@@ -107,22 +99,9 @@ public class FlashPane extends TitledPane {
 
 		setContent(hbox);
 
-		expandedProperty().addListener(new InvalidationListener() {
+		expandedProperty().addListener(e -> setOpacity(isExpanded() ? 1 : 0.25));
 
-			@Override
-			public void invalidated(Observable arg0) {
-				setOpacity(isExpanded() ? 1 : 0.25);
-			}
-		});
-
-		colourChooser.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				chooseColour();
-			}
-
-		});
+		colourChooser.setOnAction(e -> chooseColour());
 	}
 
 	private void chooseColour() {
@@ -164,13 +143,12 @@ public class FlashPane extends TitledPane {
 				case IS_PSYCHEDELIC:
 					if (psychedelic.isSelected() == e.getBooleanValue()) return;
 					setPsychedelicSelected(e.getBooleanValue());
-					colourChooser.setDisable(!psychedelic.isSelected());
+					JFXUtils.runLater(() -> colourChooser.setDisable(e.getBooleanValue()));
 					break;
 				case FLASH_COLOUR:
 					javafx.scene.paint.Color c = JFXUtils.toJFXColor(e.getColourValue());
 					if (c.equals(colourChooser.getTextFill())) return;
-					colourChooser.setTextFill(c);
-					setColourChooserEffect();
+					JFXUtils.runLater(() -> flashColourEvent(c));
 					break;
 				default:
 					break;
@@ -182,15 +160,14 @@ public class FlashPane extends TitledPane {
 
 	}
 
-	private void fireReceiverChangeEvent(final Color value) {
-		JFXUtils.runLater(new Runnable() {
+	private void flashColourEvent(javafx.scene.paint.Color c) {
+		colourChooser.setTextFill(c);
+		setColourChooserEffect();
+	}
 
-			@Override
-			public void run() {
-				colourChooser.setTextFill(JFXUtils.toJFXColor(value));
-				setColourChooserEffect();
-			}
-		});
+	private void fireReceiverChangeEvent(final Color value) {
+		JFXUtils.runLater(() -> flashColourEvent(JFXUtils.toJFXColor(value)));
+
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value));
 	}
 
