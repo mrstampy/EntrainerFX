@@ -104,7 +104,7 @@ public class NeuralizerPane extends TitledPane {
 
 			@Override
 			public void invalidated(Observable arg0) {
-				setOpacity(isExpanded() ? 1 : 0.25);
+				setOpacity(isExpanded() ? 0.75 : 0.25);
 			}
 		});
 
