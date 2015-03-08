@@ -422,9 +422,11 @@ public class Settings {
 					break;
 				case NO_BACKGROUND_COLOUR:
 					Color cb = e.getColourValue();
-					setBackgroundRed(cb.getRed());
-					setBackgroundGreen(cb.getGreen());
-					setBackgroundBlue(cb.getBlue());
+					if (cb != null) {
+						setBackgroundRed(cb.getRed());
+						setBackgroundGreen(cb.getGreen());
+						setBackgroundBlue(cb.getBlue());
+					}
 					break;
 				case BACKGROUND_PIC:
 					setStaticPictureFile(e.getStringValue());

@@ -53,6 +53,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -157,7 +158,7 @@ public class XmlEditor extends JDialog {
 
 	private Sender sender = new SenderAdapter();
 	private JFXPanel panel = new JFXPanel();
-	private ImageView background = new ImageView();
+	private EntrainerBackground background = new EntrainerBackground();
 
 	private volatile boolean closing = false;
 
@@ -183,7 +184,6 @@ public class XmlEditor extends JDialog {
 		units.setPreferredSize(units.getSize());
 		setPreferredSize(EntrainerFX.getInstance().getSize());
 		super.pack();
-		if (background.getImage() != null) scaleBackground();
 		animations.setMinWidth(getWidth() - 10);
 		JFXUtils.runLater(new Runnable() {
 
@@ -194,23 +194,6 @@ public class XmlEditor extends JDialog {
 				shimmers.setExpanded(false);
 				pinkPanning.setExpanded(false);
 				pics.setExpanded(false);
-			}
-		});
-	}
-
-	private void scaleBackground() {
-		double backWidth = background.getImage().getWidth();
-		double backHeight = background.getImage().getHeight();
-		final double ratio = backWidth / backHeight;
-
-		final double newWidth = panel.getWidth() + 10;
-
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				background.setPreserveRatio(true);
-				background.setFitWidth(ratio < 1 ? newWidth : newWidth * ratio);
 			}
 		});
 	}
@@ -260,6 +243,18 @@ public class XmlEditor extends JDialog {
 				}
 			}
 		});
+		
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				JFXUtils.runLater(() -> resizeBackground());
+			}
+		});
+	}
+
+	private void resizeBackground() {
+		background.setDimension(panel.getWidth(), panel.getHeight());
 	}
 
 	private String getLocalDocAddress() {
@@ -598,16 +593,34 @@ public class XmlEditor extends JDialog {
 		if (xml.getShimmerName() != null) shimmers.getShimmers().setValue(xml.getShimmerName());
 
 		pics.setFlashBackground(xml.isFlashBackground());
+		fireReceiverChangeEvent(pics.isFlashBackground(), MediatorConstants.FLASH_BACKGROUND);
+		
 		pics.setDuration(xml.getDynamicDuration());
+		fireReceiverChangeEvent(pics.getDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);
+		
 		pics.setTransition(xml.getDynamicTransition());
+		fireReceiverChangeEvent(pics.getTransition(), MediatorConstants.BACKGROUND_TRANSITION_SECONDS);
+		
 		pics.setBackgroundColor(JFXUtils.toJFXColor(xml.getBackgroundColour()));
+		fireReceiverChangeEvent(xml.getBackgroundColour(), MediatorConstants.NO_BACKGROUND_COLOUR);
 
 		pics.setPictureDirectory(xml.getPictureDirectory());
+		fireReceiverChangeEvent(pics.getPictureDirectory(), MediatorConstants.BACKGROUND_PIC_DIR);
+		
 		pics.setStaticPicture(xml.getStaticPictureFile());
+		fireReceiverChangeEvent(pics.getStaticPicture(), MediatorConstants.BACKGROUND_PIC);
+		
 		pics.setPictureLock(xml.isStaticPictureLock());
+		fireReceiverChangeEvent(pics.isPictureLock(), MediatorConstants.STATIC_PICTURE_LOCK);
+		
 		pics.setDynamic(xml.isDynamicPicture());
+		if(pics.isDynamic()) fireReceiverChangeEvent(true, MediatorConstants.DYNAMIC_BACKGROUND);
+		
 		pics.setStatic(xml.isStaticPicture());
+		if(pics.isStatic()) fireReceiverChangeEvent(true, MediatorConstants.STATIC_BACKGROUND);
+		
 		pics.setNoBackground(xml.isNoPicture());
+		if(pics.isNoBackground()) fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
 	}
 
 	private List<String> getIntervals(List<EntrainerProgramInterval> intervals) {
@@ -719,12 +732,19 @@ public class XmlEditor extends JDialog {
 	}
 
 	private void fireReceiverChangeEvent(boolean b, MediatorConstants parm) {
-		ReceiverChangeEvent e = new ReceiverChangeEvent(this, b, parm);
-		sender.fireReceiverChangeEvent(e);
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, b, parm));
 	}
 
 	private void fireReceiverChangeEvent(String s, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, s, parm));
+	}
+
+	private void fireReceiverChangeEvent(int i, MediatorConstants parm) {
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, i, parm));
+	}
+	
+	private void fireReceiverChangeEvent(java.awt.Color c, MediatorConstants parm) {
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, c, parm));
 	}
 
 	private void setMessage(boolean isTerminalStart, boolean isStart) {
@@ -869,25 +889,13 @@ public class XmlEditor extends JDialog {
 
 		final URI css = JFXUtils.getEntrainerCSS();
 
-		Image image = null;
-		if (pics.getStaticPicture() != null) {
-			try {
-				image = new Image(new FileInputStream(pics.getStaticPicture()));
-			} catch (FileNotFoundException e) {
-				log.error("Unexpected exception", e);
-			}
-		}
-		if (image == null) image = EntrainerFX.getInstance().getBackgroundImage();
-		background.setImage(image);
-		background.setOpacity(0.25);
-
 		JFXUtils.runLater(new Runnable() {
 
 			@Override
 			public void run() {
 				Group group = new Group();
 
-				group.getChildren().addAll(background, gp);
+				group.getChildren().addAll(background.getPane(), gp);
 				Scene scene = new Scene(group);
 				if (css != null) scene.getStylesheets().add(css.toString());
 				panel.setScene(scene);

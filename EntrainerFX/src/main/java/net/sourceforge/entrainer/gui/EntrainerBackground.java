@@ -247,6 +247,11 @@ public class EntrainerBackground {
 		current.setImage(currentImage);
 
 		scale();
+		
+		if(pane.getChildren().contains(current)) {
+			System.out.println("ping");
+			setFadeInImage();
+		}
 
 		if (shouldRun()) startTransition();
 
