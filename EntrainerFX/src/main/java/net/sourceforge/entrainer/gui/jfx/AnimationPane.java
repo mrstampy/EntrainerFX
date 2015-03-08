@@ -189,6 +189,8 @@ public class AnimationPane extends AbstractTitledPane {
 				}
 			}
 		});
+		
+		setTextFill(useDesktopAsBackground);
 
 		initCheckBox(animation, MediatorConstants.IS_ANIMATION);
 
@@ -417,6 +419,7 @@ public class AnimationPane extends AbstractTitledPane {
 				fireReceiverChangeEvent(checkBox.isSelected(), parm);
 			}
 		});
+		setTextFill(checkBox);
 	}
 
 	@Override

@@ -13,27 +13,7 @@
  * The root element defines properties for all JavaFX components.
  */
 .root {
-/*	-fx-font: bold 12pt Monaco; */
-}
 
-/*
- * Properties for all check boxes
- */
-.check-box {
-	-fx-text-fill: FIREBRICK;
-	-fx-effect: dropshadow(one-pass-box , black , 3 , 0.0 , 1 , 0);
-}
-
-/*
- * Properties of the flashing panel.
- */
-#message-panel {
-	-fx-stroke: darkgrey;
-	-fx-stroke-type: outside;
-	-fx-stroke-width: 3;
-	-fx-arc-height: 20;
-	-fx-arc-width: 20;
-	-fx-effect: dropshadow(one-pass-box , black , 8 , 0.0 , 2 , 0);
 }
 
 /*
@@ -44,11 +24,4 @@
 	-fx-border-width: 3;
 	-fx-border-radius: 15;
 	-fx-effect: dropshadow(one-pass-box , black , 3 , 0.0 , 1 , 0);
-}
-
-/*
- * Properties for the check box panel.
- */
-#checkbox-pane {
-	
 }

@@ -137,6 +137,8 @@ public class PinkPanningPane extends AbstractTitledPane {
 			addSlider("Entrainer Multiple", multiple, multipleValue, 2);
 		}
 		
+		setTextFill(panCheck);
+		
 		super.init();
 	}
 

@@ -102,6 +102,9 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 				fireShimmerSelected(ShimmerRegister.getShimmer(shimmers.getValue()));
 			}
 		});
+		
+		setTextFill(shimmer);
+		
 		super.init();
 	}
 

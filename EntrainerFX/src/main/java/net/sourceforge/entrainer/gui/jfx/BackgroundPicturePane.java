@@ -196,6 +196,11 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setTooltips();
 		setWidths();
 		layoutComponents();
+		
+		setTextFill(flashBackground);
+		setTextFill(psychedelic);
+		setTextFill(staticPictureLock);
+		
 		super.init();
 	}
 
