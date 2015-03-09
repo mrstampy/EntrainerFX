@@ -892,7 +892,6 @@ public class EntrainerFX extends JFrame {
 		GuiUtil.changeLookAndFeel(className, themePack, this);
 		fireReceiverChangeEvent(className, MediatorConstants.LOOK_AND_FEEL);
 		fireReceiverChangeEvent(themePack, MediatorConstants.THEME_PACK);
-		pack();
 	}
 
 	private void fireReceiverChangeEvent(String value, MediatorConstants parm) {
