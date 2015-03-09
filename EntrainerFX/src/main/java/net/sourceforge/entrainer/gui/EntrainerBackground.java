@@ -402,12 +402,11 @@ public class EntrainerBackground {
 	}
 
 	private void clearBackground() {
-		killCurrent();
 		if (isShowBackgroundFill()) showBackgroundFill();
 	}
 
 	private void showBackgroundFill() {
-		clearPictures();
+		killCurrent();
 
 		rect = new Rectangle(pane.getWidth(), pane.getHeight(), getInitialColour());
 
