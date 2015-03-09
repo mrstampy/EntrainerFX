@@ -23,9 +23,9 @@
     <static.background>false</static.background>
     <no.background>false</no.background>
     <picture.directory>css</picture.directory>
-    <background.red>0</background.red>
-    <background.green>0</background.green>
-    <background.blue>0</background.blue>
+    <background.red>153</background.red>
+    <background.green>179</background.green>
+    <background.blue>255</background.blue>
     <dynamic.duration>10</dynamic.duration>
     <dynamic.transition>5</dynamic.transition>
     <splash.on.startup>true</splash.on.startup>
