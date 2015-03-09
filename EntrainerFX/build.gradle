@@ -57,6 +57,8 @@ dependencies {
 	compile 'javolution:javolution:5.5.1'
 	compile 'org.usb4java:usb4java:1.2.0'
 	compile 'org.usb4java:usb4java-javax:1.2.0'
+	compile 'org.rxtx:rxtx:2.1.7'
+	compile 'org.reactfx:reactfx:1.4.1'
 	
 	izpack 'org.codehaus.izpack:izpack-standalone-compiler:4.3.4'
 }

@@ -497,9 +497,9 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setSpinnersDisabled(true);
 		setTextFieldsDisabled(true);
 
-		fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
-
 		setBackgroundColour(picker.getValue());
+		
+		fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
 	}
 
 	private void setBackgroundColour(Color color) {

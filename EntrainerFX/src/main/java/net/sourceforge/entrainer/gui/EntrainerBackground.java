@@ -395,6 +395,8 @@ public class EntrainerBackground {
 
 	private void setBackgroundColor(Color colourValue) {
 		backgroundColor = JFXUtils.toJFXColor(colourValue);
+		
+		if(rect != null && rect.getFill().equals(colourValue)) return;
 
 		if (isShowBackgroundFill()) showBackgroundFill();
 	}
