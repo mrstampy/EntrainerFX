@@ -247,10 +247,10 @@ public class EntrainerBackground {
 
 	private void killCurrent() {
 		clearFutures();
-		
-		if(current != null) current.setOpacity(0);
-		if(old != null) old.setOpacity(0);
-		if(flashFuture != null) flashFuture.cancel(true);
+
+		if (current != null) current.setOpacity(0);
+		if (old != null) old.setOpacity(0);
+		if (flashFuture != null) flashFuture.cancel(true);
 	}
 
 	private void setFadeInImage() {
@@ -446,7 +446,7 @@ public class EntrainerBackground {
 			log.error("Unexpected exception", e);
 			return;
 		}
-		
+
 		killCurrent();
 
 		clearPictures();
@@ -490,6 +490,16 @@ public class EntrainerBackground {
 	}
 
 	private void invert(Node background) {
+		if (flashBackground) {
+			setBackgroundOpacity(background);
+		}
+
+		if (psychedelic && background instanceof Rectangle) {
+			((Rectangle) background).setFill(randomColour());
+		}
+	}
+
+	private void setBackgroundOpacity(Node background) {
 		double o = 0;
 
 		if (background instanceof ImageView) {
@@ -499,10 +509,6 @@ public class EntrainerBackground {
 		}
 
 		background.setOpacity(o);
-
-		if (psychedelic && background instanceof Rectangle) {
-			((Rectangle) background).setFill(randomColour());
-		}
 	}
 
 	private void reset(Node background) {
@@ -514,7 +520,7 @@ public class EntrainerBackground {
 	}
 
 	private boolean shouldRun() {
-		return running && flashBackground;
+		return running && (flashBackground || pane.getChildren().contains(rect));
 	}
 
 	/**
