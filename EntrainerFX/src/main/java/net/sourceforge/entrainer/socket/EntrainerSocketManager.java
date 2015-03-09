@@ -378,15 +378,6 @@ public class EntrainerSocketManager {
 					currentState.setStaticPictureLock(e.getBooleanValue());
 
 					break;
-				case START_FLASHING:
-					processing = currentState.getStartFlashing() == null
-							|| e.getBooleanValue() != currentState.getStartFlashing();
-					if (!processing) break;
-
-					message.setStartFlashing(e.getBooleanValue());
-					currentState.setStartFlashing(e.getBooleanValue());
-
-					break;
 				case IS_PSYCHEDELIC:
 					processing = currentState.getPsychedelic() == null || e.getBooleanValue() != currentState.getPsychedelic();
 					if (!processing) break;

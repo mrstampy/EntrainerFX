@@ -99,9 +99,6 @@ public enum MediatorConstants {
 	/** The start entrainment. */
 	START_ENTRAINMENT("Start Entrainment"),
 
-	/** The start flashing. */
-	START_FLASHING("Start Flashing"),
-
 	/** The flash background. */
 	FLASH_BACKGROUND("Flash Background"),
 

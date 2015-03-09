@@ -208,9 +208,6 @@ public class EntrainerStateMessage {
 	private Boolean startEntrainment;
 
 	@XmlElement
-	private Boolean startFlashing;
-
-	@XmlElement
 	private Boolean psychedelic;
 
 	@XmlElement
@@ -574,27 +571,6 @@ public class EntrainerStateMessage {
 	 */
 	public void setStartEntrainment(Boolean startEntrainment) {
 		this.startEntrainment = startEntrainment;
-	}
-
-	/**
-	 * Boolean to indicate/control the flashing of the message panel at the bottom
-	 * of Entrainer. Both {@link #getFlash()} and {@link #getStartFlashing()} must
-	 * be true for flashing to occur.
-	 *
-	 * @return the start flashing
-	 */
-	public Boolean getStartFlashing() {
-		return startFlashing;
-	}
-
-	/**
-	 * Sets the start flashing.
-	 *
-	 * @param startFlashing
-	 *          the new start flashing
-	 */
-	public void setStartFlashing(Boolean startFlashing) {
-		this.startFlashing = startFlashing;
 	}
 
 	/**

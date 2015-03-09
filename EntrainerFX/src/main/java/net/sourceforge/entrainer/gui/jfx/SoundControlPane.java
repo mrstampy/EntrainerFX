@@ -19,7 +19,6 @@
 package net.sourceforge.entrainer.gui.jfx;
 
 import static net.sourceforge.entrainer.mediator.MediatorConstants.START_ENTRAINMENT;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.START_FLASHING;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -91,7 +90,6 @@ public class SoundControlPane extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				fireReceiverChangeEvent(true, START_FLASHING);
 				fireReceiverChangeEvent(true, START_ENTRAINMENT);
 
 				setPlaying(true);
@@ -102,19 +100,9 @@ public class SoundControlPane extends VBox {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				fireReceiverChangeEvent(false, START_FLASHING);
 				fireReceiverChangeEvent(false, START_ENTRAINMENT);
 
 				setPlaying(false);
-			}
-		});
-
-		pause.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				boolean isNotSelected = !getPause().isSelected();
-				fireReceiverChangeEvent(isNotSelected, START_FLASHING);
 			}
 		});
 

@@ -270,10 +270,6 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 			fireReceiverChangeEvent(esm.getStartEntrainment(), MediatorConstants.START_ENTRAINMENT);
 		}
 
-		if (esm.getStartFlashing() != null) {
-			fireReceiverChangeEvent(esm.getStartFlashing(), MediatorConstants.START_FLASHING);
-		}
-
 		if (esm.getAmplitude() != null) {
 			fireReceiverChangeEvent(esm.getAmplitude(), MediatorConstants.AMPLITUDE);
 		}

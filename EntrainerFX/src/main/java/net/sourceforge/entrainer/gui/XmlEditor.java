@@ -36,7 +36,6 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_SHIMMER;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.MESSAGE;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_PAN;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.SHIMMER_RECTANGLE;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.START_FLASHING;
 import static net.sourceforge.entrainer.util.Utils.openBrowser;
 import static net.sourceforge.entrainer.xml.program.EntrainerProgramUtil.marshal;
 import static net.sourceforge.entrainer.xml.program.EntrainerProgramUtil.unmarshal;
@@ -65,7 +64,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -764,7 +762,6 @@ public class XmlEditor extends JDialog {
 				fireReceiverChangeEvent(shimmers.getShimmer().isSelected(), IS_SHIMMER);
 				String shimmer = shimmers.getShimmers().getValue();
 				if (shimmer != null) fireReceiverChangeEvent(shimmer, SHIMMER_RECTANGLE);
-				fireReceiverChangeEvent(e.isActionStart(), START_FLASHING);
 				setMessage(e.isTerminalStart(), e.isActionStart());
 			}
 		});

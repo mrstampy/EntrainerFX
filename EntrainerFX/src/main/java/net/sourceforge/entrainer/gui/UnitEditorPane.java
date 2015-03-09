@@ -25,7 +25,6 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_ENTRAINE
 import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_NOISE_AMPLITUDE;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_PAN_AMPLITUDE;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.START_ENTRAINMENT;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.START_FLASHING;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -232,7 +231,6 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 
 		fireReceiverChangeEvents(e.getUnitSetter());
 
-		fireReceiverChangeEvent(button.isSelected(), START_FLASHING);
 		fireReceiverChangeEvent(button.isSelected(), START_ENTRAINMENT);
 
 		for (TestUnitListener l : testListeners) {

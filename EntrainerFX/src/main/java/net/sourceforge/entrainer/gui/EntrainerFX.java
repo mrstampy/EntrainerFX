@@ -26,7 +26,6 @@ import static net.sourceforge.entrainer.gui.EntrainerConstants.NEW_XML_PROGRAM_M
 import static net.sourceforge.entrainer.gui.laf.LAFConstants.SKINNABLE_LAF_CLASS_NAME;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.MESSAGE;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.START_ENTRAINMENT;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.START_FLASHING;
 import static net.sourceforge.entrainer.util.Utils.openBrowser;
 
 import java.awt.AWTException;
@@ -378,7 +377,6 @@ public class EntrainerFX extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				fireReceiverChangeEvent(true, START_FLASHING);
 				fireReceiverChangeEvent(true, START_ENTRAINMENT);
 				playPressed();
 			}
@@ -391,7 +389,6 @@ public class EntrainerFX extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				fireReceiverChangeEvent(false, START_FLASHING);
 				fireReceiverChangeEvent(false, START_ENTRAINMENT);
 				stopPressed();
 			}
@@ -1695,7 +1692,6 @@ public class EntrainerFX extends JFrame {
 		sleeperManager.addSleeperManagerListener(new SleeperManagerListener() {
 			public void sleeperManagerEventPerformed(SleeperManagerEvent e) {
 				if (e.isStopped()) {
-					fireReceiverChangeEvent(false, START_FLASHING);
 					fireReceiverChangeEvent(false, START_ENTRAINMENT);
 					stopPressed();
 					soundControlPane.setPlaying(false);
