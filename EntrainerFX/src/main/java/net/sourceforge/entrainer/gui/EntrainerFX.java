@@ -146,7 +146,7 @@ import com.github.mrstampy.esplab.EspPowerLabWindow;
  * @author burton
  */
 public class EntrainerFX extends JFrame {
-	private static final int MIN_HEIGHT = 900;
+	private static final int MIN_HEIGHT = 950;
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(EntrainerFX.class);
 
