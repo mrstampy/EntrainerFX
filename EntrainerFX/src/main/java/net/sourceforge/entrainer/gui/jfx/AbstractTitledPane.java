@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 
 public abstract class AbstractTitledPane extends TitledPane {
 
-	private static final Color TEXT_FILL = Color.CORNSILK;
+	protected static final Color TEXT_FILL = Color.CORNSILK;
 
 	private Sender sender = new SenderAdapter();
 
