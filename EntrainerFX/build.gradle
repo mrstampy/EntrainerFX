@@ -15,7 +15,7 @@ apply plugin: 'com.bmuschko.izpack'
 apply plugin: 'maven'
 
 sourceCompatibility = 1.8
-version = '6.0'
+version = '5.1.0'
 
 configurations {
 	izpack
@@ -49,6 +49,14 @@ dependencies {
 	compile 'neuroph-core:neuroph-core:2.8.0'
 	compile 'com.netflix.rxjava:rxjava-core:0.17.5'
 	compile 'com.miglayout:miglayout-ideutil:5.0'
+	compile 'com.lmax:disruptor:3.3.2'
+	compile 'ch.qos.logback:logback-classic:1.1.2'
+	compile 'ch.qos.logback:logback-core:1.1.2'
+	compile 'org.apache.mina:mina-core:2.0.9'
+	compile 'org.apache.mina:mina-transport-serial:2.0.9'
+	compile 'javolution:javolution:5.5.1'
+	compile 'org.usb4java:usb4java:1.2.0'
+	compile 'org.usb4java:usb4java-javax:1.2.0'
 	
 	izpack 'org.codehaus.izpack:izpack-standalone-compiler:4.3.4'
 }

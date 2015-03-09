@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Language" content="en-us" />
+	
+<meta http-equiv="keywords" content="entrainer, java, sound, light, binaural beats, consciousness, entrainment">
+<meta http-equiv="description" content="Entrainer Index Page">
+
+<meta name="robots" content="index,follow" />
+
+<title>EntrainerFX: Java FX</title>
+
+<link href="mac.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="print.css" rel="stylesheet" type="text/css" media="print" />
+
+<!-- Piwik
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/entrainer/" : "http://apps.sourceforge.net/piwik/entrainer/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://apps.sourceforge.net/piwik/entrainer/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+End Piwik Tag -->
+
+</head>
+
+<body>
+<div id="wrapper">
+
+<div id="banner">
+	<p>entrainer.sourceforge.net</p>
+</div>
+
+<div id="nav-toplevel">
+
+	<div id="nav-meta">
+		<ul title="Top Level Navigation bar">
+			<li><a href="http://sourceforge.net/projects/entrainer" title="Sourceforge Project Page">Project Page</a></li>
+			<li><a href="mailto:burton@users.sourceforge.net" title="Contact">Contact</a></li>
+		</ul>
+	</div>
+  	
+</div>
+
+<div id="container">
+
+	<div id="content">
+
+    <center><img alt="Started Application" src="images/EntrainerFX.jpg"/></center>     
+    
+    	<h1>Entrainer FX Lite</h1>
+    		<p>A stripped down version of Entrainer FX - <a href="entrainerfx-lite.html" title="EntrainerFX Lite">EntrainerFX Lite</a> - is available for use on the web.
+    		A work in progress.</p>
+	
+		<h1>Entrainer FX Features - CSS control of the GUI</h1>
+			<p>The borders, the font, the colours and most strikingly the new background picture are all controlled by JavaFX's ability
+			to be configured via CSS.  This file resides as <b>EntrainerFX/css/entrainer.css</b> and is editable with any good text editor.
+			Those who do not know CSS may only wish to change the background picture.  This is accomplished by copying the picture to the css directory,
+			modifying the following in the entrainer.css file and restarting Entrainer:</p>
+			
+			<p/>
+			<code>
+#background-image {<br/>
+				-fx-image: url(<b>"my-new-picture.jpg"</b>);<br/>
+}
+			</code>
+			
+			<p>The images included with the Entrainer distribution are from <a href="http://www.freenaturepictures.com/beach-sunset-pictures.php">Free</a>
+			<a href="http://www.freenaturepictures.com/lake-sunset-pictures.php">Nature</a> Pictures and from 
+			<a href="http://science.nationalgeographic.com/science/photos">National Geographic Science Photos</a></p>
+			
+			<p>Further understanding of CSS usage in JavaFX can be obtained from the 
+			<a href="http://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html">JavaFX/CSS reference</a> or via 
+			<a href="http://docs.oracle.com/javafx/2/css_tutorial/jfxpub-css_tutorial.htm">tutorials.</a></p><br></br>
+			
+
+    <center><img alt="Titled Panes" src="images/TitledPanes.jpg"/></center>     
+		<h1>Entrainer FX Features - Titled Panes</h1>
+			<p>This paradigm is one I had wished Swing supported when I initially coded Entrainer.  Clicking on the appropriate
+			bar causes the titled pane to expand, revealing controls for pink noise panning, flashing, animations and shimmer effects.  Clicking the
+			bar again causes the titled pane to collapse and become semi-translucent.  This replaces the need in Swing for pop up dialogs.</p><br></br>
+
+    <center><img alt="Saturn FX" src="images/SaturnFX.jpg"/></center>     
+		<h1>Entrainer FX Features - Pure Java JSyn</h1>
+			<p>As the implementation of JavaFX animations greatly reduced the clicking I've opted to only include the pure Java JSyn library.
+			This version of the library can interface with <a href="http://portaudio.com">PortAudio</a> which may eliminate any platform issues
+			entirely.  As this is alpha software no guarantees are provided.  Should any audio problems manifest deleting the <b>jportaudio.jar</b> file
+			under the lib directory will default the JSyn sound library to use the JavaSound API.  Updates to this interface and the JSyn library 
+			itself can be downloaded from the
+			<a href="http://www.softsynth.com/jsyn/developers/download.php">JSyn library download page.</a></p><br></br>
+			
+		<h1>Java FX Impressions - EntrainerFX Rewrite</h1>
+		<h2>The Good</h2>
+			<ol>
+			<li><b>Much better animation support</b></li>
+			<li><b>Titled panes, a much needed paradigm</b></li>
+			<li><b>CSS configuration, a big plus</b></li>
+			<li><b>Mature and intuitive API (+1 to event handling)</b></li>
+			<li><b>Use of degrees instead of radians</b></li>
+			<li><b>JavaFX integration with Swing is a breeze</b></li>
+			</ol>
+		<h2>The Not So Good</h2>
+			<ol>
+			<li><b>Missing a spinner control (under development in JFXtras) - prevented further rework for this release</b></li>
+			</ol>
+			
+			<strike>
+		<h2>The Ugly</h2>
+			<ol>
+			<li><b>The building and deploying of JavaFX applications</b></li>
+			</ol>
+			<p>As a consequence of the rewriting of the animation subsystem the animation code is now dependent on javafx.geometry.Rectangle2D.  Building
+			and deploying Entrainer using the recommended Ant task results in an application that cannot dynamically load EntrainerFX
+			animations - a NoClassDefFound exception is thrown for Rectangle2D.  Including the JavaFX runtime jar file in the distribution
+			and building without the new Ant task gets around this.</p>
+			<p>But I should not have to do this.  If Oracle wishes JavaFX to replace Swing then JavaFX must become a first class citizen of 
+			the JRE. I trust this will be fixed in future releases of JavaFX: something like 
+			<a href="https://forums.oracle.com/forums/thread.jspa?threadID=2410546">-XX:+EnableJavaFX</a></p>
+			</strike>
+			<p>After spending some time on a completely unrelated task into 
+			<a href="http://izpack.org/documentation/sample-userInputSpec.html">user inputs</a> during installation I decided to
+			make <a href="http://sourceforge.net/projects/entrainer/files/entrainer">full use</a> of the 
+			<a href="https://sourceforge.net/projects/squirrel-sql/">api I liberated</a>.</p><br></br>
+	
+	</div>
+	
+	<div id="nav-subs">
+	
+			<div id="nav-section">
+	
+				<ul title="Current Section Subsections">
+					<li><a href="index.html" title="Index">Index</a></li>
+					<li><a href="entrainerfx.html" class="current" title="Entrainer FX">Entrainer FX</a></li>
+					<li><a href="installation.html" title="Installing Entrainer">Installing</a></li>
+					<li><a href="running.html" title="Running Entrainer">Running</a></li>
+					<li><a href="neuralizer.html" title="Neural Network Power Signal Analysis">Neural Network</a></li>
+					<li><a href="sockets.html" title="Entrainer Sockets">Entrainer Sockets</a></li>
+					<li><a href="animations.html" title="Entrainer Animations">Animations</a></li>
+					<li><a href="recording.html" title="Recording with Entrainer">Recording</a></li>
+					<li><a href="loading.html" title="Loading Entrainer Programs">Loading</a></li>
+					<li><a href="editing.html" title="Editing Entrainer Programs">Editing</a></li>
+					<li><a href="lookAndFeel.html" title="Dynamic Look and Feel">Look and Feel</a></li>
+				</ul>
+	
+			</div>
+			
+			<div id="nav-supp">
+			
+				<ul title="Binaural Beat Links">
+					<li><a href="http://en.wikipedia.org/wiki/Binaural_beats">Wikipedia - Binaural Beats</a></li>
+					<li><a href="http://www.monroeinstitute.com/content.php?content_id=38">Binaural Beats</a></li>
+					<li><a href="http://www.mindmodulations.com/mindmods/general/changing-your-brainwaves-using-auditory-binaural-beats-for-5.html">
+					Changing Your Brainwaves Using Binaural Beats</a></li>
+				</ul>
+			
+			</div>
+			
+	</div>
+	
+</div>
+	
+<div id="info-site">
+  <p id="info-company"><a href="#">copyright Burton Alexander 2008 - 2014</a> | <a href="http://entrainer.sourceforge.net">Entrainer Home</a></p>
+</div>
+
+</div>
+</body>
+</html>

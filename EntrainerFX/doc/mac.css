@@ -1,0 +1,230 @@
+/* Think different */
+
+/*
+
+------------------------------------------------------
+Copyright Telian Adlam, www.buniek.com
+some rights reserved
+http://creativecommons.org/licenses/by-sa/2.0/
+
+You are free to use this style sheet and its
+associated image files to create your own site.
+However, we ask that you respect the template's
+creator by maintaining this attribution in
+the style sheet.
+------------------------------------------------------
+
+*/
+
+/* global settings - controls settings for entire document */
+
+body {
+margin: 25px 0;
+padding: 0;
+background: #fff;
+font-size: 100%;
+}
+
+p, ul, li,td, tr, dl, dh {
+font: 0.8em/1.65em verdana, arial, geneva, sans-serif;
+color:#666;
+word-spacing: 0.15em;
+}
+
+h1, h2, h3 {
+font-family: arial, verdana, geneva, sans-serif;
+text-align: left;
+color: #666;
+}
+
+h1 {
+/* defines the font size for all heading 1 (h1) */
+font-size: 1.4em;
+}
+
+h2 {
+font-size: 1.2em;
+}
+
+h3 {
+font-size: 1.1em;
+}
+
+/* specific divs */
+
+#wrapper {
+border: 1px #ccc solid;
+width: 760px;
+margin: 0 auto;
+padding: 0;
+background: #fff url(images/bodybg.jpg) repeat-y;
+text-align: center;
+position: relative;
+}
+
+#banner {
+background: #fff url(images/mac_header.jpg) top left;
+width: 760px;
+height: 157px;
+margin: 0;
+padding: 0;
+}
+
+#banner p {
+margin: 0;
+position: absolute;
+top: 105px;
+right: 50px;
+font-weight: bold;
+}
+
+#nav-toplevel {
+
+}
+
+#nav-meta {
+position: absolute;
+top: 10px;
+left: 15px;
+margin: 0;
+padding: 0;
+}
+
+#nav-meta li {
+margin: 0;
+padding: 5px;
+font-size: 75%;
+}
+
+#nav-meta li a {
+text-decoration: none;
+padding: 2px 5px;
+background: #eee;
+border: 1px #999 solid;
+color: #999;
+font-weight: bold;
+margin:0;
+}
+
+#nav-meta li a:hover {
+background:#ccc;
+color: #333;
+border: 2px #333 solid;
+}
+
+#nav-main {
+position: absolute;
+right: 15px;
+top: 25px;
+margin: 0;
+padding: 0;
+height: 100px;
+}
+
+#nav-mail ul, #nav-meta ul {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+
+#nav-main li {
+display: inline;
+margin: 0;
+padding: 5px;
+font-size: 90%;
+}
+
+#nav-main li a {
+padding: 5px 8px;
+text-decoration: none;
+color: #666;
+font-weight: bold;
+background: #ECF3FD;
+border: 2px #ccc solid;
+}
+
+#nav-main li a:hover {
+color: #333;
+background: #99CCFF;
+border: 3px #333 solid;
+}
+
+#container {
+clear: both;
+width: 760px;
+margin: 0;
+padding: 0;
+}
+
+#container p, ul, ol {
+text-align: left;
+margin: 0;
+padding-top: 15px;
+}
+
+#nav-subs {
+text-align: left;
+background: transparent;
+width: 200px;
+margin: 0 500px 0 0;
+}
+
+#nav-subs li {
+margin: 5px 0;
+padding: 0;
+}
+
+#nav-subs a {
+text-decoration: none;
+color: #999;
+border-bottom: dashed 1px #999;
+font-weight: bold;
+}
+
+#nav-subs a:hover {
+color: #333;
+}
+
+#nav-subs ul {
+list-style-type: none;
+margin: 0;
+padding: 15px;
+}
+
+#content {
+padding: 0;
+margin: 0 60px 0 0;
+width: 500px;
+float: right;
+background: transparent;
+}
+
+#content a, #info-site a {
+text-decoration: none;
+color: #99ccff;
+font-weight: bold;
+}
+
+#content a:visited {
+text-decoration: line-through;
+}
+
+#content a:hover, #info-site a:hover {
+color: #999;
+border-bottom: 1px dashed #999;
+}
+
+#info-site {
+clear: both;
+background: #fff url(images/footerbg.gif) repeat;
+border-top: 1px solid #ccc;
+border-bottom: 1px solid #ccc;
+margin: 0;
+padding: 0;
+}
+
+#info-site p {
+margin: 0;
+padding: 0;
+text-align: center;
+}

@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Language" content="en-us" />
+	
+<meta http-equiv="keywords" content="entrainer, java, sound, light, binaural beats, consciousness, entrainment">
+<meta http-equiv="description" content="Entrainer Index Page">
+
+<meta name="robots" content="index,follow" />
+
+<title>EntrainerFX: Open Source Brain Wave Entrainment</title>
+
+<link href="mac.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="print.css" rel="stylesheet" type="text/css" media="print" />
+
+<!-- Piwik
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/entrainer/" : "http://apps.sourceforge.net/piwik/entrainer/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+piwik_action_name = '';
+piwik_idsite = 1;
+piwik_url = pkBaseURL + "piwik.php";
+piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+</script>
+<object><noscript><p><img src="http://apps.sourceforge.net/piwik/entrainer/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
+End Piwik Tag -->
+
+</head>
+
+<body>
+<div id="wrapper">
+
+<div id="banner">
+	<p>entrainer.sourceforge.net</p>
+</div>
+
+<div id="nav-toplevel">
+
+	<div id="nav-meta">
+		<ul title="Top Level Navigation bar">
+			<li><a href="http://sourceforge.net/projects/entrainer" title="Sourceforge Project Page">Project Page</a></li>
+			<li><a href="mailto:burton@users.sourceforge.net" title="Contact">Contact</a></li>
+			<li><a href="https://plus.google.com/112157326543408665325" rel="publisher">Entrainer on Google+</a></li>
+		</ul>
+	</div>
+  	
+</div>
+
+<div id="container">
+
+	<div id="content">
+
+    <center><img alt="Started Application" src="images/EntrainerFX.jpg"/></center>     
+	
+		<h1>Entrainer FX</h1>
+			<p>EntrainerFX is a program which generates binaural beat frequencies using sound and animations for the purpose 
+			of entraining brain waves.  EntrainerFX is released under the <a href="http://www.gnu.org/copyleft/gpl.html">GPL</a>
+			license - it is free and open source.  It can be obtained from the 
+			<a href="http://sourceforge.net/projects/entrainer">Entrainer Sourceforge project page</a> and the latest version is 
+			<a href="http://sourceforge.net/projects/entrainer/files/entrainer">EntrainerFX 5.0.0 Final</a>, released on June 7, 2014,
+			requiring a minimum of Java 8 to run.  
+			Screenshots of older versions of Entrainer in action are
+			<a href="running.html">included</a> <a href="animations.html">throughout</a> 
+			<a href="loading.html">this</a> <a href="lookAndFeel.html">documentation</a>.
+			
+			<p>EntrainerFX works best with a set of high quality headphones.</p>
+			
+		<h2>NOTE:</h2>
+			<p>There is a bug in Java 8 that prevents EntrainerFX from starting should any spaces exist in 
+			the directory names.  Should the spaces exist the following error is generated: 
+			<b>java.awt.IllegalComponentStateException: The dialog is decorated</b>. 
+			The work around for this issue is to ensure that EntrainerFX is installed
+			into a directory structure with no spaces in the names ie:</p>
+			
+			<p><b>/Users/MyName/EntrainerFX</b> - good</p>
+			
+			<p><b>C:/Program Files/EntrainerFX</b> - bad</p>
+			
+			<p>Thanks to Rich for bringing this issue to my attention.</p>
+		
+		<h2>EntrainerFX 4.3.0 RC1 - A Self-Healing Application</h2>
+			<p>
+				From version 4.3.0 EntrainerFX now resolves its external dependencies on startup via the
+				<a href="http://mrstampy.github.io/PoisonIvy/">Poison Ivy</a> library.  The use of this library
+				reduces the size of the EntrainerFX deliverable and facilitates clean future upgrades of library
+				dependencies.
+			</p>
+			
+			<p>
+				EntrainerFX 4.3.0 should be installed into a clean directory.
+				On first startup the computer must be online. A splash screen is shown with an infinite progress indicator
+				and a text area displaying the state of the dependency resolution. Dependencies are downloaded and placed into the 
+				<b>$EFX_INSTALL_DIR/ivylib</b>	directory. Should the libraries be deleted or corrupted EntrainerFX
+				will download the dependencies again. As part of the <a href="https://ant.apache.org/ivy/">Apache Ivy</a> process
+				a library cache is written to the users's home directory: <b>$USER_HOME/.ivy2</b>. Once complete
+				the splash screen is closed and EntrainerFX starts up automatically.
+			</p>
+			
+			<p>
+				Should there be any issues please use 
+				<a href="http://sourceforge.net/projects/entrainer/files/entrainer/EntrainerFX%204.2.5%20Final/">version 4.2.5</a>
+				and please send	me an <a href="mailto:burton@users.sourceforge.net">email</a> describing the issues.
+			</p> 
+			
+		<h2>EntrainerFX Lite</h2>
+		
+			<p>
+				<a href="entrainerfx-lite.html">EntrainerFX Lite</a> is a Java applet / JNLP program which includes a subset
+				of the features included in the EntrainerFX distribution.  The latest Java 7 must be installed and permissions
+				granted for the application to run within the browser.  There have recently been some vulnerabilities patched in
+				Java 7, and prior to the fixes many browsers and OSs have responded by locking down Java applets.  
+				<a href="https://www.java.com/en/download/help/enable_browser.xml">This document</a> describes how to enable Java in the
+				browser.  If you have any concerns about Java in the browser then the full distribution is recommended as the vulnerabilities
+				apply only to Java in the browser. Note that this applet will not run on Chrome in Mac OSX as it is a 32 bit browser. 
+			</p>
+			
+    <center><img alt="Started Application" src="images/Security.png"/></center>
+    		<br/>     
+			<p>
+			The above is an example of the permissions being requested (Firefox).  Not a worry!
+			</p>
+			
+		<h2>EntrainerFX Musings</h2>
+			
+			<p>Much has changed with release 4.0.0 of EntrainerFX:</p>
+			<ol>
+			<li><b>A rewrite of the main GUI to use Java FX controls</b></li>
+			<li><b>A rewrite of the animation subsystem to use Java FX classes</b></li>
+			<li><b>The native JSyn library has been dropped in favour of the pure Java implementation</b></li>
+			</ol>
+			
+			<p>Early on in development I considered the possibility of rewriting Entrainer in JavaFX.  At the time however JavaFX
+			was too immature to support the functionality I required of it for Entrainer.  With the latest release of JavaFX this
+			is no longer true.  As Oracle is attempting to eventually replace Swing with JavaFX it was time to dig in & learn the 
+			API.</p>
+			
+			<p>While I'll always have a soft spot for Swing, it has its weak points.  Based on dated GUI architectures it lacks the
+			ability to emulate the modern GUI elements we've come to expect from our smart phones & tablets.  And to be honest, without 
+			a decent look and feel over top of it it looks like puppy kack.  Another weakness is its (lack of) support for animations.
+			The Trident library is excellent to write the animation portions of the code, but Entrainer's heavy use of animations in Swing
+			pushes even the gruntiest of machines to its limits.</p>
+			
+			<p>And so I rewrote the animation and shimmer portions of Entrainer in JavaFX.  I found there to be a good 40% reduction
+			in CPU usage when using the various animations, and they can be used together on a good machine without dragging
+			it to its knees.  And after I'd mocked up a prototype using the pure Java JSyn library, I noticed that the annoying
+			clicks on the Mac had greatly reduced to the point of being able to remove the 32 bit-only native JSyn libraries from
+			the distribution - the final impetus for this new version of Entrainer.</p>
+			
+			<p>As Entrainer now uses the latest JavaFX, it now requires the latest version of the JRE - at least
+			<a href="http://java.oracle.com/javase/downloads/">JRE 1.8.0</a>.  It will not run on any earlier versions of Java.</p>
+	
+		<h1>About Entrainment</h1>
+			<p>Brain wave entrainment is about stimulating the brain to resonate at a desired frequency.  The two techniques
+	    used by Entrainer to achieve this is through the use of sound and animations.  The lower limit of human hearing is 
+	    about 20Hz.  As many of the more interesting states of consciousness occur at much lower frequencies, these 
+	    frequencies are generated via binaural beats - two slightly different tones, one in each ear, the difference 
+	    being the desired frequency.
+	    
+	    <p>The following gives a rough overview of the relationship between frequency and conscious state:
+	    
+	    <ol>
+	    <li><b>Beta Waves: 12Hz - 40Hz</b> - associated with active, busy or anxious thinking and active concentration, arousal, cognition</li>
+	    
+	    <li><b>Alpha Waves: 8Hz - 12Hz</b> - associated with relaxation (while awake), pre-sleep and pre-wake drowsiness</li>
+	    
+	    <li><b>Theta Waves: 4Hz - 8Hz</b> - associated with dreams, deep meditation, REM sleep</li>
+	    
+	    <li><b>Delta Waves: 0Hz - 4Hz</b> - associated with deep dreamless sleep, loss of body awareness</li>
+	    </ol>
+	
+		<h1>How Entrainer Works</h1>		
+			<p>Entrainer works much like the beat of a drum; the beats and changing colours assist in directing the conscious state
+			of the subject.  Binaural beats are generated when two sound waves of different frequencies are played together.  The
+			difference between the frequencies of the sounds generates a beat of the same difference in frequency - the entrainment frequency.
+			
+			<h2>The Purpose of Entrainment</h2>
+				<p>The human hearing range reaches around 20Hz at its lower range.  Below that frequency sound cannot be heard.  As described above,
+				the human brain resonates at specific frequencies related to one's state of consciousness,
+				and the frequency related to these conscious states can extend well below the lower range of human hearing.
+				Learning to control one's conscious state can be obtained with activities such as meditation, however the discipline to properly
+				perform this activity can be prohibitive.
+				
+				<p>One can increase one's alertness at higher entrainment frequencies, and conversely one can enter a states
+				of deep relaxation (and even sleep) at lower frequencies.  
+				
+				<p>Learning to control one's conscious state can be of great help with conditions such as ADHD and autism,
+				and it is the goal of this project to ultimately create a useful medical tool that can assist with the treatment of
+				these conditions.  That, and a fun tool with which to learn control of conscious states!
+			
+		<h1>Requirements</h1>
+			<p>Entrainer requires a minimum of <a href="http://java.oracle.com/javase/downloads/">JRE 1.8.0 (Java 8)</a>
+	    	to run. To run simply double click the Entrainer.jar file.
+	    	
+	    	<p>Alternatively the 'entrainer.bat' (Windows) or 'entrainer.sh' (Unix/Mac) can be used to start Entrainer.</p>
+	
+	  <h1>***Warning***</h1>
+	  	<p>This program produces flashing animations and binaural beat sound waves.  It should not be used by anyone prone
+	    to seizures or related conditions without proper medical supervision.<p>
+	
+	</div>
+	
+	<div id="nav-subs">
+	
+			<div id="nav-section">
+	
+				<ul title="Current Section Subsections">
+					<li><a href="index.html" class="current" title="Index">Index</a></li>
+					<li><a href="entrainerfx.html" title="Entrainer FX">Entrainer FX</a></li>
+					<li><a href="installation.html" title="Installing Entrainer">Installing</a></li>
+					<li><a href="running.html" title="Running Entrainer">Running</a></li>
+					<li><a href="neuralizer.html" title="Neural Network Power Signal Analysis">Neural Network</a></li>
+					<li><a href="sockets.html" title="Entrainer Sockets">Entrainer Sockets</a></li>
+					<li><a href="animations.html" title="Entrainer Animations">Animations</a></li>
+					<li><a href="recording.html" title="Recording with Entrainer">Recording</a></li>
+					<li><a href="loading.html" title="Loading Entrainer Programs">Loading</a></li>
+					<li><a href="editing.html" title="Editing Entrainer Programs">Editing</a></li>
+					<li><a href="lookAndFeel.html" title="Dynamic Look and Feel">Look and Feel</a></li>
+				</ul>
+	
+			</div>
+			
+			<div id="nav-supp">
+			
+				<ul title="Binaural Beat Links">
+					<li><a href="http://en.wikipedia.org/wiki/Binaural_beats">Wikipedia - Binaural Beats</a></li>
+					<li><a href="http://www.monroeinstitute.com/content.php?content_id=38">Binaural Beats</a></li>
+					<li><a href="http://www.mindmodulations.com/mindmods/general/changing-your-brainwaves-using-auditory-binaural-beats-for-5.html">
+					Changing Your Brainwaves Using Binaural Beats</a></li>
+				</ul>
+			
+			</div>
+			
+	</div>
+	
+</div>
+	
+<div id="info-site">
+  <p id="info-company"><a href="#">copyright Burton Alexander 2008 - 2014</a> | <a href="http://entrainer.sourceforge.net">Entrainer Home</a></p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+/*
+
+------------------------------------------------------
+Copyright Telian Adlam, www.buniek.com
+some rights reserved
+http://creativecommons.org/licenses/by-sa/2.0/
+
+You are free to use this style sheet and its
+associated image files to create your own site.
+However, we ask that you respect the template's
+creator by maintaining this attribution in
+the style sheet.
+
+Notes
+
+1. This is a print style sheet to be used together with
+its associated screen style sheet mac.css.
+------------------------------------------------------
+
+*/
+
+body {
+font-family: Georgia, "Times New Roman", Times, serif;margin: 0;padding:0;color: #000;
+}
+
+a {
+color: #000;text-decoration: none;font-style: italic;
+}
+
+p, ul, il, td, th, table {
+font-size: 12pt;
+}
+
+h1 {
+font-size: 1.4em;
+}
+
+h2 {
+font-size: 1.2em;
+}
+
+h3 {
+font-size: 1.1em;
+}
+
+#banner p {
+font-style: italic;
+}
+
+#wrapper {
+margin: 0 auto;padding: 0;width: auto;
+}
+
+#nav-subs, #nav-toplevel, #info-site {
+display: none;
+}
