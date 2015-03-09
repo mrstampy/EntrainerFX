@@ -280,15 +280,6 @@ public class EntrainerSocketManager {
 					currentState.setEntrainmentFrequency(e.getDoubleValue());
 
 					break;
-				case FLASH_COLOUR:
-					processing = currentState.getFlashColour() == null
-							|| (e.getColourValue() != null && !e.getColourValue().equals(currentState.getFlashColour()));
-					if (!processing) break;
-
-					message.setColour(e.getColourValue());
-					currentState.setColour(e.getColourValue());
-
-					break;
 				case FLASH_BACKGROUND:
 					processing = currentState.getFlashBackground() == null
 							|| e.getBooleanValue() != currentState.getFlashBackground();
@@ -332,14 +323,6 @@ public class EntrainerSocketManager {
 
 					message.setAnimation(e.getBooleanValue());
 					currentState.setAnimation(e.getBooleanValue());
-
-					break;
-				case IS_FLASH:
-					processing = currentState.getFlash() == null || e.getBooleanValue() != currentState.getFlash();
-					if (!processing) break;
-
-					message.setFlash(e.getBooleanValue());
-					currentState.setFlash(e.getBooleanValue());
 
 					break;
 				case PINK_ENTRAINER_MULTIPLE:

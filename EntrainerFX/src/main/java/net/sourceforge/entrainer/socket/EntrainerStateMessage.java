@@ -211,9 +211,6 @@ public class EntrainerStateMessage {
 	private Boolean startFlashing;
 
 	@XmlElement
-	private Boolean flash;
-
-	@XmlElement
 	private Boolean psychedelic;
 
 	@XmlElement
@@ -221,9 +218,6 @@ public class EntrainerStateMessage {
 
 	@XmlElement
 	private Boolean shimmer;
-
-	@XmlElement
-	private FlashColour flashColour;
 
 	@XmlElement
 	private Boolean requestState;
@@ -601,70 +595,6 @@ public class EntrainerStateMessage {
 	 */
 	public void setStartFlashing(Boolean startFlashing) {
 		this.startFlashing = startFlashing;
-	}
-
-	/**
-	 * The colour used to flash the message panel at the bottom of Entrainer.
-	 *
-	 * @return the colour
-	 */
-	@JsonIgnore
-	public Color getColour() {
-		if (flashColour == null) return null;
-
-		return flashColour.getColor();
-	}
-
-	/**
-	 * Sets the colour.
-	 *
-	 * @param c
-	 *          the new colour
-	 */
-	@JsonIgnore
-	public void setColour(Color c) {
-		flashColour = new FlashColour();
-		flashColour.setColor(c);
-	}
-
-	/**
-	 * Gets the flash colour.
-	 *
-	 * @return the flash colour
-	 */
-	public FlashColour getFlashColour() {
-		return flashColour;
-	}
-
-	/**
-	 * Sets the flash colour.
-	 *
-	 * @param flashColour
-	 *          the new flash colour
-	 */
-	public void setFlashColour(FlashColour flashColour) {
-		this.flashColour = flashColour;
-	}
-
-	/**
-	 * Boolean to indicate/control the flashing of the message panel at the bottom
-	 * of Entrainer. Both {@link #getFlash()} and {@link #getStartFlashing()} must
-	 * be true for flashing to occur.
-	 *
-	 * @return the flash
-	 */
-	public Boolean getFlash() {
-		return flash;
-	}
-
-	/**
-	 * Sets the flash.
-	 *
-	 * @param flash
-	 *          the new flash
-	 */
-	public void setFlash(Boolean flash) {
-		this.flash = flash;
 	}
 
 	/**

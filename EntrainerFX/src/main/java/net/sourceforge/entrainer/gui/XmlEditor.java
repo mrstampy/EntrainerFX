@@ -561,9 +561,6 @@ public class XmlEditor extends JDialog {
 	private void initFields() {
 		fireReceiverChangeEvent(xml.isPsychedelic(), IS_PSYCHEDELIC);
 
-		Color c = JFXUtils.toJFXColor(xml.getColour());
-		if (c != null) fireReceiverChangeEvent(c);
-
 		animations.getAnimation().setSelected(xml.isAnimation());
 		if (xml.getAnimationProgram() != null) {
 			animations.refreshAnimations();
@@ -620,10 +617,6 @@ public class XmlEditor extends JDialog {
 		}
 
 		return list;
-	}
-
-	private void fireReceiverChangeEvent(Color value) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, JFXUtils.fromJFXColor(value)));
 	}
 
 	private void createTabs() {

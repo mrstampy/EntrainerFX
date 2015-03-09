@@ -18,8 +18,6 @@
  */
 package net.sourceforge.entrainer.mediator;
 
-import static net.sourceforge.entrainer.mediator.MediatorConstants.FLASH_COLOUR;
-
 import java.awt.Color;
 import java.util.EventObject;
 
@@ -118,18 +116,6 @@ public class ReceiverChangeEvent extends EventObject {
 		super(source);
 		setParm(parm);
 		setStringValue(value);
-	}
-
-	/**
-	 * Instantiates a new receiver change event.
-	 *
-	 * @param source
-	 *          the source
-	 * @param c
-	 *          the c
-	 */
-	public ReceiverChangeEvent(Object source, Color c) {
-		this(source, c, FLASH_COLOUR);
 	}
 
 	/**

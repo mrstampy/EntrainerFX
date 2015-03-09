@@ -93,14 +93,8 @@ public enum MediatorConstants {
 	/** The custom interval remove. */
 	CUSTOM_INTERVAL_REMOVE("Custom Interval Remove"),
 
-	/** The is flash. */
-	IS_FLASH("Is Flash"),
-
 	/** The is psychedelic. */
 	IS_PSYCHEDELIC("Is Psychedelic"),
-
-	/** The flash colour. */
-	FLASH_COLOUR("Flash Colour"),
 
 	/** The start entrainment. */
 	START_ENTRAINMENT("Start Entrainment"),

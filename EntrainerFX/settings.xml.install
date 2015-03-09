@@ -11,7 +11,6 @@
     <pinkNoiseEntrainmentMultiple>120</pinkNoiseEntrainmentMultiple>
     <lafClass>org.pushingpixels.substance.api.skin.SubstanceCremeLookAndFeel</lafClass>
     <isAnimation>false</isAnimation>
-    <isFlash>false</isFlash>
     <isPsychedelic>false</isPsychedelic>
     <isShimmer>false</isShimmer>
     <animationProgram>Hypno Bubbles!!!</animationProgram>
@@ -20,9 +19,6 @@
     <socketConnected>false</socketConnected>
     <deltaSocketMessage>true</deltaSocketMessage>
     <shimmer.rectangle.implementation>Linear Gradient</shimmer.rectangle.implementation>
-    <flash.red>158</flash.red>
-    <flash.green>255</flash.green>
-    <flash.blue>177</flash.blue>
     <dynamic.background>true</dynamic.background>
     <static.background>false</static.background>
     <no.background>false</no.background>

@@ -25,7 +25,6 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.FLASH_BACKGRO
 import static net.sourceforge.entrainer.mediator.MediatorConstants.FREQUENCY;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.INTERVAL_ADD;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_ANIMATION;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_FLASH;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_PSYCHEDELIC;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_SHIMMER;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_ENTRAINER_MULTIPLE;
@@ -105,9 +104,6 @@ public class Settings {
 	private boolean isAnimation;
 
 	@XmlElement
-	private boolean isFlash;
-
-	@XmlElement
 	private boolean isPsychedelic;
 
 	@XmlElement
@@ -168,15 +164,6 @@ public class Settings {
 	private static Marshaller marshal;
 
 	private static Settings instance;
-
-	@XmlElement(name = "flash.red")
-	private int flashRed;
-
-	@XmlElement(name = "flash.green")
-	private int flashGreen;
-
-	@XmlElement(name = "flash.blue")
-	private int flashBlue;
 
 	@XmlElement(name = "dynamic.background")
 	private boolean dynamicPicture;
@@ -378,9 +365,6 @@ public class Settings {
 				case ANIMATION_DESKTOP_BACKGROUND:
 					setDesktopBackground(e.getBooleanValue());
 					break;
-				case IS_FLASH:
-					setFlash(e.getBooleanValue());
-					break;
 				case IS_PSYCHEDELIC:
 					setPsychedelic(e.getBooleanValue());
 					break;
@@ -395,12 +379,6 @@ public class Settings {
 					break;
 				case SHIMMER_RECTANGLE:
 					setShimmerRectangle(e.getStringValue());
-					break;
-				case FLASH_COLOUR:
-					Color c = e.getColourValue();
-					setFlashRed(c.getRed());
-					setFlashGreen(c.getGreen());
-					setFlashBlue(c.getBlue());
 					break;
 				case FLASH_BACKGROUND:
 					setFlashBackground(e.getBooleanValue());
@@ -464,12 +442,10 @@ public class Settings {
 		fireReceiverChangeEvent(getPinkNoiseEntrainmentMultiple(), PINK_ENTRAINER_MULTIPLE);
 		fireReceiverChangeEvent(isPinkNoisePan(), PINK_PAN);
 		fireReceiverChangeEvent(isDesktopBackground(), ANIMATION_DESKTOP_BACKGROUND);
-		fireReceiverChangeEvent(isFlash(), IS_FLASH);
 		fireReceiverChangeEvent(isAnimation(), IS_ANIMATION);
 		fireReceiverChangeEvent(isPsychedelic(), IS_PSYCHEDELIC);
 		fireReceiverChangeEvent(isShimmer(), IS_SHIMMER);
 		fireReceiverChangeEvent(getShimmerRectangle(), SHIMMER_RECTANGLE);
-		fireReceiverChangeEvent(new Color(getFlashRed(), getFlashGreen(), getFlashBlue()));
 		fireReceiverChangeEvent(isFlashBackground(), FLASH_BACKGROUND);
 
 		if (getStaticPictureFile() != null) {
@@ -513,10 +489,6 @@ public class Settings {
 		}
 
 		return false;
-	}
-
-	private void fireReceiverChangeEvent(Color c) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, c));
 	}
 
 	private void fireReceiverChangeEvent(String interval) {
@@ -775,25 +747,6 @@ public class Settings {
 	}
 
 	/**
-	 * Checks if is flash.
-	 *
-	 * @return true, if is flash
-	 */
-	public boolean isFlash() {
-		return isFlash;
-	}
-
-	/**
-	 * Sets the flash.
-	 *
-	 * @param isFlash
-	 *          the new flash
-	 */
-	public void setFlash(boolean isFlash) {
-		this.isFlash = isFlash;
-	}
-
-	/**
 	 * Checks if is psychedelic.
 	 *
 	 * @return true, if is psychedelic
@@ -1049,63 +1002,6 @@ public class Settings {
 		if (getMinWidth() > 0 && getMinHeight() > 0) return new Dimension(getMinWidth(), getMinHeight());
 
 		return new Dimension(674, 674);
-	}
-
-	/**
-	 * Gets the flash red.
-	 *
-	 * @return the flash red
-	 */
-	public int getFlashRed() {
-		return flashRed;
-	}
-
-	/**
-	 * Sets the flash red.
-	 *
-	 * @param flashRed
-	 *          the new flash red
-	 */
-	public void setFlashRed(int flashRed) {
-		this.flashRed = flashRed;
-	}
-
-	/**
-	 * Gets the flash green.
-	 *
-	 * @return the flash green
-	 */
-	public int getFlashGreen() {
-		return flashGreen;
-	}
-
-	/**
-	 * Sets the flash green.
-	 *
-	 * @param flashGreen
-	 *          the new flash green
-	 */
-	public void setFlashGreen(int flashGreen) {
-		this.flashGreen = flashGreen;
-	}
-
-	/**
-	 * Gets the flash blue.
-	 *
-	 * @return the flash blue
-	 */
-	public int getFlashBlue() {
-		return flashBlue;
-	}
-
-	/**
-	 * Sets the flash blue.
-	 *
-	 * @param flashBlue
-	 *          the new flash blue
-	 */
-	public void setFlashBlue(int flashBlue) {
-		this.flashBlue = flashBlue;
 	}
 
 	/**

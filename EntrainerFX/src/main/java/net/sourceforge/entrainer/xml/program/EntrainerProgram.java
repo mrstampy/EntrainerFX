@@ -22,7 +22,6 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_BAC
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_PROGRAM;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.FLASH_BACKGROUND;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_ANIMATION;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_FLASH;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_PSYCHEDELIC;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_SHIMMER;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.SHIMMER_RECTANGLE;
@@ -53,10 +52,6 @@ import net.sourceforge.entrainer.mediator.SenderAdapter;
 @XmlRootElement(name = "entrainer")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EntrainerProgram {
-
-	@XmlAttribute
-	@XmlJavaTypeAdapter(ColourAdapter.class)
-	private Color colour;
 
 	@XmlAttribute
 	private boolean flash;
@@ -116,6 +111,7 @@ public class EntrainerProgram {
 	private String pictureDirectory;
 
 	@XmlElement(name = "background.colour")
+	@XmlJavaTypeAdapter(ColourAdapter.class)
 	private Color backgroundColour;
 
 	@XmlElement(name = "dynamic.duration")
@@ -133,44 +129,6 @@ public class EntrainerProgram {
 	public EntrainerProgram() {
 		sender = new SenderAdapter();
 		EntrainerMediator.getInstance().addSender(sender);
-	}
-
-	/**
-	 * Gets the colour.
-	 *
-	 * @return the colour
-	 */
-	public Color getColour() {
-		return colour;
-	}
-
-	/**
-	 * Sets the colour.
-	 *
-	 * @param colour
-	 *          the new colour
-	 */
-	public void setColour(Color colour) {
-		this.colour = colour;
-	}
-
-	/**
-	 * Checks if is flash.
-	 *
-	 * @return true, if is flash
-	 */
-	public boolean isFlash() {
-		return flash;
-	}
-
-	/**
-	 * Sets the flash.
-	 *
-	 * @param flash
-	 *          the new flash
-	 */
-	public void setFlash(boolean flash) {
-		this.flash = flash;
 	}
 
 	/**
@@ -329,11 +287,9 @@ public class EntrainerProgram {
 	 * Inits the global settings.
 	 */
 	public void initGlobalSettings() {
-		fireReceiverChangeEvent(isFlash(), IS_FLASH);
 		fireReceiverChangeEvent(isPsychedelic(), IS_PSYCHEDELIC);
 		fireReceiverChangeEvent(isShimmer(), IS_SHIMMER);
 		fireReceiverChangeEvent(isFlashBackground(), FLASH_BACKGROUND);
-		fireReceiverChangeEvent(getColour());
 		fireReceiverChangeEvent(isAnimation(), IS_ANIMATION);
 		fireReceiverChangeEvent(getAnimationBackground(), ANIMATION_BACKGROUND);
 		if (getAnimationProgram() != null && getAnimationProgram().trim().length() > 0) {
@@ -374,10 +330,6 @@ public class EntrainerProgram {
 	 */
 	public void clearMediatorObjects() {
 		EntrainerMediator.getInstance().removeSender(sender);
-	}
-
-	private void fireReceiverChangeEvent(Color c) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, c));
 	}
 
 	private void fireReceiverChangeEvent(Color c, MediatorConstants parm) {

@@ -26,7 +26,6 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -263,10 +262,6 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 			fireReceiverChangeEvent(esm.getAnimation(), MediatorConstants.IS_ANIMATION);
 		}
 
-		if (esm.getFlash() != null) {
-			fireReceiverChangeEvent(esm.getFlash(), MediatorConstants.IS_FLASH);
-		}
-
 		if (esm.getPinkPan() != null) {
 			fireReceiverChangeEvent(esm.getPinkPan(), MediatorConstants.PINK_PAN);
 		}
@@ -285,10 +280,6 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 
 		if (esm.getEntrainmentFrequency() != null) {
 			fireReceiverChangeEvent(esm.getEntrainmentFrequency(), MediatorConstants.ENTRAINMENT_FREQUENCY);
-		}
-
-		if (esm.getFlashColour() != null) {
-			fireReceiverChangeEvent(esm.getColour());
 		}
 
 		if (esm.getFrequency() != null) {
@@ -322,6 +313,10 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 		if (esm.getShimmer() != null) {
 			fireReceiverChangeEvent(esm.getShimmer(), MediatorConstants.IS_SHIMMER);
 		}
+		
+		if(esm.getFlashBackground() != null) {
+			fireReceiverChangeEvent(esm.getFlashBackground(), MediatorConstants.FLASH_BACKGROUND);
+		}
 
 		if (esm.getRequestState() != null) {
 			Channel channel = ctx.channel();
@@ -346,11 +341,6 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 
 	private void fireReceiverChangeEvent(String b, MediatorConstants parm) {
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, b, parm);
-		sender.fireReceiverChangeEvent(e);
-	}
-
-	private void fireReceiverChangeEvent(Color b) {
-		ReceiverChangeEvent e = new ReceiverChangeEvent(this, b);
 		sender.fireReceiverChangeEvent(e);
 	}
 
