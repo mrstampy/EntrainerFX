@@ -1435,7 +1435,6 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void playPressed() {
-		if (isUnpaused()) return;
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
@@ -1449,10 +1448,6 @@ public class EntrainerFX extends JFrame {
 				}
 			}
 		});
-	}
-
-	private boolean isUnpaused() {
-		return !soundControlPane.getPause().isDisabled() && control.isPlaying();
 	}
 
 	private void startAnimation() {
