@@ -81,7 +81,7 @@ public class Utils {
 		try {
 			Thread.sleep(time, nanos);
 		} catch (InterruptedException e) {
-			log.warn("Woke up unexpectedly from a snooze", e);
+			log.debug("Woke up unexpectedly from a snooze", e);
 		}
 	}
 
