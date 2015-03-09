@@ -395,8 +395,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		fireReceiverChangeEvent(psychedelic.isSelected(), MediatorConstants.IS_PSYCHEDELIC);
 		JFXUtils.runLater(() -> setState());
 		if(!psychedelic.isSelected()) {
-			Color c = picker.getValue();
-			if(c != null)	JFXUtils.runLater(() -> setBackgroundColour(c));
+			if(picker.getValue() == null) picker.setValue(Color.ROYALBLUE);
+			JFXUtils.runLater(() -> setBackgroundColour(picker.getValue()));
 		}
 	}
 

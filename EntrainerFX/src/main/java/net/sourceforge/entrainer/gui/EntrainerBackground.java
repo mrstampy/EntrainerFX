@@ -247,10 +247,7 @@ public class EntrainerBackground {
 
 	private void killCurrent() {
 		clearFutures();
-
-		if (current != null) current.setOpacity(0);
-		if (old != null) old.setOpacity(0);
-		if (flashFuture != null) flashFuture.cancel(true);
+		clearPictures();
 	}
 
 	private void setFadeInImage() {
@@ -392,6 +389,8 @@ public class EntrainerBackground {
 			ScheduledFuture<?> sf = futures.remove(i);
 			if (sf != null) sf.cancel(true);
 		}
+		
+		if (flashFuture != null) flashFuture.cancel(true);
 	}
 
 	private void setBackgroundColor(Color colourValue) {
