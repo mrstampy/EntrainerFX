@@ -902,7 +902,7 @@ public class XmlEditor extends JDialog {
 
 			@Override
 			public String getDescription() {
-				return "XML files";
+				return "EntrainerFX Programs";
 			}
 		});
 		return chooser;
