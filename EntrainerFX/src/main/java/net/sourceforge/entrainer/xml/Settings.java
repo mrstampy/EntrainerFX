@@ -52,6 +52,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
@@ -68,7 +69,7 @@ import net.sourceforge.entrainer.xml.program.EntrainerProgramInterval;
  */
 @XmlRootElement(name = "entrainer.settings")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Settings {
+public class Settings implements EntrainerResources {
 
 	@XmlElement
 	private double entrainmentFrequency;
@@ -255,7 +256,7 @@ public class Settings {
 	}
 
 	private static void unmarshalSettings() throws JAXBException {
-		File file = new File("settings.xml");
+		File file = new File(EFX_SETTINGS_DIR + "settings.xml");
 		if (file.exists()) {
 			instance = (Settings) unmarshal.unmarshal(file);
 		} else {

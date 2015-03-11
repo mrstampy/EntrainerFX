@@ -84,6 +84,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.filechooser.FileFilter;
 
+import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.esp.EspConnectionRegister;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
@@ -144,7 +145,7 @@ import com.github.mrstampy.esplab.EspPowerLabWindow;
  * 
  * @author burton
  */
-public class EntrainerFX extends JFrame {
+public class EntrainerFX extends JFrame implements EntrainerResources {
 	private static final int MIN_HEIGHT = 950;
 	private static final int MIN_WIDTH = 654;
 	private static final long serialVersionUID = 1L;
@@ -646,7 +647,7 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private URI getLocalDocAddress() {
-		return new File("doc/index.html").toURI();
+		return new File(EFX_DOC_DIR + "/index.html").toURI();
 	}
 
 	private JMenuItem getLicenseItem() {

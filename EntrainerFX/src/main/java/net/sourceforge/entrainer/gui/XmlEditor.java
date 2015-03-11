@@ -83,6 +83,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
@@ -111,7 +112,7 @@ import org.xml.sax.SAXException;
  * 
  * @author burton
  */
-public class XmlEditor extends JDialog {
+public class XmlEditor extends JDialog implements EntrainerResources {
 
 	private static final Logger log = LoggerFactory.getLogger(XmlEditor.class);
 	private static final long serialVersionUID = 1L;
@@ -892,7 +893,7 @@ public class XmlEditor extends JDialog {
 	 * @return the xml file chooser
 	 */
 	public static JFileChooser getXmlFileChooser() {
-		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir") + "/xml");
+		JFileChooser chooser = new JFileChooser(EFX_PROGRAM_DIR +  "/xml");
 
 		chooser.setFileFilter(new FileFilter() {
 			@Override

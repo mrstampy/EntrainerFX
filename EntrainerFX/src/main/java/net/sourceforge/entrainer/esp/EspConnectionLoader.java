@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
@@ -51,11 +52,8 @@ import com.github.mrstampy.esp.dsp.lab.RawEspConnection;
 /**
  * The Class EspConnectionLoader.
  */
-public class EspConnectionLoader {
+public class EspConnectionLoader implements EntrainerResources {
 	private static final Logger log = LoggerFactory.getLogger(EspConnectionLoader.class);
-
-	/** The Constant ESP_DIR. */
-	public static final String ESP_DIR = "esp";
 
 	private List<RawEspConnection> connections = Collections.synchronizedList(new ArrayList<>());
 	private List<Path> jarFiles = Collections.synchronizedList(new ArrayList<Path>());
@@ -94,9 +92,9 @@ public class EspConnectionLoader {
 	void loadAllConnections() {
 		log.debug("Loading ESP Connections");
 
-		timer.schedule(getTimerTask(Paths.get(ESP_DIR)), 0);
+		timer.schedule(getTimerTask(Paths.get(EFX_ESP_DIR)), 0);
 
-		List<Path> jarPaths = EntrainerRegister.getJarFilesInDirectory(ESP_DIR);
+		List<Path> jarPaths = EntrainerRegister.getJarFilesInDirectory(EFX_ESP_DIR);
 
 		jarPaths = getNewJarPaths(jarPaths);
 

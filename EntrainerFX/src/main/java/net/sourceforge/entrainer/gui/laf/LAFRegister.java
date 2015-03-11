@@ -34,6 +34,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.util.EntrainerClassLoader;
 import net.sourceforge.entrainer.util.EntrainerRegister;
@@ -45,7 +46,7 @@ import net.sourceforge.entrainer.util.EntrainerRegister;
  * 
  * @author burton
  */
-public class LAFRegister {
+public class LAFRegister implements EntrainerResources {
 
 	private static EntrainerClassLoader loader;
 
@@ -152,7 +153,7 @@ public class LAFRegister {
 	public static void loadAllLafs() throws URISyntaxException, InstantiationException, IllegalAccessException,
 			ClassNotFoundException {
 
-		List<URL> lafUrls = EntrainerRegister.getPackageUrls("lafs");
+		List<URL> lafUrls = EntrainerRegister.getPackageUrls(EFX_LAF_DIR);
 
 		loader = EntrainerRegister.loadClasses(lafUrls, LookAndFeel.class, copa);
 
