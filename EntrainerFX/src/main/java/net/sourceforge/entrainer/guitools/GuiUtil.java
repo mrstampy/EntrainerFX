@@ -394,6 +394,7 @@ public class GuiUtil {
 		try {
 			AWTUtilities.setWindowOpacity(window, 0);
 		} catch (IllegalComponentStateException e) {
+			logger.error("Unexpected exception", e);
 			if (e.getMessage().contains("The frame is decorated")) {
 				JOptionPane.showMessageDialog(null,
 						getSpacesInPathMessage(),
