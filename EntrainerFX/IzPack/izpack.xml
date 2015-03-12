@@ -1,4 +1,9 @@
 <installation version="1.0">
+
+	<variables>
+		<variable name="EFX_VERSION" value="5.1.0"/>
+	</variables>
+	
 	<!-- The info section. The meaning of the tags should be natural ... -->
 	<info>
 		<appname>EntrainerFX</appname>
@@ -47,7 +52,7 @@
 		<pack name="Base" required="yes">
 			<description>The base files</description>
 			
-			<file unpack="true" src="build/distributions/EntrainerFX-5.1.0.zip" targetdir="$INSTALL_PATH"/>
+			<file unpack="true" src="build/distributions/EntrainerFX-${EFX_VERSION}.zip" targetdir="$INSTALL_PATH"/>
 			
 			<file src="README.txt" targetdir="$INSTALL_PATH" />
 			<file src="LICENSE.txt" targetdir="$INSTALL_PATH" />

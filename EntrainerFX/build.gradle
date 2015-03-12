@@ -28,10 +28,7 @@ repositories {
     flatDir(dirs: 'lib')
 }
 
-task efx << {
-	clean.execute()
-	distZip.execute()
-	izPackCreateInstaller.execute()
+task efx(dependsOn: [clean, distZip, izPackCreateInstaller]) << {
 }
 
 dependencies {
