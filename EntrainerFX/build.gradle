@@ -28,6 +28,12 @@ repositories {
     flatDir(dirs: 'lib')
 }
 
+task efx << {
+	clean.execute()
+	distZip.execute()
+	izPackCreateInstaller.execute()
+}
+
 dependencies {
 	entrainer 'org.slf4j:slf4j-api:1.7.10'
 	entrainer 'org.slf4j:log4j-over-slf4j:1.7.10'
