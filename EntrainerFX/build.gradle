@@ -91,7 +91,7 @@ distributions {
         contents {
             eachFile {
                 it.path = it.path.replace('EntrainerFX-' + version, '')
-                if (it.path.equals('.jar')) it.path = 'EntrainerFX-' + version + '.jar'
+                if (it.path.equals('.jar')) it.path = 'EntrainerFX.jar'
             }
         }
     }
