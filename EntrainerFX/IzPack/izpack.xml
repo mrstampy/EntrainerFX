@@ -151,9 +151,7 @@
 
 		<pack name="Documentation" required="no">
 			<description>The Documentation for Entrainer</description>
-			<fileset dir="doc" targetdir="$INSTALL_PATH/doc">
-				<exclude name="EFXLite/**" />
-			</fileset>
+			<fileset dir="doc" targetdir="$INSTALL_PATH/doc"/>
 		</pack>
 
 	</packs>
