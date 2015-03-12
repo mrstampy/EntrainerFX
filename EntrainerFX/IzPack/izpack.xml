@@ -1,0 +1,156 @@
+<installation version="1.0">
+	<!-- The info section. The meaning of the tags should be natural ... -->
+	<info>
+		<appname>EntrainerFX</appname>
+		<appversion>5.1.0</appversion>
+		<authors>
+			<author name="Burton Alexander" email="burton@users.sourceforge.net" />
+		</authors>
+		<url>http://sourceforge.net/projects/entrainer/</url>
+		<javaversion>1.8</javaversion>
+	</info>
+
+	<!-- The gui preferences indication. Sets the installer window to 1000x619. 
+		It will not be able to change the size. -->
+	<guiprefs width="1000" height="619" resizable="no" />
+
+	<!-- The locale section. Asks here to include the English and French langpacks. -->
+	<locale>
+		<langpack iso3="eng" />
+	</locale>
+
+	<!-- The resources section. The ids must be these ones if you want to use 
+		the LicencePanel and/or the InfoPanel. -->
+	<resources>
+		<res id="Installer.image" src="doc/images/EntrainerFX-partial.png" />
+		<res id="LicencePanel.licence" src="LICENSE.txt" />
+		<res id="InfoPanel.info" src="README.txt" />
+		<res id="TargetPanel.dir.windows" src="IzPack/windows/TargetPanel.dir.windows" />
+		<res id="TargetPanel.dir.macosx" src="IzPack/mac/TargetPanel.dir.macosx" />
+		<res id="TargetPanel.dir.unix" src="IzPack/unix/TargetPanel.dir.unix" />
+	</resources>
+
+	<!-- The panels section. We indicate here which panels we want to use. The 
+		order will be respected. -->
+	<panels>
+		<panel classname="HelloPanel" />
+		<panel classname="InfoPanel" />
+		<panel classname="LicencePanel" />
+		<panel classname="TargetPanel" />
+		<panel classname="PacksPanel" />
+		<panel classname="InstallPanel" />
+		<panel classname="FinishPanel" />
+	</panels>
+	
+	<!-- The packs section. We specify here our packs. -->
+	<packs>
+		<pack name="Base" required="yes">
+			<description>The base files</description>
+			
+			<file unpack="true" src="build/distributions/EntrainerFX-5.1.0.zip" targetdir="$INSTALL_PATH"/>
+			
+			<file src="README.txt" targetdir="$INSTALL_PATH" />
+			<file src="LICENSE.txt" targetdir="$INSTALL_PATH" />
+			
+			<file src="src/main/resources/logback.xml" targetdir="$INSTALL_PATH/logback" />
+			
+			<singlefile src="settings.xml.install" target="$INSTALL_PATH/settings.xml" />
+
+			<file src="IzPack/windows/entrainer.bat" targetdir="$INSTALL_PATH" />
+			<file src="IzPack/unix/entrainer.sh" targetdir="$INSTALL_PATH" />
+
+			<executable targetfile="$INSTALL_PATH/entrainer.bat" stage="never" />
+			<executable targetfile="$INSTALL_PATH/entrainer.sh" stage="never" />
+
+			<fileset dir="wav" targetdir="$INSTALL_PATH/wav">
+				<exclude name="*.*" />
+			</fileset>
+
+			<!-- ESP Files and directories -->
+
+			<fileset dir="esp" targetdir="$INSTALL_PATH/esp"/>
+
+			<fileset dir="esp.lab" targetdir="$INSTALL_PATH/esp.lab">
+				<exclude name="*.*" />
+			</fileset>
+
+			<file src="src/main/resources/esp.openbci.properties" targetdir="$INSTALL_PATH/esp.config" />
+			<file src="src/main/resources/javax.usb.properties" targetdir="$INSTALL_PATH/esp.config" />
+
+			<singlefile src="css/entrainer.css.install" target="$INSTALL_PATH/css/entrainer.css" />
+			
+			<fileset dir="css" targetdir="$INSTALL_PATH/css">
+				<include name="hawaiisunset2.jpg" />
+				<include name="helux-nebula.jpg" />
+				<include name="indian-ocean-space.jpg" />
+				<include name="jupiter-by-hubble.jpg" />
+				<include name="jupiter-red-spots.jpg" />
+				<include name="lakesunset9.jpg" />
+				<include name="moon-framed.jpg" />
+				<include name="saturn-aurorasingle.jpg" />
+				<include name="solar-system-montage.jpg" />
+				<include name="spiral-galaxy.jpg" />
+				<include name="star-birth-clouds.jpg" />
+			</fileset>
+			
+			<fileset dir="xml" targetdir="$INSTALL_PATH/xml">
+				<include name="AudioCaffeine.xml" />
+				<include name="Bedtime.xml" />
+				<include name="MindMush.xml" />
+				<include name="Schumann.xml" />
+				<include name="SchumannPerfected.xml" />
+				<include name="Sleepy3.xml" />
+			</fileset>
+			
+			<fileset dir="lafs" targetdir="$INSTALL_PATH/lafs">
+				<include name="kunststoff.jar" />
+				<include name="napkinlaf-1.2.jar" />
+				<include name="skinlf.jar" />
+				<include name="substance-7.3.jar" />
+				<include name="laf-plugin-7.3.jar" />
+				<include name="laf-widget-7.3.jar" />
+				<include name="JTattoo-1.6.11.jar" />
+	
+				<include name="LICENSE.skinlf" />
+				<include name="napkin-licence.html" />
+				<include name="kunststoff_Licence.txt" />
+				<include name="JTattoo.licence.txt" />
+			</fileset>
+
+			<fileset dir="lafs/skins" targetdir="$INSTALL_PATH/lafs/skins" />
+
+			<file src="animation/JFXHypnoAnimation.jar" targetdir="$INSTALL_PATH/animation" />
+
+		</pack>
+
+		<pack name="JSynBinaries" required="yes">
+			<description>
+				The PortAudio Platform-Specific Binaries
+			</description>
+			<file src="IzPack/windows/jportaudio_x86.dll" targetdir="$INSTALL_PATH">
+				<os family="windows" />
+			</file>
+			<file src="IzPack/windows/portaudio_x86.dll" targetdir="$INSTALL_PATH">
+				<os family="windows" />
+			</file>
+			<file src="IzPack/windows/jportaudio_x64.dll" targetdir="$INSTALL_PATH">
+				<os family="windows" />
+			</file>
+			<file src="IzPack/windows/portaudio_x64.dll" targetdir="$INSTALL_PATH">
+				<os family="windows" />
+			</file>
+			<file src="IzPack/mac/libjportaudio.jnilib" targetdir="$INSTALL_PATH">
+				<os family="mac" name="Mac OS X" />
+			</file>
+		</pack>
+
+		<pack name="Documentation" required="no">
+			<description>The Documentation for Entrainer</description>
+			<fileset dir="doc" targetdir="$INSTALL_PATH/doc">
+				<exclude name="EFXLite/**" />
+			</fileset>
+		</pack>
+
+	</packs>
+
+</installation>

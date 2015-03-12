@@ -13,18 +13,14 @@ apply plugin: 'eclipse'
 apply plugin: 'java-library-distribution'
 apply plugin: 'com.bmuschko.izpack'
 apply plugin: 'maven'
+apply plugin: 'distribution'
 
 sourceCompatibility = 1.8
 version = '5.1.0'
 
 configurations {
 	izpack
-}
-
-jar {
-    manifest {
-        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
-    }
+	entrainer
 }
 
 repositories {
@@ -33,32 +29,71 @@ repositories {
 }
 
 dependencies {
-	compile 'org.slf4j:slf4j-api:1.7.10'
-	compile 'org.slf4j:log4j-over-slf4j:1.7.10'
-	compile 'com.github.insubstantial:trident:7.3'
-	compile 'com.miglayout:miglayout-swing:5.0'
-	compile 'io.netty:netty-all:4.0.26.Final'
-	compile 'org.jfree:jfreechart:1.0.19'
-	compile 'org.jfree:jcommon:1.0.23'
-	compile 'com.fasterxml.jackson.core:jackson-core:2.5.1'
-	compile 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
-	compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.1'
-	compile 'com.github.mrstampy:esp:2.1'
-	compile 'com.github.mrstampy:esplab:1.0'
-	compile 'jsyn:jsyn:16.7.1'
-	compile 'neuroph-core:neuroph-core:2.8.0'
-	compile 'com.netflix.rxjava:rxjava-core:0.17.5'
-	compile 'com.miglayout:miglayout-ideutil:5.0'
-	compile 'com.lmax:disruptor:3.3.2'
-	compile 'ch.qos.logback:logback-classic:1.1.2'
-	compile 'ch.qos.logback:logback-core:1.1.2'
-	compile 'org.apache.mina:mina-core:2.0.9'
-	compile 'org.apache.mina:mina-transport-serial:2.0.9'
-	compile 'javolution:javolution:5.5.1'
-	compile 'org.usb4java:usb4java:1.2.0'
-	compile 'org.usb4java:usb4java-javax:1.2.0'
-	compile 'org.rxtx:rxtx:2.1.7'
-	compile 'org.reactfx:reactfx:1.4.1'
+	entrainer 'org.slf4j:slf4j-api:1.7.10'
+	entrainer 'org.slf4j:log4j-over-slf4j:1.7.10'
+	entrainer 'com.github.insubstantial:trident:7.3'
+	entrainer 'com.miglayout:miglayout-swing:5.0'
+	entrainer 'io.netty:netty-all:4.0.26.Final'
+	entrainer 'org.jfree:jfreechart:1.0.19'
+	entrainer 'org.jfree:jcommon:1.0.23'
+	entrainer 'com.fasterxml.jackson.core:jackson-core:2.5.1'
+	entrainer 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
+	entrainer 'com.fasterxml.jackson.core:jackson-annotations:2.5.1'
+	entrainer 'com.github.mrstampy:esp:2.1'
+	entrainer 'com.github.mrstampy:esplab:1.0'
+	entrainer 'jportaudio:jportaudio:0.0.1'
+	entrainer 'jsyn:jsyn:16.7.3'
+	entrainer 'neuroph-core:neuroph-core:2.8.0'
+	entrainer 'com.netflix.rxjava:rxjava-core:0.17.5'
+	entrainer 'com.miglayout:miglayout-ideutil:5.0'
+	entrainer 'com.lmax:disruptor:3.3.2'
+	entrainer 'ch.qos.logback:logback-classic:1.1.2'
+	entrainer 'ch.qos.logback:logback-core:1.1.2'
+	entrainer 'org.apache.mina:mina-core:2.0.9'
+	entrainer 'org.apache.mina:mina-transport-serial:2.0.9'
+	entrainer 'javolution:javolution:5.5.1'
+	entrainer 'org.usb4java:usb4java:1.2.0'
+	entrainer 'org.usb4java:usb4java-javax:1.2.0'
+	entrainer 'org.rxtx:rxtx:2.1.7'
+	entrainer 'org.reactfx:reactfx:1.4.1'
+	
+	compile configurations.entrainer
 	
 	izpack 'org.codehaus.izpack:izpack-standalone-compiler:4.3.4'
+}
+
+jar {
+    manifest {
+        attributes (
+        'Implementation-Title': 'EntrainerFX', 
+        'Implementation-Version': version,
+        'Built-By': 'Burton Alexander',
+        'Email-Address': 'burton@users.sourceforge.net',
+        'Project-Website': 'http://entrainer.sourceforge.net',
+        'Main-Class': 'net.sourceforge.entrainer.Main',
+        'Class-Path': configurations.compile.collect { 'lib/' + it.getName() }.join(' ') + ' esp.config/' + ' logback/')
+    }
+    
+    exclude(
+    	'esp.openbci.properties', 
+    	'javax.usb.properties', 
+    	'logback.xml')
+}
+
+distributions {
+    main {
+        contents {
+            eachFile {
+                it.path = it.path.replace('EntrainerFX-' + version, '')
+                if (it.path.equals('.jar')) it.path = 'EntrainerFX-' + version + '.jar'
+            }
+        }
+    }
+}
+
+izpack {
+    baseDir = file("./")
+    installFile = file('IzPack/izpack.xml')
+    compression = 'deflate'
+    compressionLevel = 9
 }
