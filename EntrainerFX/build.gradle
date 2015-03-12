@@ -77,7 +77,7 @@ jar {
         'Email-Address': 'burton@users.sourceforge.net',
         'Project-Website': 'http://entrainer.sourceforge.net',
         'Main-Class': 'net.sourceforge.entrainer.Main',
-        'Class-Path': configurations.compile.collect { 'lib/' + it.getName() }.join(' ') + ' esp.config/' + ' logback/')
+        'Class-Path': 'esp.config/ ' + 'logback/ ' + configurations.compile.collect { 'lib/' + it.getName() }.join(' '))
     }
     
     exclude(
