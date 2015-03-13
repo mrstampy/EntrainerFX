@@ -143,7 +143,7 @@ public class Main {
 				builder.append(".\nYou are running version ");
 				builder.append(JavaVersionChecker.CURRENT);
 				builder.append(".\nPlease visit http://java.oracle.com to get the latest Java Runtime Environment");
-				GuiUtil.handleProblem(new RuntimeException(builder.toString()));
+				GuiUtil.handleProblem(new RuntimeException(builder.toString()), true);
 				System.exit(-1);
 			}
 		} catch (Throwable e) {

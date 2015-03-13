@@ -220,6 +220,33 @@ public class GuiUtil {
 		return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 	}
 
+	public static void handleProblem(Throwable e, boolean useLatch) {
+		e.printStackTrace();
+
+		final String msg = e.getMessage();
+
+		final CountDownLatch latch = useLatch ? new CountDownLatch(1) : null;
+
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				JOptionPane.showMessageDialog(null, msg, "Unexpected Exception", JOptionPane.ERROR_MESSAGE);
+				if (useLatch) latch.countDown();
+			}
+		});
+
+		logger.error(msg, e);
+
+		if (useLatch) {
+			try {
+				latch.await();
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
 	/**
 	 * Displays a message pane for the user containing the error, prints the stack
 	 * trace and logs the error in the entrainer.log file.
@@ -228,28 +255,7 @@ public class GuiUtil {
 	 *          the e
 	 */
 	public static void handleProblem(Throwable e) {
-		e.printStackTrace();
-
-		final String msg = e.getMessage();
-
-		final CountDownLatch latch = new CountDownLatch(1);
-
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				JOptionPane.showMessageDialog(null, msg, "Unexpected Exception", JOptionPane.ERROR_MESSAGE);
-				latch.countDown();
-			}
-		});
-
-		logger.error(msg, e);
-
-		try {
-			latch.await();
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
+		handleProblem(e, false);
 	}
 
 	/**
