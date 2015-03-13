@@ -337,7 +337,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	private void scaleBackground() {
 		Dimension d = mainPanel.getPreferredSize();
 		setSize(new Dimension((int)d.getWidth(), MIN_HEIGHT));
-		System.out.println(getSize());
 		GuiUtil.centerOnScreen(EntrainerFX.this);
 		unexpandTitledPanes();
 		return;
