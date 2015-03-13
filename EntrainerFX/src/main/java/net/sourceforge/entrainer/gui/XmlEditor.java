@@ -893,7 +893,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 	 * @return the xml file chooser
 	 */
 	public static JFileChooser getXmlFileChooser() {
-		JFileChooser chooser = new JFileChooser(EFX_PROGRAM_DIR +  "/xml");
+		JFileChooser chooser = new JFileChooser(EFX_PROGRAM_DIR);
 
 		chooser.setFileFilter(new FileFilter() {
 			@Override
