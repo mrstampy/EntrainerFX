@@ -146,8 +146,6 @@ import com.github.mrstampy.esplab.EspPowerLabWindow;
  * @author burton
  */
 public class EntrainerFX extends JFrame implements EntrainerResources {
-	private static final int MIN_HEIGHT = 950;
-	private static final int MIN_WIDTH = 654;
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(EntrainerFX.class);
 
@@ -224,7 +222,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 			@Override
 			public void windowOpened(WindowEvent e) {
 				settings.setAcceptUpdates(true);
-				background.setDimension(gp.getWidth(), MIN_HEIGHT);
+				background.setDimension(mainPanel.getWidth(), mainPanel.getHeight());
 			}
 		});
 	}
@@ -336,8 +334,8 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	}
 
 	private void scaleBackground() {
-		setPreferredSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
-		setSize(getPreferredSize());
+		Dimension d = mainPanel.getPreferredSize();
+		setSize(new Dimension((int)d.getWidth(), (int)(d.getHeight() / 1.2)));
 		GuiUtil.centerOnScreen(EntrainerFX.this);
 		unexpandTitledPanes();
 		return;
@@ -1643,9 +1641,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 				group = new Group();
 
 				group.getChildren().add(background.getPane());
-				// new BackgroundFlasher(background);
-				// gp.setMinSize(getBackgroundImage().getWidth(),
-				// getBackgroundImage().getHeight());
 				shimmer.setInUse(true);
 				group.getChildren().add(shimmer);
 				group.getChildren().add(gp);
