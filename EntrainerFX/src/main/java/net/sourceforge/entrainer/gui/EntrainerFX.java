@@ -146,6 +146,7 @@ import com.github.mrstampy.esplab.EspPowerLabWindow;
  * @author burton
  */
 public class EntrainerFX extends JFrame implements EntrainerResources {
+	private static final int MIN_HEIGHT = 950;
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(EntrainerFX.class);
 
@@ -335,7 +336,8 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 	private void scaleBackground() {
 		Dimension d = mainPanel.getPreferredSize();
-		setSize(new Dimension((int)d.getWidth(), (int)(d.getHeight() / 1.2)));
+		setSize(new Dimension((int)d.getWidth(), MIN_HEIGHT));
+		System.out.println(getSize());
 		GuiUtil.centerOnScreen(EntrainerFX.this);
 		unexpandTitledPanes();
 		return;
