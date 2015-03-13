@@ -10,13 +10,25 @@ entrainment frequency.  This entrainment frequency can also be used to flash the
 in sync with the generated binaural beats if desired.
 
 EntrainerFX is programmable via xml files.  They are easily read & edited, and EntrainerFX
-includes its own xml editor to create and edit EntrainerFX xml files.  Sample files included.
+includes its own editor to create and edit EntrainerFX program files.  Sample files included.
 
 The sound output of EntrainerFX can also be saved as a .wav file.  Using your favourite 
 audio conversion tool (ie. iTunes) you can create mp3's of the EntrainerFX programs, for use 
 on your personal media device.
 
-EntrainerFX will run on Windows, OS X and Linux and was built using Java 8 (1.8.0_05).
+EntrainerFX will run on Windows, OS X and Linux and was built using Java 8 (1.8.0_40).
+
+5.1.0 - March 14, 2015
+  - Last feature release prior to full JavaFX conversion
+  - Minimum Java version - 1.8.0_40
+  - Added configurable background w/ 3 modes - random images from the chosen directory,
+    static image or background colour
+  - Deprecated flash panel (functionality merged into EntrainerBackground)
+  - Moved build system to Gradle, source now on Github
+  - EntrainerFX settings saved on each change (was on program exit)
+  - Splash screen can be enabled/disabled via help menu item
+  - Merged EntrainerCommon source into the project
+  - updated libraries, small code improvements
 
 5.0.0 Final - June 7, 2014
   - Java 8 minimum required

@@ -25,8 +25,8 @@ package net.sourceforge.entrainer;
 public interface Version {
 
 	/** The Constant VERSION. */
-	public static final String VERSION = "5.1.0 Final";
+	public static final String VERSION = "5.1.0";
 
 	/** The Constant RELEASE. */
-	public static final String RELEASE = "???, 2015";
+	public static final String RELEASE = "March 14, 2015";
 }
