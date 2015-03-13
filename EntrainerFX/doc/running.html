@@ -30,6 +30,7 @@
 		<ul title="Top Level Navigation bar">
 			<li><a href="http://sourceforge.net/projects/entrainer" title="Sourceforge Project Page">Project Page</a></li>
 			<li><a href="mailto:burton@users.sourceforge.net" title="Contact">Contact</a></li>
+			<li><a href="https://plus.google.com/112157326543408665325" rel="publisher">Entrainer on Google+</a></li>
 		</ul>
 	</div>
   	
@@ -40,14 +41,35 @@
 	<div id="content">
 	
   	<h1>Executing</h1>
-  	<p>Double click the <b>Entrainer.jar</b> file in the Entrainer installation directory, or start the application
+  	<p>Double click the <b>EntrainerFX.jar</b> file in the Entrainer installation directory, or start the application
   	as per the instructions on the <a href="index.html" title="Index">Index</a> page.
   	After the splash screen disappears, the application starts up.
+    <center><img alt="Started Application" src="images/EntrainerFX.jpg"/></center>     
   	
   	<h1>Controls</h1>
   	<p>The following describes the controls that are available to the user.<br/><br/>
+  	
+  	<center><img alt="Background Options" src="images/EntrainerBackground.jpg"/></center>
+  	<h2>Background Control (New in 5.1.0)</h2>
+  	<p>As the last major new feature prior to full JavaFX conversion I've implemented full
+  	control of the background images or colours.  Should the 'Dynamic' radio button be pressed
+  	a single click of the image directory field allows the user to choose any directory containing image
+  	files (jpeg, bmp, gif & png files).  The directory is recursively scanned and the images are randomly 
+  	changed using the duration and transition values selected.</p>
+  	
+  	<p>Should the 'Static' radio button be selected the user is able to single click the static image field and
+   	choose a single picture for display.  Should the 'Lock Image' checkbox be selected the image can only be changed
+   	by clicking the static image field.  If the checkbox is not selected a new image can be chosen when the 'Dynamic'
+   	radio button is selected and the background is cycling through random images - see an image you like, then click 
+   	the 'Static' radio button before it transitions to the next image.</p>
+   	
+   	<p>Should the 'No Image' radio button be selected the user is able to choose a static colour for the background 
+   	via the colour picker control, or choose random background colours during play by selecting the 'Psychedelic' 
+   	checkbox.</p>
+   	
+   	<p>In all 3 modes selecting the 'Flash Background' checkbox will cause the background to flash in time with the
+   	chosen entrainment frequency</p>
   	  	
-    <center><img alt="Started Application" src="images/EntrainerFX.jpg"/></center>     
     <h2>Shimmer Effect (New in 1.1.5 Final)</h2>
     <p>The user can choose to place a shimmer effect over top of the application while it is running.
     Colours and transparency values gently shift over time, providing a hypnotic oil-on-water effect.</p>
@@ -77,12 +99,6 @@
     <center><img alt="Custom Interval" src="images/CustomInterval.jpg"/></center><br>    
     
     <h2>Program Control</h2>
-  	<h3>Flash Colours</h3>
-    <center><img alt="Flash Panel Options" src="images/FlashPanelOptions.jpg"/></center><br>
-  	<p>When selected, the application's flash panel will flash at the specified entrainment frequency
-  	when the 'Play' button has been pressed.
-  	<h3>Psychedelic</h3><p>When selected, the colour used to flash the message panel will randomly change.
-  	<h3>Flash Background</h3><p>When selected, the opacity of the background image is changed in time with the chosen entrainment frequency.
   	<h3>Entrainment Frequency</h3><p>This slider controls the difference in frequencies between the right and left
   	stereo channels.
   	<h3>Frequency</h3><p>This slider controls the base frequency.  The actual frequency is of little importance to 
@@ -113,7 +129,9 @@
     
     <h2>The Help Menu</h2>
     <p>This menu displays the 'About' dialog, an entrainment introduction and the LICENSE.txt
-    file included with the installation.<br><br>
+    file included with the installation.  Access to local and web documentation for EntrainerFX
+    is available and in version 5.1.0 a checkbox item exists which allows enabling/disabling of the
+    splash screen on startup.<br><br>
     <center><img alt="Help Menu" src="images/HelpMenu.jpg"/></center><br>
 	
 	</div>
