@@ -364,7 +364,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 		TrayIcon icon = new TrayIcon(this.icon.getImage());
 		icon.setPopupMenu(getTrayIconPopup());
-		icon.setToolTip("Entrainer");
+		icon.setToolTip("EntrainerFX");
 
 		try {
 			SystemTray.getSystemTray().add(icon);
@@ -374,9 +374,9 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	}
 
 	private PopupMenu getTrayIconPopup() {
-		PopupMenu pop = new PopupMenu("Entrainer");
+		PopupMenu pop = new PopupMenu("EntrainerFX");
 
-		MenuItem start = new MenuItem("Start Entrainer");
+		MenuItem start = new MenuItem("Start EntrainerFX");
 		start.addActionListener(new ActionListener() {
 
 			@Override
@@ -388,7 +388,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 		pop.add(start);
 
-		MenuItem stop = new MenuItem("Stop Entrainer");
+		MenuItem stop = new MenuItem("Stop EntrainerFX");
 		stop.addActionListener(new ActionListener() {
 
 			@Override
