@@ -24,7 +24,7 @@ EntrainerFX will run on Windows, OS X and Linux and was built using Java 8 (1.8.
   - Added configurable background w/ 3 modes - random images from the chosen directory,
     static image or background colour
   - Deprecated flash panel (functionality merged into EntrainerBackground)
-  - Moved build system to Gradle, source now on Github
+  - Moved build system to Gradle, source now on Github (https://github.com/mrstampy/EntrainerFX.git)
   - EntrainerFX settings saved on each change (was on program exit)
   - Splash screen can be enabled/disabled via help menu item
   - Merged EntrainerCommon source into the project
