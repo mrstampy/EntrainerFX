@@ -47,8 +47,8 @@
 			of entraining brain waves.  EntrainerFX is released under the <a href="http://www.gnu.org/copyleft/gpl.html">GPL</a>
 			license - it is free and open source.  It can be obtained from the 
 			<a href="http://sourceforge.net/projects/entrainer">Entrainer Sourceforge project page</a> and the latest version is 
-			<a href="http://sourceforge.net/projects/entrainer/files/entrainer">EntrainerFX 5.0.0 Final</a>, released on June 7, 2014,
-			requiring a minimum of Java 8 to run.  
+			<a href="http://sourceforge.net/projects/entrainer/files/entrainer">EntrainerFX 5.1.0</a>, released on March 14, 2015,
+			requiring a minimum of Java 8 (1.8.0_40) to run.  
 			Screenshots of older versions of Entrainer in action are
 			<a href="running.html">included</a> <a href="animations.html">throughout</a> 
 			<a href="loading.html">this</a> <a href="lookAndFeel.html">documentation</a>.
@@ -67,30 +67,6 @@
 			<p><b>C:/Program Files/EntrainerFX</b> - bad</p>
 			
 			<p>Thanks to Rich for bringing this issue to my attention.</p>
-		
-		<h2>EntrainerFX 4.3.0 RC1 - A Self-Healing Application</h2>
-			<p>
-				From version 4.3.0 EntrainerFX now resolves its external dependencies on startup via the
-				<a href="http://mrstampy.github.io/PoisonIvy/">Poison Ivy</a> library.  The use of this library
-				reduces the size of the EntrainerFX deliverable and facilitates clean future upgrades of library
-				dependencies.
-			</p>
-			
-			<p>
-				EntrainerFX 4.3.0 should be installed into a clean directory.
-				On first startup the computer must be online. A splash screen is shown with an infinite progress indicator
-				and a text area displaying the state of the dependency resolution. Dependencies are downloaded and placed into the 
-				<b>$EFX_INSTALL_DIR/ivylib</b>	directory. Should the libraries be deleted or corrupted EntrainerFX
-				will download the dependencies again. As part of the <a href="https://ant.apache.org/ivy/">Apache Ivy</a> process
-				a library cache is written to the users's home directory: <b>$USER_HOME/.ivy2</b>. Once complete
-				the splash screen is closed and EntrainerFX starts up automatically.
-			</p>
-			
-			<p>
-				Should there be any issues please use 
-				<a href="http://sourceforge.net/projects/entrainer/files/entrainer/EntrainerFX%204.2.5%20Final/">version 4.2.5</a>
-				and please send	me an <a href="mailto:burton@users.sourceforge.net">email</a> describing the issues.
-			</p> 
 			
 		<h2>EntrainerFX Lite</h2>
 		
@@ -178,8 +154,8 @@
 				these conditions.  That, and a fun tool with which to learn control of conscious states!
 			
 		<h1>Requirements</h1>
-			<p>Entrainer requires a minimum of <a href="http://java.oracle.com/javase/downloads/">JRE 1.8.0 (Java 8)</a>
-	    	to run. To run simply double click the Entrainer.jar file.
+			<p>Entrainer requires a minimum of <a href="http://java.oracle.com/javase/downloads/">JRE 1.8.0_40 (Java 8)</a>
+	    	to run. To run simply double click the EntrainerFX.jar file.
 	    	
 	    	<p>Alternatively the 'entrainer.bat' (Windows) or 'entrainer.sh' (Unix/Mac) can be used to start Entrainer.</p>
 	
@@ -225,7 +201,7 @@
 </div>
 	
 <div id="info-site">
-  <p id="info-company"><a href="#">copyright Burton Alexander 2008 - 2014</a> | <a href="http://entrainer.sourceforge.net">Entrainer Home</a></p>
+  <p id="info-company"><a href="#">copyright Burton Alexander 2008 - 2015</a> | <a href="http://entrainer.sourceforge.net">Entrainer Home</a></p>
 </div>
 
 </div>
