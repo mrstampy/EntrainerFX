@@ -21,10 +21,18 @@ package net.sourceforge.entrainer.mediator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
+import com.lmax.disruptor.BlockingWaitStrategy;
+import com.lmax.disruptor.BusySpinWaitStrategy;
 import com.lmax.disruptor.EventHandler;
+import com.lmax.disruptor.LiteBlockingWaitStrategy;
 import com.lmax.disruptor.RingBuffer;
+import com.lmax.disruptor.SleepingWaitStrategy;
+import com.lmax.disruptor.TimeoutBlockingWaitStrategy;
+import com.lmax.disruptor.YieldingWaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
+import com.lmax.disruptor.dsl.ProducerType;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -145,7 +153,8 @@ public class EntrainerMediator {
 
 	@SuppressWarnings("unchecked")
 	private void initDisruptor() {
-		disruptor = new Disruptor<MessageEvent>(new MessageEventFactory(), 16, Executors.newCachedThreadPool());
+		disruptor = new Disruptor<MessageEvent>(new MessageEventFactory(), 16, Executors.newCachedThreadPool(),
+				ProducerType.MULTI, new TimeoutBlockingWaitStrategy(10, TimeUnit.MICROSECONDS));
 
 		disruptor.handleEventsWith(messageEventHandler);
 	}
