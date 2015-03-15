@@ -20,8 +20,11 @@ package net.sourceforge.entrainer.mediator;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import com.lmax.disruptor.EventHandler;
+import com.lmax.disruptor.RingBuffer;
+import com.lmax.disruptor.dsl.Disruptor;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -47,7 +50,11 @@ public class EntrainerMediator {
 
 	private static EntrainerMediator mediator = new EntrainerMediator();
 
-	private Executor executor = Executors.newCachedThreadPool();
+	private EventHandler<MessageEvent> messageEventHandler;
+
+	private Disruptor<MessageEvent> disruptor;
+
+	private RingBuffer<MessageEvent> rb;
 
 	/**
 	 * Returns the only instance of this class.
@@ -60,6 +67,10 @@ public class EntrainerMediator {
 
 	private EntrainerMediator() {
 		super();
+
+		initMessageEventHandler();
+		initDisruptor();
+		rb = disruptor.start();
 	}
 
 	/**
@@ -126,16 +137,34 @@ public class EntrainerMediator {
 	 *          the e
 	 */
 	void notifyReceivers(final ReceiverChangeEvent e) {
-		executor.execute(new Runnable() {
+		long seq = rb.next();
+		MessageEvent be = rb.get(seq);
+		be.setMessage(e);
+		rb.publish(seq);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void initDisruptor() {
+		disruptor = new Disruptor<MessageEvent>(new MessageEventFactory(), 16, Executors.newCachedThreadPool());
+
+		disruptor.handleEventsWith(messageEventHandler);
+	}
+
+	private void initMessageEventHandler() {
+		messageEventHandler = new EventHandler<MessageEvent>() {
 
 			@Override
-			public void run() {
-				for (Receiver receiver : receivers) {
-					if (e.getSource() == receiver.getSource()) continue;
-					receiver.receiverChangeEventPerformed(e);
-				}
+			public void onEvent(final MessageEvent event, long sequence, boolean endOfBatch) throws Exception {
+				sendEvent(event.getMessage());
 			}
-		});
+		};
+	}
+
+	protected void sendEvent(ReceiverChangeEvent e) {
+		for (Receiver receiver : receivers) {
+			if (e.getSource() == receiver.getSource()) continue;
+			receiver.receiverChangeEventPerformed(e);
+		}
 	}
 
 }
