@@ -43,6 +43,8 @@ public class EntrainmentFrequencyPulseNotifier {
 	private Sender sender = new SenderAdapter();
 
 	private Lock runLock = new ReentrantLock();
+	
+	private Thread notificationThread;
 
 	@SuppressWarnings("unused")
 	private static EntrainmentFrequencyPulseNotifier notifier;
@@ -75,21 +77,25 @@ public class EntrainmentFrequencyPulseNotifier {
 	}
 
 	private void startNofificationThread() {
-		Thread thread = new Thread("Entrainment cycle notification thread") {
-			public void run() {
-				setPriority(Thread.MAX_PRIORITY);
-				while (isRun()) {
-					Utils.snooze(calculator.getMillis(), calculator.getNanos());
+		notificationThread  = new Thread(() -> execute(), "Entrainment cycle notification thread");
+		
+		notificationThread.start();
+	}
 
-					if (isRun()) sendFrequencyCycleEvent(true);
-				}
+	private void execute() {
+		notificationThread.setPriority(Thread.MAX_PRIORITY);
+		
+		while (isRun()) {
+			Utils.snooze(calculator.getMillis(), calculator.getNanos());
 
-				sendFrequencyCycleEvent(false);
-			}
+			if (isRun()) sendFrequencyCycleEvent(true);
+		}
 
-		};
-
-		thread.start();
+		sendFrequencyCycleEvent(false);
+	}
+	
+	private void sendFrequencyCycleEvent(boolean b) {
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, b, MediatorConstants.ENTRAINMENT_FREQUENCY_PULSE));
 	}
 
 	private void initMediator() {
@@ -107,9 +113,5 @@ public class EntrainmentFrequencyPulseNotifier {
 				}
 			}
 		});
-	}
-
-	private void sendFrequencyCycleEvent(boolean b) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, b, MediatorConstants.ENTRAINMENT_FREQUENCY_PULSE));
 	}
 }
