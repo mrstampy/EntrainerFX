@@ -116,6 +116,7 @@ import net.sourceforge.entrainer.socket.InvalidPortNumberException;
 import net.sourceforge.entrainer.sound.MasterLevelController;
 import net.sourceforge.entrainer.sound.SoundControl;
 import net.sourceforge.entrainer.sound.jsyn.JSynSoundControl;
+import net.sourceforge.entrainer.sound.tools.EntrainmentFrequencyPulseNotifier;
 import net.sourceforge.entrainer.sound.tools.Panner;
 import net.sourceforge.entrainer.xml.Settings;
 import net.sourceforge.entrainer.xml.SleeperManager;
@@ -226,6 +227,8 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 				background.setDimension(mainPanel.getWidth(), mainPanel.getHeight());
 			}
 		});
+		
+		EntrainmentFrequencyPulseNotifier.start();
 	}
 
 	/**

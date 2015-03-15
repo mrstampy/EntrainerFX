@@ -30,9 +30,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -55,8 +53,6 @@ import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
-import net.sourceforge.entrainer.sound.tools.FrequencyToHalfTimeCycle;
-import net.sourceforge.entrainer.util.Utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,8 +91,6 @@ public class EntrainerBackground {
 
 	private ScheduledExecutorService switchSvc = Executors.newSingleThreadScheduledExecutor();
 
-	private ExecutorService flashSvc = Executors.newSingleThreadExecutor();
-
 	private List<String> pictureNames = new ArrayList<>();
 
 	private Random rand = new Random(System.nanoTime());
@@ -105,10 +99,6 @@ public class EntrainerBackground {
 	private double height;
 
 	private boolean flashBackground;
-
-	private boolean running;
-
-	private FrequencyToHalfTimeCycle calculator = new FrequencyToHalfTimeCycle();
 
 	private String backgroundPic;
 
@@ -127,8 +117,6 @@ public class EntrainerBackground {
 	private boolean ptRunning;
 
 	private boolean psychedelic;
-
-	private Future<?> flashFuture;
 
 	/**
 	 * Instantiates a new variable background.
@@ -272,8 +260,6 @@ public class EntrainerBackground {
 			setFadeInImage();
 		}
 
-		if (shouldRun()) startTransition();
-
 		pane.getChildren().add(current);
 	}
 
@@ -325,11 +311,6 @@ public class EntrainerBackground {
 				switch (e.getParm()) {
 				case FLASH_BACKGROUND:
 					flashBackground = e.getBooleanValue();
-					if (shouldRun()) startTransition();
-					break;
-				case START_ENTRAINMENT:
-					running = e.getBooleanValue();
-					if (shouldRun()) startTransition();
 					break;
 				case STATIC_BACKGROUND:
 					if (isStatic()) return;
@@ -374,6 +355,9 @@ public class EntrainerBackground {
 				case IS_PSYCHEDELIC:
 					psychedelic = e.getBooleanValue();
 					break;
+				case ENTRAINMENT_FREQUENCY_PULSE:
+					transition(isNoBackground() ? rect : current, e.getBooleanValue());
+					break;
 				default:
 					break;
 				}
@@ -389,14 +373,12 @@ public class EntrainerBackground {
 			ScheduledFuture<?> sf = futures.remove(i);
 			if (sf != null) sf.cancel(true);
 		}
-		
-		if (flashFuture != null) flashFuture.cancel(true);
 	}
 
 	private void setBackgroundColor(Color colourValue) {
 		backgroundColor = JFXUtils.toJFXColor(colourValue);
-		
-		if(rect != null && rect.getFill().equals(colourValue)) return;
+
+		if (rect != null && rect.getFill().equals(colourValue)) return;
 
 		if (isShowBackgroundFill()) showBackgroundFill();
 	}
@@ -411,8 +393,6 @@ public class EntrainerBackground {
 		rect = new Rectangle(pane.getWidth(), pane.getHeight(), getInitialColour());
 
 		pane.getChildren().add(rect);
-
-		if (shouldRun()) startTransition();
 	}
 
 	private javafx.scene.paint.Color getInitialColour() {
@@ -466,27 +446,16 @@ public class EntrainerBackground {
 		pane.getChildren().clear();
 	}
 
-	private void startTransition() {
-		flashFuture = flashSvc.submit(() -> transition(isNoBackground() ? rect : current));
-	}
-
-	private void transition(Node background) {
-		while (canRun(background)) {
-			Utils.snooze(getMillis(), calculator.getNanos());
-
+	private void transition(Node background, boolean b) {
+		if (b) {
 			if (canRun(background) && !ptRunning) JFXUtils.runLater(() -> invert(background));
+		} else {
+			if (background.getOpacity() > 0) JFXUtils.runLater(() -> reset(background));
 		}
-
-		if (background.getOpacity() > 0) JFXUtils.runLater(() -> reset(background));
 	}
 
 	private boolean canRun(Node background) {
 		return shouldRun() && background.getOpacity() > 0;
-	}
-
-	private long getMillis() {
-		long millis = calculator.getMillis();
-		return millis > 5000 ? 5000l : millis;
 	}
 
 	private void invert(Node background) {
@@ -520,7 +489,7 @@ public class EntrainerBackground {
 	}
 
 	private boolean shouldRun() {
-		return running && (flashBackground || pane.getChildren().contains(rect));
+		return flashBackground || pane.getChildren().contains(rect);
 	}
 
 	/**

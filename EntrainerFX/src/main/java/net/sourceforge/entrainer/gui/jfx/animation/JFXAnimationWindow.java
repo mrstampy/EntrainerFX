@@ -45,7 +45,6 @@ import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
-import net.sourceforge.entrainer.sound.tools.FrequencyToHalfTimeCycle;
 import net.sourceforge.entrainer.util.Utils;
 import net.sourceforge.entrainer.xml.Settings;
 
@@ -61,12 +60,9 @@ public class JFXAnimationWindow extends JWindow {
 	private static final long serialVersionUID = 1L;
 
 	private WritableImage background;
-	private boolean isStarted = false;
-	private boolean isRunning = false;
 	private JFXEntrainerAnimation entrainerAnimation;
 	private int yOffset;
 	private Image customImage = null;
-	private FrequencyToHalfTimeCycle calculator = new FrequencyToHalfTimeCycle();
 
 	private JFXPanel mainPanel = new JFXPanel();
 	private Canvas canvas = new Canvas();
@@ -246,18 +242,13 @@ public class JFXAnimationWindow extends JWindow {
 					initEntrainerAnimation(e.getStringValue());
 					break;
 				case START_ENTRAINMENT:
-					setStarted(e.getBooleanValue());
-					if (!e.getBooleanValue()) {
-						getEntrainerAnimation().clearAnimation();
-					} else {
-						if (isAnimating) {
-							checkStart();
-							startAnimationThread();
-						}
-					}
+					if (!e.getBooleanValue()) getEntrainerAnimation().clearAnimation();
 					break;
 				case IS_ANIMATION:
 					isAnimating = e.getBooleanValue();
+					break;
+				case ENTRAINMENT_FREQUENCY_PULSE:
+					if(e.getBooleanValue() && isAnimating) paint();
 					break;
 				default:
 					break;
@@ -275,45 +266,6 @@ public class JFXAnimationWindow extends JWindow {
 			Image image = new Image(animationBackground, getScreenSize().getWidth(), getScreenSize().getHeight(), false, true);
 			setCustomImage(new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight()));
 		}
-	}
-
-	private void checkStart() {
-		if (!isRunning && isStarted()) {
-			isRunning = true;
-		}
-	}
-
-	private void startAnimationThread() {
-		Thread t = new Thread("Animation Window Animation Thread") {
-			public void run() {
-				setPriority(Thread.MAX_PRIORITY);
-				while (isStarted()) {
-					long l = getMillis() > 5000 ? 5000 : getMillis();
-					Utils.snooze(l, getNanos());
-
-					paint();
-				}
-				isRunning = false;
-			}
-		};
-
-		t.start();
-	}
-
-	private long getMillis() {
-		return calculator.getMillis();
-	}
-
-	private int getNanos() {
-		return calculator.getNanos();
-	}
-
-	private boolean isStarted() {
-		return isStarted;
-	}
-
-	private void setStarted(boolean isStarted) {
-		this.isStarted = isStarted;
 	}
 
 	private int getYOffset() {

@@ -20,8 +20,6 @@ package net.sourceforge.entrainer.gui.jfx.shimmer;
 
 import javafx.scene.paint.Paint;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
-import net.sourceforge.entrainer.sound.tools.FrequencyToHalfTimeCycle;
-import net.sourceforge.entrainer.util.Utils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -32,9 +30,8 @@ import net.sourceforge.entrainer.util.Utils;
  */
 public abstract class AbstractFlashingShimmer<P extends Paint> extends AbstractShimmer<P> {
 
-	private FrequencyToHalfTimeCycle calculator = new FrequencyToHalfTimeCycle();
-
-	private boolean runFlash = false;
+	private double opacity = 1.0;
+	private double halfOpacity = 0.5;
 
 	/**
 	 * Instantiates a new abstract flashing shimmer.
@@ -43,81 +40,17 @@ public abstract class AbstractFlashingShimmer<P extends Paint> extends AbstractS
 		super();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#start()
-	 */
-	public void start() {
-		super.start();
-		startOpacityFlashingThread();
+	@Override
+	protected void pulse(boolean b) {
+		setShimmerOpacity(determineOpacity(b));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#stop()
-	 */
-	public void stop() {
-		super.stop();
-		runFlash = false;
-	}
-
-	private void startOpacityFlashingThread() {
-		runFlash = true;
-		Thread t = new Thread("Shimmer Flashing Thread") {
-			public void run() {
-				setPriority(Thread.MAX_PRIORITY);
-				double o = getOpacity();
-				double half = o / 2;
-				while (runFlash) {
-					long l = getMillis() > 5000 ? 5000 : getMillis();
-					Utils.snooze(l, getNanos());
-
-					setShimmerOpacity(getOpacity() == o ? half : o);
-				}
-				setShimmerOpacity(o);
-			}
-		};
-
-		t.start();
+	private double determineOpacity(boolean b) {
+		return b ? getOpacity() == opacity ? halfOpacity : opacity : opacity;
 	}
 
 	private void setShimmerOpacity(final double o) {
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				setOpacity(o);
-			}
-		});
-	}
-
-	/**
-	 * Gets the millis.
-	 *
-	 * @return the millis
-	 */
-	protected long getMillis() {
-		return calculator.getMillis();
-	}
-
-	/**
-	 * Gets the nanos.
-	 *
-	 * @return the nanos
-	 */
-	protected int getNanos() {
-		return calculator.getNanos();
-	}
-
-	/**
-	 * Gets the entrainment frequency.
-	 *
-	 * @return the entrainment frequency
-	 */
-	protected double getEntrainmentFrequency() {
-		return calculator.getFrequency();
+		JFXUtils.runLater(() -> setOpacity(o));
 	}
 
 }

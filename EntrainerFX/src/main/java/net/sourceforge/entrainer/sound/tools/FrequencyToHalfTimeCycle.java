@@ -67,7 +67,7 @@ public class FrequencyToHalfTimeCycle {
 
 		setNanoValue(result.longValue());
 
-		setMillis(new BigDecimal(getNanoValue()).divide(oneMillion).longValue());
+		setMillis(getNanoValue() / oneMillion.longValue());
 
 		setNanos((int) (getNanoValue() - (getMillis() * oneMillion.longValue())));
 	}

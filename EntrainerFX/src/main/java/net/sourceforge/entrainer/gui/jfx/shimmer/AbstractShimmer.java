@@ -111,12 +111,19 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 					setCanShimmer(e.getBooleanValue());
 					checkStarted();
 					break;
+				case ENTRAINMENT_FREQUENCY_PULSE:
+					if(isCanShimmer()) pulse(e.getBooleanValue());
+					break;
 				default:
 					break;
 				}
 			}
 
 		});
+	}
+
+	protected void pulse(boolean b) {
+		// NOOP, override as necessary
 	}
 
 	private void checkStarted() {
