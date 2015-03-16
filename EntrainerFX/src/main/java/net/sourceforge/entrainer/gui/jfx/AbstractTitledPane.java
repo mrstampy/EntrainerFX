@@ -1,14 +1,14 @@
 package net.sourceforge.entrainer.gui.jfx;
 
+import javafx.scene.Node;
+import javafx.scene.control.Labeled;
+import javafx.scene.control.TitledPane;
+import javafx.scene.paint.Color;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
-import javafx.scene.Node;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.TitledPane;
-import javafx.scene.paint.Color;
 
 public abstract class AbstractTitledPane extends TitledPane {
 

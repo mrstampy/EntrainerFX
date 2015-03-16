@@ -23,6 +23,7 @@ import java.text.DecimalFormat;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.Blend;
@@ -41,7 +42,7 @@ import net.sourceforge.entrainer.mediator.SenderAdapter;
 /**
  * The Class SliderControlPane.
  */
-public class SliderControlPane extends GridPane {
+public class SliderControlPane extends AbstractTitledPane {
 
 	/** The Constant CSS_ID. */
 	public static final String CSS_ID = "slider-control-pane";
@@ -61,23 +62,30 @@ public class SliderControlPane extends GridPane {
 	private Label pinkNoiseValue = new Label();
 
 	private Sender sender = new SenderAdapter();
+	
+	private GridPane pane = new GridPane();
 
 	/**
 	 * Instantiates a new slider control pane.
 	 */
 	public SliderControlPane() {
-		super();
+		super("Sound Options");
 		init();
 	}
+	
+	protected void init() {
+		initLayout();
+		super.init();
+	}
 
-	private void init() {
+	private void initLayout() {
 		initMediator();
 
 		setId(CSS_ID);
 
-		setHgap(10);
-		setVgap(20);
-		setPadding(new Insets(10));
+		pane.setHgap(10);
+		pane.setVgap(20);
+		pane.setPadding(new Insets(10));
 
 		initSlider(entrainmentFrequency, entrainmentValue, entrainmentFormat, MediatorConstants.ENTRAINMENT_FREQUENCY);
 		initSlider(frequency, frequencyValue, frequencyFormat, MediatorConstants.FREQUENCY);
@@ -125,9 +133,14 @@ public class SliderControlPane extends GridPane {
 
 	private void addSlider(String label, Slider slider, Label value, int row) {
 		slider.setId(label);
-		add(new Label(label), 0, row);
-		add(slider, 1, row);
-		add(value, 2, row);
+		Label title = new Label(label);
+		
+		setTextFill(title);
+		setTextFill(value);
+		
+		pane.add(title, 0, row);
+		pane.add(slider, 1, row);
+		pane.add(value, 2, row);
 	}
 
 	private void initSlider(final Slider slider, final Label label, final DecimalFormat format,
@@ -153,10 +166,6 @@ public class SliderControlPane extends GridPane {
 
 		label.setText(format.format(slider.getValue()));
 		fireReceiverChangeEvent(slider.getValue(), event);
-	}
-
-	private void fireReceiverChangeEvent(double value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
 
 	/**
@@ -200,13 +209,7 @@ public class SliderControlPane extends GridPane {
 	}
 
 	private void setValue(final double value, final Slider slider) {
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				slider.setValue(value);
-			}
-		});
+		JFXUtils.runLater(() -> slider.setValue(value));
 	}
 
 	/**
@@ -243,6 +246,11 @@ public class SliderControlPane extends GridPane {
 	 */
 	public Slider getPinkNoise() {
 		return pinkNoise;
+	}
+
+	@Override
+	protected Node getContentPane() {
+		return pane;
 	}
 
 }

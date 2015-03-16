@@ -21,11 +21,12 @@ package net.sourceforge.entrainer.gui.jfx;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.START_ENTRAINMENT;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
@@ -37,7 +38,7 @@ import net.sourceforge.entrainer.mediator.SenderAdapter;
 /**
  * The Class SoundControlPane.
  */
-public class SoundControlPane extends VBox {
+public class SoundControlPane extends HBox {
 
 	/** The Constant CSS_ID. */
 	public static final String CSS_ID = "sound-control-pane";
@@ -59,17 +60,6 @@ public class SoundControlPane extends VBox {
 		initButtons();
 	}
 
-	/**
-	 * Instantiates a new sound control pane.
-	 *
-	 * @param arg0
-	 *          the arg0
-	 */
-	public SoundControlPane(double arg0) {
-		super(arg0);
-		initButtons();
-	}
-
 	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
@@ -77,6 +67,7 @@ public class SoundControlPane extends VBox {
 	private void initButtons() {
 		initReceiver();
 		setId(CSS_ID);
+		setAlignment(Pos.CENTER);
 		EntrainerMediator.getInstance().addSender(sender);
 		play = ControlButtonFactory.createButton("Play");
 		stop = ControlButtonFactory.createButton("Stop");

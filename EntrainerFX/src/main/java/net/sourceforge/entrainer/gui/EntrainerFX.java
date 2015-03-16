@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 
 import javafx.application.Platform;
@@ -59,7 +60,6 @@ import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -123,6 +123,7 @@ import net.sourceforge.entrainer.xml.SleeperManager;
 import net.sourceforge.entrainer.xml.SleeperManagerEvent;
 import net.sourceforge.entrainer.xml.SleeperManagerListener;
 
+import org.controlsfx.control.HiddenSidesPane;
 import org.controlsfx.dialog.Dialogs;
 import org.pushingpixels.trident.Timeline.TimelineState;
 import org.pushingpixels.trident.callback.TimelineCallbackAdapter;
@@ -227,7 +228,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 				background.setDimension(mainPanel.getWidth(), mainPanel.getHeight());
 			}
 		});
-		
+
 		EntrainmentFrequencyPulseNotifier.start();
 	}
 
@@ -307,7 +308,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		mainPanel.setVisible(true);
 		gp.setVisible(true);
 
-		scaleBackground();
+		scaleSize();
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
@@ -337,29 +338,24 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		}
 	}
 
-	private void scaleBackground() {
+	private void scaleSize() {
 		Dimension d = mainPanel.getPreferredSize();
 		Dimension screen = GuiUtil.getWorkingScreenSize();
-		int height = MIN_HEIGHT > screen.getHeight() ? (int)(screen.getHeight() - 50) : MIN_HEIGHT;
-		
-		setSize(new Dimension((int)d.getWidth(), height));
-		
+		int height = MIN_HEIGHT > screen.getHeight() ? (int) (screen.getHeight() - 50) : MIN_HEIGHT;
+
+		setSize(new Dimension((int) d.getWidth(), height));
+
 		GuiUtil.centerOnScreen(EntrainerFX.this);
-		unexpandTitledPanes();
+		JFXUtils.runLater(() -> unexpandTitledPanes());
 	}
 
 	private void unexpandTitledPanes() {
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				pinkPanningPane.setExpanded(false);
-				animations.setExpanded(false);
-				shimmerOptions.setExpanded(false);
-				neuralizer.setExpanded(false);
-				pictures.setExpanded(false);
-			}
-		});
+		sliderControlPane.setExpanded(false);
+		pinkPanningPane.setExpanded(false);
+		animations.setExpanded(false);
+		shimmerOptions.setExpanded(false);
+		neuralizer.setExpanded(false);
+		pictures.setExpanded(false);
 	}
 
 	private void addSystemTrayIcon() {
@@ -944,14 +940,14 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 	private void chooseChannel() {
 		//@formatter:off
-		EspChannel channel = Dialogs
+		Optional<EspChannel> channel = Dialogs
 				.create()
 				.title("Choose Channel")
 				.message("Choose the channel for processing")
 				.showChoices(lab.getConnection().getChannels());
 		//@formatter:on
 
-		if (channel != null) lab.setChannel(channel.getChannelNumber());
+		if (channel.isPresent()) lab.setChannel(channel.get().getChannelNumber());
 	}
 
 	private JMenuItem loadLabMenu() {
@@ -1618,26 +1614,20 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	private void layoutComponents() {
 		mainPanel = new JFXPanel();
 
-		gp.setAlignment(Pos.BASELINE_CENTER);
-		GridPane.setConstraints(soundControlPane, 0, 0);
-		GridPane.setConstraints(sliderControlPane, 1, 0);
-		GridPane.setValignment(sliderControlPane, VPos.BOTTOM);
-
-		int v = 1;
-		GridPane.setConstraints(pictures, 0, v++, 2, 1);
-		GridPane.setConstraints(pinkPanningPane, 0, v++, 2, 1);
-		GridPane.setConstraints(animations, 0, v++, 2, 1);
-		GridPane.setConstraints(shimmerOptions, 0, v++, 2, 1);
-		GridPane.setConstraints(neuralizer, 0, v++, 2, 1);
-
+		int v = 0;
+		GridPane.setConstraints(sliderControlPane, 0, v++);
+		GridPane.setConstraints(pinkPanningPane, 0, v++);
+		GridPane.setConstraints(pictures, 0, v++);
+		GridPane.setConstraints(animations, 0, v++);
+		GridPane.setConstraints(shimmerOptions, 0, v++);		
+		GridPane.setConstraints(neuralizer, 0, v++);
+		
 		gp.setPadding(new Insets(5));
-		gp.getChildren().addAll(soundControlPane,
-				sliderControlPane,
-				pinkPanningPane,
-				animations,
-				shimmerOptions,
-				pictures,
-				neuralizer);
+		gp.getChildren().addAll(sliderControlPane, pinkPanningPane, animations, shimmerOptions, pictures, neuralizer);
+		
+		HiddenSidesPane pane = new HiddenSidesPane();
+		pane.setContent(gp);
+		pane.setTop(soundControlPane);
 
 		final URI css = JFXUtils.getEntrainerCSS();
 
@@ -1647,10 +1637,8 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 			public void run() {
 				group = new Group();
 
-				group.getChildren().add(background.getPane());
 				shimmer.setInUse(true);
-				group.getChildren().add(shimmer);
-				group.getChildren().add(gp);
+				group.getChildren().addAll(background.getPane(), shimmer, pane);
 				Scene scene = new Scene(group);
 				if (css != null) scene.getStylesheets().add(css.toString());
 				mainPanel.setScene(scene);
