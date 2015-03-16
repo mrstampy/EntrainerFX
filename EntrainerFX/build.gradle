@@ -44,7 +44,7 @@ dependencies {
 	entrainer 'com.fasterxml.jackson.core:jackson-annotations:2.5.1'
 	entrainer 'com.github.mrstampy:esp:2.1'
 	entrainer 'com.github.mrstampy:esplab:1.1'
-	entrainer 'org.controlsfx:controlsfx:8.20.8'
+	entrainer 'org.controlsfx:controlsfx:8.0.5'
 	entrainer 'jportaudio:jportaudio:0.0.1'
 	entrainer 'jsyn:jsyn:16.7.3'
 	entrainer 'neuroph-core:neuroph-core:2.8.0'

@@ -940,14 +940,14 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 	private void chooseChannel() {
 		//@formatter:off
-		Optional<EspChannel> channel = Dialogs
+		EspChannel channel = Dialogs
 				.create()
 				.title("Choose Channel")
 				.message("Choose the channel for processing")
 				.showChoices(lab.getConnection().getChannels());
 		//@formatter:on
 
-		if (channel.isPresent()) lab.setChannel(channel.get().getChannelNumber());
+		if (channel != null) lab.setChannel(channel.getChannelNumber());
 	}
 
 	private JMenuItem loadLabMenu() {
