@@ -123,8 +123,6 @@ public class EntrainerBackground {
 	private boolean ptRunning;
 
 	private boolean psychedelic;
-	
-	private Lock scaleLock = new ReentrantLock();
 
 	/**
 	 * Instantiates a new variable background.
@@ -272,42 +270,33 @@ public class EntrainerBackground {
 	}
 
 	private void scale() {
-		scaleLock.lock();
-		try {
-			scale(current);
-			scale(old);
-		} finally {
-			scaleLock.unlock();
-		}
+		scale(current);
+		scale(old);
 	}
-	
+
 	private void scale(ImageView view) {
-		if(view == null || view.getOpacity() == 0 || view.getImage() == null) return;
-		
+		if (view == null || view.getOpacity() == 0 || view.getImage() == null) return;
+
 		double pw = view.getImage().getWidth();
 		double ph = view.getImage().getHeight();
-		System.out.println("Image: " + pw + ", " + ph);
-		
+
 		double vw = getWidth();
 		double vh = getHeight();
-		System.out.println("Background: " + vw + ", " + vh);
 
 		double xr = Math.abs(1 - (pw - vw) / pw);
 		double yr = Math.abs(1 - (ph - vh) / ph);
-		
-		System.out.println("xr: " + xr + ", yr: " + yr);
 
 		if (xr >= yr) {
 			view.setFitWidth(vw);
 		} else {
 			view.setFitHeight(vh);
 		}
-		
-		if(view.getFitHeight() > vh) {
+
+		if (view.getFitHeight() > vh) {
 			view.setY(0 - ((view.getFitHeight() - vh) / 2));
 		}
-		
-		if(view.getFitWidth() > vw) {
+
+		if (view.getFitWidth() > vw) {
 			view.setX(0 - ((view.getFitWidth() - vw) / 2));
 		}
 	}

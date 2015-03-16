@@ -47,8 +47,6 @@ public abstract class AbstractTitledPane extends TitledPane {
 		setOnMouseExited(e -> mouseExited());
 		
 		setOpacity(0);
-		
-		setAlignment(Pos.CENTER);
 	}
 	
 	private void mouseExited() {
