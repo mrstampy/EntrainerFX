@@ -62,6 +62,10 @@ import org.slf4j.LoggerFactory;
  * The Class EntrainerBackground.
  */
 public class EntrainerBackground {
+	private static final double FLASH_OPACITY = 1.0;
+
+	private static final double NORMAL_OPACITY = 0.5;
+
 	private static final Logger log = LoggerFactory.getLogger(EntrainerBackground.class);
 
 	private static String[] picSuffixes = { ".jpg", ".JPG", ".png", ".PNG", ".gif", ".GIF", ".jpeg", ".JPEG", ".bmp",
@@ -199,6 +203,7 @@ public class EntrainerBackground {
 	}
 
 	private void fadeInOut(int key) {
+		ptRunning = true;
 		ScheduledFuture<?> sf = futures.remove(key);
 
 		if (sf == null || sf.isCancelled()) return;
@@ -220,7 +225,6 @@ public class EntrainerBackground {
 
 		pt.setOnFinished(e -> switchPictures());
 
-		ptRunning = true;
 		JFXUtils.runLater(() -> pt.play());
 	}
 
@@ -291,7 +295,7 @@ public class EntrainerBackground {
 	private void fadeIn() {
 		fadeIn = new FadeTransition(Duration.seconds(getFadeTime()), current);
 		fadeIn.setFromValue(current.getOpacity());
-		fadeIn.setToValue(0.25);
+		fadeIn.setToValue(NORMAL_OPACITY);
 		fadeIn.setInterpolator(Interpolator.LINEAR);
 	}
 
@@ -433,7 +437,7 @@ public class EntrainerBackground {
 
 		createCurrent();
 		scaleImage();
-		current.setOpacity(0.25);
+		current.setOpacity(NORMAL_OPACITY);
 
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, backgroundPic, MediatorConstants.BACKGROUND_PIC));
 	}
@@ -469,23 +473,13 @@ public class EntrainerBackground {
 	}
 
 	private void setBackgroundOpacity(Node background) {
-		double o = 0;
-
-		if (background instanceof ImageView) {
-			o = background.getOpacity() == 0.25 ? 0.60 : 0.25;
-		} else {
-			o = background.getOpacity() == 1.0 ? 0.50 : 1.0;
-		}
+		double o = background.getOpacity() == NORMAL_OPACITY ? FLASH_OPACITY : NORMAL_OPACITY;
 
 		background.setOpacity(o);
 	}
 
 	private void reset(Node background) {
-		if (background instanceof ImageView) {
-			background.setOpacity(0.25);
-		} else {
-			background.setOpacity(1);
-		}
+		background.setOpacity(NORMAL_OPACITY);
 	}
 
 	private boolean shouldRun() {
