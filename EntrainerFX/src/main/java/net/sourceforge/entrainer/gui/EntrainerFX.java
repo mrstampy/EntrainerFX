@@ -39,15 +39,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -373,8 +370,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	private void resizeBackground() {
 		Dimension size = getSize();
 		
-		background.setDimension(size.getWidth(), size.getHeight());
-		
 		JFXUtils.runLater(() -> setJFXSize(size));
 	}
 	
@@ -390,6 +385,8 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		setTitledPaneWidth(pictures, width);
 		
 		setShimmerSizes();
+		
+		background.setDimension(size.getWidth(), size.getHeight());
 	}
 	
 	private void setTitledPaneWidth(TitledPane tp, double width) {

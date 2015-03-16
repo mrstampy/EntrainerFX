@@ -35,12 +35,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
+import javafx.geometry.Dimension2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -237,6 +236,7 @@ public class EntrainerBackground {
 		current.setPreserveRatio(true);
 		current.setScaleX(1);
 		current.setScaleY(1);
+		current.setCache(true);
 	}
 
 	private void killCurrent() {
@@ -279,26 +279,76 @@ public class EntrainerBackground {
 
 		double pw = view.getImage().getWidth();
 		double ph = view.getImage().getHeight();
+		Dimension2D pic = new Dimension2D(pw, ph);
 
 		double vw = getWidth();
 		double vh = getHeight();
+		Dimension2D area = new Dimension2D(vw, vh);
 
-		double xr = Math.abs(1 - (pw - vw) / pw);
-		double yr = Math.abs(1 - (ph - vh) / ph);
+		view.setFitHeight(0);
+		view.setFitWidth(0);
 
-		if (xr >= yr) {
-			view.setFitWidth(vw);
+		if (isOutsideArea(pic, area)) {
+			scaleOutside(view, pic, area);
+		} else if (isInsideArea(pic, area)) {
+			scaleInside(view, pic, area);
 		} else {
-			view.setFitHeight(vh);
+			scaleMixed(view, pic, area);
 		}
 
-		if (view.getFitHeight() > vh) {
-			view.setY(0 - ((view.getFitHeight() - vh) / 2));
-		}
+		double fh = view.getFitHeight() - vh;
+		if (fh < 0) view.setY(0 - (fh / 2));
 
-		if (view.getFitWidth() > vw) {
-			view.setX(0 - ((view.getFitWidth() - vw) / 2));
+		double fw = view.getFitWidth() - vw;
+		if (fw < 0) view.setX(0 - (fw / 2));
+	}
+
+	private void scaleMixed(ImageView view, Dimension2D pic, Dimension2D area) {
+		if (pic.getWidth() < area.getWidth()) {
+			setCalculatedFitHeight(view, pic, area);
+		} else {
+			setCalculatedFitWidth(view, pic, area);
 		}
+	}
+
+	private void scaleInside(ImageView view, Dimension2D pic, Dimension2D area) {
+		double wd = area.getWidth() - pic.getWidth();
+		double hd = area.getHeight() - pic.getHeight();
+
+		if (wd > hd) {
+			setCalculatedFitHeight(view, pic, area);
+		} else {
+			setCalculatedFitWidth(view, pic, area);
+		}
+	}
+
+	private boolean isInsideArea(Dimension2D pic, Dimension2D area) {
+		return pic.getWidth() <= area.getWidth() && pic.getHeight() <= area.getHeight();
+	}
+
+	private void scaleOutside(ImageView view, Dimension2D pic, Dimension2D area) {
+		double wd = pic.getWidth() - area.getWidth();
+		double hd = pic.getHeight() - area.getHeight();
+
+		if (wd < hd) {
+			setCalculatedFitHeight(view, pic, area);
+		} else {
+			setCalculatedFitWidth(view, pic, area);
+		}
+	}
+
+	private void setCalculatedFitHeight(ImageView view, Dimension2D pic, Dimension2D area) {
+		view.setFitWidth(area.getWidth());
+		view.setFitHeight(pic.getHeight() * area.getWidth() / pic.getWidth());
+	}
+
+	private void setCalculatedFitWidth(ImageView view, Dimension2D pic, Dimension2D area) {
+		view.setFitHeight(area.getHeight());
+		view.setFitWidth(pic.getWidth() * area.getHeight() / pic.getHeight());
+	}
+
+	private boolean isOutsideArea(Dimension2D pic, Dimension2D area) {
+		return pic.getWidth() >= area.getWidth() && pic.getHeight() >= area.getHeight();
 	}
 
 	private void fadeIn() {
