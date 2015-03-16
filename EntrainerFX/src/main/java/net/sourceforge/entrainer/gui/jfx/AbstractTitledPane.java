@@ -1,7 +1,6 @@
 package net.sourceforge.entrainer.gui.jfx;
 
 import javafx.animation.FadeTransition;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TitledPane;
@@ -14,6 +13,10 @@ import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
 
 public abstract class AbstractTitledPane extends TitledPane {
+
+	public static final double COLLAPSED_OPACITY = 0.5;
+
+	public static final double EXPANDED_OPACITY = 0.75;
 
 	protected static final Color TEXT_FILL = Color.CORNSILK;
 
@@ -40,7 +43,7 @@ public abstract class AbstractTitledPane extends TitledPane {
 		contentPane.setStyle("-fx-background-color: black");
 		setContent(contentPane);
 
-		expandedProperty().addListener(e -> setOpacity(isExpanded() ? 0.75 : 0.25));
+		expandedProperty().addListener(e -> setOpacity(isExpanded() ? EXPANDED_OPACITY : COLLAPSED_OPACITY));
 		
 		setOnMouseEntered(e -> determineOpacity());
 		
@@ -66,7 +69,7 @@ public abstract class AbstractTitledPane extends TitledPane {
 		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
 		
 		ft.setFromValue(getOpacity());
-		ft.setToValue(0.25);
+		ft.setToValue(COLLAPSED_OPACITY);
 		
 		ft.play();
 	}

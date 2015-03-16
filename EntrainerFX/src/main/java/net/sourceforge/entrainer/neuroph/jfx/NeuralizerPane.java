@@ -18,6 +18,9 @@
  */
 package net.sourceforge.entrainer.neuroph.jfx;
 
+import static net.sourceforge.entrainer.gui.jfx.AbstractTitledPane.COLLAPSED_OPACITY;
+import static net.sourceforge.entrainer.gui.jfx.AbstractTitledPane.EXPANDED_OPACITY;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -42,6 +45,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import net.sourceforge.entrainer.gui.jfx.AbstractTitledPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
@@ -104,7 +108,7 @@ public class NeuralizerPane extends TitledPane {
 
 			@Override
 			public void invalidated(Observable arg0) {
-				setOpacity(isExpanded() ? 0.75 : 0.25);
+				setOpacity(isExpanded() ? EXPANDED_OPACITY : COLLAPSED_OPACITY);
 			}
 		});
 
@@ -251,7 +255,7 @@ public class NeuralizerPane extends TitledPane {
 		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
 		
 		ft.setFromValue(getOpacity());
-		ft.setToValue(0.25);
+		ft.setToValue(COLLAPSED_OPACITY);
 		
 		ft.play();
 	}
