@@ -225,6 +225,34 @@ public class NeuralizerPane extends TitledPane {
 		setContent(layout);
 
 		setNeuronColor(Color.FIREBRICK);
+		
+		setOnMouseEntered(e -> determineOpacity());
+		
+		setOnMouseExited(e -> mouseExited());
+		
+		setOpacity(0);
+	}
+	
+	private void mouseExited() {
+		if(isExpanded()) return;
+		
+		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
+		
+		ft.setFromValue(getOpacity());
+		ft.setToValue(0);
+		
+		ft.play();
+	}
+
+	private void determineOpacity() {
+		if(isExpanded()) return;
+		
+		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
+		
+		ft.setFromValue(getOpacity());
+		ft.setToValue(0.25);
+		
+		ft.play();
 	}
 
 	private void showLoad() {

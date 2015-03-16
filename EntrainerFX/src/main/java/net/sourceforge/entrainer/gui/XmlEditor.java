@@ -63,6 +63,7 @@ import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 
 import javax.swing.JButton;
@@ -175,16 +176,19 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		setPreferredSize(EntrainerFX.getInstance().getSize());
 		super.pack();
 		animations.setMinWidth(getWidth() - 10);
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				animations.setExpanded(false);
-				shimmers.setExpanded(false);
-				pinkPan.setExpanded(false);
-				pics.setExpanded(false);
-			}
-		});
+		JFXUtils.runLater(() -> unexpandTitledPanes());
+	}
+	
+	private void unexpandTitledPanes() {
+		unexpandeTitledPane(animations);
+		unexpandeTitledPane(shimmers);
+		unexpandeTitledPane(pinkPan);
+		unexpandeTitledPane(pics);
+	}
+	
+	private void unexpandeTitledPane(TitledPane tp) {
+		tp.setExpanded(false);
+		tp.setOpacity(0);
 	}
 
 	/**

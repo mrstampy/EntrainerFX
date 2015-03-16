@@ -60,6 +60,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
@@ -346,11 +347,16 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	}
 
 	private void unexpandTitledPanes() {
-		sliderControlPane.setExpanded(false);
-		animations.setExpanded(false);
-		shimmerOptions.setExpanded(false);
-		neuralizer.setExpanded(false);
-		pictures.setExpanded(false);
+		unexpandeTitledPane(sliderControlPane);
+		unexpandeTitledPane(animations);
+		unexpandeTitledPane(shimmerOptions);
+		unexpandeTitledPane(neuralizer);
+		unexpandeTitledPane(pictures);
+	}
+	
+	private void unexpandeTitledPane(TitledPane tp) {
+		tp.setExpanded(false);
+		tp.setOpacity(0);
 	}
 
 	private void addSystemTrayIcon() {

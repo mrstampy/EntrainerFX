@@ -1,9 +1,11 @@
 package net.sourceforge.entrainer.gui.jfx;
 
+import javafx.animation.FadeTransition;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TitledPane;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
@@ -38,8 +40,36 @@ public abstract class AbstractTitledPane extends TitledPane {
 		setContent(contentPane);
 
 		expandedProperty().addListener(e -> setOpacity(isExpanded() ? 0.75 : 0.25));
+		
+		setOnMouseEntered(e -> determineOpacity());
+		
+		setOnMouseExited(e -> mouseExited());
+		
+		setOpacity(0);
 	}
 	
+	private void mouseExited() {
+		if(isExpanded()) return;
+		
+		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
+		
+		ft.setFromValue(getOpacity());
+		ft.setToValue(0);
+		
+		ft.play();
+	}
+
+	private void determineOpacity() {
+		if(isExpanded()) return;
+		
+		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
+		
+		ft.setFromValue(getOpacity());
+		ft.setToValue(0.25);
+		
+		ft.play();
+	}
+
 	protected abstract Node getContentPane();
 	
 	protected void setTextFill(Labeled lb) {
