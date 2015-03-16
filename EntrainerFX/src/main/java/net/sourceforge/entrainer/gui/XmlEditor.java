@@ -87,8 +87,8 @@ import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
-import net.sourceforge.entrainer.gui.jfx.PinkPanningPane;
 import net.sourceforge.entrainer.gui.jfx.ShimmerOptionsPane;
+import net.sourceforge.entrainer.gui.jfx.SliderControlPane;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.guitools.MigHelper;
 import net.sourceforge.entrainer.jfreechart.UnitChart;
@@ -137,7 +137,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 
 	private AnimationPane animations = new AnimationPane();
 	private ShimmerOptionsPane shimmers = new ShimmerOptionsPane();
-	private PinkPanningPane pinkPanning = new PinkPanningPane(false);
+	private SliderControlPane pinkPan = new SliderControlPane(false);
 	private BackgroundPicturePane pics = new BackgroundPicturePane();
 
 	private boolean cancelPressed = false;
@@ -181,7 +181,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 			public void run() {
 				animations.setExpanded(false);
 				shimmers.setExpanded(false);
-				pinkPanning.setExpanded(false);
+				pinkPan.setExpanded(false);
 				pics.setExpanded(false);
 			}
 		});
@@ -407,7 +407,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		xml.clearMediatorObjects();
 		intervalMenu.clearMediatorObjects();
 		animations.clearMediatorObjects();
-		pinkPanning.clearMediatorObjects();
+		pinkPan.clearMediatorObjects();
 		shimmers.clearMediatorObjects();
 		pics.clearMediatorObjects();
 		background.clearMediatorObjects();
@@ -444,7 +444,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		xml.setUnits(getUnits());
 		xml.setPsychedelic(pics.isPsychedelic());
 		xml.setAnimation(animations.getAnimation().isSelected());
-		xml.setPinkPan(pinkPanning.getPanCheck().isSelected());
+		xml.setPinkPan(pinkPan.getPanCheck().isSelected());
 		xml.setShimmer(shimmers.getShimmer().isSelected());
 		xml.setAnimationBackground(animations.getAnimationBackgroundPicture());
 		xml.setAnimationProgram(animations.getSelectedAnimationName());
@@ -567,7 +567,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		}
 		animations.getUseDesktopAsBackground().setSelected(xml.isUseDesktopAsBackground());
 
-		pinkPanning.getPanCheck().setSelected(xml.isPinkPan());
+		pinkPan.getPanCheck().setSelected(xml.isPinkPan());
 		shimmers.getShimmer().setSelected(xml.isShimmer());
 		if (xml.getAnimationBackground() != null) {
 			fireReceiverChangeEvent(xml.getAnimationBackground(), ANIMATION_BACKGROUND);
@@ -759,7 +759,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 
 				fireReceiverChangeEvent(pics.isPsychedelic(), IS_PSYCHEDELIC);
 				fireReceiverChangeEvent(animations.getAnimation().isSelected(), IS_ANIMATION);
-				fireReceiverChangeEvent(pinkPanning.getPanCheck().isSelected(), PINK_PAN);
+				fireReceiverChangeEvent(pinkPan.getPanCheck().isSelected(), PINK_PAN);
 				fireReceiverChangeEvent(shimmers.getShimmer().isSelected(), IS_SHIMMER);
 				String shimmer = shimmers.getShimmers().getValue();
 				if (shimmer != null) fireReceiverChangeEvent(shimmer, SHIMMER_RECTANGLE);
@@ -859,11 +859,11 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		gp.setPadding(new Insets(10, 0, 10, 0));
 
 		int h = 0;
+		GridPane.setConstraints(pinkPan, 0, h++);
 		GridPane.setConstraints(pics, 0, h++);
-		GridPane.setConstraints(pinkPanning, 0, h++);
 		GridPane.setConstraints(animations, 0, h++);
 		GridPane.setConstraints(shimmers, 0, h++);
-		gp.getChildren().addAll(pinkPanning, animations, shimmers, pics);
+		gp.getChildren().addAll(pinkPan, animations, shimmers, pics);
 
 		final URI css = JFXUtils.getEntrainerCSS();
 

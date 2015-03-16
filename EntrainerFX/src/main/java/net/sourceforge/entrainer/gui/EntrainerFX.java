@@ -52,14 +52,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -90,7 +88,6 @@ import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
 import net.sourceforge.entrainer.gui.jfx.EntrainerFXSplash;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
-import net.sourceforge.entrainer.gui.jfx.PinkPanningPane;
 import net.sourceforge.entrainer.gui.jfx.ShimmerOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.SliderControlPane;
 import net.sourceforge.entrainer.gui.jfx.SoundControlPane;
@@ -189,7 +186,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	private JFXPanel mainPanel;
 	// private ImageView background = new ImageView();
 	private EntrainerBackground background = new EntrainerBackground();
-	private PinkPanningPane pinkPanningPane = new PinkPanningPane();
 	private AnimationPane animations = new AnimationPane();
 	private BackgroundPicturePane pictures = new BackgroundPicturePane();
 	private Group group;
@@ -351,7 +347,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 	private void unexpandTitledPanes() {
 		sliderControlPane.setExpanded(false);
-		pinkPanningPane.setExpanded(false);
 		animations.setExpanded(false);
 		shimmerOptions.setExpanded(false);
 		neuralizer.setExpanded(false);
@@ -1525,7 +1520,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 			@Override
 			public void run() {
 				sliderControlPane.setDisable(!enabled);
-				pinkPanningPane.setEnabled(enabled);
 			}
 		});
 
@@ -1616,14 +1610,13 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 		int v = 0;
 		GridPane.setConstraints(sliderControlPane, 0, v++);
-		GridPane.setConstraints(pinkPanningPane, 0, v++);
 		GridPane.setConstraints(pictures, 0, v++);
 		GridPane.setConstraints(animations, 0, v++);
 		GridPane.setConstraints(shimmerOptions, 0, v++);		
 		GridPane.setConstraints(neuralizer, 0, v++);
 		
-		gp.setPadding(new Insets(5));
-		gp.getChildren().addAll(sliderControlPane, pinkPanningPane, animations, shimmerOptions, pictures, neuralizer);
+		gp.setPadding(new Insets(5, 13, 5, 5));
+		gp.getChildren().addAll(sliderControlPane, animations, shimmerOptions, pictures, neuralizer);
 		
 		HiddenSidesPane pane = new HiddenSidesPane();
 		pane.setContent(gp);

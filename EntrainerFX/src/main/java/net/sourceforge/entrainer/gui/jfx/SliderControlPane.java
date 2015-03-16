@@ -24,12 +24,10 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.InnerShadow;
-import javafx.scene.effect.Reflection;
 import javafx.scene.layout.GridPane;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -37,6 +35,7 @@ import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
+import net.sourceforge.entrainer.sound.MasterLevelController;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -64,12 +63,31 @@ public class SliderControlPane extends AbstractTitledPane {
 	private Sender sender = new SenderAdapter();
 	
 	private GridPane pane = new GridPane();
+	
+	private Slider pinkAmplitude = new Slider(0, 1, 0.5);
+	private Slider multiple = new Slider(0, 512, 32);
+	private CheckBox panCheck = new CheckBox("Pan Pink Noise");
+
+	private DecimalFormat pinkAmplitudeFormat = new DecimalFormat("#0%");
+	private DecimalFormat multipleFormat = new DecimalFormat("#");
+
+	private Label pinkAmplitudeValue = new Label("100");
+	private Label multipleValue = new Label("1.00");
+
+	private MasterLevelController masterLevelController = new MasterLevelController();
+	
+	private boolean showPanSliders;
 
 	/**
 	 * Instantiates a new slider control pane.
 	 */
 	public SliderControlPane() {
+		this(true);
+	}
+	
+	public SliderControlPane(boolean showPanSliders) {
 		super("Sound Options");
+		this.showPanSliders = showPanSliders;
 		init();
 	}
 	
@@ -87,20 +105,57 @@ public class SliderControlPane extends AbstractTitledPane {
 		pane.setVgap(20);
 		pane.setPadding(new Insets(10));
 
-		initSlider(entrainmentFrequency, entrainmentValue, entrainmentFormat, MediatorConstants.ENTRAINMENT_FREQUENCY);
-		initSlider(frequency, frequencyValue, frequencyFormat, MediatorConstants.FREQUENCY);
-		initSlider(amplitude, amplitudeValue, amplitudeFormat, MediatorConstants.AMPLITUDE);
-		initSlider(pinkNoise, pinkNoiseValue, amplitudeFormat, MediatorConstants.PINK_NOISE_AMPLITUDE);
+
+		if (showPanSliders) {
+			initSlider(entrainmentFrequency, entrainmentValue, entrainmentFormat, MediatorConstants.ENTRAINMENT_FREQUENCY);
+			initSlider(frequency, frequencyValue, frequencyFormat, MediatorConstants.FREQUENCY);
+			initSlider(amplitude, amplitudeValue, amplitudeFormat, MediatorConstants.AMPLITUDE);
+			initSlider(pinkNoise, pinkNoiseValue, amplitudeFormat, MediatorConstants.PINK_NOISE_AMPLITUDE);
+			initSlider(pinkAmplitude, pinkAmplitudeValue, pinkAmplitudeFormat, MediatorConstants.PINK_PAN_AMPLITUDE);
+			initSlider(multiple, multipleValue, multipleFormat, MediatorConstants.PINK_ENTRAINER_MULTIPLE);
+
+			pinkAmplitude.setBlockIncrement(0.01);
+		}
+
+		panCheck.setOnAction(e -> panChecked());
 
 		entrainmentFrequency.setBlockIncrement(0.01);
 		amplitude.setBlockIncrement(0.01);
 		pinkNoise.setBlockIncrement(0.01);
 		frequency.setBlockIncrement(1.0);
+		
+		int row = 0;
 
-		addSlider("Entrainment Frequency", entrainmentFrequency, entrainmentValue, 0);
-		addSlider("Frequency", frequency, frequencyValue, 1);
-		addSlider("Amplitude", amplitude, amplitudeValue, 2);
-		addSlider("Pink Noise", pinkNoise, pinkNoiseValue, 3);
+		if (showPanSliders) {
+			addSlider("Entrainment Frequency", entrainmentFrequency, entrainmentValue, row++);
+			addSlider("Frequency", frequency, frequencyValue, row++);
+			addSlider("Amplitude", amplitude, amplitudeValue, row++);
+		}
+		
+		pane.add(panCheck, 0, row++);
+
+		if (showPanSliders) {
+			addSlider("Pink Noise Amplitude", pinkNoise, pinkNoiseValue, row++);
+			addSlider("Pan Amplitude", pinkAmplitude, pinkAmplitudeValue, row++);
+			addSlider("Entrainer Multiple", multiple, multipleValue, row++);
+		}
+		
+		setTextFill(panCheck);
+	}
+
+	private void panChecked() {
+		setPanSliderState();
+		
+		fireReceiverChangeEvent(panCheck.isSelected(), MediatorConstants.PINK_PAN);
+	}
+
+	private void setPanSliderState() {
+		if(!showPanSliders) return;
+		
+		boolean disabled = !panCheck.isSelected();
+		
+		pinkAmplitude.setDisable(disabled);
+		multiple.setDisable(disabled);
 	}
 
 	private void initMediator() {
@@ -122,9 +177,24 @@ public class SliderControlPane extends AbstractTitledPane {
 				case PINK_NOISE_AMPLITUDE:
 					setPinkNoiseValue(e.getDoubleValue());
 					break;
+				case PINK_PAN_AMPLITUDE:
+					setPinkAmplitude(masterLevelController.getPinkPanAmplitude());
+					if (!panCheck.isSelected()) {
+						setPan(true);
+					}
+					break;
+				case PINK_ENTRAINER_MULTIPLE:
+				case DELTA_PINK_ENTRAINER_MULTIPLE:
+					setMultiple(masterLevelController.getPinkEntrainerMultiple());
+					break;
+				case PINK_PAN:
+					setPan(e.getBooleanValue());
+					break;
+				case DELTA_PINK_PAN_AMPLITUDE:
+					setPinkAmplitude(masterLevelController.getPinkPanAmplitude());
+					break;
 				default:
 					break;
-
 				}
 			}
 
@@ -139,18 +209,14 @@ public class SliderControlPane extends AbstractTitledPane {
 		setTextFill(value);
 		
 		pane.add(title, 0, row);
+		
 		pane.add(slider, 1, row);
 		pane.add(value, 2, row);
 	}
 
 	private void initSlider(final Slider slider, final Label label, final DecimalFormat format,
 			final MediatorConstants event) {
-
-		Reflection reflection = new Reflection();
-		reflection.setFraction(0.5);
-		reflection.setTopOffset(0.1);
-
-		slider.setEffect(new Blend(BlendMode.COLOR_BURN, new InnerShadow(), reflection));
+		slider.setEffect(new InnerShadow());
 
 		slider.setMinWidth(350);
 
@@ -251,6 +317,68 @@ public class SliderControlPane extends AbstractTitledPane {
 	@Override
 	protected Node getContentPane() {
 		return pane;
+	}
+
+	/**
+	 * Sets the pan.
+	 *
+	 * @param booleanValue
+	 *          the new pan
+	 */
+	public void setPan(final boolean booleanValue) {
+		JFXUtils.runLater(() -> setPanCheck(booleanValue));
+	}
+
+	private void setPanCheck(boolean booleanValue) {
+		panCheck.setSelected(booleanValue);
+		setPanSliderState();
+	}
+
+	/**
+	 * Sets the multiple.
+	 *
+	 * @param value
+	 *          the new multiple
+	 */
+	public void setMultiple(double value) {
+		setValue(value, multiple);
+	}
+
+	/**
+	 * Sets the amplitude.
+	 *
+	 * @param value
+	 *          the new amplitude
+	 */
+	public void setPinkAmplitude(double value) {
+		setValue(value, pinkAmplitude);
+	}
+
+	/**
+	 * Gets the amplitude.
+	 *
+	 * @return the amplitude
+	 */
+	public Slider getPinkAmplitude() {
+		return pinkAmplitude;
+	}
+
+	/**
+	 * Gets the multiple.
+	 *
+	 * @return the multiple
+	 */
+	public Slider getMultiple() {
+		return multiple;
+	}
+
+	/**
+	 * Gets the pan check.
+	 *
+	 * @return the pan check
+	 */
+	public CheckBox getPanCheck() {
+		return panCheck;
 	}
 
 }
