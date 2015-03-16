@@ -289,10 +289,16 @@ public class EntrainerBackground {
 		view.setFitWidth(0);
 
 		if (isOutsideArea(pic, area)) {
+			// find the minimum distance from pic dimensions
+			// to view area (w or h diff)
 			scaleOutside(view, pic, area);
 		} else if (isInsideArea(pic, area)) {
+			// find the maximum distance from pic dimensions
+			// to view area (w or h diff)
 			scaleInside(view, pic, area);
 		} else {
+			// find which dimension is inside the view area,
+			// scale to fit
 			scaleMixed(view, pic, area);
 		}
 
@@ -303,24 +309,32 @@ public class EntrainerBackground {
 		view.setX(0 - (fw / 2));
 	}
 
+	// which pic dimension is inside the area? Use that.
 	private void scaleMixed(ImageView view, Dimension2D pic, Dimension2D area) {
-		double wd = area.getWidth() - pic.getWidth();
+		double cw = getCalculatedWidth(pic, area);
+		double ch = getCalculatedHeight(pic, area);
+		
+		double wd = area.getWidth() - cw;
 		
 		if (wd > 0) {
-			setCalculatedFitHeight(view, pic, area);
+			setAreaFitWidth(view, pic, area, ch);
 		} else {
-			setCalculatedFitWidth(view, pic, area);
+			setAreaFitHeight(view, pic, area, cw);
 		}
 	}
 
+	// which axis is greatest difference? Use that.
 	private void scaleInside(ImageView view, Dimension2D pic, Dimension2D area) {
-		double wd = area.getWidth() - pic.getWidth();
-		double hd = area.getHeight() - pic.getHeight();
+		double cw = getCalculatedWidth(pic, area);
+		double ch = getCalculatedHeight(pic, area);
+		
+		double wd = area.getWidth() - cw;
+		double hd = area.getHeight() - ch;
 
-		if (wd > hd) {
-			setCalculatedFitHeight(view, pic, area);
+		if (wd >= hd) {
+			setAreaFitWidth(view, pic, area, ch);
 		} else {
-			setCalculatedFitWidth(view, pic, area);
+			setAreaFitHeight(view, pic, area, cw);
 		}
 	}
 
@@ -328,25 +342,37 @@ public class EntrainerBackground {
 		return pic.getWidth() <= area.getWidth() && pic.getHeight() <= area.getHeight();
 	}
 
+	// which axis is the least difference? Use that.
 	private void scaleOutside(ImageView view, Dimension2D pic, Dimension2D area) {
-		double wd = pic.getWidth() - area.getWidth();
-		double hd = pic.getHeight() - area.getHeight();
+		double cw = getCalculatedWidth(pic, area);
+		double ch = getCalculatedHeight(pic, area);
+		
+		double wd = cw - area.getWidth();
+		double hd = ch - area.getHeight();
 
 		if (wd < hd) {
-			setCalculatedFitHeight(view, pic, area);
+			setAreaFitWidth(view, pic, area, ch);
 		} else {
-			setCalculatedFitWidth(view, pic, area);
+			setAreaFitHeight(view, pic, area, cw);
 		}
 	}
 
-	private void setCalculatedFitHeight(ImageView view, Dimension2D pic, Dimension2D area) {
+	private void setAreaFitWidth(ImageView view, Dimension2D pic, Dimension2D area, double ch) {
 		view.setFitWidth(area.getWidth());
-		view.setFitHeight(pic.getHeight() * area.getWidth() / pic.getWidth());
+		view.setFitHeight(ch);
 	}
 
-	private void setCalculatedFitWidth(ImageView view, Dimension2D pic, Dimension2D area) {
+	private double getCalculatedHeight(Dimension2D pic, Dimension2D area) {
+		return pic.getHeight() * area.getWidth() / pic.getWidth();
+	}
+
+	private void setAreaFitHeight(ImageView view, Dimension2D pic, Dimension2D area, double cw) {
 		view.setFitHeight(area.getHeight());
-		view.setFitWidth(pic.getWidth() * area.getHeight() / pic.getHeight());
+		view.setFitWidth(cw);
+	}
+
+	private double getCalculatedWidth(Dimension2D pic, Dimension2D area) {
+		return pic.getWidth() * area.getHeight() / pic.getHeight();
 	}
 
 	private boolean isOutsideArea(Dimension2D pic, Dimension2D area) {
