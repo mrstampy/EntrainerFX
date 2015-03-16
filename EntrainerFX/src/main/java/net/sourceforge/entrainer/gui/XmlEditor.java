@@ -41,6 +41,7 @@ import static net.sourceforge.entrainer.xml.program.EntrainerProgramUtil.marshal
 import static net.sourceforge.entrainer.xml.program.EntrainerProgramUtil.unmarshal;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -152,6 +153,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 	private EntrainerBackground background = new EntrainerBackground();
 
 	private volatile boolean closing = false;
+	private GridPane gp;
 
 	/**
 	 * Instantiates a new xml editor.
@@ -173,12 +175,17 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 	 */
 	public void pack() {
 		units.setPreferredSize(units.getSize());
-		setPreferredSize(EntrainerFX.getInstance().getSize());
+		setPreferredSize(getAggregatedSize());
 		super.pack();
-		animations.setMinWidth(getWidth() - 10);
 		JFXUtils.runLater(() -> unexpandTitledPanes());
 	}
 	
+	private Dimension getAggregatedSize() {
+		Dimension xd = getPreferredSize();
+
+		return new Dimension(xd.width, xd.width * 21 / 13);
+	}
+
 	private void unexpandTitledPanes() {
 		unexpandeTitledPane(animations);
 		unexpandeTitledPane(shimmers);
@@ -859,7 +866,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 	}
 
 	private Container getMessagePanel() {
-		final GridPane gp = new GridPane();
+		gp = new GridPane();
 		gp.setPadding(new Insets(10, 0, 10, 0));
 
 		int h = 0;
