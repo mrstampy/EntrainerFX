@@ -32,6 +32,7 @@ import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -209,6 +210,8 @@ public class AnimationPane extends AbstractTitledPane {
 				refreshAnimations();
 			}
 		});
+		
+		fp.setAlignment(Pos.CENTER);
 	}
 
 	/**

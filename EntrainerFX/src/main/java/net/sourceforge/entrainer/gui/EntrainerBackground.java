@@ -297,27 +297,18 @@ public class EntrainerBackground {
 		
 		System.out.println("xr: " + xr + ", yr: " + yr);
 
-		double yDiff = (ph * vw / pw);
-		double xDiff = (pw * vh / ph);
-
 		if (xr >= yr) {
 			view.setFitWidth(vw);
 		} else {
 			view.setFitHeight(vh);
 		}
 		
-		System.out.println("xDiff: " + xDiff + ", yDiff: " + yDiff);
-		
-		if (xDiff > vw) {
-			view.setX(0 - (xDiff - vw) / 2);
-		} else {
-			view.setX(0);
+		if(view.getFitHeight() > vh) {
+			view.setY(0 - ((view.getFitHeight() - vh) / 2));
 		}
-
-		if (yDiff > vh) {
-			view.setY(0 - (yDiff - vh) / 2);
-		} else {
-			view.setY(0);
+		
+		if(view.getFitWidth() > vw) {
+			view.setX(0 - ((view.getFitWidth() - vw) / 2));
 		}
 	}
 

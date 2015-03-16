@@ -276,6 +276,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 				noPic,
 				picker,
 				psychedelic);
+		
+		pane.setAlignment(Pos.CENTER);
 	}
 	
 	private void initRadioButton(RadioButton rb) {

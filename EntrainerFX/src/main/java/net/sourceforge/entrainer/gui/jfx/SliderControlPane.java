@@ -23,6 +23,7 @@ import java.text.DecimalFormat;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -141,6 +142,8 @@ public class SliderControlPane extends AbstractTitledPane {
 		}
 		
 		setTextFill(panCheck);
+		
+		pane.setAlignment(Pos.CENTER);
 	}
 
 	private void panChecked() {

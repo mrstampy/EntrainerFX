@@ -1,6 +1,7 @@
 package net.sourceforge.entrainer.gui.jfx;
 
 import javafx.animation.FadeTransition;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TitledPane;
@@ -46,6 +47,8 @@ public abstract class AbstractTitledPane extends TitledPane {
 		setOnMouseExited(e -> mouseExited());
 		
 		setOpacity(0);
+		
+		setAlignment(Pos.CENTER);
 	}
 	
 	private void mouseExited() {

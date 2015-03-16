@@ -222,6 +222,7 @@ public class NeuralizerPane extends TitledPane {
 		});
 
 		initVbox();
+		layout.setAlignment(Pos.CENTER);
 		setContent(layout);
 
 		setNeuronColor(Color.FIREBRICK);
@@ -231,6 +232,8 @@ public class NeuralizerPane extends TitledPane {
 		setOnMouseExited(e -> mouseExited());
 		
 		setOpacity(0);
+		
+		setAlignment(Pos.CENTER);
 	}
 	
 	private void mouseExited() {

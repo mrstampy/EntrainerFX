@@ -21,6 +21,7 @@ package net.sourceforge.entrainer.gui.jfx;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -104,6 +105,8 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 		});
 		
 		setTextFill(shimmer);
+		
+		fp.setAlignment(Pos.CENTER);
 		
 		super.init();
 	}
