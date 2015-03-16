@@ -35,6 +35,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -121,6 +123,8 @@ public class EntrainerBackground {
 	private boolean ptRunning;
 
 	private boolean psychedelic;
+	
+	private Lock scaleLock = new ReentrantLock();
 
 	/**
 	 * Instantiates a new variable background.
@@ -268,28 +272,53 @@ public class EntrainerBackground {
 	}
 
 	private void scale() {
-		double pw = currentImage.getWidth();
-		double ph = currentImage.getHeight();
+		scaleLock.lock();
+		try {
+			scale(current);
+			scale(old);
+		} finally {
+			scaleLock.unlock();
+		}
+	}
+	
+	private void scale(ImageView view) {
+		if(view == null || view.getOpacity() == 0 || view.getImage() == null) return;
+		
+		double pw = view.getImage().getWidth();
+		double ph = view.getImage().getHeight();
+		System.out.println("Image: " + pw + ", " + ph);
+		
 		double vw = getWidth();
 		double vh = getHeight();
+		System.out.println("Background: " + vw + ", " + vh);
 
-		double xr = 1 - (pw - vw) / pw;
-		double yr = 1 - (ph - vh) / ph;
+		double xr = Math.abs(1 - (pw - vw) / pw);
+		double yr = Math.abs(1 - (ph - vh) / ph);
+		
+		System.out.println("xr: " + xr + ", yr: " + yr);
 
-		double yDiff = 0;
-		double xDiff = 0;
+		double yDiff = (ph * vw / pw);
+		double xDiff = (pw * vh / ph);
 
 		if (xr >= yr) {
-			current.setFitWidth(vw);
-			yDiff = (ph * vw / pw) - vh;
+			view.setFitWidth(vw);
 		} else {
-			current.setFitHeight(vh);
-			xDiff = (pw * vh / ph) - vw;
+			view.setFitHeight(vh);
+		}
+		
+		System.out.println("xDiff: " + xDiff + ", yDiff: " + yDiff);
+		
+		if (xDiff > vw) {
+			view.setX(0 - (xDiff - vw) / 2);
+		} else {
+			view.setX(0);
 		}
 
-		if (xDiff > 0) current.setX(0 - xDiff / 2);
-
-		if (yDiff > 0) current.setY(0 - yDiff / 2);
+		if (yDiff > vh) {
+			view.setY(0 - (yDiff - vh) / 2);
+		} else {
+			view.setY(0);
+		}
 	}
 
 	private void fadeIn() {
@@ -618,7 +647,7 @@ public class EntrainerBackground {
 			rect.setHeight(height);
 		}
 
-		if (current != null) scale();
+		scale();
 	}
 
 	/**

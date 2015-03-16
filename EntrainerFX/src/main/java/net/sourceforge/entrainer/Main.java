@@ -160,13 +160,7 @@ public class Main {
 					public void onTimelineStateChanged(TimelineState oldState, TimelineState newState, float durationFraction,
 							float timelinePosition) {
 						if (TimelineState.PLAYING_FORWARD.equals(newState) && splash != null) {
-							JFXUtils.runLater(new Runnable() {
-
-								@Override
-								public void run() {
-									splash.toFront();
-								}
-							});
+							JFXUtils.runLater(() -> splash.toFront());
 						}
 					}
 				});

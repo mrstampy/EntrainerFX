@@ -37,12 +37,17 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -209,6 +214,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 	private ObjectMapper jsonMapper = new ObjectMapper();
 	private JCheckBoxMenuItem splashOnStartup;
+	private HiddenSidesPane hiddenSidesPane;
 
 	private EntrainerFX() {
 		super("Entrainer FX");
@@ -352,8 +358,44 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		unexpandeTitledPane(shimmerOptions);
 		unexpandeTitledPane(neuralizer);
 		unexpandeTitledPane(pictures);
+		
+		setMinimumSize(new Dimension(mainPanel.getPreferredSize().width, getHeight() / 2));
+
+		addComponentListener(new ComponentAdapter() {
+			
+			@Override
+			public void componentResized(ComponentEvent e) {
+				resizeBackground();
+			}
+		});
 	}
 	
+	private void resizeBackground() {
+		Dimension size = getSize();
+		
+		background.setDimension(size.getWidth(), size.getHeight());
+		
+		JFXUtils.runLater(() -> setJFXSize(size));
+	}
+	
+	private void setJFXSize(Dimension size) {
+		double width = size.getWidth();
+		
+		hiddenSidesPane.setPrefSize(width, size.getHeight());
+		
+		setTitledPaneWidth(sliderControlPane, width);
+		setTitledPaneWidth(animations, width);
+		setTitledPaneWidth(shimmerOptions, width);
+		setTitledPaneWidth(neuralizer, width);
+		setTitledPaneWidth(pictures, width);
+		
+		setShimmerSizes();
+	}
+	
+	private void setTitledPaneWidth(TitledPane tp, double width) {
+		tp.setPrefWidth(width);
+	}
+
 	private void unexpandeTitledPane(TitledPane tp) {
 		tp.setExpanded(false);
 		tp.setOpacity(0);
@@ -427,7 +469,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		control = new JSynSoundControl();
 		masterLevelController = new MasterLevelController(control);
 		initMediator();
-		setResizable(false);
 		wireButtons();
 		layoutComponents();
 		addWindowListener(new WindowAdapter() {
@@ -1625,9 +1666,9 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		gp.setPadding(new Insets(5, 13, 5, 5));
 		gp.getChildren().addAll(sliderControlPane, animations, shimmerOptions, pictures, neuralizer);
 		
-		HiddenSidesPane pane = new HiddenSidesPane();
-		pane.setContent(gp);
-		pane.setTop(soundControlPane);
+		hiddenSidesPane = new HiddenSidesPane();
+		hiddenSidesPane.setContent(gp);
+		hiddenSidesPane.setTop(soundControlPane);
 
 		final URI css = JFXUtils.getEntrainerCSS();
 
@@ -1638,7 +1679,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 				group = new Group();
 
 				shimmer.setInUse(true);
-				group.getChildren().addAll(background.getPane(), shimmer, pane);
+				group.getChildren().addAll(background.getPane(), shimmer, hiddenSidesPane);
 				Scene scene = new Scene(group);
 				if (css != null) scene.getStylesheets().add(css.toString());
 				mainPanel.setScene(scene);
