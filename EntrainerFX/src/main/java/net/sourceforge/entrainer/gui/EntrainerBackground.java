@@ -297,10 +297,10 @@ public class EntrainerBackground {
 		}
 
 		double fh = view.getFitHeight() - vh;
-		if (fh < 0) view.setY(0 - (fh / 2));
+		view.setY(0 - (fh / 2));
 
 		double fw = view.getFitWidth() - vw;
-		if (fw < 0) view.setX(0 - (fw / 2));
+		view.setX(0 - (fw / 2));
 	}
 
 	private void scaleMixed(ImageView view, Dimension2D pic, Dimension2D area) {
