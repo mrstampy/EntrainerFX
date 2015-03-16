@@ -63,9 +63,9 @@ import org.slf4j.LoggerFactory;
  * The Class EntrainerBackground.
  */
 public class EntrainerBackground {
-	private static final double FLASH_OPACITY = 1.0;
+	private static final double FLASH_OPACITY = 0.5;
 
-	private static final double NORMAL_OPACITY = 0.5;
+	private static final double NORMAL_OPACITY = 1.0;
 
 	private static final Logger log = LoggerFactory.getLogger(EntrainerBackground.class);
 
