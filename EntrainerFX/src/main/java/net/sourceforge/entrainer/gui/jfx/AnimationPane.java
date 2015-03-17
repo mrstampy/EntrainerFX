@@ -373,19 +373,16 @@ public class AnimationPane extends AbstractTitledPane {
 	private void setBackgroundFields(JFXEntrainerAnimation selectedItem) {
 		if (selectedItem.useBackgroundColour()) {
 			useDesktopAsBackground.setSelected(false);
-			useDesktopAsBackground.setDisable(true);
 			animationBackground.setDisable(true);
 			return;
 		}
 
 		if (selectedItem.useDesktopBackground()) {
 			useDesktopAsBackground.setSelected(true);
-			useDesktopAsBackground.setDisable(false);
 			animationBackground.setDisable(false);
 			animationBackground.setText("");
 		} else {
 			useDesktopAsBackground.setSelected(false);
-			useDesktopAsBackground.setDisable(false);
 			animationBackground.setDisable(true);
 		}
 	}
