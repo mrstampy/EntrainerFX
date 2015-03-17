@@ -379,9 +379,10 @@ public class AnimationPane extends AbstractTitledPane {
 		}
 
 		if (selectedItem.useDesktopBackground()) {
-			useDesktopAsBackground.setSelected(animationBackground.getText().equals(""));
+			useDesktopAsBackground.setSelected(true);
 			useDesktopAsBackground.setDisable(false);
 			animationBackground.setDisable(false);
+			animationBackground.setText("");
 		} else {
 			useDesktopAsBackground.setSelected(false);
 			useDesktopAsBackground.setDisable(false);
