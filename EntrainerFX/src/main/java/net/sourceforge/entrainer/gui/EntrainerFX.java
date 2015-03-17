@@ -1666,6 +1666,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		hiddenSidesPane = new HiddenSidesPane();
 		hiddenSidesPane.setContent(gp);
 		hiddenSidesPane.setTop(soundControlPane);
+		hiddenSidesPane.setTriggerDistance(25);
 
 		final URI css = JFXUtils.getEntrainerCSS();
 
