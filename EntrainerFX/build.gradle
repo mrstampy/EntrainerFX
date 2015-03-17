@@ -16,7 +16,7 @@ apply plugin: 'maven'
 apply plugin: 'distribution'
 
 sourceCompatibility = 1.8
-version = '5.1.0'
+version = '5.2.0'
 
 configurations {
 	izpack
@@ -62,6 +62,8 @@ dependencies {
 	entrainer 'org.reactfx:reactfx:1.4.1'
 
 	compile configurations.entrainer
+	
+	testCompile 'junit:junit:4.12'
 	
 	izpack 'org.codehaus.izpack:izpack-standalone-compiler:4.3.4'
 }
