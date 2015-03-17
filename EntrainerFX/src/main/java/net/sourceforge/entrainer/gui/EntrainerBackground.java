@@ -316,7 +316,7 @@ public class EntrainerBackground {
 		
 		double wd = area.getWidth() - cw;
 		
-		if (wd > 0) {
+		if (wd >= 0) {
 			setAreaFitWidth(view, pic, area, ch);
 		} else {
 			setAreaFitHeight(view, pic, area, cw);
@@ -331,7 +331,7 @@ public class EntrainerBackground {
 		double wd = area.getWidth() - cw;
 		double hd = area.getHeight() - ch;
 
-		if (wd >= hd) {
+		if (wd > hd) {
 			setAreaFitWidth(view, pic, area, ch);
 		} else {
 			setAreaFitHeight(view, pic, area, cw);
