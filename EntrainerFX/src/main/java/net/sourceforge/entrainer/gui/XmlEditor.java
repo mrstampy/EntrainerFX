@@ -62,6 +62,7 @@ import java.util.List;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.TitledPane;
@@ -167,23 +168,19 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		super(owner, XEC_DIALOG_NAME, true);
 		init(file);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.Window#pack()
-	 */
+	
 	public void pack() {
-		units.setPreferredSize(units.getSize());
-		setPreferredSize(getAggregatedSize());
 		super.pack();
+		setPreferredSize(getAggregatedSize());
+		setSize(getPreferredSize());
 		JFXUtils.runLater(() -> unexpandTitledPanes());
 	}
-	
-	private Dimension getAggregatedSize() {
-		Dimension xd = getPreferredSize();
 
-		return new Dimension(xd.width, xd.width * 21 / 13);
+	private Dimension getAggregatedSize() {
+		int prefWidth = EntrainerFX.getInstance().getMinimumSize().width;
+		int prefHeight = getContentPane().getSize().height + 450;
+
+		return new Dimension(prefWidth, prefHeight);
 	}
 
 	private void unexpandTitledPanes() {
@@ -867,7 +864,8 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 
 	private Container getMessagePanel() {
 		gp = new GridPane();
-		gp.setPadding(new Insets(10, 0, 10, 0));
+		gp.setAlignment(Pos.CENTER);
+		gp.setPadding(new Insets(10, 0, 10, 5));
 
 		int h = 0;
 		GridPane.setConstraints(pinkPan, 0, h++);
