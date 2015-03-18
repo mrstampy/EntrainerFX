@@ -90,6 +90,7 @@ import net.sourceforge.entrainer.esp.EspConnectionRegister;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
 import net.sourceforge.entrainer.gui.jfx.EntrainerFXSplash;
+import net.sourceforge.entrainer.gui.jfx.FlashOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.gui.jfx.ShimmerOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.SliderControlPane;
@@ -196,6 +197,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	private ShimmerOptionsPane shimmerOptions = new ShimmerOptionsPane();
 	private Lab lab;
 	private NeuralizerPane neuralizer = new NeuralizerPane();
+	private FlashOptionsPane flashOptions = new FlashOptionsPane();
 
 	private MasterLevelController masterLevelController;
 
@@ -355,6 +357,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		unexpandeTitledPane(shimmerOptions);
 		unexpandeTitledPane(neuralizer);
 		unexpandeTitledPane(pictures);
+		unexpandeTitledPane(flashOptions);
 		
 		setMinimumSize(new Dimension(mainPanel.getPreferredSize().width, getHeight() / 2));
 
@@ -381,6 +384,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		setTitledPaneWidth(sliderControlPane, width);
 		setTitledPaneWidth(animations, width);
 		setTitledPaneWidth(shimmerOptions, width);
+		setTitledPaneWidth(flashOptions, width);
 		setTitledPaneWidth(neuralizer, width);
 		setTitledPaneWidth(pictures, width);
 		
@@ -1656,12 +1660,13 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		GridPane.setConstraints(sliderControlPane, 0, v++);
 		GridPane.setMargin(sliderControlPane, new Insets(20, 0, 0, 0));
 		GridPane.setConstraints(pictures, 0, v++);
+		GridPane.setConstraints(flashOptions, 0, v++);
 		GridPane.setConstraints(animations, 0, v++);
 		GridPane.setConstraints(shimmerOptions, 0, v++);		
 		GridPane.setConstraints(neuralizer, 0, v++);
 		
 		gp.setPadding(new Insets(5, 13, 5, 5));
-		gp.getChildren().addAll(sliderControlPane, animations, shimmerOptions, pictures, neuralizer);
+		gp.getChildren().addAll(sliderControlPane, animations, shimmerOptions, pictures, flashOptions, neuralizer);
 		
 		hiddenSidesPane = new HiddenSidesPane();
 		hiddenSidesPane.setContent(gp);

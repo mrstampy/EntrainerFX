@@ -144,10 +144,18 @@ public class AnimationPane extends AbstractTitledPane {
 		return animation;
 	}
 
+	/**
+	 * Gets the use desktop as background.
+	 *
+	 * @return the use desktop as background
+	 */
 	public CheckBox getUseDesktopAsBackground() {
 		return useDesktopAsBackground;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
+	 */
 	protected void init() {
 		initMediator();
 		initGui();
@@ -423,6 +431,9 @@ public class AnimationPane extends AbstractTitledPane {
 		setTextFill(checkBox);
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#getContentPane()
+	 */
 	@Override
 	protected Node getContentPane() {
 		return fp;

@@ -47,6 +47,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import net.sourceforge.entrainer.gui.flash.FlashOptions;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -122,6 +123,8 @@ public class EntrainerBackground {
 	private boolean ptRunning;
 
 	private boolean psychedelic;
+
+	private FlashOptions flashOptions = FlashOptions.getinstance();
 
 	/**
 	 * Instantiates a new variable background.
@@ -313,9 +316,9 @@ public class EntrainerBackground {
 	private void scaleMixed(ImageView view, Dimension2D pic, Dimension2D area) {
 		double cw = getCalculatedWidth(pic, area);
 		double ch = getCalculatedHeight(pic, area);
-		
+
 		double wd = area.getWidth() - cw;
-		
+
 		if (wd >= 0) {
 			setAreaFitWidth(view, pic, area, ch);
 		} else {
@@ -327,7 +330,7 @@ public class EntrainerBackground {
 	private void scaleInside(ImageView view, Dimension2D pic, Dimension2D area) {
 		double cw = getCalculatedWidth(pic, area);
 		double ch = getCalculatedHeight(pic, area);
-		
+
 		double wd = area.getWidth() - cw;
 		double hd = area.getHeight() - ch;
 
@@ -346,7 +349,7 @@ public class EntrainerBackground {
 	private void scaleOutside(ImageView view, Dimension2D pic, Dimension2D area) {
 		double cw = getCalculatedWidth(pic, area);
 		double ch = getCalculatedHeight(pic, area);
-		
+
 		double wd = cw - area.getWidth();
 		double hd = ch - area.getHeight();
 
@@ -560,13 +563,20 @@ public class EntrainerBackground {
 	}
 
 	private void setBackgroundOpacity(Node background) {
-		double o = background.getOpacity() == NORMAL_OPACITY ? FLASH_OPACITY : NORMAL_OPACITY;
+		if (flashOptions.isOpacity()) {
+			double o = background.getOpacity() == NORMAL_OPACITY ? FLASH_OPACITY : NORMAL_OPACITY;
 
-		background.setOpacity(o);
+			background.setOpacity(o);
+		} else {
+			background.setOpacity(NORMAL_OPACITY);
+		}
+		
+		background.setEffect(flashOptions.getEffect());
 	}
 
 	private void reset(Node background) {
 		background.setOpacity(NORMAL_OPACITY);
+		background.setEffect(flashOptions.defaultEffect());
 	}
 
 	private boolean shouldRun() {

@@ -122,6 +122,11 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 		});
 	}
 
+	/**
+	 * Pulse.
+	 *
+	 * @param b the b
+	 */
 	protected void pulse(boolean b) {
 		// NOOP, override as necessary
 	}

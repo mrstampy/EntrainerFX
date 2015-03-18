@@ -82,6 +82,9 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 		setToolTip(toolTip, shimmer);
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
+	 */
 	protected void init() {
 		initMediator();
 		setText("Shimmer Options");
@@ -193,6 +196,9 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 		return shimmers;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#getContentPane()
+	 */
 	@Override
 	protected Node getContentPane() {
 		return fp;

@@ -220,6 +220,12 @@ public class GuiUtil {
 		return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 	}
 
+	/**
+	 * Handle problem.
+	 *
+	 * @param e the e
+	 * @param useLatch the use latch
+	 */
 	public static void handleProblem(Throwable e, boolean useLatch) {
 		e.printStackTrace();
 

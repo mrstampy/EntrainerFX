@@ -169,6 +169,9 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		init(file);
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.Window#pack()
+	 */
 	public void pack() {
 		super.pack();
 		setPreferredSize(getAggregatedSize());

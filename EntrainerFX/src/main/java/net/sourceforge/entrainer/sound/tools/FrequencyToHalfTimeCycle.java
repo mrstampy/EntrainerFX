@@ -136,6 +136,11 @@ public class FrequencyToHalfTimeCycle {
 		return frequency;
 	}
 
+	/**
+	 * Gets the nano value.
+	 *
+	 * @return the nano value
+	 */
 	public long getNanoValue() {
 		return nanoValue;
 	}

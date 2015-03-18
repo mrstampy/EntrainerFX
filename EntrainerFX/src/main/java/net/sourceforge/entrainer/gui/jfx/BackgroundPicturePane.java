@@ -69,8 +69,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	private Spinner<Integer> transition = new Spinner<>(1, 60, 5);
 	private int transitionValue = 5;
 
-	private CheckBox flashBackground = new CheckBox("Flash Background");
-
 	private CheckBox staticPictureLock = new CheckBox("Lock Image");
 
 	private CheckBox psychedelic = new CheckBox("Psychedelic");
@@ -85,97 +83,192 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		init();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#getContentPane()
+	 */
 	@Override
 	protected Node getContentPane() {
 		return pane;
 	}
 
-	public boolean isFlashBackground() {
-		return flashBackground.isSelected();
-	}
-
+	/**
+	 * Gets the duration.
+	 *
+	 * @return the duration
+	 */
 	public int getDuration() {
 		return durationValue;
 	}
 
+	/**
+	 * Gets the transition.
+	 *
+	 * @return the transition
+	 */
 	public int getTransition() {
 		return transitionValue;
 	}
 
+	/**
+	 * Gets the picture directory.
+	 *
+	 * @return the picture directory
+	 */
 	public String getPictureDirectory() {
 		return directoryName;
 	}
 
+	/**
+	 * Gets the static picture.
+	 *
+	 * @return the static picture
+	 */
 	public String getStaticPicture() {
 		return pictureName;
 	}
 
+	/**
+	 * Checks if is dynamic.
+	 *
+	 * @return true, if is dynamic
+	 */
 	public boolean isDynamic() {
 		return dynamic.isSelected();
 	}
 
+	/**
+	 * Checks if is static.
+	 *
+	 * @return true, if is static
+	 */
 	public boolean isStatic() {
 		return staticPic.isSelected();
 	}
 
+	/**
+	 * Checks if is no background.
+	 *
+	 * @return true, if is no background
+	 */
 	public boolean isNoBackground() {
 		return noPic.isSelected();
 	}
 
+	/**
+	 * Checks if is picture lock.
+	 *
+	 * @return true, if is picture lock
+	 */
 	public boolean isPictureLock() {
 		return staticPictureLock.isSelected();
 	}
 
+	/**
+	 * Gets the background colour.
+	 *
+	 * @return the background colour
+	 */
 	public Color getBackgroundColour() {
 		return picker.getValue();
 	}
 
+	/**
+	 * Checks if is psychedelic.
+	 *
+	 * @return true, if is psychedelic
+	 */
 	public boolean isPsychedelic() {
 		return psychedelic.isSelected();
 	}
 
-	public void setFlashBackground(boolean b) {
-		flashBackground.setSelected(b);
-	}
-
+	/**
+	 * Sets the duration.
+	 *
+	 * @param i the new duration
+	 */
 	public void setDuration(int i) {
 		durationValue = i;
 		duration.getValueFactory().setValue(i);
 	}
 
+	/**
+	 * Sets the transition.
+	 *
+	 * @param i the new transition
+	 */
 	public void setTransition(int i) {
 		transitionValue = i;
 		transition.getValueFactory().setValue(i);
 	}
 
+	/**
+	 * Sets the picture directory.
+	 *
+	 * @param dir the new picture directory
+	 */
 	public void setPictureDirectory(String dir) {
 		setDirectory(dir);
 	}
 
+	/**
+	 * Sets the static picture.
+	 *
+	 * @param pic the new static picture
+	 */
 	public void setStaticPicture(String pic) {
 		setPicture(pic);
 	}
 
+	/**
+	 * Sets the dynamic.
+	 *
+	 * @param b the new dynamic
+	 */
 	public void setDynamic(boolean b) {
 		setRadioButton(dynamic, b);
 	}
 
+	/**
+	 * Sets the static.
+	 *
+	 * @param b the new static
+	 */
 	public void setStatic(boolean b) {
 		setRadioButton(staticPic, b);
 	}
 
+	/**
+	 * Sets the no background.
+	 *
+	 * @param b the new no background
+	 */
 	public void setNoBackground(boolean b) {
 		setRadioButton(noPic, b);
 	}
 
+	/**
+	 * Sets the picture lock.
+	 *
+	 * @param b the new picture lock
+	 */
 	public void setPictureLock(boolean b) {
 		staticPictureLock.setSelected(b);
 	}
 
+	/**
+	 * Sets the background color.
+	 *
+	 * @param c the new background color
+	 */
 	public void setBackgroundColor(Color c) {
 		picker.setValue(c);
 	}
 
+	/**
+	 * Sets the psychedelic.
+	 *
+	 * @param b the new psychedelic
+	 */
 	public void setPsychedelic(boolean b) {
 		psychedelic.setSelected(b);
 		JFXUtils.runLater(() -> setState());
@@ -186,6 +279,9 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		if (b) rb.fire();
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
+	 */
 	protected void init() {
 		directory.setEditable(false);
 		picture.setEditable(false);
@@ -197,7 +293,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setWidths();
 		layoutComponents();
 		
-		setTextFill(flashBackground);
 		setTextFill(psychedelic);
 		setTextFill(staticPictureLock);
 		
@@ -212,7 +307,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setTooltip(dynamic, "Random background image from the chosen directory");
 		setTooltip(staticPic, "Single background image");
 		setTooltip(noPic, "No background image (choose colour)");
-		setTooltip(flashBackground, "Flash Background Image at the Chosen Entrainment Frequency");
 		setTooltip(staticPictureLock, "Prevents inadvertent static image changing if selected");
 		setTooltip(psychedelic, "Background uses random flashing colours if selected");
 	}
@@ -227,9 +321,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 
 		int col = 0;
 		int row = 0;
-
-		GridPane.setConstraints(flashBackground, col, row++, 2, 1);
-		GridPane.setMargin(flashBackground, new Insets(0, 0, 0, 5));
 
 		GridPane.setConstraints(dynamic, col++, row);
 		GridPane.setMargin(dynamic, new Insets(5));
@@ -266,7 +357,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		GridPane.setConstraints(psychedelic, col, row);
 		GridPane.setMargin(psychedelic, new Insets(15, 5, 5, 5));
 
-		pane.getChildren().addAll(flashBackground,
+		pane.getChildren().addAll(
 				dynamic,
 				dir,
 				spin,
@@ -386,8 +477,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 
 		transition.setOnMouseClicked(e -> transitionChanged());
 
-		flashBackground.setOnAction(e -> flashBackgroundClicked());
-
 		staticPictureLock.setOnAction(e -> pictureLockClicked());
 
 		psychedelic.setOnAction(e -> psychedelicClicked());
@@ -404,10 +493,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 
 	private void pictureLockClicked() {
 		fireReceiverChangeEvent(staticPictureLock.isSelected(), MediatorConstants.STATIC_PICTURE_LOCK);
-	}
-
-	private void flashBackgroundClicked() {
-		fireReceiverChangeEvent(flashBackground.isSelected(), MediatorConstants.FLASH_BACKGROUND);
 	}
 
 	private void initRadioButtons() {
@@ -555,10 +640,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 				case BACKGROUND_TRANSITION_SECONDS:
 					transitionValue = (int) e.getDoubleValue();
 					JFXUtils.runLater(() -> transition.getValueFactory().setValue(transitionValue));
-					break;
-				case FLASH_BACKGROUND:
-					if (flashBackground.isSelected() == e.getBooleanValue()) return;
-					JFXUtils.runLater(() -> flashBackground.setSelected(e.getBooleanValue()));
 					break;
 				case STATIC_PICTURE_LOCK:
 					if (staticPictureLock.isSelected() == e.getBooleanValue()) return;

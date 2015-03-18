@@ -86,12 +86,20 @@ public class SliderControlPane extends AbstractTitledPane {
 		this(true);
 	}
 	
+	/**
+	 * Instantiates a new slider control pane.
+	 *
+	 * @param showPanSliders the show pan sliders
+	 */
 	public SliderControlPane(boolean showPanSliders) {
 		super("Sound Options");
 		this.showPanSliders = showPanSliders;
 		init();
 	}
 	
+	/* (non-Javadoc)
+	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
+	 */
 	protected void init() {
 		initLayout();
 		super.init();
@@ -317,6 +325,9 @@ public class SliderControlPane extends AbstractTitledPane {
 		return pinkNoise;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#getContentPane()
+	 */
 	@Override
 	protected Node getContentPane() {
 		return pane;

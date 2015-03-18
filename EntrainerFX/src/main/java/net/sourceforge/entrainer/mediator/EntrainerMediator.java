@@ -164,6 +164,11 @@ public class EntrainerMediator {
 		};
 	}
 
+	/**
+	 * Send event.
+	 *
+	 * @param e the e
+	 */
 	protected void sendEvent(ReceiverChangeEvent e) {
 		for (Receiver receiver : receivers) {
 			if (e.getSource() == receiver.getSource()) continue;

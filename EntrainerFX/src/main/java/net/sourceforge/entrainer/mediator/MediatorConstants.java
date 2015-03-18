@@ -150,7 +150,11 @@ public enum MediatorConstants {
 	/** The static picture lock. */
 	STATIC_PICTURE_LOCK("If true will prevent chosen picture from being overwritten switching to & from dynamic"),
 
+	/** The entrainment frequency pulse. */
 	ENTRAINMENT_FREQUENCY_PULSE("Notification of entrainment frequency"),
+	
+	/** The flash type. */
+	FLASH_TYPE("The type of flashing to apply to the background image"),
 
 	/** The splash on startup. */
 	SPLASH_ON_STARTUP("If true will enable the splash screen on startup");

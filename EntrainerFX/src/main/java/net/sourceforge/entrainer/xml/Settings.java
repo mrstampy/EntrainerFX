@@ -207,6 +207,11 @@ public class Settings implements EntrainerResources {
 	@XmlTransient
 	private boolean acceptUpdates = false;
 
+	/**
+	 * Sets the accept updates.
+	 *
+	 * @param acceptUpdates the new accept updates
+	 */
 	public void setAcceptUpdates(boolean acceptUpdates) {
 		this.acceptUpdates = acceptUpdates;
 	}
