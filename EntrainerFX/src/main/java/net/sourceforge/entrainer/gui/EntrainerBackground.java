@@ -35,6 +35,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -127,6 +130,10 @@ public class EntrainerBackground {
 
 	private FlashOptions flashOptions = FlashOptions.getinstance();
 
+	private ReadWriteLock lock = new ReentrantReadWriteLock();
+	private Lock readLock = lock.readLock();
+	private Lock writeLock = lock.writeLock();
+
 	/**
 	 * Instantiates a new variable background.
 	 */
@@ -208,29 +215,32 @@ public class EntrainerBackground {
 	}
 
 	private void fadeInOut(int key) {
-		ptRunning = true;
-		ScheduledFuture<?> sf = futures.remove(key);
+		writeLock.lock();
+		try {
+			ptRunning = true;
+			ScheduledFuture<?> sf = futures.remove(key);
 
-		if (sf == null || sf.isCancelled()) return;
+			if (sf == null || sf.isCancelled()) return;
 
-		if (!isDynamic()) {
-			return;
+			if (!isDynamic()) return;
+
+			old = current;
+
+			createCurrent();
+
+			setFadeInImage();
+
+			fadeOut();
+			fadeIn();
+
+			pt = new ParallelTransition(fadeIn, fadeOut);
+
+			pt.setOnFinished(e -> switchPictures());
+
+			JFXUtils.runLater(() -> pt.play());
+		} finally {
+			writeLock.unlock();
 		}
-
-		old = current;
-
-		createCurrent();
-
-		setFadeInImage();
-
-		fadeOut();
-		fadeIn();
-
-		pt = new ParallelTransition(fadeIn, fadeOut);
-
-		pt.setOnFinished(e -> switchPictures());
-
-		JFXUtils.runLater(() -> pt.play());
 	}
 
 	private void createCurrent() {
@@ -550,16 +560,21 @@ public class EntrainerBackground {
 	}
 
 	private boolean canRun(Node background) {
-		return shouldRun() && (!flashOptions.isOpacity() || (background.getOpacity() > 0 && !ptRunning));
+		double o = background.getOpacity();
+		return shouldRun()
+				&& (!flashOptions.isOpacity() || (flashOptions.isOpacity() && o > 0 && !ptRunning));
 	}
 
 	private void invert(Node background) {
-		if (flashBackground) {
-			setBackgroundOpacity(background);
-		}
+		readLock.lock();
+		try {
+			if (flashBackground) setBackgroundOpacity(background);
 
-		if (psychedelic && background instanceof Rectangle) {
-			((Rectangle) background).setFill(randomColour());
+			if (psychedelic && background instanceof Rectangle) {
+				((Rectangle) background).setFill(randomColour());
+			}
+		} finally {
+			readLock.unlock();
 		}
 	}
 
@@ -573,8 +588,24 @@ public class EntrainerBackground {
 		}
 
 		Effect effect = flashOptions.getEffect();
-		background.setEffect(effect);
-		if(old != null) old.setEffect(effect);
+		setEffect(background, effect);
+		setEffect(old, effect);
+	}
+
+	private void setEffect(Node background, Effect effect) {
+		if (background == null || background.getOpacity() == 0) return;
+
+		if (replace(effect, background.getEffect())) background.setEffect(effect);
+	}
+
+	private boolean replace(Effect effect, Effect back) {
+		if (effect == null && back == null) return false;
+
+		if (effect != null && back == null) return true;
+
+		if (effect == null && back != null) return true;
+
+		return !effect.equals(back);
 	}
 
 	private void reset(Node background) {

@@ -57,6 +57,8 @@ public class FlashOptions {
 
 	private static FlashOptions options;
 
+	private boolean flashBackground;
+
 	/**
 	 * Gets the instance.
 	 *
@@ -101,6 +103,10 @@ public class FlashOptions {
 			readLock.unlock();
 		}
 	}
+	
+	public boolean hasEffect() {
+		return currentEffect != null;
+	}
 
 	/**
 	 * Default effect.
@@ -126,6 +132,9 @@ public class FlashOptions {
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
+				case FLASH_BACKGROUND:
+					flashBackground = e.getBooleanValue();
+					break;
 				case FLASH_TYPE:
 					evaluate(((FlashType) e.getOption()), e.getBooleanValue());
 					break;
@@ -143,6 +152,8 @@ public class FlashOptions {
 	}
 
 	private void evaluateStart(boolean b) {
+		if(! flashBackground) return;
+		
 		started = b;
 		writeLock.lock();
 		try {
@@ -271,6 +282,8 @@ public class FlashOptions {
 
 	private void evalForPulse(boolean b) {
 		if (effect == null && currentEffect == null && !colourAdjustState.isColourAdjusting()) return;
+		
+		if(!flashBackground) b = false;
 
 		colourAdjustState.evaluateForPulse(b);
 		ColorAdjust ca = null;
@@ -512,12 +525,13 @@ public class FlashOptions {
 	private void removeEffect(Effectable supr, Effectable ef, Effect sub, Class<? extends Effect> clz) {
 		if (ef.getClass().equals(clz)) {
 			if (supr == null && sub == null) {
-				setEffect(null);
+				log.debug("No effect left");
 				currentEffect = null;
+				setEffect(null);
 			} else if (supr == null) {
 				log.debug("supr null, effect = {}", sub);
-				setEffect(sub);
 				currentEffect = sub;
+				setEffect(sub);
 			} else {
 				log.debug("Setting supr {}'s input to {}", sub);
 				supr.setInput(sub);
