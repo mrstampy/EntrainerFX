@@ -62,9 +62,9 @@ public class SliderControlPane extends AbstractTitledPane {
 	private Label pinkNoiseValue = new Label();
 
 	private Sender sender = new SenderAdapter();
-	
+
 	private GridPane pane = new GridPane();
-	
+
 	private Slider pinkAmplitude = new Slider(0, 1, 0.5);
 	private Slider multiple = new Slider(0, 512, 32);
 	private CheckBox panCheck = new CheckBox("Pan Pink Noise");
@@ -76,7 +76,7 @@ public class SliderControlPane extends AbstractTitledPane {
 	private Label multipleValue = new Label("1.00");
 
 	private MasterLevelController masterLevelController = new MasterLevelController();
-	
+
 	private boolean showPanSliders;
 
 	/**
@@ -85,13 +85,13 @@ public class SliderControlPane extends AbstractTitledPane {
 	public SliderControlPane() {
 		this(true);
 	}
-	
+
 	public SliderControlPane(boolean showPanSliders) {
 		super("Sound Options");
 		this.showPanSliders = showPanSliders;
 		init();
 	}
-	
+
 	protected void init() {
 		initLayout();
 		super.init();
@@ -105,7 +105,6 @@ public class SliderControlPane extends AbstractTitledPane {
 		pane.setHgap(10);
 		pane.setVgap(20);
 		pane.setPadding(new Insets(10));
-
 
 		if (showPanSliders) {
 			initSlider(entrainmentFrequency, entrainmentValue, entrainmentFormat, MediatorConstants.ENTRAINMENT_FREQUENCY);
@@ -124,7 +123,7 @@ public class SliderControlPane extends AbstractTitledPane {
 		amplitude.setBlockIncrement(0.01);
 		pinkNoise.setBlockIncrement(0.01);
 		frequency.setBlockIncrement(1.0);
-		
+
 		int row = 0;
 
 		if (showPanSliders) {
@@ -132,7 +131,7 @@ public class SliderControlPane extends AbstractTitledPane {
 			addSlider("Frequency", frequency, frequencyValue, row++);
 			addSlider("Amplitude", amplitude, amplitudeValue, row++);
 		}
-		
+
 		pane.add(panCheck, 0, row++);
 
 		if (showPanSliders) {
@@ -140,23 +139,23 @@ public class SliderControlPane extends AbstractTitledPane {
 			addSlider("Pan Amplitude", pinkAmplitude, pinkAmplitudeValue, row++);
 			addSlider("Entrainer Multiple", multiple, multipleValue, row++);
 		}
-		
+
 		setTextFill(panCheck);
-		
+
 		pane.setAlignment(Pos.CENTER);
 	}
 
 	private void panChecked() {
 		setPanSliderState();
-		
+
 		fireReceiverChangeEvent(panCheck.isSelected(), MediatorConstants.PINK_PAN);
 	}
 
 	private void setPanSliderState() {
-		if(!showPanSliders) return;
-		
+		if (!showPanSliders) return;
+
 		boolean disabled = !panCheck.isSelected();
-		
+
 		pinkAmplitude.setDisable(disabled);
 		multiple.setDisable(disabled);
 	}
@@ -207,12 +206,12 @@ public class SliderControlPane extends AbstractTitledPane {
 	private void addSlider(String label, Slider slider, Label value, int row) {
 		slider.setId(label);
 		Label title = new Label(label);
-		
+
 		setTextFill(title);
 		setTextFill(value);
-		
+
 		pane.add(title, 0, row);
-		
+
 		pane.add(slider, 1, row);
 		pane.add(value, 2, row);
 	}

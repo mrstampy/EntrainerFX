@@ -44,38 +44,38 @@ public abstract class AbstractTitledPane extends TitledPane {
 		setContent(contentPane);
 
 		expandedProperty().addListener(e -> setOpacity(isExpanded() ? EXPANDED_OPACITY : COLLAPSED_OPACITY));
-		
+
 		setOnMouseEntered(e -> determineOpacity());
-		
+
 		setOnMouseExited(e -> mouseExited());
-		
+
 		setOpacity(0);
 	}
-	
+
 	private void mouseExited() {
-		if(isExpanded()) return;
-		
+		if (isExpanded()) return;
+
 		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
-		
+
 		ft.setFromValue(getOpacity());
 		ft.setToValue(0);
-		
+
 		ft.play();
 	}
 
 	private void determineOpacity() {
-		if(isExpanded()) return;
-		
+		if (isExpanded()) return;
+
 		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
-		
+
 		ft.setFromValue(getOpacity());
 		ft.setToValue(COLLAPSED_OPACITY);
-		
+
 		ft.play();
 	}
 
 	protected abstract Node getContentPane();
-	
+
 	protected void setTextFill(Labeled lb) {
 		lb.setTextFill(TEXT_FILL);
 	}

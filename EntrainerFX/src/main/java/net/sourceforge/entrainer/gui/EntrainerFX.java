@@ -355,40 +355,40 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		unexpandeTitledPane(shimmerOptions);
 		unexpandeTitledPane(neuralizer);
 		unexpandeTitledPane(pictures);
-		
+
 		setMinimumSize(new Dimension(mainPanel.getPreferredSize().width, getHeight() / 2));
 
 		addComponentListener(new ComponentAdapter() {
-			
+
 			@Override
 			public void componentResized(ComponentEvent e) {
 				resizeBackground();
 			}
 		});
 	}
-	
+
 	private void resizeBackground() {
 		Dimension size = getSize();
-		
+
 		JFXUtils.runLater(() -> setJFXSize(size));
 	}
-	
+
 	private void setJFXSize(Dimension size) {
 		double width = size.getWidth();
-		
+
 		hiddenSidesPane.setPrefSize(width, size.getHeight());
-		
+
 		setTitledPaneWidth(sliderControlPane, width);
 		setTitledPaneWidth(animations, width);
 		setTitledPaneWidth(shimmerOptions, width);
 		setTitledPaneWidth(neuralizer, width);
 		setTitledPaneWidth(pictures, width);
-		
+
 		setShimmerSizes();
-		
+
 		background.setDimension(size.getWidth(), size.getHeight());
 	}
-	
+
 	private void setTitledPaneWidth(TitledPane tp, double width) {
 		tp.setPrefWidth(width);
 	}
@@ -1657,12 +1657,12 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		GridPane.setMargin(sliderControlPane, new Insets(20, 0, 0, 0));
 		GridPane.setConstraints(pictures, 0, v++);
 		GridPane.setConstraints(animations, 0, v++);
-		GridPane.setConstraints(shimmerOptions, 0, v++);		
+		GridPane.setConstraints(shimmerOptions, 0, v++);
 		GridPane.setConstraints(neuralizer, 0, v++);
-		
+
 		gp.setPadding(new Insets(5, 13, 5, 5));
 		gp.getChildren().addAll(sliderControlPane, animations, shimmerOptions, pictures, neuralizer);
-		
+
 		hiddenSidesPane = new HiddenSidesPane();
 		hiddenSidesPane.setContent(gp);
 		hiddenSidesPane.setTop(soundControlPane);

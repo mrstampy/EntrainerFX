@@ -38,7 +38,8 @@ public class MessageEvent {
 	/**
 	 * Sets the message.
 	 *
-	 * @param message the new message
+	 * @param message
+	 *          the new message
 	 */
 	public void setMessage(ReceiverChangeEvent message) {
 		this.message = message;

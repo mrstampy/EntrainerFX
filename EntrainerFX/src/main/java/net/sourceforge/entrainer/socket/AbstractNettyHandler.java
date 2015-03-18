@@ -309,8 +309,8 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 		if (esm.getShimmer() != null) {
 			fireReceiverChangeEvent(esm.getShimmer(), MediatorConstants.IS_SHIMMER);
 		}
-		
-		if(esm.getFlashBackground() != null) {
+
+		if (esm.getFlashBackground() != null) {
 			fireReceiverChangeEvent(esm.getFlashBackground(), MediatorConstants.FLASH_BACKGROUND);
 		}
 

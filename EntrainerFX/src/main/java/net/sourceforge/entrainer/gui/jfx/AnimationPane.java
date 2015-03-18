@@ -190,7 +190,7 @@ public class AnimationPane extends AbstractTitledPane {
 				}
 			}
 		});
-		
+
 		setTextFill(useDesktopAsBackground);
 
 		initCheckBox(animation, MediatorConstants.IS_ANIMATION);
@@ -210,7 +210,7 @@ public class AnimationPane extends AbstractTitledPane {
 				refreshAnimations();
 			}
 		});
-		
+
 		fp.setAlignment(Pos.CENTER);
 	}
 

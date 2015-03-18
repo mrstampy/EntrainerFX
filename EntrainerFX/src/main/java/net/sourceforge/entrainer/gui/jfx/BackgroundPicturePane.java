@@ -196,11 +196,11 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setTooltips();
 		setWidths();
 		layoutComponents();
-		
+
 		setTextFill(flashBackground);
 		setTextFill(psychedelic);
 		setTextFill(staticPictureLock);
-		
+
 		super.init();
 	}
 
@@ -247,14 +247,14 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		col = 0;
 
 		GridPane.setConstraints(staticPic, col++, row);
-		GridPane.setMargin(staticPic, new Insets(0, 5,5,5));
+		GridPane.setMargin(staticPic, new Insets(0, 5, 5, 5));
 		Node pic = getPicFilePane();
 		GridPane.setConstraints(pic, col++, row, 2, 1);
-		GridPane.setMargin(pic, new Insets(0,5,5,5));
+		GridPane.setMargin(pic, new Insets(0, 5, 5, 5));
 
 		col++;
 		GridPane.setConstraints(staticPictureLock, col, row);
-		GridPane.setMargin(staticPictureLock, new Insets(0,5,5,5));
+		GridPane.setMargin(staticPictureLock, new Insets(0, 5, 5, 5));
 
 		row++;
 		col = 0;
@@ -276,10 +276,10 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 				noPic,
 				picker,
 				psychedelic);
-		
+
 		pane.setAlignment(Pos.CENTER);
 	}
-	
+
 	private void initRadioButton(RadioButton rb) {
 		setTextFill(rb);
 	}
@@ -335,7 +335,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 
 		return hbox;
 	}
-	
+
 	private Label createLabel(String text) {
 		Label label = new Label(text);
 		setTextFill(label);
@@ -396,8 +396,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	private void psychedelicClicked() {
 		fireReceiverChangeEvent(psychedelic.isSelected(), MediatorConstants.IS_PSYCHEDELIC);
 		JFXUtils.runLater(() -> setState());
-		if(!psychedelic.isSelected()) {
-			if(picker.getValue() == null) picker.setValue(Color.ROYALBLUE);
+		if (!psychedelic.isSelected()) {
+			if (picker.getValue() == null) picker.setValue(Color.ROYALBLUE);
 			JFXUtils.runLater(() -> setBackgroundColour(picker.getValue()));
 		}
 	}
@@ -414,11 +414,11 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		dynamic.setToggleGroup(picGroup);
 		staticPic.setToggleGroup(picGroup);
 		noPic.setToggleGroup(picGroup);
-		
+
 		initRadioButton(dynamic);
 		initRadioButton(staticPic);
 		initRadioButton(noPic);
-		
+
 		dynamic.setSelected(true);
 		JFXUtils.runLater(() -> setState());
 	}
@@ -500,7 +500,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setTextFieldsDisabled(true);
 
 		setBackgroundColour(picker.getValue());
-		
+
 		fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
 	}
 

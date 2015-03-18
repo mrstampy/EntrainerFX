@@ -43,7 +43,7 @@ public class EntrainmentFrequencyPulseNotifier {
 	private Sender sender = new SenderAdapter();
 
 	private Lock runLock = new ReentrantLock();
-	
+
 	private Thread notificationThread;
 
 	@SuppressWarnings("unused")
@@ -77,14 +77,14 @@ public class EntrainmentFrequencyPulseNotifier {
 	}
 
 	private void startNofificationThread() {
-		notificationThread  = new Thread(() -> execute(), "Entrainment cycle notification thread");
-		
+		notificationThread = new Thread(() -> execute(), "Entrainment cycle notification thread");
+
 		notificationThread.start();
 	}
 
 	private void execute() {
 		notificationThread.setPriority(Thread.MAX_PRIORITY);
-		
+
 		while (isRun()) {
 			Utils.snooze(calculator.getMillis(), calculator.getNanos());
 
@@ -93,7 +93,7 @@ public class EntrainmentFrequencyPulseNotifier {
 
 		sendFrequencyCycleEvent(false);
 	}
-	
+
 	private void sendFrequencyCycleEvent(boolean b) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, b, MediatorConstants.ENTRAINMENT_FREQUENCY_PULSE));
 	}
