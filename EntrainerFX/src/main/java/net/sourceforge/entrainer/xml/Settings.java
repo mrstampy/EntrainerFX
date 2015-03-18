@@ -207,34 +207,34 @@ public class Settings implements EntrainerResources {
 
 	@XmlTransient
 	private boolean acceptUpdates = false;
-	
+
 	@XmlElement(name = "opacity.flash")
 	private boolean opacity;
-	
+
 	@XmlElement(name = "bloom.flash")
 	private boolean bloom;
-	
+
 	@XmlElement(name = "boxBlur.flash")
 	private boolean boxBlur;
-	
+
 	@XmlElement(name = "gaussianBlur.flash")
 	private boolean gaussianBlur;
-	
+
 	@XmlElement(name = "glow.flash")
 	private boolean glow;
-	
+
 	@XmlElement(name = "motionBlur.flash")
 	private boolean motionBlur;
-	
+
 	@XmlElement(name = "sepiaTone.flash")
 	private boolean sepiaTone;
-	
+
 	@XmlElement(name = "shadow.flash")
 	private boolean shadow;
-	
+
 	@XmlElement(name = "colourAdjust.flash")
 	private boolean colourAdjust;
-	
+
 	@XmlElement(name = "lighting.flash")
 	private boolean lighting;
 
@@ -463,7 +463,7 @@ public class Settings implements EntrainerResources {
 					setSplashOnStartup(e.getBooleanValue());
 					break;
 				case FLASH_TYPE:
-					evaluateFlashType(((FlashType)e.getOption()), e.getBooleanValue());
+					evaluateFlashType(((FlashType) e.getOption()), e.getBooleanValue());
 					break;
 				default:
 					save = false;
@@ -513,7 +513,7 @@ public class Settings implements EntrainerResources {
 		for (EntrainerProgramInterval interval : intervals) {
 			fireReceiverChangeEvent(interval.getValue());
 		}
-		
+
 		fireReceiverChangeEvent(FlashType.BLOOM, isBloom());
 		fireReceiverChangeEvent(FlashType.BOX_BLUR, isBoxBlur());
 		fireReceiverChangeEvent(FlashType.COLOUR_ADJUST, isColourAdjust());
@@ -527,7 +527,7 @@ public class Settings implements EntrainerResources {
 	}
 
 	private void evaluateFlashType(FlashType flashType, boolean b) {
-		switch(flashType) {
+		switch (flashType) {
 		case BLOOM:
 			setBloom(b);
 			break;
@@ -560,7 +560,7 @@ public class Settings implements EntrainerResources {
 			break;
 		default:
 			break;
-		
+
 		}
 	}
 
@@ -580,7 +580,7 @@ public class Settings implements EntrainerResources {
 
 		return false;
 	}
-	
+
 	private void fireReceiverChangeEvent(FlashType type, boolean b) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, type, b, MediatorConstants.FLASH_TYPE));
 	}
@@ -1345,82 +1345,192 @@ public class Settings implements EntrainerResources {
 		this.splashOnStartup = splashOnStartup;
 	}
 
+	/**
+	 * Checks if is opacity.
+	 *
+	 * @return true, if is opacity
+	 */
 	public boolean isOpacity() {
 		return opacity;
 	}
 
+	/**
+	 * Sets the opacity.
+	 *
+	 * @param isOpacity
+	 *          the new opacity
+	 */
 	public void setOpacity(boolean isOpacity) {
 		this.opacity = isOpacity;
 	}
 
+	/**
+	 * Checks if is bloom.
+	 *
+	 * @return true, if is bloom
+	 */
 	public boolean isBloom() {
 		return bloom;
 	}
 
+	/**
+	 * Sets the bloom.
+	 *
+	 * @param isBloom
+	 *          the new bloom
+	 */
 	public void setBloom(boolean isBloom) {
 		this.bloom = isBloom;
 	}
 
+	/**
+	 * Checks if is box blur.
+	 *
+	 * @return true, if is box blur
+	 */
 	public boolean isBoxBlur() {
 		return boxBlur;
 	}
 
+	/**
+	 * Sets the box blur.
+	 *
+	 * @param isBoxBlur
+	 *          the new box blur
+	 */
 	public void setBoxBlur(boolean isBoxBlur) {
 		this.boxBlur = isBoxBlur;
 	}
 
+	/**
+	 * Checks if is gaussian blur.
+	 *
+	 * @return true, if is gaussian blur
+	 */
 	public boolean isGaussianBlur() {
 		return gaussianBlur;
 	}
 
+	/**
+	 * Sets the gaussian blur.
+	 *
+	 * @param isGaussianBlur
+	 *          the new gaussian blur
+	 */
 	public void setGaussianBlur(boolean isGaussianBlur) {
 		this.gaussianBlur = isGaussianBlur;
 	}
 
+	/**
+	 * Checks if is glow.
+	 *
+	 * @return true, if is glow
+	 */
 	public boolean isGlow() {
 		return glow;
 	}
 
+	/**
+	 * Sets the glow.
+	 *
+	 * @param isGlow
+	 *          the new glow
+	 */
 	public void setGlow(boolean isGlow) {
 		this.glow = isGlow;
 	}
 
+	/**
+	 * Checks if is motion blur.
+	 *
+	 * @return true, if is motion blur
+	 */
 	public boolean isMotionBlur() {
 		return motionBlur;
 	}
 
+	/**
+	 * Sets the motion blur.
+	 *
+	 * @param isMotionBlur
+	 *          the new motion blur
+	 */
 	public void setMotionBlur(boolean isMotionBlur) {
 		this.motionBlur = isMotionBlur;
 	}
 
+	/**
+	 * Checks if is sepia tone.
+	 *
+	 * @return true, if is sepia tone
+	 */
 	public boolean isSepiaTone() {
 		return sepiaTone;
 	}
 
+	/**
+	 * Sets the sepia tone.
+	 *
+	 * @param isSepiaTone
+	 *          the new sepia tone
+	 */
 	public void setSepiaTone(boolean isSepiaTone) {
 		this.sepiaTone = isSepiaTone;
 	}
 
+	/**
+	 * Checks if is shadow.
+	 *
+	 * @return true, if is shadow
+	 */
 	public boolean isShadow() {
 		return shadow;
 	}
 
+	/**
+	 * Sets the shadow.
+	 *
+	 * @param isShadow
+	 *          the new shadow
+	 */
 	public void setShadow(boolean isShadow) {
 		this.shadow = isShadow;
 	}
 
+	/**
+	 * Checks if is colour adjust.
+	 *
+	 * @return true, if is colour adjust
+	 */
 	public boolean isColourAdjust() {
 		return colourAdjust;
 	}
 
+	/**
+	 * Sets the colour adjust.
+	 *
+	 * @param isRandomColourAdjust
+	 *          the new colour adjust
+	 */
 	public void setColourAdjust(boolean isRandomColourAdjust) {
 		this.colourAdjust = isRandomColourAdjust;
 	}
 
+	/**
+	 * Checks if is lighting.
+	 *
+	 * @return true, if is lighting
+	 */
 	public boolean isLighting() {
 		return lighting;
 	}
 
+	/**
+	 * Sets the lighting.
+	 *
+	 * @param isLighting
+	 *          the new lighting
+	 */
 	public void setLighting(boolean isLighting) {
 		this.lighting = isLighting;
 	}

@@ -480,7 +480,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		xml.setStaticPicture(pics.isStatic());
 		xml.setStaticPictureFile(pics.getStaticPicture());
 		xml.setStaticPictureLock(pics.isPictureLock());
-		
+
 		xml.setOpacity(flashOptions.isOpacity());
 		xml.setBloom(flashOptions.isBloom());
 		xml.setBoxBlur(flashOptions.isBoxBlur());
@@ -635,42 +635,42 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 
 		pics.setNoBackground(xml.isNoPicture());
 		if (pics.isNoBackground()) fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
-		
+
 		initFlashOptions();
 	}
 
 	private void initFlashOptions() {
 		flashOptions.setOpacity(xml.isOpacity());
 		fireFlashOptionEvent(FlashType.OPACITY, xml.isOpacity());
-		
+
 		flashOptions.setBloom(xml.isBloom());
 		fireFlashOptionEvent(FlashType.BLOOM, xml.isBloom());
-		
+
 		flashOptions.setBoxBlur(xml.isBoxBlur());
 		fireFlashOptionEvent(FlashType.BOX_BLUR, xml.isBoxBlur());
-		
+
 		flashOptions.setGaussianBlur(xml.isGaussianBlur());
 		fireFlashOptionEvent(FlashType.GAUSSIAN_BLUR, xml.isGaussianBlur());
-		
+
 		flashOptions.setGlow(xml.isGlow());
 		fireFlashOptionEvent(FlashType.GLOW, xml.isGlow());
-		
+
 		flashOptions.setMotionBlur(xml.isMotionBlur());
 		fireFlashOptionEvent(FlashType.MOTION_BLUR, xml.isMotionBlur());
-		
+
 		flashOptions.setSepiaTone(xml.isSepiaTone());
 		fireFlashOptionEvent(FlashType.SEPIA_TONE, xml.isSepiaTone());
-		
+
 		flashOptions.setShadow(xml.isShadow());
 		fireFlashOptionEvent(FlashType.SHADOW, xml.isShadow());
-		
+
 		flashOptions.setLighting(xml.isLighting());
 		fireFlashOptionEvent(FlashType.LIGHTING, xml.isLighting());
-		
+
 		flashOptions.setColourAdjust(xml.isColourAdjust());
 		fireFlashOptionEvent(FlashType.COLOUR_ADJUST, xml.isColourAdjust());
 	}
-	
+
 	private void fireFlashOptionEvent(FlashType type, boolean b) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, type, b, MediatorConstants.FLASH_TYPE));
 	}

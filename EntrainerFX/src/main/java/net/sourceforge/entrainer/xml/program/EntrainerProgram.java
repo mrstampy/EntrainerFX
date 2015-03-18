@@ -119,34 +119,34 @@ public class EntrainerProgram {
 
 	@XmlElement
 	private boolean useDesktopAsBackground;
-	
+
 	@XmlElement(name = "opacity.flash")
 	private boolean opacity;
-	
+
 	@XmlElement(name = "bloom.flash")
 	private boolean bloom;
-	
+
 	@XmlElement(name = "boxBlur.flash")
 	private boolean boxBlur;
-	
+
 	@XmlElement(name = "gaussianBlur.flash")
 	private boolean gaussianBlur;
-	
+
 	@XmlElement(name = "glow.flash")
 	private boolean glow;
-	
+
 	@XmlElement(name = "motionBlur.flash")
 	private boolean motionBlur;
-	
+
 	@XmlElement(name = "sepiaTone.flash")
 	private boolean sepiaTone;
-	
+
 	@XmlElement(name = "shadow.flash")
 	private boolean shadow;
-	
+
 	@XmlElement(name = "colourAdjust.flash")
 	private boolean colourAdjust;
-	
+
 	@XmlElement(name = "lighting.flash")
 	private boolean lighting;
 
@@ -641,82 +641,192 @@ public class EntrainerProgram {
 		this.useDesktopAsBackground = useDesktopAsBackground;
 	}
 
+	/**
+	 * Checks if is opacity.
+	 *
+	 * @return true, if is opacity
+	 */
 	public boolean isOpacity() {
 		return opacity;
 	}
 
+	/**
+	 * Sets the opacity.
+	 *
+	 * @param opacity
+	 *          the new opacity
+	 */
 	public void setOpacity(boolean opacity) {
 		this.opacity = opacity;
 	}
 
+	/**
+	 * Checks if is bloom.
+	 *
+	 * @return true, if is bloom
+	 */
 	public boolean isBloom() {
 		return bloom;
 	}
 
+	/**
+	 * Sets the bloom.
+	 *
+	 * @param bloom
+	 *          the new bloom
+	 */
 	public void setBloom(boolean bloom) {
 		this.bloom = bloom;
 	}
 
+	/**
+	 * Checks if is box blur.
+	 *
+	 * @return true, if is box blur
+	 */
 	public boolean isBoxBlur() {
 		return boxBlur;
 	}
 
+	/**
+	 * Sets the box blur.
+	 *
+	 * @param boxBlur
+	 *          the new box blur
+	 */
 	public void setBoxBlur(boolean boxBlur) {
 		this.boxBlur = boxBlur;
 	}
 
+	/**
+	 * Checks if is gaussian blur.
+	 *
+	 * @return true, if is gaussian blur
+	 */
 	public boolean isGaussianBlur() {
 		return gaussianBlur;
 	}
 
+	/**
+	 * Sets the gaussian blur.
+	 *
+	 * @param gaussianBlur
+	 *          the new gaussian blur
+	 */
 	public void setGaussianBlur(boolean gaussianBlur) {
 		this.gaussianBlur = gaussianBlur;
 	}
 
+	/**
+	 * Checks if is glow.
+	 *
+	 * @return true, if is glow
+	 */
 	public boolean isGlow() {
 		return glow;
 	}
 
+	/**
+	 * Sets the glow.
+	 *
+	 * @param glow
+	 *          the new glow
+	 */
 	public void setGlow(boolean glow) {
 		this.glow = glow;
 	}
 
+	/**
+	 * Checks if is motion blur.
+	 *
+	 * @return true, if is motion blur
+	 */
 	public boolean isMotionBlur() {
 		return motionBlur;
 	}
 
+	/**
+	 * Sets the motion blur.
+	 *
+	 * @param motionBlur
+	 *          the new motion blur
+	 */
 	public void setMotionBlur(boolean motionBlur) {
 		this.motionBlur = motionBlur;
 	}
 
+	/**
+	 * Checks if is sepia tone.
+	 *
+	 * @return true, if is sepia tone
+	 */
 	public boolean isSepiaTone() {
 		return sepiaTone;
 	}
 
+	/**
+	 * Sets the sepia tone.
+	 *
+	 * @param sepiaTone
+	 *          the new sepia tone
+	 */
 	public void setSepiaTone(boolean sepiaTone) {
 		this.sepiaTone = sepiaTone;
 	}
 
+	/**
+	 * Checks if is shadow.
+	 *
+	 * @return true, if is shadow
+	 */
 	public boolean isShadow() {
 		return shadow;
 	}
 
+	/**
+	 * Sets the shadow.
+	 *
+	 * @param shadow
+	 *          the new shadow
+	 */
 	public void setShadow(boolean shadow) {
 		this.shadow = shadow;
 	}
 
+	/**
+	 * Checks if is colour adjust.
+	 *
+	 * @return true, if is colour adjust
+	 */
 	public boolean isColourAdjust() {
 		return colourAdjust;
 	}
 
+	/**
+	 * Sets the colour adjust.
+	 *
+	 * @param colourAdjust
+	 *          the new colour adjust
+	 */
 	public void setColourAdjust(boolean colourAdjust) {
 		this.colourAdjust = colourAdjust;
 	}
 
+	/**
+	 * Checks if is lighting.
+	 *
+	 * @return true, if is lighting
+	 */
 	public boolean isLighting() {
 		return lighting;
 	}
 
+	/**
+	 * Sets the lighting.
+	 *
+	 * @param lighting
+	 *          the new lighting
+	 */
 	public void setLighting(boolean lighting) {
 		this.lighting = lighting;
 	}

@@ -90,83 +90,193 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	public void setFlashBackground(boolean b) {
 		flashBackgroundEvent(b);
 	}
-	
+
+	/**
+	 * Checks if is opacity.
+	 *
+	 * @return true, if is opacity
+	 */
 	public boolean isOpacity() {
 		return opacity.isSelected();
 	}
-	
+
+	/**
+	 * Sets the opacity.
+	 *
+	 * @param b
+	 *          the new opacity
+	 */
 	public void setOpacity(boolean b) {
 		opacity.setSelected(b);
 	}
-	
+
+	/**
+	 * Checks if is bloom.
+	 *
+	 * @return true, if is bloom
+	 */
 	public boolean isBloom() {
 		return bloom.isSelected();
 	}
-	
+
+	/**
+	 * Sets the bloom.
+	 *
+	 * @param b
+	 *          the new bloom
+	 */
 	public void setBloom(boolean b) {
 		bloom.setSelected(b);
 	}
-	
+
+	/**
+	 * Checks if is box blur.
+	 *
+	 * @return true, if is box blur
+	 */
 	public boolean isBoxBlur() {
 		return boxBlur.isSelected();
 	}
-	
+
+	/**
+	 * Sets the box blur.
+	 *
+	 * @param b
+	 *          the new box blur
+	 */
 	public void setBoxBlur(boolean b) {
 		boxBlur.setSelected(b);
 	}
-	
+
+	/**
+	 * Checks if is gaussian blur.
+	 *
+	 * @return true, if is gaussian blur
+	 */
 	public boolean isGaussianBlur() {
 		return gaussianBlur.isSelected();
 	}
-	
+
+	/**
+	 * Sets the gaussian blur.
+	 *
+	 * @param b
+	 *          the new gaussian blur
+	 */
 	public void setGaussianBlur(boolean b) {
 		gaussianBlur.setSelected(b);
 	}
-	
+
+	/**
+	 * Checks if is glow.
+	 *
+	 * @return true, if is glow
+	 */
 	public boolean isGlow() {
 		return glow.isSelected();
 	}
-	
+
+	/**
+	 * Sets the glow.
+	 *
+	 * @param b
+	 *          the new glow
+	 */
 	public void setGlow(boolean b) {
 		glow.setSelected(b);
 	}
-	
+
+	/**
+	 * Checks if is motion blur.
+	 *
+	 * @return true, if is motion blur
+	 */
 	public boolean isMotionBlur() {
 		return motionBlur.isSelected();
 	}
-	
+
+	/**
+	 * Sets the motion blur.
+	 *
+	 * @param b
+	 *          the new motion blur
+	 */
 	public void setMotionBlur(boolean b) {
 		motionBlur.setSelected(b);
 	}
-	
+
+	/**
+	 * Checks if is sepia tone.
+	 *
+	 * @return true, if is sepia tone
+	 */
 	public boolean isSepiaTone() {
 		return sepiaTone.isSelected();
 	}
-	
+
+	/**
+	 * Sets the sepia tone.
+	 *
+	 * @param b
+	 *          the new sepia tone
+	 */
 	public void setSepiaTone(boolean b) {
 		sepiaTone.setSelected(b);
 	}
-	
+
+	/**
+	 * Checks if is shadow.
+	 *
+	 * @return true, if is shadow
+	 */
 	public boolean isShadow() {
 		return shadow.isSelected();
 	}
-	
+
+	/**
+	 * Sets the shadow.
+	 *
+	 * @param b
+	 *          the new shadow
+	 */
 	public void setShadow(boolean b) {
 		shadow.setSelected(b);
 	}
-	
+
+	/**
+	 * Checks if is lighting.
+	 *
+	 * @return true, if is lighting
+	 */
 	public boolean isLighting() {
 		return lighting.isSelected();
 	}
-	
+
+	/**
+	 * Sets the lighting.
+	 *
+	 * @param b
+	 *          the new lighting
+	 */
 	public void setLighting(boolean b) {
 		lightingEvent(b);
 	}
-	
+
+	/**
+	 * Checks if is colour adjust.
+	 *
+	 * @return true, if is colour adjust
+	 */
 	public boolean isColourAdjust() {
 		return colourAdjust.isSelected();
 	}
-	
+
+	/**
+	 * Sets the colour adjust.
+	 *
+	 * @param b
+	 *          the new colour adjust
+	 */
 	public void setColourAdjust(boolean b) {
 		colourAdjustEvent(b);
 	}

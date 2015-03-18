@@ -103,7 +103,12 @@ public class FlashOptions {
 			readLock.unlock();
 		}
 	}
-	
+
+	/**
+	 * Checks for effect.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasEffect() {
 		return currentEffect != null;
 	}
@@ -152,8 +157,8 @@ public class FlashOptions {
 	}
 
 	private void evaluateStart(boolean b) {
-		if(! flashBackground) return;
-		
+		if (!flashBackground) return;
+
 		started = b;
 		writeLock.lock();
 		try {
@@ -282,8 +287,8 @@ public class FlashOptions {
 
 	private void evalForPulse(boolean b) {
 		if (effect == null && currentEffect == null && !colourAdjustState.isColourAdjusting()) return;
-		
-		if(!flashBackground) b = false;
+
+		if (!flashBackground) b = false;
 
 		colourAdjustState.evaluateForPulse(b);
 		ColorAdjust ca = null;
