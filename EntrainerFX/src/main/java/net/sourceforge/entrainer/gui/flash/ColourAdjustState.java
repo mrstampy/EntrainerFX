@@ -80,7 +80,7 @@ class ColourAdjustState {
 			return;
 		}
 
-		colourAdjust = colourAdjust == DEFAULT_COLOUR_ADJUST ? randomColourAdjust() : DEFAULT_COLOUR_ADJUST;
+		colourAdjust = randomColourAdjust();
 	}
 
 	private ColorAdjust randomColourAdjust() {

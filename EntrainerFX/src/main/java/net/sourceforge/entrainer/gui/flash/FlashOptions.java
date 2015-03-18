@@ -151,6 +151,7 @@ public class FlashOptions {
 				createEffect();
 			} else {
 				setEffectDefault();
+				currentEffect = null;
 			}
 		} finally {
 			writeLock.unlock();
@@ -273,15 +274,16 @@ public class FlashOptions {
 		if(effect == null && currentEffect == null && !colourAdjustState.isColourAdjusting()) return;
 		
 		colourAdjustState.evaluateForPulse(b);
+		ColorAdjust ca = null;
 		if(colourAdjustState.isColourAdjusting()) {
-			setColourAdjust();
+			ca = setColourAdjust();
 			if(currentEffect instanceof ColorAdjust) return;
 		}
 		
 		if(b) {
 			boolean rev = flip.get();
 			
-			setEffect(rev ? currentEffect : colourAdjustState.isColourAdjusting() ? DEFAULT_COLOUR_ADJUST : null);
+			setEffect(rev ? currentEffect : colourAdjustState.isColourAdjusting() ? ca : null);
 			
 			flip.set(!rev);
 		} else {
@@ -294,39 +296,45 @@ public class FlashOptions {
 		setEffect(colourAdjustState.isColourAdjusting() ? DEFAULT_COLOUR_ADJUST : null);
 	}
 
-	private void setColourAdjust() {
+	private ColorAdjust setColourAdjust() {
 		if (currentEffect == null || currentEffect instanceof ColorAdjust) {
-			setEffect(colourAdjustState.getColorAdjust());
+			ColorAdjust colourAdjust = getColourAdjust(currentEffect);
+			setEffect(colourAdjust);
 			currentEffect = effect;
-			return;
+			return colourAdjust;
 		}
 
 		if (!(currentEffect instanceof Effectable)) {
 			log.error("Cannot add colour adjust to {}", currentEffect.getClass());
-			return;
+			return null;
 		}
 
 		Effectable ef = (Effectable) currentEffect;
 		Effect sub = ef.getInput();
 
-		setColourAdjust(ef, sub);
+		return setColourAdjust(ef, sub);
 	}
 
-	private void setColourAdjust(Effectable ef, Effect sub) {
+	private ColorAdjust setColourAdjust(Effectable ef, Effect sub) {
 		if (sub == null || sub instanceof ColorAdjust) {
-			ef.setInput(colourAdjustState.getColorAdjust());
-			return;
+			ColorAdjust colourAdjust = getColourAdjust(sub);
+			ef.setInput(colourAdjust);
+			return colourAdjust;
 		}
 
 		if (!(sub instanceof Effectable)) {
 			log.error("Cannot add colour adjust to {}", sub.getClass());
-			return;
+			return null;
 		}
 
 		Effectable ef2 = (Effectable) sub;
 		Effect sub2 = ef2.getInput();
 
-		setColourAdjust(ef2, sub2);
+		return setColourAdjust(ef2, sub2);
+	}
+
+	private ColorAdjust getColourAdjust(Effect ef) {
+		return ef == DEFAULT_COLOUR_ADJUST ? colourAdjustState.getColorAdjust() : DEFAULT_COLOUR_ADJUST;
 	}
 
 	/**
