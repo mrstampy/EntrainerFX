@@ -36,7 +36,8 @@ public class BloomEffectable extends Bloom implements Effectable {
 	/**
 	 * Instantiates a new bloom effectable.
 	 *
-	 * @param threshold the threshold
+	 * @param threshold
+	 *          the threshold
 	 */
 	public BloomEffectable(double threshold) {
 		super(threshold);

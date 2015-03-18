@@ -36,7 +36,8 @@ public class SepiaToneEffectable extends SepiaTone implements Effectable {
 	/**
 	 * Instantiates a new sepia tone effectable.
 	 *
-	 * @param level the level
+	 * @param level
+	 *          the level
 	 */
 	public SepiaToneEffectable(double level) {
 		super(level);

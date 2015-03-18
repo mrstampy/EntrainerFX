@@ -570,7 +570,7 @@ public class EntrainerBackground {
 		} else {
 			background.setOpacity(NORMAL_OPACITY);
 		}
-		
+
 		background.setEffect(flashOptions.getEffect());
 	}
 

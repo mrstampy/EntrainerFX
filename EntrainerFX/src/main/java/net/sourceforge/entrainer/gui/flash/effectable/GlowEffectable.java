@@ -36,7 +36,8 @@ public class GlowEffectable extends Glow implements Effectable {
 	/**
 	 * Instantiates a new glow effectable.
 	 *
-	 * @param level the level
+	 * @param level
+	 *          the level
 	 */
 	public GlowEffectable(double level) {
 		super(level);

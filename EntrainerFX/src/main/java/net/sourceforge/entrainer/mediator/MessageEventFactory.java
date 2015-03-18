@@ -26,7 +26,9 @@ import com.lmax.disruptor.EventFactory;
  */
 public class MessageEventFactory implements EventFactory<MessageEvent> {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lmax.disruptor.EventFactory#newInstance()
 	 */
 	@Override

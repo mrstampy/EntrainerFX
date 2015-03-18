@@ -152,7 +152,7 @@ public enum MediatorConstants {
 
 	/** The entrainment frequency pulse. */
 	ENTRAINMENT_FREQUENCY_PULSE("Notification of entrainment frequency"),
-	
+
 	/** The flash type. */
 	FLASH_TYPE("The type of flashing to apply to the background image"),
 

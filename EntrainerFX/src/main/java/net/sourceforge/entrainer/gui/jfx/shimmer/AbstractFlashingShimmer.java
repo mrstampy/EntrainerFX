@@ -40,8 +40,11 @@ public abstract class AbstractFlashingShimmer<P extends Paint> extends AbstractS
 		super();
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#pulse(boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#pulse(boolean)
 	 */
 	@Override
 	protected void pulse(boolean b) {

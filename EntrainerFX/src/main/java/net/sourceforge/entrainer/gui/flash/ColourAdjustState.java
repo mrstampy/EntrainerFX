@@ -27,10 +27,10 @@ import javafx.scene.effect.ColorAdjust;
  * The Class ColourAdjustState.
  */
 class ColourAdjustState {
-	
+
 	/** The default colour adjust. */
 	static ColorAdjust DEFAULT_COLOUR_ADJUST = new ColorAdjust();
-	
+
 	private Random rand = new Random(System.nanoTime());
 	private boolean colourAdjusting;
 
@@ -54,12 +54,13 @@ class ColourAdjustState {
 	/**
 	 * Sets the colour adjusting.
 	 *
-	 * @param colourAdjusting the new colour adjusting
+	 * @param colourAdjusting
+	 *          the new colour adjusting
 	 */
 	void setColourAdjusting(boolean colourAdjusting) {
 		this.colourAdjusting = colourAdjusting;
 	}
-	
+
 	/**
 	 * Gets the color adjust.
 	 *
@@ -72,10 +73,11 @@ class ColourAdjustState {
 	/**
 	 * Evaluate for pulse.
 	 *
-	 * @param b the b
+	 * @param b
+	 *          the b
 	 */
 	void evaluateForPulse(boolean b) {
-		if(! colourAdjusting || !b) {
+		if (!colourAdjusting || !b) {
 			colourAdjust = DEFAULT_COLOUR_ADJUST;
 			return;
 		}

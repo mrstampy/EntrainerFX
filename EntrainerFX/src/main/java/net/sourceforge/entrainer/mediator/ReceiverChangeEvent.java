@@ -39,7 +39,7 @@ public class ReceiverChangeEvent extends EventObject {
 	private String stringValue;
 
 	private double endValue;
-	
+
 	private Enum<?> option;
 
 	private MediatorConstants parm;
@@ -125,14 +125,18 @@ public class ReceiverChangeEvent extends EventObject {
 		setParm(parm);
 		setColourValue(c);
 	}
-	
+
 	/**
 	 * Instantiates a new receiver change event.
 	 *
-	 * @param source the source
-	 * @param option the option
-	 * @param b the b
-	 * @param parm the parm
+	 * @param source
+	 *          the source
+	 * @param option
+	 *          the option
+	 * @param b
+	 *          the b
+	 * @param parm
+	 *          the parm
 	 */
 	public ReceiverChangeEvent(Object source, Enum<?> option, boolean b, MediatorConstants parm) {
 		super(source);

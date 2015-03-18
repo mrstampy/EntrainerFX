@@ -50,7 +50,8 @@ public abstract class AbstractTitledPane extends TitledPane {
 	/**
 	 * Instantiates a new abstract titled pane.
 	 *
-	 * @param title the title
+	 * @param title
+	 *          the title
 	 */
 	public AbstractTitledPane(String title) {
 		super();
@@ -77,33 +78,33 @@ public abstract class AbstractTitledPane extends TitledPane {
 		setContent(contentPane);
 
 		expandedProperty().addListener(e -> setOpacity(isExpanded() ? EXPANDED_OPACITY : COLLAPSED_OPACITY));
-		
+
 		setOnMouseEntered(e -> determineOpacity());
-		
+
 		setOnMouseExited(e -> mouseExited());
-		
+
 		setOpacity(0);
 	}
-	
+
 	private void mouseExited() {
-		if(isExpanded()) return;
-		
+		if (isExpanded()) return;
+
 		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
-		
+
 		ft.setFromValue(getOpacity());
 		ft.setToValue(0);
-		
+
 		ft.play();
 	}
 
 	private void determineOpacity() {
-		if(isExpanded()) return;
-		
+		if (isExpanded()) return;
+
 		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
-		
+
 		ft.setFromValue(getOpacity());
 		ft.setToValue(COLLAPSED_OPACITY);
-		
+
 		ft.play();
 	}
 
@@ -113,11 +114,12 @@ public abstract class AbstractTitledPane extends TitledPane {
 	 * @return the content pane
 	 */
 	protected abstract Node getContentPane();
-	
+
 	/**
 	 * Sets the text fill.
 	 *
-	 * @param lb the new text fill
+	 * @param lb
+	 *          the new text fill
 	 */
 	protected void setTextFill(Labeled lb) {
 		lb.setTextFill(TEXT_FILL);
@@ -126,8 +128,10 @@ public abstract class AbstractTitledPane extends TitledPane {
 	/**
 	 * Fire receiver change event.
 	 *
-	 * @param value the value
-	 * @param parm the parm
+	 * @param value
+	 *          the value
+	 * @param parm
+	 *          the parm
 	 */
 	protected void fireReceiverChangeEvent(double value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
@@ -136,8 +140,10 @@ public abstract class AbstractTitledPane extends TitledPane {
 	/**
 	 * Fire receiver change event.
 	 *
-	 * @param value the value
-	 * @param parm the parm
+	 * @param value
+	 *          the value
+	 * @param parm
+	 *          the parm
 	 */
 	protected void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
@@ -146,8 +152,10 @@ public abstract class AbstractTitledPane extends TitledPane {
 	/**
 	 * Fire receiver change event.
 	 *
-	 * @param value the value
-	 * @param parm the parm
+	 * @param value
+	 *          the value
+	 * @param parm
+	 *          the parm
 	 */
 	protected void fireReceiverChangeEvent(String value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
@@ -156,8 +164,10 @@ public abstract class AbstractTitledPane extends TitledPane {
 	/**
 	 * Fire receiver change event.
 	 *
-	 * @param value the value
-	 * @param parm the parm
+	 * @param value
+	 *          the value
+	 * @param parm
+	 *          the parm
 	 */
 	protected void fireReceiverChangeEvent(int value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
@@ -166,19 +176,24 @@ public abstract class AbstractTitledPane extends TitledPane {
 	/**
 	 * Fire receiver change event.
 	 *
-	 * @param value the value
-	 * @param parm the parm
+	 * @param value
+	 *          the value
+	 * @param parm
+	 *          the parm
 	 */
 	protected void fireReceiverChangeEvent(java.awt.Color value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
-	
+
 	/**
 	 * Fire receiver change event.
 	 *
-	 * @param e the e
-	 * @param b the b
-	 * @param parm the parm
+	 * @param e
+	 *          the e
+	 * @param b
+	 *          the b
+	 * @param parm
+	 *          the parm
 	 */
 	protected void fireReceiverChangeEvent(Enum<?> e, boolean b, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, e, b, parm));

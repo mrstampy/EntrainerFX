@@ -223,8 +223,10 @@ public class GuiUtil {
 	/**
 	 * Handle problem.
 	 *
-	 * @param e the e
-	 * @param useLatch the use latch
+	 * @param e
+	 *          the e
+	 * @param useLatch
+	 *          the use latch
 	 */
 	public static void handleProblem(Throwable e, boolean useLatch) {
 		e.printStackTrace();

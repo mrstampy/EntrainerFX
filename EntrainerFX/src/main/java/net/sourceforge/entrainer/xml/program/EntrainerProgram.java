@@ -417,7 +417,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the sender.
 	 *
-	 * @param sender the new sender
+	 * @param sender
+	 *          the new sender
 	 */
 	public void setSender(Sender sender) {
 		this.sender = sender;
@@ -435,7 +436,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the dynamic picture.
 	 *
-	 * @param dynamicPicture the new dynamic picture
+	 * @param dynamicPicture
+	 *          the new dynamic picture
 	 */
 	public void setDynamicPicture(boolean dynamicPicture) {
 		this.dynamicPicture = dynamicPicture;
@@ -453,7 +455,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the static picture.
 	 *
-	 * @param staticPicture the new static picture
+	 * @param staticPicture
+	 *          the new static picture
 	 */
 	public void setStaticPicture(boolean staticPicture) {
 		this.staticPicture = staticPicture;
@@ -471,7 +474,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the static picture file.
 	 *
-	 * @param staticPictureFile the new static picture file
+	 * @param staticPictureFile
+	 *          the new static picture file
 	 */
 	public void setStaticPictureFile(String staticPictureFile) {
 		this.staticPictureFile = staticPictureFile;
@@ -489,7 +493,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the static picture lock.
 	 *
-	 * @param staticPictureLock the new static picture lock
+	 * @param staticPictureLock
+	 *          the new static picture lock
 	 */
 	public void setStaticPictureLock(boolean staticPictureLock) {
 		this.staticPictureLock = staticPictureLock;
@@ -507,7 +512,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the no picture.
 	 *
-	 * @param noPicture the new no picture
+	 * @param noPicture
+	 *          the new no picture
 	 */
 	public void setNoPicture(boolean noPicture) {
 		this.noPicture = noPicture;
@@ -525,7 +531,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the picture directory.
 	 *
-	 * @param pictureDirectory the new picture directory
+	 * @param pictureDirectory
+	 *          the new picture directory
 	 */
 	public void setPictureDirectory(String pictureDirectory) {
 		this.pictureDirectory = pictureDirectory;
@@ -543,7 +550,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the dynamic duration.
 	 *
-	 * @param dynamicDuration the new dynamic duration
+	 * @param dynamicDuration
+	 *          the new dynamic duration
 	 */
 	public void setDynamicDuration(int dynamicDuration) {
 		this.dynamicDuration = dynamicDuration;
@@ -561,7 +569,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the dynamic transition.
 	 *
-	 * @param dynamicTransition the new dynamic transition
+	 * @param dynamicTransition
+	 *          the new dynamic transition
 	 */
 	public void setDynamicTransition(int dynamicTransition) {
 		this.dynamicTransition = dynamicTransition;
@@ -579,7 +588,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the background colour.
 	 *
-	 * @param backgroundColour the new background colour
+	 * @param backgroundColour
+	 *          the new background colour
 	 */
 	public void setBackgroundColour(Color backgroundColour) {
 		this.backgroundColour = backgroundColour;
@@ -597,7 +607,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the use desktop as background.
 	 *
-	 * @param useDesktopAsBackground the new use desktop as background
+	 * @param useDesktopAsBackground
+	 *          the new use desktop as background
 	 */
 	public void setUseDesktopAsBackground(boolean useDesktopAsBackground) {
 		this.useDesktopAsBackground = useDesktopAsBackground;

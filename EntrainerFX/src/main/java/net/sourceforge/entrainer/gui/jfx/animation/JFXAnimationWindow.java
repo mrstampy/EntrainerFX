@@ -248,7 +248,7 @@ public class JFXAnimationWindow extends JWindow {
 					isAnimating = e.getBooleanValue();
 					break;
 				case ENTRAINMENT_FREQUENCY_PULSE:
-					if(e.getBooleanValue() && isAnimating) paint();
+					if (e.getBooleanValue() && isAnimating) paint();
 					break;
 				default:
 					break;

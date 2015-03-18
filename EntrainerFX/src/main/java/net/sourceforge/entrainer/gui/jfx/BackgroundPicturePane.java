@@ -83,7 +83,9 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		init();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#getContentPane()
 	 */
 	@Override
@@ -184,7 +186,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	/**
 	 * Sets the duration.
 	 *
-	 * @param i the new duration
+	 * @param i
+	 *          the new duration
 	 */
 	public void setDuration(int i) {
 		durationValue = i;
@@ -194,7 +197,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	/**
 	 * Sets the transition.
 	 *
-	 * @param i the new transition
+	 * @param i
+	 *          the new transition
 	 */
 	public void setTransition(int i) {
 		transitionValue = i;
@@ -204,7 +208,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	/**
 	 * Sets the picture directory.
 	 *
-	 * @param dir the new picture directory
+	 * @param dir
+	 *          the new picture directory
 	 */
 	public void setPictureDirectory(String dir) {
 		setDirectory(dir);
@@ -213,7 +218,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	/**
 	 * Sets the static picture.
 	 *
-	 * @param pic the new static picture
+	 * @param pic
+	 *          the new static picture
 	 */
 	public void setStaticPicture(String pic) {
 		setPicture(pic);
@@ -222,7 +228,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	/**
 	 * Sets the dynamic.
 	 *
-	 * @param b the new dynamic
+	 * @param b
+	 *          the new dynamic
 	 */
 	public void setDynamic(boolean b) {
 		setRadioButton(dynamic, b);
@@ -231,7 +238,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	/**
 	 * Sets the static.
 	 *
-	 * @param b the new static
+	 * @param b
+	 *          the new static
 	 */
 	public void setStatic(boolean b) {
 		setRadioButton(staticPic, b);
@@ -240,7 +248,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	/**
 	 * Sets the no background.
 	 *
-	 * @param b the new no background
+	 * @param b
+	 *          the new no background
 	 */
 	public void setNoBackground(boolean b) {
 		setRadioButton(noPic, b);
@@ -249,7 +258,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	/**
 	 * Sets the picture lock.
 	 *
-	 * @param b the new picture lock
+	 * @param b
+	 *          the new picture lock
 	 */
 	public void setPictureLock(boolean b) {
 		staticPictureLock.setSelected(b);
@@ -258,7 +268,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	/**
 	 * Sets the background color.
 	 *
-	 * @param c the new background color
+	 * @param c
+	 *          the new background color
 	 */
 	public void setBackgroundColor(Color c) {
 		picker.setValue(c);
@@ -267,7 +278,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	/**
 	 * Sets the psychedelic.
 	 *
-	 * @param b the new psychedelic
+	 * @param b
+	 *          the new psychedelic
 	 */
 	public void setPsychedelic(boolean b) {
 		psychedelic.setSelected(b);
@@ -279,7 +291,9 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		if (b) rb.fire();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
 	 */
 	protected void init() {
@@ -292,10 +306,10 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setTooltips();
 		setWidths();
 		layoutComponents();
-		
+
 		setTextFill(psychedelic);
 		setTextFill(staticPictureLock);
-		
+
 		super.init();
 	}
 
@@ -338,14 +352,14 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		col = 0;
 
 		GridPane.setConstraints(staticPic, col++, row);
-		GridPane.setMargin(staticPic, new Insets(0, 5,5,5));
+		GridPane.setMargin(staticPic, new Insets(0, 5, 5, 5));
 		Node pic = getPicFilePane();
 		GridPane.setConstraints(pic, col++, row, 2, 1);
-		GridPane.setMargin(pic, new Insets(0,5,5,5));
+		GridPane.setMargin(pic, new Insets(0, 5, 5, 5));
 
 		col++;
 		GridPane.setConstraints(staticPictureLock, col, row);
-		GridPane.setMargin(staticPictureLock, new Insets(0,5,5,5));
+		GridPane.setMargin(staticPictureLock, new Insets(0, 5, 5, 5));
 
 		row++;
 		col = 0;
@@ -357,20 +371,11 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		GridPane.setConstraints(psychedelic, col, row);
 		GridPane.setMargin(psychedelic, new Insets(15, 5, 5, 5));
 
-		pane.getChildren().addAll(
-				dynamic,
-				dir,
-				spin,
-				staticPic,
-				pic,
-				staticPictureLock,
-				noPic,
-				picker,
-				psychedelic);
-		
+		pane.getChildren().addAll(dynamic, dir, spin, staticPic, pic, staticPictureLock, noPic, picker, psychedelic);
+
 		pane.setAlignment(Pos.CENTER);
 	}
-	
+
 	private void initRadioButton(RadioButton rb) {
 		setTextFill(rb);
 	}
@@ -426,7 +431,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 
 		return hbox;
 	}
-	
+
 	private Label createLabel(String text) {
 		Label label = new Label(text);
 		setTextFill(label);
@@ -485,8 +490,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	private void psychedelicClicked() {
 		fireReceiverChangeEvent(psychedelic.isSelected(), MediatorConstants.IS_PSYCHEDELIC);
 		JFXUtils.runLater(() -> setState());
-		if(!psychedelic.isSelected()) {
-			if(picker.getValue() == null) picker.setValue(Color.ROYALBLUE);
+		if (!psychedelic.isSelected()) {
+			if (picker.getValue() == null) picker.setValue(Color.ROYALBLUE);
 			JFXUtils.runLater(() -> setBackgroundColour(picker.getValue()));
 		}
 	}
@@ -499,11 +504,11 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		dynamic.setToggleGroup(picGroup);
 		staticPic.setToggleGroup(picGroup);
 		noPic.setToggleGroup(picGroup);
-		
+
 		initRadioButton(dynamic);
 		initRadioButton(staticPic);
 		initRadioButton(noPic);
-		
+
 		dynamic.setSelected(true);
 		JFXUtils.runLater(() -> setState());
 	}
@@ -585,7 +590,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setTextFieldsDisabled(true);
 
 		setBackgroundColour(picker.getValue());
-		
+
 		fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
 	}
 

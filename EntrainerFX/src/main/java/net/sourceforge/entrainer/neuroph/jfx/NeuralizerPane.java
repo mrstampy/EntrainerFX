@@ -45,7 +45,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import net.sourceforge.entrainer.gui.jfx.AbstractTitledPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
@@ -230,33 +229,33 @@ public class NeuralizerPane extends TitledPane {
 		setContent(layout);
 
 		setNeuronColor(Color.FIREBRICK);
-		
+
 		setOnMouseEntered(e -> determineOpacity());
-		
+
 		setOnMouseExited(e -> mouseExited());
-		
+
 		setOpacity(0);
 	}
-	
+
 	private void mouseExited() {
-		if(isExpanded()) return;
-		
+		if (isExpanded()) return;
+
 		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
-		
+
 		ft.setFromValue(getOpacity());
 		ft.setToValue(0);
-		
+
 		ft.play();
 	}
 
 	private void determineOpacity() {
-		if(isExpanded()) return;
-		
+		if (isExpanded()) return;
+
 		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
-		
+
 		ft.setFromValue(getOpacity());
 		ft.setToValue(COLLAPSED_OPACITY);
-		
+
 		ft.play();
 	}
 

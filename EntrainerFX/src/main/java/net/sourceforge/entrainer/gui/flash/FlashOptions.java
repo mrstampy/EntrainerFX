@@ -78,10 +78,9 @@ public class FlashOptions {
 	private ColourAdjustState colourAdjustState = new ColourAdjustState();
 	private Effect effect = null;
 	private Effect currentEffect = null;
-	
+
 	private boolean started = false;
 
-	
 	private AtomicBoolean flip = new AtomicBoolean(false);
 
 	private FlashOptions() {
@@ -171,12 +170,12 @@ public class FlashOptions {
 			log.info("No effect");
 			return;
 		}
-		
-		for(Effectable effectable : effectables) {
-			addEffect((Effect)effectable);
+
+		for (Effectable effectable : effectables) {
+			addEffect((Effect) effectable);
 		}
-		
-		if(last != null) addEffect(last);
+
+		if (last != null) addEffect(last);
 	}
 
 	private Effect getNonEffectable() {
@@ -263,7 +262,7 @@ public class FlashOptions {
 
 	private void evaluateForPulse(boolean b) {
 		writeLock.lock();
-		try {			
+		try {
 			evalForPulse(b);
 		} finally {
 			writeLock.unlock();
@@ -271,20 +270,20 @@ public class FlashOptions {
 	}
 
 	private void evalForPulse(boolean b) {
-		if(effect == null && currentEffect == null && !colourAdjustState.isColourAdjusting()) return;
-		
+		if (effect == null && currentEffect == null && !colourAdjustState.isColourAdjusting()) return;
+
 		colourAdjustState.evaluateForPulse(b);
 		ColorAdjust ca = null;
-		if(colourAdjustState.isColourAdjusting()) {
+		if (colourAdjustState.isColourAdjusting()) {
 			ca = setColourAdjust();
-			if(currentEffect instanceof ColorAdjust) return;
+			if (currentEffect instanceof ColorAdjust) return;
 		}
-		
-		if(b) {
+
+		if (b) {
 			boolean rev = flip.get();
-			
+
 			setEffect(rev ? currentEffect : colourAdjustState.isColourAdjusting() ? ca : null);
-			
+
 			flip.set(!rev);
 		} else {
 			setEffectDefault();
@@ -340,8 +339,10 @@ public class FlashOptions {
 	/**
 	 * Evaluate.
 	 *
-	 * @param flashType the flash type
-	 * @param b the b
+	 * @param flashType
+	 *          the flash type
+	 * @param b
+	 *          the b
 	 */
 	protected void evaluate(FlashType flashType, boolean b) {
 		flashTypes.put(flashType, b);
@@ -420,11 +421,11 @@ public class FlashOptions {
 	private void evaluateBloom(boolean b) {
 		evaluateEffect(b, BloomEffectable.class);
 	}
-	
+
 	private void evaluateEffect(boolean b, Class<? extends Effect> clz) {
-		if(!started) return;
-		
-		if(b) {
+		if (!started) return;
+
+		if (b) {
 			try {
 				addEffect(clz.newInstance());
 			} catch (InstantiationException | IllegalAccessException e) {
@@ -446,7 +447,7 @@ public class FlashOptions {
 
 	private void addEffectImpl(Effect add) {
 		log.debug("Adding effect {}", add);
-		
+
 		if (currentEffect == null && effect == null) {
 			log.debug("Effect was null");
 			currentEffect = add;
@@ -463,18 +464,18 @@ public class FlashOptions {
 
 		Effectable ef = (Effectable) currentEffect;
 		Effectable last = ef;
-		
+
 		Effect sub = ef.getInput();
-		
-		while(sub != null && sub instanceof Effectable) {
-			last = (Effectable)sub;
+
+		while (sub != null && sub instanceof Effectable) {
+			last = (Effectable) sub;
 			sub = last.getInput();
 		}
-		
+
 		log.debug("Adding effect if last not null: {}", last);
 
-		if(last != null) last.setInput(add);
-		
+		if (last != null) last.setInput(add);
+
 		setEffect(currentEffect);
 	}
 
@@ -557,7 +558,7 @@ public class FlashOptions {
 			flashTypes.put(type, false);
 		}
 	}
-	
+
 	private void setEffect(Effect effect) {
 		this.effect = effect;
 	}

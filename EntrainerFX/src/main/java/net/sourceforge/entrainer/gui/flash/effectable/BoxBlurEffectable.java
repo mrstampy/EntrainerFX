@@ -36,9 +36,12 @@ public class BoxBlurEffectable extends BoxBlur implements Effectable {
 	/**
 	 * Instantiates a new box blur effectable.
 	 *
-	 * @param width the width
-	 * @param height the height
-	 * @param iterations the iterations
+	 * @param width
+	 *          the width
+	 * @param height
+	 *          the height
+	 * @param iterations
+	 *          the iterations
 	 */
 	public BoxBlurEffectable(double width, double height, int iterations) {
 		super(width, height, iterations);

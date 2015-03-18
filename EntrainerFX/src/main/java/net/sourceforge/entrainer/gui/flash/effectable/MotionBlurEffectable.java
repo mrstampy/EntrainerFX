@@ -36,8 +36,10 @@ public class MotionBlurEffectable extends MotionBlur implements Effectable {
 	/**
 	 * Instantiates a new motion blur effectable.
 	 *
-	 * @param angle the angle
-	 * @param radius the radius
+	 * @param angle
+	 *          the angle
+	 * @param radius
+	 *          the radius
 	 */
 	public MotionBlurEffectable(double angle, double radius) {
 		super(angle, radius);

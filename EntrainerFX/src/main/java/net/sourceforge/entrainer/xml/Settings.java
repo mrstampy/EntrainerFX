@@ -210,7 +210,8 @@ public class Settings implements EntrainerResources {
 	/**
 	 * Sets the accept updates.
 	 *
-	 * @param acceptUpdates the new accept updates
+	 * @param acceptUpdates
+	 *          the new accept updates
 	 */
 	public void setAcceptUpdates(boolean acceptUpdates) {
 		this.acceptUpdates = acceptUpdates;

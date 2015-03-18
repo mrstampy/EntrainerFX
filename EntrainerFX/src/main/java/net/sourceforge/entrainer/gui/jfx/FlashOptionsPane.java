@@ -43,7 +43,7 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 public class FlashOptionsPane extends AbstractTitledPane {
 
 	private CheckBox flashBackground = new CheckBox("Flash Background");
-	
+
 	// additive effects
 	private CheckBox opacity = new CheckBox("Opacity");
 	private CheckBox bloom = new CheckBox("Bloom");
@@ -53,15 +53,15 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	private CheckBox motionBlur = new CheckBox("Motion Blur");
 	private CheckBox sepiaTone = new CheckBox("Sepia Tone");
 	private CheckBox shadow = new CheckBox("Shadow");
-	
+
 	// non-additive effects
 	private CheckBox lighting = new CheckBox("Lighting");
 	private CheckBox colourAdjust = new CheckBox("Random Colour Adjust");
-	
+
 	private GridPane contentPane = new GridPane();
-	
+
 	private HBox options = new HBox();
-	
+
 	private GridPane additives;
 
 	/**
@@ -84,13 +84,16 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	/**
 	 * Sets the flash background.
 	 *
-	 * @param b the new flash background
+	 * @param b
+	 *          the new flash background
 	 */
 	public void setFlashBackground(boolean b) {
 		flashBackgroundEvent(b);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
 	 */
 	protected void init() {
@@ -98,36 +101,36 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setCheckboxFills();
 		setTooltips();
 		setEventHandlers();
-		
+
 		initLayout();
-		
+
 		super.init();
 	}
-	
+
 	private void setCheckboxFills() {
-		setTextFill(flashBackground);		
-		setTextFill(opacity);		
-		setTextFill(bloom);		
-		setTextFill(boxBlur);		
-		setTextFill(gaussianBlur);		
-		setTextFill(glow);		
-		setTextFill(motionBlur);		
-		setTextFill(sepiaTone);		
-		setTextFill(shadow);		
-		setTextFill(lighting);		
-		setTextFill(colourAdjust);		
+		setTextFill(flashBackground);
+		setTextFill(opacity);
+		setTextFill(bloom);
+		setTextFill(boxBlur);
+		setTextFill(gaussianBlur);
+		setTextFill(glow);
+		setTextFill(motionBlur);
+		setTextFill(sepiaTone);
+		setTextFill(shadow);
+		setTextFill(lighting);
+		setTextFill(colourAdjust);
 	}
 
 	private void initLayout() {
 		contentPane.setPadding(new Insets(10));
 		contentPane.setAlignment(Pos.CENTER);
-		
+
 		Node options = getOptions();
-		
+
 		GridPane.setConstraints(flashBackground, 0, 0, 1, 1, HPos.LEFT, VPos.CENTER);
 		GridPane.setConstraints(options, 0, 1);
 		GridPane.setMargin(flashBackground, new Insets(10, 10, 20, 0));
-		
+
 		contentPane.getChildren().addAll(flashBackground, options);
 	}
 
@@ -135,46 +138,46 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		options.getChildren().addAll(getAdditiveOptions(), getNonAdditiveOptions());
 		options.setDisable(true);
 		options.setAlignment(Pos.CENTER);
-		
+
 		return options;
 	}
 
 	private Node getAdditiveOptions() {
 		Label title = new Label("Additive Options");
 		setTextFill(title);
-		
+
 		Insets insets = new Insets(10);
-		
+
 		additives = new GridPane();
-		
+
 		int row = 0, col = 0;
-		
+
 		GridPane.setConstraints(title, col, row, 2, 1);
 		GridPane.setHalignment(title, HPos.CENTER);
-		
+
 		row++;
-		
+
 		GridPane.setConstraints(opacity, col++, row);
 		GridPane.setConstraints(bloom, col, row);
-		
+
 		col = 0;
 		row++;
-		
+
 		GridPane.setConstraints(boxBlur, col++, row);
 		GridPane.setConstraints(gaussianBlur, col, row);
-		
+
 		col = 0;
 		row++;
-		
+
 		GridPane.setConstraints(glow, col++, row);
 		GridPane.setConstraints(motionBlur, col, row);
-		
+
 		col = 0;
 		row++;
-		
+
 		GridPane.setConstraints(sepiaTone, col++, row);
 		GridPane.setConstraints(shadow, col, row);
-		
+
 		GridPane.setMargin(opacity, insets);
 		GridPane.setMargin(bloom, insets);
 		GridPane.setMargin(boxBlur, insets);
@@ -184,20 +187,19 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		GridPane.setMargin(sepiaTone, insets);
 		GridPane.setMargin(shadow, insets);
 
-		
 		additives.getChildren().addAll(title, opacity, bloom, boxBlur, gaussianBlur, glow, motionBlur, sepiaTone, shadow);
-		
+
 		return additives;
 	}
 
 	private Node getNonAdditiveOptions() {
 		Label title = new Label("Non Additive Options");
 		setTextFill(title);
-		
+
 		VBox box = new VBox(10, title, new HBox(10, colourAdjust, lighting));
-		
+
 		box.setAlignment(Pos.TOP_CENTER);
-		
+
 		return box;
 	}
 
@@ -218,7 +220,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	private void setTooltip(Control node, String tip) {
 		node.setTooltip(new Tooltip(tip));
 	}
-	
+
 	private void setEventHandlers() {
 		flashBackground.setOnAction(e -> flashBackgroundClicked());
 		opacity.setOnAction(e -> opacityClicked());
@@ -230,7 +232,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		motionBlur.setOnAction(e -> motionBlurClicked());
 		sepiaTone.setOnAction(e -> sepiaToneClicked());
 		shadow.setOnAction(e -> shadowClicked());
-		colourAdjust.setOnAction(e -> colourAdjustClicked());		
+		colourAdjust.setOnAction(e -> colourAdjustClicked());
 	}
 
 	private void opacityClicked() {
@@ -274,16 +276,16 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		fireEvent(FlashType.COLOUR_ADJUST, colourAdjust.isSelected());
 		disableAdditives();
 	}
-	
+
 	private void fireEvent(FlashType type, boolean b) {
 		fireReceiverChangeEvent(type, b, MediatorConstants.FLASH_TYPE);
 	}
 
 	private void flashBackgroundClicked() {
 		boolean b = flashBackground.isSelected();
-		
+
 		fireReceiverChangeEvent(b, MediatorConstants.FLASH_BACKGROUND);
-		
+
 		options.setDisable(!b);
 	}
 
@@ -298,7 +300,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 					JFXUtils.runLater(() -> flashBackgroundEvent(e.getBooleanValue()));
 					break;
 				case FLASH_TYPE:
-					JFXUtils.runLater(() -> evaluateFlashType(((FlashType)e.getOption()), e.getBooleanValue()));
+					JFXUtils.runLater(() -> evaluateFlashType(((FlashType) e.getOption()), e.getBooleanValue()));
 					break;
 				default:
 					break;
@@ -307,9 +309,9 @@ public class FlashOptionsPane extends AbstractTitledPane {
 
 		});
 	}
-	
+
 	private void evaluateFlashType(FlashType flashType, boolean b) {
-		switch(flashType) {
+		switch (flashType) {
 		case BLOOM:
 			bloom.setSelected(b);
 			break;
@@ -347,19 +349,19 @@ public class FlashOptionsPane extends AbstractTitledPane {
 
 	private void lightingEvent(boolean b) {
 		lighting.setSelected(b);
-		
+
 		disableAdditives();
 	}
 
 	private void colourAdjustEvent(boolean b) {
 		colourAdjust.setSelected(b);
-		
+
 		disableAdditives();
 	}
-	
+
 	private void disableAdditives() {
 		boolean b = lighting.isSelected() || colourAdjust.isSelected();
-		
+
 		bloom.setDisable(b);
 		boxBlur.setDisable(b);
 		gaussianBlur.setDisable(b);
@@ -367,7 +369,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		motionBlur.setDisable(b);
 		sepiaTone.setDisable(b);
 		shadow.setDisable(b);
-		
+
 		colourAdjust.setDisable(lighting.isSelected());
 		lighting.setDisable(colourAdjust.isSelected());
 	}
@@ -377,7 +379,9 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		options.setDisable(!b);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#getContentPane()
 	 */
 	@Override

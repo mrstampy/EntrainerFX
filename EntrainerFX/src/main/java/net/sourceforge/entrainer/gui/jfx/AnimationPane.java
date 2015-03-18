@@ -153,7 +153,9 @@ public class AnimationPane extends AbstractTitledPane {
 		return useDesktopAsBackground;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
 	 */
 	protected void init() {
@@ -198,7 +200,7 @@ public class AnimationPane extends AbstractTitledPane {
 				}
 			}
 		});
-		
+
 		setTextFill(useDesktopAsBackground);
 
 		initCheckBox(animation, MediatorConstants.IS_ANIMATION);
@@ -218,7 +220,7 @@ public class AnimationPane extends AbstractTitledPane {
 				refreshAnimations();
 			}
 		});
-		
+
 		fp.setAlignment(Pos.CENTER);
 	}
 
@@ -431,7 +433,9 @@ public class AnimationPane extends AbstractTitledPane {
 		setTextFill(checkBox);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#getContentPane()
 	 */
 	@Override

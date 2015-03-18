@@ -112,7 +112,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 					checkStarted();
 					break;
 				case ENTRAINMENT_FREQUENCY_PULSE:
-					if(isCanShimmer()) pulse(e.getBooleanValue());
+					if (isCanShimmer()) pulse(e.getBooleanValue());
 					break;
 				default:
 					break;
@@ -125,7 +125,8 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	/**
 	 * Pulse.
 	 *
-	 * @param b the b
+	 * @param b
+	 *          the b
 	 */
 	protected void pulse(boolean b) {
 		// NOOP, override as necessary

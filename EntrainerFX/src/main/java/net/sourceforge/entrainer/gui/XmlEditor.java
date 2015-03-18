@@ -168,8 +168,10 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		super(owner, XEC_DIALOG_NAME, true);
 		init(file);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.awt.Window#pack()
 	 */
 	public void pack() {
@@ -192,7 +194,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		unexpandeTitledPane(pinkPan);
 		unexpandeTitledPane(pics);
 	}
-	
+
 	private void unexpandeTitledPane(TitledPane tp) {
 		tp.setExpanded(false);
 		tp.setOpacity(0);

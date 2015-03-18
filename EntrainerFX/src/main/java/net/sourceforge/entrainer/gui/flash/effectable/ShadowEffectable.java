@@ -38,8 +38,10 @@ public class ShadowEffectable extends Shadow implements Effectable {
 	/**
 	 * Instantiates a new shadow effectable.
 	 *
-	 * @param radius the radius
-	 * @param color the color
+	 * @param radius
+	 *          the radius
+	 * @param color
+	 *          the color
 	 */
 	public ShadowEffectable(double radius, Color color) {
 		super(radius, color);
@@ -48,9 +50,12 @@ public class ShadowEffectable extends Shadow implements Effectable {
 	/**
 	 * Instantiates a new shadow effectable.
 	 *
-	 * @param blurType the blur type
-	 * @param color the color
-	 * @param radius the radius
+	 * @param blurType
+	 *          the blur type
+	 * @param color
+	 *          the color
+	 * @param radius
+	 *          the radius
 	 */
 	public ShadowEffectable(BlurType blurType, Color color, double radius) {
 		super(blurType, color, radius);
