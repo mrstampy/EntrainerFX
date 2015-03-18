@@ -41,6 +41,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Node;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -542,14 +543,14 @@ public class EntrainerBackground {
 
 	private void transition(Node background, boolean b) {
 		if (b) {
-			if (canRun(background) && !ptRunning) JFXUtils.runLater(() -> invert(background));
+			if (canRun(background)) JFXUtils.runLater(() -> invert(background));
 		} else {
 			if (background.getOpacity() > 0) JFXUtils.runLater(() -> reset(background));
 		}
 	}
 
 	private boolean canRun(Node background) {
-		return shouldRun() && background.getOpacity() > 0;
+		return shouldRun() && (!flashOptions.isOpacity() || (background.getOpacity() > 0 && !ptRunning));
 	}
 
 	private void invert(Node background) {
@@ -571,7 +572,9 @@ public class EntrainerBackground {
 			background.setOpacity(NORMAL_OPACITY);
 		}
 
-		background.setEffect(flashOptions.getEffect());
+		Effect effect = flashOptions.getEffect();
+		background.setEffect(effect);
+		if(old != null) old.setEffect(effect);
 	}
 
 	private void reset(Node background) {
