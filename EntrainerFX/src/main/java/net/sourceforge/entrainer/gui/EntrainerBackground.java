@@ -562,7 +562,7 @@ public class EntrainerBackground {
 	private boolean canRun(Node background) {
 		double o = background.getOpacity();
 		return shouldRun()
-				&& (!flashOptions.isOpacity() || (flashOptions.isOpacity() && o > 0 && !ptRunning));
+				&& (!flashOptions.isOpacity() || flashOptions.hasEffect() || (flashOptions.isOpacity() && o > 0 && !ptRunning));
 	}
 
 	private void invert(Node background) {
