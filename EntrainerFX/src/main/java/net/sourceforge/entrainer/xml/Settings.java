@@ -53,6 +53,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import net.sourceforge.entrainer.EntrainerResources;
+import net.sourceforge.entrainer.gui.flash.FlashType;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
@@ -206,6 +207,36 @@ public class Settings implements EntrainerResources {
 
 	@XmlTransient
 	private boolean acceptUpdates = false;
+	
+	@XmlElement(name = "opacity.flash")
+	private boolean isOpacity;
+	
+	@XmlElement(name = "bloom.flash")
+	private boolean isBloom;
+	
+	@XmlElement(name = "boxBlur.flash")
+	private boolean isBoxBlur;
+	
+	@XmlElement(name = "gaussianBlur.flash")
+	private boolean isGaussianBlur;
+	
+	@XmlElement(name = "glow.flash")
+	private boolean isGlow;
+	
+	@XmlElement(name = "motionBlur.flash")
+	private boolean isMotionBlur;
+	
+	@XmlElement(name = "sepiaTone.flash")
+	private boolean isSepiaTone;
+	
+	@XmlElement(name = "shadow.flash")
+	private boolean isShadow;
+	
+	@XmlElement(name = "colourAdjust.flash")
+	private boolean isRandomColourAdjust;
+	
+	@XmlElement(name = "lighting.flash")
+	private boolean isLighting;
 
 	/**
 	 * Sets the accept updates.
@@ -431,6 +462,9 @@ public class Settings implements EntrainerResources {
 				case SPLASH_ON_STARTUP:
 					setSplashOnStartup(e.getBooleanValue());
 					break;
+				case FLASH_TYPE:
+					evaluateFlashType(((FlashType)e.getOption()), e.getBooleanValue());
+					break;
 				default:
 					save = false;
 					break;
@@ -479,6 +513,55 @@ public class Settings implements EntrainerResources {
 		for (EntrainerProgramInterval interval : intervals) {
 			fireReceiverChangeEvent(interval.getValue());
 		}
+		
+		fireReceiverChangeEvent(FlashType.BLOOM, isBloom());
+		fireReceiverChangeEvent(FlashType.BOX_BLUR, isBoxBlur());
+		fireReceiverChangeEvent(FlashType.COLOUR_ADJUST, isRandomColourAdjust());
+		fireReceiverChangeEvent(FlashType.GAUSSIAN_BLUR, isGaussianBlur());
+		fireReceiverChangeEvent(FlashType.GLOW, isGlow());
+		fireReceiverChangeEvent(FlashType.LIGHTING, isLighting());
+		fireReceiverChangeEvent(FlashType.MOTION_BLUR, isMotionBlur());
+		fireReceiverChangeEvent(FlashType.OPACITY, isOpacity());
+		fireReceiverChangeEvent(FlashType.SEPIA_TONE, isSepiaTone());
+		fireReceiverChangeEvent(FlashType.SHADOW, isShadow());
+	}
+
+	private void evaluateFlashType(FlashType flashType, boolean b) {
+		switch(flashType) {
+		case BLOOM:
+			setBloom(b);
+			break;
+		case BOX_BLUR:
+			setBoxBlur(b);
+			break;
+		case COLOUR_ADJUST:
+			setRandomColourAdjust(b);
+			break;
+		case GAUSSIAN_BLUR:
+			setGaussianBlur(b);
+			break;
+		case GLOW:
+			setGlow(b);
+			break;
+		case LIGHTING:
+			setLighting(b);
+			break;
+		case MOTION_BLUR:
+			setMotionBlur(b);
+			break;
+		case OPACITY:
+			setOpacity(b);
+			break;
+		case SEPIA_TONE:
+			setSepiaTone(b);
+			break;
+		case SHADOW:
+			setShadow(b);
+			break;
+		default:
+			break;
+		
+		}
 	}
 
 	/**
@@ -496,6 +579,10 @@ public class Settings implements EntrainerResources {
 		}
 
 		return false;
+	}
+	
+	private void fireReceiverChangeEvent(FlashType type, boolean b) {
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, type, b, MediatorConstants.FLASH_TYPE));
 	}
 
 	private void fireReceiverChangeEvent(String interval) {
@@ -1256,6 +1343,86 @@ public class Settings implements EntrainerResources {
 	 */
 	public void setSplashOnStartup(boolean splashOnStartup) {
 		this.splashOnStartup = splashOnStartup;
+	}
+
+	public boolean isOpacity() {
+		return isOpacity;
+	}
+
+	public void setOpacity(boolean isOpacity) {
+		this.isOpacity = isOpacity;
+	}
+
+	public boolean isBloom() {
+		return isBloom;
+	}
+
+	public void setBloom(boolean isBloom) {
+		this.isBloom = isBloom;
+	}
+
+	public boolean isBoxBlur() {
+		return isBoxBlur;
+	}
+
+	public void setBoxBlur(boolean isBoxBlur) {
+		this.isBoxBlur = isBoxBlur;
+	}
+
+	public boolean isGaussianBlur() {
+		return isGaussianBlur;
+	}
+
+	public void setGaussianBlur(boolean isGaussianBlur) {
+		this.isGaussianBlur = isGaussianBlur;
+	}
+
+	public boolean isGlow() {
+		return isGlow;
+	}
+
+	public void setGlow(boolean isGlow) {
+		this.isGlow = isGlow;
+	}
+
+	public boolean isMotionBlur() {
+		return isMotionBlur;
+	}
+
+	public void setMotionBlur(boolean isMotionBlur) {
+		this.isMotionBlur = isMotionBlur;
+	}
+
+	public boolean isSepiaTone() {
+		return isSepiaTone;
+	}
+
+	public void setSepiaTone(boolean isSepiaTone) {
+		this.isSepiaTone = isSepiaTone;
+	}
+
+	public boolean isShadow() {
+		return isShadow;
+	}
+
+	public void setShadow(boolean isShadow) {
+		this.isShadow = isShadow;
+	}
+
+	public boolean isRandomColourAdjust() {
+		return isRandomColourAdjust;
+	}
+
+	public void setRandomColourAdjust(boolean isRandomColourAdjust) {
+		this.isRandomColourAdjust = isRandomColourAdjust;
+	}
+
+	public boolean isLighting() {
+		return isLighting;
+	}
+
+	public void setLighting(boolean isLighting) {
+		this.isLighting = isLighting;
 	}
 
 }
