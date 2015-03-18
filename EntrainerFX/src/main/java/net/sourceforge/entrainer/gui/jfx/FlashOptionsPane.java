@@ -90,6 +90,86 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	public void setFlashBackground(boolean b) {
 		flashBackgroundEvent(b);
 	}
+	
+	public boolean isOpacity() {
+		return opacity.isSelected();
+	}
+	
+	public void setOpacity(boolean b) {
+		opacity.setSelected(b);
+	}
+	
+	public boolean isBloom() {
+		return bloom.isSelected();
+	}
+	
+	public void setBloom(boolean b) {
+		bloom.setSelected(b);
+	}
+	
+	public boolean isBoxBlur() {
+		return boxBlur.isSelected();
+	}
+	
+	public void setBoxBlur(boolean b) {
+		boxBlur.setSelected(b);
+	}
+	
+	public boolean isGaussianBlur() {
+		return gaussianBlur.isSelected();
+	}
+	
+	public void setGaussianBlur(boolean b) {
+		gaussianBlur.setSelected(b);
+	}
+	
+	public boolean isGlow() {
+		return glow.isSelected();
+	}
+	
+	public void setGlow(boolean b) {
+		glow.setSelected(b);
+	}
+	
+	public boolean isMotionBlur() {
+		return motionBlur.isSelected();
+	}
+	
+	public void setMotionBlur(boolean b) {
+		motionBlur.setSelected(b);
+	}
+	
+	public boolean isSepiaTone() {
+		return sepiaTone.isSelected();
+	}
+	
+	public void setSepiaTone(boolean b) {
+		sepiaTone.setSelected(b);
+	}
+	
+	public boolean isShadow() {
+		return shadow.isSelected();
+	}
+	
+	public void setShadow(boolean b) {
+		shadow.setSelected(b);
+	}
+	
+	public boolean isLighting() {
+		return lighting.isSelected();
+	}
+	
+	public void setLighting(boolean b) {
+		lightingEvent(b);
+	}
+	
+	public boolean isColourAdjust() {
+		return colourAdjust.isSelected();
+	}
+	
+	public void setColourAdjust(boolean b) {
+		colourAdjustEvent(b);
+	}
 
 	/*
 	 * (non-Javadoc)

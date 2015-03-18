@@ -29,4 +29,15 @@
     <dynamic.duration>10</dynamic.duration>
     <dynamic.transition>5</dynamic.transition>
     <splash.on.startup>true</splash.on.startup>
+    <flash.background>false</flash.background>
+    <opacity.flash>false</opacity.flash>
+    <bloom.flash>false</bloom.flash>
+    <boxBlur.flash>false</boxBlur.flash>
+    <gaussianBlur.flash>false</gaussianBlur.flash>
+    <glow.flash>false</glow.flash>
+    <motionBlur.flash>false</motionBlur.flash>
+    <sepiaTone.flash>false</sepiaTone.flash>
+    <shadow.flash>false</shadow.flash>
+    <colourAdjust.flash>false</colourAdjust.flash>
+    <lighting.flash>false</lighting.flash>
 </entrainer.settings>

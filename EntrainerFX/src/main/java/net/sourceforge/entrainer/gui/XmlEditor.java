@@ -87,8 +87,10 @@ import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sourceforge.entrainer.EntrainerResources;
+import net.sourceforge.entrainer.gui.flash.FlashType;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
+import net.sourceforge.entrainer.gui.jfx.FlashOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.gui.jfx.ShimmerOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.SliderControlPane;
@@ -142,6 +144,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 	private ShimmerOptionsPane shimmers = new ShimmerOptionsPane();
 	private SliderControlPane pinkPan = new SliderControlPane(false);
 	private BackgroundPicturePane pics = new BackgroundPicturePane();
+	private FlashOptionsPane flashOptions = new FlashOptionsPane();
 
 	private boolean cancelPressed = false;
 
@@ -193,6 +196,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		unexpandeTitledPane(shimmers);
 		unexpandeTitledPane(pinkPan);
 		unexpandeTitledPane(pics);
+		unexpandeTitledPane(flashOptions);
 	}
 
 	private void unexpandeTitledPane(TitledPane tp) {
@@ -423,6 +427,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		pinkPan.clearMediatorObjects();
 		shimmers.clearMediatorObjects();
 		pics.clearMediatorObjects();
+		flashOptions.clearMediatorObjects();
 		background.clearMediatorObjects();
 	}
 
@@ -469,12 +474,23 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		xml.setDynamicDuration(pics.getDuration());
 		xml.setDynamicPicture(pics.isDynamic());
 		xml.setDynamicTransition(pics.getTransition());
-		xml.setFlashBackground(pics.isFlashBackground());
+		xml.setFlashBackground(flashOptions.isFlashBackground());
 		xml.setNoPicture(pics.isNoBackground());
 		xml.setPictureDirectory(pics.getPictureDirectory());
 		xml.setStaticPicture(pics.isStatic());
 		xml.setStaticPictureFile(pics.getStaticPicture());
 		xml.setStaticPictureLock(pics.isPictureLock());
+		
+		xml.setOpacity(flashOptions.isOpacity());
+		xml.setBloom(flashOptions.isBloom());
+		xml.setBoxBlur(flashOptions.isBoxBlur());
+		xml.setGaussianBlur(flashOptions.isGaussianBlur());
+		xml.setGlow(flashOptions.isGlow());
+		xml.setMotionBlur(flashOptions.isMotionBlur());
+		xml.setSepiaTone(flashOptions.isSepiaTone());
+		xml.setShadow(flashOptions.isShadow());
+		xml.setLighting(flashOptions.isLighting());
+		xml.setColourAdjust(flashOptions.isColourAdjust());
 
 		try {
 			marshal(xml, xml.getFile().getName());
@@ -588,8 +604,8 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		if (!xml.getIntervals().isEmpty()) intervalMenu.loadIntervals(getIntervals(xml.getIntervals()));
 		if (xml.getShimmerName() != null) shimmers.getShimmers().setValue(xml.getShimmerName());
 
-		pics.setFlashBackground(xml.isFlashBackground());
-		fireReceiverChangeEvent(pics.isFlashBackground(), MediatorConstants.FLASH_BACKGROUND);
+		flashOptions.setFlashBackground(xml.isFlashBackground());
+		fireReceiverChangeEvent(flashOptions.isFlashBackground(), MediatorConstants.FLASH_BACKGROUND);
 
 		pics.setDuration(xml.getDynamicDuration());
 		fireReceiverChangeEvent(pics.getDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);
@@ -619,6 +635,44 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 
 		pics.setNoBackground(xml.isNoPicture());
 		if (pics.isNoBackground()) fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
+		
+		initFlashOptions();
+	}
+
+	private void initFlashOptions() {
+		flashOptions.setOpacity(xml.isOpacity());
+		fireFlashOptionEvent(FlashType.OPACITY, xml.isOpacity());
+		
+		flashOptions.setBloom(xml.isBloom());
+		fireFlashOptionEvent(FlashType.BLOOM, xml.isBloom());
+		
+		flashOptions.setBoxBlur(xml.isBoxBlur());
+		fireFlashOptionEvent(FlashType.BOX_BLUR, xml.isBoxBlur());
+		
+		flashOptions.setGaussianBlur(xml.isGaussianBlur());
+		fireFlashOptionEvent(FlashType.GAUSSIAN_BLUR, xml.isGaussianBlur());
+		
+		flashOptions.setGlow(xml.isGlow());
+		fireFlashOptionEvent(FlashType.GLOW, xml.isGlow());
+		
+		flashOptions.setMotionBlur(xml.isMotionBlur());
+		fireFlashOptionEvent(FlashType.MOTION_BLUR, xml.isMotionBlur());
+		
+		flashOptions.setSepiaTone(xml.isSepiaTone());
+		fireFlashOptionEvent(FlashType.SEPIA_TONE, xml.isSepiaTone());
+		
+		flashOptions.setShadow(xml.isShadow());
+		fireFlashOptionEvent(FlashType.SHADOW, xml.isShadow());
+		
+		flashOptions.setLighting(xml.isLighting());
+		fireFlashOptionEvent(FlashType.LIGHTING, xml.isLighting());
+		
+		flashOptions.setColourAdjust(xml.isColourAdjust());
+		fireFlashOptionEvent(FlashType.COLOUR_ADJUST, xml.isColourAdjust());
+	}
+	
+	private void fireFlashOptionEvent(FlashType type, boolean b) {
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, type, b, MediatorConstants.FLASH_TYPE));
 	}
 
 	private List<String> getIntervals(List<EntrainerProgramInterval> intervals) {
@@ -875,9 +929,10 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		int h = 0;
 		GridPane.setConstraints(pinkPan, 0, h++);
 		GridPane.setConstraints(pics, 0, h++);
+		GridPane.setConstraints(flashOptions, 0, h++);
 		GridPane.setConstraints(animations, 0, h++);
 		GridPane.setConstraints(shimmers, 0, h++);
-		gp.getChildren().addAll(pinkPan, animations, shimmers, pics);
+		gp.getChildren().addAll(pinkPan, animations, shimmers, pics, flashOptions);
 
 		final URI css = JFXUtils.getEntrainerCSS();
 

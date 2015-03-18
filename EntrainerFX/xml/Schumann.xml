@@ -1,46 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<entrainer pinkPan="true" shimmer="false" animation="false" psychedelic="true" flash="true" colour="178,231,164">
+<entrainer psychedelic="true" animation="false" animationBackground="" shimmer="false" pinkPan="true" flashBackground="true">
     <unit>
-        <time seconds="30" minutes="4"/>
-        <amplitude end="0.5" start="0.8"/>
-        <frequency end="60.0" start="150.0"/>
-        <entrainmentFrequency end="7.83" start="7.83"/>
-        <pinkNoise end="0.3" start="0.45"/>
-        <pinkPan end="0.8" start="0.5"/>
-        <pinkEntrainerMultiple end="100.0" start="100.0"/>
+        <time minutes="4" seconds="30"/>
+        <amplitude start="0.8" end="0.5"/>
+        <frequency start="150.0" end="60.0"/>
+        <entrainmentFrequency start="7.83" end="7.83"/>
+        <pinkNoise start="0.45" end="0.3"/>
+        <pinkPan start="0.5" end="0.8"/>
+        <pinkEntrainerMultiple start="100.0" end="100.0"/>
     </unit>
     <unit>
-        <time seconds="0" minutes="2"/>
-        <amplitude end="0.3" start="0.5"/>
-        <frequency end="60.0" start="60.0"/>
-        <entrainmentFrequency end="7.83" start="7.83"/>
-        <pinkNoise end="0.3" start="0.3"/>
-        <pinkPan end="0.8" start="0.8"/>
-        <pinkEntrainerMultiple end="120.0" start="100.0"/>
+        <time minutes="2" seconds="0"/>
+        <amplitude start="0.5" end="0.3"/>
+        <frequency start="60.0" end="60.0"/>
+        <entrainmentFrequency start="7.83" end="7.83"/>
+        <pinkNoise start="0.3" end="0.3"/>
+        <pinkPan start="0.8" end="0.8"/>
+        <pinkEntrainerMultiple start="100.0" end="120.0"/>
     </unit>
     <unit>
-        <time seconds="30" minutes="3"/>
-        <amplitude end="0.8" start="0.3"/>
-        <frequency end="150.0" start="60.0"/>
-        <entrainmentFrequency end="7.83" start="7.83"/>
-        <pinkNoise end="0.3" start="0.3"/>
-        <pinkPan end="0.8" start="0.8"/>
-        <pinkEntrainerMultiple end="100.0" start="120.0"/>
+        <time minutes="3" seconds="30"/>
+        <amplitude start="0.3" end="0.8"/>
+        <frequency start="60.0" end="150.0"/>
+        <entrainmentFrequency start="7.83" end="7.83"/>
+        <pinkNoise start="0.3" end="0.3"/>
+        <pinkPan start="0.8" end="0.8"/>
+        <pinkEntrainerMultiple start="120.0" end="100.0"/>
     </unit>
     <unit>
-        <time seconds="0" minutes="1"/>
-        <amplitude end="0.0" start="0.8"/>
-        <frequency end="150.0" start="150.0"/>
-        <entrainmentFrequency end="7.83" start="7.83"/>
-        <pinkNoise end="0.3" start="0.3"/>
-        <pinkPan end="0.8" start="0.8"/>
-        <pinkEntrainerMultiple end="100.0" start="100.0"/>
+        <time minutes="1" seconds="0"/>
+        <amplitude start="0.8" end="0.0"/>
+        <frequency start="150.0" end="150.0"/>
+        <entrainmentFrequency start="7.83" end="7.83"/>
+        <pinkNoise start="0.3" end="0.3"/>
+        <pinkPan start="0.8" end="0.8"/>
+        <pinkEntrainerMultiple start="100.0" end="100.0"/>
     </unit>
     <dynamic.background>true</dynamic.background>
     <static.background>false</static.background>
+    <static.background.picture></static.background.picture>
     <static.picture.lock>false</static.picture.lock>
     <no.background>false</no.background>
-    <picture.directory>./css</picture.directory>
+    <picture.directory>/Users/burton/git/EntrainerFX/EntrainerFX/./css</picture.directory>
     <dynamic.duration>10</dynamic.duration>
     <dynamic.transition>5</dynamic.transition>
+    <useDesktopAsBackground>false</useDesktopAsBackground>
+    <opacity.flash>true</opacity.flash>
+    <bloom.flash>false</bloom.flash>
+    <boxBlur.flash>false</boxBlur.flash>
+    <gaussianBlur.flash>false</gaussianBlur.flash>
+    <glow.flash>false</glow.flash>
+    <motionBlur.flash>false</motionBlur.flash>
+    <sepiaTone.flash>false</sepiaTone.flash>
+    <shadow.flash>false</shadow.flash>
+    <colourAdjust.flash>false</colourAdjust.flash>
+    <lighting.flash>false</lighting.flash>
 </entrainer>

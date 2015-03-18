@@ -54,9 +54,6 @@ import net.sourceforge.entrainer.mediator.SenderAdapter;
 public class EntrainerProgram {
 
 	@XmlAttribute
-	private boolean flash;
-
-	@XmlAttribute
 	private boolean psychedelic;
 
 	@XmlAttribute
@@ -122,6 +119,36 @@ public class EntrainerProgram {
 
 	@XmlElement
 	private boolean useDesktopAsBackground;
+	
+	@XmlElement(name = "opacity.flash")
+	private boolean opacity;
+	
+	@XmlElement(name = "bloom.flash")
+	private boolean bloom;
+	
+	@XmlElement(name = "boxBlur.flash")
+	private boolean boxBlur;
+	
+	@XmlElement(name = "gaussianBlur.flash")
+	private boolean gaussianBlur;
+	
+	@XmlElement(name = "glow.flash")
+	private boolean glow;
+	
+	@XmlElement(name = "motionBlur.flash")
+	private boolean motionBlur;
+	
+	@XmlElement(name = "sepiaTone.flash")
+	private boolean sepiaTone;
+	
+	@XmlElement(name = "shadow.flash")
+	private boolean shadow;
+	
+	@XmlElement(name = "colourAdjust.flash")
+	private boolean colourAdjust;
+	
+	@XmlElement(name = "lighting.flash")
+	private boolean lighting;
 
 	/**
 	 * Instantiates a new entrainer program.
@@ -612,6 +639,86 @@ public class EntrainerProgram {
 	 */
 	public void setUseDesktopAsBackground(boolean useDesktopAsBackground) {
 		this.useDesktopAsBackground = useDesktopAsBackground;
+	}
+
+	public boolean isOpacity() {
+		return opacity;
+	}
+
+	public void setOpacity(boolean opacity) {
+		this.opacity = opacity;
+	}
+
+	public boolean isBloom() {
+		return bloom;
+	}
+
+	public void setBloom(boolean bloom) {
+		this.bloom = bloom;
+	}
+
+	public boolean isBoxBlur() {
+		return boxBlur;
+	}
+
+	public void setBoxBlur(boolean boxBlur) {
+		this.boxBlur = boxBlur;
+	}
+
+	public boolean isGaussianBlur() {
+		return gaussianBlur;
+	}
+
+	public void setGaussianBlur(boolean gaussianBlur) {
+		this.gaussianBlur = gaussianBlur;
+	}
+
+	public boolean isGlow() {
+		return glow;
+	}
+
+	public void setGlow(boolean glow) {
+		this.glow = glow;
+	}
+
+	public boolean isMotionBlur() {
+		return motionBlur;
+	}
+
+	public void setMotionBlur(boolean motionBlur) {
+		this.motionBlur = motionBlur;
+	}
+
+	public boolean isSepiaTone() {
+		return sepiaTone;
+	}
+
+	public void setSepiaTone(boolean sepiaTone) {
+		this.sepiaTone = sepiaTone;
+	}
+
+	public boolean isShadow() {
+		return shadow;
+	}
+
+	public void setShadow(boolean shadow) {
+		this.shadow = shadow;
+	}
+
+	public boolean isColourAdjust() {
+		return colourAdjust;
+	}
+
+	public void setColourAdjust(boolean colourAdjust) {
+		this.colourAdjust = colourAdjust;
+	}
+
+	public boolean isLighting() {
+		return lighting;
+	}
+
+	public void setLighting(boolean lighting) {
+		this.lighting = lighting;
 	}
 
 }

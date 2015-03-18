@@ -1,55 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<entrainer pinkPan="true" shimmer="false" animation="false" psychedelic="true" flash="true" colour="178,231,164">
+<entrainer psychedelic="true" animation="false" animationBackground="" shimmer="false" pinkPan="true" flashBackground="true">
     <unit>
-        <time seconds="30" minutes="4"/>
-        <amplitude end="0.98" start="0.5"/>
-        <frequency end="40.0" start="60.0"/>
-        <entrainmentFrequency end="7.83" start="15.0"/>
-        <pinkNoise end="0.6" start="0.2"/>
-        <pinkPan end="0.8" start="0.5"/>
-        <pinkEntrainerMultiple end="70.0" start="20.0"/>
+        <time minutes="4" seconds="30"/>
+        <amplitude start="0.5" end="0.98"/>
+        <frequency start="60.0" end="40.0"/>
+        <entrainmentFrequency start="15.0" end="7.83"/>
+        <pinkNoise start="0.2" end="0.6"/>
+        <pinkPan start="0.5" end="0.8"/>
+        <pinkEntrainerMultiple start="20.0" end="70.0"/>
     </unit>
     <unit>
-        <time seconds="0" minutes="2"/>
-        <amplitude end="0.98" start="0.98"/>
-        <frequency end="40.0" start="40.0"/>
-        <entrainmentFrequency end="7.83" start="7.83"/>
-        <pinkNoise end="0.6" start="0.6"/>
-        <pinkPan end="0.8" start="0.8"/>
-        <pinkEntrainerMultiple end="50.0" start="70.0"/>
+        <time minutes="2" seconds="0"/>
+        <amplitude start="0.98" end="0.98"/>
+        <frequency start="40.0" end="40.0"/>
+        <entrainmentFrequency start="7.83" end="7.83"/>
+        <pinkNoise start="0.6" end="0.6"/>
+        <pinkPan start="0.8" end="0.8"/>
+        <pinkEntrainerMultiple start="70.0" end="50.0"/>
     </unit>
     <unit>
-        <time seconds="30" minutes="3"/>
-        <amplitude end="0.98" start="0.98"/>
-        <frequency end="40.0" start="40.0"/>
-        <entrainmentFrequency end="4.0" start="7.83"/>
-        <pinkNoise end="0.6" start="0.6"/>
-        <pinkPan end="0.5" start="0.8"/>
-        <pinkEntrainerMultiple end="30.0" start="50.0"/>
+        <time minutes="3" seconds="30"/>
+        <amplitude start="0.98" end="0.98"/>
+        <frequency start="40.0" end="40.0"/>
+        <entrainmentFrequency start="7.83" end="4.0"/>
+        <pinkNoise start="0.6" end="0.6"/>
+        <pinkPan start="0.8" end="0.5"/>
+        <pinkEntrainerMultiple start="50.0" end="30.0"/>
     </unit>
     <unit>
-        <time seconds="30" minutes="3"/>
-        <amplitude end="0.98" start="0.98"/>
-        <frequency end="40.0" start="40.0"/>
-        <entrainmentFrequency end="4.0" start="4.0"/>
-        <pinkNoise end="0.6" start="0.6"/>
-        <pinkPan end="0.5" start="0.5"/>
-        <pinkEntrainerMultiple end="70.0" start="30.0"/>
+        <time minutes="3" seconds="30"/>
+        <amplitude start="0.98" end="0.98"/>
+        <frequency start="40.0" end="40.0"/>
+        <entrainmentFrequency start="4.0" end="4.0"/>
+        <pinkNoise start="0.6" end="0.6"/>
+        <pinkPan start="0.5" end="0.5"/>
+        <pinkEntrainerMultiple start="30.0" end="70.0"/>
     </unit>
     <unit>
-        <time seconds="0" minutes="2"/>
-        <amplitude end="0.0" start="0.98"/>
-        <frequency end="60.0" start="40.0"/>
-        <entrainmentFrequency end="10.0" start="4.0"/>
-        <pinkNoise end="0.0" start="0.6"/>
-        <pinkPan end="0.0" start="0.5"/>
-        <pinkEntrainerMultiple end="70.0" start="70.0"/>
+        <time minutes="2" seconds="0"/>
+        <amplitude start="0.98" end="0.0"/>
+        <frequency start="40.0" end="60.0"/>
+        <entrainmentFrequency start="4.0" end="10.0"/>
+        <pinkNoise start="0.6" end="0.0"/>
+        <pinkPan start="0.5" end="0.0"/>
+        <pinkEntrainerMultiple start="70.0" end="70.0"/>
     </unit>
     <dynamic.background>true</dynamic.background>
     <static.background>false</static.background>
+    <static.background.picture></static.background.picture>
     <static.picture.lock>false</static.picture.lock>
     <no.background>false</no.background>
-    <picture.directory>./css</picture.directory>
+    <picture.directory>/Users/burton/git/EntrainerFX/EntrainerFX/./css</picture.directory>
     <dynamic.duration>10</dynamic.duration>
     <dynamic.transition>5</dynamic.transition>
+    <useDesktopAsBackground>false</useDesktopAsBackground>
+    <opacity.flash>false</opacity.flash>
+    <bloom.flash>false</bloom.flash>
+    <boxBlur.flash>false</boxBlur.flash>
+    <gaussianBlur.flash>false</gaussianBlur.flash>
+    <glow.flash>false</glow.flash>
+    <motionBlur.flash>false</motionBlur.flash>
+    <sepiaTone.flash>false</sepiaTone.flash>
+    <shadow.flash>false</shadow.flash>
+    <colourAdjust.flash>true</colourAdjust.flash>
+    <lighting.flash>false</lighting.flash>
 </entrainer>

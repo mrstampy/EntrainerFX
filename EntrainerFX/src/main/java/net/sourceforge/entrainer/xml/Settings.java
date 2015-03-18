@@ -209,34 +209,34 @@ public class Settings implements EntrainerResources {
 	private boolean acceptUpdates = false;
 	
 	@XmlElement(name = "opacity.flash")
-	private boolean isOpacity;
+	private boolean opacity;
 	
 	@XmlElement(name = "bloom.flash")
-	private boolean isBloom;
+	private boolean bloom;
 	
 	@XmlElement(name = "boxBlur.flash")
-	private boolean isBoxBlur;
+	private boolean boxBlur;
 	
 	@XmlElement(name = "gaussianBlur.flash")
-	private boolean isGaussianBlur;
+	private boolean gaussianBlur;
 	
 	@XmlElement(name = "glow.flash")
-	private boolean isGlow;
+	private boolean glow;
 	
 	@XmlElement(name = "motionBlur.flash")
-	private boolean isMotionBlur;
+	private boolean motionBlur;
 	
 	@XmlElement(name = "sepiaTone.flash")
-	private boolean isSepiaTone;
+	private boolean sepiaTone;
 	
 	@XmlElement(name = "shadow.flash")
-	private boolean isShadow;
+	private boolean shadow;
 	
 	@XmlElement(name = "colourAdjust.flash")
-	private boolean isRandomColourAdjust;
+	private boolean colourAdjust;
 	
 	@XmlElement(name = "lighting.flash")
-	private boolean isLighting;
+	private boolean lighting;
 
 	/**
 	 * Sets the accept updates.
@@ -516,7 +516,7 @@ public class Settings implements EntrainerResources {
 		
 		fireReceiverChangeEvent(FlashType.BLOOM, isBloom());
 		fireReceiverChangeEvent(FlashType.BOX_BLUR, isBoxBlur());
-		fireReceiverChangeEvent(FlashType.COLOUR_ADJUST, isRandomColourAdjust());
+		fireReceiverChangeEvent(FlashType.COLOUR_ADJUST, isColourAdjust());
 		fireReceiverChangeEvent(FlashType.GAUSSIAN_BLUR, isGaussianBlur());
 		fireReceiverChangeEvent(FlashType.GLOW, isGlow());
 		fireReceiverChangeEvent(FlashType.LIGHTING, isLighting());
@@ -535,7 +535,7 @@ public class Settings implements EntrainerResources {
 			setBoxBlur(b);
 			break;
 		case COLOUR_ADJUST:
-			setRandomColourAdjust(b);
+			setColourAdjust(b);
 			break;
 		case GAUSSIAN_BLUR:
 			setGaussianBlur(b);
@@ -1346,83 +1346,83 @@ public class Settings implements EntrainerResources {
 	}
 
 	public boolean isOpacity() {
-		return isOpacity;
+		return opacity;
 	}
 
 	public void setOpacity(boolean isOpacity) {
-		this.isOpacity = isOpacity;
+		this.opacity = isOpacity;
 	}
 
 	public boolean isBloom() {
-		return isBloom;
+		return bloom;
 	}
 
 	public void setBloom(boolean isBloom) {
-		this.isBloom = isBloom;
+		this.bloom = isBloom;
 	}
 
 	public boolean isBoxBlur() {
-		return isBoxBlur;
+		return boxBlur;
 	}
 
 	public void setBoxBlur(boolean isBoxBlur) {
-		this.isBoxBlur = isBoxBlur;
+		this.boxBlur = isBoxBlur;
 	}
 
 	public boolean isGaussianBlur() {
-		return isGaussianBlur;
+		return gaussianBlur;
 	}
 
 	public void setGaussianBlur(boolean isGaussianBlur) {
-		this.isGaussianBlur = isGaussianBlur;
+		this.gaussianBlur = isGaussianBlur;
 	}
 
 	public boolean isGlow() {
-		return isGlow;
+		return glow;
 	}
 
 	public void setGlow(boolean isGlow) {
-		this.isGlow = isGlow;
+		this.glow = isGlow;
 	}
 
 	public boolean isMotionBlur() {
-		return isMotionBlur;
+		return motionBlur;
 	}
 
 	public void setMotionBlur(boolean isMotionBlur) {
-		this.isMotionBlur = isMotionBlur;
+		this.motionBlur = isMotionBlur;
 	}
 
 	public boolean isSepiaTone() {
-		return isSepiaTone;
+		return sepiaTone;
 	}
 
 	public void setSepiaTone(boolean isSepiaTone) {
-		this.isSepiaTone = isSepiaTone;
+		this.sepiaTone = isSepiaTone;
 	}
 
 	public boolean isShadow() {
-		return isShadow;
+		return shadow;
 	}
 
 	public void setShadow(boolean isShadow) {
-		this.isShadow = isShadow;
+		this.shadow = isShadow;
 	}
 
-	public boolean isRandomColourAdjust() {
-		return isRandomColourAdjust;
+	public boolean isColourAdjust() {
+		return colourAdjust;
 	}
 
-	public void setRandomColourAdjust(boolean isRandomColourAdjust) {
-		this.isRandomColourAdjust = isRandomColourAdjust;
+	public void setColourAdjust(boolean isRandomColourAdjust) {
+		this.colourAdjust = isRandomColourAdjust;
 	}
 
 	public boolean isLighting() {
-		return isLighting;
+		return lighting;
 	}
 
 	public void setLighting(boolean isLighting) {
-		this.isLighting = isLighting;
+		this.lighting = isLighting;
 	}
 
 }

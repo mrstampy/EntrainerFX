@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<entrainer colour="194,255,197" flash="false" psychedelic="false" animation="false" animationBackground="" shimmer="true" shimmerName="Linear Gradient" pinkPan="true">
+<entrainer psychedelic="false" animation="false" animationBackground="" animationProgram="Eye of God!!!" shimmer="true" shimmerName="Linear Gradient" pinkPan="true" flashBackground="true">
     <interval value="-800000/2103444"/>
     <interval value="1300000/2103444"/>
     <unit>
@@ -40,9 +40,21 @@
     </unit>
     <dynamic.background>true</dynamic.background>
     <static.background>false</static.background>
+    <static.background.picture></static.background.picture>
     <static.picture.lock>false</static.picture.lock>
     <no.background>false</no.background>
-    <picture.directory>./css</picture.directory>
+    <picture.directory>/Users/burton/git/EntrainerFX/EntrainerFX/./css</picture.directory>
     <dynamic.duration>10</dynamic.duration>
     <dynamic.transition>5</dynamic.transition>
+    <useDesktopAsBackground>false</useDesktopAsBackground>
+    <opacity.flash>false</opacity.flash>
+    <bloom.flash>false</bloom.flash>
+    <boxBlur.flash>false</boxBlur.flash>
+    <gaussianBlur.flash>false</gaussianBlur.flash>
+    <glow.flash>true</glow.flash>
+    <motionBlur.flash>false</motionBlur.flash>
+    <sepiaTone.flash>false</sepiaTone.flash>
+    <shadow.flash>false</shadow.flash>
+    <colourAdjust.flash>false</colourAdjust.flash>
+    <lighting.flash>false</lighting.flash>
 </entrainer>
