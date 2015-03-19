@@ -18,6 +18,9 @@ on your personal media device.
 
 EntrainerFX will run on Windows, OS X and Linux and was built using Java 8 (1.8.0_40).
 
+5.1.1 - March 19, 2015
+  - Bugfix, new EntrainerFX program functionality fixed
+
 5.1.0 - March 14, 2015
   - Last feature release prior to full JavaFX conversion
   - Minimum Java version - 1.8.0_40
