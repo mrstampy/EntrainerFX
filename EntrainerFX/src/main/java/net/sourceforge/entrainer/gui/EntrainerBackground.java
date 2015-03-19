@@ -35,6 +35,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -123,6 +126,10 @@ public class EntrainerBackground {
 
 	private boolean psychedelic;
 
+	private ReadWriteLock lock = new ReentrantReadWriteLock();
+	private Lock readLock = lock.readLock();
+	private Lock writeLock = lock.writeLock();
+
 	/**
 	 * Instantiates a new variable background.
 	 */
@@ -204,29 +211,32 @@ public class EntrainerBackground {
 	}
 
 	private void fadeInOut(int key) {
-		ptRunning = true;
-		ScheduledFuture<?> sf = futures.remove(key);
+		writeLock.lock();
+		try {
+			ptRunning = true;
+			ScheduledFuture<?> sf = futures.remove(key);
 
-		if (sf == null || sf.isCancelled()) return;
+			if (sf == null || sf.isCancelled()) return;
 
-		if (!isDynamic()) {
-			return;
+			if (!isDynamic()) return;
+
+			old = current;
+
+			createCurrent();
+
+			setFadeInImage();
+
+			fadeOut();
+			fadeIn();
+
+			pt = new ParallelTransition(fadeIn, fadeOut);
+
+			pt.setOnFinished(e -> switchPictures());
+
+			JFXUtils.runLater(() -> pt.play());
+		} finally {
+			writeLock.unlock();
 		}
-
-		old = current;
-
-		createCurrent();
-
-		setFadeInImage();
-
-		fadeOut();
-		fadeIn();
-
-		pt = new ParallelTransition(fadeIn, fadeOut);
-
-		pt.setOnFinished(e -> switchPictures());
-
-		JFXUtils.runLater(() -> pt.play());
 	}
 
 	private void createCurrent() {
@@ -260,12 +270,8 @@ public class EntrainerBackground {
 		current.setImage(currentImage);
 
 		scale();
-
-		if (pane.getChildren().contains(current)) {
-			System.out.println("ping");
-			setFadeInImage();
-		}
-
+		
+		pane.getChildren().remove(current);
 		pane.getChildren().add(current);
 	}
 
@@ -550,12 +556,15 @@ public class EntrainerBackground {
 	}
 
 	private void invert(Node background) {
-		if (flashBackground) {
-			setBackgroundOpacity(background);
-		}
+		readLock.lock();
+		try {
+			if (flashBackground) setBackgroundOpacity(background);
 
-		if (psychedelic && background instanceof Rectangle) {
-			((Rectangle) background).setFill(randomColour());
+			if (psychedelic && background instanceof Rectangle) {
+				((Rectangle) background).setFill(randomColour());
+			}
+		} finally {
+			readLock.unlock();
 		}
 	}
 

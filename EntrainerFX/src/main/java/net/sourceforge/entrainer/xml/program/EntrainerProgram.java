@@ -129,6 +129,7 @@ public class EntrainerProgram {
 	public EntrainerProgram() {
 		sender = new SenderAdapter();
 		EntrainerMediator.getInstance().addSender(sender);
+		dynamicPicture = true;
 	}
 
 	/**

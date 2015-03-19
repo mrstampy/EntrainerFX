@@ -139,13 +139,13 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	}
 
 	public void setDuration(int i) {
-		durationValue = i;
-		duration.getValueFactory().setValue(i);
+		durationValue = i <= 0 ? 10 : i;
+		duration.getValueFactory().setValue(durationValue);
 	}
 
 	public void setTransition(int i) {
-		transitionValue = i;
-		transition.getValueFactory().setValue(i);
+		transitionValue = i <= 0 ? 5 : i;
+		transition.getValueFactory().setValue(durationValue);
 	}
 
 	public void setPictureDirectory(String dir) {
@@ -608,6 +608,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	}
 
 	private void setDirectory(String name) {
+		if(name == null) return;
+		
 		File dir = new File(name);
 
 		directoryName = dir.getAbsolutePath();
