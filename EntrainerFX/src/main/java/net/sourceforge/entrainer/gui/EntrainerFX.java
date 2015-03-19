@@ -1563,13 +1563,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	}
 
 	private void enableControls(final boolean enabled) {
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				sliderControlPane.setDisable(!enabled);
-			}
-		});
+		JFXUtils.runLater(() -> sliderControlPane.setControlsDisabled(!enabled));
 
 		getFileMenuItem("New Entrainer Program").setEnabled(enabled);
 		getFileMenuItem("Edit Entrainer Program").setEnabled(enabled);

@@ -191,7 +191,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	 */
 	public void setDuration(int i) {
 		durationValue = i;
-		duration.getValueFactory().setValue(i);
+		setDuration();
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	 */
 	public void setTransition(int i) {
 		transitionValue = i;
-		transition.getValueFactory().setValue(i);
+		setTransition();
 	}
 
 	/**
@@ -640,11 +640,11 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 					break;
 				case BACKGROUND_DURATION_SECONDS:
 					durationValue = (int) e.getDoubleValue();
-					JFXUtils.runLater(() -> duration.getValueFactory().setValue(durationValue));
+					JFXUtils.runLater(() -> setDuration());
 					break;
 				case BACKGROUND_TRANSITION_SECONDS:
 					transitionValue = (int) e.getDoubleValue();
-					JFXUtils.runLater(() -> transition.getValueFactory().setValue(transitionValue));
+					JFXUtils.runLater(() -> setTransition());
 					break;
 				case STATIC_PICTURE_LOCK:
 					if (staticPictureLock.isSelected() == e.getBooleanValue()) return;
@@ -659,6 +659,16 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 			}
 
 		});
+	}
+
+	private void setDuration() {
+		if(durationValue <= 0) durationValue = 10;
+		duration.getValueFactory().setValue(durationValue);
+	}
+
+	private void setTransition() {
+		if(transitionValue <= 0) transitionValue = 5;
+		transition.getValueFactory().setValue(transitionValue);
 	}
 
 	private void setNoBackgroundColour(java.awt.Color color) {
@@ -694,6 +704,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	}
 
 	private void setDirectory(String name) {
+		if(name == null) return;
+		
 		File dir = new File(name);
 
 		directoryName = dir.getAbsolutePath();

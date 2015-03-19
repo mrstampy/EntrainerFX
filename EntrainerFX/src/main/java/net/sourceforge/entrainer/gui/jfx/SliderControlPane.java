@@ -98,9 +98,22 @@ public class SliderControlPane extends AbstractTitledPane {
 		init();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * Sets the controls disabled.
+	 *
+	 * @param b the new controls disabled
+	 */
+	public void setControlsDisabled(boolean b) {
+		entrainmentFrequency.setDisable(b);
+		frequency.setDisable(b);
+		amplitude.setDisable(b);
+		pinkNoise.setDisable(b);
+		pinkAmplitude.setDisable(b);
+		multiple.setDisable(b);
+		panCheck.setDisable(b);
+	}
+
+	/* (non-Javadoc)
 	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
 	 */
 	protected void init() {
@@ -157,7 +170,7 @@ public class SliderControlPane extends AbstractTitledPane {
 	}
 
 	private void panChecked() {
-		setPanSliderState();
+		if(! pinkNoise.isDisable()) setPanSliderState();
 
 		fireReceiverChangeEvent(panCheck.isSelected(), MediatorConstants.PINK_PAN);
 	}
@@ -337,19 +350,13 @@ public class SliderControlPane extends AbstractTitledPane {
 		return pane;
 	}
 
-	/**
-	 * Sets the pan.
-	 *
-	 * @param booleanValue
-	 *          the new pan
-	 */
-	public void setPan(final boolean booleanValue) {
+	private void setPan(boolean booleanValue) {
 		JFXUtils.runLater(() -> setPanCheck(booleanValue));
 	}
 
 	private void setPanCheck(boolean booleanValue) {
 		panCheck.setSelected(booleanValue);
-		setPanSliderState();
+		if(!pinkNoise.isDisable()) setPanSliderState();
 	}
 
 	/**
