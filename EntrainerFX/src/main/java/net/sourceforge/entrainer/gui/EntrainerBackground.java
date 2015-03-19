@@ -52,6 +52,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import net.sourceforge.entrainer.gui.flash.FlashOptions;
+import net.sourceforge.entrainer.gui.jfx.ImageViewScaler;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -274,119 +275,16 @@ public class EntrainerBackground {
 		current.setImage(currentImage);
 
 		scale();
-		
+
 		pane.getChildren().remove(current);
 		pane.getChildren().add(current);
 	}
 
 	private void scale() {
-		scale(current);
-		scale(old);
-	}
+		Dimension2D area = new Dimension2D(getWidth(), getHeight());
 
-	private void scale(ImageView view) {
-		if (view == null || view.getOpacity() == 0 || view.getImage() == null) return;
-
-		double pw = view.getImage().getWidth();
-		double ph = view.getImage().getHeight();
-		Dimension2D pic = new Dimension2D(pw, ph);
-
-		double vw = getWidth();
-		double vh = getHeight();
-		Dimension2D area = new Dimension2D(vw, vh);
-
-		view.setFitHeight(0);
-		view.setFitWidth(0);
-
-		if (isOutsideArea(pic, area)) {
-			// find the minimum distance from pic dimensions
-			// to view area (w or h diff)
-			scaleOutside(view, pic, area);
-		} else if (isInsideArea(pic, area)) {
-			// find the maximum distance from pic dimensions
-			// to view area (w or h diff)
-			scaleInside(view, pic, area);
-		} else {
-			// find which dimension is inside the view area,
-			// scale to fit
-			scaleMixed(view, pic, area);
-		}
-
-		double fh = view.getFitHeight() - vh;
-		view.setY(0 - (fh / 2));
-
-		double fw = view.getFitWidth() - vw;
-		view.setX(0 - (fw / 2));
-	}
-
-	// which pic dimension is inside the area? Use that.
-	private void scaleMixed(ImageView view, Dimension2D pic, Dimension2D area) {
-		double cw = getCalculatedWidth(pic, area);
-		double ch = getCalculatedHeight(pic, area);
-
-		double wd = area.getWidth() - cw;
-
-		if (wd >= 0) {
-			setAreaFitWidth(view, pic, area, ch);
-		} else {
-			setAreaFitHeight(view, pic, area, cw);
-		}
-	}
-
-	// which axis is greatest difference? Use that.
-	private void scaleInside(ImageView view, Dimension2D pic, Dimension2D area) {
-		double cw = getCalculatedWidth(pic, area);
-		double ch = getCalculatedHeight(pic, area);
-
-		double wd = area.getWidth() - cw;
-		double hd = area.getHeight() - ch;
-
-		if (wd > hd) {
-			setAreaFitWidth(view, pic, area, ch);
-		} else {
-			setAreaFitHeight(view, pic, area, cw);
-		}
-	}
-
-	private boolean isInsideArea(Dimension2D pic, Dimension2D area) {
-		return pic.getWidth() <= area.getWidth() && pic.getHeight() <= area.getHeight();
-	}
-
-	// which axis is the least difference? Use that.
-	private void scaleOutside(ImageView view, Dimension2D pic, Dimension2D area) {
-		double cw = getCalculatedWidth(pic, area);
-		double ch = getCalculatedHeight(pic, area);
-
-		double wd = cw - area.getWidth();
-		double hd = ch - area.getHeight();
-
-		if (wd < hd) {
-			setAreaFitWidth(view, pic, area, ch);
-		} else {
-			setAreaFitHeight(view, pic, area, cw);
-		}
-	}
-
-	private void setAreaFitWidth(ImageView view, Dimension2D pic, Dimension2D area, double ch) {
-		view.setFitWidth(area.getWidth());
-		view.setFitHeight(ch);
-	}
-
-	private double getCalculatedHeight(Dimension2D pic, Dimension2D area) {
-		return pic.getHeight() * area.getWidth() / pic.getWidth();
-	}
-
-	private void setAreaFitHeight(ImageView view, Dimension2D pic, Dimension2D area, double cw) {
-		view.setFitHeight(area.getHeight());
-		view.setFitWidth(cw);
-	}
-
-	private double getCalculatedWidth(Dimension2D pic, Dimension2D area) {
-		return pic.getWidth() * area.getHeight() / pic.getHeight();
-	}
-
-	private boolean isOutsideArea(Dimension2D pic, Dimension2D area) {
-		return pic.getWidth() >= area.getWidth() && pic.getHeight() >= area.getHeight();
+		ImageViewScaler.scale(current, area);
+		ImageViewScaler.scale(old, area);
 	}
 
 	private void fadeIn() {
