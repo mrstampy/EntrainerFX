@@ -86,12 +86,35 @@ public class SliderControlPane extends AbstractTitledPane {
 		this(true);
 	}
 
+	/**
+	 * Instantiates a new slider control pane.
+	 *
+	 * @param showPanSliders the show pan sliders
+	 */
 	public SliderControlPane(boolean showPanSliders) {
 		super("Sound Options");
 		this.showPanSliders = showPanSliders;
 		init();
 	}
+	
+	/**
+	 * Sets the controls disabled.
+	 *
+	 * @param b the new controls disabled
+	 */
+	public void setControlsDisabled(boolean b) {
+		entrainmentFrequency.setDisable(b);
+		frequency.setDisable(b);
+		amplitude.setDisable(b);
+		pinkNoise.setDisable(b);
+		pinkAmplitude.setDisable(b);
+		multiple.setDisable(b);
+		panCheck.setDisable(b);
+	}
 
+	/* (non-Javadoc)
+	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
+	 */
 	protected void init() {
 		initLayout();
 		super.init();
@@ -146,7 +169,7 @@ public class SliderControlPane extends AbstractTitledPane {
 	}
 
 	private void panChecked() {
-		setPanSliderState();
+		if(! pinkNoise.isDisable()) setPanSliderState();
 
 		fireReceiverChangeEvent(panCheck.isSelected(), MediatorConstants.PINK_PAN);
 	}
@@ -316,24 +339,21 @@ public class SliderControlPane extends AbstractTitledPane {
 		return pinkNoise;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#getContentPane()
+	 */
 	@Override
 	protected Node getContentPane() {
 		return pane;
 	}
 
-	/**
-	 * Sets the pan.
-	 *
-	 * @param booleanValue
-	 *          the new pan
-	 */
-	public void setPan(final boolean booleanValue) {
+	private void setPan(boolean booleanValue) {
 		JFXUtils.runLater(() -> setPanCheck(booleanValue));
 	}
 
 	private void setPanCheck(boolean booleanValue) {
 		panCheck.setSelected(booleanValue);
-		setPanSliderState();
+		if(!pinkNoise.isDisable()) setPanSliderState();
 	}
 
 	/**
