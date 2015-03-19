@@ -1009,6 +1009,7 @@ public class Settings implements EntrainerResources {
 	 */
 	public void setSocketConnected(boolean socketConnected) {
 		this.socketConnected = socketConnected;
+		saveSettings();
 	}
 
 	/**
