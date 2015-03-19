@@ -18,6 +18,15 @@ on your personal media device.
 
 EntrainerFX will run on Windows, OS X and Linux and was built using Java 8 (1.8.0_40).
 
+5.2.0 - March 19, 2015
+  - Prep for full JavaFX conversion
+  - Functionally identical to 5.1.0
+  - UI redesign, HUP controls invisible until mouse over or mouse proximity
+  - Images displayed at full opacity
+  - Entrainment frequency pulse notification now sent over EntrainerFX's event system
+  - Disruptor now used in event system for best notification performance
+  - Main window now resizable
+
 5.1.0 - March 14, 2015
   - Last feature release prior to full JavaFX conversion
   - Minimum Java version - 1.8.0_40

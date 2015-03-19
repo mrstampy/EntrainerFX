@@ -1,13 +1,13 @@
 <installation version="1.0">
 
 	<variables>
-		<variable name="EFX_VERSION" value="5.1.0"/>
+		<variable name="EFX_VERSION" value="5.2.0"/>
 	</variables>
 	
 	<!-- The info section. The meaning of the tags should be natural ... -->
 	<info>
 		<appname>EntrainerFX</appname>
-		<appversion>5.1.0</appversion>
+		<appversion>5.2.0</appversion>
 		<authors>
 			<author name="Burton Alexander" email="burton@users.sourceforge.net" />
 		</authors>
