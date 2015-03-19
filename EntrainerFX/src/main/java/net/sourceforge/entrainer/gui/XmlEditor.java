@@ -175,16 +175,22 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		setPreferredSize(EntrainerFX.getInstance().getSize());
 		super.pack();
 		animations.setMinWidth(getWidth() - 10);
+	}
+	
+	public void setVisible(boolean b) {
 		JFXUtils.runLater(new Runnable() {
-
+			
 			@Override
 			public void run() {
+				System.out.println("Unexpanding");
 				animations.setExpanded(false);
 				shimmers.setExpanded(false);
 				pinkPanning.setExpanded(false);
 				pics.setExpanded(false);
 			}
 		});
+
+		super.setVisible(b);
 	}
 
 	/**
