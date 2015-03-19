@@ -36,6 +36,7 @@ import java.net.UnknownHostException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import net.sourceforge.entrainer.gui.flash.FlashType;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
@@ -395,8 +396,8 @@ public class EntrainerSocketManager {
 
 					break;
 				case DYNAMIC_BACKGROUND:
-					processing = currentState.isDynamicPicture() == null
-							|| e.getBooleanValue() != currentState.isDynamicPicture();
+					processing = currentState.getDynamicPicture() == null
+							|| e.getBooleanValue() != currentState.getDynamicPicture();
 					if (!processing) break;
 
 					message.setDynamicPicture(true);
@@ -407,7 +408,7 @@ public class EntrainerSocketManager {
 
 					break;
 				case STATIC_BACKGROUND:
-					processing = currentState.isStaticPicture() == null || e.getBooleanValue() != currentState.isStaticPicture();
+					processing = currentState.getStaticPicture() == null || e.getBooleanValue() != currentState.getStaticPicture();
 					if (!processing) break;
 
 					message.setStaticPicture(true);
@@ -418,7 +419,7 @@ public class EntrainerSocketManager {
 
 					break;
 				case NO_BACKGROUND:
-					processing = currentState.isNoPicture() == null || e.getBooleanValue() != currentState.isNoPicture();
+					processing = currentState.getNoPicture() == null || e.getBooleanValue() != currentState.getNoPicture();
 					if (!processing) break;
 
 					message.setNoPicture(true);
@@ -472,6 +473,9 @@ public class EntrainerSocketManager {
 					currentState.setDynamicTransition((int) e.getDoubleValue());
 
 					break;
+				case FLASH_TYPE:
+					processing = evaluateFlashType((FlashType)e.getOption(), e.getBooleanValue(), message);
+					break;
 				default:
 					processing = false;
 					break;
@@ -487,6 +491,89 @@ public class EntrainerSocketManager {
 			}
 
 		});
+	}
+
+	private boolean evaluateFlashType(FlashType option, boolean b, EntrainerStateMessage message) {
+		switch(option) {
+		case BLOOM:
+			if(!isProcessBooleanState(currentState.getBloom(), b)) return false;
+			
+			message.setBloom(b);
+			currentState.setBloom(b);
+			
+			break;
+		case BOX_BLUR:
+			if(!isProcessBooleanState(currentState.getBoxBlur(), b)) return false;
+			
+			message.setBoxBlur(b);
+			currentState.setBoxBlur(b);
+			
+			break;
+		case COLOUR_ADJUST:
+			if(!isProcessBooleanState(currentState.getColourAdjust(), b)) return false;
+			
+			message.setColourAdjust(b);
+			currentState.setColourAdjust(b);
+			
+			break;
+		case GAUSSIAN_BLUR:
+			if(!isProcessBooleanState(currentState.getGaussianBlur(), b)) return false;
+			
+			message.setGaussianBlur(b);
+			currentState.setGaussianBlur(b);
+			
+			break;
+		case GLOW:
+			if(!isProcessBooleanState(currentState.getGlow(), b)) return false;
+			
+			message.setGlow(b);
+			currentState.setGlow(b);
+			
+			break;
+		case LIGHTING:
+			if(!isProcessBooleanState(currentState.getLighting(), b)) return false;
+			
+			message.setLighting(b);
+			currentState.setLighting(b);
+			
+			break;
+		case MOTION_BLUR:
+			if(!isProcessBooleanState(currentState.getMotionBlur(), b)) return false;
+			
+			message.setMotionBlur(b);
+			currentState.setMotionBlur(b);
+			
+			break;
+		case OPACITY:
+			if(!isProcessBooleanState(currentState.getOpacity(), b)) return false;
+			
+			message.setOpacity(b);
+			currentState.setOpacity(b);
+			
+			break;
+		case SEPIA_TONE:
+			if(!isProcessBooleanState(currentState.getSepiaTone(), b)) return false;
+			
+			message.setSepiaTone(b);
+			currentState.setSepiaTone(b);
+			
+			break;
+		case SHADOW:
+			if(!isProcessBooleanState(currentState.getShadow(), b)) return false;
+			
+			message.setShadow(b);
+			currentState.setShadow(b);
+			
+			break;
+		default:
+			break;
+		}
+		
+		return true;
+	}
+	
+	private boolean isProcessBooleanState(Boolean current, boolean b) {
+		return current == null || b != current.booleanValue();
 	}
 
 }

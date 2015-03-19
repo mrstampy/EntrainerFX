@@ -249,6 +249,36 @@ public class EntrainerStateMessage {
 	@XmlElement
 	private Integer dynamicTransition;
 
+	@XmlElement
+	private Boolean opacity;
+
+	@XmlElement
+	private Boolean bloom;
+
+	@XmlElement
+	private Boolean boxBlur;
+
+	@XmlElement
+	private Boolean gaussianBlur;
+
+	@XmlElement
+	private Boolean glow;
+
+	@XmlElement
+	private Boolean motionBlur;
+
+	@XmlElement
+	private Boolean sepiaTone;
+
+	@XmlElement
+	private Boolean shadow;
+
+	@XmlElement
+	private Boolean colourAdjust;
+
+	@XmlElement
+	private Boolean lighting;
+
 	/**
 	 * The volume of Entrainer. Valid values are between 0 and 1.
 	 *
@@ -690,15 +720,6 @@ public class EntrainerStateMessage {
 	}
 
 	/**
-	 * Checks if is dynamic picture.
-	 *
-	 * @return the boolean
-	 */
-	public Boolean isDynamicPicture() {
-		return dynamicPicture;
-	}
-
-	/**
 	 * Sets the dynamic picture.
 	 *
 	 * @param dynamicPicture
@@ -706,15 +727,6 @@ public class EntrainerStateMessage {
 	 */
 	public void setDynamicPicture(Boolean dynamicPicture) {
 		this.dynamicPicture = dynamicPicture;
-	}
-
-	/**
-	 * Checks if is static picture.
-	 *
-	 * @return the boolean
-	 */
-	public Boolean isStaticPicture() {
-		return staticPicture;
 	}
 
 	/**
@@ -744,15 +756,6 @@ public class EntrainerStateMessage {
 	 */
 	public void setStaticPictureFile(String staticPictureFile) {
 		this.staticPictureFile = staticPictureFile;
-	}
-
-	/**
-	 * Checks if is no picture.
-	 *
-	 * @return the boolean
-	 */
-	public Boolean isNoPicture() {
-		return noPicture;
 	}
 
 	/**
@@ -881,6 +884,213 @@ public class EntrainerStateMessage {
 	 */
 	public void setStaticPictureLock(Boolean staticPictureLock) {
 		this.staticPictureLock = staticPictureLock;
+	}
+
+	/**
+	 * Gets the opacity.
+	 *
+	 * @return the opacity
+	 */
+	public Boolean getOpacity() {
+		return opacity;
+	}
+
+	/**
+	 * Sets the opacity.
+	 *
+	 * @param opacity the new opacity
+	 */
+	public void setOpacity(Boolean opacity) {
+		this.opacity = opacity;
+	}
+
+	/**
+	 * Gets the bloom.
+	 *
+	 * @return the bloom
+	 */
+	public Boolean getBloom() {
+		return bloom;
+	}
+
+	/**
+	 * Sets the bloom.
+	 *
+	 * @param bloom the new bloom
+	 */
+	public void setBloom(Boolean bloom) {
+		this.bloom = bloom;
+	}
+
+	/**
+	 * Gets the box blur.
+	 *
+	 * @return the box blur
+	 */
+	public Boolean getBoxBlur() {
+		return boxBlur;
+	}
+
+	/**
+	 * Sets the box blur.
+	 *
+	 * @param boxBlur the new box blur
+	 */
+	public void setBoxBlur(Boolean boxBlur) {
+		this.boxBlur = boxBlur;
+	}
+
+	/**
+	 * Gets the gaussian blur.
+	 *
+	 * @return the gaussian blur
+	 */
+	public Boolean getGaussianBlur() {
+		return gaussianBlur;
+	}
+
+	/**
+	 * Sets the gaussian blur.
+	 *
+	 * @param gaussianBlur the new gaussian blur
+	 */
+	public void setGaussianBlur(Boolean gaussianBlur) {
+		this.gaussianBlur = gaussianBlur;
+	}
+
+	/**
+	 * Gets the glow.
+	 *
+	 * @return the glow
+	 */
+	public Boolean getGlow() {
+		return glow;
+	}
+
+	/**
+	 * Sets the glow.
+	 *
+	 * @param glow the new glow
+	 */
+	public void setGlow(Boolean glow) {
+		this.glow = glow;
+	}
+
+	/**
+	 * Gets the motion blur.
+	 *
+	 * @return the motion blur
+	 */
+	public Boolean getMotionBlur() {
+		return motionBlur;
+	}
+
+	/**
+	 * Sets the motion blur.
+	 *
+	 * @param motionBlur the new motion blur
+	 */
+	public void setMotionBlur(Boolean motionBlur) {
+		this.motionBlur = motionBlur;
+	}
+
+	/**
+	 * Gets the sepia tone.
+	 *
+	 * @return the sepia tone
+	 */
+	public Boolean getSepiaTone() {
+		return sepiaTone;
+	}
+
+	/**
+	 * Sets the sepia tone.
+	 *
+	 * @param sepiaTone the new sepia tone
+	 */
+	public void setSepiaTone(Boolean sepiaTone) {
+		this.sepiaTone = sepiaTone;
+	}
+
+	/**
+	 * Gets the shadow.
+	 *
+	 * @return the shadow
+	 */
+	public Boolean getShadow() {
+		return shadow;
+	}
+
+	/**
+	 * Sets the shadow.
+	 *
+	 * @param shadow the new shadow
+	 */
+	public void setShadow(Boolean shadow) {
+		this.shadow = shadow;
+	}
+
+	/**
+	 * Gets the colour adjust.
+	 *
+	 * @return the colour adjust
+	 */
+	public Boolean getColourAdjust() {
+		return colourAdjust;
+	}
+
+	/**
+	 * Sets the colour adjust.
+	 *
+	 * @param colourAdjust the new colour adjust
+	 */
+	public void setColourAdjust(Boolean colourAdjust) {
+		this.colourAdjust = colourAdjust;
+	}
+
+	/**
+	 * Gets the lighting.
+	 *
+	 * @return the lighting
+	 */
+	public Boolean getLighting() {
+		return lighting;
+	}
+
+	/**
+	 * Sets the lighting.
+	 *
+	 * @param lighting the new lighting
+	 */
+	public void setLighting(Boolean lighting) {
+		this.lighting = lighting;
+	}
+
+	/**
+	 * Gets the dynamic picture.
+	 *
+	 * @return the dynamic picture
+	 */
+	public Boolean getDynamicPicture() {
+		return dynamicPicture;
+	}
+
+	/**
+	 * Gets the static picture.
+	 *
+	 * @return the static picture
+	 */
+	public Boolean getStaticPicture() {
+		return staticPicture;
+	}
+
+	/**
+	 * Gets the no picture.
+	 *
+	 * @return the no picture
+	 */
+	public Boolean getNoPicture() {
+		return noPicture;
 	}
 
 }
