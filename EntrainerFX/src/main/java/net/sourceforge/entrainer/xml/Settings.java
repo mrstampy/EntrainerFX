@@ -120,15 +120,6 @@ public class Settings implements EntrainerResources {
 	@XmlElement
 	private boolean isDesktopBackground;
 
-	@XmlElement(name = "jsyn.native.jar")
-	private String jsynNativeJar;
-
-	@XmlElement(name = "jsyn.java.jar")
-	private String jsynJavaJar;
-
-	@XmlElement
-	private boolean isNativeJsyn;
-
 	@XmlElement
 	private int socketPort;
 
@@ -898,63 +889,6 @@ public class Settings implements EntrainerResources {
 	}
 
 	/**
-	 * Gets the jsyn native jar.
-	 *
-	 * @return the jsyn native jar
-	 */
-	public String getJsynNativeJar() {
-		return jsynNativeJar;
-	}
-
-	/**
-	 * Sets the jsyn native jar.
-	 *
-	 * @param jsynNativeJar
-	 *          the new jsyn native jar
-	 */
-	public void setJsynNativeJar(String jsynNativeJar) {
-		this.jsynNativeJar = jsynNativeJar;
-	}
-
-	/**
-	 * Gets the jsyn java jar.
-	 *
-	 * @return the jsyn java jar
-	 */
-	public String getJsynJavaJar() {
-		return jsynJavaJar;
-	}
-
-	/**
-	 * Sets the jsyn java jar.
-	 *
-	 * @param jsynJavaJar
-	 *          the new jsyn java jar
-	 */
-	public void setJsynJavaJar(String jsynJavaJar) {
-		this.jsynJavaJar = jsynJavaJar;
-	}
-
-	/**
-	 * Checks if is native jsyn.
-	 *
-	 * @return true, if is native jsyn
-	 */
-	public boolean isNativeJsyn() {
-		return isNativeJsyn;
-	}
-
-	/**
-	 * Sets the native jsyn.
-	 *
-	 * @param isNativeJsyn
-	 *          the new native jsyn
-	 */
-	public void setNativeJsyn(boolean isNativeJsyn) {
-		this.isNativeJsyn = isNativeJsyn;
-	}
-
-	/**
 	 * Gets the socket port.
 	 *
 	 * @return the socket port
@@ -971,6 +905,7 @@ public class Settings implements EntrainerResources {
 	 */
 	public void setSocketPort(int socketPort) {
 		this.socketPort = socketPort;
+		saveSettings();
 	}
 
 	/**
@@ -990,6 +925,7 @@ public class Settings implements EntrainerResources {
 	 */
 	public void setDeltaSocketMessage(boolean fullSocketMessage) {
 		this.deltaSocketMessage = fullSocketMessage;
+		saveSettings();
 	}
 
 	/**
@@ -1029,6 +965,7 @@ public class Settings implements EntrainerResources {
 	 */
 	public void setSocketIPAddress(String socketIPAddress) {
 		this.socketIPAddress = socketIPAddress;
+		saveSettings();
 	}
 
 	/**
