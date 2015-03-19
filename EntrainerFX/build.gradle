@@ -16,7 +16,7 @@ apply plugin: 'maven'
 apply plugin: 'distribution'
 
 sourceCompatibility = 1.8
-version = '5.1.0'
+version = '5.1.1'
 
 configurations {
 	izpack
