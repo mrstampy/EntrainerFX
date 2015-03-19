@@ -52,7 +52,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import net.sourceforge.entrainer.gui.flash.FlashOptions;
-import net.sourceforge.entrainer.gui.jfx.ImageViewScaler;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -283,8 +282,8 @@ public class EntrainerBackground {
 	private void scale() {
 		Dimension2D area = new Dimension2D(getWidth(), getHeight());
 
-		ImageViewScaler.scale(current, area);
-		ImageViewScaler.scale(old, area);
+		JFXUtils.scale(current, area);
+		JFXUtils.scale(old, area);
 	}
 
 	private void fadeIn() {
