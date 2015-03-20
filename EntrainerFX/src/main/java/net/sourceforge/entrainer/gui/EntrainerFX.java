@@ -217,6 +217,8 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	private HiddenSidesPane hiddenSidesPane;
 
 	private MediaPlayerPane audioPlayerPane = new MediaPlayerPane();
+	
+	private boolean enableMediaEntrainment;
 
 	private EntrainerFX() {
 		super("Entrainer FX");
@@ -526,6 +528,9 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 					} else {
 						stopPressed();
 					}
+					break;
+				case MEDIA_ENTRAINMENT:
+					enableMediaEntrainment = e.getBooleanValue();
 					break;
 				case SHIMMER_RECTANGLE:
 					setShimmerRectangle(e.getStringValue());
@@ -1487,6 +1492,8 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 				}
 			}
 		});
+		
+		if(enableMediaEntrainment) fireReceiverChangeEvent(true, MediatorConstants.MEDIA_PLAY);
 	}
 
 	private void startAnimation() {
