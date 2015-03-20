@@ -378,7 +378,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 					loop.setSelected(e.getBooleanValue());
 					break;
 				case MEDIA_PLAY:
-					setPlayControls(e.getBooleanValue());
+					JFXUtils.runLater(() -> setPlayControls(e.getBooleanValue()));
 					break;
 				case MEDIA_PAUSE:
 					if(isPlaying()) setPauseControls();
