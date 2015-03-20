@@ -68,6 +68,7 @@ public class MediaEngine {
 				switch (e.getParm()) {
 				case MEDIA_AMPLITUDE:
 					amplitude = e.getDoubleValue();
+					reset();
 					break;
 				case MEDIA_ENTRAINMENT_STRENGTH:
 					setEntrainmentAmplitude(e.getDoubleValue());
