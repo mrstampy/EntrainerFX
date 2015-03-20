@@ -172,11 +172,15 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		if (file == null || file.trim().length() == 0 || isUrl) file = "./";
 
-		createFileMedia(file);
+		try {
+			createFileMedia(file);
+		} catch (URISyntaxException e) {
+			GuiUtil.handleProblem(e);
+		}
 	}
 
-	private void createFileMedia(String file) {
-		File mediaFile = new File(file);
+	private void createFileMedia(String file) throws URISyntaxException {
+		File mediaFile = new File(new URI(file));
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Choose Media");
 		fc.setInitialDirectory(mediaFile.getParentFile());
@@ -186,7 +190,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		if (newMedia == null) return;
 
-		mediaName = newMedia.getAbsolutePath();
+		mediaName = newMedia.toURI().toString();
 
 		media.setText(newMedia.getName());
 
