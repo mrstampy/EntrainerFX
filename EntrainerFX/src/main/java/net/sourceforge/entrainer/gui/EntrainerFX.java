@@ -92,6 +92,7 @@ import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
 import net.sourceforge.entrainer.gui.jfx.EntrainerFXSplash;
 import net.sourceforge.entrainer.gui.jfx.FlashOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
+import net.sourceforge.entrainer.gui.jfx.MediaPlayerPane;
 import net.sourceforge.entrainer.gui.jfx.ShimmerOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.SliderControlPane;
 import net.sourceforge.entrainer.gui.jfx.SoundControlPane;
@@ -214,6 +215,8 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	private ObjectMapper jsonMapper = new ObjectMapper();
 	private JCheckBoxMenuItem splashOnStartup;
 	private HiddenSidesPane hiddenSidesPane;
+
+	private MediaPlayerPane audioPlayerPane = new MediaPlayerPane();
 
 	private EntrainerFX() {
 		super("Entrainer FX");
@@ -358,6 +361,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		unexpandeTitledPane(neuralizer);
 		unexpandeTitledPane(pictures);
 		unexpandeTitledPane(flashOptions);
+		unexpandeTitledPane(audioPlayerPane);
 
 		setMinimumSize(new Dimension(mainPanel.getPreferredSize().width, getHeight() / 2));
 
@@ -1657,10 +1661,17 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		GridPane.setConstraints(flashOptions, 0, v++);
 		GridPane.setConstraints(animations, 0, v++);
 		GridPane.setConstraints(shimmerOptions, 0, v++);
+		GridPane.setConstraints(audioPlayerPane, 0, v++);
 		GridPane.setConstraints(neuralizer, 0, v++);
 
 		gp.setPadding(new Insets(5, 13, 5, 5));
-		gp.getChildren().addAll(sliderControlPane, animations, shimmerOptions, pictures, flashOptions, neuralizer);
+		gp.getChildren().addAll(sliderControlPane,
+				animations,
+				shimmerOptions,
+				pictures,
+				flashOptions,
+				neuralizer,
+				audioPlayerPane);
 
 		hiddenSidesPane = new HiddenSidesPane();
 		hiddenSidesPane.setContent(gp);

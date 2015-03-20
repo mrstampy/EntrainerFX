@@ -156,6 +156,27 @@ public enum MediatorConstants {
 	/** The flash type. */
 	FLASH_TYPE("The type of flashing to apply to the background image"),
 
+	/** The media amplitude. */
+	MEDIA_AMPLITUDE("Media volume"),
+
+	/** The media entrainment strength. */
+	MEDIA_ENTRAINMENT_STRENGTH("Media entrainment strength"),
+
+	/** The media play. */
+	MEDIA_PLAY("If true play, else stop"),
+
+	/** The media pause. */
+	MEDIA_PAUSE("Pause/resume media"),
+
+	/** The media uri. */
+	MEDIA_URI("Media URI"),
+
+	/** The media entrainment. */
+	MEDIA_ENTRAINMENT("Enable/disable media entrainment"),
+
+	/** The media loop. */
+	MEDIA_LOOP("Loop media on end if selected"),
+
 	/** The splash on startup. */
 	SPLASH_ON_STARTUP("If true will enable the splash screen on startup");
 

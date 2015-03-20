@@ -898,7 +898,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the opacity.
 	 *
-	 * @param opacity the new opacity
+	 * @param opacity
+	 *          the new opacity
 	 */
 	public void setOpacity(Boolean opacity) {
 		this.opacity = opacity;
@@ -916,7 +917,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the bloom.
 	 *
-	 * @param bloom the new bloom
+	 * @param bloom
+	 *          the new bloom
 	 */
 	public void setBloom(Boolean bloom) {
 		this.bloom = bloom;
@@ -934,7 +936,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the box blur.
 	 *
-	 * @param boxBlur the new box blur
+	 * @param boxBlur
+	 *          the new box blur
 	 */
 	public void setBoxBlur(Boolean boxBlur) {
 		this.boxBlur = boxBlur;
@@ -952,7 +955,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the gaussian blur.
 	 *
-	 * @param gaussianBlur the new gaussian blur
+	 * @param gaussianBlur
+	 *          the new gaussian blur
 	 */
 	public void setGaussianBlur(Boolean gaussianBlur) {
 		this.gaussianBlur = gaussianBlur;
@@ -970,7 +974,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the glow.
 	 *
-	 * @param glow the new glow
+	 * @param glow
+	 *          the new glow
 	 */
 	public void setGlow(Boolean glow) {
 		this.glow = glow;
@@ -988,7 +993,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the motion blur.
 	 *
-	 * @param motionBlur the new motion blur
+	 * @param motionBlur
+	 *          the new motion blur
 	 */
 	public void setMotionBlur(Boolean motionBlur) {
 		this.motionBlur = motionBlur;
@@ -1006,7 +1012,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the sepia tone.
 	 *
-	 * @param sepiaTone the new sepia tone
+	 * @param sepiaTone
+	 *          the new sepia tone
 	 */
 	public void setSepiaTone(Boolean sepiaTone) {
 		this.sepiaTone = sepiaTone;
@@ -1024,7 +1031,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the shadow.
 	 *
-	 * @param shadow the new shadow
+	 * @param shadow
+	 *          the new shadow
 	 */
 	public void setShadow(Boolean shadow) {
 		this.shadow = shadow;
@@ -1042,7 +1050,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the colour adjust.
 	 *
-	 * @param colourAdjust the new colour adjust
+	 * @param colourAdjust
+	 *          the new colour adjust
 	 */
 	public void setColourAdjust(Boolean colourAdjust) {
 		this.colourAdjust = colourAdjust;
@@ -1060,7 +1069,8 @@ public class EntrainerStateMessage {
 	/**
 	 * Sets the lighting.
 	 *
-	 * @param lighting the new lighting
+	 * @param lighting
+	 *          the new lighting
 	 */
 	public void setLighting(Boolean lighting) {
 		this.lighting = lighting;
