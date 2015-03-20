@@ -477,6 +477,46 @@ public class EntrainerSocketManager {
 				case FLASH_TYPE:
 					processing = evaluateFlashType((FlashType) e.getOption(), e.getBooleanValue(), message);
 					break;
+				case MEDIA_AMPLITUDE:
+					processing = canProcess(currentState.getMediaAmplitude(), e.getDoubleValue());
+					if(!processing) break;
+					
+					message.setMediaAmplitude(e.getDoubleValue());
+					currentState.setMediaAmplitude(e.getDoubleValue());
+					
+					break;
+				case MEDIA_ENTRAINMENT:
+					processing = canProcess(currentState.getMediaEntrainment(), e.getBooleanValue());
+					if(!processing) break;
+					
+					message.setMediaEntrainment(e.getBooleanValue());
+					currentState.setMediaEntrainment(e.getBooleanValue());
+					
+					break;
+				case MEDIA_LOOP:
+					processing = canProcess(currentState.getMediaLoop(), e.getBooleanValue());
+					if(!processing) break;
+					
+					message.setMediaLoop(e.getBooleanValue());
+					currentState.setMediaLoop(e.getBooleanValue());
+					
+					break;
+				case MEDIA_ENTRAINMENT_STRENGTH:
+					processing = canProcess(currentState.getMediaEntrainmentStrength(), e.getDoubleValue());
+					if(!processing) break;
+					
+					message.setMediaEntrainmentStrength(e.getDoubleValue());
+					currentState.setMediaEntrainmentStrength(e.getDoubleValue());
+					
+					break;
+				case MEDIA_URI:
+					processing = canProcess(currentState.getMediaUri(), e.getStringValue());
+					if(!processing) break;
+					
+					message.setMediaUri(e.getStringValue());
+					currentState.setMediaUri(e.getStringValue());
+					
+					break;
 				default:
 					processing = false;
 					break;
@@ -497,70 +537,70 @@ public class EntrainerSocketManager {
 	private boolean evaluateFlashType(FlashType option, boolean b, EntrainerStateMessage message) {
 		switch (option) {
 		case BLOOM:
-			if (!isProcessBooleanState(currentState.getBloom(), b)) return false;
+			if (!canProcess(currentState.getBloom(), b)) return false;
 
 			message.setBloom(b);
 			currentState.setBloom(b);
 
 			break;
 		case BOX_BLUR:
-			if (!isProcessBooleanState(currentState.getBoxBlur(), b)) return false;
+			if (!canProcess(currentState.getBoxBlur(), b)) return false;
 
 			message.setBoxBlur(b);
 			currentState.setBoxBlur(b);
 
 			break;
 		case COLOUR_ADJUST:
-			if (!isProcessBooleanState(currentState.getColourAdjust(), b)) return false;
+			if (!canProcess(currentState.getColourAdjust(), b)) return false;
 
 			message.setColourAdjust(b);
 			currentState.setColourAdjust(b);
 
 			break;
 		case GAUSSIAN_BLUR:
-			if (!isProcessBooleanState(currentState.getGaussianBlur(), b)) return false;
+			if (!canProcess(currentState.getGaussianBlur(), b)) return false;
 
 			message.setGaussianBlur(b);
 			currentState.setGaussianBlur(b);
 
 			break;
 		case GLOW:
-			if (!isProcessBooleanState(currentState.getGlow(), b)) return false;
+			if (!canProcess(currentState.getGlow(), b)) return false;
 
 			message.setGlow(b);
 			currentState.setGlow(b);
 
 			break;
 		case LIGHTING:
-			if (!isProcessBooleanState(currentState.getLighting(), b)) return false;
+			if (!canProcess(currentState.getLighting(), b)) return false;
 
 			message.setLighting(b);
 			currentState.setLighting(b);
 
 			break;
 		case MOTION_BLUR:
-			if (!isProcessBooleanState(currentState.getMotionBlur(), b)) return false;
+			if (!canProcess(currentState.getMotionBlur(), b)) return false;
 
 			message.setMotionBlur(b);
 			currentState.setMotionBlur(b);
 
 			break;
 		case OPACITY:
-			if (!isProcessBooleanState(currentState.getOpacity(), b)) return false;
+			if (!canProcess(currentState.getOpacity(), b)) return false;
 
 			message.setOpacity(b);
 			currentState.setOpacity(b);
 
 			break;
 		case SEPIA_TONE:
-			if (!isProcessBooleanState(currentState.getSepiaTone(), b)) return false;
+			if (!canProcess(currentState.getSepiaTone(), b)) return false;
 
 			message.setSepiaTone(b);
 			currentState.setSepiaTone(b);
 
 			break;
 		case SHADOW:
-			if (!isProcessBooleanState(currentState.getShadow(), b)) return false;
+			if (!canProcess(currentState.getShadow(), b)) return false;
 
 			message.setShadow(b);
 			currentState.setShadow(b);
@@ -573,8 +613,8 @@ public class EntrainerSocketManager {
 		return true;
 	}
 
-	private boolean isProcessBooleanState(Boolean current, boolean b) {
-		return current == null || b != current.booleanValue();
+	private boolean canProcess(Object current, Object newVal) {
+		return current == null || !current.equals(newVal);
 	}
 
 }

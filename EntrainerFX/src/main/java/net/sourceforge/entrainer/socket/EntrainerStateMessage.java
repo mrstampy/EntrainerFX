@@ -278,6 +278,21 @@ public class EntrainerStateMessage {
 
 	@XmlElement
 	private Boolean lighting;
+	
+	@XmlElement
+	private Double mediaAmplitude;
+	
+	@XmlElement
+	private Double mediaEntrainmentStrength;
+	
+	@XmlElement
+	private Boolean mediaLoop;
+	
+	@XmlElement
+	private Boolean mediaEntrainment;
+	
+	@XmlElement
+	private String mediaUri;
 
 	/**
 	 * The volume of Entrainer. Valid values are between 0 and 1.
@@ -1101,6 +1116,46 @@ public class EntrainerStateMessage {
 	 */
 	public Boolean getNoPicture() {
 		return noPicture;
+	}
+
+	public Double getMediaAmplitude() {
+		return mediaAmplitude;
+	}
+
+	public void setMediaAmplitude(Double mediaAmplitude) {
+		this.mediaAmplitude = mediaAmplitude;
+	}
+
+	public Double getMediaEntrainmentStrength() {
+		return mediaEntrainmentStrength;
+	}
+
+	public void setMediaEntrainmentStrength(Double mediaEntrainmentStrength) {
+		this.mediaEntrainmentStrength = mediaEntrainmentStrength;
+	}
+
+	public Boolean getMediaLoop() {
+		return mediaLoop;
+	}
+
+	public void setMediaLoop(Boolean mediaLoop) {
+		this.mediaLoop = mediaLoop;
+	}
+
+	public Boolean getMediaEntrainment() {
+		return mediaEntrainment;
+	}
+
+	public void setMediaEntrainment(Boolean mediaEntrainment) {
+		this.mediaEntrainment = mediaEntrainment;
+	}
+
+	public String getMediaUri() {
+		return mediaUri;
+	}
+
+	public void setMediaUri(String mediaUri) {
+		this.mediaUri = mediaUri;
 	}
 
 }
