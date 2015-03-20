@@ -70,18 +70,9 @@ public class EntrainerFXSplash extends Application implements Version {
 
 	/**
 	 * Instantiates a new entrainer fx splash.
+	 *
 	 */
 	public EntrainerFXSplash() {
-
-	}
-
-	/**
-	 * Instantiates a new entrainer fx splash.
-	 *
-	 * @param fromApp
-	 *          the from app
-	 */
-	public EntrainerFXSplash(boolean fromApp) {
 		init();
 		JFXUtils.runLater(new Runnable() {
 

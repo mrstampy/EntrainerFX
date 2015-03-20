@@ -102,7 +102,7 @@ public class Main {
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JDialog.setDefaultLookAndFeelDecorated(true);
 		Settings settings = Settings.getInstance();
-		final EntrainerFXSplash splash = settings.isSplashOnStartup() ? new EntrainerFXSplash(true) : null;
+		final EntrainerFXSplash splash = settings.isSplashOnStartup() ? new EntrainerFXSplash() : null;
 		Thread thread = new Thread(new Runnable() {
 
 			@Override

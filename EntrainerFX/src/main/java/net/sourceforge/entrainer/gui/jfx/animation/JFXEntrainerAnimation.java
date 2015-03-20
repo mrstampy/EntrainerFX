@@ -27,7 +27,6 @@ import java.util.List;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import net.sourceforge.entrainer.gui.AnimationWindow;
 import net.sourceforge.entrainer.gui.EntrainerBackground;
 import net.sourceforge.entrainer.gui.EntrainerFX;
 

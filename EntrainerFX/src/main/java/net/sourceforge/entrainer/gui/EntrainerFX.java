@@ -778,7 +778,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		addMnemonic(splashItem, KeyEvent.VK_P);
 		splashItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new EntrainerFXSplash(true);
+				new EntrainerFXSplash();
 			}
 		});
 
