@@ -841,26 +841,56 @@ public class EntrainerProgram {
 		this.lighting = lighting;
 	}
 
+	/**
+	 * Checks if is media loop.
+	 *
+	 * @return true, if is media loop
+	 */
 	public boolean isMediaLoop() {
 		return mediaLoop;
 	}
 
+	/**
+	 * Sets the media loop.
+	 *
+	 * @param mediaLoop the new media loop
+	 */
 	public void setMediaLoop(boolean mediaLoop) {
 		this.mediaLoop = mediaLoop;
 	}
 
+	/**
+	 * Checks if is media entrainment.
+	 *
+	 * @return true, if is media entrainment
+	 */
 	public boolean isMediaEntrainment() {
 		return mediaEntrainment;
 	}
 
+	/**
+	 * Sets the media entrainment.
+	 *
+	 * @param mediaEntrainment the new media entrainment
+	 */
 	public void setMediaEntrainment(boolean mediaEntrainment) {
 		this.mediaEntrainment = mediaEntrainment;
 	}
 
+	/**
+	 * Gets the media uri.
+	 *
+	 * @return the media uri
+	 */
 	public String getMediaUri() {
 		return mediaUri;
 	}
 
+	/**
+	 * Sets the media uri.
+	 *
+	 * @param mediaUri the new media uri
+	 */
 	public void setMediaUri(String mediaUri) {
 		this.mediaUri = mediaUri;
 	}

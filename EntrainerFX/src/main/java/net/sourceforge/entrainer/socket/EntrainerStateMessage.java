@@ -278,19 +278,19 @@ public class EntrainerStateMessage {
 
 	@XmlElement
 	private Boolean lighting;
-	
+
 	@XmlElement
 	private Double mediaAmplitude;
-	
+
 	@XmlElement
 	private Double mediaEntrainmentStrength;
-	
+
 	@XmlElement
 	private Boolean mediaLoop;
-	
+
 	@XmlElement
 	private Boolean mediaEntrainment;
-	
+
 	@XmlElement
 	private String mediaUri;
 
@@ -1118,42 +1118,92 @@ public class EntrainerStateMessage {
 		return noPicture;
 	}
 
+	/**
+	 * Gets the media amplitude.
+	 *
+	 * @return the media amplitude
+	 */
 	public Double getMediaAmplitude() {
 		return mediaAmplitude;
 	}
 
+	/**
+	 * Sets the media amplitude.
+	 *
+	 * @param mediaAmplitude the new media amplitude
+	 */
 	public void setMediaAmplitude(Double mediaAmplitude) {
 		this.mediaAmplitude = mediaAmplitude;
 	}
 
+	/**
+	 * Gets the media entrainment strength.
+	 *
+	 * @return the media entrainment strength
+	 */
 	public Double getMediaEntrainmentStrength() {
 		return mediaEntrainmentStrength;
 	}
 
+	/**
+	 * Sets the media entrainment strength.
+	 *
+	 * @param mediaEntrainmentStrength the new media entrainment strength
+	 */
 	public void setMediaEntrainmentStrength(Double mediaEntrainmentStrength) {
 		this.mediaEntrainmentStrength = mediaEntrainmentStrength;
 	}
 
+	/**
+	 * Gets the media loop.
+	 *
+	 * @return the media loop
+	 */
 	public Boolean getMediaLoop() {
 		return mediaLoop;
 	}
 
+	/**
+	 * Sets the media loop.
+	 *
+	 * @param mediaLoop the new media loop
+	 */
 	public void setMediaLoop(Boolean mediaLoop) {
 		this.mediaLoop = mediaLoop;
 	}
 
+	/**
+	 * Gets the media entrainment.
+	 *
+	 * @return the media entrainment
+	 */
 	public Boolean getMediaEntrainment() {
 		return mediaEntrainment;
 	}
 
+	/**
+	 * Sets the media entrainment.
+	 *
+	 * @param mediaEntrainment the new media entrainment
+	 */
 	public void setMediaEntrainment(Boolean mediaEntrainment) {
 		this.mediaEntrainment = mediaEntrainment;
 	}
 
+	/**
+	 * Gets the media uri.
+	 *
+	 * @return the media uri
+	 */
 	public String getMediaUri() {
 		return mediaUri;
 	}
 
+	/**
+	 * Sets the media uri.
+	 *
+	 * @param mediaUri the new media uri
+	 */
 	public void setMediaUri(String mediaUri) {
 		this.mediaUri = mediaUri;
 	}

@@ -72,7 +72,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private GridPane pane = new GridPane();
 
 	private String mediaName = null;
-	
+
 	private boolean isUrl = false;
 
 	@SuppressWarnings("unused")
@@ -153,9 +153,9 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	}
 
 	private void mediaClicked(MouseEvent e) {
-		if(isPlaying()) return;
-		
-		switch(e.getButton()) {
+		if (isPlaying()) return;
+
+		switch (e.getButton()) {
 		case PRIMARY:
 			primaryButtonClicked();
 			break;
@@ -195,24 +195,24 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		media.setText(newMedia.getName());
 
 		fireReceiverChangeEvent(newMedia.toURI().toString(), MediatorConstants.MEDIA_URI);
-		
+
 		isUrl = false;
 	}
 
 	private void secondaryButtonClicked() {
 		Clipboard clip = Clipboard.getSystemClipboard();
-		
-		if(!clip.hasUrl()) return;
-		
+
+		if (!clip.hasUrl()) return;
+
 		mediaName = clip.getUrl();
 		createUrlMedia();
 	}
 
 	private void createUrlMedia() {
 		media.setText(mediaName);
-		
+
 		fireReceiverChangeEvent(mediaName, MediatorConstants.MEDIA_URI);
-		
+
 		isUrl = true;
 	}
 
@@ -259,8 +259,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	}
 
 	private void pauseClicked() {
-		if(!isPlaying()) return;
-		
+		if (!isPlaying()) return;
+
 		boolean paused = setPauseControls();
 
 		fireReceiverChangeEvent(!paused, MediatorConstants.MEDIA_PAUSE);
@@ -381,7 +381,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 					JFXUtils.runLater(() -> setPlayControls(e.getBooleanValue()));
 					break;
 				case MEDIA_PAUSE:
-					if(isPlaying()) setPauseControls();
+					if (isPlaying()) setPauseControls();
 					break;
 				case MEDIA_URI:
 					setMediaUri(e.getStringValue());
@@ -395,11 +395,11 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 	private void setMediaUri(String s) {
 		mediaName = s == null || s.isEmpty() ? "./" : s;
-		
+
 		try {
 			URI uri = new URI(mediaName);
 			File f = new File(uri);
-			
+
 			boolean b = f.exists();
 			media.setText(b ? f.getName() : mediaName);
 		} catch (URISyntaxException e) {

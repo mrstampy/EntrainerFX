@@ -139,7 +139,7 @@ public class MediaEngine {
 	}
 
 	private void setUri(String uri) {
-		if(uri == null || uri.isEmpty()) return;
+		if (uri == null || uri.isEmpty()) return;
 		try {
 			media = new Media(uri);
 		} catch (Exception e) {

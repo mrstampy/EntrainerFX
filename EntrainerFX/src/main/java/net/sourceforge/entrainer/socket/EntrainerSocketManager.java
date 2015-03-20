@@ -479,43 +479,43 @@ public class EntrainerSocketManager {
 					break;
 				case MEDIA_AMPLITUDE:
 					processing = canProcess(currentState.getMediaAmplitude(), e.getDoubleValue());
-					if(!processing) break;
-					
+					if (!processing) break;
+
 					message.setMediaAmplitude(e.getDoubleValue());
 					currentState.setMediaAmplitude(e.getDoubleValue());
-					
+
 					break;
 				case MEDIA_ENTRAINMENT:
 					processing = canProcess(currentState.getMediaEntrainment(), e.getBooleanValue());
-					if(!processing) break;
-					
+					if (!processing) break;
+
 					message.setMediaEntrainment(e.getBooleanValue());
 					currentState.setMediaEntrainment(e.getBooleanValue());
-					
+
 					break;
 				case MEDIA_LOOP:
 					processing = canProcess(currentState.getMediaLoop(), e.getBooleanValue());
-					if(!processing) break;
-					
+					if (!processing) break;
+
 					message.setMediaLoop(e.getBooleanValue());
 					currentState.setMediaLoop(e.getBooleanValue());
-					
+
 					break;
 				case MEDIA_ENTRAINMENT_STRENGTH:
 					processing = canProcess(currentState.getMediaEntrainmentStrength(), e.getDoubleValue());
-					if(!processing) break;
-					
+					if (!processing) break;
+
 					message.setMediaEntrainmentStrength(e.getDoubleValue());
 					currentState.setMediaEntrainmentStrength(e.getDoubleValue());
-					
+
 					break;
 				case MEDIA_URI:
 					processing = canProcess(currentState.getMediaUri(), e.getStringValue());
-					if(!processing) break;
-					
+					if (!processing) break;
+
 					message.setMediaUri(e.getStringValue());
 					currentState.setMediaUri(e.getStringValue());
-					
+
 					break;
 				default:
 					processing = false;

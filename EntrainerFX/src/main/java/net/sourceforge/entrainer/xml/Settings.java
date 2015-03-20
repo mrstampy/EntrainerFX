@@ -228,19 +228,19 @@ public class Settings implements EntrainerResources {
 
 	@XmlElement(name = "lighting.flash")
 	private boolean lighting;
-	
+
 	@XmlElement(name = "media.amplitude")
 	private double mediaAmplitude;
-	
+
 	@XmlElement(name = "media.entrainment.strength")
 	private double mediaEntrainmentStrength;
-	
+
 	@XmlElement(name = "media.loop")
 	private boolean mediaLoop;
-	
+
 	@XmlElement(name = "media.entrainment")
 	private boolean mediaEntrainment;
-	
+
 	@XmlElement(name = "media.uri")
 	private String mediaUri;
 
@@ -536,7 +536,7 @@ public class Settings implements EntrainerResources {
 		}
 
 		fireFlashOptions();
-		
+
 		fireMediaOptions();
 	}
 
@@ -1517,42 +1517,92 @@ public class Settings implements EntrainerResources {
 		this.lighting = isLighting;
 	}
 
+	/**
+	 * Gets the media amplitude.
+	 *
+	 * @return the media amplitude
+	 */
 	public double getMediaAmplitude() {
 		return mediaAmplitude;
 	}
 
+	/**
+	 * Sets the media amplitude.
+	 *
+	 * @param mediaAmplitude the new media amplitude
+	 */
 	public void setMediaAmplitude(double mediaAmplitude) {
 		this.mediaAmplitude = mediaAmplitude;
 	}
 
+	/**
+	 * Gets the media entrainment strength.
+	 *
+	 * @return the media entrainment strength
+	 */
 	public double getMediaEntrainmentStrength() {
 		return mediaEntrainmentStrength;
 	}
 
+	/**
+	 * Sets the media entrainment strength.
+	 *
+	 * @param mediaEntrainmentStrength the new media entrainment strength
+	 */
 	public void setMediaEntrainmentStrength(double mediaEntrainmentStrength) {
 		this.mediaEntrainmentStrength = mediaEntrainmentStrength;
 	}
 
+	/**
+	 * Checks if is media loop.
+	 *
+	 * @return true, if is media loop
+	 */
 	public boolean isMediaLoop() {
 		return mediaLoop;
 	}
 
+	/**
+	 * Sets the media loop.
+	 *
+	 * @param mediaLoop the new media loop
+	 */
 	public void setMediaLoop(boolean mediaLoop) {
 		this.mediaLoop = mediaLoop;
 	}
 
+	/**
+	 * Checks if is media entrainment.
+	 *
+	 * @return true, if is media entrainment
+	 */
 	public boolean isMediaEntrainment() {
 		return mediaEntrainment;
 	}
 
+	/**
+	 * Sets the media entrainment.
+	 *
+	 * @param mediaEntrainment the new media entrainment
+	 */
 	public void setMediaEntrainment(boolean mediaEntrainment) {
 		this.mediaEntrainment = mediaEntrainment;
 	}
 
+	/**
+	 * Gets the media uri.
+	 *
+	 * @return the media uri
+	 */
 	public String getMediaUri() {
 		return mediaUri;
 	}
 
+	/**
+	 * Sets the media uri.
+	 *
+	 * @param mediaUri the new media uri
+	 */
 	public void setMediaUri(String mediaUri) {
 		this.mediaUri = mediaUri;
 	}
