@@ -23,6 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
@@ -90,6 +91,9 @@ public class MediaEngine {
 				case ENTRAINMENT_FREQUENCY_PULSE:
 					entrain();
 					break;
+				case START_ENTRAINMENT:
+					if (!e.getBooleanValue()) reset();
+					break;
 				default:
 					break;
 				}
@@ -97,11 +101,16 @@ public class MediaEngine {
 		});
 	}
 
+	private void reset() {
+		if (player == null) return;
+
+		player.setVolume(amplitude);
+	}
+
 	private void evalPlayer() {
 		lock.lock();
 		try {
-			if (player == null) return;
-			if (!enableMediaEntrainment) player.setVolume(amplitude);
+			if (!enableMediaEntrainment) reset();
 		} finally {
 			lock.unlock();
 		}
@@ -129,7 +138,11 @@ public class MediaEngine {
 	}
 
 	private void setUri(String uri) {
-		media = new Media(uri);
+		try {
+			media = new Media(uri);
+		} catch (Exception e) {
+			GuiUtil.handleProblem(e);
+		}
 	}
 
 	private void play(boolean b) {

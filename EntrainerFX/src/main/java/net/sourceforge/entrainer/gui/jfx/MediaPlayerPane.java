@@ -32,7 +32,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.InnerShadow;
-import javafx.scene.input.MouseButton;
+import javafx.scene.input.Clipboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -68,7 +68,9 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 	private GridPane pane = new GridPane();
 
-	private String fileName = null;
+	private String mediaName = null;
+	
+	private boolean isUrl = false;
 
 	@SuppressWarnings("unused")
 	private MediaEngine engine = new MediaEngine();
@@ -90,28 +92,10 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	public void setControlsDisabled(boolean b) {
 		amplitude.setDisable(b);
 		strength.setDisable(b);
-		loop.setDisable(b);
-		media.setDisable(b);
-
-		if (b) {
-			if (isPlaying()) stopPlaying();
-
-			setDisabled(play, true);
-			setDisabled(pause, true);
-			setDisabled(stop, true);
-		} else {
-			setDisabled(play, false);
-			setDisabled(pause, true);
-			setDisabled(stop, true);
-		}
 	}
 
 	private boolean isPlaying() {
 		return play.isDisable() && (!pause.isDisable() || !stop.isDisable());
-	}
-
-	private void stopPlaying() {
-		playMedia(false);
 	}
 
 	/**
@@ -166,12 +150,29 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	}
 
 	private void mediaClicked(MouseEvent e) {
-		if (e.getButton() != MouseButton.PRIMARY) return;
+		if(isPlaying()) return;
+		
+		switch(e.getButton()) {
+		case PRIMARY:
+			primaryButtonClicked();
+			break;
+		case SECONDARY:
+			secondaryButtonClicked();
+			break;
+		default:
+			break;
+		}
+	}
 
-		String file = fileName;
+	private void primaryButtonClicked() {
+		String file = mediaName;
 
-		if (file == null || file.trim().length() == 0) file = "./";
+		if (file == null || file.trim().length() == 0 || isUrl) file = "./";
 
+		createFileMedia(file);
+	}
+
+	private void createFileMedia(String file) {
 		File mediaFile = new File(file);
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Choose Media");
@@ -182,11 +183,30 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		if (newMedia == null) return;
 
-		fileName = newMedia.getAbsolutePath();
+		mediaName = newMedia.getAbsolutePath();
 
 		media.setText(newMedia.getName());
 
 		fireReceiverChangeEvent(newMedia.toURI().toString(), MediatorConstants.MEDIA_URI);
+		
+		isUrl = false;
+	}
+
+	private void secondaryButtonClicked() {
+		Clipboard clip = Clipboard.getSystemClipboard();
+		
+		if(!clip.hasUrl()) return;
+		
+		mediaName = clip.getUrl();
+		createUrlMedia();
+	}
+
+	private void createUrlMedia() {
+		media.setText(mediaName);
+		
+		fireReceiverChangeEvent(mediaName, MediatorConstants.MEDIA_URI);
+		
+		isUrl = true;
 	}
 
 	private void initControls() {
@@ -220,19 +240,30 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	}
 
 	private void playMedia(boolean b) {
-		setDisabled(stop, !b);
-		setDisabled(play, b);
-		setDisabled(pause, !b);
+		setPlayControls(b);
 
 		fireReceiverChangeEvent(b, MediatorConstants.MEDIA_PLAY);
 	}
 
+	private void setPlayControls(boolean b) {
+		setDisabled(stop, !b);
+		setDisabled(play, b);
+		setDisabled(pause, !b);
+	}
+
 	private void pauseClicked() {
+		if(!isPlaying()) return;
+		
+		boolean paused = setPauseControls();
+
+		fireReceiverChangeEvent(!paused, MediatorConstants.MEDIA_PAUSE);
+	}
+
+	private boolean setPauseControls() {
 		boolean paused = isPaused();
 
 		setDisabled(stop, !paused);
-
-		fireReceiverChangeEvent(!paused, MediatorConstants.MEDIA_PAUSE);
+		return paused;
 	}
 
 	private boolean isPaused() {
@@ -327,11 +358,45 @@ public class MediaPlayerPane extends AbstractTitledPane {
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
+				case MEDIA_AMPLITUDE:
+					setAmplitudeValue(e.getDoubleValue());
+					break;
+				case MEDIA_ENTRAINMENT_STRENGTH:
+					setStrengthValue(e.getDoubleValue());
+					break;
+				case MEDIA_ENTRAINMENT:
+					enableMedia.setSelected(e.getBooleanValue());
+					break;
+				case MEDIA_LOOP:
+					loop.setSelected(e.getBooleanValue());
+					break;
+				case MEDIA_PLAY:
+					setPlayControls(e.getBooleanValue());
+					break;
+				case MEDIA_PAUSE:
+					if(isPlaying()) setPauseControls();
+					break;
+				case MEDIA_URI:
+					setMediaUri(e.getStringValue());
+					break;
 				default:
 					break;
 				}
 			}
 		});
+	}
+
+	private void setMediaUri(String s) {
+		mediaName = s == null || s.isEmpty() ? "./" : s;
+		if(isFileMedia()) {
+			createFileMedia(mediaName);
+		} else {
+			createUrlMedia();
+		}
+	}
+
+	private boolean isFileMedia() {
+		return new File(mediaName).exists();
 	}
 
 	/*
