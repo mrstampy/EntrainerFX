@@ -72,14 +72,8 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 		setSelected(selected, shimmer);
 	}
 
-	/**
-	 * Sets the shimmer tool tip.
-	 *
-	 * @param toolTip
-	 *          the new shimmer tool tip
-	 */
-	public void setShimmerToolTip(String toolTip) {
-		setToolTip(toolTip, shimmer);
+	private void setToolTips() {
+		setTooltip(shimmer, "Adds a shimmer effect to the application");
 	}
 
 	/*
@@ -89,6 +83,7 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 	 */
 	protected void init() {
 		initMediator();
+		setToolTips();
 		setText("Shimmer Options");
 
 		shimmers.getItems().addAll(ShimmerRegister.getShimmerNames());

@@ -20,8 +20,10 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import javafx.animation.FadeTransition;
 import javafx.scene.Node;
+import javafx.scene.control.Control;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
@@ -66,6 +68,10 @@ public abstract class AbstractTitledPane extends TitledPane {
 	public void clearMediatorObjects() {
 		EntrainerMediator.getInstance().removeReceiver(this);
 		EntrainerMediator.getInstance().removeSender(sender);
+	}
+
+	protected void setTooltip(Control node, String tip) {
+		node.setTooltip(new Tooltip(tip));
 	}
 
 	/**

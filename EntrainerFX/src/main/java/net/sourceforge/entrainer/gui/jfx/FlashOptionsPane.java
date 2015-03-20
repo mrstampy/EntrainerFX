@@ -24,9 +24,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -405,10 +403,6 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTooltip(sepiaTone, "Sepia Tone effect for flashing");
 		setTooltip(shadow, "Shadow effect for flashing");
 		setTooltip(colourAdjust, "Random Colour Adjust effect for flashing");
-	}
-
-	private void setTooltip(Control node, String tip) {
-		node.setTooltip(new Tooltip(tip));
 	}
 
 	private void setEventHandlers() {

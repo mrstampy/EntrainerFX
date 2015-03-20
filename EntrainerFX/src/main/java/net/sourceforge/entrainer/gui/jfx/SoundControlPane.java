@@ -24,6 +24,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
+import javafx.scene.control.Control;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
@@ -73,6 +74,8 @@ public class SoundControlPane extends HBox {
 		stop = ControlButtonFactory.createButton("Stop");
 		record = ControlButtonFactory.createButton("Record");
 		pause = ControlButtonFactory.createButton("Pause");
+
+		setTooltips();
 
 		stop.setDisable(true);
 		pause.setDisable(true);
@@ -138,54 +141,15 @@ public class SoundControlPane extends HBox {
 		this.playingEntrainerProgram = playingEntrainerProgram;
 	}
 
-	/**
-	 * Sets the play tool tip.
-	 *
-	 * @param toolTip
-	 *          the new play tool tip
-	 */
-	public void setPlayToolTip(String toolTip) {
-		setToolTip(getPlay(), toolTip);
+	private void setTooltips() {
+		setTooltip(play, "Start Entrainment");
+		setTooltip(record, "Flag/Clear Recording to '.wav' File");
+		setTooltip(stop, "Stop Entrainment");
+		setTooltip(pause, "Pause/Resume an Entrainer Program");
 	}
 
-	/**
-	 * Sets the record tool tip.
-	 *
-	 * @param toolTip
-	 *          the new record tool tip
-	 */
-	public void setRecordToolTip(String toolTip) {
-		setToolTip(getRecord(), toolTip);
-	}
-
-	/**
-	 * Sets the pause tool tip.
-	 *
-	 * @param toolTip
-	 *          the new pause tool tip
-	 */
-	public void setPauseToolTip(String toolTip) {
-		setToolTip(getPause(), toolTip);
-	}
-
-	/**
-	 * Sets the stop tool tip.
-	 *
-	 * @param toolTip
-	 *          the new stop tool tip
-	 */
-	public void setStopToolTip(String toolTip) {
-		setToolTip(getStop(), toolTip);
-	}
-
-	private void setToolTip(final ButtonBase button, final String toolTip) {
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				button.setTooltip(new Tooltip(toolTip));
-			}
-		});
+	private void setTooltip(Control node, String tip) {
+		node.setTooltip(new Tooltip(tip));
 	}
 
 	/**

@@ -25,13 +25,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -323,10 +321,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setTooltip(noPic, "No background image (choose colour)");
 		setTooltip(staticPictureLock, "Prevents inadvertent static image changing if selected");
 		setTooltip(psychedelic, "Background uses random flashing colours if selected");
-	}
-
-	private void setTooltip(Control node, String tip) {
-		node.setTooltip(new Tooltip(tip));
 	}
 
 	private void layoutComponents() {

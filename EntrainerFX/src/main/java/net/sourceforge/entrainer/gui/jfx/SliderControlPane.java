@@ -168,8 +168,19 @@ public class SliderControlPane extends AbstractTitledPane {
 		}
 
 		setTextFill(panCheck);
+		setTooltips();
 
 		pane.setAlignment(Pos.CENTER);
+	}
+
+	private void setTooltips() {
+		setTooltip(entrainmentFrequency, "Sets the entrainment frequency");
+		setTooltip(frequency, "Sets the base frequency for entrainment");
+		setTooltip(amplitude, "Sets the amplitude of the base frequency");
+		setTooltip(pinkNoise, "Sets the amplitude of the generated pink noise");
+		setTooltip(pinkAmplitude, "Sets the pan amplitude of the generated pink noise");
+		setTooltip(multiple, "Sets the speed of pink noise panning");
+		setTooltip(panCheck, "Enables/disables pink noise panning");
 	}
 
 	private void panChecked() {

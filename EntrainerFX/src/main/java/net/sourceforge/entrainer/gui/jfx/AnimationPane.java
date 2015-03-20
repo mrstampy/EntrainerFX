@@ -36,10 +36,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -115,24 +113,8 @@ public class AnimationPane extends AbstractTitledPane {
 		});
 	}
 
-	/**
-	 * Sets the animation tool tip.
-	 *
-	 * @param toolTip
-	 *          the new animation tool tip
-	 */
-	public void setAnimationToolTip(String toolTip) {
-		setToolTip(toolTip, animation);
-	}
-
-	private void setToolTip(final String toolTip, final Control node) {
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				node.setTooltip(new Tooltip(toolTip));
-			}
-		});
+	private void setToolTips() {
+		setTooltip(animation, "Run Animation During Entrainment Session");
 	}
 
 	/**
@@ -161,6 +143,7 @@ public class AnimationPane extends AbstractTitledPane {
 	protected void init() {
 		initMediator();
 		initGui();
+		setToolTips();
 		super.init();
 	}
 

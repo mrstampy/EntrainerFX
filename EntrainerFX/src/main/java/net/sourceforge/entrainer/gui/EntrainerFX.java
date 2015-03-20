@@ -482,7 +482,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 			}
 		});
 
-		initButtonIcons();
 		createPanner();
 		addMenu();
 		initSettings();
@@ -581,16 +580,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		} catch (Throwable e) {
 			GuiUtil.handleProblem(e);
 		}
-	}
-
-	private void initButtonIcons() {
-		soundControlPane.setPlayToolTip("Start Entrainment");
-		soundControlPane.setRecordToolTip("Flag/Clear Recording to '.wav' File");
-		soundControlPane.setStopToolTip("Stop Entrainment");
-		soundControlPane.setPauseToolTip("Pause/Resume an Entrainer Program");
-
-		animations.setAnimationToolTip("Run Animation During Entrainment Session");
-		shimmerOptions.setShimmerToolTip("Adds a shimmer effect to the application");
 	}
 
 	private void initSettings() {

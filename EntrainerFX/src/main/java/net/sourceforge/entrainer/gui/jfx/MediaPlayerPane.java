@@ -148,8 +148,20 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		initMediator();
 		initControls();
 		initLayout();
+		setTooltips();
 
 		super.init();
+	}
+
+	private void setTooltips() {
+		setTooltip(amplitude, "Sets the media amplitude");
+		setTooltip(enableMedia, "Enables/disables media entrainment");
+		setTooltip(loop, "Enables/disables looping of selected media");
+		setTooltip(media, "Left click to select local media file, right click to paste media URI");
+		setTooltip(pause, "Pauses/resumes media playback");
+		setTooltip(play, "Plays selected media");
+		setTooltip(stop, "Stops media playback");
+		setTooltip(strength, "Sets media entrainment strength");
 	}
 
 	private void mediaClicked(MouseEvent e) {
@@ -242,6 +254,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 	private void enableMediaClicked() {
 		boolean b = enableMedia.isSelected();
+
+		strength.setDisable(!b);
 
 		fireReceiverChangeEvent(b, MediatorConstants.MEDIA_ENTRAINMENT);
 	}
@@ -364,6 +378,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+				boolean b = e.getBooleanValue();
 				switch (e.getParm()) {
 				case MEDIA_AMPLITUDE:
 					setAmplitudeValue(e.getDoubleValue());
@@ -372,13 +387,14 @@ public class MediaPlayerPane extends AbstractTitledPane {
 					setStrengthValue(e.getDoubleValue());
 					break;
 				case MEDIA_ENTRAINMENT:
-					enableMedia.setSelected(e.getBooleanValue());
+					enableMedia.setSelected(b);
+					strength.setDisable(!b);
 					break;
 				case MEDIA_LOOP:
-					loop.setSelected(e.getBooleanValue());
+					loop.setSelected(b);
 					break;
 				case MEDIA_PLAY:
-					JFXUtils.runLater(() -> setPlayControls(e.getBooleanValue()));
+					JFXUtils.runLater(() -> setPlayControls(b));
 					break;
 				case MEDIA_PAUSE:
 					if (isPlaying()) setPauseControls();
