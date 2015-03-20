@@ -115,6 +115,8 @@ public class AnimationPane extends AbstractTitledPane {
 
 	private void setToolTips() {
 		setTooltip(animation, "Run Animation During Entrainment Session");
+		setTooltip(useDesktopAsBackground,
+				"If true will use a screenshot of the desktop as the animation background,\n else will use the selected image file");
 	}
 
 	/**
