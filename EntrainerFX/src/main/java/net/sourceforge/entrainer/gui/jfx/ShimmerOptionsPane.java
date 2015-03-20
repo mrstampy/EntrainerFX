@@ -25,8 +25,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Control;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer;
 import net.sourceforge.entrainer.gui.jfx.shimmer.ShimmerRegister;
@@ -118,16 +116,6 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 			@Override
 			public void run() {
 				checkBox.setSelected(selected);
-			}
-		});
-	}
-
-	private void setToolTip(final String toolTip, final Control node) {
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				node.setTooltip(new Tooltip(toolTip));
 			}
 		});
 	}
