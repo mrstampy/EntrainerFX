@@ -19,6 +19,8 @@
 package net.sourceforge.entrainer.gui.jfx;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.DecimalFormat;
 
 import javafx.beans.InvalidationListener;
@@ -37,6 +39,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
+import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.media.MediaEngine;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -388,15 +391,16 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 	private void setMediaUri(String s) {
 		mediaName = s == null || s.isEmpty() ? "./" : s;
-		if(isFileMedia()) {
-			createFileMedia(mediaName);
-		} else {
-			createUrlMedia();
+		
+		try {
+			URI uri = new URI(mediaName);
+			File f = new File(uri);
+			
+			boolean b = f.exists();
+			media.setText(b ? f.getName() : mediaName);
+		} catch (URISyntaxException e) {
+			GuiUtil.handleProblem(e);
 		}
-	}
-
-	private boolean isFileMedia() {
-		return new File(mediaName).exists();
 	}
 
 	/*

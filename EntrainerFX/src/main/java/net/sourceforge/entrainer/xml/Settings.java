@@ -228,6 +228,21 @@ public class Settings implements EntrainerResources {
 
 	@XmlElement(name = "lighting.flash")
 	private boolean lighting;
+	
+	@XmlElement(name = "media.amplitude")
+	private double mediaAmplitude;
+	
+	@XmlElement(name = "media.entrainment.strength")
+	private double mediaEntrainmentStrength;
+	
+	@XmlElement(name = "media.loop")
+	private boolean mediaLoop;
+	
+	@XmlElement(name = "media.entrainment")
+	private boolean mediaEntrainment;
+	
+	@XmlElement(name = "media.uri")
+	private String mediaUri;
 
 	/**
 	 * Sets the accept updates.
@@ -456,6 +471,21 @@ public class Settings implements EntrainerResources {
 				case FLASH_TYPE:
 					evaluateFlashType(((FlashType) e.getOption()), e.getBooleanValue());
 					break;
+				case MEDIA_AMPLITUDE:
+					setMediaAmplitude(e.getDoubleValue());
+					break;
+				case MEDIA_ENTRAINMENT:
+					setMediaEntrainment(e.getBooleanValue());
+					break;
+				case MEDIA_ENTRAINMENT_STRENGTH:
+					setMediaEntrainmentStrength(e.getDoubleValue());
+					break;
+				case MEDIA_LOOP:
+					setMediaLoop(e.getBooleanValue());
+					break;
+				case MEDIA_URI:
+					setMediaUri(e.getStringValue());
+					break;
 				default:
 					save = false;
 					break;
@@ -505,6 +535,20 @@ public class Settings implements EntrainerResources {
 			fireReceiverChangeEvent(interval.getValue());
 		}
 
+		fireFlashOptions();
+		
+		fireMediaOptions();
+	}
+
+	private void fireMediaOptions() {
+		fireReceiverChangeEvent(isMediaEntrainment(), MediatorConstants.MEDIA_ENTRAINMENT);
+		fireReceiverChangeEvent(isMediaLoop(), MediatorConstants.MEDIA_LOOP);
+		fireReceiverChangeEvent(getMediaAmplitude(), MediatorConstants.MEDIA_AMPLITUDE);
+		fireReceiverChangeEvent(getMediaEntrainmentStrength(), MediatorConstants.MEDIA_ENTRAINMENT_STRENGTH);
+		fireReceiverChangeEvent(getMediaUri(), MediatorConstants.MEDIA_URI);
+	}
+
+	private void fireFlashOptions() {
 		fireReceiverChangeEvent(FlashType.BLOOM, isBloom());
 		fireReceiverChangeEvent(FlashType.BOX_BLUR, isBoxBlur());
 		fireReceiverChangeEvent(FlashType.COLOUR_ADJUST, isColourAdjust());
@@ -1471,6 +1515,46 @@ public class Settings implements EntrainerResources {
 	 */
 	public void setLighting(boolean isLighting) {
 		this.lighting = isLighting;
+	}
+
+	public double getMediaAmplitude() {
+		return mediaAmplitude;
+	}
+
+	public void setMediaAmplitude(double mediaAmplitude) {
+		this.mediaAmplitude = mediaAmplitude;
+	}
+
+	public double getMediaEntrainmentStrength() {
+		return mediaEntrainmentStrength;
+	}
+
+	public void setMediaEntrainmentStrength(double mediaEntrainmentStrength) {
+		this.mediaEntrainmentStrength = mediaEntrainmentStrength;
+	}
+
+	public boolean isMediaLoop() {
+		return mediaLoop;
+	}
+
+	public void setMediaLoop(boolean mediaLoop) {
+		this.mediaLoop = mediaLoop;
+	}
+
+	public boolean isMediaEntrainment() {
+		return mediaEntrainment;
+	}
+
+	public void setMediaEntrainment(boolean mediaEntrainment) {
+		this.mediaEntrainment = mediaEntrainment;
+	}
+
+	public String getMediaUri() {
+		return mediaUri;
+	}
+
+	public void setMediaUri(String mediaUri) {
+		this.mediaUri = mediaUri;
 	}
 
 }
