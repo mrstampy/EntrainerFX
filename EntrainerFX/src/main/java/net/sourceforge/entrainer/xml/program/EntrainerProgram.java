@@ -150,6 +150,15 @@ public class EntrainerProgram {
 	@XmlElement(name = "lighting.flash")
 	private boolean lighting;
 
+	@XmlElement(name = "media.loop")
+	private boolean mediaLoop;
+
+	@XmlElement(name = "media.entrainment")
+	private boolean mediaEntrainment;
+
+	@XmlElement(name = "media.uri")
+	private String mediaUri;
+
 	/**
 	 * Instantiates a new entrainer program.
 	 */
@@ -830,6 +839,30 @@ public class EntrainerProgram {
 	 */
 	public void setLighting(boolean lighting) {
 		this.lighting = lighting;
+	}
+
+	public boolean isMediaLoop() {
+		return mediaLoop;
+	}
+
+	public void setMediaLoop(boolean mediaLoop) {
+		this.mediaLoop = mediaLoop;
+	}
+
+	public boolean isMediaEntrainment() {
+		return mediaEntrainment;
+	}
+
+	public void setMediaEntrainment(boolean mediaEntrainment) {
+		this.mediaEntrainment = mediaEntrainment;
+	}
+
+	public String getMediaUri() {
+		return mediaUri;
+	}
+
+	public void setMediaUri(String mediaUri) {
+		this.mediaUri = mediaUri;
 	}
 
 }
