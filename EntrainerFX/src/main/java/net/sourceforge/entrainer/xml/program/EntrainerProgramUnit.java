@@ -55,6 +55,12 @@ public class EntrainerProgramUnit {
 
 	@XmlElement
 	private EntrainerProgramUnitAttribute pinkEntrainerMultiple;
+	
+	@XmlElement
+	private EntrainerProgramUnitAttribute mediaAmplitude;
+	
+	@XmlElement
+	private EntrainerProgramUnitAttribute mediaEntrainmentStrength;
 
 	@XmlTransient
 	private double deltaFrequency = 0.0;
@@ -80,6 +86,14 @@ public class EntrainerProgramUnit {
 	private double deltaPinkEntrainerMultiple = 0.0;
 	@XmlTransient
 	private boolean hasDeltaPinkEntrainerMultiple;
+	@XmlTransient
+	private double deltaMediaAmplitude = 0.0;
+	@XmlTransient
+	private boolean hasDeltaMediaAmplitude;
+	@XmlTransient
+	private double deltaMediaEntrainmentStrength = 0.0;
+	@XmlTransient
+	private boolean hasDeltaMediaEntrainmentStrength;
 
 	@XmlTransient
 	private StartUnitSetter startUnitSetter;
@@ -612,6 +626,56 @@ public class EntrainerProgramUnit {
 	 */
 	public UnitSetter getEndUnitSetter() {
 		return endUnitSetter;
+	}
+	
+	public double getStartMediaAmplitude() {
+		return getMediaAmplitude() == null ? 1.0 : getMediaAmplitude().getStart();
+	}
+	
+	public double getEndMediaAmplitude() {
+		return getMediaAmplitude() == null ? 1.0 : getMediaAmplitude().getEnd();
+	}
+	
+	public double getStartMediaEntrainmentStrength() {
+		return getMediaEntrainmentStrength() == null ? 0.5 : getMediaEntrainmentStrength().getStart();
+	}
+	
+	public double getEndMediaEntrainmentStrength() {
+		return getMediaEntrainmentStrength() == null ? 0.5 : getMediaEntrainmentStrength().getEnd();
+	}
+	
+	public double getMediaAmplitudeDeltaPerSecond() {
+		if(!hasDeltaMediaAmplitude) {
+			deltaMediaAmplitude = getDeltaPerSecond(getStartMediaAmplitude(), getEndMediaAmplitude());
+			hasDeltaMediaAmplitude = true;
+		}
+		
+		return deltaMediaAmplitude;
+	}
+	
+	public double getMediaEntrainmentStrengthDeltaPerSecond() {
+		if(!hasDeltaMediaEntrainmentStrength) {
+			deltaMediaEntrainmentStrength = getDeltaPerSecond(getStartMediaEntrainmentStrength(), getEndMediaEntrainmentStrength());
+			hasDeltaMediaEntrainmentStrength = true;
+		}
+		
+		return deltaMediaEntrainmentStrength;
+	}
+
+	public EntrainerProgramUnitAttribute getMediaAmplitude() {
+		return mediaAmplitude;
+	}
+
+	public void setMediaAmplitude(EntrainerProgramUnitAttribute mediaAmplitude) {
+		this.mediaAmplitude = mediaAmplitude;
+	}
+
+	public EntrainerProgramUnitAttribute getMediaEntrainmentStrength() {
+		return mediaEntrainmentStrength;
+	}
+
+	public void setMediaEntrainmentStrength(EntrainerProgramUnitAttribute mediaEntrainmentStrength) {
+		this.mediaEntrainmentStrength = mediaEntrainmentStrength;
 	}
 
 }
