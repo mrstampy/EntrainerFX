@@ -90,7 +90,7 @@ public class MediaEngine {
 					setUri(e.getStringValue());
 					break;
 				case ENTRAINMENT_FREQUENCY_PULSE:
-					entrain();
+					entrain(e.getBooleanValue());
 					break;
 				case START_ENTRAINMENT:
 					if (!e.getBooleanValue()) reset();
@@ -124,9 +124,10 @@ public class MediaEngine {
 
 	/**
 	 * Entrain.
+	 * @param b 
 	 */
-	protected void entrain() {
-		if (!enableMediaEntrainment) return;
+	protected void entrain(boolean b) {
+		if (!enableMediaEntrainment || !b) return;
 
 		lock.lock();
 		try {
