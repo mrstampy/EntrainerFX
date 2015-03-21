@@ -853,7 +853,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the media loop.
 	 *
-	 * @param mediaLoop the new media loop
+	 * @param mediaLoop
+	 *          the new media loop
 	 */
 	public void setMediaLoop(boolean mediaLoop) {
 		this.mediaLoop = mediaLoop;
@@ -871,7 +872,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the media entrainment.
 	 *
-	 * @param mediaEntrainment the new media entrainment
+	 * @param mediaEntrainment
+	 *          the new media entrainment
 	 */
 	public void setMediaEntrainment(boolean mediaEntrainment) {
 		this.mediaEntrainment = mediaEntrainment;
@@ -889,7 +891,8 @@ public class EntrainerProgram {
 	/**
 	 * Sets the media uri.
 	 *
-	 * @param mediaUri the new media uri
+	 * @param mediaUri
+	 *          the new media uri
 	 */
 	public void setMediaUri(String mediaUri) {
 		this.mediaUri = mediaUri;

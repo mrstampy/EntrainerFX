@@ -705,7 +705,8 @@ public class EntrainerProgramUnit {
 	/**
 	 * Sets the media amplitude.
 	 *
-	 * @param mediaAmplitude the new media amplitude
+	 * @param mediaAmplitude
+	 *          the new media amplitude
 	 */
 	public void setMediaAmplitude(EntrainerProgramUnitAttribute mediaAmplitude) {
 		this.mediaAmplitude = mediaAmplitude;
@@ -723,7 +724,8 @@ public class EntrainerProgramUnit {
 	/**
 	 * Sets the media entrainment strength.
 	 *
-	 * @param mediaEntrainmentStrength the new media entrainment strength
+	 * @param mediaEntrainmentStrength
+	 *          the new media entrainment strength
 	 */
 	public void setMediaEntrainmentStrength(EntrainerProgramUnitAttribute mediaEntrainmentStrength) {
 		this.mediaEntrainmentStrength = mediaEntrainmentStrength;

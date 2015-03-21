@@ -60,4 +60,11 @@ public interface Receiver extends EventListener {
 	 */
 	Object getSource();
 
+	/**
+	 * Checks if is pulse receiver.
+	 *
+	 * @return true, if is pulse receiver
+	 */
+	boolean isPulseReceiver();
+
 }

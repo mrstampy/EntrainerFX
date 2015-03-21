@@ -1529,7 +1529,8 @@ public class Settings implements EntrainerResources {
 	/**
 	 * Sets the media amplitude.
 	 *
-	 * @param mediaAmplitude the new media amplitude
+	 * @param mediaAmplitude
+	 *          the new media amplitude
 	 */
 	public void setMediaAmplitude(double mediaAmplitude) {
 		this.mediaAmplitude = mediaAmplitude;
@@ -1547,7 +1548,8 @@ public class Settings implements EntrainerResources {
 	/**
 	 * Sets the media entrainment strength.
 	 *
-	 * @param mediaEntrainmentStrength the new media entrainment strength
+	 * @param mediaEntrainmentStrength
+	 *          the new media entrainment strength
 	 */
 	public void setMediaEntrainmentStrength(double mediaEntrainmentStrength) {
 		this.mediaEntrainmentStrength = mediaEntrainmentStrength;
@@ -1565,7 +1567,8 @@ public class Settings implements EntrainerResources {
 	/**
 	 * Sets the media loop.
 	 *
-	 * @param mediaLoop the new media loop
+	 * @param mediaLoop
+	 *          the new media loop
 	 */
 	public void setMediaLoop(boolean mediaLoop) {
 		this.mediaLoop = mediaLoop;
@@ -1583,7 +1586,8 @@ public class Settings implements EntrainerResources {
 	/**
 	 * Sets the media entrainment.
 	 *
-	 * @param mediaEntrainment the new media entrainment
+	 * @param mediaEntrainment
+	 *          the new media entrainment
 	 */
 	public void setMediaEntrainment(boolean mediaEntrainment) {
 		this.mediaEntrainment = mediaEntrainment;
@@ -1601,7 +1605,8 @@ public class Settings implements EntrainerResources {
 	/**
 	 * Sets the media uri.
 	 *
-	 * @param mediaUri the new media uri
+	 * @param mediaUri
+	 *          the new media uri
 	 */
 	public void setMediaUri(String mediaUri) {
 		this.mediaUri = mediaUri;

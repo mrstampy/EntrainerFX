@@ -61,7 +61,7 @@ public class MediaEngine {
 
 	private void initMediator() {
 		EntrainerMediator.getInstance().addSender(sender);
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
+		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
@@ -124,7 +124,8 @@ public class MediaEngine {
 
 	/**
 	 * Entrain.
-	 * @param b 
+	 *
+	 * @param b the b
 	 */
 	protected void entrain(boolean b) {
 		if (!enableMediaEntrainment || !b) return;

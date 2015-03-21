@@ -302,7 +302,7 @@ public class EntrainerBackground {
 	}
 
 	private void initMediator() {
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
+		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {

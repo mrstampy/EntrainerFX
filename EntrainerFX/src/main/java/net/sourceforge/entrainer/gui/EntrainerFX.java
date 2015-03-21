@@ -217,7 +217,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	private HiddenSidesPane hiddenSidesPane;
 
 	private MediaPlayerPane audioPlayerPane = new MediaPlayerPane();
-	
+
 	private boolean enableMediaEntrainment;
 
 	private EntrainerFX() {
@@ -1492,8 +1492,8 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 				}
 			}
 		});
-		
-		if(enableMediaEntrainment) fireReceiverChangeEvent(true, MediatorConstants.MEDIA_PLAY);
+
+		if (enableMediaEntrainment) fireReceiverChangeEvent(true, MediatorConstants.MEDIA_PLAY);
 	}
 
 	private void startAnimation() {

@@ -30,6 +30,7 @@ import net.sourceforge.entrainer.xml.program.EntrainerProgramUnit;
  */
 public abstract class ReceiverAdapter implements Receiver {
 	private Object source;
+	private boolean pulseReceiver = false;
 
 	/**
 	 * Instantiate with the object which is interested in notification of property
@@ -39,8 +40,19 @@ public abstract class ReceiverAdapter implements Receiver {
 	 *          the source
 	 */
 	public ReceiverAdapter(Object source) {
+		this(source, false);
+	}
+
+	/**
+	 * Instantiates a new receiver adapter.
+	 *
+	 * @param source the source
+	 * @param pulseReceiver the pulse receiver
+	 */
+	public ReceiverAdapter(Object source, boolean pulseReceiver) {
 		super();
 		setSource(source);
+		this.pulseReceiver = pulseReceiver;
 	}
 
 	/**
@@ -106,6 +118,8 @@ public abstract class ReceiverAdapter implements Receiver {
 		case DELTA_PINK_NOISE_AMPLITUDE:
 		case DELTA_PINK_ENTRAINER_MULTIPLE:
 		case DELTA_PINK_PAN_AMPLITUDE:
+		case DELTA_MEDIA_AMPLITUDE:
+		case DELTA_MEDIA_ENTRAINMENT_STRENGTH:
 			double delta = e.getDoubleValue();
 			boolean forward = delta >= 0;
 			if (forward) {
@@ -120,6 +134,13 @@ public abstract class ReceiverAdapter implements Receiver {
 		default:
 			return -Double.MAX_VALUE;
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.entrainer.mediator.Receiver#isPulseReceiver()
+	 */
+	public boolean isPulseReceiver() {
+		return pulseReceiver;
 	}
 
 }

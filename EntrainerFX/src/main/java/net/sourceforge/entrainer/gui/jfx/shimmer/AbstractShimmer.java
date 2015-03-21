@@ -96,7 +96,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	}
 
 	private void initMediator() {
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
+		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {

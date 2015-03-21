@@ -50,6 +50,7 @@ import com.lmax.disruptor.dsl.ProducerType;
 public class EntrainerMediator {
 	private List<Sender> senders = new CopyOnWriteArrayList<Sender>();
 	private List<Receiver> receivers = new CopyOnWriteArrayList<Receiver>();
+	private List<Receiver> pulseReceivers = new CopyOnWriteArrayList<Receiver>();
 
 	private static EntrainerMediator mediator = new EntrainerMediator();
 
@@ -104,6 +105,7 @@ public class EntrainerMediator {
 	 */
 	public void addReceiver(Receiver receiver) {
 		receivers.add(receiver);
+		if (receiver.isPulseReceiver()) pulseReceivers.add(receiver);
 	}
 
 	/**
@@ -128,6 +130,11 @@ public class EntrainerMediator {
 			for (int i = receivers.size() - 1; i >= 0; i--) {
 				if (receivers.get(i).getSource().equals(source)) {
 					receivers.remove(i);
+				}
+			}
+			for (int i = pulseReceivers.size() - 1; i >= 0; i--) {
+				if (pulseReceivers.get(i).getSource().equals(source)) {
+					pulseReceivers.remove(i);
 				}
 			}
 		}
@@ -171,8 +178,25 @@ public class EntrainerMediator {
 	 *          the e
 	 */
 	protected void sendEvent(ReceiverChangeEvent e) {
+		switch (e.getParm()) {
+		case ENTRAINMENT_FREQUENCY_PULSE:
+			notifyPulseReceivers(e);
+			break;
+		default:
+			notifyAllReceivers(e);
+			break;
+		}
+	}
+
+	private void notifyAllReceivers(ReceiverChangeEvent e) {
 		for (Receiver receiver : receivers) {
 			if (e.getSource() == receiver.getSource()) continue;
+			receiver.receiverChangeEventPerformed(e);
+		}
+	}
+
+	private void notifyPulseReceivers(ReceiverChangeEvent e) {
+		for (Receiver receiver : pulseReceivers) {
 			receiver.receiverChangeEventPerformed(e);
 		}
 	}

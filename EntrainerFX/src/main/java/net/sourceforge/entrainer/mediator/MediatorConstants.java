@@ -159,6 +159,12 @@ public enum MediatorConstants {
 	/** The media amplitude. */
 	MEDIA_AMPLITUDE("Media volume"),
 
+	/** The delta media amplitude. */
+	DELTA_MEDIA_AMPLITUDE("Delta media volume"),
+
+	/** The delta media entrainment strength. */
+	DELTA_MEDIA_ENTRAINMENT_STRENGTH("Delta media entrainment strength"),
+
 	/** The media entrainment strength. */
 	MEDIA_ENTRAINMENT_STRENGTH("Media entrainment strength"),
 
