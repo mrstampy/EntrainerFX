@@ -23,6 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -125,7 +126,8 @@ public class MediaEngine {
 	/**
 	 * Entrain.
 	 *
-	 * @param b the b
+	 * @param b
+	 *          the b
 	 */
 	protected void entrain(boolean b) {
 		if (!enableMediaEntrainment || !b) return;
@@ -165,11 +167,18 @@ public class MediaEngine {
 	}
 
 	private void startPlayer() {
+		if (stillPlaying()) return;
 		player = new MediaPlayer(media);
 		player.setVolume(amplitude);
 
 		player.setOnEndOfMedia(() -> evalLoop());
 		player.play();
+	}
+
+	private boolean stillPlaying() {
+		if (player == null || Status.DISPOSED == player.getStatus()) return false;
+		
+		return !player.getCurrentTime().equals(player.getMedia().getDuration());
 	}
 
 	private void evalLoop() {
