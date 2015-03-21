@@ -79,7 +79,7 @@ public class MediaEngine {
 				switch (e.getParm()) {
 				case MEDIA_AMPLITUDE:
 					amplitude = e.getDoubleValue();
-					if(player != null) player.setVolume(amplitude);
+					if (player != null) player.setVolume(amplitude);
 					break;
 				case MEDIA_ENTRAINMENT_STRENGTH:
 					setEntrainmentAmplitude(e.getDoubleValue());
@@ -113,8 +113,8 @@ public class MediaEngine {
 	}
 
 	private void setPlayerTime(double d) {
-		if(player == null) return;
-		
+		if (player == null) return;
+
 		player.seek(player.getTotalDuration().subtract(Duration.seconds(d)));
 	}
 
@@ -145,10 +145,10 @@ public class MediaEngine {
 	private void setUri(String uri) {
 		if (uri == null || uri.isEmpty()) return;
 		if (media != null && media.getSource().equals(uri)) return;
-		
+
 		try {
 			media = new Media(uri);
-			if(player != null) player.dispose();
+			if (player != null) player.dispose();
 			player = new MediaPlayer(media);
 			player.statusProperty().addListener(new ChangeListener<Status>() {
 
@@ -206,7 +206,7 @@ public class MediaEngine {
 	}
 
 	private void notifyPlayTime(Status newValue) {
-		switch(newValue) {
+		switch (newValue) {
 		case READY:
 		case STOPPED:
 		case HALTED:
@@ -214,20 +214,20 @@ public class MediaEngine {
 		default:
 			return;
 		}
-				
+
 		Duration d = media.getDuration();
-		if(d == Duration.UNKNOWN || d == Duration.INDEFINITE) return;
-		
+		if (d == Duration.UNKNOWN || d == Duration.INDEFINITE) return;
+
 		double seconds = d.toSeconds();
-		
+
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, seconds, MediatorConstants.MEDIA_TIME));
-		
+
 		player.seek(player.getStartTime());
 	}
 
 	private boolean stillPlaying() {
-		if(player == null || player.getStatus() == null) return false;
-		switch(player.getStatus()) {
+		if (player == null || player.getStatus() == null) return false;
+		switch (player.getStatus()) {
 		case PLAYING:
 		case PAUSED:
 			return true;

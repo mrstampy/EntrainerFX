@@ -24,7 +24,6 @@ import java.net.URISyntaxException;
 import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javafx.animation.ScaleTransition;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.HPos;
@@ -73,11 +72,11 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private Slider strength = new Slider(0, 1, 0.5);
 	private DecimalFormat strengthFormat = new DecimalFormat("#0%");
 	private Label strengthValue = new Label();
-	
+
 	private Slider trackPosition = new Slider(0, 1, 0);
 	private Label timeRemaining = new Label();
 	private DecimalFormat remainingFormat = new DecimalFormat("00");
-	
+
 	private MediaView view = new MediaView();
 
 	private TextField media = new TextField("");
@@ -87,13 +86,13 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private String mediaName = null;
 
 	private boolean isUrl = false;
-	
+
 	private double mediaTime;
 
 	private MediaEngine engine = new MediaEngine();
-	
+
 	private AtomicBoolean internalTimeRemaining = new AtomicBoolean(false);
-	
+
 	private boolean pulse = false;
 
 	/**
@@ -265,7 +264,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		setDisabled(pause, true);
 		setDisabled(stop, true);
-		
+
 		view.setPreserveRatio(true);
 	}
 
@@ -336,7 +335,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		pane.add(enableMedia, 0, row++, 2, 1);
 
 		pane.add(getMediaField(), 0, row++, 3, 1);
-		
+
 		GridPane.setHalignment(view, HPos.CENTER);
 		pane.add(view, 0, row++, 3, 1);
 
@@ -397,17 +396,17 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		label.setText(format.format(slider.getValue()));
 		fireReceiverChangeEvent(slider.getValue(), event);
 	}
-	
+
 	private void initTrackPosition() {
 		trackPosition.setEffect(new InnerShadow());
 		trackPosition.setMinWidth(350);
 		trackPosition.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
 		trackPosition.valueProperty().addListener(new InvalidationListener() {
-			
+
 			@Override
 			public void invalidated(Observable observable) {
-				if(internalTimeRemaining.get()) return;
+				if (internalTimeRemaining.get()) return;
 				double value = trackPosition.getValue();
 				setMediaTime(value);
 				fireReceiverChangeEvent(value, MediatorConstants.MEDIA_TIME);
@@ -462,59 +461,59 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	}
 
 	private void pulseView() {
-		if(!enableMedia.isSelected() || view.getMediaPlayer() == null || !isPlaying()) return;
-		
+		if (!enableMedia.isSelected() || view.getMediaPlayer() == null || !isPlaying()) return;
+
 		view.setOpacity(pulse ? 0.5 : 1.0);
-		
+
 		pulse = !pulse;
 	}
 
 	private void setMediaTime(double d) {
-		if(mediaTime == 0) {
+		if (mediaTime == 0) {
 			mediaTime = d;
 			trackPosition.setMax(d);
 			resizeMediaView();
 		}
-		
+
 		internalTimeRemaining.set(true);
 		trackPosition.adjustValue(d);
 		internalTimeRemaining.set(false);
-		
+
 		timeRemaining.setText(formatTimeRemaining(d));
 	}
 
 	private void resizeMediaView() {
 		Media m = engine.getMedia();
-		
-		if(m.getWidth() == 0 || m.getHeight() == 0) {
+
+		if (m.getWidth() == 0 || m.getHeight() == 0) {
 			resetMediaView();
 			return;
 		}
-		
+
 		view.setMediaPlayer(engine.getPlayer());
-		
+
 		double width = 500;
 		double height = m.getHeight() * width / m.getWidth();
 		view.setFitWidth(width);
 		view.setFitHeight(height);
 	}
-	
+
 	private void resetMediaView() {
 		view.setMediaPlayer(null);
-		if(view.getFitWidth() == 0) return;
-		
+		if (view.getFitWidth() == 0) return;
+
 		view.setFitWidth(0);
 		view.setFitHeight(0);
 	}
 
 	private String formatTimeRemaining(double d) {
 		Duration dur = Duration.seconds(d);
-		
+
 		StringBuilder sb = new StringBuilder();
-		int hours = (int)dur.toHours();
-		int minutes = (int)dur.toMinutes() - (60 * hours);
-		int seconds = (int)dur.toSeconds() - (minutes * 60) - (hours * 3600);
-		if(hours > 0) {
+		int hours = (int) dur.toHours();
+		int minutes = (int) dur.toMinutes() - (60 * hours);
+		int seconds = (int) dur.toSeconds() - (minutes * 60) - (hours * 3600);
+		if (hours > 0) {
 			sb.append(remainingFormat.format(hours));
 			sb.append(":");
 		}
