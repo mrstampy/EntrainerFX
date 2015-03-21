@@ -18,12 +18,19 @@
  */
 package net.sourceforge.entrainer.media;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
+import javafx.util.Duration;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -53,6 +60,9 @@ public class MediaEngine {
 
 	private Sender sender = new SenderAdapter();
 
+	private ScheduledExecutorService svc = Executors.newSingleThreadScheduledExecutor();
+	private ScheduledFuture<?> sf;
+
 	/**
 	 * Instantiates a new media engine.
 	 */
@@ -69,14 +79,13 @@ public class MediaEngine {
 				switch (e.getParm()) {
 				case MEDIA_AMPLITUDE:
 					amplitude = e.getDoubleValue();
-					reset();
+					if(player != null) player.setVolume(amplitude);
 					break;
 				case MEDIA_ENTRAINMENT_STRENGTH:
 					setEntrainmentAmplitude(e.getDoubleValue());
 					break;
 				case MEDIA_ENTRAINMENT:
 					enableMediaEntrainment = e.getBooleanValue();
-					evalPlayer();
 					break;
 				case MEDIA_LOOP:
 					loop = e.getBooleanValue();
@@ -93,29 +102,11 @@ public class MediaEngine {
 				case ENTRAINMENT_FREQUENCY_PULSE:
 					entrain(e.getBooleanValue());
 					break;
-				case START_ENTRAINMENT:
-					if (!e.getBooleanValue()) reset();
-					break;
 				default:
 					break;
 				}
 			}
 		});
-	}
-
-	private void reset() {
-		if (player == null) return;
-
-		player.setVolume(amplitude);
-	}
-
-	private void evalPlayer() {
-		lock.lock();
-		try {
-			if (!enableMediaEntrainment) reset();
-		} finally {
-			lock.unlock();
-		}
 	}
 
 	private void setEntrainmentAmplitude(double strength) {
@@ -144,8 +135,19 @@ public class MediaEngine {
 
 	private void setUri(String uri) {
 		if (uri == null || uri.isEmpty()) return;
+		if (media != null && media.getSource().equals(uri)) return;
+		
 		try {
 			media = new Media(uri);
+			if(player != null) player.dispose();
+			player = new MediaPlayer(media);
+			player.statusProperty().addListener(new ChangeListener<Status>() {
+
+				@Override
+				public void changed(ObservableValue<? extends Status> observable, Status oldValue, Status newValue) {
+					notifyPlayTime(newValue);
+				}
+			});
 		} catch (Exception e) {
 			GuiUtil.handleProblem(e);
 		}
@@ -158,8 +160,8 @@ public class MediaEngine {
 			lock.lock();
 			try {
 				player.stop();
-				player.dispose();
-				player = null;
+				player.seek(player.getStartTime());
+				if (sf != null) sf.cancel(true);
 			} finally {
 				lock.unlock();
 			}
@@ -168,22 +170,66 @@ public class MediaEngine {
 
 	private void startPlayer() {
 		if (stillPlaying()) return;
-		player = new MediaPlayer(media);
+
 		player.setVolume(amplitude);
 
 		player.setOnEndOfMedia(() -> evalLoop());
 		player.play();
+
+		startMediaTimeThread();
+	}
+
+	private void startMediaTimeThread() {
+		sf = svc.scheduleAtFixedRate(() -> fireTimeRemaining(), 1, 1, TimeUnit.SECONDS);
+	}
+
+	private void fireTimeRemaining() {
+		if (!stillPlaying()) {
+			sf.cancel(true);
+			return;
+		}
+
+		double length = media.getDuration().toSeconds();
+
+		double currentPos = player.getCurrentTime().toSeconds();
+
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, length - currentPos, MediatorConstants.MEDIA_TIME));
+	}
+
+	private void notifyPlayTime(Status newValue) {
+		switch(newValue) {
+		case READY:
+		case STOPPED:
+		case HALTED:
+			break;
+		default:
+			return;
+		}
+				
+		Duration d = media.getDuration();
+		if(d == Duration.UNKNOWN || d == Duration.INDEFINITE) return;
+		
+		double seconds = d.toSeconds();
+		
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, seconds, MediatorConstants.MEDIA_TIME));
+		
+		player.seek(player.getStartTime());
 	}
 
 	private boolean stillPlaying() {
-		if (player == null || Status.DISPOSED == player.getStatus()) return false;
-		
-		return !player.getCurrentTime().equals(player.getMedia().getDuration());
+		switch(player.getStatus()) {
+		case PLAYING:
+		case PAUSED:
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	private void evalLoop() {
 		if (loop) {
-			restart();
+			player.seek(player.getStartTime());
+			play(true);
 		} else {
 			sendStop();
 		}
@@ -191,16 +237,7 @@ public class MediaEngine {
 
 	private void sendStop() {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, false, MediatorConstants.MEDIA_PLAY));
-	}
-
-	private void restart() {
-		lock.lock();
-		try {
-			player.dispose();
-			play(true);
-		} finally {
-			lock.unlock();
-		}
+		if (sf != null) sf.cancel(true);
 	}
 
 	private void pause(boolean b) {
