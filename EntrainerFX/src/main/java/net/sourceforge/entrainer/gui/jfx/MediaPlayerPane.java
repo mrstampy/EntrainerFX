@@ -24,8 +24,10 @@ import java.net.URISyntaxException;
 import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javafx.animation.ScaleTransition;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
@@ -40,6 +42,8 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import net.sourceforge.entrainer.guitools.GuiUtil;
@@ -73,6 +77,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private Slider trackPosition = new Slider(0, 1, 0);
 	private Label timeRemaining = new Label();
 	private DecimalFormat remainingFormat = new DecimalFormat("00");
+	
+	private MediaView view = new MediaView();
 
 	private TextField media = new TextField("");
 
@@ -84,10 +90,11 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	
 	private double mediaTime;
 
-	@SuppressWarnings("unused")
 	private MediaEngine engine = new MediaEngine();
 	
 	private AtomicBoolean internalTimeRemaining = new AtomicBoolean(false);
+	
+	private boolean pulse = false;
 
 	/**
 	 * Instantiates a new media player pane.
@@ -258,6 +265,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		setDisabled(pause, true);
 		setDisabled(stop, true);
+		
+		view.setPreserveRatio(true);
 	}
 
 	private void loopClicked() {
@@ -327,6 +336,9 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		pane.add(enableMedia, 0, row++, 2, 1);
 
 		pane.add(getMediaField(), 0, row++, 3, 1);
+		
+		GridPane.setHalignment(view, HPos.CENTER);
+		pane.add(view, 0, row++, 3, 1);
 
 		addSlider("Track Position", trackPosition, timeRemaining, row++);
 		addSlider("Amplitude", amplitude, amplitudeValue, row++);
@@ -408,7 +420,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	}
 
 	private void initMediator() {
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
+		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
@@ -439,6 +451,9 @@ public class MediaPlayerPane extends AbstractTitledPane {
 				case MEDIA_TIME:
 					JFXUtils.runLater(() -> setMediaTime(e.getDoubleValue()));
 					break;
+				case ENTRAINMENT_FREQUENCY_PULSE:
+					pulseView();
+					break;
 				default:
 					break;
 				}
@@ -446,10 +461,19 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		});
 	}
 
+	private void pulseView() {
+		if(!enableMedia.isSelected() || view.getMediaPlayer() == null || !isPlaying()) return;
+		
+		view.setOpacity(pulse ? 0.5 : 1.0);
+		
+		pulse = !pulse;
+	}
+
 	private void setMediaTime(double d) {
 		if(mediaTime == 0) {
 			mediaTime = d;
 			trackPosition.setMax(d);
+			resizeMediaView();
 		}
 		
 		internalTimeRemaining.set(true);
@@ -458,7 +482,31 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		
 		timeRemaining.setText(formatTimeRemaining(d));
 	}
+
+	private void resizeMediaView() {
+		Media m = engine.getMedia();
+		
+		if(m.getWidth() == 0 || m.getHeight() == 0) {
+			resetMediaView();
+			return;
+		}
+		
+		view.setMediaPlayer(engine.getPlayer());
+		
+		double width = 500;
+		double height = m.getHeight() * width / m.getWidth();
+		view.setFitWidth(width);
+		view.setFitHeight(height);
+	}
 	
+	private void resetMediaView() {
+		view.setMediaPlayer(null);
+		if(view.getFitWidth() == 0) return;
+		
+		view.setFitWidth(0);
+		view.setFitHeight(0);
+	}
+
 	private String formatTimeRemaining(double d) {
 		Duration dur = Duration.seconds(d);
 		

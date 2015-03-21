@@ -226,6 +226,7 @@ public class MediaEngine {
 	}
 
 	private boolean stillPlaying() {
+		if(player == null || player.getStatus() == null) return false;
 		switch(player.getStatus()) {
 		case PLAYING:
 		case PAUSED:
@@ -255,6 +256,50 @@ public class MediaEngine {
 		} else {
 			player.play();
 		}
+	}
+
+	public Media getMedia() {
+		return media;
+	}
+
+	public MediaPlayer getPlayer() {
+		return player;
+	}
+
+	public double getAmplitude() {
+		return amplitude;
+	}
+
+	public double getEntrainmentAmplitude() {
+		return entrainmentAmplitude;
+	}
+
+	public boolean isEnableMediaEntrainment() {
+		return enableMediaEntrainment;
+	}
+
+	public boolean isLoop() {
+		return loop;
+	}
+
+	public boolean isFlip() {
+		return flip;
+	}
+
+	public Lock getLock() {
+		return lock;
+	}
+
+	public Sender getSender() {
+		return sender;
+	}
+
+	public ScheduledExecutorService getSvc() {
+		return svc;
+	}
+
+	public ScheduledFuture<?> getSf() {
+		return sf;
 	}
 
 }
