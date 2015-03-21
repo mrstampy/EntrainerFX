@@ -22,9 +22,12 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DecimalFormat;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
@@ -85,6 +88,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 	@SuppressWarnings("unused")
 	private MediaEngine engine = new MediaEngine();
+	
+	private AtomicBoolean internalTimeRemaining = new AtomicBoolean(false);
 
 	/**
 	 * Instantiates a new media player pane.
@@ -389,14 +394,25 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		trackPosition.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
 		trackPosition.valueProperty().addListener(new InvalidationListener() {
-
+			
 			@Override
-			public void invalidated(Observable arg0) {
+			public void invalidated(Observable observable) {
+				if(internalTimeRemaining.get()) return;
 				double value = trackPosition.getValue();
 				setMediaTime(value);
 				fireReceiverChangeEvent(value, MediatorConstants.MEDIA_TIME);
 			}
 		});
+		
+		
+		
+//		() {
+//
+//			@Override
+//			public void invalidated(Observable arg0) {
+//				System.out.println("blah");
+//			}
+//		});
 	}
 
 	private void setValue(final double value, final Slider slider) {
@@ -447,7 +463,11 @@ public class MediaPlayerPane extends AbstractTitledPane {
 			mediaTime = d;
 			trackPosition.setMax(d);
 		}
-		trackPosition.setValue(d);
+		
+		internalTimeRemaining.set(true);
+		trackPosition.adjustValue(d);
+		internalTimeRemaining.set(false);
+		
 		timeRemaining.setText(formatTimeRemaining(d));
 	}
 	
