@@ -278,6 +278,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		boolean b = enableMedia.isSelected();
 
 		strength.setDisable(!b);
+		
+		if(!b) view.setOpacity(1.0);
 
 		fireReceiverChangeEvent(b, MediatorConstants.MEDIA_ENTRAINMENT);
 	}
@@ -451,7 +453,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 					JFXUtils.runLater(() -> setMediaTime(e.getDoubleValue()));
 					break;
 				case ENTRAINMENT_FREQUENCY_PULSE:
-					pulseView();
+					pulseView(e.getBooleanValue());
 					break;
 				default:
 					break;
@@ -460,7 +462,12 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		});
 	}
 
-	private void pulseView() {
+	private void pulseView(boolean b) {
+		if(!b) {
+			view.setOpacity(1.0);
+			return;
+		}
+		
 		if (!enableMedia.isSelected() || view.getMediaPlayer() == null || !isPlaying()) return;
 
 		view.setOpacity(pulse ? 0.5 : 1.0);
