@@ -403,16 +403,6 @@ public class MediaPlayerPane extends AbstractTitledPane {
 				fireReceiverChangeEvent(value, MediatorConstants.MEDIA_TIME);
 			}
 		});
-		
-		
-		
-//		() {
-//
-//			@Override
-//			public void invalidated(Observable arg0) {
-//				System.out.println("blah");
-//			}
-//		});
 	}
 
 	private void setValue(final double value, final Slider slider) {
