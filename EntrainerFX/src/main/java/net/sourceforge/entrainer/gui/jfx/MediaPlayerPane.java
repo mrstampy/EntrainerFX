@@ -26,8 +26,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
@@ -466,7 +464,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		
 		StringBuilder sb = new StringBuilder();
 		int hours = (int)dur.toHours();
-		int minutes = (int)dur.toMinutes();
+		int minutes = (int)dur.toMinutes() - (60 * hours);
 		int seconds = (int)dur.toSeconds() - (minutes * 60) - (hours * 3600);
 		if(hours > 0) {
 			sb.append(remainingFormat.format(hours));
