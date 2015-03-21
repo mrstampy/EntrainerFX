@@ -182,6 +182,9 @@ public enum MediatorConstants {
 
 	/** The media loop. */
 	MEDIA_LOOP("Loop media on end if selected"),
+	
+	/** The media time. */
+	MEDIA_TIME("Media time remaining"),
 
 	/** The splash on startup. */
 	SPLASH_ON_STARTUP("If true will enable the splash screen on startup");
