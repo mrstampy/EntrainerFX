@@ -102,11 +102,20 @@ public class MediaEngine {
 				case ENTRAINMENT_FREQUENCY_PULSE:
 					entrain(e.getBooleanValue());
 					break;
+				case MEDIA_TIME:
+					setPlayerTime(e.getDoubleValue());
+					break;
 				default:
 					break;
 				}
 			}
 		});
+	}
+
+	private void setPlayerTime(double d) {
+		if(player == null) return;
+		
+		player.seek(player.getTotalDuration().subtract(Duration.seconds(d)));
 	}
 
 	private void setEntrainmentAmplitude(double strength) {

@@ -26,6 +26,7 @@ import java.text.DecimalFormat;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonBase;
@@ -39,6 +40,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.media.MediaEngine;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
@@ -66,6 +68,10 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private Slider strength = new Slider(0, 1, 0.5);
 	private DecimalFormat strengthFormat = new DecimalFormat("#0%");
 	private Label strengthValue = new Label();
+	
+	private Slider trackPosition = new Slider(0, 1, 0);
+	private Label timeRemaining = new Label();
+	private DecimalFormat remainingFormat = new DecimalFormat("00");
 
 	private TextField media = new TextField("");
 
@@ -74,6 +80,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private String mediaName = null;
 
 	private boolean isUrl = false;
+	
+	private double mediaTime;
 
 	@SuppressWarnings("unused")
 	private MediaEngine engine = new MediaEngine();
@@ -162,6 +170,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		setTooltip(play, "Plays selected media");
 		setTooltip(stop, "Stops media playback");
 		setTooltip(strength, "Sets media entrainment strength");
+		setTooltip(trackPosition, "Set/displays the track's current position");
 	}
 
 	private void mediaClicked(MouseEvent e) {
@@ -208,6 +217,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		fireReceiverChangeEvent(newMedia.toURI().toString(), MediatorConstants.MEDIA_URI);
 
+		mediaTime = 0;
 		isUrl = false;
 	}
 
@@ -225,6 +235,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		fireReceiverChangeEvent(mediaName, MediatorConstants.MEDIA_URI);
 
+		mediaTime = 0;
 		isUrl = true;
 	}
 
@@ -302,9 +313,11 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		initSlider(amplitude, amplitudeValue, amplitudeFormat, MediatorConstants.MEDIA_AMPLITUDE);
 		initSlider(strength, strengthValue, strengthFormat, MediatorConstants.MEDIA_ENTRAINMENT_STRENGTH);
+		initTrackPosition();
 
 		amplitude.setBlockIncrement(0.01);
 		strength.setBlockIncrement(1);
+		trackPosition.setBlockIncrement(0.01);
 
 		int row = 0;
 
@@ -312,6 +325,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		pane.add(getMediaField(), 0, row++, 3, 1);
 
+		addSlider("Track Position", trackPosition, timeRemaining, row++);
 		addSlider("Amplitude", amplitude, amplitudeValue, row++);
 		addSlider("Strength", strength, strengthValue, row++);
 
@@ -368,6 +382,22 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		label.setText(format.format(slider.getValue()));
 		fireReceiverChangeEvent(slider.getValue(), event);
 	}
+	
+	private void initTrackPosition() {
+		trackPosition.setEffect(new InnerShadow());
+		trackPosition.setMinWidth(350);
+		trackPosition.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
+		trackPosition.valueProperty().addListener(new InvalidationListener() {
+
+			@Override
+			public void invalidated(Observable arg0) {
+				double value = trackPosition.getValue();
+				setMediaTime(value);
+				fireReceiverChangeEvent(value, MediatorConstants.MEDIA_TIME);
+			}
+		});
+	}
 
 	private void setValue(final double value, final Slider slider) {
 		JFXUtils.runLater(() -> slider.setValue(value));
@@ -402,11 +432,41 @@ public class MediaPlayerPane extends AbstractTitledPane {
 				case MEDIA_URI:
 					setMediaUri(e.getStringValue());
 					break;
+				case MEDIA_TIME:
+					JFXUtils.runLater(() -> setMediaTime(e.getDoubleValue()));
+					break;
 				default:
 					break;
 				}
 			}
 		});
+	}
+
+	private void setMediaTime(double d) {
+		if(mediaTime == 0) {
+			mediaTime = d;
+			trackPosition.setMax(d);
+		}
+		trackPosition.setValue(d);
+		timeRemaining.setText(formatTimeRemaining(d));
+	}
+	
+	private String formatTimeRemaining(double d) {
+		Duration dur = Duration.seconds(d);
+		
+		StringBuilder sb = new StringBuilder();
+		int hours = (int)dur.toHours();
+		int minutes = (int)dur.toMinutes();
+		int seconds = (int)dur.toSeconds() - (minutes * 60) - (hours * 3600);
+		if(hours > 0) {
+			sb.append(remainingFormat.format(hours));
+			sb.append(":");
+		}
+		sb.append(remainingFormat.format(minutes));
+		sb.append(":");
+		sb.append(remainingFormat.format(seconds));
+
+		return sb.toString();
 	}
 
 	private void setMediaUri(String s) {
@@ -418,6 +478,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 			boolean b = f.exists();
 			media.setText(b ? f.getName() : mediaName);
+			mediaTime = 0;
 		} catch (URISyntaxException e) {
 			GuiUtil.handleProblem(e);
 		}
