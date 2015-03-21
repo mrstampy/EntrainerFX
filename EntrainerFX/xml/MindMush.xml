@@ -50,7 +50,7 @@
     <static.background.picture></static.background.picture>
     <static.picture.lock>false</static.picture.lock>
     <no.background>false</no.background>
-    <picture.directory>./css</picture.directory>
+    <picture.directory>css</picture.directory>
     <dynamic.duration>10</dynamic.duration>
     <dynamic.transition>5</dynamic.transition>
     <useDesktopAsBackground>false</useDesktopAsBackground>
