@@ -130,7 +130,12 @@ public class MediaEngine {
 	 *          the b
 	 */
 	protected void entrain(boolean b) {
-		if (!enableMediaEntrainment || !b) return;
+		if(!b) {
+			player.setVolume(amplitude);
+			return;
+		}
+		
+		if (!enableMediaEntrainment) return;
 
 		lock.lock();
 		try {
