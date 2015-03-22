@@ -171,7 +171,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	}
 
 	private void setTooltips() {
-		setTooltip(amplitude, "Sets the media amplitude");
+		setTooltip(amplitude, "Sets the media volume");
 		setTooltip(enableMedia, "Enables/disables media entrainment");
 		setTooltip(loop, "Enables/disables looping of selected media");
 		setTooltip(media, "Left click to select local media file, right click to paste media URI");
@@ -342,8 +342,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		pane.add(view, 0, row++, 3, 1);
 
 		addSlider("Track Position", trackPosition, timeRemaining, row++);
-		addSlider("Amplitude", amplitude, amplitudeValue, row++);
-		addSlider("Strength", strength, strengthValue, row++);
+		addSlider("Media Volume", amplitude, amplitudeValue, row++);
+		addSlider("Entrainment Strength", strength, strengthValue, row++);
 
 		pane.add(getButtonPanel(), 0, row++, 3, 1);
 

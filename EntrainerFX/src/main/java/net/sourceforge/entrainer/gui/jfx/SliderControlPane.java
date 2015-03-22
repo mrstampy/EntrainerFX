@@ -156,13 +156,13 @@ public class SliderControlPane extends AbstractTitledPane {
 		if (showPanSliders) {
 			addSlider("Entrainment Frequency", entrainmentFrequency, entrainmentValue, row++);
 			addSlider("Frequency", frequency, frequencyValue, row++);
-			addSlider("Amplitude", amplitude, amplitudeValue, row++);
+			addSlider("Volume", amplitude, amplitudeValue, row++);
 		}
 
 		pane.add(panCheck, 0, row++);
 
 		if (showPanSliders) {
-			addSlider("Pink Noise Amplitude", pinkNoise, pinkNoiseValue, row++);
+			addSlider("Pink Noise Volume", pinkNoise, pinkNoiseValue, row++);
 			addSlider("Pan Amplitude", pinkAmplitude, pinkAmplitudeValue, row++);
 			addSlider("Entrainer Multiple", multiple, multipleValue, row++);
 		}
@@ -176,8 +176,8 @@ public class SliderControlPane extends AbstractTitledPane {
 	private void setTooltips() {
 		setTooltip(entrainmentFrequency, "Sets the entrainment frequency");
 		setTooltip(frequency, "Sets the base frequency for entrainment");
-		setTooltip(amplitude, "Sets the amplitude of the base frequency");
-		setTooltip(pinkNoise, "Sets the amplitude of the generated pink noise");
+		setTooltip(amplitude, "Sets the volume of the base frequency");
+		setTooltip(pinkNoise, "Sets the volume of the generated pink noise");
 		setTooltip(pinkAmplitude, "Sets the pan amplitude of the generated pink noise");
 		setTooltip(multiple, "Sets the speed of pink noise panning");
 		setTooltip(panCheck, "Enables/disables pink noise panning");
