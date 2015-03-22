@@ -79,13 +79,13 @@ public class MediaEngine {
 				switch (e.getParm()) {
 				case MEDIA_AMPLITUDE:
 					amplitude = e.getDoubleValue();
-					if (player != null) player.setVolume(amplitude);
+					setPlayerVolume(amplitude);
 					break;
 				case MEDIA_ENTRAINMENT_STRENGTH:
 					setEntrainmentAmplitude(e.getDoubleValue());
 					break;
 				case MEDIA_ENTRAINMENT:
-					enableMediaEntrainment = e.getBooleanValue();
+					entrainmentEnabled(e.getBooleanValue());
 					break;
 				case MEDIA_LOOP:
 					loop = e.getBooleanValue();
@@ -111,6 +111,17 @@ public class MediaEngine {
 			}
 		});
 	}
+	
+	private void setPlayerVolume(double d) {
+		if(player == null) return;
+		
+		player.setVolume(d);
+	}
+
+	private void entrainmentEnabled(boolean b) {
+		enableMediaEntrainment = b;
+		if(!b) setPlayerVolume(amplitude);
+	}
 
 	private void setPlayerTime(double d) {
 		if (player == null) return;
@@ -131,7 +142,7 @@ public class MediaEngine {
 	 */
 	protected void entrain(boolean b) {
 		if(!b) {
-			player.setVolume(amplitude);
+			setPlayerVolume(amplitude);
 			return;
 		}
 		
@@ -139,8 +150,7 @@ public class MediaEngine {
 
 		lock.lock();
 		try {
-			if (player == null) return;
-			player.setVolume(flip ? amplitude : entrainmentAmplitude);
+			setPlayerVolume(flip ? amplitude : entrainmentAmplitude);
 			flip = !flip;
 		} finally {
 			lock.unlock();
@@ -185,7 +195,7 @@ public class MediaEngine {
 	private void startPlayer() {
 		if (stillPlaying()) return;
 
-		player.setVolume(amplitude);
+		setPlayerVolume(amplitude);
 
 		player.setOnEndOfMedia(() -> evalLoop());
 		player.play();
