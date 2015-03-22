@@ -80,31 +80,38 @@ public class InversionRadialShimmerRectangle extends AbstractShimmer<RadialGradi
 
 	private List<Stop> createStops(double a) {
 		List<Stop> list = new ArrayList<Stop>();
-		boolean invert = false;
-		Stop stop = null;
-		for (double i = 0; i < NUM_SAVED_STOPS + 1; i++) {
-			Stop local;
-			if (invert) {
-				local = new Stop(i / NUM_SAVED_STOPS, getInvertedColour(stop.getColor()));
-			} else {
-				local = createStop(i / NUM_SAVED_STOPS, a);
-				stop = local;
-			}
-			invert = !invert;
-			list.add(local);
+
+		List<Color> colours = getColourList(a);
+		int half = colours.size() / 2;
+
+		for (double i = 0; i < colours.size(); i++) {
+			list.add(new Stop(i / NUM_SAVED_STOPS, colours.get((int) i)));
+		}
+
+		if (half < colours.size()) {
+			list.add(new Stop(half * 2 / NUM_SAVED_STOPS, colours.get(half * 2)));
 		}
 
 		return list;
 	}
 
-	private Color getInvertedColour(Color c) {
-		Color inverted = c.invert();
-		Color c2 = new Color(inverted.getRed(), inverted.getGreen(), inverted.getBlue(), inverted.getOpacity() == 0 ? 0
-				: rand.nextDouble());
-		return c2;
-	}
+	private List<Color> getColourList(double a) {
+		int numInversions = NUM_SAVED_STOPS / 2;
 
-	private Stop createStop(double offset, double a) {
-		return new Stop(offset, generateColor(a));
+		List<Color> list = new ArrayList<>();
+		for (int i = 0; i < numInversions; i++) {
+			list.add(generateColor(a));
+		}
+
+		for (int i = numInversions - 1; i >= 0; i--) {
+			Color c = list.get(i);
+			list.add(c.invert());
+		}
+
+		if (numInversions < NUM_SAVED_STOPS) {
+			list.add(generateColor(a));
+		}
+
+		return list;
 	}
 }
