@@ -48,7 +48,7 @@ public class FlashingColorShimmerRectangle extends AbstractFlashingShimmer<Color
 	 */
 	@Override
 	protected Color createNewPaint(double opacity) {
-		return generateColor(opacity);
+		return ShimmerPaintUtils.generateColor(opacity);
 	}
 
 	/*

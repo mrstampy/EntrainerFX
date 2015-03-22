@@ -18,10 +18,7 @@
  */
 package net.sourceforge.entrainer.gui.jfx.shimmer;
 
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -62,16 +59,7 @@ public class InversionLinearShimmerRectangle extends AbstractShimmer<LinearGradi
 	 */
 	@Override
 	protected LinearGradient createNewPaint(double opacity) {
-		Stop stop0 = createStop(0, opacity);
-		Color inverted = stop0.getColor().invert();
-		Color c2 = new Color(inverted.getRed(), inverted.getGreen(), inverted.getBlue(), inverted.getOpacity() == 0 ? 0
-				: rand.nextDouble());
-		Stop stop1 = new Stop(1, c2);
-		return new LinearGradient(0, 0, getWidth(), getHeight(), false, CycleMethod.NO_CYCLE, stop0, stop1);
-	}
-
-	private Stop createStop(double offset, double a) {
-		return new Stop(offset, generateColor(a));
+		return ShimmerPaintUtils.createLinearGradient(opacity, getWidth(), getHeight());
 	}
 
 }

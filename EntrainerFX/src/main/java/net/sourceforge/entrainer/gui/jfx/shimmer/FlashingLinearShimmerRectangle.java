@@ -18,11 +18,7 @@
  */
 package net.sourceforge.entrainer.gui.jfx.shimmer;
 
-import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
-import net.sourceforge.entrainer.gui.ShimmerPane;
-import net.sourceforge.entrainer.gui.ShimmerRectangle;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -57,8 +53,7 @@ public class FlashingLinearShimmerRectangle extends AbstractFlashingShimmer<Line
 	 */
 	@Override
 	protected LinearGradient createNewPaint(double opacity) {
-		return new LinearGradient(0, 0, getWidth(), getHeight(), false, CycleMethod.NO_CYCLE, createStop(0, opacity),
-				createStop(1, opacity));
+		return ShimmerPaintUtils.createLinearGradient(opacity, getWidth(), getHeight());
 	}
 
 	/*
@@ -68,10 +63,6 @@ public class FlashingLinearShimmerRectangle extends AbstractFlashingShimmer<Line
 	 */
 	public String toString() {
 		return NAME;
-	}
-
-	private Stop createStop(double offset, double a) {
-		return new Stop(offset, generateColor(a));
 	}
 
 }

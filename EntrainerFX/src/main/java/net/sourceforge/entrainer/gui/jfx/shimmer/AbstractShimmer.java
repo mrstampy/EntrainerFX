@@ -20,7 +20,6 @@ package net.sourceforge.entrainer.gui.jfx.shimmer;
 
 import java.util.Random;
 
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import net.sourceforge.entrainer.gui.EntrainerFX;
@@ -83,17 +82,6 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	 * @return the string
 	 */
 	public abstract String toString();
-
-	/**
-	 * Generates a random colour using the specified opacity.
-	 *
-	 * @param a
-	 *          the alpha (opacity) value.
-	 * @return the color
-	 */
-	protected Color generateColor(double a) {
-		return new Color(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), a);
-	}
 
 	private void initMediator() {
 		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {

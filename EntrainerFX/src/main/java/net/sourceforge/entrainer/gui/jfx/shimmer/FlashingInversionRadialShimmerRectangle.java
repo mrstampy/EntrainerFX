@@ -22,23 +22,28 @@ import javafx.scene.paint.RadialGradient;
 
 // TODO: Auto-generated Javadoc
 /**
- * Creates a radial shimmer effect.
- * 
- * @author burton
+ * The Class FlashingInversionRadialShimmerRectangle.
  */
-public class RadialShimmerRectangle extends AbstractShimmer<RadialGradient> {
-
-	/** The Constant CSS_ID. */
-	public static final String CSS_ID = "shimmer-rectangle";
+public class FlashingInversionRadialShimmerRectangle extends AbstractFlashingShimmer<RadialGradient> {
+	private static int NUM_SAVED_STOPS = 13;
 
 	private int angle;
 
 	/**
-	 * Instantiates a new radial shimmer rectangle.
+	 * Instantiates a new flashing inversion radial shimmer rectangle.
 	 */
-	public RadialShimmerRectangle() {
+	public FlashingInversionRadialShimmerRectangle() {
 		super();
-		setId(CSS_ID);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Flashing Inversion Radial Gradient";
 	}
 
 	/*
@@ -53,15 +58,6 @@ public class RadialShimmerRectangle extends AbstractShimmer<RadialGradient> {
 		return ShimmerPaintUtils.createRadialGradient(opacity, getAngle());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
-	 */
-	public String toString() {
-		return "Radial Gradient";
-	}
-
 	private int getAngle() {
 		int current = angle;
 
@@ -70,4 +66,5 @@ public class RadialShimmerRectangle extends AbstractShimmer<RadialGradient> {
 
 		return current;
 	}
+
 }

@@ -18,13 +18,7 @@
  */
 package net.sourceforge.entrainer.gui.jfx.shimmer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.Stop;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -36,7 +30,6 @@ public class InversionRadialShimmerRectangle extends AbstractShimmer<RadialGradi
 
 	/** The Constant CSS_ID. */
 	public static final String CSS_ID = "shimmer-rectangle";
-	private static int NUM_SAVED_STOPS = 9;
 
 	private int angle;
 
@@ -57,7 +50,7 @@ public class InversionRadialShimmerRectangle extends AbstractShimmer<RadialGradi
 	 */
 	@Override
 	protected RadialGradient createNewPaint(double opacity) {
-		return new RadialGradient(getAngle(), 0.20, 0.5, 0.5, 0.5, true, CycleMethod.REFLECT, createStops(opacity));
+		return ShimmerPaintUtils.createRadialGradient(opacity, getAngle());
 	}
 
 	/*
@@ -76,42 +69,5 @@ public class InversionRadialShimmerRectangle extends AbstractShimmer<RadialGradi
 		if (angle > 359) angle = angle - 360;
 
 		return current;
-	}
-
-	private List<Stop> createStops(double a) {
-		List<Stop> list = new ArrayList<Stop>();
-
-		List<Color> colours = getColourList(a);
-		int half = colours.size() / 2;
-
-		for (double i = 0; i < colours.size(); i++) {
-			list.add(new Stop(i / NUM_SAVED_STOPS, colours.get((int) i)));
-		}
-
-		if (half < colours.size()) {
-			list.add(new Stop(half * 2 / NUM_SAVED_STOPS, colours.get(half * 2)));
-		}
-
-		return list;
-	}
-
-	private List<Color> getColourList(double a) {
-		int numInversions = NUM_SAVED_STOPS / 2;
-
-		List<Color> list = new ArrayList<>();
-		for (int i = 0; i < numInversions; i++) {
-			list.add(generateColor(a));
-		}
-
-		for (int i = numInversions - 1; i >= 0; i--) {
-			Color c = list.get(i);
-			list.add(c.invert());
-		}
-
-		if (numInversions < NUM_SAVED_STOPS) {
-			list.add(generateColor(a));
-		}
-
-		return list;
 	}
 }

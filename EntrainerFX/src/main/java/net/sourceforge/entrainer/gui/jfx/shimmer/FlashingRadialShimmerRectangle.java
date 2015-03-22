@@ -18,12 +18,7 @@
  */
 package net.sourceforge.entrainer.gui.jfx.shimmer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.Stop;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -35,7 +30,6 @@ public class FlashingRadialShimmerRectangle extends AbstractFlashingShimmer<Radi
 
 	/** The Constant CSS_ID. */
 	public static final String CSS_ID = "shimmer-rectangle";
-	private static int NUM_SAVED_STOPS = 9;
 
 	private int angle;
 
@@ -56,7 +50,7 @@ public class FlashingRadialShimmerRectangle extends AbstractFlashingShimmer<Radi
 	 */
 	@Override
 	protected RadialGradient createNewPaint(double opacity) {
-		return new RadialGradient(getAngle(), 0.20, 0.5, 0.5, 0.5, true, CycleMethod.REFLECT, createStops(opacity));
+		return ShimmerPaintUtils.createRadialGradient(opacity, getAngle());
 	}
 
 	/*
@@ -75,18 +69,5 @@ public class FlashingRadialShimmerRectangle extends AbstractFlashingShimmer<Radi
 		if (angle > 359) angle = angle - 360;
 
 		return current;
-	}
-
-	private List<Stop> createStops(double a) {
-		List<Stop> list = new ArrayList<Stop>();
-		for (double i = 0; i < NUM_SAVED_STOPS + 1; i++) {
-			list.add(createStop(i / NUM_SAVED_STOPS, a));
-		}
-
-		return list;
-	}
-
-	private Stop createStop(double offset, double a) {
-		return new Stop(offset, generateColor(a));
 	}
 }

@@ -18,14 +18,9 @@
  */
 package net.sourceforge.entrainer.gui.jfx.shimmer;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
-import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -40,8 +35,6 @@ public class FlashingWaveShimmerRectangle extends AbstractFlashingShimmer<Linear
 
 	/** The Constant CSS_ID. */
 	public static final String CSS_ID = "shimmer-rectangle";
-
-	private static BigDecimal NUM_STOPS = new BigDecimal(10);
 
 	/**
 	 * Instantiates a new flashing wave shimmer rectangle.
@@ -58,44 +51,11 @@ public class FlashingWaveShimmerRectangle extends AbstractFlashingShimmer<Linear
 	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
 	 * (double)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected LinearGradient createNewPaint(double opacity) {
-		return new LinearGradient(0, 0, getWidth(), getHeight(), false, CycleMethod.NO_CYCLE,
-				opacity == 0 ? createStops(opacity) : createStops(getP1().getStops()));
-	}
-
-	private List<Stop> createStops(double opacity) {
-		List<Stop> to = new ArrayList<Stop>();
-
-		for (int i = 0; i <= NUM_STOPS.intValue(); i++) {
-			to.add(createStop(createDouble(i), opacity));
-		}
-
-		return to;
-	}
-
-	private List<Stop> createStops(List<Stop> from) {
-		List<Stop> to = new ArrayList<Stop>();
-
-		to.add(new Stop(0, generateColor(rand.nextDouble())));
-
-		for (double i = 1; i <= NUM_STOPS.intValue(); i++) {
-			to.add(new Stop(createDouble(i), from.get((int) i - 1).getColor()));
-		}
-
-		return to;
-	}
-
-	private double createDouble(double idx) {
-		BigDecimal num = new BigDecimal(idx);
-
-		double val = num.divide(NUM_STOPS, 6, RoundingMode.HALF_UP).doubleValue();
-
-		return val < 1 ? val : 1;
-	}
-
-	private Stop createStop(double offset, double a) {
-		return new Stop(offset, generateColor(a));
+		return ShimmerPaintUtils.createWaveStop(opacity, getWidth(), getHeight(), getP1() == null ? Collections.EMPTY_LIST
+				: getP1().getStops());
 	}
 
 	/*

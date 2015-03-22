@@ -48,7 +48,7 @@ public class ColorShimmerRectangle extends AbstractShimmer<Color> {
 	 */
 	@Override
 	protected Color createNewPaint(double opacity) {
-		return generateColor(opacity);
+		return ShimmerPaintUtils.generateColor(opacity);
 	}
 
 	/*
