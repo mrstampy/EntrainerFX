@@ -1,0 +1,48 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'java-library-distribution'
+apply plugin: 'maven'
+apply plugin: 'distribution'
+
+sourceCompatibility = 1.8
+version = '6.0.0'
+
+configurations {
+	hypno
+}
+
+repositories {
+    mavenCentral()
+    flatDir(dirs: '../EntrainerFX/lib')
+}
+
+dependencies {
+	hypno 'org.slf4j:slf4j-api:1.7.10'
+	hypno 'org.slf4j:log4j-over-slf4j:1.7.10'
+	hypno 'com.github.insubstantial:trident:7.3'
+
+	compile configurations.hypno
+	compile project(':EntrainerFX')
+}
+
+jar {
+    manifest {
+        attributes (
+        'Implementation-Title': 'EntrainerFX Hypno Animations', 
+        'Implementation-Version': version,
+        'Built-By': 'Burton Alexander',
+        'Email-Address': 'burton@users.sourceforge.net',
+        'Project-Website': 'http://entrainer.sourceforge.net',
+        'Main-Class': 'net.sourceforge.entrainer.Main',
+        'Class-Path': configurations.compile.collect { 'lib/' + it.getName() }.join(' '))
+    }
+}
+
+distributions {
+    main {
+        contents {
+            eachFile {
+            }
+        }
+    }
+}
