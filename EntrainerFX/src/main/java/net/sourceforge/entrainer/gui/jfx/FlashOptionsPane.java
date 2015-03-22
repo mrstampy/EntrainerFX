@@ -39,11 +39,10 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
  */
 public class FlashOptionsPane extends AbstractTitledPane {
 
-	private CheckBox flashBackground = new CheckBox("Flash Background");
-	
 	private CheckBox applyBackground = new CheckBox("Background");
 	private CheckBox applyShimmer = new CheckBox("Shimmer");
 	private CheckBox applyAnimation = new CheckBox("Animation");
+	private CheckBox applyMedia = new CheckBox("Media");
 
 	// additive effects
 	private CheckBox opacity = new CheckBox("Opacity");
@@ -79,7 +78,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	 * @return true, if is flash background
 	 */
 	public boolean isFlashBackground() {
-		return flashBackground.isSelected();
+		return applyBackground.isSelected();
 	}
 
 	/**
@@ -89,7 +88,31 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	 *          the new flash background
 	 */
 	public void setFlashBackground(boolean b) {
-		flashBackgroundEvent(b);
+		applyEvent(b, applyBackground);
+	}
+
+	public boolean isFlashShimmer() {
+		return applyShimmer.isSelected();
+	}
+
+	public void setFlashShimmer(boolean b) {
+		applyEvent(b, applyShimmer);
+	}
+
+	public boolean isFlashAnimation() {
+		return applyAnimation.isSelected();
+	}
+
+	public void setFlashAnimation(boolean b) {
+		applyEvent(b, applyAnimation);
+	}
+
+	public boolean isFlashMedia() {
+		return applyMedia.isSelected();
+	}
+
+	public void setFlashMedia(boolean b) {
+		applyEvent(b, applyMedia);
 	}
 
 	/**
@@ -299,7 +322,6 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	}
 
 	private void setCheckboxFills() {
-		setTextFill(flashBackground);
 		setTextFill(opacity);
 		setTextFill(bloom);
 		setTextFill(boxBlur);
@@ -313,6 +335,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTextFill(applyBackground);
 		setTextFill(applyShimmer);
 		setTextFill(applyAnimation);
+		setTextFill(applyMedia);
 	}
 
 	private void initLayout() {
@@ -320,7 +343,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		contentPane.setAlignment(Pos.CENTER);
 
 		Node options = getOptions();
-		
+
 		Node apply = getApply();
 
 		GridPane.setConstraints(apply, 0, 0);
@@ -332,23 +355,37 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	private Node getApply() {
 		Label lbl = new Label("Apply to:");
 		setTextFill(lbl);
-		
-		Insets value = new Insets(0, 0, 20, 0);
-		
-		setAppliesDisabled(true);
-		
-		VBox vbox = new VBox(10, applyBackground, applyShimmer, applyAnimation);
-		VBox.setMargin(applyAnimation, value);
 
-		vbox.setAlignment(Pos.CENTER_LEFT);
-		
-		HBox box = new HBox(10, flashBackground, lbl, vbox);
-		HBox.setMargin(flashBackground, value);
-		HBox.setMargin(lbl, new Insets(0, 0, 20, 40));
-		
+		Node applies = getApplies();
+
+		HBox box = new HBox(10, lbl, applies);
 		box.setAlignment(Pos.CENTER);
-		
+		HBox.setMargin(lbl, new Insets(0, 20, 30, 0));
+		HBox.setMargin(applies, new Insets(0, 0, 30, 0));
+
 		return box;
+	}
+
+	private Node getApplies() {
+		GridPane gp = new GridPane();
+
+		Insets insets = new Insets(10, 10, 10, 10);
+
+		GridPane.setConstraints(applyBackground, 0, 0);
+		GridPane.setConstraints(applyShimmer, 1, 0);
+		GridPane.setConstraints(applyMedia, 0, 1);
+		GridPane.setConstraints(applyAnimation, 1, 1);
+
+		GridPane.setMargin(applyAnimation, insets);
+		GridPane.setMargin(applyBackground, insets);
+		GridPane.setMargin(applyMedia, insets);
+		GridPane.setMargin(applyShimmer, insets);
+
+		gp.setAlignment(Pos.CENTER_LEFT);
+
+		gp.getChildren().addAll(applyAnimation, applyBackground, applyMedia, applyShimmer);
+
+		return gp;
 	}
 
 	private Node getOptions() {
@@ -421,7 +458,6 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	}
 
 	private void setTooltips() {
-		setTooltip(flashBackground, "Flash Background Image at the Chosen Entrainment Frequency");
 		setTooltip(opacity, "Use the image opacity for flashing");
 		setTooltip(bloom, "Bloom effect for flashing");
 		setTooltip(boxBlur, "Box Blur effect for flashing");
@@ -435,10 +471,10 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTooltip(applyBackground, "Apply chosen flash effect to the background");
 		setTooltip(applyShimmer, "Apply the chosen flash effect to the shimmers");
 		setTooltip(applyAnimation, "Apply the chosen flash effect to the animations");
+		setTooltip(applyMedia, "Apply the chosen flash effect to the media (if applicable)");
 	}
 
 	private void setEventHandlers() {
-		flashBackground.setOnAction(e -> flashBackgroundClicked());
 		opacity.setOnAction(e -> opacityClicked());
 		bloom.setOnAction(e -> bloomClicked());
 		boxBlur.setOnAction(e -> boxBlurClicked());
@@ -452,18 +488,35 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		applyBackground.setOnAction(e -> applyBackgroundClicked());
 		applyShimmer.setOnAction(e -> applyShimmerClicked());
 		applyAnimation.setOnAction(e -> applyAnimationClicked());
+		applyMedia.setOnAction(e -> applyMediaClicked());
+	}
+
+	private void applyMediaClicked() {
+		applyClicked(applyMedia, MediatorConstants.APPLY_FLASH_TO_MEDIA);
 	}
 
 	private void applyAnimationClicked() {
-		fireReceiverChangeEvent(applyAnimation.isSelected(), MediatorConstants.APPLY_FLASH_TO_ANIMATION);
+		applyClicked(applyAnimation, MediatorConstants.APPLY_FLASH_TO_ANIMATION);
 	}
 
 	private void applyShimmerClicked() {
-		fireReceiverChangeEvent(applyShimmer.isSelected(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
+		applyClicked(applyShimmer, MediatorConstants.APPLY_FLASH_TO_SHIMMER);
 	}
 
 	private void applyBackgroundClicked() {
-		fireReceiverChangeEvent(applyBackground.isSelected(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
+		applyClicked(applyBackground, MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
+	}
+
+	private void applyClicked(CheckBox box, MediatorConstants mc) {
+		fireReceiverChangeEvent(box.isSelected(), mc);
+		setOptionsEnabled();
+	}
+
+	private void setOptionsEnabled() {
+		boolean b = applyAnimation.isSelected() || applyBackground.isSelected() || applyShimmer.isSelected()
+				|| applyMedia.isSelected();
+
+		options.setDisable(!b);
 	}
 
 	private void opacityClicked() {
@@ -512,43 +565,26 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		fireReceiverChangeEvent(type, b, MediatorConstants.FLASH_TYPE);
 	}
 
-	private void flashBackgroundClicked() {
-		boolean b = flashBackground.isSelected();
-
-		fireReceiverChangeEvent(b, MediatorConstants.FLASH_BACKGROUND);
-
-		options.setDisable(!b);
-		
-		setAppliesDisabled(!b);
-	}
-
-	private void setAppliesDisabled(boolean b) {
-		applyBackground.setDisable(b);
-		applyShimmer.setDisable(b);
-		applyAnimation.setDisable(b);
-	}
-
 	private void initMediator() {
 		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
-				case FLASH_BACKGROUND:
-					if (flashBackground.isSelected() == e.getBooleanValue()) return;
-					JFXUtils.runLater(() -> flashBackgroundEvent(e.getBooleanValue()));
-					break;
 				case FLASH_TYPE:
 					JFXUtils.runLater(() -> evaluateFlashType(((FlashType) e.getOption()), e.getBooleanValue()));
 					break;
 				case APPLY_FLASH_TO_BACKGROUND:
-					JFXUtils.runLater(() -> applyBackground.setSelected(e.getBooleanValue()));
+					JFXUtils.runLater(() -> applyEvent(e.getBooleanValue(), applyBackground));
 					break;
 				case APPLY_FLASH_TO_SHIMMER:
-					JFXUtils.runLater(() -> applyShimmer.setSelected(e.getBooleanValue()));
+					JFXUtils.runLater(() -> applyEvent(e.getBooleanValue(), applyShimmer));
 					break;
 				case APPLY_FLASH_TO_ANIMATION:
-					JFXUtils.runLater(() -> applyAnimation.setSelected(e.getBooleanValue()));
+					JFXUtils.runLater(() -> applyEvent(e.getBooleanValue(), applyAnimation));
+					break;
+				case APPLY_FLASH_TO_MEDIA:
+					JFXUtils.runLater(() -> applyEvent(e.getBooleanValue(), applyMedia));
 					break;
 				default:
 					break;
@@ -556,6 +592,12 @@ public class FlashOptionsPane extends AbstractTitledPane {
 			}
 
 		});
+	}
+
+	private void applyEvent(boolean b, CheckBox box) {
+		if(b == box.isSelected()) return;
+		box.setSelected(b);
+		setOptionsEnabled();
 	}
 
 	private void evaluateFlashType(FlashType flashType, boolean b) {
@@ -620,12 +662,6 @@ public class FlashOptionsPane extends AbstractTitledPane {
 
 		colourAdjust.setDisable(lighting.isSelected());
 		lighting.setDisable(colourAdjust.isSelected());
-	}
-
-	private void flashBackgroundEvent(boolean b) {
-		flashBackground.setSelected(b);
-		options.setDisable(!b);
-		setAppliesDisabled(!b);
 	}
 
 	/*

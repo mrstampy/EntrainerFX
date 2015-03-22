@@ -281,7 +281,7 @@ public class EntrainerSocketManager {
 					currentState.setEntrainmentFrequency(e.getDoubleValue());
 
 					break;
-				case FLASH_BACKGROUND:
+				case APPLY_FLASH_TO_BACKGROUND:
 					processing = currentState.getFlashBackground() == null
 							|| e.getBooleanValue() != currentState.getFlashBackground();
 					if (!processing) break;

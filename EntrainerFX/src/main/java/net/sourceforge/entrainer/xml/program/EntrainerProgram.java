@@ -20,7 +20,6 @@ package net.sourceforge.entrainer.xml.program;
 
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_BACKGROUND;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_PROGRAM;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.FLASH_BACKGROUND;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_ANIMATION;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_PSYCHEDELIC;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_SHIMMER;
@@ -326,7 +325,7 @@ public class EntrainerProgram {
 	public void initGlobalSettings() {
 		fireReceiverChangeEvent(isPsychedelic(), IS_PSYCHEDELIC);
 		fireReceiverChangeEvent(isShimmer(), IS_SHIMMER);
-		fireReceiverChangeEvent(isFlashBackground(), FLASH_BACKGROUND);
+		fireReceiverChangeEvent(isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
 		fireReceiverChangeEvent(isAnimation(), IS_ANIMATION);
 		fireReceiverChangeEvent(getAnimationBackground(), ANIMATION_BACKGROUND);
 		if (getAnimationProgram() != null && getAnimationProgram().trim().length() > 0) {
@@ -359,7 +358,7 @@ public class EntrainerProgram {
 		fireReceiverChangeEvent(getDynamicDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);
 		fireReceiverChangeEvent(getDynamicTransition(), MediatorConstants.BACKGROUND_TRANSITION_SECONDS);
 
-		fireReceiverChangeEvent(isFlashBackground(), FLASH_BACKGROUND);
+		fireReceiverChangeEvent(isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
 	}
 
 	/**

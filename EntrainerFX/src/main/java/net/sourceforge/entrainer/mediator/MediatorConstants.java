@@ -99,9 +99,6 @@ public enum MediatorConstants {
 	/** The start entrainment. */
 	START_ENTRAINMENT("Start Entrainment"),
 
-	/** The flash background. */
-	FLASH_BACKGROUND("Flash Background"),
-
 	/** The message. */
 	MESSAGE("Message"),
 
@@ -191,6 +188,8 @@ public enum MediatorConstants {
 	APPLY_FLASH_TO_SHIMMER("Enables/disables the flash effect on the shimmers"),
 	
 	APPLY_FLASH_TO_ANIMATION("Enables/disables the flash effect on the animations"),
+	
+	APPLY_FLASH_TO_MEDIA("Enables/disables the flash effect on the media"),
 
 	/** The splash on startup. */
 	SPLASH_ON_STARTUP("If true will enable the splash screen on startup");

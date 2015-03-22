@@ -605,7 +605,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		if (xml.getShimmerName() != null) shimmers.getShimmers().setValue(xml.getShimmerName());
 
 		flashOptions.setFlashBackground(xml.isFlashBackground());
-		fireReceiverChangeEvent(flashOptions.isFlashBackground(), MediatorConstants.FLASH_BACKGROUND);
+		fireReceiverChangeEvent(flashOptions.isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
 
 		pics.setDuration(xml.getDynamicDuration());
 		fireReceiverChangeEvent(pics.getDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);

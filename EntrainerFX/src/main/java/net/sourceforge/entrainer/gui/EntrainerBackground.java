@@ -307,7 +307,7 @@ public class EntrainerBackground {
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
-				case FLASH_BACKGROUND:
+				case APPLY_FLASH_TO_BACKGROUND:
 					flashBackground = e.getBooleanValue();
 					break;
 				case STATIC_BACKGROUND:

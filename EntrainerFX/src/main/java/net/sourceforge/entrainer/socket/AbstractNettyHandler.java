@@ -311,7 +311,7 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 		}
 
 		if (esm.getFlashBackground() != null) {
-			fireReceiverChangeEvent(esm.getFlashBackground(), MediatorConstants.FLASH_BACKGROUND);
+			fireReceiverChangeEvent(esm.getFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
 		}
 
 		if (esm.getRequestState() != null) {

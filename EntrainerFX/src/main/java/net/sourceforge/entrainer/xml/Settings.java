@@ -21,7 +21,6 @@ package net.sourceforge.entrainer.xml;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.AMPLITUDE;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_DESKTOP_BACKGROUND;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ENTRAINMENT_FREQUENCY;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.FLASH_BACKGROUND;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.FREQUENCY;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.INTERVAL_ADD;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_ANIMATION;
@@ -424,7 +423,7 @@ public class Settings implements EntrainerResources {
 				case SHIMMER_RECTANGLE:
 					setShimmerRectangle(e.getStringValue());
 					break;
-				case FLASH_BACKGROUND:
+				case APPLY_FLASH_TO_BACKGROUND:
 					setFlashBackground(e.getBooleanValue());
 					break;
 				case DYNAMIC_BACKGROUND:
@@ -508,7 +507,7 @@ public class Settings implements EntrainerResources {
 		fireReceiverChangeEvent(isPsychedelic(), IS_PSYCHEDELIC);
 		fireReceiverChangeEvent(isShimmer(), IS_SHIMMER);
 		fireReceiverChangeEvent(getShimmerRectangle(), SHIMMER_RECTANGLE);
-		fireReceiverChangeEvent(isFlashBackground(), FLASH_BACKGROUND);
+		fireReceiverChangeEvent(isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
 
 		if (getStaticPictureFile() != null) {
 			fireReceiverChangeEvent(getStaticPictureFile(), MediatorConstants.BACKGROUND_PIC);
