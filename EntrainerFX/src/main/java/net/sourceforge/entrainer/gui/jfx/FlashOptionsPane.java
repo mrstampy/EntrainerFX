@@ -21,7 +21,6 @@ package net.sourceforge.entrainer.gui.jfx;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -41,6 +40,10 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 public class FlashOptionsPane extends AbstractTitledPane {
 
 	private CheckBox flashBackground = new CheckBox("Flash Background");
+	
+	private CheckBox applyBackground = new CheckBox("Background");
+	private CheckBox applyShimmer = new CheckBox("Shimmer");
+	private CheckBox applyAnimation = new CheckBox("Animation");
 
 	// additive effects
 	private CheckBox opacity = new CheckBox("Opacity");
@@ -307,6 +310,9 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTextFill(shadow);
 		setTextFill(lighting);
 		setTextFill(colourAdjust);
+		setTextFill(applyBackground);
+		setTextFill(applyShimmer);
+		setTextFill(applyAnimation);
 	}
 
 	private void initLayout() {
@@ -314,12 +320,35 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		contentPane.setAlignment(Pos.CENTER);
 
 		Node options = getOptions();
+		
+		Node apply = getApply();
 
-		GridPane.setConstraints(flashBackground, 0, 0, 1, 1, HPos.LEFT, VPos.CENTER);
+		GridPane.setConstraints(apply, 0, 0);
 		GridPane.setConstraints(options, 0, 1);
-		GridPane.setMargin(flashBackground, new Insets(10, 10, 20, 0));
 
-		contentPane.getChildren().addAll(flashBackground, options);
+		contentPane.getChildren().addAll(apply, options);
+	}
+
+	private Node getApply() {
+		Label lbl = new Label("Apply to:");
+		setTextFill(lbl);
+		
+		Insets value = new Insets(0, 0, 20, 0);
+		
+		setAppliesDisabled(true);
+		
+		VBox vbox = new VBox(10, applyBackground, applyShimmer, applyAnimation);
+		VBox.setMargin(applyAnimation, value);
+
+		vbox.setAlignment(Pos.CENTER_LEFT);
+		
+		HBox box = new HBox(10, flashBackground, lbl, vbox);
+		HBox.setMargin(flashBackground, value);
+		HBox.setMargin(lbl, new Insets(0, 0, 20, 40));
+		
+		box.setAlignment(Pos.CENTER);
+		
+		return box;
 	}
 
 	private Node getOptions() {
@@ -403,6 +432,9 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTooltip(sepiaTone, "Sepia Tone effect for flashing");
 		setTooltip(shadow, "Shadow effect for flashing");
 		setTooltip(colourAdjust, "Random Colour Adjust effect for flashing");
+		setTooltip(applyBackground, "Apply chosen flash effect to the background");
+		setTooltip(applyShimmer, "Apply the chosen flash effect to the shimmers");
+		setTooltip(applyAnimation, "Apply the chosen flash effect to the animations");
 	}
 
 	private void setEventHandlers() {
@@ -417,6 +449,21 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		sepiaTone.setOnAction(e -> sepiaToneClicked());
 		shadow.setOnAction(e -> shadowClicked());
 		colourAdjust.setOnAction(e -> colourAdjustClicked());
+		applyBackground.setOnAction(e -> applyBackgroundClicked());
+		applyShimmer.setOnAction(e -> applyShimmerClicked());
+		applyAnimation.setOnAction(e -> applyAnimationClicked());
+	}
+
+	private void applyAnimationClicked() {
+		fireReceiverChangeEvent(applyAnimation.isSelected(), MediatorConstants.APPLY_FLASH_TO_ANIMATION);
+	}
+
+	private void applyShimmerClicked() {
+		fireReceiverChangeEvent(applyShimmer.isSelected(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
+	}
+
+	private void applyBackgroundClicked() {
+		fireReceiverChangeEvent(applyBackground.isSelected(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
 	}
 
 	private void opacityClicked() {
@@ -471,6 +518,14 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		fireReceiverChangeEvent(b, MediatorConstants.FLASH_BACKGROUND);
 
 		options.setDisable(!b);
+		
+		setAppliesDisabled(!b);
+	}
+
+	private void setAppliesDisabled(boolean b) {
+		applyBackground.setDisable(b);
+		applyShimmer.setDisable(b);
+		applyAnimation.setDisable(b);
 	}
 
 	private void initMediator() {
@@ -485,6 +540,15 @@ public class FlashOptionsPane extends AbstractTitledPane {
 					break;
 				case FLASH_TYPE:
 					JFXUtils.runLater(() -> evaluateFlashType(((FlashType) e.getOption()), e.getBooleanValue()));
+					break;
+				case APPLY_FLASH_TO_BACKGROUND:
+					JFXUtils.runLater(() -> applyBackground.setSelected(e.getBooleanValue()));
+					break;
+				case APPLY_FLASH_TO_SHIMMER:
+					JFXUtils.runLater(() -> applyShimmer.setSelected(e.getBooleanValue()));
+					break;
+				case APPLY_FLASH_TO_ANIMATION:
+					JFXUtils.runLater(() -> applyAnimation.setSelected(e.getBooleanValue()));
 					break;
 				default:
 					break;
@@ -561,6 +625,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	private void flashBackgroundEvent(boolean b) {
 		flashBackground.setSelected(b);
 		options.setDisable(!b);
+		setAppliesDisabled(!b);
 	}
 
 	/*

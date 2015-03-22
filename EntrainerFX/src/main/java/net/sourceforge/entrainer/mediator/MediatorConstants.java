@@ -185,6 +185,12 @@ public enum MediatorConstants {
 	
 	/** The media time. */
 	MEDIA_TIME("Media time remaining"),
+	
+	APPLY_FLASH_TO_BACKGROUND("Enables/disables the flash effect on the background"),
+	
+	APPLY_FLASH_TO_SHIMMER("Enables/disables the flash effect on the shimmers"),
+	
+	APPLY_FLASH_TO_ANIMATION("Enables/disables the flash effect on the animations"),
 
 	/** The splash on startup. */
 	SPLASH_ON_STARTUP("If true will enable the splash screen on startup");
