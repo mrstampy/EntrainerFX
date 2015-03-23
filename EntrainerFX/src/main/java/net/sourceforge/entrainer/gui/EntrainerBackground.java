@@ -124,8 +124,6 @@ public class EntrainerBackground {
 
 	private Map<Integer, ScheduledFuture<?>> futures = new ConcurrentHashMap<>();
 
-	private boolean ptRunning;
-
 	private boolean psychedelic;
 
 	private ReadWriteLock lock = new ReentrantReadWriteLock();
@@ -206,7 +204,6 @@ public class EntrainerBackground {
 	}
 
 	private void switchPictures() {
-		ptRunning = false;
 		int key = ai.getAndIncrement();
 		ScheduledFuture<?> sf = switchSvc.schedule(() -> fadeInOut(key), getDisplayTime(), TimeUnit.SECONDS);
 		futures.put(key, sf);
@@ -215,7 +212,6 @@ public class EntrainerBackground {
 	private void fadeInOut(int key) {
 		writeLock.lock();
 		try {
-			ptRunning = true;
 			ScheduledFuture<?> sf = futures.remove(key);
 
 			if (sf == null || sf.isCancelled()) return;
@@ -371,8 +367,7 @@ public class EntrainerBackground {
 	protected void applyFlashEvent(boolean b) {
 		flashBackground = b;
 		if (!flashBackground) {
-			JFXUtils.resetEffects(current);
-			JFXUtils.resetEffects(old);
+			JFXUtils.resetEffects(pane);
 		}
 	}
 
@@ -474,13 +469,13 @@ public class EntrainerBackground {
 	}
 
 	private void setBackgroundOpacity(Node background, CurrentEffect effect) {
-		if (effect.isOpacity() && !ptRunning) {
+		if (effect.isOpacity()) {
 			if (effect.isPulse()) {
-				double o = background.getOpacity() == NORMAL_OPACITY ? FLASH_OPACITY : NORMAL_OPACITY;
+				double o = pane.getOpacity() == NORMAL_OPACITY ? FLASH_OPACITY : NORMAL_OPACITY;
 
-				background.setOpacity(o);
+				pane.setOpacity(o);
 			} else {
-				background.setOpacity(NORMAL_OPACITY);
+				pane.setOpacity(NORMAL_OPACITY);
 			}
 		}
 
