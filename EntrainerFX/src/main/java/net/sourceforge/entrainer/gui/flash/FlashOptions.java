@@ -138,16 +138,16 @@ public class FlashOptions {
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
 				case APPLY_FLASH_TO_BACKGROUND:
-					evaluateFlash(flashBackground, e.getBooleanValue());
+					flashBackground.set(e.getBooleanValue());
 					break;
 				case APPLY_FLASH_TO_ANIMATION:
-					evaluateFlash(flashAnimation, e.getBooleanValue());
+					flashAnimation.set(e.getBooleanValue());
 					break;
 				case APPLY_FLASH_TO_MEDIA:
-					evaluateFlash(flashMedia, e.getBooleanValue());
+					flashMedia.set(e.getBooleanValue());
 					break;
 				case APPLY_FLASH_TO_SHIMMER:
-					evaluateFlash(flashShimmer, e.getBooleanValue());
+					flashShimmer.set(e.getBooleanValue());
 					break;
 				case FLASH_TYPE:
 					evaluate(((FlashType) e.getOption()), e.getBooleanValue());
@@ -163,11 +163,6 @@ public class FlashOptions {
 				}
 			}
 		});
-	}
-
-	private void evaluateFlash(AtomicBoolean atom, boolean b) {
-		atom.set(b);
-		if (!isFlashing()) evalForPulse(false);
 	}
 
 	private void evaluateStart(boolean b) {
