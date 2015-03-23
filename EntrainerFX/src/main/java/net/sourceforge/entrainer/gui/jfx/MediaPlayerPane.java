@@ -22,8 +22,6 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DecimalFormat;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.beans.InvalidationListener;
@@ -99,8 +97,6 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private boolean pulse = false;
 
 	private boolean flashMedia;
-	
-	private ExecutorService svc = Executors.newSingleThreadExecutor();
 
 	/**
 	 * Instantiates a new media player pane.
@@ -463,7 +459,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 					evaluateFlashToMedia(e);
 					break;
 				case FLASH_EFFECT:
-					svc.execute(() -> pulseView(e.getEffect()));
+					JFXUtils.runLater(() -> pulseView(e.getEffect()));
 					break;
 				default:
 					break;
@@ -484,7 +480,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		if (currentEffect.isOpacity()) {
 			flipOpacity(currentEffect);
-		} else if(view.getOpacity() != 1) {
+		} else if (view.getOpacity() != 1) {
 			view.setOpacity(1);
 		}
 
