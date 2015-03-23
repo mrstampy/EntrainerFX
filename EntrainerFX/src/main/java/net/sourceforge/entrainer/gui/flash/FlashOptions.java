@@ -411,7 +411,7 @@ public class FlashOptions {
 
 		}
 
-		if (!isFlashing()) evalForPulse(false);
+		if (!isFlashing() && started) evalForPulse(false);
 	}
 
 	private void evaluateShadow(boolean b) {
