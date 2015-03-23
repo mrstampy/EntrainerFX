@@ -51,7 +51,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import net.sourceforge.entrainer.gui.flash.FlashOptions;
+import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -127,8 +127,6 @@ public class EntrainerBackground {
 	private boolean ptRunning;
 
 	private boolean psychedelic;
-
-	private FlashOptions flashOptions = FlashOptions.getinstance();
 
 	private ReadWriteLock lock = new ReentrantReadWriteLock();
 	private Lock readLock = lock.readLock();
@@ -308,7 +306,7 @@ public class EntrainerBackground {
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
 				case APPLY_FLASH_TO_BACKGROUND:
-					flashBackground = e.getBooleanValue();
+					applyFlashEvent(e.getBooleanValue());
 					break;
 				case STATIC_BACKGROUND:
 					if (isStatic()) return;
@@ -353,8 +351,8 @@ public class EntrainerBackground {
 				case IS_PSYCHEDELIC:
 					psychedelic = e.getBooleanValue();
 					break;
-				case ENTRAINMENT_FREQUENCY_PULSE:
-					transition(isNoBackground() ? rect : current, e.getBooleanValue());
+				case FLASH_EFFECT:
+					transition(isNoBackground() ? rect : current, e.getEffect());
 					break;
 				default:
 					break;
@@ -362,6 +360,20 @@ public class EntrainerBackground {
 			}
 
 		});
+	}
+
+	/**
+	 * Apply flash event.
+	 *
+	 * @param b
+	 *          the b
+	 */
+	protected void applyFlashEvent(boolean b) {
+		flashBackground = b;
+		if (!flashBackground) {
+			JFXUtils.resetEffects(current);
+			JFXUtils.resetEffects(old);
+		}
 	}
 
 	private void clearFutures() {
@@ -444,24 +456,14 @@ public class EntrainerBackground {
 		pane.getChildren().clear();
 	}
 
-	private void transition(Node background, boolean b) {
-		if (b) {
-			if (canRun(background)) JFXUtils.runLater(() -> invert(background));
-		} else {
-			if (background.getOpacity() > 0) JFXUtils.runLater(() -> reset(background));
-		}
+	private void transition(Node background, CurrentEffect effect) {
+		if (shouldRun()) JFXUtils.runLater(() -> invert(background, effect));
 	}
 
-	private boolean canRun(Node background) {
-		double o = background.getOpacity();
-		return shouldRun()
-				&& (!flashOptions.isOpacity() || flashOptions.hasEffect() || (flashOptions.isOpacity() && o > 0 && !ptRunning));
-	}
-
-	private void invert(Node background) {
+	private void invert(Node background, CurrentEffect effect) {
 		readLock.lock();
 		try {
-			if (flashBackground) setBackgroundOpacity(background);
+			if (flashBackground) setBackgroundOpacity(background, effect);
 
 			if (psychedelic && background instanceof Rectangle) {
 				((Rectangle) background).setFill(randomColour());
@@ -471,39 +473,25 @@ public class EntrainerBackground {
 		}
 	}
 
-	private void setBackgroundOpacity(Node background) {
-		if (flashOptions.isOpacity()) {
-			double o = background.getOpacity() == NORMAL_OPACITY ? FLASH_OPACITY : NORMAL_OPACITY;
+	private void setBackgroundOpacity(Node background, CurrentEffect effect) {
+		if (effect.isOpacity() && !ptRunning) {
+			if (effect.isPulse()) {
+				double o = background.getOpacity() == NORMAL_OPACITY ? FLASH_OPACITY : NORMAL_OPACITY;
 
-			background.setOpacity(o);
-		} else {
-			background.setOpacity(NORMAL_OPACITY);
+				background.setOpacity(o);
+			} else {
+				background.setOpacity(NORMAL_OPACITY);
+			}
 		}
 
-		Effect effect = flashOptions.getEffect();
-		setEffect(background, effect);
-		setEffect(old, effect);
+		setEffect(background, effect.getEffect());
+		setEffect(old, effect.getEffect());
 	}
 
 	private void setEffect(Node background, Effect effect) {
 		if (background == null || background.getOpacity() == 0) return;
 
-		if (replace(effect, background.getEffect())) background.setEffect(effect);
-	}
-
-	private boolean replace(Effect effect, Effect back) {
-		if (effect == null && back == null) return false;
-
-		if (effect != null && back == null) return true;
-
-		if (effect == null && back != null) return true;
-
-		return !effect.equals(back);
-	}
-
-	private void reset(Node background) {
-		background.setOpacity(NORMAL_OPACITY);
-		background.setEffect(flashOptions.defaultEffect());
+		background.setEffect(effect);
 	}
 
 	private boolean shouldRun() {

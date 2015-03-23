@@ -73,8 +73,10 @@ public abstract class AbstractTitledPane extends TitledPane {
 	/**
 	 * Sets the tooltip.
 	 *
-	 * @param node the node
-	 * @param tip the tip
+	 * @param node
+	 *          the node
+	 * @param tip
+	 *          the tip
 	 */
 	protected void setTooltip(Control node, String tip) {
 		node.setTooltip(new Tooltip(tip));

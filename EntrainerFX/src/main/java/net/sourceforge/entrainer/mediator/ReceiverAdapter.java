@@ -46,8 +46,10 @@ public abstract class ReceiverAdapter implements Receiver {
 	/**
 	 * Instantiates a new receiver adapter.
 	 *
-	 * @param source the source
-	 * @param pulseReceiver the pulse receiver
+	 * @param source
+	 *          the source
+	 * @param pulseReceiver
+	 *          the pulse receiver
 	 */
 	public ReceiverAdapter(Object source, boolean pulseReceiver) {
 		super();
@@ -136,7 +138,9 @@ public abstract class ReceiverAdapter implements Receiver {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.sourceforge.entrainer.mediator.Receiver#isPulseReceiver()
 	 */
 	public boolean isPulseReceiver() {

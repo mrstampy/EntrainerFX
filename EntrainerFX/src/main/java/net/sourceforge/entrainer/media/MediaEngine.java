@@ -111,16 +111,16 @@ public class MediaEngine {
 			}
 		});
 	}
-	
+
 	private void setPlayerVolume(double d) {
-		if(player == null) return;
-		
+		if (player == null) return;
+
 		player.setVolume(d);
 	}
 
 	private void entrainmentEnabled(boolean b) {
 		enableMediaEntrainment = b;
-		if(!b) setPlayerVolume(amplitude);
+		if (!b) setPlayerVolume(amplitude);
 	}
 
 	private void setPlayerTime(double d) {
@@ -141,11 +141,11 @@ public class MediaEngine {
 	 *          the b
 	 */
 	protected void entrain(boolean b) {
-		if(!b) {
+		if (!b) {
 			setPlayerVolume(amplitude);
 			return;
 		}
-		
+
 		if (!enableMediaEntrainment) return;
 
 		lock.lock();
@@ -273,46 +273,101 @@ public class MediaEngine {
 		}
 	}
 
+	/**
+	 * Gets the media.
+	 *
+	 * @return the media
+	 */
 	public Media getMedia() {
 		return media;
 	}
 
+	/**
+	 * Gets the player.
+	 *
+	 * @return the player
+	 */
 	public MediaPlayer getPlayer() {
 		return player;
 	}
 
+	/**
+	 * Gets the amplitude.
+	 *
+	 * @return the amplitude
+	 */
 	public double getAmplitude() {
 		return amplitude;
 	}
 
+	/**
+	 * Gets the entrainment amplitude.
+	 *
+	 * @return the entrainment amplitude
+	 */
 	public double getEntrainmentAmplitude() {
 		return entrainmentAmplitude;
 	}
 
+	/**
+	 * Checks if is enable media entrainment.
+	 *
+	 * @return true, if is enable media entrainment
+	 */
 	public boolean isEnableMediaEntrainment() {
 		return enableMediaEntrainment;
 	}
 
+	/**
+	 * Checks if is loop.
+	 *
+	 * @return true, if is loop
+	 */
 	public boolean isLoop() {
 		return loop;
 	}
 
+	/**
+	 * Checks if is flip.
+	 *
+	 * @return true, if is flip
+	 */
 	public boolean isFlip() {
 		return flip;
 	}
 
+	/**
+	 * Gets the lock.
+	 *
+	 * @return the lock
+	 */
 	public Lock getLock() {
 		return lock;
 	}
 
+	/**
+	 * Gets the sender.
+	 *
+	 * @return the sender
+	 */
 	public Sender getSender() {
 		return sender;
 	}
 
+	/**
+	 * Gets the svc.
+	 *
+	 * @return the svc
+	 */
 	public ScheduledExecutorService getSvc() {
 		return svc;
 	}
 
+	/**
+	 * Gets the sf.
+	 *
+	 * @return the sf
+	 */
 	public ScheduledFuture<?> getSf() {
 		return sf;
 	}

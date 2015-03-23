@@ -45,6 +45,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.media.MediaEngine;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
@@ -94,6 +95,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private AtomicBoolean internalTimeRemaining = new AtomicBoolean(false);
 
 	private boolean pulse = false;
+
+	private boolean flashMedia;
 
 	/**
 	 * Instantiates a new media player pane.
@@ -278,8 +281,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		boolean b = enableMedia.isSelected();
 
 		strength.setDisable(!b);
-		
-		if(!b) view.setOpacity(1.0);
+
+		if (!b) view.setOpacity(1.0);
 
 		fireReceiverChangeEvent(b, MediatorConstants.MEDIA_ENTRAINMENT);
 	}
@@ -452,8 +455,11 @@ public class MediaPlayerPane extends AbstractTitledPane {
 				case MEDIA_TIME:
 					JFXUtils.runLater(() -> setMediaTime(e.getDoubleValue()));
 					break;
-				case ENTRAINMENT_FREQUENCY_PULSE:
-					pulseView(e.getBooleanValue());
+				case APPLY_FLASH_TO_MEDIA:
+					evaluateFlashToMedia(e);
+					break;
+				case FLASH_EFFECT:
+					pulseView(e.getEffect());
 					break;
 				default:
 					break;
@@ -462,17 +468,26 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		});
 	}
 
-	private void pulseView(boolean b) {
-		if(!b) {
-			view.setOpacity(1.0);
-			return;
-		}
-		
+	private void evaluateFlashToMedia(ReceiverChangeEvent e) {
+		flashMedia = e.getBooleanValue();
+		if (!flashMedia) JFXUtils.resetEffects(view);
+	}
+
+	private void pulseView(CurrentEffect currentEffect) {
+		if (!flashMedia) return;
+
 		if (!enableMedia.isSelected() || view.getMediaPlayer() == null || !isPlaying()) return;
 
-		view.setOpacity(pulse ? 0.5 : 1.0);
+		if (currentEffect.isOpacity()) {
+			if (currentEffect.isPulse()) {
+				view.setOpacity(pulse ? 0.5 : 1.0);
+				pulse = !pulse;
+			} else {
+				view.setOpacity(1.0);
+			}
+		}
 
-		pulse = !pulse;
+		if (view.getFitWidth() > 0 && view.getFitHeight() > 0) view.setEffect(currentEffect.getEffect());
 	}
 
 	private void setMediaTime(double d) {

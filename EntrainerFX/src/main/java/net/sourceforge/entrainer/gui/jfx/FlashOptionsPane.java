@@ -91,26 +91,59 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		applyEvent(b, applyBackground);
 	}
 
+	/**
+	 * Checks if is flash shimmer.
+	 *
+	 * @return true, if is flash shimmer
+	 */
 	public boolean isFlashShimmer() {
 		return applyShimmer.isSelected();
 	}
 
+	/**
+	 * Sets the flash shimmer.
+	 *
+	 * @param b
+	 *          the new flash shimmer
+	 */
 	public void setFlashShimmer(boolean b) {
 		applyEvent(b, applyShimmer);
 	}
 
+	/**
+	 * Checks if is flash animation.
+	 *
+	 * @return true, if is flash animation
+	 */
 	public boolean isFlashAnimation() {
 		return applyAnimation.isSelected();
 	}
 
+	/**
+	 * Sets the flash animation.
+	 *
+	 * @param b
+	 *          the new flash animation
+	 */
 	public void setFlashAnimation(boolean b) {
 		applyEvent(b, applyAnimation);
 	}
 
+	/**
+	 * Checks if is flash media.
+	 *
+	 * @return true, if is flash media
+	 */
 	public boolean isFlashMedia() {
 		return applyMedia.isSelected();
 	}
 
+	/**
+	 * Sets the flash media.
+	 *
+	 * @param b
+	 *          the new flash media
+	 */
 	public void setFlashMedia(boolean b) {
 		applyEvent(b, applyMedia);
 	}
@@ -353,7 +386,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	}
 
 	private Node getApply() {
-		Label lbl = new Label("Apply to:");
+		Label lbl = new Label("Apply Flash To:");
 		setTextFill(lbl);
 
 		Node applies = getApplies();
@@ -595,7 +628,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	}
 
 	private void applyEvent(boolean b, CheckBox box) {
-		if(b == box.isSelected()) return;
+		if (b == box.isSelected()) return;
 		box.setSelected(b);
 		setOptionsEnabled();
 	}

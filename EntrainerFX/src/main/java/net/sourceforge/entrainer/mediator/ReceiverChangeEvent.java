@@ -21,6 +21,8 @@ package net.sourceforge.entrainer.mediator;
 import java.awt.Color;
 import java.util.EventObject;
 
+import net.sourceforge.entrainer.gui.flash.CurrentEffect;
+
 // TODO: Auto-generated Javadoc
 /**
  * Create an instance of this class and use an implementation of {@link Sender}
@@ -41,6 +43,8 @@ public class ReceiverChangeEvent extends EventObject {
 	private double endValue;
 
 	private Enum<?> option;
+
+	private CurrentEffect effect;
 
 	private MediatorConstants parm;
 
@@ -146,6 +150,22 @@ public class ReceiverChangeEvent extends EventObject {
 	}
 
 	/**
+	 * Instantiates a new receiver change event.
+	 *
+	 * @param source
+	 *          the source
+	 * @param effect
+	 *          the effect
+	 * @param parm
+	 *          the parm
+	 */
+	public ReceiverChangeEvent(Object source, CurrentEffect effect, MediatorConstants parm) {
+		super(source);
+		this.effect = effect;
+		setParm(parm);
+	}
+
+	/**
 	 * Gets the parm.
 	 *
 	 * @return the parm
@@ -246,6 +266,15 @@ public class ReceiverChangeEvent extends EventObject {
 
 	private void setOption(Enum<?> options) {
 		this.option = options;
+	}
+
+	/**
+	 * Gets the effect.
+	 *
+	 * @return the effect
+	 */
+	public CurrentEffect getEffect() {
+		return effect;
 	}
 
 }

@@ -23,6 +23,7 @@ import java.util.Random;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import net.sourceforge.entrainer.gui.EntrainerFX;
+import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
@@ -53,6 +54,10 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	protected Random rand = new Random(System.currentTimeMillis());
 
 	private Timeline timeLine;
+
+	/** The flash shimmer. */
+	protected boolean flashShimmer;
+	private boolean flip;
 
 	/**
 	 * Instantiates a new abstract shimmer.
@@ -99,8 +104,11 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 					setCanShimmer(e.getBooleanValue());
 					checkStarted();
 					break;
-				case ENTRAINMENT_FREQUENCY_PULSE:
-					if (isCanShimmer()) pulse(e.getBooleanValue());
+				case FLASH_EFFECT:
+					JFXUtils.runLater(() -> pulse(e.getEffect()));
+					break;
+				case APPLY_FLASH_TO_SHIMMER:
+					evaluateFlashShimmer(e.getBooleanValue());
 					break;
 				default:
 					break;
@@ -110,14 +118,28 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 		});
 	}
 
-	/**
-	 * Pulse.
-	 *
-	 * @param b
-	 *          the b
-	 */
-	protected void pulse(boolean b) {
-		// NOOP, override as necessary
+	private void evaluateFlashShimmer(boolean b) {
+		flashShimmer = b;
+		if (!flashShimmer) JFXUtils.resetEffects(this);
+	}
+
+	private void setFlashOpacity(boolean b) {
+		if (b) {
+			if (isCanShimmer()) {
+				setOpacity(flip ? 0.5 : 1);
+				flip = !flip;
+			}
+		} else if (getOpacity() != 1) {
+			setOpacity(1);
+		}
+	}
+
+	private void pulse(CurrentEffect currentEffect) {
+		if (!flashShimmer) return;
+
+		if (currentEffect.isOpacity()) setFlashOpacity(currentEffect.isPulse());
+
+		setEffect(currentEffect.getEffect());
 	}
 
 	private void checkStarted() {

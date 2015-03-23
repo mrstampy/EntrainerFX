@@ -39,12 +39,6 @@ public class ShimmerRegister {
 		shimmers.add(new InversionLinearShimmerRectangle());
 		shimmers.add(new InversionRadialShimmerRectangle());
 		shimmers.add(new WaveShimmerRectangle());
-		shimmers.add(new FlashingColorShimmerRectangle());
-		shimmers.add(new FlashingLinearShimmerRectangle());
-		shimmers.add(new FlashingRadialShimmerRectangle());
-		shimmers.add(new FlashingInversionLinearShimmerRectangle());
-		shimmers.add(new FlashingInversionRadialShimmerRectangle());
-		shimmers.add(new FlashingWaveShimmerRectangle());
 	}
 
 	/**

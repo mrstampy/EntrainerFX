@@ -23,6 +23,8 @@ import java.net.URI;
 
 import javafx.application.Platform;
 import javafx.geometry.Dimension2D;
+import javafx.scene.Node;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import net.sourceforge.entrainer.guitools.GuiUtil;
@@ -36,6 +38,22 @@ import org.slf4j.LoggerFactory;
  */
 public class JFXUtils {
 	private static final Logger log = LoggerFactory.getLogger(JFXUtils.class);
+
+	private static ColorAdjust defaultColourAdjust = new ColorAdjust();
+
+	/**
+	 * Reset effects.
+	 *
+	 * @param node
+	 *          the node
+	 */
+	public static void resetEffects(Node node) {
+		if (node == null) return;
+
+		node.setOpacity(1);
+		if (node.getEffect() instanceof ColorAdjust) node.setEffect(defaultColourAdjust);
+		node.setEffect(null);
+	}
 
 	/**
 	 * To jfx color.

@@ -87,6 +87,7 @@ import javax.swing.filechooser.FileFilter;
 
 import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.esp.EspConnectionRegister;
+import net.sourceforge.entrainer.gui.flash.FlashOptions;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
 import net.sourceforge.entrainer.gui.jfx.EntrainerFXSplash;
@@ -237,6 +238,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		});
 
 		EntrainmentFrequencyPulseNotifier.start();
+		FlashOptions.start();
 	}
 
 	/**

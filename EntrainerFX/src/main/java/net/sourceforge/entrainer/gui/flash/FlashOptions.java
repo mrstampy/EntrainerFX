@@ -25,11 +25,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Lighting;
@@ -42,8 +42,11 @@ import net.sourceforge.entrainer.gui.flash.effectable.MotionBlurEffectable;
 import net.sourceforge.entrainer.gui.flash.effectable.SepiaToneEffectable;
 import net.sourceforge.entrainer.gui.flash.effectable.ShadowEffectable;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
+import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
+import net.sourceforge.entrainer.mediator.Sender;
+import net.sourceforge.entrainer.mediator.SenderAdapter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,25 +60,40 @@ public class FlashOptions {
 
 	private static FlashOptions options;
 
-	private boolean flashBackground;
+	private static ColorAdjust defaultColourAdjust = new ColorAdjust();
 
 	/**
 	 * Gets the instance.
 	 *
 	 * @return the instance
 	 */
-	public static synchronized FlashOptions getinstance() {
+	public static synchronized void start() {
 		if (options == null) options = new FlashOptions();
-		return options;
 	}
+
+	/**
+	 * Reset.
+	 *
+	 * @param node
+	 *          the node
+	 */
+	public static void reset(Node node) {
+		node.setOpacity(1);
+		if (node.getEffect() instanceof ColorAdjust) node.setEffect(defaultColourAdjust);
+		node.setEffect(null);
+	}
+
+	private AtomicBoolean flashBackground = new AtomicBoolean(false);
+
+	private AtomicBoolean flashAnimation = new AtomicBoolean(false);
+
+	private AtomicBoolean flashMedia = new AtomicBoolean(false);
+
+	private AtomicBoolean flashShimmer = new AtomicBoolean(false);
 
 	private Map<FlashType, Boolean> flashTypes = new LinkedHashMap<>();
 
 	private AtomicBoolean opacity = new AtomicBoolean(false);
-
-	private ReadWriteLock lock = new ReentrantReadWriteLock();
-	private Lock readLock = lock.readLock();
-	private Lock writeLock = lock.writeLock();
 
 	private ColourAdjustState colourAdjustState = new ColourAdjustState();
 	private Effect effect = null;
@@ -84,6 +102,10 @@ public class FlashOptions {
 	private boolean started = false;
 
 	private AtomicBoolean flip = new AtomicBoolean(false);
+
+	private Sender sender = new SenderAdapter();
+
+	private ExecutorService svc = Executors.newSingleThreadExecutor();
 
 	private FlashOptions() {
 		populateMap();
@@ -95,31 +117,8 @@ public class FlashOptions {
 	 *
 	 * @return the effect
 	 */
-	public Effect getEffect() {
-		readLock.lock();
-		try {
-			return effect;
-		} finally {
-			readLock.unlock();
-		}
-	}
-
-	/**
-	 * Checks for effect.
-	 *
-	 * @return true, if successful
-	 */
-	public boolean hasEffect() {
-		return currentEffect != null;
-	}
-
-	/**
-	 * Default effect.
-	 *
-	 * @return the effect
-	 */
-	public Effect defaultEffect() {
-		return DEFAULT_COLOUR_ADJUST;
+	private Effect getEffect() {
+		return effect;
 	}
 
 	/**
@@ -127,24 +126,34 @@ public class FlashOptions {
 	 *
 	 * @return true, if is opacity
 	 */
-	public boolean isOpacity() {
+	private boolean isOpacity() {
 		return opacity.get();
 	}
 
 	private void initMediator() {
+		EntrainerMediator.getInstance().addSender(sender);
 		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
 				case APPLY_FLASH_TO_BACKGROUND:
-					flashBackground = e.getBooleanValue();
+					flashBackground.set(e.getBooleanValue());
+					break;
+				case APPLY_FLASH_TO_ANIMATION:
+					flashAnimation.set(e.getBooleanValue());
+					break;
+				case APPLY_FLASH_TO_MEDIA:
+					flashMedia.set(e.getBooleanValue());
+					break;
+				case APPLY_FLASH_TO_SHIMMER:
+					flashShimmer.set(e.getBooleanValue());
 					break;
 				case FLASH_TYPE:
 					evaluate(((FlashType) e.getOption()), e.getBooleanValue());
 					break;
 				case ENTRAINMENT_FREQUENCY_PULSE:
-					evaluateForPulse(e.getBooleanValue());
+					svc.execute(() -> evaluateForPulse(e.getBooleanValue()));
 					break;
 				case START_ENTRAINMENT:
 					evaluateStart(e.getBooleanValue());
@@ -157,20 +166,20 @@ public class FlashOptions {
 	}
 
 	private void evaluateStart(boolean b) {
-		if (!flashBackground) return;
+		if (!isFlashing()) return;
 
 		started = b;
-		writeLock.lock();
-		try {
-			if (b) {
-				createEffect();
-			} else {
-				setEffectDefault();
-				currentEffect = null;
-			}
-		} finally {
-			writeLock.unlock();
+		if (b) {
+			createEffect();
+		} else {
+			setEffectDefault();
+			currentEffect = null;
 		}
+	}
+
+	private boolean isFlashing() {
+		return (flashAnimation.get() || flashBackground.get() || flashMedia.get() || flashShimmer.get())
+				&& !flashTypes.isEmpty();
 	}
 
 	private void createEffect() {
@@ -277,24 +286,21 @@ public class FlashOptions {
 	}
 
 	private void evaluateForPulse(boolean b) {
-		writeLock.lock();
-		try {
-			evalForPulse(b);
-		} finally {
-			writeLock.unlock();
-		}
+		if (effect == null && currentEffect == null && !isOpacity() && !colourAdjustState.isColourAdjusting()) return;
+
+		evalForPulse(b);
 	}
 
 	private void evalForPulse(boolean b) {
-		if (effect == null && currentEffect == null && !colourAdjustState.isColourAdjusting()) return;
-
-		if (!flashBackground) b = false;
-
 		colourAdjustState.evaluateForPulse(b);
 		ColorAdjust ca = null;
 		if (colourAdjustState.isColourAdjusting()) {
 			ca = setColourAdjust();
-			if (currentEffect instanceof ColorAdjust) return;
+			if (currentEffect instanceof ColorAdjust) {
+				sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, new CurrentEffect(isOpacity(), b, getEffect()),
+						MediatorConstants.FLASH_EFFECT));
+				return;
+			}
 		}
 
 		if (b) {
@@ -307,6 +313,9 @@ public class FlashOptions {
 			setEffectDefault();
 			flip.set(false);
 		}
+
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, new CurrentEffect(isOpacity(), b, getEffect()),
+				MediatorConstants.FLASH_EFFECT));
 	}
 
 	private void setEffectDefault() {
@@ -363,6 +372,7 @@ public class FlashOptions {
 	 *          the b
 	 */
 	protected void evaluate(FlashType flashType, boolean b) {
+		log.debug("Eval {}, {}", flashType, b);
 		flashTypes.put(flashType, b);
 
 		switch (flashType) {
@@ -455,15 +465,6 @@ public class FlashOptions {
 	}
 
 	private void addEffect(Effect add) {
-		writeLock.lock();
-		try {
-			addEffectImpl(add);
-		} finally {
-			writeLock.unlock();
-		}
-	}
-
-	private void addEffectImpl(Effect add) {
 		log.debug("Adding effect {}", add);
 
 		if (currentEffect == null && effect == null) {
@@ -498,15 +499,6 @@ public class FlashOptions {
 	}
 
 	private void removeEffect(Class<? extends Effect> clz) {
-		writeLock.lock();
-		try {
-			removeEffectImpl(clz);
-		} finally {
-			writeLock.unlock();
-		}
-	}
-
-	private void removeEffectImpl(Class<? extends Effect> clz) {
 		log.debug("Removing class {}", clz.getSimpleName());
 		if (currentEffect == null) return;
 
@@ -515,6 +507,7 @@ public class FlashOptions {
 				log.debug("Removing root non effectable");
 				setEffect(null);
 				currentEffect = null;
+				evalForPulse(false);
 			} else {
 				log.warn("Cannot remove effect {} using class {}", effect.getClass(), clz);
 			}
@@ -533,10 +526,12 @@ public class FlashOptions {
 				log.debug("No effect left");
 				currentEffect = null;
 				setEffect(null);
+				evalForPulse(false);
 			} else if (supr == null) {
 				log.debug("supr null, effect = {}", sub);
 				currentEffect = sub;
 				setEffect(sub);
+				if (sub == null) evalForPulse(false);
 			} else {
 				log.debug("Setting supr {}'s input to {}", sub);
 				supr.setInput(sub);

@@ -39,6 +39,7 @@ import javafx.scene.image.WritableImage;
 import javax.swing.JWindow;
 
 import net.sourceforge.entrainer.gui.EntrainerFX;
+import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
@@ -70,6 +71,13 @@ public class JFXAnimationWindow extends JWindow {
 	private boolean isAnimating;
 
 	private Runnable animator;
+
+	/** The flash animation. */
+	protected boolean flashAnimation;
+
+	private boolean flip;
+
+	private boolean awaitingReset;
 
 	/**
 	 * Instantiates a new JFX animation window.
@@ -247,8 +255,14 @@ public class JFXAnimationWindow extends JWindow {
 				case IS_ANIMATION:
 					isAnimating = e.getBooleanValue();
 					break;
+				case FLASH_EFFECT:
+					JFXUtils.runLater(() -> pulseReceived(e.getEffect()));
+					break;
 				case ENTRAINMENT_FREQUENCY_PULSE:
-					if (e.getBooleanValue() && isAnimating) paint();
+					if (e.getBooleanValue()) paint();
+					break;
+				case APPLY_FLASH_TO_ANIMATION:
+					evaluateFlash(e.getBooleanValue());
 					break;
 				default:
 					break;
@@ -257,6 +271,31 @@ public class JFXAnimationWindow extends JWindow {
 
 			}
 		});
+	}
+
+	private void evaluateFlash(boolean b) {
+		flashAnimation = b;
+
+		if (!flashAnimation) JFXUtils.resetEffects(canvas);
+	}
+
+	private void pulseReceived(CurrentEffect currentEffect) {
+		if (!isAnimating || !flashAnimation) return;
+
+		boolean pulse = !awaitingReset && currentEffect.isPulse();
+
+		if (currentEffect.isOpacity() || awaitingReset) flipOpacity(pulse);
+
+		canvas.setEffect(currentEffect.getEffect());
+	}
+
+	private void flipOpacity(boolean pulse) {
+		if (pulse) {
+			canvas.setOpacity(flip ? 0.5 : 1);
+			flip = !flip;
+		} else {
+			canvas.setOpacity(1);
+		}
 	}
 
 	private void initAnimationBackground(String animationBackground) {

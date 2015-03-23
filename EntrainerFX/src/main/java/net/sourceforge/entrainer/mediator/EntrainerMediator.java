@@ -180,6 +180,7 @@ public class EntrainerMediator {
 	protected void sendEvent(ReceiverChangeEvent e) {
 		switch (e.getParm()) {
 		case ENTRAINMENT_FREQUENCY_PULSE:
+		case FLASH_EFFECT:
 			notifyPulseReceivers(e);
 			break;
 		default:
