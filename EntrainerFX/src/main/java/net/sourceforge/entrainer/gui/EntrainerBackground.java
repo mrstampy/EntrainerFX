@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -121,6 +122,8 @@ public class EntrainerBackground {
 	private Map<Integer, ScheduledFuture<?>> futures = new ConcurrentHashMap<>();
 
 	private boolean psychedelic;
+	
+	private ExecutorService svc = Executors.newSingleThreadExecutor();
 
 	/**
 	 * Instantiates a new variable background.
@@ -335,7 +338,7 @@ public class EntrainerBackground {
 					psychedelic = e.getBooleanValue();
 					break;
 				case FLASH_EFFECT:
-					transition(isNoBackground() ? rect : current, e.getEffect());
+					svc.execute(() -> transition(isNoBackground() ? rect : current, e.getEffect()));
 					break;
 				default:
 					break;

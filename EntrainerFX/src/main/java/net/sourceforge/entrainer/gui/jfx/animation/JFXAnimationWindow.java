@@ -26,6 +26,8 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.embed.swing.SwingFXUtils;
@@ -76,6 +78,8 @@ public class JFXAnimationWindow extends JWindow {
 	protected boolean flashAnimation;
 
 	private boolean flip;
+	
+	private ExecutorService svc = Executors.newSingleThreadExecutor();
 
 	/**
 	 * Instantiates a new JFX animation window.
@@ -260,7 +264,7 @@ public class JFXAnimationWindow extends JWindow {
 					if (e.getBooleanValue()) paint();
 					break;
 				case APPLY_FLASH_TO_ANIMATION:
-					evaluateFlash(e.getBooleanValue());
+					svc.execute(() -> evaluateFlash(e.getBooleanValue()));
 					break;
 				default:
 					break;

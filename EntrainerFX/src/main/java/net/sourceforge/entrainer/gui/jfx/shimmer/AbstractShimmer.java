@@ -19,6 +19,8 @@
 package net.sourceforge.entrainer.gui.jfx.shimmer;
 
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -58,6 +60,8 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	/** The flash shimmer. */
 	protected boolean flashShimmer;
 	private boolean flip;
+	
+	private ExecutorService svc = Executors.newSingleThreadExecutor();
 
 	/**
 	 * Instantiates a new abstract shimmer.
@@ -108,7 +112,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 					JFXUtils.runLater(() -> pulse(e.getEffect()));
 					break;
 				case APPLY_FLASH_TO_SHIMMER:
-					evaluateFlashShimmer(e.getBooleanValue());
+					svc.execute(() -> evaluateFlashShimmer(e.getBooleanValue()));
 					break;
 				default:
 					break;
