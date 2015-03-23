@@ -35,16 +35,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Node;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -126,10 +122,6 @@ public class EntrainerBackground {
 
 	private boolean psychedelic;
 
-	private ReadWriteLock lock = new ReentrantReadWriteLock();
-	private Lock readLock = lock.readLock();
-	private Lock writeLock = lock.writeLock();
-
 	/**
 	 * Instantiates a new variable background.
 	 */
@@ -210,31 +202,26 @@ public class EntrainerBackground {
 	}
 
 	private void fadeInOut(int key) {
-		writeLock.lock();
-		try {
-			ScheduledFuture<?> sf = futures.remove(key);
+		ScheduledFuture<?> sf = futures.remove(key);
 
-			if (sf == null || sf.isCancelled()) return;
+		if (sf == null || sf.isCancelled()) return;
 
-			if (!isDynamic()) return;
+		if (!isDynamic()) return;
 
-			old = current;
+		old = current;
 
-			createCurrent();
+		createCurrent();
 
-			setFadeInImage();
+		setFadeInImage();
 
-			fadeOut();
-			fadeIn();
+		fadeOut();
+		fadeIn();
 
-			pt = new ParallelTransition(fadeIn, fadeOut);
+		pt = new ParallelTransition(fadeIn, fadeOut);
 
-			pt.setOnFinished(e -> switchPictures());
+		pt.setOnFinished(e -> switchPictures());
 
-			JFXUtils.runLater(() -> pt.play());
-		} finally {
-			writeLock.unlock();
-		}
+		JFXUtils.runLater(() -> pt.play());
 	}
 
 	private void createCurrent() {
@@ -456,37 +443,32 @@ public class EntrainerBackground {
 	}
 
 	private void invert(Node background, CurrentEffect effect) {
-		readLock.lock();
-		try {
-			if (flashBackground) setBackgroundOpacity(background, effect);
+		if (flashBackground) {
+			setBackgroundOpacity(effect);
+			pane.setEffect(effect.getEffect());
+		}
 
-			if (psychedelic && background instanceof Rectangle) {
-				((Rectangle) background).setFill(randomColour());
-			}
-		} finally {
-			readLock.unlock();
+		if (psychedelic && background instanceof Rectangle) {
+			((Rectangle) background).setFill(randomColour());
 		}
 	}
 
-	private void setBackgroundOpacity(Node background, CurrentEffect effect) {
+	private void setBackgroundOpacity(CurrentEffect effect) {
 		if (effect.isOpacity()) {
-			if (effect.isPulse()) {
-				double o = pane.getOpacity() == NORMAL_OPACITY ? FLASH_OPACITY : NORMAL_OPACITY;
-
-				pane.setOpacity(o);
-			} else {
-				pane.setOpacity(NORMAL_OPACITY);
-			}
+			flipOpacity(effect);
+		} else if (pane.getOpacity() != NORMAL_OPACITY) {
+			pane.setOpacity(NORMAL_OPACITY);
 		}
-
-		setEffect(background, effect.getEffect());
-		setEffect(old, effect.getEffect());
 	}
 
-	private void setEffect(Node background, Effect effect) {
-		if (background == null || background.getOpacity() == 0) return;
+	private void flipOpacity(CurrentEffect effect) {
+		if (effect.isPulse()) {
+			double o = pane.getOpacity() == NORMAL_OPACITY ? FLASH_OPACITY : NORMAL_OPACITY;
 
-		background.setEffect(effect);
+			pane.setOpacity(o);
+		} else {
+			pane.setOpacity(NORMAL_OPACITY);
+		}
 	}
 
 	private boolean shouldRun() {

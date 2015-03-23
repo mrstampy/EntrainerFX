@@ -123,7 +123,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 		if (!flashShimmer) JFXUtils.resetEffects(this);
 	}
 
-	private void setFlashOpacity(boolean b) {
+	private void flipOpacity(boolean b) {
 		if (b) {
 			if (isCanShimmer()) {
 				setOpacity(flip ? 0.5 : 1);
@@ -137,7 +137,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 	private void pulse(CurrentEffect currentEffect) {
 		if (!flashShimmer) return;
 
-		if (currentEffect.isOpacity()) setFlashOpacity(currentEffect.isPulse());
+		if (currentEffect.isOpacity()) flipOpacity(currentEffect.isPulse());
 
 		setEffect(currentEffect.getEffect());
 	}

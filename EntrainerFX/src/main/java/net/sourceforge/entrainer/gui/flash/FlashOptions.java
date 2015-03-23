@@ -138,16 +138,16 @@ public class FlashOptions {
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
 				case APPLY_FLASH_TO_BACKGROUND:
-					flashBackground.set(e.getBooleanValue());
+					evaluateFlash(flashBackground, e.getBooleanValue());
 					break;
 				case APPLY_FLASH_TO_ANIMATION:
-					flashAnimation.set(e.getBooleanValue());
+					evaluateFlash(flashAnimation, e.getBooleanValue());
 					break;
 				case APPLY_FLASH_TO_MEDIA:
-					flashMedia.set(e.getBooleanValue());
+					evaluateFlash(flashMedia, e.getBooleanValue());
 					break;
 				case APPLY_FLASH_TO_SHIMMER:
-					flashShimmer.set(e.getBooleanValue());
+					evaluateFlash(flashShimmer, e.getBooleanValue());
 					break;
 				case FLASH_TYPE:
 					evaluate(((FlashType) e.getOption()), e.getBooleanValue());
@@ -165,6 +165,11 @@ public class FlashOptions {
 		});
 	}
 
+	private void evaluateFlash(AtomicBoolean atom, boolean b) {
+		atom.set(b);
+		if (!isFlashing()) evalForPulse(false);
+	}
+
 	private void evaluateStart(boolean b) {
 		if (!isFlashing()) return;
 
@@ -178,8 +183,7 @@ public class FlashOptions {
 	}
 
 	private boolean isFlashing() {
-		return (flashAnimation.get() || flashBackground.get() || flashMedia.get() || flashShimmer.get())
-				&& !flashTypes.isEmpty();
+		return flashAnimation.get() || flashBackground.get() || flashMedia.get() || flashShimmer.get();
 	}
 
 	private void createEffect() {
@@ -286,7 +290,7 @@ public class FlashOptions {
 	}
 
 	private void evaluateForPulse(boolean b) {
-		if (effect == null && currentEffect == null && !isOpacity() && !colourAdjustState.isColourAdjusting()) return;
+		if (!isFlashing()) return;
 
 		evalForPulse(b);
 	}
@@ -411,6 +415,8 @@ public class FlashOptions {
 			break;
 
 		}
+
+		if (!isFlashing()) evalForPulse(false);
 	}
 
 	private void evaluateShadow(boolean b) {
@@ -526,12 +532,10 @@ public class FlashOptions {
 				log.debug("No effect left");
 				currentEffect = null;
 				setEffect(null);
-				evalForPulse(false);
 			} else if (supr == null) {
 				log.debug("supr null, effect = {}", sub);
 				currentEffect = sub;
 				setEffect(sub);
-				if (sub == null) evalForPulse(false);
 			} else {
 				log.debug("Setting supr {}'s input to {}", sub);
 				supr.setInput(sub);

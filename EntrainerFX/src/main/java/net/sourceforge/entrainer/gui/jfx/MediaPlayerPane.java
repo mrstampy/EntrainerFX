@@ -479,15 +479,21 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		if (!enableMedia.isSelected() || view.getMediaPlayer() == null || !isPlaying()) return;
 
 		if (currentEffect.isOpacity()) {
-			if (currentEffect.isPulse()) {
-				view.setOpacity(pulse ? 0.5 : 1.0);
-				pulse = !pulse;
-			} else {
-				view.setOpacity(1.0);
-			}
+			flipOpacity(currentEffect);
+		} else if(view.getOpacity() != 1) {
+			view.setOpacity(1);
 		}
 
 		if (view.getFitWidth() > 0 && view.getFitHeight() > 0) view.setEffect(currentEffect.getEffect());
+	}
+
+	private void flipOpacity(CurrentEffect currentEffect) {
+		if (currentEffect.isPulse()) {
+			view.setOpacity(pulse ? 0.5 : 1.0);
+			pulse = !pulse;
+		} else {
+			view.setOpacity(1.0);
+		}
 	}
 
 	private void setMediaTime(double d) {
