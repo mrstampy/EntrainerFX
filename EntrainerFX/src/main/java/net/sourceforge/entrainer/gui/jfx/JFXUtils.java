@@ -20,6 +20,8 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import java.io.File;
 import java.net.URI;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javafx.application.Platform;
 import javafx.geometry.Dimension2D;
@@ -41,6 +43,8 @@ public class JFXUtils {
 	private static final Logger log = LoggerFactory.getLogger(JFXUtils.class);
 
 	private static ColorAdjust defaultColourAdjust = new ColorAdjust();
+	
+	private static ExecutorService SVC = Executors.newCachedThreadPool();
 
 	/**
 	 * Sets the effect.
@@ -51,6 +55,10 @@ public class JFXUtils {
 	 *          the effect
 	 */
 	public static void setEffect(Node node, CurrentEffect effect) {
+		SVC.execute(() -> runLater(() -> setEffectImpl(node, effect)));
+	}
+
+	private static void setEffectImpl(Node node, CurrentEffect effect) {
 		setOpacity(node, effect);
 		node.setEffect(effect.getEffect());
 	}

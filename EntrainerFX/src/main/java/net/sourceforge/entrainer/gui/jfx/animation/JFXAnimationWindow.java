@@ -258,7 +258,7 @@ public class JFXAnimationWindow extends JWindow {
 					if (e.getBooleanValue()) paint();
 					break;
 				case APPLY_FLASH_TO_ANIMATION:
-					JFXUtils.runLater(() -> evaluateFlash(e.getBooleanValue()));
+					evaluateFlash(e.getBooleanValue());
 					break;
 				default:
 					break;

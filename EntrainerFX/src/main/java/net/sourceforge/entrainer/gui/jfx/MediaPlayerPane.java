@@ -457,7 +457,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 					evaluateFlashToMedia(e);
 					break;
 				case FLASH_EFFECT:
-					JFXUtils.runLater(() -> pulseView(e.getEffect()));
+					pulseView(e.getEffect());
 					break;
 				default:
 					break;

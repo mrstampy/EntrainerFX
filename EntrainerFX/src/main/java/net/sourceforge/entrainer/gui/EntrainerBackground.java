@@ -331,7 +331,7 @@ public class EntrainerBackground {
 					psychedelic = e.getBooleanValue();
 					break;
 				case FLASH_EFFECT:
-					JFXUtils.runLater(() -> transition(isNoBackground() ? rect : current, e.getEffect()));
+					transition(isNoBackground() ? rect : current, e.getEffect());
 					break;
 				default:
 					break;

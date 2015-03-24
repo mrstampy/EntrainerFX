@@ -105,7 +105,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 					checkStarted();
 					break;
 				case FLASH_EFFECT:
-					JFXUtils.runLater(() -> pulse(e.getEffect()));
+					pulse(e.getEffect());
 					break;
 				case APPLY_FLASH_TO_SHIMMER:
 					evaluateFlashShimmer(e.getBooleanValue());

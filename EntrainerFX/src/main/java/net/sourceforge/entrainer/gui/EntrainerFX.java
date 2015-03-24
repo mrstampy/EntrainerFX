@@ -550,7 +550,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 					applyFlashEvent(e.getBooleanValue());
 					break;
 				case FLASH_EFFECT:
-					JFXUtils.runLater(() -> flashEFX(e.getEffect()));
+					flashEFX(e.getEffect());
 					break;
 				default:
 					break;
