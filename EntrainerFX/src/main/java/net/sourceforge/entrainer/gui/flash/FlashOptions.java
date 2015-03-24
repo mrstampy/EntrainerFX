@@ -33,6 +33,7 @@ import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Lighting;
+import net.sourceforge.entrainer.gui.EntrainerFX;
 import net.sourceforge.entrainer.gui.flash.effectable.BloomEffectable;
 import net.sourceforge.entrainer.gui.flash.effectable.BoxBlurEffectable;
 import net.sourceforge.entrainer.gui.flash.effectable.Effectable;
@@ -166,7 +167,7 @@ public class FlashOptions {
 	}
 
 	private void evaluateStart(boolean b) {
-		if (!isFlashing()) return;
+		if (!EntrainerFX.getInstance().isVisible()) return;
 
 		started = b;
 		if (b) {
@@ -191,7 +192,7 @@ public class FlashOptions {
 
 	private void createEffect(List<Effectable> effectables, Effect last) {
 		if (effectables.isEmpty() && last == null) {
-			log.info("No effect");
+			log.debug("No effect");
 			return;
 		}
 
@@ -409,6 +410,14 @@ public class FlashOptions {
 			log.warn("Unknown flash type {}", flashType);
 			break;
 
+		}
+
+		log.debug("Effect: {}", effect);
+		log.debug("Current Effect: {}", currentEffect);
+		if (log.isDebugEnabled()) {
+			for (Entry<FlashType, Boolean> entry : flashTypes.entrySet()) {
+				log.debug("Map: {} = {}", entry.getKey(), entry.getValue());
+			}
 		}
 
 		if (!isFlashing() && started) evalForPulse(false);
