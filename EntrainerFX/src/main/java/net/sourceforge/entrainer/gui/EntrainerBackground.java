@@ -64,10 +64,6 @@ import org.slf4j.LoggerFactory;
  * The Class EntrainerBackground.
  */
 public class EntrainerBackground {
-	private static final double FLASH_OPACITY = 0.5;
-
-	private static final double NORMAL_OPACITY = 1.0;
-
 	private static final Logger log = LoggerFactory.getLogger(EntrainerBackground.class);
 
 	private static String[] picSuffixes = { ".jpg", ".JPG", ".png", ".PNG", ".gif", ".GIF", ".jpeg", ".JPEG", ".bmp",
@@ -270,7 +266,7 @@ public class EntrainerBackground {
 	private void fadeIn() {
 		fadeIn = new FadeTransition(Duration.seconds(getFadeTime()), current);
 		fadeIn.setFromValue(current.getOpacity());
-		fadeIn.setToValue(NORMAL_OPACITY);
+		fadeIn.setToValue(1);
 		fadeIn.setInterpolator(Interpolator.LINEAR);
 	}
 
@@ -345,13 +341,7 @@ public class EntrainerBackground {
 		});
 	}
 
-	/**
-	 * Apply flash event.
-	 *
-	 * @param b
-	 *          the b
-	 */
-	protected void applyFlashEvent(boolean b) {
+	private void applyFlashEvent(boolean b) {
 		flashBackground = b;
 		if (!flashBackground) {
 			JFXUtils.resetEffects(pane);
@@ -425,7 +415,7 @@ public class EntrainerBackground {
 
 		createCurrent();
 		scaleImage();
-		current.setOpacity(NORMAL_OPACITY);
+		current.setOpacity(1);
 
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, backgroundPic, MediatorConstants.BACKGROUND_PIC));
 	}
@@ -443,31 +433,10 @@ public class EntrainerBackground {
 	}
 
 	private void invert(Node background, CurrentEffect effect) {
-		if (flashBackground) {
-			setBackgroundOpacity(effect);
-			pane.setEffect(effect.getEffect());
-		}
+		if (flashBackground) JFXUtils.setEffect(pane, effect);
 
 		if (psychedelic && background instanceof Rectangle) {
 			((Rectangle) background).setFill(randomColour());
-		}
-	}
-
-	private void setBackgroundOpacity(CurrentEffect effect) {
-		if (effect.isOpacity()) {
-			flipOpacity(effect);
-		} else if (pane.getOpacity() != NORMAL_OPACITY) {
-			pane.setOpacity(NORMAL_OPACITY);
-		}
-	}
-
-	private void flipOpacity(CurrentEffect effect) {
-		if (effect.isPulse()) {
-			double o = pane.getOpacity() == NORMAL_OPACITY ? FLASH_OPACITY : NORMAL_OPACITY;
-
-			pane.setOpacity(o);
-		} else {
-			pane.setOpacity(NORMAL_OPACITY);
 		}
 	}
 

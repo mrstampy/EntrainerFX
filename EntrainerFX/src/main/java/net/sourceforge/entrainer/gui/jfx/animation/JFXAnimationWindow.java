@@ -75,8 +75,6 @@ public class JFXAnimationWindow extends JWindow {
 	/** The flash animation. */
 	protected boolean flashAnimation;
 
-	private boolean flip;
-
 	/**
 	 * Instantiates a new JFX animation window.
 	 */
@@ -280,24 +278,7 @@ public class JFXAnimationWindow extends JWindow {
 	private void pulseReceived(CurrentEffect currentEffect) {
 		if (!isAnimating || !flashAnimation) return;
 
-		boolean pulse = currentEffect.isPulse();
-
-		if (currentEffect.isOpacity()) {
-			flipOpacity(pulse);
-		} else if (canvas.getOpacity() != 1) {
-			canvas.setOpacity(1);
-		}
-
-		canvas.setEffect(currentEffect.getEffect());
-	}
-
-	private void flipOpacity(boolean pulse) {
-		if (pulse) {
-			canvas.setOpacity(flip ? 0.5 : 1);
-			flip = !flip;
-		} else {
-			canvas.setOpacity(1);
-		}
+		JFXUtils.setEffect(canvas, currentEffect);
 	}
 
 	private void initAnimationBackground(String animationBackground) {

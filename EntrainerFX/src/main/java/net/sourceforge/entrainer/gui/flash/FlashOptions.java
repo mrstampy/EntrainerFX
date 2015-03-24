@@ -92,6 +92,8 @@ public class FlashOptions {
 
 	private AtomicBoolean flashShimmer = new AtomicBoolean(false);
 
+	private AtomicBoolean flashEntrainerFX = new AtomicBoolean(false);
+
 	private Map<FlashType, Boolean> flashTypes = new LinkedHashMap<>();
 
 	private AtomicBoolean opacity = new AtomicBoolean(false);
@@ -150,6 +152,9 @@ public class FlashOptions {
 				case APPLY_FLASH_TO_SHIMMER:
 					flashShimmer.set(e.getBooleanValue());
 					break;
+				case APPLY_FLASH_TO_ENTRAINER_FX:
+					flashEntrainerFX.set(e.getBooleanValue());
+					break;
 				case FLASH_TYPE:
 					evaluate(((FlashType) e.getOption()), e.getBooleanValue());
 					break;
@@ -179,7 +184,8 @@ public class FlashOptions {
 	}
 
 	private boolean isFlashing() {
-		return flashAnimation.get() || flashBackground.get() || flashMedia.get() || flashShimmer.get();
+		return flashAnimation.get() || flashBackground.get() || flashMedia.get() || flashShimmer.get()
+				|| flashEntrainerFX.get();
 	}
 
 	private void createEffect() {

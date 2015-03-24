@@ -27,6 +27,7 @@ import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 
 import org.slf4j.Logger;
@@ -40,6 +41,36 @@ public class JFXUtils {
 	private static final Logger log = LoggerFactory.getLogger(JFXUtils.class);
 
 	private static ColorAdjust defaultColourAdjust = new ColorAdjust();
+
+	/**
+	 * Sets the effect.
+	 *
+	 * @param node
+	 *          the node
+	 * @param effect
+	 *          the effect
+	 */
+	public static void setEffect(Node node, CurrentEffect effect) {
+		setOpacity(node, effect);
+		node.setEffect(effect.getEffect());
+	}
+
+	private static void setOpacity(Node node, CurrentEffect effect) {
+		if (effect.isOpacity()) {
+			flipOpacity(node, effect);
+		} else if (node.getOpacity() != 1) {
+			node.setOpacity(1);
+		}
+	}
+
+	private static void flipOpacity(Node node, CurrentEffect effect) {
+		if (effect.isPulse()) {
+			double o = node.getOpacity() == 1 ? 0.5 : 1;
+			node.setOpacity(o);
+		} else {
+			node.setOpacity(1);
+		}
+	}
 
 	/**
 	 * Reset effects.

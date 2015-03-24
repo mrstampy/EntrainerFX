@@ -43,6 +43,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	private CheckBox applyShimmer = new CheckBox("Shimmer");
 	private CheckBox applyAnimation = new CheckBox("Animation");
 	private CheckBox applyMedia = new CheckBox("Media");
+	private CheckBox applyEntrainerFX = new CheckBox("EntrainerFX");
 
 	// additive effects
 	private CheckBox opacity = new CheckBox("Opacity");
@@ -146,6 +147,25 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	 */
 	public void setFlashMedia(boolean b) {
 		applyEvent(b, applyMedia);
+	}
+
+	/**
+	 * Checks if is flash entrainer fx.
+	 *
+	 * @return true, if is flash entrainer fx
+	 */
+	public boolean isFlashEntrainerFX() {
+		return applyEntrainerFX.isSelected();
+	}
+
+	/**
+	 * Sets the flash entrainer fx.
+	 *
+	 * @param b
+	 *          the new flash entrainer fx
+	 */
+	public void setFlashEntrainerFX(boolean b) {
+		applyEvent(b, applyEntrainerFX);
 	}
 
 	/**
@@ -369,6 +389,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTextFill(applyShimmer);
 		setTextFill(applyAnimation);
 		setTextFill(applyMedia);
+		setTextFill(applyEntrainerFX);
 	}
 
 	private void initLayout() {
@@ -391,10 +412,11 @@ public class FlashOptionsPane extends AbstractTitledPane {
 
 		Node applies = getApplies();
 
-		HBox box = new HBox(10, lbl, applies);
+		HBox box = new HBox(10, lbl, applies, applyEntrainerFX);
 		box.setAlignment(Pos.CENTER);
 		HBox.setMargin(lbl, new Insets(0, 20, 30, 0));
 		HBox.setMargin(applies, new Insets(0, 0, 30, 0));
+		HBox.setMargin(applyEntrainerFX, new Insets(0, 0, 30, 0));
 
 		return box;
 	}
@@ -505,6 +527,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTooltip(applyShimmer, "Apply the chosen flash effect to the shimmers");
 		setTooltip(applyAnimation, "Apply the chosen flash effect to the animations");
 		setTooltip(applyMedia, "Apply the chosen flash effect to the media (if applicable)");
+		setTooltip(applyEntrainerFX, "Apply the chosen flash effect to the main window");
 	}
 
 	private void setEventHandlers() {
@@ -522,6 +545,11 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		applyShimmer.setOnAction(e -> applyShimmerClicked());
 		applyAnimation.setOnAction(e -> applyAnimationClicked());
 		applyMedia.setOnAction(e -> applyMediaClicked());
+		applyEntrainerFX.setOnAction(e -> applyEntrainerFXClicked());
+	}
+
+	private void applyEntrainerFXClicked() {
+		applyClicked(applyEntrainerFX, MediatorConstants.APPLY_FLASH_TO_ENTRAINER_FX);
 	}
 
 	private void applyMediaClicked() {
@@ -547,7 +575,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 
 	private void setOptionsEnabled() {
 		boolean b = applyAnimation.isSelected() || applyBackground.isSelected() || applyShimmer.isSelected()
-				|| applyMedia.isSelected();
+				|| applyMedia.isSelected() || applyEntrainerFX.isSelected();
 
 		options.setDisable(!b);
 	}
@@ -618,6 +646,9 @@ public class FlashOptionsPane extends AbstractTitledPane {
 					break;
 				case APPLY_FLASH_TO_MEDIA:
 					JFXUtils.runLater(() -> applyEvent(e.getBooleanValue(), applyMedia));
+					break;
+				case APPLY_FLASH_TO_ENTRAINER_FX:
+					JFXUtils.runLater(() -> applyEvent(e.getBooleanValue(), applyEntrainerFX));
 					break;
 				default:
 					break;

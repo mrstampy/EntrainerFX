@@ -195,6 +195,9 @@ public enum MediatorConstants {
 	/** The apply flash to media. */
 	APPLY_FLASH_TO_MEDIA("Enables/disables the flash effect on the media"),
 
+	/** The apply flash to EntrainerFX. */
+	APPLY_FLASH_TO_ENTRAINER_FX("Enables/disables the flash effect on the main window"),
+
 	/** The flash effect. */
 	FLASH_EFFECT("The effect to use for flashing"),
 

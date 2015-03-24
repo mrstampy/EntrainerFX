@@ -94,8 +94,6 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 	private AtomicBoolean internalTimeRemaining = new AtomicBoolean(false);
 
-	private boolean pulse = false;
-
 	private boolean flashMedia;
 
 	/**
@@ -478,22 +476,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		if (!enableMedia.isSelected() || view.getMediaPlayer() == null || !isPlaying()) return;
 
-		if (currentEffect.isOpacity()) {
-			flipOpacity(currentEffect);
-		} else if (view.getOpacity() != 1) {
-			view.setOpacity(1);
-		}
-
-		if (view.getFitWidth() > 0 && view.getFitHeight() > 0) view.setEffect(currentEffect.getEffect());
-	}
-
-	private void flipOpacity(CurrentEffect currentEffect) {
-		if (currentEffect.isPulse()) {
-			view.setOpacity(pulse ? 0.5 : 1.0);
-			pulse = !pulse;
-		} else {
-			view.setOpacity(1.0);
-		}
+		JFXUtils.setEffect(view, currentEffect);
 	}
 
 	private void setMediaTime(double d) {

@@ -87,6 +87,7 @@ import javax.swing.filechooser.FileFilter;
 
 import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.esp.EspConnectionRegister;
+import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.gui.flash.FlashOptions;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
@@ -220,6 +221,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	private MediaPlayerPane audioPlayerPane = new MediaPlayerPane();
 
 	private boolean enableMediaEntrainment;
+	private boolean flashEFX;
 
 	private EntrainerFX() {
 		super("Entrainer FX");
@@ -505,7 +507,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 	private void initMediator() {
 		EntrainerMediator.getInstance().addSender(sender);
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
+		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
@@ -544,6 +546,12 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 				case SPLASH_ON_STARTUP:
 					SwingUtilities.invokeLater(() -> splashOnStartup.setSelected(e.getBooleanValue()));
 					break;
+				case APPLY_FLASH_TO_ENTRAINER_FX:
+					applyFlashEvent(e.getBooleanValue());
+					break;
+				case FLASH_EFFECT:
+					JFXUtils.runLater(() -> flashEFX(e.getEffect()));
+					break;
 				default:
 					break;
 
@@ -551,6 +559,19 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 			}
 
 		});
+	}
+
+	private void flashEFX(CurrentEffect effect) {
+		if (!flashEFX) return;
+
+		JFXUtils.setEffect(gp, effect);
+	}
+
+	private void applyFlashEvent(boolean b) {
+		flashEFX = b;
+		if (!flashEFX) {
+			JFXUtils.resetEffects(gp);
+		}
 	}
 
 	private void setEspMenuItemsEnabled(boolean booleanValue) {
