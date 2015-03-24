@@ -30,6 +30,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
+import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.CheckBox;
@@ -267,6 +268,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		setDisabled(stop, true);
 
 		view.setPreserveRatio(true);
+		view.setCache(true);
+		view.setCacheHint(CacheHint.QUALITY);
 	}
 
 	private void loopClicked() {

@@ -60,6 +60,7 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.TitledPane;
@@ -1712,6 +1713,9 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 				mainPanel.setScene(scene);
 			}
 		});
+		
+		gp.setCache(true);
+		gp.setCacheHint(CacheHint.QUALITY);
 
 		getContentPane().add(mainPanel);
 	}

@@ -40,6 +40,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.geometry.Dimension2D;
+import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -123,6 +124,8 @@ public class EntrainerBackground {
 	 */
 	public EntrainerBackground() {
 		initMediator();
+		pane.setCache(true);
+		pane.setCacheHint(CacheHint.SPEED);
 	}
 
 	/**
@@ -228,6 +231,7 @@ public class EntrainerBackground {
 		current.setScaleX(1);
 		current.setScaleY(1);
 		current.setCache(true);
+		current.setCacheHint(CacheHint.SPEED);
 	}
 
 	private void killCurrent() {

@@ -29,6 +29,7 @@ import java.util.List;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -108,6 +109,8 @@ public class JFXAnimationWindow extends JWindow {
 				}
 			}
 		};
+		canvas.setCache(true);
+		canvas.setCacheHint(CacheHint.SPEED);
 	}
 
 	/*

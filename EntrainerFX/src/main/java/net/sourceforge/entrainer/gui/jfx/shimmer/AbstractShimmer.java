@@ -20,6 +20,7 @@ package net.sourceforge.entrainer.gui.jfx.shimmer;
 
 import java.util.Random;
 
+import javafx.scene.CacheHint;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import net.sourceforge.entrainer.gui.EntrainerFX;
@@ -57,7 +58,6 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 
 	/** The flash shimmer. */
 	protected boolean flashShimmer;
-	private boolean flip;
 
 	/**
 	 * Instantiates a new abstract shimmer.
@@ -72,6 +72,8 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 		resetProps();
 
 		setFill(null);
+		setCache(true);
+		setCacheHint(CacheHint.SPEED);
 	}
 
 	/**

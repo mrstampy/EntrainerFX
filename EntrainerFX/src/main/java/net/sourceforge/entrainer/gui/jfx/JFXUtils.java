@@ -24,9 +24,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Dimension2D;
+import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import net.sourceforge.entrainer.gui.flash.CurrentEffect;
@@ -43,7 +47,7 @@ public class JFXUtils {
 	private static final Logger log = LoggerFactory.getLogger(JFXUtils.class);
 
 	private static ColorAdjust defaultColourAdjust = new ColorAdjust();
-	
+
 	private static ExecutorService SVC = Executors.newCachedThreadPool();
 
 	/**
@@ -59,7 +63,20 @@ public class JFXUtils {
 	}
 
 	private static void setEffectImpl(Node node, CurrentEffect effect) {
+		CacheHint orig = node.getCacheHint();
+		if (orig != CacheHint.SPEED) node.setCacheHint(CacheHint.SPEED);
+		
+		ChangeListener<Effect> l = new ChangeListener<Effect>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Effect> observable, Effect oldValue, Effect newValue) {
+				if (orig != CacheHint.SPEED) node.setCacheHint(orig);
+				node.effectProperty().removeListener(this);
+			}
+		};
+		
 		setOpacity(node, effect);
+		node.effectProperty().addListener(l);
 		node.setEffect(effect.getEffect());
 	}
 
