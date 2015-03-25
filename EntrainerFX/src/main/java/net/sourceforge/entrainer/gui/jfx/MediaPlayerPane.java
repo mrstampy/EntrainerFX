@@ -479,7 +479,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		if (!enableMedia.isSelected() || view.getMediaPlayer() == null || !isPlaying()) return;
 
-		JFXUtils.setEffect(view, currentEffect);
+		if(view.getFitHeight() > 0) JFXUtils.setEffect(view, currentEffect);
 	}
 
 	private void setMediaTime(double d) {
