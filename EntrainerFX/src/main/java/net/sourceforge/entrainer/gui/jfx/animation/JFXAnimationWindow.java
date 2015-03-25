@@ -346,6 +346,13 @@ public class JFXAnimationWindow extends JWindow {
 			EntrainerFX.getInstance().toFront();
 		} else {
 			getEntrainerAnimation().clearAnimation();
+			Thread thread = new Thread("Animation colour background change") {
+				public void run() {
+					background = createColourBackground();
+				}
+			};
+			
+			thread.start();
 		}
 	}
 
