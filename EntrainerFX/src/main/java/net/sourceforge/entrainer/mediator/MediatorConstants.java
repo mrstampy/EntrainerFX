@@ -79,7 +79,7 @@ public enum MediatorConstants {
 	ANIMATION_BACKGROUND("Animation Background"),
 
 	/** The animation desktop background. */
-	ANIMATION_DESKTOP_BACKGROUND("Animation Desktop Background"),
+	ANIMATION_COLOR_BACKGROUND("Animation Colour Background"),
 
 	/** The interval add. */
 	INTERVAL_ADD("Interval Add"),

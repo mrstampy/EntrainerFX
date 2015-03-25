@@ -18,17 +18,11 @@
  */
 package net.sourceforge.entrainer.gui.jfx.animation;
 
-import java.awt.AWTException;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import javafx.embed.swing.JFXPanel;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -39,16 +33,20 @@ import javafx.scene.image.WritableImage;
 
 import javax.swing.JWindow;
 
+import jfxtras.labs.util.Util;
 import net.sourceforge.entrainer.gui.EntrainerFX;
 import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
+import net.sourceforge.entrainer.gui.jfx.shimmer.ShimmerPaintUtils;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
-import net.sourceforge.entrainer.util.Utils;
 import net.sourceforge.entrainer.xml.Settings;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -58,6 +56,7 @@ import net.sourceforge.entrainer.xml.Settings;
  * @author burton
  */
 public class JFXAnimationWindow extends JWindow {
+	private static final Logger log = LoggerFactory.getLogger(JFXAnimationWindow.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -75,6 +74,11 @@ public class JFXAnimationWindow extends JWindow {
 
 	/** The flash animation. */
 	protected boolean flashAnimation;
+
+	/** The started. */
+	protected boolean started;
+
+	private boolean colourBackground;
 
 	/**
 	 * Instantiates a new JFX animation window.
@@ -97,7 +101,7 @@ public class JFXAnimationWindow extends JWindow {
 
 			private void drawBackground(GraphicsContext gc) {
 				if (!getEntrainerAnimation().useBackgroundColour()) {
-					if (getCustomImage() == null) {
+					if (colourBackground || getCustomImage() == null) {
 						gc.drawImage(background, 0, 0);
 					} else {
 						gc.drawImage(getCustomImage(), 0, 0);
@@ -122,7 +126,7 @@ public class JFXAnimationWindow extends JWindow {
 		if (!b) {
 			getEntrainerAnimation().clearAnimation();
 		} else {
-			initBackground();
+			initDefaultBackground();
 		}
 		super.setVisible(b);
 	}
@@ -158,28 +162,6 @@ public class JFXAnimationWindow extends JWindow {
 		}
 	}
 
-	private void initBackground() {
-		initDesktopBackground();
-	}
-
-	private void initDesktopBackground() {
-		EntrainerFX frame = EntrainerFX.getInstance();
-		frame.toBack();
-		frame.setExtendedState(Frame.ICONIFIED);
-		while (frame.getExtendedState() != Frame.ICONIFIED) {
-
-		}
-
-		Utils.snooze(500);
-
-		initBackground(getScreenSize());
-
-		if (!getEntrainerAnimation().isHideEntrainerFrame()) {
-			frame.setExtendedState(Frame.NORMAL);
-			frame.toFront();
-		}
-	}
-
 	private void initEntrainerAnimation() {
 		initEntrainerAnimation(Settings.getInstance().getAnimationProgram());
 		initAnimationBackground(Settings.getInstance().getAnimationBackground());
@@ -204,7 +186,7 @@ public class JFXAnimationWindow extends JWindow {
 		canvas.setHeight(size.getHeight());
 
 		setLocation(new Point(0, getYOffset()));
-		initBackground(size);
+		initDefaultBackground();
 
 		JFXUtils.runLater(new Runnable() {
 
@@ -224,14 +206,16 @@ public class JFXAnimationWindow extends JWindow {
 		return GuiUtil.getWorkingVirtualScreenSize();
 	}
 
-	private void initBackground(Dimension size) {
-		try {
-			Robot robot = new Robot();
-			BufferedImage buf = robot.createScreenCapture(new Rectangle(new Point(0, getYOffset()), size));
-			background = SwingFXUtils.toFXImage(buf, null);
-		} catch (AWTException e) {
-			GuiUtil.handleProblem(e);
-		}
+	private void initDefaultBackground() {
+		if (background != null) return;
+		background = createColourBackground();
+	}
+
+	private WritableImage createColourBackground() {
+		Dimension size = getScreenSize();
+		Image image = Util.createBrushedMetalImage(size.getWidth(), size.getHeight(), ShimmerPaintUtils.generateColor(1));
+
+		return new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight());
 	}
 
 	private void initMediator() {
@@ -249,19 +233,31 @@ public class JFXAnimationWindow extends JWindow {
 					initEntrainerAnimation(e.getStringValue());
 					break;
 				case START_ENTRAINMENT:
-					if (!e.getBooleanValue()) getEntrainerAnimation().clearAnimation();
+					started = e.getBooleanValue();
+					showAnimation();
 					break;
 				case IS_ANIMATION:
 					isAnimating = e.getBooleanValue();
+					showAnimation();
 					break;
 				case FLASH_EFFECT:
-					JFXUtils.runLater(() -> pulseReceived(e.getEffect()));
+					if (!isVisible()) break;
+					pulseReceived(e.getEffect());
 					break;
 				case ENTRAINMENT_FREQUENCY_PULSE:
-					if (e.getBooleanValue()) paint();
+					if (!isVisible()) break;
+					if (e.getBooleanValue() && runAnimation()) {
+						paint();
+					} else {
+						getEntrainerAnimation().clearAnimation();
+						evaluateFlash(false);
+					}
 					break;
 				case APPLY_FLASH_TO_ANIMATION:
 					evaluateFlash(e.getBooleanValue());
+					break;
+				case ANIMATION_COLOR_BACKGROUND:
+					initColourBackground(e.getBooleanValue());
 					break;
 				default:
 					break;
@@ -270,6 +266,16 @@ public class JFXAnimationWindow extends JWindow {
 
 			}
 		});
+	}
+
+	private boolean runAnimation() {
+		return entrainerAnimation != null && isAnimating && started;
+	}
+
+	private void initColourBackground(boolean b) {
+		colourBackground = b;
+		if (background != null) return;
+		background = b ? createColourBackground() : null;
 	}
 
 	private void evaluateFlash(boolean b) {
@@ -289,7 +295,12 @@ public class JFXAnimationWindow extends JWindow {
 			setCustomImage(null);
 		} else {
 			Image image = new Image(animationBackground, getScreenSize().getWidth(), getScreenSize().getHeight(), false, true);
-			setCustomImage(new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight()));
+			try {
+				setCustomImage(new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight()));
+			} catch (Exception e) {
+				log.error("Unexpected exception for image {}", animationBackground, e);
+				GuiUtil.handleProblem(e);
+			}
 		}
 	}
 
@@ -319,6 +330,23 @@ public class JFXAnimationWindow extends JWindow {
 
 	private void setCustomImage(WritableImage backgroundImage) {
 		this.customImage = backgroundImage;
+	}
+
+	private void showAnimation() {
+		boolean b = runAnimation();
+		if (b == isVisible()) return;
+
+		JFXUtils.runLater(() -> showAnimation(b));
+	}
+
+	private void showAnimation(boolean b) {
+		setVisible(b);
+
+		if (b) {
+			EntrainerFX.getInstance().toFront();
+		} else {
+			getEntrainerAnimation().clearAnimation();
+		}
 	}
 
 }

@@ -461,12 +461,12 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		}
 		xml.setUnits(getUnits());
 		xml.setPsychedelic(pics.isPsychedelic());
-		xml.setAnimation(animations.getAnimation().isSelected());
+		xml.setAnimation(animations.getRunAnimation().isSelected());
 		xml.setPinkPan(pinkPan.getPanCheck().isSelected());
 		xml.setShimmer(shimmers.getShimmer().isSelected());
 		xml.setAnimationBackground(animations.getAnimationBackgroundPicture());
 		xml.setAnimationProgram(animations.getSelectedAnimationName());
-		xml.setUseDesktopAsBackground(animations.getUseDesktopAsBackground().isSelected());
+		xml.setUseColourAsBackground(animations.getUseColourAsBackground().isSelected());
 		xml.setIntervals(intervalMenu.getLoadedIntervals());
 		xml.setShimmerName(shimmers.getShimmers().getValue());
 
@@ -589,12 +589,12 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 	private void initFields() {
 		fireReceiverChangeEvent(xml.isPsychedelic(), IS_PSYCHEDELIC);
 
-		animations.getAnimation().setSelected(xml.isAnimation());
+		animations.getRunAnimation().setSelected(xml.isAnimation());
 		if (xml.getAnimationProgram() != null) {
 			animations.refreshAnimations();
 			fireReceiverChangeEvent(xml.getAnimationProgram(), ANIMATION_PROGRAM);
 		}
-		animations.getUseDesktopAsBackground().setSelected(xml.isUseDesktopAsBackground());
+		animations.getUseColourAsBackground().setSelected(xml.isUseColourAsBackground());
 
 		pinkPan.getPanCheck().setSelected(xml.isPinkPan());
 		shimmers.getShimmer().setSelected(xml.isShimmer());
@@ -825,7 +825,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 				enableControls(e.isActionStop());
 
 				fireReceiverChangeEvent(pics.isPsychedelic(), IS_PSYCHEDELIC);
-				fireReceiverChangeEvent(animations.getAnimation().isSelected(), IS_ANIMATION);
+				fireReceiverChangeEvent(animations.getRunAnimation().isSelected(), IS_ANIMATION);
 				fireReceiverChangeEvent(pinkPan.getPanCheck().isSelected(), PINK_PAN);
 				fireReceiverChangeEvent(shimmers.getShimmer().isSelected(), IS_SHIMMER);
 				String shimmer = shimmers.getShimmers().getValue();

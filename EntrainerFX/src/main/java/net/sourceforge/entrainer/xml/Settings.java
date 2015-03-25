@@ -19,7 +19,6 @@
 package net.sourceforge.entrainer.xml;
 
 import static net.sourceforge.entrainer.mediator.MediatorConstants.AMPLITUDE;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_DESKTOP_BACKGROUND;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ENTRAINMENT_FREQUENCY;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.FREQUENCY;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.INTERVAL_ADD;
@@ -117,7 +116,7 @@ public class Settings implements EntrainerResources {
 	private String animationBackground;
 
 	@XmlElement
-	private boolean isDesktopBackground;
+	private boolean colourBackground;
 
 	@XmlElement
 	private int socketPort;
@@ -405,8 +404,8 @@ public class Settings implements EntrainerResources {
 				case ANIMATION_BACKGROUND:
 					setAnimationBackground(e.getStringValue());
 					break;
-				case ANIMATION_DESKTOP_BACKGROUND:
-					setDesktopBackground(e.getBooleanValue());
+				case ANIMATION_COLOR_BACKGROUND:
+					setColourBackground(e.getBooleanValue());
 					break;
 				case IS_PSYCHEDELIC:
 					setPsychedelic(e.getBooleanValue());
@@ -502,8 +501,10 @@ public class Settings implements EntrainerResources {
 		fireReceiverChangeEvent(getPinkNoisePanAmplitude(), PINK_PAN_AMPLITUDE);
 		fireReceiverChangeEvent(getPinkNoiseEntrainmentMultiple(), PINK_ENTRAINER_MULTIPLE);
 		fireReceiverChangeEvent(isPinkNoisePan(), PINK_PAN);
-		fireReceiverChangeEvent(isDesktopBackground(), ANIMATION_DESKTOP_BACKGROUND);
 		fireReceiverChangeEvent(isAnimation(), IS_ANIMATION);
+		fireReceiverChangeEvent(getAnimationBackground(), MediatorConstants.ANIMATION_BACKGROUND);
+		fireReceiverChangeEvent(getAnimationProgram(), MediatorConstants.ANIMATION_PROGRAM);
+		fireReceiverChangeEvent(isColourBackground(), MediatorConstants.ANIMATION_COLOR_BACKGROUND);
 		fireReceiverChangeEvent(isPsychedelic(), IS_PSYCHEDELIC);
 		fireReceiverChangeEvent(isShimmer(), IS_SHIMMER);
 		fireReceiverChangeEvent(getShimmerRectangle(), SHIMMER_RECTANGLE);
@@ -917,8 +918,8 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is desktop background
 	 */
-	public boolean isDesktopBackground() {
-		return isDesktopBackground;
+	public boolean isColourBackground() {
+		return colourBackground;
 	}
 
 	/**
@@ -927,8 +928,8 @@ public class Settings implements EntrainerResources {
 	 * @param isDesktopBackground
 	 *          the new desktop background
 	 */
-	public void setDesktopBackground(boolean isDesktopBackground) {
-		this.isDesktopBackground = isDesktopBackground;
+	public void setColourBackground(boolean isDesktopBackground) {
+		this.colourBackground = isDesktopBackground;
 	}
 
 	/**

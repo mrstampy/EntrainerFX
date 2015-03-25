@@ -117,7 +117,7 @@ public class EntrainerProgram {
 	private int dynamicTransition;
 
 	@XmlElement
-	private boolean useDesktopAsBackground;
+	private boolean useColourAsBackground;
 
 	@XmlElement(name = "opacity.flash")
 	private boolean opacity;
@@ -331,7 +331,7 @@ public class EntrainerProgram {
 		if (getAnimationProgram() != null && getAnimationProgram().trim().length() > 0) {
 			fireReceiverChangeEvent(getAnimationProgram(), ANIMATION_PROGRAM);
 		}
-		fireReceiverChangeEvent(isUseDesktopAsBackground(), MediatorConstants.ANIMATION_DESKTOP_BACKGROUND);
+		fireReceiverChangeEvent(isUseColourAsBackground(), MediatorConstants.ANIMATION_COLOR_BACKGROUND);
 		if (getShimmerName() != null && isShimmer()) {
 			fireReceiverChangeEvent(getShimmerName(), SHIMMER_RECTANGLE);
 		}
@@ -636,8 +636,8 @@ public class EntrainerProgram {
 	 *
 	 * @return true, if is use desktop as background
 	 */
-	public boolean isUseDesktopAsBackground() {
-		return useDesktopAsBackground;
+	public boolean isUseColourAsBackground() {
+		return useColourAsBackground;
 	}
 
 	/**
@@ -646,8 +646,8 @@ public class EntrainerProgram {
 	 * @param useDesktopAsBackground
 	 *          the new use desktop as background
 	 */
-	public void setUseDesktopAsBackground(boolean useDesktopAsBackground) {
-		this.useDesktopAsBackground = useDesktopAsBackground;
+	public void setUseColourAsBackground(boolean useDesktopAsBackground) {
+		this.useColourAsBackground = useDesktopAsBackground;
 	}
 
 	/**

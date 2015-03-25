@@ -1490,9 +1490,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 			@Override
 			public void run() {
 				setMessage(control.isRecord() ? "Recording Stopped" : "Stopped");
-				if (animationWindow != null) {
-					animationWindow.setVisible(false);
-				}
 				stop();
 			}
 		});
@@ -1507,11 +1504,11 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 			@Override
 			public void run() {
-				if (animations.getAnimation().isSelected()) {
+				if (animations.getRunAnimation().isSelected()) {
 					startAnimation();
 				}
 				start();
-				if (!animations.getAnimation().isSelected()) {
+				if (!animations.getRunAnimation().isSelected()) {
 					setMessage(control.isRecord() ? "Recording Started" : "Entrainment Started");
 				}
 			}
@@ -1528,9 +1525,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		if (animationWindow.getEntrainerAnimation() == null) {
 			animationWindow.setEntrainerAnimation(JFXAnimationRegister.getEntrainerAnimations().get(0));
 		}
-
-		animationWindow.setVisible(true);
-		toFront();
 	}
 
 	private void pausePressed() {
@@ -1713,7 +1707,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 				mainPanel.setScene(scene);
 			}
 		});
-		
+
 		gp.setCache(true);
 		gp.setCacheHint(CacheHint.QUALITY);
 

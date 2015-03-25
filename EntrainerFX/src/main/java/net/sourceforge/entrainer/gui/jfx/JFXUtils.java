@@ -48,7 +48,8 @@ public class JFXUtils {
 
 	private static ColorAdjust defaultColourAdjust = new ColorAdjust();
 
-	private static ExecutorService SVC = Executors.newCachedThreadPool();
+	/** The flash svc. */
+	public static ExecutorService FLASH_SVC = Executors.newCachedThreadPool();
 
 	/**
 	 * Sets the effect.
@@ -59,24 +60,25 @@ public class JFXUtils {
 	 *          the effect
 	 */
 	public static void setEffect(Node node, CurrentEffect effect) {
-		SVC.execute(() -> runLater(() -> setEffectImpl(node, effect)));
+		FLASH_SVC.execute(() -> runLater(() -> setEffectImpl(node, effect)));
 	}
 
 	private static void setEffectImpl(Node node, CurrentEffect effect) {
 		CacheHint orig = node.getCacheHint();
-		if (orig != CacheHint.SPEED) node.setCacheHint(CacheHint.SPEED);
-		
-		ChangeListener<Effect> l = new ChangeListener<Effect>() {
+		boolean isSpeed = orig == CacheHint.SPEED;
+
+		if (!isSpeed) node.setCacheHint(CacheHint.SPEED);
+
+		node.effectProperty().addListener(new ChangeListener<Effect>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Effect> observable, Effect oldValue, Effect newValue) {
-				if (orig != CacheHint.SPEED) node.setCacheHint(orig);
+				if (!isSpeed) node.setCacheHint(orig);
 				node.effectProperty().removeListener(this);
 			}
-		};
-		
+		});
+
 		setOpacity(node, effect);
-		node.effectProperty().addListener(l);
 		node.setEffect(effect.getEffect());
 	}
 

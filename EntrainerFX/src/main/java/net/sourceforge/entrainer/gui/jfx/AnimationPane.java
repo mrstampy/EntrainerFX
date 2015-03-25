@@ -19,11 +19,11 @@
 package net.sourceforge.entrainer.gui.jfx;
 
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_BACKGROUND;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_DESKTOP_BACKGROUND;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_PROGRAM;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -36,12 +36,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import net.sourceforge.entrainer.gui.jfx.animation.JFXAnimationRegister;
 import net.sourceforge.entrainer.gui.jfx.animation.JFXEntrainerAnimation;
@@ -49,20 +45,23 @@ import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
-import net.sourceforge.entrainer.xml.Settings;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class AnimationPane.
  */
 public class AnimationPane extends AbstractTitledPane {
+	private static final Logger log = LoggerFactory.getLogger(AnimationPane.class);
 
 	private ComboBox<JFXEntrainerAnimation> animations = new ComboBox<JFXEntrainerAnimation>();
-	private CheckBox animation = new CheckBox("Run Animations");
-	private CheckBox useDesktopAsBackground = new CheckBox("Use Desktop Background");
+	private CheckBox runAnimation = new CheckBox("Run Animations");
+	private CheckBox useColourAsBackground = new CheckBox("Use Colour Background");
 	private TextField animationBackground = new TextField();
-	private boolean comboBoxInited = false;
-	private FlowPane fp;
+	private GridPane pane;
+	private URI imageFile;
 
 	/**
 	 * Instantiates a new animation pane.
@@ -79,7 +78,7 @@ public class AnimationPane extends AbstractTitledPane {
 	 *          the new animation selected
 	 */
 	public void setAnimationSelected(boolean selected) {
-		setSelected(selected, animation);
+		setSelected(selected, runAnimation);
 	}
 
 	/**
@@ -104,19 +103,14 @@ public class AnimationPane extends AbstractTitledPane {
 
 	private void setSelected(final boolean selected, final CheckBox checkBox) {
 		if (checkBox.isSelected() == selected) return;
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				checkBox.setSelected(selected);
-			}
-		});
+		JFXUtils.runLater(() -> checkBox.setSelected(selected));
 	}
 
 	private void setToolTips() {
-		setTooltip(animation, "Run Animation During Entrainment Session");
-		setTooltip(useDesktopAsBackground,
-				"If true will use a screenshot of the desktop as the animation background,\n else will use the selected image file");
+		setTooltip(runAnimation, "Run Animation During Entrainment Session");
+		setTooltip(useColourAsBackground, "If true will use a random colour as the animation background");
+		setTooltip(animationBackground, "Click to select a background image for animations");
+		setTooltip(animations, "The list of available animations");
 	}
 
 	/**
@@ -124,8 +118,8 @@ public class AnimationPane extends AbstractTitledPane {
 	 *
 	 * @return the animation
 	 */
-	public CheckBox getAnimation() {
-		return animation;
+	public CheckBox getRunAnimation() {
+		return runAnimation;
 	}
 
 	/**
@@ -133,8 +127,8 @@ public class AnimationPane extends AbstractTitledPane {
 	 *
 	 * @return the use desktop as background
 	 */
-	public CheckBox getUseDesktopAsBackground() {
-		return useDesktopAsBackground;
+	public CheckBox getUseColourAsBackground() {
+		return useColourAsBackground;
 	}
 
 	/*
@@ -151,52 +145,27 @@ public class AnimationPane extends AbstractTitledPane {
 
 	private void initGui() {
 		animationBackground.setEditable(false);
-		animationBackground.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+		animationBackground.setOnMouseClicked(e -> showImageChooser());
 
-			@Override
-			public void handle(MouseEvent arg0) {
-				if (arg0.getClickCount() != 2) return;
-				showImageChooser();
-			}
-		});
+		animations.setOnAction(e -> animationSelected());
+		useColourAsBackground.setOnAction(e -> useColourClicked());
 
-		animations.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+		setTextFill(useColourAsBackground);
 
-			@Override
-			public void handle(ActionEvent arg0) {
-				JFXEntrainerAnimation val = animations.getValue();
-				if (val != null) {
-					fireAnimationSelection(val.toString());
-					setBackgroundFields(val);
-				}
-			}
-		});
+		initCheckBox(runAnimation, MediatorConstants.IS_ANIMATION);
 
-		useDesktopAsBackground.setOnAction(new EventHandler<ActionEvent>() {
+		pane = new GridPane();
+		pane.setPadding(new Insets(10));
+		pane.setAlignment(Pos.CENTER);
+		pane.setHgap(10);
+		pane.setVgap(10);
 
-			@Override
-			public void handle(ActionEvent arg0) {
-				fireDesktopBackground();
-				if (useDesktopAsBackground.isSelected()) {
-					fireBackgroundSelection(null);
-					animationBackground.setText("");
-				} else {
-					showImageChooser();
-				}
-			}
-		});
+		GridPane.setConstraints(runAnimation, 0, 0);
+		GridPane.setConstraints(useColourAsBackground, 0, 1);
+		GridPane.setConstraints(animations, 1, 0);
+		GridPane.setConstraints(animationBackground, 1, 1);
 
-		setTextFill(useDesktopAsBackground);
-
-		initCheckBox(animation, MediatorConstants.IS_ANIMATION);
-
-		fp = new FlowPane();
-		fp.setPadding(new Insets(10));
-		fp.setHgap(10);
-		fp.setVgap(10);
-
-		fp.getChildren().add(animations);
-		fp.getChildren().add(getVBox());
+		pane.getChildren().addAll(runAnimation, animations, useColourAsBackground, animationBackground);
 
 		expandedProperty().addListener(new InvalidationListener() {
 
@@ -206,7 +175,7 @@ public class AnimationPane extends AbstractTitledPane {
 			}
 		});
 
-		fp.setAlignment(Pos.CENTER);
+		pane.setAlignment(Pos.CENTER);
 	}
 
 	/**
@@ -245,46 +214,6 @@ public class AnimationPane extends AbstractTitledPane {
 		}
 	}
 
-	private void initEntrainerAnimations() {
-		if (comboBoxInited) return;
-
-		// Resize the combo box
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				initEntrainerAnimation(Settings.getInstance().getAnimationProgram());
-				useDesktopAsBackground.setSelected(Settings.getInstance().isDesktopBackground());
-				initAnimationBackground(Settings.getInstance().getAnimationBackground());
-				animations.show();
-				animations.hide();
-				comboBoxInited = true;
-			}
-		});
-	}
-
-	private Node getVBox() {
-		VBox vbox = new VBox();
-		vbox.setSpacing(10);
-		vbox.getChildren().add(animation);
-		vbox.getChildren().add(useDesktopAsBackground);
-		vbox.getChildren().add(getAnimationBackground());
-
-		return vbox;
-	}
-
-	private HBox getAnimationBackground() {
-		HBox hbox = new HBox();
-		Label label = new Label("Select Background Picture");
-		setTextFill(label);
-		HBox.setMargin(label, new Insets(0, 5, 5, 5));
-
-		hbox.getChildren().add(label);
-		hbox.getChildren().add(animationBackground);
-
-		return hbox;
-	}
-
 	/**
 	 * Show image chooser.
 	 */
@@ -296,13 +225,12 @@ public class AnimationPane extends AbstractTitledPane {
 
 		File f = chooser.showOpenDialog(null);
 
-		if (f != null) {
-			URI imageFile = f.toURI();
-			String externalForm = imageFile.toString();
+		if (f == null && imageFile == null) {
+			useColourAsBackground.setSelected(true);
+		} else {
+			String externalForm = f.toURI().toString();
 			fireBackgroundSelection(externalForm);
 			initAnimationBackground(externalForm);
-		} else {
-			useDesktopAsBackground.setSelected(true);
 		}
 	}
 
@@ -314,31 +242,13 @@ public class AnimationPane extends AbstractTitledPane {
 				switch (e.getParm()) {
 
 				case ANIMATION_BACKGROUND:
-					initEntrainerAnimations();
 					initAnimationBackground(e.getStringValue());
 					break;
-				case ANIMATION_DESKTOP_BACKGROUND:
-					initEntrainerAnimations();
-					JFXUtils.runLater(new Runnable() {
-
-						@Override
-						public void run() {
-							useDesktopAsBackground.setSelected(e.getBooleanValue());
-						}
-					});
+				case ANIMATION_COLOR_BACKGROUND:
+					JFXUtils.runLater(() -> useColourAsBackground.setSelected(e.getBooleanValue()));
 					break;
 				case ANIMATION_PROGRAM:
-					initEntrainerAnimations();
 					initEntrainerAnimation(e.getStringValue());
-					break;
-				case START_ENTRAINMENT:
-					JFXUtils.runLater(new Runnable() {
-
-						@Override
-						public void run() {
-							getAnimation().setDisable(e.getBooleanValue());
-						}
-					});
 					break;
 				case IS_ANIMATION:
 					setAnimationSelected(e.getBooleanValue());
@@ -367,36 +277,42 @@ public class AnimationPane extends AbstractTitledPane {
 
 	private void setBackgroundFields(JFXEntrainerAnimation selectedItem) {
 		if (selectedItem.useBackgroundColour()) {
-			useDesktopAsBackground.setSelected(false);
+			useColourAsBackground.setSelected(false);
 			animationBackground.setDisable(true);
 			return;
 		}
 
 		if (selectedItem.useDesktopBackground()) {
-			useDesktopAsBackground.setSelected(true);
+			useColourAsBackground.setSelected(true);
 			animationBackground.setDisable(false);
-			animationBackground.setText("");
 		} else {
-			useDesktopAsBackground.setSelected(false);
+			useColourAsBackground.setSelected(false);
 			animationBackground.setDisable(true);
 		}
 	}
 
 	private void initAnimationBackground(final String s) {
-		JFXUtils.runLater(new Runnable() {
+		JFXUtils.runLater(() -> setBackgroundFile(s));
+	}
 
-			@Override
-			public void run() {
-				useDesktopAsBackground.setSelected(null == s);
-				if (!useDesktopAsBackground.isSelected()) {
-					animationBackground.setText(s);
-				}
-			}
-		});
+	private void setBackgroundFile(String s) {
+		if (s == null) {
+			imageFile = null;
+			animationBackground.setText("");
+			return;
+		}
+
+		try {
+			imageFile = new URI(s);
+			File f = new File(imageFile.isAbsolute() ? imageFile : imageFile.normalize());
+			animationBackground.setText(f.getName());
+		} catch (URISyntaxException e) {
+			log.error("Unexpected exception", e);
+		}
 	}
 
 	private void fireDesktopBackground() {
-		fireReceiverChangeEvent(useDesktopAsBackground.isSelected(), ANIMATION_DESKTOP_BACKGROUND);
+		fireReceiverChangeEvent(useColourAsBackground.isSelected(), MediatorConstants.ANIMATION_COLOR_BACKGROUND);
 	}
 
 	private void fireAnimationSelection(String name) {
@@ -425,7 +341,26 @@ public class AnimationPane extends AbstractTitledPane {
 	 */
 	@Override
 	protected Node getContentPane() {
-		return fp;
+		return pane;
+	}
+
+	private void animationSelected() {
+		JFXEntrainerAnimation val = animations.getValue();
+		if (val != null) {
+			fireAnimationSelection(val.toString());
+			setBackgroundFields(val);
+		}
+	}
+
+	private void useColourClicked() {
+		fireDesktopBackground();
+		if (!useColourAsBackground.isSelected()) {
+			if (imageFile == null) {
+				showImageChooser();
+			} else {
+				fireBackgroundSelection(imageFile.toString());
+			}
+		}
 	}
 
 }
