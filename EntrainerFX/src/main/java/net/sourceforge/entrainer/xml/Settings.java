@@ -23,7 +23,6 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.ENTRAINMENT_F
 import static net.sourceforge.entrainer.mediator.MediatorConstants.FREQUENCY;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.INTERVAL_ADD;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_ANIMATION;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_PSYCHEDELIC;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_SHIMMER;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_ENTRAINER_MULTIPLE;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_NOISE_AMPLITUDE;
@@ -102,9 +101,6 @@ public class Settings implements EntrainerResources {
 
 	@XmlElement
 	private boolean isAnimation;
-
-	@XmlElement
-	private boolean isPsychedelic;
 
 	@XmlElement
 	private boolean isShimmer;
@@ -407,9 +403,6 @@ public class Settings implements EntrainerResources {
 				case ANIMATION_COLOR_BACKGROUND:
 					setColourBackground(e.getBooleanValue());
 					break;
-				case IS_PSYCHEDELIC:
-					setPsychedelic(e.getBooleanValue());
-					break;
 				case IS_SHIMMER:
 					setShimmer(e.getBooleanValue());
 					break;
@@ -505,7 +498,6 @@ public class Settings implements EntrainerResources {
 		fireReceiverChangeEvent(getAnimationBackground(), MediatorConstants.ANIMATION_BACKGROUND);
 		fireReceiverChangeEvent(getAnimationProgram(), MediatorConstants.ANIMATION_PROGRAM);
 		fireReceiverChangeEvent(isColourBackground(), MediatorConstants.ANIMATION_COLOR_BACKGROUND);
-		fireReceiverChangeEvent(isPsychedelic(), IS_PSYCHEDELIC);
 		fireReceiverChangeEvent(isShimmer(), IS_SHIMMER);
 		fireReceiverChangeEvent(getShimmerRectangle(), SHIMMER_RECTANGLE);
 		fireReceiverChangeEvent(isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
@@ -873,25 +865,6 @@ public class Settings implements EntrainerResources {
 	 */
 	public void setAnimation(boolean isAnimation) {
 		this.isAnimation = isAnimation;
-	}
-
-	/**
-	 * Checks if is psychedelic.
-	 *
-	 * @return true, if is psychedelic
-	 */
-	public boolean isPsychedelic() {
-		return isPsychedelic;
-	}
-
-	/**
-	 * Sets the psychedelic.
-	 *
-	 * @param isPsychedelic
-	 *          the new psychedelic
-	 */
-	public void setPsychedelic(boolean isPsychedelic) {
-		this.isPsychedelic = isPsychedelic;
 	}
 
 	/**

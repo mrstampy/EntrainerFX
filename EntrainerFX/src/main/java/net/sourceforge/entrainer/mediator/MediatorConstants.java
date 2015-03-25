@@ -93,9 +93,6 @@ public enum MediatorConstants {
 	/** The custom interval remove. */
 	CUSTOM_INTERVAL_REMOVE("Custom Interval Remove"),
 
-	/** The is psychedelic. */
-	IS_PSYCHEDELIC("Is Psychedelic"),
-
 	/** The start entrainment. */
 	START_ENTRAINMENT("Start Entrainment"),
 

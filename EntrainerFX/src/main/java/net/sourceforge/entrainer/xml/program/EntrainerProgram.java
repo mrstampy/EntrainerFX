@@ -21,7 +21,6 @@ package net.sourceforge.entrainer.xml.program;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_BACKGROUND;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_PROGRAM;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_ANIMATION;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_PSYCHEDELIC;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_SHIMMER;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.SHIMMER_RECTANGLE;
 
@@ -51,9 +50,6 @@ import net.sourceforge.entrainer.mediator.SenderAdapter;
 @XmlRootElement(name = "entrainer")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EntrainerProgram {
-
-	@XmlAttribute
-	private boolean psychedelic;
 
 	@XmlAttribute
 	private boolean animation;
@@ -165,25 +161,6 @@ public class EntrainerProgram {
 		sender = new SenderAdapter();
 		EntrainerMediator.getInstance().addSender(sender);
 		dynamicPicture = true;
-	}
-
-	/**
-	 * Checks if is psychedelic.
-	 *
-	 * @return true, if is psychedelic
-	 */
-	public boolean isPsychedelic() {
-		return psychedelic;
-	}
-
-	/**
-	 * Sets the psychedelic.
-	 *
-	 * @param psychedelic
-	 *          the new psychedelic
-	 */
-	public void setPsychedelic(boolean psychedelic) {
-		this.psychedelic = psychedelic;
 	}
 
 	/**
@@ -323,7 +300,6 @@ public class EntrainerProgram {
 	 * Inits the global settings.
 	 */
 	public void initGlobalSettings() {
-		fireReceiverChangeEvent(isPsychedelic(), IS_PSYCHEDELIC);
 		fireReceiverChangeEvent(isShimmer(), IS_SHIMMER);
 		fireReceiverChangeEvent(isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
 		fireReceiverChangeEvent(isAnimation(), IS_ANIMATION);

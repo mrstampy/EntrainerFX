@@ -117,8 +117,6 @@ public class EntrainerBackground {
 
 	private Map<Integer, ScheduledFuture<?>> futures = new ConcurrentHashMap<>();
 
-	private boolean psychedelic;
-
 	/**
 	 * Instantiates a new variable background.
 	 */
@@ -331,11 +329,8 @@ public class EntrainerBackground {
 				case STATIC_PICTURE_LOCK:
 					staticPictureLock = e.getBooleanValue();
 					break;
-				case IS_PSYCHEDELIC:
-					psychedelic = e.getBooleanValue();
-					break;
 				case FLASH_EFFECT:
-					transition(isNoBackground() ? rect : current, e.getEffect());
+					transition(e.getEffect());
 					break;
 				default:
 					break;
@@ -382,7 +377,7 @@ public class EntrainerBackground {
 	}
 
 	private javafx.scene.paint.Color getInitialColour() {
-		return psychedelic || backgroundColor == null ? randomColour() : backgroundColor;
+		return backgroundColor == null ? randomColour() : backgroundColor;
 	}
 
 	private javafx.scene.paint.Color randomColour() {
@@ -432,16 +427,12 @@ public class EntrainerBackground {
 		pane.getChildren().clear();
 	}
 
-	private void transition(Node background, CurrentEffect effect) {
-		if (shouldRun()) invert(background, effect);
+	private void transition(CurrentEffect effect) {
+		if (shouldRun()) invert(effect);
 	}
 
-	private void invert(Node background, CurrentEffect effect) {
+	private void invert(CurrentEffect effect) {
 		if (flashBackground) JFXUtils.setEffect(pane, effect);
-
-		if (psychedelic && background instanceof Rectangle) {
-			((Rectangle) background).setFill(randomColour());
-		}
 	}
 
 	private boolean shouldRun() {

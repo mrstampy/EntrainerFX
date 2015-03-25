@@ -20,6 +20,7 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import java.io.File;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -68,8 +69,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	private int transitionValue = 5;
 
 	private CheckBox staticPictureLock = new CheckBox("Lock Image");
-
-	private CheckBox psychedelic = new CheckBox("Psychedelic");
 
 	private GridPane pane;
 
@@ -173,15 +172,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	}
 
 	/**
-	 * Checks if is psychedelic.
-	 *
-	 * @return true, if is psychedelic
-	 */
-	public boolean isPsychedelic() {
-		return psychedelic.isSelected();
-	}
-
-	/**
 	 * Sets the duration.
 	 *
 	 * @param i
@@ -273,17 +263,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		picker.setValue(c);
 	}
 
-	/**
-	 * Sets the psychedelic.
-	 *
-	 * @param b
-	 *          the new psychedelic
-	 */
-	public void setPsychedelic(boolean b) {
-		psychedelic.setSelected(b);
-		JFXUtils.runLater(() -> setState());
-	}
-
 	private void setRadioButton(RadioButton rb, boolean b) {
 		rb.setSelected(b);
 		if (b) rb.fire();
@@ -305,7 +284,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setWidths();
 		layoutComponents();
 
-		setTextFill(psychedelic);
 		setTextFill(staticPictureLock);
 
 		super.init();
@@ -320,7 +298,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setTooltip(staticPic, "Single background image");
 		setTooltip(noPic, "No background image (choose colour)");
 		setTooltip(staticPictureLock, "Prevents inadvertent static image changing if selected");
-		setTooltip(psychedelic, "Background uses random flashing colours if selected");
 	}
 
 	private void layoutComponents() {
@@ -360,12 +337,11 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 
 		GridPane.setConstraints(noPic, col++, row);
 		GridPane.setMargin(noPic, new Insets(15, 5, 5, 5));
-		GridPane.setConstraints(picker, col++, row);
-		GridPane.setMargin(picker, new Insets(15, 5, 5, 5));
-		GridPane.setConstraints(psychedelic, col, row);
-		GridPane.setMargin(psychedelic, new Insets(15, 5, 5, 5));
+		Node culr = getColourPane();
+		GridPane.setConstraints(culr, col++, row, 2, 1);
+		GridPane.setMargin(culr, new Insets(16.45, 5, 5, 12));
 
-		pane.getChildren().addAll(dynamic, dir, spin, staticPic, pic, staticPictureLock, noPic, picker, psychedelic);
+		pane.getChildren().addAll(dynamic, dir, spin, staticPic, pic, staticPictureLock, noPic, culr);
 
 		pane.setAlignment(Pos.CENTER);
 	}
@@ -397,8 +373,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	private void setNoPicState() {
 		boolean b = !noPic.isSelected();
 
-		picker.setDisable(b || psychedelic.isSelected());
-		psychedelic.setDisable(b);
+		picker.setDisable(b);
 	}
 
 	private Node getTransitionDurationPane() {
@@ -458,6 +433,15 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 
 		return box;
 	}
+	
+	private Node getColourPane() {
+		HBox box = new HBox(10);
+
+		box.setAlignment(Pos.CENTER_LEFT);
+		box.getChildren().addAll(createLabel("Choose Colour"), picker);
+
+		return box;
+	}
 
 	private void setEventHandlers() {
 		dynamic.setOnAction(e -> dynamicButtonPressed());
@@ -477,17 +461,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		transition.setOnMouseClicked(e -> transitionChanged());
 
 		staticPictureLock.setOnAction(e -> pictureLockClicked());
-
-		psychedelic.setOnAction(e -> psychedelicClicked());
-	}
-
-	private void psychedelicClicked() {
-		fireReceiverChangeEvent(psychedelic.isSelected(), MediatorConstants.IS_PSYCHEDELIC);
-		JFXUtils.runLater(() -> setState());
-		if (!psychedelic.isSelected()) {
-			if (picker.getValue() == null) picker.setValue(Color.ROYALBLUE);
-			JFXUtils.runLater(() -> setBackgroundColour(picker.getValue()));
-		}
 	}
 
 	private void pictureLockClicked() {
@@ -644,9 +617,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 					if (staticPictureLock.isSelected() == e.getBooleanValue()) return;
 					JFXUtils.runLater(() -> staticPictureLock.setSelected(e.getBooleanValue()));
 					break;
-				case IS_PSYCHEDELIC:
-					if (psychedelic.isSelected() == e.getBooleanValue()) return;
-					JFXUtils.runLater(() -> setPsychedelic(e.getBooleanValue()));
 				default:
 					break;
 				}

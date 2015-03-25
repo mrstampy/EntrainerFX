@@ -208,9 +208,6 @@ public class EntrainerStateMessage {
 	private Boolean startEntrainment;
 
 	@XmlElement
-	private Boolean psychedelic;
-
-	@XmlElement
 	private Boolean animation;
 
 	@XmlElement
@@ -635,27 +632,6 @@ public class EntrainerStateMessage {
 	 */
 	public void setAnimation(Boolean animation) {
 		this.animation = animation;
-	}
-
-	/**
-	 * Boolean used to control whether random colours are used to flash the
-	 * message panel. If true then any value of {@link #getFlashColour()} is
-	 * ignored.
-	 *
-	 * @return the psychedelic
-	 */
-	public Boolean getPsychedelic() {
-		return psychedelic;
-	}
-
-	/**
-	 * Sets the psychedelic.
-	 *
-	 * @param psychedelic
-	 *          the new psychedelic
-	 */
-	public void setPsychedelic(Boolean psychedelic) {
-		this.psychedelic = psychedelic;
 	}
 
 	/**

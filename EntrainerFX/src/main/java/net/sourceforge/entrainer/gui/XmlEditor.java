@@ -31,7 +31,6 @@ import static net.sourceforge.entrainer.gui.XmlEditorConstants.XEC_UNITS_NAME;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_BACKGROUND;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_PROGRAM;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_ANIMATION;
-import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_PSYCHEDELIC;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_SHIMMER;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.MESSAGE;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_PAN;
@@ -460,7 +459,6 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 			}
 		}
 		xml.setUnits(getUnits());
-		xml.setPsychedelic(pics.isPsychedelic());
 		xml.setAnimation(animations.getRunAnimation().isSelected());
 		xml.setPinkPan(pinkPan.getPanCheck().isSelected());
 		xml.setShimmer(shimmers.getShimmer().isSelected());
@@ -587,8 +585,6 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 	}
 
 	private void initFields() {
-		fireReceiverChangeEvent(xml.isPsychedelic(), IS_PSYCHEDELIC);
-
 		animations.getRunAnimation().setSelected(xml.isAnimation());
 		if (xml.getAnimationProgram() != null) {
 			animations.refreshAnimations();
@@ -824,7 +820,6 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 			public void testUnitEventPerformed(TestUnitEvent e) {
 				enableControls(e.isActionStop());
 
-				fireReceiverChangeEvent(pics.isPsychedelic(), IS_PSYCHEDELIC);
 				fireReceiverChangeEvent(animations.getRunAnimation().isSelected(), IS_ANIMATION);
 				fireReceiverChangeEvent(pinkPan.getPanCheck().isSelected(), PINK_PAN);
 				fireReceiverChangeEvent(shimmers.getShimmer().isSelected(), IS_SHIMMER);
