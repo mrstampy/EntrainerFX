@@ -321,14 +321,13 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		gp.setVisible(true);
 
 		scaleSize();
+		JFXUtils.runLater(() -> animationWindow = new JFXAnimationWindow());
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
-				animationWindow = new JFXAnimationWindow();
 				initSocket();
 				initSettings();
-				setComponentNames();
 				addSystemTrayIcon();
 				setMessage("Started Entrainer");
 			}
@@ -500,10 +499,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 				}
 			}
 		});
-	}
-
-	private void setComponentNames() {
-		animationWindow.setName(ANIMATION_WINDOW_NAME);
 	}
 
 	private void initMediator() {
@@ -1518,7 +1513,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	}
 
 	private void startAnimation() {
-		if (animationWindow.isVisible()) {
+		if (animationWindow.isShowing()) {
 			return;
 		}
 

@@ -19,13 +19,11 @@
 package net.sourceforge.entrainer.gui.jfx.animation;
 
 import java.awt.Dimension;
-import java.awt.Point;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javafx.embed.swing.JFXPanel;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -33,11 +31,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
-
-import javax.swing.JWindow;
-
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import jfxtras.labs.util.Util;
-import net.sourceforge.entrainer.gui.EntrainerFX;
 import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.gui.jfx.shimmer.ShimmerPaintUtils;
@@ -57,18 +53,17 @@ import org.slf4j.LoggerFactory;
  * 
  * @author burton
  */
-public class JFXAnimationWindow extends JWindow {
+public class JFXAnimationWindow extends Stage {
 	private static final Logger log = LoggerFactory.getLogger(JFXAnimationWindow.class);
-
-	private static final long serialVersionUID = 1L;
 
 	private AtomicReference<WritableImage> colour = new AtomicReference<>();
 	private JFXEntrainerAnimation entrainerAnimation;
-	private int yOffset;
+
 	private AtomicReference<Image> customImage = new AtomicReference<>();
 
-	private JFXPanel mainPanel = new JFXPanel();
 	private Canvas canvas = new Canvas();
+
+	private Scene scene = new Scene(new Group(canvas));
 
 	private boolean isAnimating;
 
@@ -88,10 +83,11 @@ public class JFXAnimationWindow extends JWindow {
 	 * Instantiates a new JFX animation window.
 	 */
 	public JFXAnimationWindow() {
-		super();
-		setYOffset();
-		initGui();
+		super(StageStyle.UNDECORATED);
 		initMediator();
+		setScene(scene);
+		setResizable(false);
+		setFullScreen(true);
 
 		animator = new Runnable() {
 
@@ -116,6 +112,7 @@ public class JFXAnimationWindow extends JWindow {
 				}
 			}
 		};
+		
 		canvas.setCache(true);
 		canvas.setCacheHint(CacheHint.SPEED);
 	}
@@ -126,12 +123,14 @@ public class JFXAnimationWindow extends JWindow {
 	 * @see java.awt.Window#setVisible(boolean)
 	 */
 	public void setVisible(boolean b) {
-		if (!b) {
-			getEntrainerAnimation().clearAnimation();
+		if (b) {
+			initGui();
+			show();
+			toBack();
 		} else {
-			initDefaultBackground();
+			getEntrainerAnimation().clearAnimation();
+			hide();
 		}
-		super.setVisible(b);
 	}
 
 	private void paint() {
@@ -161,7 +160,7 @@ public class JFXAnimationWindow extends JWindow {
 		this.entrainerAnimation = entrainerAnimation;
 
 		if (null != entrainerAnimation && entrainerAnimation.useBackgroundColour()) {
-			setBackground(JFXUtils.fromJFXColor(entrainerAnimation.getBackgroundColour()));
+			scene.setFill(entrainerAnimation.getBackgroundColour());
 		}
 	}
 
@@ -178,30 +177,18 @@ public class JFXAnimationWindow extends JWindow {
 
 	private void initGui() {
 		Dimension size = getScreenSize();
-		setSize(size);
 
+		setWidth(size.getWidth());
+		setHeight(size.getHeight());
+		
 		canvas.setWidth(size.getWidth());
 		canvas.setHeight(size.getHeight());
 
-		setLocation(new Point(0, getYOffset()));
-		initDefaultBackground();
-
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				Group group = new Group();
-				group.getChildren().add(canvas);
-				Scene scene = new Scene(group);
-				mainPanel.setScene(scene);
-			}
-		});
-
-		getContentPane().add(mainPanel);
+		if(getColour() == null) initDefaultBackground();
 	}
 
 	private Dimension getScreenSize() {
-		return GuiUtil.getWorkingVirtualScreenSize();
+		return GuiUtil.getScreenSize();
 	}
 
 	private void initDefaultBackground() {
@@ -238,11 +225,11 @@ public class JFXAnimationWindow extends JWindow {
 					showAnimation();
 					break;
 				case FLASH_EFFECT:
-					if (!isVisible()) break;
+					if (!isShowing()) break;
 					pulseReceived(e.getEffect());
 					break;
 				case ENTRAINMENT_FREQUENCY_PULSE:
-					if (!isVisible()) break;
+					if (!isShowing()) break;
 					if (e.getBooleanValue() && runAnimation()) {
 						paint();
 					} else {
@@ -301,26 +288,6 @@ public class JFXAnimationWindow extends JWindow {
 		}
 	}
 
-	private int getYOffset() {
-		return yOffset;
-	}
-
-	private void setYOffset() {
-		if (isMac()) {
-			setYOffset(22);
-		} else {
-			setYOffset(0);
-		}
-	}
-
-	private boolean isMac() {
-		return System.getProperty("os.name").contains("Mac");
-	}
-
-	private void setYOffset(int offset) {
-		yOffset = offset;
-	}
-
 	private Image getCustomImage() {
 		return customImage.get();
 	}
@@ -331,7 +298,7 @@ public class JFXAnimationWindow extends JWindow {
 
 	private void showAnimation() {
 		boolean b = runAnimation();
-		if (b == isVisible()) return;
+		if (b == isShowing()) return;
 
 		JFXUtils.runLater(() -> showAnimation(b));
 	}
@@ -339,9 +306,7 @@ public class JFXAnimationWindow extends JWindow {
 	private void showAnimation(boolean b) {
 		setVisible(b);
 
-		if (b) {
-			EntrainerFX.getInstance().toFront();
-		} else {
+		if (!b) {
 			getEntrainerAnimation().clearAnimation();
 			svc.execute(() -> setColour(createColourBackground()));
 		}
