@@ -60,7 +60,7 @@ public class JFXUtils {
 	 *          the effect
 	 */
 	public static void setEffect(Node node, CurrentEffect effect) {
-		FLASH_SVC.execute(() -> runLater(() -> setEffectImpl(node, effect)));
+		runLater(() -> setEffectImpl(node, effect));
 	}
 
 	private static void setEffectImpl(Node node, CurrentEffect effect) {

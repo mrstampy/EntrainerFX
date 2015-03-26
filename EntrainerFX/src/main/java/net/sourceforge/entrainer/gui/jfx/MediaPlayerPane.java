@@ -454,7 +454,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 					setMediaUri(e.getStringValue());
 					break;
 				case MEDIA_TIME:
-					JFXUtils.runLater(() -> setMediaTime(e.getDoubleValue()));
+					setMediaTime(e.getDoubleValue());
 					break;
 				case APPLY_FLASH_TO_MEDIA:
 					evaluateFlashToMedia(e);
@@ -479,7 +479,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		if (!enableMedia.isSelected() || view.getMediaPlayer() == null || !isPlaying()) return;
 
-		if(view.getFitHeight() > 0) JFXUtils.setEffect(view, currentEffect);
+		if (view.getFitHeight() > 0) JFXUtils.setEffect(view, currentEffect);
 	}
 
 	private void setMediaTime(double d) {
@@ -493,7 +493,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		trackPosition.adjustValue(d);
 		internalTimeRemaining.set(false);
 
-		timeRemaining.setText(formatTimeRemaining(d));
+		JFXUtils.runLater(() -> timeRemaining.setText(formatTimeRemaining(d)));
 	}
 
 	private void resizeMediaView() {

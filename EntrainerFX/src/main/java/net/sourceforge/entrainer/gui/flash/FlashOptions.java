@@ -29,7 +29,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Lighting;
@@ -61,8 +60,6 @@ public class FlashOptions {
 
 	private static FlashOptions options;
 
-	private static ColorAdjust defaultColourAdjust = new ColorAdjust();
-
 	/**
 	 * Gets the instance.
 	 *
@@ -70,18 +67,6 @@ public class FlashOptions {
 	 */
 	public static synchronized void start() {
 		if (options == null) options = new FlashOptions();
-	}
-
-	/**
-	 * Reset.
-	 *
-	 * @param node
-	 *          the node
-	 */
-	public static void reset(Node node) {
-		node.setOpacity(1);
-		if (node.getEffect() instanceof ColorAdjust) node.setEffect(defaultColourAdjust);
-		node.setEffect(null);
 	}
 
 	private AtomicBoolean flashBackground = new AtomicBoolean(false);

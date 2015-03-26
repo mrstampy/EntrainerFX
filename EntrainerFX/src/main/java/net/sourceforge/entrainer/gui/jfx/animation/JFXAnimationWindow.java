@@ -21,6 +21,9 @@ package net.sourceforge.entrainer.gui.jfx.animation;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.CacheHint;
@@ -43,7 +46,6 @@ import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
-import net.sourceforge.entrainer.xml.Settings;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,10 +62,10 @@ public class JFXAnimationWindow extends JWindow {
 
 	private static final long serialVersionUID = 1L;
 
-	private WritableImage background;
+	private AtomicReference<WritableImage> colour = new AtomicReference<>();
 	private JFXEntrainerAnimation entrainerAnimation;
 	private int yOffset;
-	private Image customImage = null;
+	private AtomicReference<Image> customImage = new AtomicReference<>();
 
 	private JFXPanel mainPanel = new JFXPanel();
 	private Canvas canvas = new Canvas();
@@ -80,12 +82,13 @@ public class JFXAnimationWindow extends JWindow {
 
 	private boolean colourBackground;
 
+	private ExecutorService svc = Executors.newCachedThreadPool();
+
 	/**
 	 * Instantiates a new JFX animation window.
 	 */
 	public JFXAnimationWindow() {
 		super();
-		initEntrainerAnimation();
 		setYOffset();
 		initGui();
 		initMediator();
@@ -102,7 +105,7 @@ public class JFXAnimationWindow extends JWindow {
 			private void drawBackground(GraphicsContext gc) {
 				if (!getEntrainerAnimation().useBackgroundColour()) {
 					if (colourBackground || getCustomImage() == null) {
-						gc.drawImage(background, 0, 0);
+						gc.drawImage(getColour(), 0, 0);
 					} else {
 						gc.drawImage(getCustomImage(), 0, 0);
 					}
@@ -162,11 +165,6 @@ public class JFXAnimationWindow extends JWindow {
 		}
 	}
 
-	private void initEntrainerAnimation() {
-		initEntrainerAnimation(Settings.getInstance().getAnimationProgram());
-		initAnimationBackground(Settings.getInstance().getAnimationBackground());
-	}
-
 	private void initEntrainerAnimation(String stringRep) {
 		List<JFXEntrainerAnimation> animations = JFXAnimationRegister.getEntrainerAnimations();
 		if (null == stringRep && !animations.isEmpty()) {
@@ -207,8 +205,7 @@ public class JFXAnimationWindow extends JWindow {
 	}
 
 	private void initDefaultBackground() {
-		if (background != null) return;
-		background = createColourBackground();
+		setColour(createColourBackground());
 	}
 
 	private WritableImage createColourBackground() {
@@ -227,7 +224,7 @@ public class JFXAnimationWindow extends JWindow {
 				switch (parm) {
 
 				case ANIMATION_BACKGROUND:
-					initAnimationBackground(e.getStringValue());
+					svc.execute(() -> initAnimationBackground(e.getStringValue()));
 					break;
 				case ANIMATION_PROGRAM:
 					initEntrainerAnimation(e.getStringValue());
@@ -274,8 +271,8 @@ public class JFXAnimationWindow extends JWindow {
 
 	private void initColourBackground(boolean b) {
 		colourBackground = b;
-		if (background != null) return;
-		background = b ? createColourBackground() : null;
+		if (getColour() != null) return;
+		setColour(b ? createColourBackground() : null);
 	}
 
 	private void evaluateFlash(boolean b) {
@@ -325,11 +322,11 @@ public class JFXAnimationWindow extends JWindow {
 	}
 
 	private Image getCustomImage() {
-		return customImage;
+		return customImage.get();
 	}
 
 	private void setCustomImage(WritableImage backgroundImage) {
-		this.customImage = backgroundImage;
+		customImage.set(backgroundImage);
 	}
 
 	private void showAnimation() {
@@ -346,14 +343,16 @@ public class JFXAnimationWindow extends JWindow {
 			EntrainerFX.getInstance().toFront();
 		} else {
 			getEntrainerAnimation().clearAnimation();
-			Thread thread = new Thread("Animation colour background change") {
-				public void run() {
-					background = createColourBackground();
-				}
-			};
-			
-			thread.start();
+			svc.execute(() -> setColour(createColourBackground()));
 		}
+	}
+
+	private WritableImage getColour() {
+		return colour.get();
+	}
+
+	private void setColour(WritableImage colour) {
+		this.colour.set(colour);
 	}
 
 }

@@ -20,7 +20,6 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import java.io.File;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -433,7 +432,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 
 		return box;
 	}
-	
+
 	private Node getColourPane() {
 		HBox box = new HBox(10);
 

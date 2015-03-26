@@ -227,7 +227,7 @@ public class AnimationPane extends AbstractTitledPane {
 
 		if (f == null && imageFile == null) {
 			useColourAsBackground.setSelected(true);
-		} else {
+		} else if (f != null) {
 			String externalForm = f.toURI().toString();
 			fireBackgroundSelection(externalForm);
 			initAnimationBackground(externalForm);

@@ -1670,7 +1670,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 		int v = 0;
 		GridPane.setConstraints(sliderControlPane, 0, v++);
-		GridPane.setMargin(sliderControlPane, new Insets(20, 0, 0, 0));
+		GridPane.setMargin(sliderControlPane, new Insets(40, 0, 0, 0));
 		GridPane.setConstraints(audioPlayerPane, 0, v++);
 		GridPane.setConstraints(pictures, 0, v++);
 		GridPane.setConstraints(flashOptions, 0, v++);
@@ -1709,7 +1709,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		});
 
 		gp.setCache(true);
-		gp.setCacheHint(CacheHint.QUALITY);
+		gp.setCacheHint(CacheHint.SPEED);
 
 		getContentPane().add(mainPanel);
 	}

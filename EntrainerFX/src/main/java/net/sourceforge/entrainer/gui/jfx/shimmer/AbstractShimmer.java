@@ -107,7 +107,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 					checkStarted();
 					break;
 				case FLASH_EFFECT:
-					if(!isStarted) break;
+					if (!isStarted) break;
 					pulse(e.getEffect());
 					break;
 				case APPLY_FLASH_TO_SHIMMER:

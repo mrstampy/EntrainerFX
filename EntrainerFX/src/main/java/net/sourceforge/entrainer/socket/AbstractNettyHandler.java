@@ -301,7 +301,7 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 		if (esm.getPinkPanAmplitude() != null) {
 			fireReceiverChangeEvent(esm.getPinkPanAmplitude(), MediatorConstants.PINK_PAN_AMPLITUDE);
 		}
-		
+
 		if (esm.getShimmer() != null) {
 			fireReceiverChangeEvent(esm.getShimmer(), MediatorConstants.IS_SHIMMER);
 		}
