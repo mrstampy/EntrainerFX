@@ -259,7 +259,7 @@ public class JFXAnimationWindow extends Stage {
 						paint();
 					} else {
 						getEntrainerAnimation().clearAnimation();
-						evaluateFlash(false);
+						JFXUtils.resetEffects(canvas);
 					}
 					break;
 				case APPLY_FLASH_TO_ANIMATION:
