@@ -87,11 +87,13 @@ public class JFXAnimationWindow extends Stage {
 
 	private ExecutorService svc = Executors.newCachedThreadPool();
 
+	private boolean inited;
+
 	/**
 	 * Instantiates a new JFX animation window.
 	 */
 	public JFXAnimationWindow() {
-		super(StageStyle.UNDECORATED);
+		super(StageStyle.TRANSPARENT);
 		initMediator();
 		setScene(scene);
 		setResizable(false);
@@ -120,15 +122,15 @@ public class JFXAnimationWindow extends Stage {
 				}
 			}
 		};
-		
+
 		canvas.setCache(true);
 		canvas.setCacheHint(CacheHint.SPEED);
-		
+
 		setEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
-				if(MouseButton.SECONDARY == event.getButton()) {
+				if (MouseButton.SECONDARY == event.getButton()) {
 					EntrainerFX.getInstance().toFront();
 				}
 			}
@@ -136,7 +138,6 @@ public class JFXAnimationWindow extends Stage {
 	}
 
 	public void warmUp() {
-		initGui();
 		setOpacity(0);
 		show();
 		hide();
@@ -149,20 +150,20 @@ public class JFXAnimationWindow extends Stage {
 	 */
 	public void setVisible(boolean b) {
 		if (b) {
-			initGui();
+			if (!inited) initGui();
 			fadeIn();
 		} else {
 			fadeOut();
 		}
 	}
-	
+
 	private void fadeIn() {
 		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 1)));
 		tl.currentTimeProperty().addListener(e -> EntrainerFX.getInstance().toFront());
 		tl.play();
 		show();
 	}
-	
+
 	private void fadeOut() {
 		getEntrainerAnimation().clearAnimation();
 		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 0)));
@@ -217,11 +218,13 @@ public class JFXAnimationWindow extends Stage {
 
 		setWidth(size.getWidth());
 		setHeight(size.getHeight());
-		
+
 		canvas.setWidth(size.getWidth());
 		canvas.setHeight(size.getHeight());
 
-		if(getColour() == null) initDefaultBackground();
+		if (getColour() == null) initDefaultBackground();
+
+		inited = true;
 	}
 
 	private Dimension getScreenSize() {
