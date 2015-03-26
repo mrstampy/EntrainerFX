@@ -1614,9 +1614,15 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 			new NotificationWindow("Exiting Entrainer", this);
 
 			control.exit();
+			
+			JFXUtils.runLater(() -> shutdownAnimations());
 
 			exitApplication();
 		}
+	}
+	
+	private void shutdownAnimations() {
+		if(animationWindow.isShowing()) animationWindow.setVisible(false);
 	}
 
 	private void exitApplication() {
