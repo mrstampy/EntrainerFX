@@ -503,6 +503,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		if (file == null || file.trim().length() == 0) file = "./";
 
 		File picFile = new File(file);
+		if(!picFile.exists()) picFile = new File(System.getProperty("user.dir"));
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Choose static picture");
 		fc.setInitialDirectory(picFile.getParentFile());
