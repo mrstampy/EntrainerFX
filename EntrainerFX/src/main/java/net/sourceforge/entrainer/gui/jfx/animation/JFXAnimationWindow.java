@@ -146,7 +146,7 @@ public class JFXAnimationWindow extends Stage {
 	
 	private void fadeIn() {
 		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 1)));
-		tl.setOnFinished(e -> EntrainerFX.getInstance().toFront());
+		tl.currentTimeProperty().addListener(e -> EntrainerFX.getInstance().toFront());
 		tl.play();
 		show();
 	}
