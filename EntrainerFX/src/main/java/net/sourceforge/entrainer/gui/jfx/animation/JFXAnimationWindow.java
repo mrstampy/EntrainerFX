@@ -27,6 +27,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -34,6 +35,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -120,7 +123,16 @@ public class JFXAnimationWindow extends Stage {
 		
 		canvas.setCache(true);
 		canvas.setCacheHint(CacheHint.SPEED);
-//		warmUp();
+		
+		setEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if(MouseButton.SECONDARY == event.getButton()) {
+					EntrainerFX.getInstance().toFront();
+				}
+			}
+		});
 	}
 
 	public void warmUp() {
