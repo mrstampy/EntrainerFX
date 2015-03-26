@@ -215,8 +215,11 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		File mediaFile = new File(new URI(file));
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Choose Media");
-		fc.setInitialDirectory(mediaFile.getParentFile());
-		fc.setInitialFileName(mediaFile.getName());
+		
+		if(mediaFile.exists()) {
+			fc.setInitialDirectory(mediaFile.getParentFile());
+			fc.setInitialFileName(mediaFile.getName());
+		}
 
 		File newMedia = fc.showOpenDialog(null);
 
@@ -501,6 +504,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private void resizeMediaView() {
 		Media m = engine.getMedia();
 
+		if (m == null) return;
+		
 		if (m.getWidth() == 0 || m.getHeight() == 0) {
 			resetMediaView();
 			return;
@@ -541,11 +546,14 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	}
 
 	private void setMediaUri(String s) {
-		mediaName = s == null || s.isEmpty() ? "./" : s;
+		if(s == null || s.isEmpty()) return;
+		
+		mediaName = s;
 
 		try {
 			URI uri = new URI(mediaName);
 			File f = new File(uri);
+			if (!f.exists()) return;
 
 			boolean b = f.exists();
 			media.setText(b ? f.getName() : mediaName);

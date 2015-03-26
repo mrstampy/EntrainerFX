@@ -31,7 +31,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.util.Duration;
-import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
@@ -39,11 +38,15 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class MediaEngine.
  */
 public class MediaEngine {
+	private static final Logger log = LoggerFactory.getLogger(MediaEngine.class);
 
 	private Media media;
 	private MediaPlayer player;
@@ -97,7 +100,7 @@ public class MediaEngine {
 					play(e.getBooleanValue());
 					break;
 				case MEDIA_URI:
-					setUri(e.getStringValue());
+					svc.execute(() -> setUri(e.getStringValue()));
 					break;
 				case ENTRAINMENT_FREQUENCY_PULSE:
 					entrain(e.getBooleanValue());
@@ -173,7 +176,8 @@ public class MediaEngine {
 				}
 			});
 		} catch (Exception e) {
-			GuiUtil.handleProblem(e);
+			log.warn("URI {} is invalid", uri, e);
+			media = null;
 		}
 	}
 
