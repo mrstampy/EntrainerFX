@@ -225,6 +225,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		mediaName = newMedia.toURI().toString();
 
 		media.setText(newMedia.getName());
+		
+		resizeMediaView();
 
 		fireReceiverChangeEvent(newMedia.toURI().toString(), MediatorConstants.MEDIA_URI);
 
