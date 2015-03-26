@@ -24,6 +24,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -33,7 +36,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import jfxtras.labs.util.Util;
+import net.sourceforge.entrainer.gui.EntrainerFX;
 import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.gui.jfx.shimmer.ShimmerPaintUtils;
@@ -115,6 +120,14 @@ public class JFXAnimationWindow extends Stage {
 		
 		canvas.setCache(true);
 		canvas.setCacheHint(CacheHint.SPEED);
+//		warmUp();
+	}
+
+	public void warmUp() {
+		initGui();
+		setOpacity(0);
+		show();
+		hide();
 	}
 
 	/*
@@ -125,12 +138,24 @@ public class JFXAnimationWindow extends Stage {
 	public void setVisible(boolean b) {
 		if (b) {
 			initGui();
-			show();
-			toBack();
+			fadeIn();
 		} else {
-			getEntrainerAnimation().clearAnimation();
-			hide();
+			fadeOut();
 		}
+	}
+	
+	private void fadeIn() {
+		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 1)));
+		tl.setOnFinished(e -> EntrainerFX.getInstance().toFront());
+		tl.play();
+		show();
+	}
+	
+	private void fadeOut() {
+		getEntrainerAnimation().clearAnimation();
+		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 0)));
+		tl.setOnFinished(e -> hide());
+		tl.play();
 	}
 
 	private void paint() {
@@ -300,16 +325,13 @@ public class JFXAnimationWindow extends Stage {
 		boolean b = runAnimation();
 		if (b == isShowing()) return;
 
-		JFXUtils.runLater(() -> showAnimation(b));
+		showAnimation(b);
 	}
 
 	private void showAnimation(boolean b) {
-		setVisible(b);
+		svc.execute(() -> JFXUtils.runLater(() -> setVisible(b)));
 
-		if (!b) {
-			getEntrainerAnimation().clearAnimation();
-			svc.execute(() -> setColour(createColourBackground()));
-		}
+		if (!b) svc.execute(() -> setColour(createColourBackground()));
 	}
 
 	private WritableImage getColour() {

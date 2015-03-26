@@ -321,7 +321,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		gp.setVisible(true);
 
 		scaleSize();
-		JFXUtils.runLater(() -> animationWindow = new JFXAnimationWindow());
+		JFXUtils.runLater(() -> initAnimationWindow());
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
@@ -338,8 +338,14 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 			@Override
 			public void run() {
 				setShimmerSizes();
+				animationWindow.warmUp();
 			}
 		});
+	}
+	
+	private void initAnimationWindow() {
+		animationWindow = new JFXAnimationWindow();
+		SwingUtilities.invokeLater(() -> initSettings());
 	}
 
 	private void setShimmerSizes() {

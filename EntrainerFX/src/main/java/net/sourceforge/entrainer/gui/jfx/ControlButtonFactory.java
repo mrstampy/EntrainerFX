@@ -118,7 +118,7 @@ public class ControlButtonFactory {
 	}
 
 	private static void setButtonGraphic(final ButtonBase button, final ImageView graphic) {
-		button.setGraphic(graphic);
+		JFXUtils.runLater(() -> button.setGraphic(graphic));
 	}
 
 	private static ButtonBase getButton(String baseName) {

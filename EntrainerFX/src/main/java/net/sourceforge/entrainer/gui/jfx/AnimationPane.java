@@ -296,7 +296,7 @@ public class AnimationPane extends AbstractTitledPane {
 	}
 
 	private void setBackgroundFile(String s) {
-		if (s == null) {
+		if (s == null || s.isEmpty()) {
 			imageFile = null;
 			animationBackground.setText("");
 			return;
