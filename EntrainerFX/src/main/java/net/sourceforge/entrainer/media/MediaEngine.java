@@ -47,6 +47,12 @@ import org.slf4j.LoggerFactory;
  */
 public class MediaEngine {
 	private static final Logger log = LoggerFactory.getLogger(MediaEngine.class);
+	
+	private static MediaEngine mediaEngine = new MediaEngine();
+	
+	public static MediaEngine getInstance() {
+		return mediaEngine;
+	}
 
 	private Media media;
 	private MediaPlayer player;
@@ -69,7 +75,7 @@ public class MediaEngine {
 	/**
 	 * Instantiates a new media engine.
 	 */
-	public MediaEngine() {
+	private MediaEngine() {
 		initMediator();
 	}
 

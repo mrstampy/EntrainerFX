@@ -92,7 +92,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 	private double mediaTime;
 
-	private MediaEngine engine = new MediaEngine();
+	private MediaEngine engine = MediaEngine.getInstance();
 
 	private AtomicBoolean internalTimeRemaining = new AtomicBoolean(false);
 
