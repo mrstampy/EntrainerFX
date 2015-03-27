@@ -95,6 +95,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private MediaEngine engine = MediaEngine.getInstance();
 
 	private AtomicBoolean internalTimeRemaining = new AtomicBoolean(false);
+	
+	private AtomicBoolean fromMediaPane = new AtomicBoolean(false);
 
 	/**
 	 * Instantiates a new media player pane.
@@ -454,6 +456,10 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 			@Override
 			public void invalidated(Observable arg0) {
+				if(fromMediaPane.get()) {
+					fromMediaPane.set(false);
+					return;
+				}
 				double value = slider.getValue();
 				label.setText(format.format(value));
 				fireReceiverChangeEvent(value, event);
@@ -493,11 +499,11 @@ public class MediaPlayerPane extends AbstractTitledPane {
 				boolean b = e.getBooleanValue();
 				switch (e.getParm()) {
 				case MEDIA_AMPLITUDE:
-					if(getAmplitude().getValue() == e.getDoubleValue()) break;
+					fromMediaPane.set(e.getSource() instanceof MediaPlayerPane);
 					setAmplitudeValue(e.getDoubleValue());
 					break;
 				case MEDIA_ENTRAINMENT_STRENGTH:
-					if(getStrength().getValue() == e.getDoubleValue()) break;
+					fromMediaPane.set(e.getSource() instanceof MediaPlayerPane);
 					setStrengthValue(e.getDoubleValue());
 					break;
 				case MEDIA_ENTRAINMENT:
