@@ -31,6 +31,25 @@ repositories {
 task efx(dependsOn: [clean, distZip, izPackCreateInstaller]) << {
 }
 
+task copySettings(type: Copy) {
+	File settings = file('settings.xml');
+	if(!settings.exists()) {
+		from 'settings.xml.install'
+		
+		into 'xml'
+		
+		rename {
+			String fileName -> fileName.replace('.install', '')
+		}
+		
+		from 'xml/settings.xml'
+		
+		into './'
+	}
+}
+
+build.dependsOn copySettings
+
 dependencies {
 	entrainer 'org.slf4j:slf4j-api:1.7.10'
 	entrainer 'org.slf4j:log4j-over-slf4j:1.7.10'
