@@ -280,6 +280,9 @@ public class AnimationPane extends AbstractTitledPane {
 				case IS_ANIMATION:
 					setAnimationSelected(e.getBooleanValue());
 					break;
+				case APPLY_FLASH_TO_ANIMATION:
+					JFXUtils.runLater(() -> setFlashAnimation(e.getBooleanValue()));
+					break;
 				default:
 					break;
 

@@ -176,6 +176,9 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 				case IS_SHIMMER:
 					setShimmerSelected(e.getBooleanValue());
 					break;
+				case APPLY_FLASH_TO_SHIMMER:
+					JFXUtils.runLater(() -> setFlashShimmer(e.getBooleanValue()));
+					break;
 				default:
 					break;
 

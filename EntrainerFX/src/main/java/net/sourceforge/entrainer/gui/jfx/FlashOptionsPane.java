@@ -39,7 +39,6 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
  */
 public class FlashOptionsPane extends AbstractTitledPane {
 
-	private CheckBox applyMedia = new CheckBox("Media");
 	private CheckBox applyEntrainerFX = new CheckBox("EntrainerFX");
 
 	// additive effects
@@ -65,31 +64,14 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	protected boolean applyShimmer;
 	private boolean applyAnimation;
 
+	private boolean applyMedia;
+
 	/**
 	 * Instantiates a new flash options pane.
 	 */
 	public FlashOptionsPane() {
 		super("Flash Options");
 		init();
-	}
-
-	/**
-	 * Checks if is flash media.
-	 *
-	 * @return true, if is flash media
-	 */
-	public boolean isFlashMedia() {
-		return applyMedia.isSelected();
-	}
-
-	/**
-	 * Sets the flash media.
-	 *
-	 * @param b
-	 *          the new flash media
-	 */
-	public void setFlashMedia(boolean b) {
-		applyEvent(b, applyMedia);
 	}
 
 	/**
@@ -328,7 +310,6 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTextFill(shadow);
 		setTextFill(lighting);
 		setTextFill(colourAdjust);
-		setTextFill(applyMedia);
 		setTextFill(applyEntrainerFX);
 	}
 
@@ -350,31 +331,12 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		Label lbl = new Label("Apply Flash To:");
 		setTextFill(lbl);
 
-		Node applies = getApplies();
-
-		HBox box = new HBox(10, lbl, applies, applyEntrainerFX);
+		HBox box = new HBox(10, lbl, applyEntrainerFX);
 		box.setAlignment(Pos.CENTER);
 		HBox.setMargin(lbl, new Insets(0, 20, 30, 0));
-		HBox.setMargin(applies, new Insets(0, 0, 30, 0));
 		HBox.setMargin(applyEntrainerFX, new Insets(0, 0, 30, 0));
 
 		return box;
-	}
-
-	private Node getApplies() {
-		GridPane gp = new GridPane();
-
-		Insets insets = new Insets(10, 10, 10, 10);
-
-		GridPane.setConstraints(applyMedia, 0, 1);
-
-		GridPane.setMargin(applyMedia, insets);
-
-		gp.setAlignment(Pos.CENTER_LEFT);
-
-		gp.getChildren().addAll(applyMedia);
-
-		return gp;
 	}
 
 	private Node getOptions() {
@@ -457,7 +419,6 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTooltip(sepiaTone, "Sepia Tone effect for flashing");
 		setTooltip(shadow, "Shadow effect for flashing");
 		setTooltip(colourAdjust, "Random Colour Adjust effect for flashing");
-		setTooltip(applyMedia, "Apply the chosen flash effect to the media (if applicable)");
 		setTooltip(applyEntrainerFX, "Apply the chosen flash effect to the main window");
 	}
 
@@ -472,16 +433,11 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		sepiaTone.setOnAction(e -> sepiaToneClicked());
 		shadow.setOnAction(e -> shadowClicked());
 		colourAdjust.setOnAction(e -> colourAdjustClicked());
-		applyMedia.setOnAction(e -> applyMediaClicked());
 		applyEntrainerFX.setOnAction(e -> applyEntrainerFXClicked());
 	}
 
 	private void applyEntrainerFXClicked() {
 		applyClicked(applyEntrainerFX, MediatorConstants.APPLY_FLASH_TO_ENTRAINER_FX);
-	}
-
-	private void applyMediaClicked() {
-		applyClicked(applyMedia, MediatorConstants.APPLY_FLASH_TO_MEDIA);
 	}
 
 	private void applyClicked(CheckBox box, MediatorConstants mc) {
@@ -491,7 +447,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 
 	private void setOptionsEnabled() {
 		boolean b = applyAnimation || applyBackground || applyShimmer
-				|| applyMedia.isSelected() || applyEntrainerFX.isSelected();
+				|| applyMedia || applyEntrainerFX.isSelected();
 
 		options.setDisable(!b);
 	}
@@ -561,7 +517,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 					applyAnimation = e.getBooleanValue();
 					break;
 				case APPLY_FLASH_TO_MEDIA:
-					JFXUtils.runLater(() -> applyEvent(e.getBooleanValue(), applyMedia));
+					applyMedia = e.getBooleanValue();
 					break;
 				case APPLY_FLASH_TO_ENTRAINER_FX:
 					JFXUtils.runLater(() -> applyEvent(e.getBooleanValue(), applyEntrainerFX));

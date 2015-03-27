@@ -66,6 +66,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 	private CheckBox enableMedia = new CheckBox("Enable Media Entrainment");
 	private CheckBox loop = new CheckBox("Loop");
+	private CheckBox applyMedia = new CheckBox("Flash Media");
 
 	private Slider amplitude = new Slider(0, 1, 1);
 	private DecimalFormat amplitudeFormat = new DecimalFormat("#0%");
@@ -95,14 +96,33 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 	private AtomicBoolean internalTimeRemaining = new AtomicBoolean(false);
 
-	private boolean flashMedia;
-
 	/**
 	 * Instantiates a new media player pane.
 	 */
 	public MediaPlayerPane() {
 		super("Media Player Controls");
 		init();
+	}
+
+	/**
+	 * Checks if is flash media.
+	 *
+	 * @return true, if is flash media
+	 */
+	public boolean isFlashMedia() {
+		return applyMedia.isSelected();
+	}
+
+	/**
+	 * Sets the flash media.
+	 *
+	 * @param b
+	 *          the new flash media
+	 */
+	public void setFlashMedia(boolean b) {
+		if(applyMedia.isSelected() == b) return;
+		
+		applyMedia.setSelected(b);
 	}
 
 	/**
@@ -182,6 +202,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		setTooltip(stop, "Stops media playback");
 		setTooltip(strength, "Sets media entrainment strength");
 		setTooltip(trackPosition, "Set/displays the track's current position");
+		setTooltip(applyMedia, "Apply the chosen flash effect to the media (if applicable)");
 	}
 
 	private void mediaClicked(MouseEvent e) {
@@ -259,12 +280,14 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		play.setOnAction(e -> playMedia(true));
 		stop.setOnAction(e -> playMedia(false));
 		pause.setOnAction(e -> pauseClicked());
+		applyMedia.setOnAction(e -> applyMediaClicked());
 		media.setOnMouseClicked(e -> mediaClicked(e));
 		enableMedia.setOnAction(e -> enableMediaClicked());
 		loop.setOnAction(e -> loopClicked());
 
 		setTextFill(enableMedia);
 		setTextFill(loop);
+		setTextFill(applyMedia);
 
 		media.setEditable(false);
 		media.setPrefWidth(200);
@@ -275,6 +298,10 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		view.setPreserveRatio(true);
 		view.setCache(true);
 		view.setCacheHint(CacheHint.QUALITY);
+	}
+
+	private void applyMediaClicked() {
+		fireReceiverChangeEvent(applyMedia.isSelected(), MediatorConstants.APPLY_FLASH_TO_MEDIA);
 	}
 
 	private void loopClicked() {
@@ -344,6 +371,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		int row = 0;
 
 		pane.add(enableMedia, 0, row++, 2, 1);
+		pane.add(applyMedia, 0, row++, 2, 1);
 
 		pane.add(getMediaField(), 0, row++, 3, 1);
 
@@ -462,7 +490,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 					setMediaTime(e.getDoubleValue());
 					break;
 				case APPLY_FLASH_TO_MEDIA:
-					evaluateFlashToMedia(e);
+					if (!b) JFXUtils.resetEffects(view);
+					JFXUtils.runLater(() -> setFlashMedia(e.getBooleanValue()));
 					break;
 				case FLASH_EFFECT:
 					pulseView(e.getEffect());
@@ -474,13 +503,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		});
 	}
 
-	private void evaluateFlashToMedia(ReceiverChangeEvent e) {
-		flashMedia = e.getBooleanValue();
-		if (!flashMedia) JFXUtils.resetEffects(view);
-	}
-
 	private void pulseView(CurrentEffect currentEffect) {
-		if (!flashMedia) return;
+		if (!applyMedia.isSelected()) return;
 
 		if (!enableMedia.isSelected() || view.getMediaPlayer() == null || !isPlaying()) return;
 
@@ -515,6 +539,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		double width = 500;
 		double height = m.getHeight() * width / m.getWidth();
+
 		view.setFitWidth(width);
 		view.setFitHeight(height);
 	}
