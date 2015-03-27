@@ -49,6 +49,7 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
  */
 public class BackgroundPicturePane extends AbstractTitledPane {
 
+	private CheckBox applyBackground = new CheckBox("Flash Background");
 	private String directoryName = "css";
 	private TextField directory = new TextField(directoryName);
 	private String pictureName = "";
@@ -77,6 +78,30 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	public BackgroundPicturePane() {
 		super("Background Options");
 		init();
+	}
+
+	/**
+	 * Checks if is flash background.
+	 *
+	 * @return true, if is flash background
+	 */
+	public boolean isFlashBackground() {
+		return applyBackground.isSelected();
+	}
+
+	/**
+	 * Sets the flash background.
+	 *
+	 * @param b
+	 *          the new flash background
+	 */
+	public void setFlashBackground(boolean b) {
+		applyEvent(b, applyBackground);
+	}
+
+	private void applyEvent(boolean b, CheckBox box) {
+		if (b == box.isSelected()) return;
+		box.setSelected(b);
 	}
 
 	/*
@@ -283,6 +308,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setWidths();
 		layoutComponents();
 
+		setTextFill(applyBackground);
 		setTextFill(staticPictureLock);
 
 		super.init();
@@ -297,6 +323,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setTooltip(staticPic, "Single background image");
 		setTooltip(noPic, "No background image (choose colour)");
 		setTooltip(staticPictureLock, "Prevents inadvertent static image changing if selected");
+		setTooltip(applyBackground, "Apply chosen flash effect selected in the Flash Options to the background");
 	}
 
 	private void layoutComponents() {
@@ -305,6 +332,11 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 
 		int col = 0;
 		int row = 0;
+
+		GridPane.setConstraints(applyBackground, col, row);
+		GridPane.setMargin(applyBackground, new Insets(0, 0, 0, 5));
+
+		row++;
 
 		GridPane.setConstraints(dynamic, col++, row);
 		GridPane.setMargin(dynamic, new Insets(5));
@@ -340,7 +372,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		GridPane.setConstraints(culr, col++, row, 2, 1);
 		GridPane.setMargin(culr, new Insets(16.45, 5, 5, 12));
 
-		pane.getChildren().addAll(dynamic, dir, spin, staticPic, pic, staticPictureLock, noPic, culr);
+		pane.getChildren().addAll(applyBackground, dynamic, dir, spin, staticPic, pic, staticPictureLock, noPic, culr);
 
 		pane.setAlignment(Pos.CENTER);
 	}
@@ -460,6 +492,12 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		transition.setOnMouseClicked(e -> transitionChanged());
 
 		staticPictureLock.setOnAction(e -> pictureLockClicked());
+
+		applyBackground.setOnAction(e -> applyBackgroundClicked());
+	}
+
+	private void applyBackgroundClicked() {
+		fireReceiverChangeEvent(applyBackground.isSelected(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
 	}
 
 	private void pictureLockClicked() {
@@ -503,7 +541,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		if (file == null || file.trim().length() == 0) file = "./";
 
 		File picFile = new File(file);
-		if(!picFile.exists()) picFile = new File(System.getProperty("user.dir"));
+		if (!picFile.exists()) picFile = new File(System.getProperty("user.dir"));
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Choose static picture");
 		fc.setInitialDirectory(picFile.getParentFile());
@@ -616,6 +654,9 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 				case STATIC_PICTURE_LOCK:
 					if (staticPictureLock.isSelected() == e.getBooleanValue()) return;
 					JFXUtils.runLater(() -> staticPictureLock.setSelected(e.getBooleanValue()));
+					break;
+				case APPLY_FLASH_TO_BACKGROUND:
+					JFXUtils.runLater(() -> applyEvent(e.getBooleanValue(), applyBackground));
 					break;
 				default:
 					break;

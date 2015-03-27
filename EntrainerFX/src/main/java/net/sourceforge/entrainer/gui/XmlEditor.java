@@ -472,7 +472,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		xml.setDynamicDuration(pics.getDuration());
 		xml.setDynamicPicture(pics.isDynamic());
 		xml.setDynamicTransition(pics.getTransition());
-		xml.setFlashBackground(flashOptions.isFlashBackground());
+		xml.setFlashBackground(pics.isFlashBackground());
 		xml.setNoPicture(pics.isNoBackground());
 		xml.setPictureDirectory(pics.getPictureDirectory());
 		xml.setStaticPicture(pics.isStatic());
@@ -600,8 +600,8 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		if (!xml.getIntervals().isEmpty()) intervalMenu.loadIntervals(getIntervals(xml.getIntervals()));
 		if (xml.getShimmerName() != null) shimmers.getShimmers().setValue(xml.getShimmerName());
 
-		flashOptions.setFlashBackground(xml.isFlashBackground());
-		fireReceiverChangeEvent(flashOptions.isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
+		pics.setFlashBackground(xml.isFlashBackground());
+		fireReceiverChangeEvent(pics.isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
 
 		pics.setDuration(xml.getDynamicDuration());
 		fireReceiverChangeEvent(pics.getDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);
