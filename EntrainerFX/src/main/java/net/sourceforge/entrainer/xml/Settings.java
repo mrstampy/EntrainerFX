@@ -249,6 +249,8 @@ public class Settings implements EntrainerResources {
 	
 	@XmlElement(name = "flash.media")
 	private Boolean flashMedia;
+	
+	private boolean preserveState = false;
 
 	/**
 	 * Sets the accept updates.
@@ -274,7 +276,7 @@ public class Settings implements EntrainerResources {
 	/**
 	 * Save settings.
 	 */
-	private void saveSettings() {
+	protected void saveSettings() {
 		lock.lock();
 		try {
 			File file = new File("settings.xml");
@@ -353,6 +355,12 @@ public class Settings implements EntrainerResources {
 		EntrainerMediator.getInstance().removeSender(sender);
 		EntrainerMediator.getInstance().removeReceiver(this);
 	}
+	
+	@XmlTransient
+	public void setPreserveState(boolean b) {
+		this.preserveState = b;
+		if(!b) initState();
+	}
 
 	/**
 	 * Inits the.
@@ -365,6 +373,8 @@ public class Settings implements EntrainerResources {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+				if(preserveState) return;
+				
 				Boolean save = true;
 				switch (e.getParm()) {
 				case AMPLITUDE:
@@ -511,6 +521,10 @@ public class Settings implements EntrainerResources {
 
 		});
 
+		initState();
+	}
+
+	protected void initState() {
 		fireReceiverChangeEvent(getEntrainmentFrequency(), ENTRAINMENT_FREQUENCY);
 		fireReceiverChangeEvent(getFrequency(), FREQUENCY);
 		fireReceiverChangeEvent(getAmplitude(), AMPLITUDE);

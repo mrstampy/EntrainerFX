@@ -1332,6 +1332,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	}
 
 	private void showXmlEditor(File f) {
+		settings.setPreserveState(true);
 		intervalCache = intervalMenu.removeAllIntervals();
 		final XmlEditor editor = new XmlEditor(this, f);
 		editor.addXmlFileSaveListener(new XmlFileSaveListener() {
@@ -1348,6 +1349,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		});
 
 		GuiUtil.showDialog(editor);
+		settings.setPreserveState(false);
 	}
 
 	private void xmlFileSaved(File xmlFile) {
