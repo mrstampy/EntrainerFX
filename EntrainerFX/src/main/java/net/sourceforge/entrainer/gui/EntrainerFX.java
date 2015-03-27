@@ -1680,9 +1680,9 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 		GridPane.setMargin(sliderControlPane, new Insets(40, 0, 0, 0));
 		GridPane.setConstraints(audioPlayerPane, 0, v++);
 		GridPane.setConstraints(pictures, 0, v++);
-		GridPane.setConstraints(flashOptions, 0, v++);
 		GridPane.setConstraints(shimmerOptions, 0, v++);
 		GridPane.setConstraints(animations, 0, v++);
+		GridPane.setConstraints(flashOptions, 0, v++);
 		GridPane.setConstraints(neuralizer, 0, v++);
 
 		gp.setPadding(new Insets(5, 13, 5, 5));

@@ -39,7 +39,7 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
  */
 public class FlashOptionsPane extends AbstractTitledPane {
 
-	private CheckBox applyEntrainerFX = new CheckBox("EntrainerFX");
+	private CheckBox applyEntrainerFX = new CheckBox("Flash EntrainerFX");
 
 	// additive effects
 	private CheckBox opacity = new CheckBox("Opacity");
@@ -328,12 +328,8 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	}
 
 	private Node getApply() {
-		Label lbl = new Label("Apply Flash To:");
-		setTextFill(lbl);
-
-		HBox box = new HBox(10, lbl, applyEntrainerFX);
+		HBox box = new HBox(10, applyEntrainerFX);
 		box.setAlignment(Pos.CENTER);
-		HBox.setMargin(lbl, new Insets(0, 20, 30, 0));
 		HBox.setMargin(applyEntrainerFX, new Insets(0, 0, 30, 0));
 
 		return box;
@@ -509,15 +505,19 @@ public class FlashOptionsPane extends AbstractTitledPane {
 					break;
 				case APPLY_FLASH_TO_BACKGROUND:
 					applyBackground = e.getBooleanValue();
+					JFXUtils.runLater(() -> setOptionsEnabled());
 					break;
 				case APPLY_FLASH_TO_SHIMMER:
 					applyShimmer = e.getBooleanValue();
+					JFXUtils.runLater(() -> setOptionsEnabled());
 					break;
 				case APPLY_FLASH_TO_ANIMATION:
 					applyAnimation = e.getBooleanValue();
+					JFXUtils.runLater(() -> setOptionsEnabled());
 					break;
 				case APPLY_FLASH_TO_MEDIA:
 					applyMedia = e.getBooleanValue();
+					JFXUtils.runLater(() -> setOptionsEnabled());
 					break;
 				case APPLY_FLASH_TO_ENTRAINER_FX:
 					JFXUtils.runLater(() -> applyEvent(e.getBooleanValue(), applyEntrainerFX));
