@@ -493,9 +493,11 @@ public class MediaPlayerPane extends AbstractTitledPane {
 				boolean b = e.getBooleanValue();
 				switch (e.getParm()) {
 				case MEDIA_AMPLITUDE:
+					if(getAmplitude().getValue() == e.getDoubleValue()) break;
 					setAmplitudeValue(e.getDoubleValue());
 					break;
 				case MEDIA_ENTRAINMENT_STRENGTH:
+					if(getStrength().getValue() == e.getDoubleValue()) break;
 					setStrengthValue(e.getDoubleValue());
 					break;
 				case MEDIA_ENTRAINMENT:

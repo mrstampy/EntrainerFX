@@ -118,7 +118,7 @@ public class AnimationPane extends AbstractTitledPane {
 	 * @return the animation background picture
 	 */
 	public String getAnimationBackgroundPicture() {
-		return animationBackground.getText();
+		return imageFile == null ? "" : imageFile.toString();
 	}
 
 	private void setSelected(final boolean selected, final CheckBox checkBox) {

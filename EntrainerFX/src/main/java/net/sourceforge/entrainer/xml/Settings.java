@@ -753,6 +753,7 @@ public class Settings implements EntrainerResources {
 	 */
 	public void setXmlProgram(String xmlProgram) {
 		this.xmlProgram = xmlProgram;
+		saveSettings();
 	}
 
 	/**
