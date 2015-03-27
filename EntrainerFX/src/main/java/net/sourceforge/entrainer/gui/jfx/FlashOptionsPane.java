@@ -39,7 +39,6 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
  */
 public class FlashOptionsPane extends AbstractTitledPane {
 
-	private CheckBox applyShimmer = new CheckBox("Shimmer");
 	private CheckBox applyAnimation = new CheckBox("Animation");
 	private CheckBox applyMedia = new CheckBox("Media");
 	private CheckBox applyEntrainerFX = new CheckBox("EntrainerFX");
@@ -64,6 +63,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 
 	private GridPane additives;
 	protected boolean applyBackground;
+	protected boolean applyShimmer;
 
 	/**
 	 * Instantiates a new flash options pane.
@@ -71,25 +71,6 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	public FlashOptionsPane() {
 		super("Flash Options");
 		init();
-	}
-
-	/**
-	 * Checks if is flash shimmer.
-	 *
-	 * @return true, if is flash shimmer
-	 */
-	public boolean isFlashShimmer() {
-		return applyShimmer.isSelected();
-	}
-
-	/**
-	 * Sets the flash shimmer.
-	 *
-	 * @param b
-	 *          the new flash shimmer
-	 */
-	public void setFlashShimmer(boolean b) {
-		applyEvent(b, applyShimmer);
 	}
 
 	/**
@@ -366,7 +347,6 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTextFill(shadow);
 		setTextFill(lighting);
 		setTextFill(colourAdjust);
-		setTextFill(applyShimmer);
 		setTextFill(applyAnimation);
 		setTextFill(applyMedia);
 		setTextFill(applyEntrainerFX);
@@ -406,17 +386,15 @@ public class FlashOptionsPane extends AbstractTitledPane {
 
 		Insets insets = new Insets(10, 10, 10, 10);
 
-		GridPane.setConstraints(applyShimmer, 1, 0);
 		GridPane.setConstraints(applyMedia, 0, 1);
 		GridPane.setConstraints(applyAnimation, 1, 1);
 
 		GridPane.setMargin(applyAnimation, insets);
 		GridPane.setMargin(applyMedia, insets);
-		GridPane.setMargin(applyShimmer, insets);
 
 		gp.setAlignment(Pos.CENTER_LEFT);
 
-		gp.getChildren().addAll(applyAnimation, applyMedia, applyShimmer);
+		gp.getChildren().addAll(applyAnimation, applyMedia);
 
 		return gp;
 	}
@@ -501,7 +479,6 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTooltip(sepiaTone, "Sepia Tone effect for flashing");
 		setTooltip(shadow, "Shadow effect for flashing");
 		setTooltip(colourAdjust, "Random Colour Adjust effect for flashing");
-		setTooltip(applyShimmer, "Apply the chosen flash effect to the shimmers");
 		setTooltip(applyAnimation, "Apply the chosen flash effect to the animations");
 		setTooltip(applyMedia, "Apply the chosen flash effect to the media (if applicable)");
 		setTooltip(applyEntrainerFX, "Apply the chosen flash effect to the main window");
@@ -518,7 +495,6 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		sepiaTone.setOnAction(e -> sepiaToneClicked());
 		shadow.setOnAction(e -> shadowClicked());
 		colourAdjust.setOnAction(e -> colourAdjustClicked());
-		applyShimmer.setOnAction(e -> applyShimmerClicked());
 		applyAnimation.setOnAction(e -> applyAnimationClicked());
 		applyMedia.setOnAction(e -> applyMediaClicked());
 		applyEntrainerFX.setOnAction(e -> applyEntrainerFXClicked());
@@ -536,17 +512,13 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		applyClicked(applyAnimation, MediatorConstants.APPLY_FLASH_TO_ANIMATION);
 	}
 
-	private void applyShimmerClicked() {
-		applyClicked(applyShimmer, MediatorConstants.APPLY_FLASH_TO_SHIMMER);
-	}
-
 	private void applyClicked(CheckBox box, MediatorConstants mc) {
 		fireReceiverChangeEvent(box.isSelected(), mc);
 		setOptionsEnabled();
 	}
 
 	private void setOptionsEnabled() {
-		boolean b = applyAnimation.isSelected() || applyBackground || applyShimmer.isSelected()
+		boolean b = applyAnimation.isSelected() || applyBackground || applyShimmer
 				|| applyMedia.isSelected() || applyEntrainerFX.isSelected();
 
 		options.setDisable(!b);
@@ -611,7 +583,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 					applyBackground = e.getBooleanValue();
 					break;
 				case APPLY_FLASH_TO_SHIMMER:
-					JFXUtils.runLater(() -> applyEvent(e.getBooleanValue(), applyShimmer));
+					applyShimmer = e.getBooleanValue();
 					break;
 				case APPLY_FLASH_TO_ANIMATION:
 					JFXUtils.runLater(() -> applyEvent(e.getBooleanValue(), applyAnimation));

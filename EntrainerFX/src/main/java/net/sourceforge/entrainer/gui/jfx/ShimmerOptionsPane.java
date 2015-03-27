@@ -20,12 +20,12 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer;
 import net.sourceforge.entrainer.gui.jfx.shimmer.ShimmerRegister;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
@@ -41,6 +41,7 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 
 	private ComboBox<String> shimmers = new ComboBox<String>();
 	private CheckBox shimmer = new CheckBox("Shimmer");
+	private CheckBox applyShimmer = new CheckBox("Flash Shimmer");
 	private HBox fp;
 
 	/**
@@ -49,6 +50,26 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 	public ShimmerOptionsPane() {
 		super("Shimmer Options");
 		init();
+	}
+
+	/**
+	 * Checks if is flash shimmer.
+	 *
+	 * @return true, if is flash shimmer
+	 */
+	public boolean isFlashShimmer() {
+		return applyShimmer.isSelected();
+	}
+
+	/**
+	 * Sets the flash shimmer.
+	 *
+	 * @param b
+	 *          the new flash shimmer
+	 */
+	public void setFlashShimmer(boolean b) {
+		if (applyShimmer.isSelected() == b) return;
+		applyShimmer.setSelected(b);
 	}
 
 	/**
@@ -72,6 +93,7 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 
 	private void setToolTips() {
 		setTooltip(shimmer, "Adds a shimmer effect to the application");
+		setTooltip(applyShimmer, "Apply the chosen flash effect selected in the Flash Options to the shimmers");
 	}
 
 	/*
@@ -87,12 +109,7 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 		shimmers.getItems().addAll(ShimmerRegister.getShimmerNames());
 		initCheckBox(shimmer, MediatorConstants.IS_SHIMMER);
 
-		fp = new HBox();
-		HBox.setMargin(shimmer, new Insets(5, 15, 5, 15));
-		HBox.setMargin(shimmers, new Insets(0, 5, 0, 5));
-		fp.setPadding(new Insets(10));
-		fp.getChildren().add(shimmer);
-		fp.getChildren().add(shimmers);
+		fp = new HBox(10, getCheckBoxLayout(), shimmers);
 
 		shimmers.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
@@ -101,12 +118,23 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 				fireShimmerSelected(ShimmerRegister.getShimmer(shimmers.getValue()));
 			}
 		});
+		
+		applyShimmer.setOnAction(e -> applyShimmerClicked());
 
 		setTextFill(shimmer);
+		setTextFill(applyShimmer);
 
 		fp.setAlignment(Pos.CENTER);
 
 		super.init();
+	}
+
+	private void applyShimmerClicked() {
+		fireReceiverChangeEvent(applyShimmer.isSelected(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
+	}
+
+	private Node getCheckBoxLayout() {
+		return new VBox(10, shimmer, applyShimmer);
 	}
 
 	private void setSelected(final boolean selected, final CheckBox checkBox) {
