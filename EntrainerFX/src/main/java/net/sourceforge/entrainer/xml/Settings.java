@@ -237,6 +237,14 @@ public class Settings implements EntrainerResources {
 
 	@XmlElement(name = "media.uri")
 	private String mediaUri;
+	
+	private boolean flashAnimation;
+	
+	private boolean flashShimmer;
+	
+	private boolean flashEntrainerFX;
+	
+	private boolean flashMedia;
 
 	/**
 	 * Sets the accept updates.
@@ -418,6 +426,18 @@ public class Settings implements EntrainerResources {
 				case APPLY_FLASH_TO_BACKGROUND:
 					setFlashBackground(e.getBooleanValue());
 					break;
+				case APPLY_FLASH_TO_ANIMATION:
+					setFlashAnimation(e.getBooleanValue());
+					break;
+				case APPLY_FLASH_TO_ENTRAINER_FX:
+					setFlashEntrainerFX(e.getBooleanValue());
+					break;
+				case APPLY_FLASH_TO_MEDIA:
+					setFlashMedia(e.getBooleanValue());
+					break;
+				case APPLY_FLASH_TO_SHIMMER:
+					setFlashShimmer(e.getBooleanValue());
+					break;
 				case DYNAMIC_BACKGROUND:
 					setDynamicPicture(true);
 					setStaticPicture(false);
@@ -501,6 +521,10 @@ public class Settings implements EntrainerResources {
 		fireReceiverChangeEvent(isShimmer(), IS_SHIMMER);
 		fireReceiverChangeEvent(getShimmerRectangle(), SHIMMER_RECTANGLE);
 		fireReceiverChangeEvent(isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
+		fireReceiverChangeEvent(isFlashAnimation(), MediatorConstants.APPLY_FLASH_TO_ANIMATION);
+		fireReceiverChangeEvent(isFlashEntrainerFX(), MediatorConstants.APPLY_FLASH_TO_ENTRAINER_FX);
+		fireReceiverChangeEvent(isFlashMedia(), MediatorConstants.APPLY_FLASH_TO_MEDIA);
+		fireReceiverChangeEvent(isFlashShimmer(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
 
 		if (getStaticPictureFile() != null) {
 			fireReceiverChangeEvent(getStaticPictureFile(), MediatorConstants.BACKGROUND_PIC);
@@ -1583,6 +1607,38 @@ public class Settings implements EntrainerResources {
 	 */
 	public void setMediaUri(String mediaUri) {
 		this.mediaUri = mediaUri;
+	}
+
+	public boolean isFlashAnimation() {
+		return flashAnimation;
+	}
+
+	public void setFlashAnimation(boolean flashAnimation) {
+		this.flashAnimation = flashAnimation;
+	}
+
+	public boolean isFlashShimmer() {
+		return flashShimmer;
+	}
+
+	public void setFlashShimmer(boolean flashShimmer) {
+		this.flashShimmer = flashShimmer;
+	}
+
+	public boolean isFlashEntrainerFX() {
+		return flashEntrainerFX;
+	}
+
+	public void setFlashEntrainerFX(boolean flashEntrainerFX) {
+		this.flashEntrainerFX = flashEntrainerFX;
+	}
+
+	public boolean isFlashMedia() {
+		return flashMedia;
+	}
+
+	public void setFlashMedia(boolean flashMedia) {
+		this.flashMedia = flashMedia;
 	}
 
 }
