@@ -48,7 +48,15 @@ task copySettings(type: Copy) {
 	}
 }
 
-build.dependsOn copySettings
+task createDirs {
+	File wav = file('wav')
+	if(!wav.exists()) wav.mkdirs()
+	
+	File espLab = file('esp.lab')
+	if(!espLab.exists()) espLab.mkdirs()
+}
+
+build.dependsOn copySettings, createDirs
 
 dependencies {
 	entrainer 'org.slf4j:slf4j-api:1.7.10'
