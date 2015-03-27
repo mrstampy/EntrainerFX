@@ -71,6 +71,18 @@ public class EntrainerProgram {
 
 	@XmlAttribute
 	private boolean flashBackground;
+	
+	@XmlAttribute
+	private boolean flashShimmer;
+	
+	@XmlAttribute
+	private boolean flashAnimation;
+	
+	@XmlAttribute
+	private boolean flashMedia;
+	
+	@XmlAttribute
+	private boolean flashEntrainerFX;
 
 	@XmlElement(name = "interval")
 	private List<EntrainerProgramInterval> intervals = new ArrayList<EntrainerProgramInterval>();
@@ -335,6 +347,14 @@ public class EntrainerProgram {
 		fireReceiverChangeEvent(getDynamicTransition(), MediatorConstants.BACKGROUND_TRANSITION_SECONDS);
 
 		fireReceiverChangeEvent(isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
+		fireReceiverChangeEvent(isFlashAnimation(), MediatorConstants.APPLY_FLASH_TO_ANIMATION);
+		fireReceiverChangeEvent(isFlashEntrainerFX(), MediatorConstants.APPLY_FLASH_TO_ENTRAINER_FX);
+		fireReceiverChangeEvent(isFlashMedia(), MediatorConstants.APPLY_FLASH_TO_MEDIA);
+		fireReceiverChangeEvent(isFlashShimmer(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
+		
+		fireReceiverChangeEvent(isMediaEntrainment(), MediatorConstants.MEDIA_ENTRAINMENT);
+		fireReceiverChangeEvent(isMediaLoop(), MediatorConstants.MEDIA_LOOP);
+		if(getMediaUri() != null) fireReceiverChangeEvent(getMediaUri(), MediatorConstants.MEDIA_URI);
 	}
 
 	/**
@@ -871,6 +891,38 @@ public class EntrainerProgram {
 	 */
 	public void setMediaUri(String mediaUri) {
 		this.mediaUri = mediaUri;
+	}
+
+	public boolean isFlashShimmer() {
+		return flashShimmer;
+	}
+
+	public void setFlashShimmer(boolean flashShimmer) {
+		this.flashShimmer = flashShimmer;
+	}
+
+	public boolean isFlashAnimation() {
+		return flashAnimation;
+	}
+
+	public void setFlashAnimation(boolean flashAnimation) {
+		this.flashAnimation = flashAnimation;
+	}
+
+	public boolean isFlashMedia() {
+		return flashMedia;
+	}
+
+	public void setFlashMedia(boolean flashMedia) {
+		this.flashMedia = flashMedia;
+	}
+
+	public boolean isFlashEntrainerFX() {
+		return flashEntrainerFX;
+	}
+
+	public void setFlashEntrainerFX(boolean flashEntrainerFX) {
+		this.flashEntrainerFX = flashEntrainerFX;
 	}
 
 }

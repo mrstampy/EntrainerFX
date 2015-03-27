@@ -91,6 +91,7 @@ import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
 import net.sourceforge.entrainer.gui.jfx.FlashOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
+import net.sourceforge.entrainer.gui.jfx.MediaPlayerPane;
 import net.sourceforge.entrainer.gui.jfx.ShimmerOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.SliderControlPane;
 import net.sourceforge.entrainer.guitools.GuiUtil;
@@ -144,6 +145,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 	private SliderControlPane pinkPan = new SliderControlPane(false);
 	private BackgroundPicturePane pics = new BackgroundPicturePane();
 	private FlashOptionsPane flashOptions = new FlashOptionsPane();
+	private MediaPlayerPane mediaOptions = new MediaPlayerPane();
 
 	private boolean cancelPressed = false;
 
@@ -196,6 +198,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		unexpandeTitledPane(pinkPan);
 		unexpandeTitledPane(pics);
 		unexpandeTitledPane(flashOptions);
+		unexpandeTitledPane(mediaOptions);
 	}
 
 	private void unexpandeTitledPane(TitledPane tp) {
@@ -425,6 +428,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		animations.clearMediatorObjects();
 		pinkPan.clearMediatorObjects();
 		shimmers.clearMediatorObjects();
+		mediaOptions.clearMediatorObjects();
 		pics.clearMediatorObjects();
 		flashOptions.clearMediatorObjects();
 		background.clearMediatorObjects();
@@ -462,11 +466,19 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		xml.setAnimation(animations.getRunAnimation().isSelected());
 		xml.setPinkPan(pinkPan.getPanCheck().isSelected());
 		xml.setShimmer(shimmers.getShimmer().isSelected());
+		xml.setFlashAnimation(animations.isFlashAnimation());
+		xml.setFlashEntrainerFX(flashOptions.isFlashEntrainerFX());
+		xml.setFlashMedia(mediaOptions.isFlashMedia());
+		xml.setFlashShimmer(shimmers.isFlashShimmer());
 		xml.setAnimationBackground(animations.getAnimationBackgroundPicture());
 		xml.setAnimationProgram(animations.getSelectedAnimationName());
 		xml.setUseColourAsBackground(animations.getUseColourAsBackground().isSelected());
 		xml.setIntervals(intervalMenu.getLoadedIntervals());
 		xml.setShimmerName(shimmers.getShimmers().getValue());
+		
+		xml.setMediaEntrainment(mediaOptions.isMediaEntrainment());
+		xml.setMediaLoop(mediaOptions.isMediaLoop());
+		xml.setMediaUri(mediaOptions.getMediaURI());
 
 		xml.setBackgroundColour(JFXUtils.fromJFXColor(pics.getBackgroundColour()));
 		xml.setDynamicDuration(pics.getDuration());
@@ -602,6 +614,15 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 
 		pics.setFlashBackground(xml.isFlashBackground());
 		fireReceiverChangeEvent(pics.isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
+		
+		animations.setFlashAnimation(xml.isFlashAnimation());
+		fireReceiverChangeEvent(animations.isFlashAnimation(), MediatorConstants.APPLY_FLASH_TO_ANIMATION);
+		
+		shimmers.setFlashShimmer(xml.isFlashShimmer());
+		fireReceiverChangeEvent(shimmers.isFlashShimmer(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
+		
+		flashOptions.setFlashEntrainerFX(xml.isFlashEntrainerFX());
+		fireReceiverChangeEvent(flashOptions.isFlashEntrainerFX(), MediatorConstants.APPLY_FLASH_TO_ENTRAINER_FX);
 
 		pics.setDuration(xml.getDynamicDuration());
 		fireReceiverChangeEvent(pics.getDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);
@@ -619,6 +640,17 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 			pics.setStaticPicture(xml.getStaticPictureFile());
 			fireReceiverChangeEvent(pics.getStaticPicture(), MediatorConstants.BACKGROUND_PIC);
 		}
+		
+		mediaOptions.setFlashMedia(xml.isFlashMedia());
+		fireReceiverChangeEvent(xml.isFlashMedia(), MediatorConstants.APPLY_FLASH_TO_MEDIA);
+		
+		mediaOptions.setMediaEntrainment(xml.isMediaEntrainment());
+		fireReceiverChangeEvent(xml.isMediaEntrainment(), MediatorConstants.MEDIA_ENTRAINMENT);
+		
+		mediaOptions.setMediaURI(xml.getMediaUri());
+		fireReceiverChangeEvent(xml.getMediaUri(), MediatorConstants.MEDIA_URI);
+		
+		mediaOptions.setMediaLoop(xml.isMediaLoop());
 
 		pics.setPictureLock(xml.isStaticPictureLock());
 		fireReceiverChangeEvent(pics.isPictureLock(), MediatorConstants.STATIC_PICTURE_LOCK);
@@ -923,11 +955,12 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 
 		int h = 0;
 		GridPane.setConstraints(pinkPan, 0, h++);
+		GridPane.setConstraints(mediaOptions, 0, h++);
 		GridPane.setConstraints(pics, 0, h++);
-		GridPane.setConstraints(flashOptions, 0, h++);
-		GridPane.setConstraints(animations, 0, h++);
 		GridPane.setConstraints(shimmers, 0, h++);
-		gp.getChildren().addAll(pinkPan, animations, shimmers, pics, flashOptions);
+		GridPane.setConstraints(animations, 0, h++);
+		GridPane.setConstraints(flashOptions, 0, h++);
+		gp.getChildren().addAll(pinkPan, animations, shimmers, pics, flashOptions, mediaOptions);
 
 		final URI css = JFXUtils.getEntrainerCSS();
 

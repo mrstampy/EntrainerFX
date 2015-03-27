@@ -65,7 +65,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private ButtonBase pause = ControlButtonFactory.createButton("Pause");
 
 	private CheckBox enableMedia = new CheckBox("Enable Media Entrainment");
-	private CheckBox loop = new CheckBox("Loop");
+	private CheckBox mediaLoop = new CheckBox("Loop");
 	private CheckBox applyMedia = new CheckBox("Flash Media");
 
 	private Slider amplitude = new Slider(0, 1, 1);
@@ -123,6 +123,34 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		if(applyMedia.isSelected() == b) return;
 		
 		applyMedia.setSelected(b);
+	}
+	
+	public boolean isMediaEntrainment() {
+		return enableMedia.isSelected();
+	}
+	
+	public void setMediaEntrainment(boolean b) {
+		if(enableMedia.isSelected() == b) return;
+		
+		enableMedia.setSelected(b);
+	}
+	
+	public boolean isMediaLoop() {
+		return mediaLoop.isSelected();
+	}
+	
+	public void setMediaLoop(boolean b) {
+		if(mediaLoop.isSelected() == b) return;
+		
+		mediaLoop.setSelected(b);
+	}
+	
+	public String getMediaURI() {
+		return mediaName;
+	}
+	
+	public void setMediaURI(String uri) {
+		setMediaUri(uri);
 	}
 
 	/**
@@ -195,7 +223,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private void setTooltips() {
 		setTooltip(amplitude, "Sets the media volume");
 		setTooltip(enableMedia, "Enables/disables media entrainment");
-		setTooltip(loop, "Enables/disables looping of selected media");
+		setTooltip(mediaLoop, "Enables/disables looping of selected media");
 		setTooltip(media, "Left click to select local media file, right click to paste media URI");
 		setTooltip(pause, "Pauses/resumes media playback");
 		setTooltip(play, "Plays selected media");
@@ -283,10 +311,10 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		applyMedia.setOnAction(e -> applyMediaClicked());
 		media.setOnMouseClicked(e -> mediaClicked(e));
 		enableMedia.setOnAction(e -> enableMediaClicked());
-		loop.setOnAction(e -> loopClicked());
+		mediaLoop.setOnAction(e -> loopClicked());
 
 		setTextFill(enableMedia);
-		setTextFill(loop);
+		setTextFill(mediaLoop);
 		setTextFill(applyMedia);
 
 		media.setEditable(false);
@@ -305,7 +333,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	}
 
 	private void loopClicked() {
-		boolean b = loop.isSelected();
+		boolean b = mediaLoop.isSelected();
 
 		fireReceiverChangeEvent(b, MediatorConstants.MEDIA_LOOP);
 	}
@@ -391,7 +419,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		Label label = new Label("Select Media");
 		setTextFill(label);
 
-		HBox box = new HBox(10, label, media, loop);
+		HBox box = new HBox(10, label, media, mediaLoop);
 		box.setAlignment(Pos.CENTER);
 
 		return box;
@@ -475,7 +503,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 					strength.setDisable(!b);
 					break;
 				case MEDIA_LOOP:
-					loop.setSelected(b);
+					mediaLoop.setSelected(b);
 					break;
 				case MEDIA_PLAY:
 					JFXUtils.runLater(() -> setPlayControls(b));
