@@ -26,6 +26,7 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.sourceforge.entrainer.gui.flash.FlashType;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
@@ -258,57 +260,59 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 	private void setEntrainerState(ChannelHandlerContext ctx, EntrainerStateMessage esm) throws Exception {
 		if (esm == null) return;
 
-		if (esm.getAnimation() != null) {
-			fireReceiverChangeEvent(esm.getAnimation(), MediatorConstants.IS_ANIMATION);
-		}
+		fireReceiverChangeEvent(esm.getBloom(), FlashType.BLOOM, MediatorConstants.FLASH_TYPE);
+		fireReceiverChangeEvent(esm.getBoxBlur(), FlashType.BOX_BLUR, MediatorConstants.FLASH_TYPE);
+		fireReceiverChangeEvent(esm.getColourAdjust(), FlashType.COLOUR_ADJUST, MediatorConstants.FLASH_TYPE);
+		fireReceiverChangeEvent(esm.getGaussianBlur(), FlashType.GAUSSIAN_BLUR, MediatorConstants.FLASH_TYPE);
+		fireReceiverChangeEvent(esm.getGlow(), FlashType.GLOW, MediatorConstants.FLASH_TYPE);
+		fireReceiverChangeEvent(esm.getLighting(), FlashType.LIGHTING, MediatorConstants.FLASH_TYPE);
+		fireReceiverChangeEvent(esm.getMotionBlur(), FlashType.MOTION_BLUR, MediatorConstants.FLASH_TYPE);
+		fireReceiverChangeEvent(esm.getOpacity(), FlashType.OPACITY, MediatorConstants.FLASH_TYPE);
+		fireReceiverChangeEvent(esm.getSepiaTone(), FlashType.SEPIA_TONE, MediatorConstants.FLASH_TYPE);
+		fireReceiverChangeEvent(esm.getShadow(), FlashType.SHADOW, MediatorConstants.FLASH_TYPE);
 
-		if (esm.getPinkPan() != null) {
-			fireReceiverChangeEvent(esm.getPinkPan(), MediatorConstants.PINK_PAN);
-		}
+		fireReceiverChangeEvent(esm.getFlashEntrainerFX(), MediatorConstants.APPLY_FLASH_TO_ENTRAINER_FX);
+		
+		fireReceiverChangeEvent(esm.getAnimation(), MediatorConstants.IS_ANIMATION);
+		fireReceiverChangeEvent(esm.getFlashAnimation(), MediatorConstants.APPLY_FLASH_TO_ANIMATION);
+		fireReceiverChangeEvent(esm.getAnimationBackgroundColour(), MediatorConstants.ANIMATION_COLOR_BACKGROUND);
+		fireReceiverChangeEvent(esm.getAnimationBackgroundPic(), MediatorConstants.ANIMATION_BACKGROUND);
+		fireReceiverChangeEvent(esm.getAnimationName(), MediatorConstants.ANIMATION_PROGRAM);
+		
+		fireReceiverChangeEvent(esm.getShimmer(), MediatorConstants.IS_SHIMMER);
+		fireReceiverChangeEvent(esm.getFlashShimmer(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
+		fireReceiverChangeEvent(esm.getShimmerName(), MediatorConstants.SHIMMER_RECTANGLE);
 
-		if (esm.getStartEntrainment() != null) {
-			fireReceiverChangeEvent(esm.getStartEntrainment(), MediatorConstants.START_ENTRAINMENT);
-		}
+		fireReceiverChangeEvent(esm.getFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
+		fireReceiverChangeEvent(esm.getDynamicPicture(), MediatorConstants.DYNAMIC_BACKGROUND);
+		fireReceiverChangeEvent(esm.getPictureDirectory(), MediatorConstants.BACKGROUND_PIC_DIR);
+		fireReceiverChangeEvent(esm.getDynamicDuration(), MediatorConstants.BACKGROUND_DURATION_SECONDS);
+		fireReceiverChangeEvent(esm.getDynamicTransition(), MediatorConstants.BACKGROUND_TRANSITION_SECONDS);
+		fireReceiverChangeEvent(esm.getStaticPicture(), MediatorConstants.STATIC_BACKGROUND);
+		fireReceiverChangeEvent(esm.getStaticPictureFile(), MediatorConstants.BACKGROUND_PIC);
+		fireReceiverChangeEvent(esm.getStaticPictureLock(), MediatorConstants.STATIC_PICTURE_LOCK);
+		fireReceiverChangeEvent(esm.getNoPicture(), MediatorConstants.NO_BACKGROUND);
+		fireReceiverChangeEvent(esm.getBackgroundColour(), MediatorConstants.NO_BACKGROUND_COLOUR);
 
-		if (esm.getAmplitude() != null) {
-			fireReceiverChangeEvent(esm.getAmplitude(), MediatorConstants.AMPLITUDE);
-		}
-
-		if (esm.getEntrainmentFrequency() != null) {
-			fireReceiverChangeEvent(esm.getEntrainmentFrequency(), MediatorConstants.ENTRAINMENT_FREQUENCY);
-		}
-
-		if (esm.getFrequency() != null) {
-			fireReceiverChangeEvent(esm.getFrequency(), MediatorConstants.FREQUENCY);
-		}
-
-		if (esm.getIntervalAdd() != null) {
-			fireReceiverChangeEvent(esm.getIntervalAdd(), MediatorConstants.INTERVAL_ADD);
-		}
-
-		if (esm.getIntervalRemove() != null) {
-			fireReceiverChangeEvent(esm.getIntervalRemove(), MediatorConstants.INTERVAL_REMOVE);
-		}
-
-		if (esm.getPinkNoiseAmplitude() != null) {
-			fireReceiverChangeEvent(esm.getPinkNoiseAmplitude(), MediatorConstants.PINK_NOISE_AMPLITUDE);
-		}
-
-		if (esm.getPinkNoiseMultiple() != null) {
-			fireReceiverChangeEvent(esm.getPinkNoiseMultiple(), MediatorConstants.PINK_ENTRAINER_MULTIPLE);
-		}
-
-		if (esm.getPinkPanAmplitude() != null) {
-			fireReceiverChangeEvent(esm.getPinkPanAmplitude(), MediatorConstants.PINK_PAN_AMPLITUDE);
-		}
-
-		if (esm.getShimmer() != null) {
-			fireReceiverChangeEvent(esm.getShimmer(), MediatorConstants.IS_SHIMMER);
-		}
-
-		if (esm.getFlashBackground() != null) {
-			fireReceiverChangeEvent(esm.getFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
-		}
+		fireReceiverChangeEvent(esm.getMediaEntrainment(), MediatorConstants.MEDIA_ENTRAINMENT);
+		fireReceiverChangeEvent(esm.getFlashMedia(), MediatorConstants.APPLY_FLASH_TO_MEDIA);
+		fireReceiverChangeEvent(esm.getMediaUri(), MediatorConstants.MEDIA_URI);
+		fireReceiverChangeEvent(esm.getMediaLoop(), MediatorConstants.MEDIA_LOOP);
+		fireReceiverChangeEvent(esm.getMediaAmplitude(), MediatorConstants.MEDIA_AMPLITUDE);
+		fireReceiverChangeEvent(esm.getMediaEntrainmentStrength(), MediatorConstants.MEDIA_ENTRAINMENT_STRENGTH);
+		fireReceiverChangeEvent(esm.getMediaPlay(), MediatorConstants.MEDIA_PLAY);
+		fireReceiverChangeEvent(esm.getMediaPause(), MediatorConstants.MEDIA_PAUSE);
+		
+		fireReceiverChangeEvent(esm.getPinkPan(), MediatorConstants.PINK_PAN);
+		fireReceiverChangeEvent(esm.getAmplitude(), MediatorConstants.AMPLITUDE);
+		fireReceiverChangeEvent(esm.getEntrainmentFrequency(), MediatorConstants.ENTRAINMENT_FREQUENCY);
+		fireReceiverChangeEvent(esm.getFrequency(), MediatorConstants.FREQUENCY);
+		fireReceiverChangeEvent(esm.getIntervalAdd(), MediatorConstants.INTERVAL_ADD);
+		fireReceiverChangeEvent(esm.getIntervalRemove(), MediatorConstants.INTERVAL_REMOVE);
+		fireReceiverChangeEvent(esm.getPinkNoiseAmplitude(), MediatorConstants.PINK_NOISE_AMPLITUDE);
+		fireReceiverChangeEvent(esm.getPinkNoiseMultiple(), MediatorConstants.PINK_ENTRAINER_MULTIPLE);
+		fireReceiverChangeEvent(esm.getPinkPanAmplitude(), MediatorConstants.PINK_PAN_AMPLITUDE);
+		fireReceiverChangeEvent(esm.getStartEntrainment(), MediatorConstants.START_ENTRAINMENT);
 
 		if (esm.getRequestState() != null) {
 			Channel channel = ctx.channel();
@@ -321,17 +325,37 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 		}
 	}
 
-	private void fireReceiverChangeEvent(boolean b, MediatorConstants parm) {
+	private void fireReceiverChangeEvent(FlashColour c, MediatorConstants parm) {
+		if (c == null) return;
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, new Color(c.getRed(), c.getGreen(), c.getBlue(), c
+				.getAlpha()), parm));
+	}
+
+	private void fireReceiverChangeEvent(Boolean b, FlashType type, MediatorConstants parm) {
+		if (b == null) return;
+		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, type, b, parm));
+	}
+
+	private void fireReceiverChangeEvent(Boolean b, MediatorConstants parm) {
+		if (b == null) return;
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, b, parm);
 		sender.fireReceiverChangeEvent(e);
 	}
 
-	private void fireReceiverChangeEvent(double b, MediatorConstants parm) {
+	private void fireReceiverChangeEvent(Double b, MediatorConstants parm) {
+		if (b == null) return;
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, b, parm);
 		sender.fireReceiverChangeEvent(e);
 	}
 
 	private void fireReceiverChangeEvent(String b, MediatorConstants parm) {
+		if (b == null) return;
+		ReceiverChangeEvent e = new ReceiverChangeEvent(this, b, parm);
+		sender.fireReceiverChangeEvent(e);
+	}
+
+	private void fireReceiverChangeEvent(Integer b, MediatorConstants parm) {
+		if (b == null) return;
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, b, parm);
 		sender.fireReceiverChangeEvent(e);
 	}

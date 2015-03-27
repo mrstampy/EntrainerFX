@@ -387,6 +387,14 @@ public class EntrainerSocketManager {
 					currentState.setShimmer(e.getBooleanValue());
 
 					break;
+				case SHIMMER_RECTANGLE:
+					processing = canProcess(currentState.getShimmerName(), e.getStringValue());
+					if(!processing) break;
+					
+					message.setShimmerName(e.getStringValue());
+					currentState.setShimmerName(e.getStringValue());
+					
+					break;
 				case DYNAMIC_BACKGROUND:
 					processing = currentState.getDynamicPicture() == null
 							|| e.getBooleanValue() != currentState.getDynamicPicture();
@@ -398,6 +406,30 @@ public class EntrainerSocketManager {
 					currentState.setStaticPicture(null);
 					currentState.setNoPicture(null);
 
+					break;
+				case ANIMATION_BACKGROUND:
+					processing = canProcess(currentState.getAnimationBackgroundPic(), e.getStringValue());
+					if(!processing) break;
+					
+					message.setAnimationBackgroundPic(e.getStringValue());
+					currentState.setAnimationBackgroundPic(e.getStringValue());
+					
+					break;
+				case ANIMATION_COLOR_BACKGROUND:
+					processing = canProcess(currentState.getAnimationBackgroundColour(), e.getBooleanValue());
+					if(!processing) break;
+					
+					message.setAnimationBackgroundColour(e.getBooleanValue());
+					currentState.setAnimationBackgroundColour(e.getBooleanValue());
+					
+					break;
+				case ANIMATION_PROGRAM:
+					processing = canProcess(currentState.getAnimationName(), e.getStringValue());
+					if(!processing) break;
+					
+					message.setAnimationName(e.getStringValue());
+					currentState.setAnimationName(e.getStringValue());
+					
 					break;
 				case STATIC_BACKGROUND:
 					processing = currentState.getStaticPicture() == null
@@ -508,6 +540,54 @@ public class EntrainerSocketManager {
 					message.setMediaUri(e.getStringValue());
 					currentState.setMediaUri(e.getStringValue());
 
+					break;
+				case MEDIA_PLAY:
+					processing = canProcess(currentState.getMediaPlay(), e.getBooleanValue());
+					if(!processing) break;
+					
+					message.setMediaPlay(e.getBooleanValue());
+					currentState.setMediaPlay(e.getBooleanValue());
+					
+					break;
+				case MEDIA_PAUSE:
+					processing = canProcess(currentState.getMediaPause(), e.getBooleanValue());
+					if(!processing) break;
+					
+					message.setMediaPause(e.getBooleanValue());
+					currentState.setMediaPause(e.getBooleanValue());
+					
+					break;
+				case APPLY_FLASH_TO_ANIMATION:
+					processing = canProcess(currentState.getFlashAnimation(), e.getBooleanValue());
+					if(!processing) break;
+					
+					message.setFlashAnimation(e.getBooleanValue());
+					currentState.setFlashAnimation(e.getBooleanValue());
+					
+					break;
+				case APPLY_FLASH_TO_ENTRAINER_FX:
+					processing = canProcess(currentState.getFlashEntrainerFX(), e.getBooleanValue());
+					if(!processing) break;
+					
+					message.setFlashEntrainerFX(e.getBooleanValue());
+					currentState.setFlashEntrainerFX(e.getBooleanValue());
+					
+					break;
+				case APPLY_FLASH_TO_MEDIA:
+					processing = canProcess(currentState.getFlashMedia(), e.getBooleanValue());
+					if(!processing) break;
+					
+					message.setFlashMedia(e.getBooleanValue());
+					currentState.setFlashMedia(e.getBooleanValue());
+					
+					break;
+				case APPLY_FLASH_TO_SHIMMER:
+					processing = canProcess(currentState.getFlashShimmer(), e.getBooleanValue());
+					if(!processing) break;
+					
+					message.setFlashShimmer(e.getBooleanValue());
+					currentState.setFlashShimmer(e.getBooleanValue());
+					
 					break;
 				default:
 					processing = false;

@@ -212,6 +212,9 @@ public class EntrainerStateMessage {
 
 	@XmlElement
 	private Boolean shimmer;
+	
+	@XmlElement
+	private String shimmerName;
 
 	@XmlElement
 	private Boolean requestState;
@@ -290,6 +293,33 @@ public class EntrainerStateMessage {
 
 	@XmlElement
 	private String mediaUri;
+	
+	@XmlElement
+	private Boolean mediaPlay;
+	
+	@XmlElement
+	private Boolean mediaPause;
+	
+	@XmlElement
+	private Boolean flashMedia;
+	
+	@XmlElement
+	private Boolean flashAnimation;
+	
+	@XmlElement
+	private Boolean flashEntrainerFX;
+	
+	@XmlElement
+	private Boolean flashShimmer;
+	
+	@XmlElement
+	private Boolean animationBackgroundColour;
+	
+	@XmlElement
+	private String animationBackgroundPic;
+	
+	@XmlElement
+	private String animationName;
 
 	/**
 	 * The volume of Entrainer. Valid values are between 0 and 1.
@@ -1187,6 +1217,86 @@ public class EntrainerStateMessage {
 	 */
 	public void setMediaUri(String mediaUri) {
 		this.mediaUri = mediaUri;
+	}
+
+	public Boolean getFlashMedia() {
+		return flashMedia;
+	}
+
+	public void setFlashMedia(Boolean flashMedia) {
+		this.flashMedia = flashMedia;
+	}
+
+	public Boolean getFlashAnimation() {
+		return flashAnimation;
+	}
+
+	public void setFlashAnimation(Boolean flashAnimation) {
+		this.flashAnimation = flashAnimation;
+	}
+
+	public Boolean getFlashEntrainerFX() {
+		return flashEntrainerFX;
+	}
+
+	public void setFlashEntrainerFX(Boolean flashEntrainerFX) {
+		this.flashEntrainerFX = flashEntrainerFX;
+	}
+
+	public Boolean getFlashShimmer() {
+		return flashShimmer;
+	}
+
+	public void setFlashShimmer(Boolean flashShimmer) {
+		this.flashShimmer = flashShimmer;
+	}
+
+	public Boolean getMediaPlay() {
+		return mediaPlay;
+	}
+
+	public void setMediaPlay(Boolean mediaPlay) {
+		this.mediaPlay = mediaPlay;
+	}
+
+	public Boolean getMediaPause() {
+		return mediaPause;
+	}
+
+	public void setMediaPause(Boolean mediaPause) {
+		this.mediaPause = mediaPause;
+	}
+
+	public String getShimmerName() {
+		return shimmerName;
+	}
+
+	public void setShimmerName(String shimmerName) {
+		this.shimmerName = shimmerName;
+	}
+
+	public Boolean getAnimationBackgroundColour() {
+		return animationBackgroundColour;
+	}
+
+	public void setAnimationBackgroundColour(Boolean animationBackgroundColour) {
+		this.animationBackgroundColour = animationBackgroundColour;
+	}
+
+	public String getAnimationBackgroundPic() {
+		return animationBackgroundPic;
+	}
+
+	public void setAnimationBackgroundPic(String animationBackgroundPic) {
+		this.animationBackgroundPic = animationBackgroundPic;
+	}
+
+	public String getAnimationName() {
+		return animationName;
+	}
+
+	public void setAnimationName(String animationName) {
+		this.animationName = animationName;
 	}
 
 }
