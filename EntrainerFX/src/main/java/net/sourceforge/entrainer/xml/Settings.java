@@ -238,12 +238,16 @@ public class Settings implements EntrainerResources {
 	@XmlElement(name = "media.uri")
 	private String mediaUri;
 	
+	@XmlElement(name = "flash.animation")
 	private boolean flashAnimation;
 	
+	@XmlElement(name = "flash.shimmer")
 	private boolean flashShimmer;
 	
+	@XmlElement(name = "flash.entrainerfx")
 	private boolean flashEntrainerFX;
 	
+	@XmlElement(name = "flash.media")
 	private boolean flashMedia;
 
 	/**
