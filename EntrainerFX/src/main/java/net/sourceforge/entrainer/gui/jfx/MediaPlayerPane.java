@@ -261,7 +261,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	}
 
 	private void createFileMedia(String file) throws URISyntaxException {
-		File mediaFile = new File(new URI(file));
+		File mediaFile = file == null || file.isEmpty() || file.equals("./") ? new File("Does Not Exist") : new File(new URI(file));
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Choose Media");
 		
