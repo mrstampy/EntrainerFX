@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -116,6 +117,8 @@ public class EntrainerBackground {
 	private AtomicInteger ai = new AtomicInteger(1);
 
 	private Map<Integer, ScheduledFuture<?>> futures = new ConcurrentHashMap<>();
+	
+	private ExecutorService loadSvc = Executors.newSingleThreadExecutor();
 
 	/**
 	 * Instantiates a new variable background.
@@ -142,8 +145,6 @@ public class EntrainerBackground {
 	}
 
 	private void initContent() {
-		clearPictures();
-
 		createCurrent();
 		setFadeInImage();
 		fadeIn();
@@ -234,7 +235,7 @@ public class EntrainerBackground {
 
 	private void killCurrent() {
 		clearFutures();
-		clearPictures();
+		JFXUtils.runLater(() -> clearPictures());
 	}
 
 	private void setFadeInImage() {
@@ -297,7 +298,7 @@ public class EntrainerBackground {
 				case DYNAMIC_BACKGROUND:
 					if (isDynamic()) return;
 					mode = BackgroundMode.DYNAMIC;
-					JFXUtils.runLater(() -> init());
+					loadSvc.execute(() -> init());
 					break;
 				case NO_BACKGROUND:
 					if (isNoBackground()) return;
@@ -312,12 +313,12 @@ public class EntrainerBackground {
 					JFXUtils.runLater(() -> evaluateStaticBackground(false));
 					break;
 				case BACKGROUND_PIC_DIR:
+					if(directoryName != null && directoryName.equals(e.getStringValue())) return;
 					directoryName = e.getStringValue();
 					if (isDynamic()) {
-						JFXUtils.runLater(() -> init());
+						loadSvc.execute(() -> init());
 					} else {
-						pictureNames.clear();
-						loadFromDirectory();
+						loadSvc.execute(() -> loadPictures());
 					}
 					break;
 				case BACKGROUND_DURATION_SECONDS:
@@ -338,6 +339,11 @@ public class EntrainerBackground {
 			}
 
 		});
+	}
+	
+	private void loadPictures() {
+		pictureNames.clear();
+		loadFromDirectory();
 	}
 
 	private void applyFlashEvent(boolean b) {

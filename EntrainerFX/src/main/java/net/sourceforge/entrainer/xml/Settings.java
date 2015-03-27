@@ -70,25 +70,25 @@ import net.sourceforge.entrainer.xml.program.EntrainerProgramInterval;
 public class Settings implements EntrainerResources {
 
 	@XmlElement
-	private double entrainmentFrequency;
+	private Double entrainmentFrequency;
 
 	@XmlElement
-	private double frequency;
+	private Double frequency;
 
 	@XmlElement
-	private double amplitude;
+	private Double amplitude;
 
 	@XmlElement
-	private double pinkNoise;
+	private Double pinkNoise;
 
 	@XmlElement
-	private boolean pinkNoisePan;
+	private Boolean pinkNoisePan;
 
 	@XmlElement
-	private double pinkNoiseAmplitude;
+	private Double pinkNoiseAmplitude;
 
 	@XmlElement
-	private double pinkNoiseEntrainmentMultiple;
+	private Double pinkNoiseEntrainmentMultiple;
 
 	@XmlElement
 	private String xmlProgram;
@@ -100,10 +100,10 @@ public class Settings implements EntrainerResources {
 	private String lafThemePack;
 
 	@XmlElement
-	private boolean isAnimation;
+	private Boolean isAnimation;
 
 	@XmlElement
-	private boolean isShimmer;
+	private Boolean isShimmer;
 
 	@XmlElement
 	private String animationProgram;
@@ -112,25 +112,25 @@ public class Settings implements EntrainerResources {
 	private String animationBackground;
 
 	@XmlElement
-	private boolean colourBackground;
+	private Boolean colourBackground;
 
 	@XmlElement
-	private int socketPort;
+	private Integer socketPort;
 
 	@XmlElement
 	private String socketIPAddress;
 
 	@XmlElement
-	private boolean socketConnected;
+	private Boolean socketConnected;
 
 	@XmlElement
-	private boolean deltaSocketMessage;
+	private Boolean deltaSocketMessage;
 
 	@XmlTransient
 	private Sender sender;
 
-	@XmlElement(name = "interval")
-	private List<EntrainerProgramInterval> intervals = new ArrayList<EntrainerProgramInterval>();
+	@XmlElement(name = "Integererval")
+	private List<EntrainerProgramInterval> Integerervals = new ArrayList<EntrainerProgramInterval>();
 
 	@XmlElement(name = "customInterval")
 	private List<EntrainerProgramInterval> customIntervals = new ArrayList<EntrainerProgramInterval>();
@@ -139,13 +139,13 @@ public class Settings implements EntrainerResources {
 	private String shimmerRectangle;
 
 	@XmlElement(name = "min.width")
-	private int minWidth;
+	private Integer minWidth;
 
 	@XmlElement(name = "min.height")
-	private int minHeight;
+	private Integer minHeight;
 
 	@XmlElement(name = "flash.background")
-	private boolean flashBackground;
+	private Boolean flashBackground;
 
 	private static Unmarshaller unmarshal;
 	private static Marshaller marshal;
@@ -153,102 +153,102 @@ public class Settings implements EntrainerResources {
 	private static Settings instance;
 
 	@XmlElement(name = "dynamic.background")
-	private boolean dynamicPicture;
+	private Boolean dynamicPicture;
 
 	@XmlElement(name = "static.background")
-	private boolean staticPicture;
+	private Boolean staticPicture;
 
 	@XmlElement(name = "static.background.picture")
 	private String staticPictureFile;
 
 	@XmlElement(name = "static.picture.lock")
-	private boolean staticPictureLock;
+	private Boolean staticPictureLock;
 
 	@XmlElement(name = "no.background")
-	private boolean noPicture;
+	private Boolean noPicture;
 
 	@XmlElement(name = "picture.directory")
 	private String pictureDirectory;
 
 	@XmlElement(name = "background.red")
-	private int backgroundRed;
+	private Integer backgroundRed;
 
 	@XmlElement(name = "background.green")
-	private int backgroundGreen;
+	private Integer backgroundGreen;
 
 	@XmlElement(name = "background.blue")
-	private int backgroundBlue;
+	private Integer backgroundBlue;
 
 	@XmlElement(name = "dynamic.duration")
-	private int dynamicDuration;
+	private Integer dynamicDuration;
 
 	@XmlElement(name = "dynamic.transition")
-	private int dynamicTransition;
+	private Integer dynamicTransition;
 
 	@XmlElement(name = "splash.on.startup")
-	private boolean splashOnStartup;
+	private Boolean splashOnStartup;
 
 	private static Lock lock = new ReentrantLock();
 
 	@XmlTransient
-	private boolean acceptUpdates = false;
+	private Boolean acceptUpdates = false;
 
 	@XmlElement(name = "opacity.flash")
-	private boolean opacity;
+	private Boolean opacity;
 
 	@XmlElement(name = "bloom.flash")
-	private boolean bloom;
+	private Boolean bloom;
 
 	@XmlElement(name = "boxBlur.flash")
-	private boolean boxBlur;
+	private Boolean boxBlur;
 
 	@XmlElement(name = "gaussianBlur.flash")
-	private boolean gaussianBlur;
+	private Boolean gaussianBlur;
 
 	@XmlElement(name = "glow.flash")
-	private boolean glow;
+	private Boolean glow;
 
 	@XmlElement(name = "motionBlur.flash")
-	private boolean motionBlur;
+	private Boolean motionBlur;
 
 	@XmlElement(name = "sepiaTone.flash")
-	private boolean sepiaTone;
+	private Boolean sepiaTone;
 
 	@XmlElement(name = "shadow.flash")
-	private boolean shadow;
+	private Boolean shadow;
 
 	@XmlElement(name = "colourAdjust.flash")
-	private boolean colourAdjust;
+	private Boolean colourAdjust;
 
 	@XmlElement(name = "lighting.flash")
-	private boolean lighting;
+	private Boolean lighting;
 
 	@XmlElement(name = "media.amplitude")
-	private double mediaAmplitude;
+	private Double mediaAmplitude;
 
 	@XmlElement(name = "media.entrainment.strength")
-	private double mediaEntrainmentStrength;
+	private Double mediaEntrainmentStrength;
 
 	@XmlElement(name = "media.loop")
-	private boolean mediaLoop;
+	private Boolean mediaLoop;
 
 	@XmlElement(name = "media.entrainment")
-	private boolean mediaEntrainment;
+	private Boolean mediaEntrainment;
 
 	@XmlElement(name = "media.uri")
 	private String mediaUri;
 	
 	@XmlElement(name = "flash.animation")
-	private boolean flashAnimation;
+	private Boolean flashAnimation;
 	
 	@XmlElement(name = "flash.shimmer")
-	private boolean flashShimmer;
+	private Boolean flashShimmer;
 	
 	@XmlElement(name = "flash.entrainerfx")
-	private boolean flashEntrainerFX;
+	private Boolean flashEntrainerFX;
 	
 	@XmlElement(name = "flash.media")
-	private boolean flashMedia;
+	private Boolean flashMedia;
 
 	/**
 	 * Sets the accept updates.
@@ -256,7 +256,7 @@ public class Settings implements EntrainerResources {
 	 * @param acceptUpdates
 	 *          the new accept updates
 	 */
-	public void setAcceptUpdates(boolean acceptUpdates) {
+	public void setAcceptUpdates(Boolean acceptUpdates) {
 		this.acceptUpdates = acceptUpdates;
 	}
 
@@ -316,7 +316,7 @@ public class Settings implements EntrainerResources {
 	}
 
 	/**
-	 * Kludge to circumvent intermittent, variable, strange L&F change errors.
+	 * Kludge to circumvent Integerermittent, variable, strange L&F change errors.
 	 *
 	 * @return the settings
 	 */
@@ -338,7 +338,7 @@ public class Settings implements EntrainerResources {
 	}
 
 	private void removeInterval(String val) {
-		ListIterator<EntrainerProgramInterval> li = intervals.listIterator();
+		ListIterator<EntrainerProgramInterval> li = Integerervals.listIterator();
 		while (li.hasNext()) {
 			if (li.next().getValue().equals(val)) {
 				li.remove();
@@ -365,7 +365,7 @@ public class Settings implements EntrainerResources {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				boolean save = true;
+				Boolean save = true;
 				switch (e.getParm()) {
 				case AMPLITUDE:
 					setAmplitude(e.getDoubleValue());
@@ -391,7 +391,7 @@ public class Settings implements EntrainerResources {
 				case INTERVAL_ADD:
 					if (!hasInterval(e.getStringValue())) {
 						EntrainerProgramInterval i = new EntrainerProgramInterval(e.getStringValue());
-						intervals.add(i);
+						Integerervals.add(i);
 					}
 					break;
 				case INTERVAL_REMOVE:
@@ -551,7 +551,7 @@ public class Settings implements EntrainerResources {
 		fireReceiverChangeEvent(isStaticPictureLock(), MediatorConstants.STATIC_PICTURE_LOCK);
 		fireReceiverChangeEvent(isSplashOnStartup(), MediatorConstants.SPLASH_ON_STARTUP);
 
-		for (EntrainerProgramInterval interval : intervals) {
+		for (EntrainerProgramInterval interval : Integerervals) {
 			fireReceiverChangeEvent(interval.getValue());
 		}
 
@@ -581,7 +581,7 @@ public class Settings implements EntrainerResources {
 		fireReceiverChangeEvent(FlashType.SHADOW, isShadow());
 	}
 
-	private void evaluateFlashType(FlashType flashType, boolean b) {
+	private void evaluateFlashType(FlashType flashType, Boolean b) {
 		switch (flashType) {
 		case BLOOM:
 			setBloom(b);
@@ -620,15 +620,15 @@ public class Settings implements EntrainerResources {
 	}
 
 	/**
-	 * Checks for interval.
+	 * Checks for Integererval.
 	 *
 	 * @param s
 	 *          the s
 	 * @return true, if successful
 	 */
-	public boolean hasInterval(String s) {
-		for (EntrainerProgramInterval interval : intervals) {
-			if (interval.getValue().equals(s)) {
+	public Boolean hasInterval(String s) {
+		for (EntrainerProgramInterval Integererval : Integerervals) {
+			if (Integererval.getValue().equals(s)) {
 				return true;
 			}
 		}
@@ -636,26 +636,37 @@ public class Settings implements EntrainerResources {
 		return false;
 	}
 
-	private void fireReceiverChangeEvent(FlashType type, boolean b) {
+	private void fireReceiverChangeEvent(FlashType type, Boolean b) {
+		if(b == null) return;
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, type, b, MediatorConstants.FLASH_TYPE));
 	}
 
 	private void fireReceiverChangeEvent(String interval) {
+		if(interval == null) return;
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, interval, INTERVAL_ADD);
 		sender.fireReceiverChangeEvent(e);
 	}
 
 	private void fireReceiverChangeEvent(String s, MediatorConstants parm) {
+		if(s == null) return;
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, s, parm);
 		sender.fireReceiverChangeEvent(e);
 	}
 
-	private void fireReceiverChangeEvent(boolean b, MediatorConstants parm) {
+	private void fireReceiverChangeEvent(Integer s, MediatorConstants parm) {
+		if(s == null) return;
+		ReceiverChangeEvent e = new ReceiverChangeEvent(this, s, parm);
+		sender.fireReceiverChangeEvent(e);
+	}
+
+	private void fireReceiverChangeEvent(Boolean b, MediatorConstants parm) {
+		if(b == null) return;
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, b, parm);
 		sender.fireReceiverChangeEvent(e);
 	}
 
-	private void fireReceiverChangeEvent(double value, MediatorConstants name) {
+	private void fireReceiverChangeEvent(Double value, MediatorConstants name) {
+		if(value == null) return;
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, value, name);
 		sender.fireReceiverChangeEvent(e);
 	}
@@ -665,11 +676,11 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the entrainment frequency
 	 */
-	public double getEntrainmentFrequency() {
+	public Double getEntrainmentFrequency() {
 		return entrainmentFrequency;
 	}
 
-	private void setEntrainmentFrequency(double entrainmentFrequency) {
+	private void setEntrainmentFrequency(Double entrainmentFrequency) {
 		this.entrainmentFrequency = entrainmentFrequency;
 	}
 
@@ -678,11 +689,11 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the frequency
 	 */
-	public double getFrequency() {
+	public Double getFrequency() {
 		return frequency;
 	}
 
-	private void setFrequency(double frequency) {
+	private void setFrequency(Double frequency) {
 		this.frequency = frequency;
 	}
 
@@ -691,11 +702,11 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the amplitude
 	 */
-	public double getAmplitude() {
+	public Double getAmplitude() {
 		return amplitude;
 	}
 
-	private void setAmplitude(double amplitude) {
+	private void setAmplitude(Double amplitude) {
 		this.amplitude = amplitude;
 	}
 
@@ -704,11 +715,11 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is pink noise pan
 	 */
-	public boolean isPinkNoisePan() {
+	public Boolean isPinkNoisePan() {
 		return pinkNoisePan;
 	}
 
-	private void setPinkNoisePan(boolean pinkNoisePan) {
+	private void setPinkNoisePan(Boolean pinkNoisePan) {
 		this.pinkNoisePan = pinkNoisePan;
 	}
 
@@ -717,11 +728,11 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the pink noise entrainment multiple
 	 */
-	public double getPinkNoiseEntrainmentMultiple() {
+	public Double getPinkNoiseEntrainmentMultiple() {
 		return pinkNoiseEntrainmentMultiple;
 	}
 
-	private void setPinkNoiseEntrainmentMultiple(double pinkNoiseEntrainmentMultiple) {
+	private void setPinkNoiseEntrainmentMultiple(Double pinkNoiseEntrainmentMultiple) {
 		this.pinkNoiseEntrainmentMultiple = pinkNoiseEntrainmentMultiple;
 	}
 
@@ -787,11 +798,11 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the pink noise pan amplitude
 	 */
-	public double getPinkNoisePanAmplitude() {
+	public Double getPinkNoisePanAmplitude() {
 		return pinkNoiseAmplitude;
 	}
 
-	private void setPinkNoisePanAmplitude(double pinkNoiseAmplitude) {
+	private void setPinkNoisePanAmplitude(Double pinkNoiseAmplitude) {
 		this.pinkNoiseAmplitude = pinkNoiseAmplitude;
 	}
 
@@ -800,18 +811,18 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the pink noise amplitude
 	 */
-	public double getPinkNoiseAmplitude() {
+	public Double getPinkNoiseAmplitude() {
 		return pinkNoise;
 	}
 
-	private void setPinkNoiseAmplitude(double pinkNoise) {
+	private void setPinkNoiseAmplitude(Double pinkNoise) {
 		this.pinkNoise = pinkNoise;
 	}
 
 	/**
-	 * Gets the custom intervals.
+	 * Gets the custom Integerervals.
 	 *
-	 * @return the custom intervals
+	 * @return the custom Integerervals
 	 */
 	public List<EntrainerProgramInterval> getCustomIntervals() {
 		return new ArrayList<EntrainerProgramInterval>(customIntervals);
@@ -828,9 +839,9 @@ public class Settings implements EntrainerResources {
 		}
 	}
 
-	private boolean hasCustomInterval(String s) {
-		for (EntrainerProgramInterval interval : customIntervals) {
-			if (interval.getValue().equals(s)) {
+	private Boolean hasCustomInterval(String s) {
+		for (EntrainerProgramInterval Integererval : customIntervals) {
+			if (Integererval.getValue().equals(s)) {
 				return true;
 			}
 		}
@@ -881,7 +892,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is animation
 	 */
-	public boolean isAnimation() {
+	public Boolean isAnimation() {
 		return isAnimation;
 	}
 
@@ -891,7 +902,7 @@ public class Settings implements EntrainerResources {
 	 * @param isAnimation
 	 *          the new animation
 	 */
-	public void setAnimation(boolean isAnimation) {
+	public void setAnimation(Boolean isAnimation) {
 		this.isAnimation = isAnimation;
 	}
 
@@ -900,7 +911,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is shimmer
 	 */
-	public boolean isShimmer() {
+	public Boolean isShimmer() {
 		return isShimmer;
 	}
 
@@ -910,7 +921,7 @@ public class Settings implements EntrainerResources {
 	 * @param isShimmer
 	 *          the new shimmer
 	 */
-	public void setShimmer(boolean isShimmer) {
+	public void setShimmer(Boolean isShimmer) {
 		this.isShimmer = isShimmer;
 	}
 
@@ -919,7 +930,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is desktop background
 	 */
-	public boolean isColourBackground() {
+	public Boolean isColourBackground() {
 		return colourBackground;
 	}
 
@@ -929,7 +940,7 @@ public class Settings implements EntrainerResources {
 	 * @param isDesktopBackground
 	 *          the new desktop background
 	 */
-	public void setColourBackground(boolean isDesktopBackground) {
+	public void setColourBackground(Boolean isDesktopBackground) {
 		this.colourBackground = isDesktopBackground;
 	}
 
@@ -938,7 +949,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the socket port
 	 */
-	public int getSocketPort() {
+	public Integer getSocketPort() {
 		return socketPort;
 	}
 
@@ -948,7 +959,7 @@ public class Settings implements EntrainerResources {
 	 * @param socketPort
 	 *          the new socket port
 	 */
-	public void setSocketPort(int socketPort) {
+	public void setSocketPort(Integer socketPort) {
 		this.socketPort = socketPort;
 		saveSettings();
 	}
@@ -958,7 +969,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is delta socket message
 	 */
-	public boolean isDeltaSocketMessage() {
+	public Boolean isDeltaSocketMessage() {
 		return deltaSocketMessage;
 	}
 
@@ -968,7 +979,7 @@ public class Settings implements EntrainerResources {
 	 * @param fullSocketMessage
 	 *          the new delta socket message
 	 */
-	public void setDeltaSocketMessage(boolean fullSocketMessage) {
+	public void setDeltaSocketMessage(Boolean fullSocketMessage) {
 		this.deltaSocketMessage = fullSocketMessage;
 		saveSettings();
 	}
@@ -978,7 +989,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is socket connected
 	 */
-	public boolean isSocketConnected() {
+	public Boolean isSocketConnected() {
 		return socketConnected;
 	}
 
@@ -988,7 +999,7 @@ public class Settings implements EntrainerResources {
 	 * @param socketConnected
 	 *          the new socket connected
 	 */
-	public void setSocketConnected(boolean socketConnected) {
+	public void setSocketConnected(Boolean socketConnected) {
 		this.socketConnected = socketConnected;
 		saveSettings();
 	}
@@ -1037,7 +1048,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the min width
 	 */
-	public int getMinWidth() {
+	public Integer getMinWidth() {
 		return minWidth;
 	}
 
@@ -1047,7 +1058,7 @@ public class Settings implements EntrainerResources {
 	 * @param minWidth
 	 *          the new min width
 	 */
-	public void setMinWidth(int minWidth) {
+	public void setMinWidth(Integer minWidth) {
 		this.minWidth = minWidth;
 	}
 
@@ -1056,7 +1067,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the min height
 	 */
-	public int getMinHeight() {
+	public Integer getMinHeight() {
 		return minHeight;
 	}
 
@@ -1066,7 +1077,7 @@ public class Settings implements EntrainerResources {
 	 * @param minHeight
 	 *          the new min height
 	 */
-	public void setMinHeight(int minHeight) {
+	public void setMinHeight(Integer minHeight) {
 		this.minHeight = minHeight;
 	}
 
@@ -1086,7 +1097,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is flash background
 	 */
-	public boolean isFlashBackground() {
+	public Boolean isFlashBackground() {
 		return flashBackground;
 	}
 
@@ -1096,7 +1107,7 @@ public class Settings implements EntrainerResources {
 	 * @param flashBackground
 	 *          the new flash background
 	 */
-	public void setFlashBackground(boolean flashBackground) {
+	public void setFlashBackground(Boolean flashBackground) {
 		this.flashBackground = flashBackground;
 	}
 
@@ -1105,7 +1116,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is dynamic picture
 	 */
-	public boolean isDynamicPicture() {
+	public Boolean isDynamicPicture() {
 		return dynamicPicture;
 	}
 
@@ -1115,7 +1126,7 @@ public class Settings implements EntrainerResources {
 	 * @param dynamicPicture
 	 *          the new dynamic picture
 	 */
-	public void setDynamicPicture(boolean dynamicPicture) {
+	public void setDynamicPicture(Boolean dynamicPicture) {
 		this.dynamicPicture = dynamicPicture;
 	}
 
@@ -1124,7 +1135,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is static picture
 	 */
-	public boolean isStaticPicture() {
+	public Boolean isStaticPicture() {
 		return staticPicture;
 	}
 
@@ -1134,7 +1145,7 @@ public class Settings implements EntrainerResources {
 	 * @param staticPicture
 	 *          the new static picture
 	 */
-	public void setStaticPicture(boolean staticPicture) {
+	public void setStaticPicture(Boolean staticPicture) {
 		this.staticPicture = staticPicture;
 	}
 
@@ -1162,7 +1173,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is no picture
 	 */
-	public boolean isNoPicture() {
+	public Boolean isNoPicture() {
 		return noPicture;
 	}
 
@@ -1172,7 +1183,7 @@ public class Settings implements EntrainerResources {
 	 * @param noPicture
 	 *          the new no picture
 	 */
-	public void setNoPicture(boolean noPicture) {
+	public void setNoPicture(Boolean noPicture) {
 		this.noPicture = noPicture;
 	}
 
@@ -1200,7 +1211,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the background red
 	 */
-	public int getBackgroundRed() {
+	public Integer getBackgroundRed() {
 		return backgroundRed;
 	}
 
@@ -1210,7 +1221,7 @@ public class Settings implements EntrainerResources {
 	 * @param backgroundRed
 	 *          the new background red
 	 */
-	public void setBackgroundRed(int backgroundRed) {
+	public void setBackgroundRed(Integer backgroundRed) {
 		this.backgroundRed = backgroundRed;
 	}
 
@@ -1219,7 +1230,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the background green
 	 */
-	public int getBackgroundGreen() {
+	public Integer getBackgroundGreen() {
 		return backgroundGreen;
 	}
 
@@ -1229,7 +1240,7 @@ public class Settings implements EntrainerResources {
 	 * @param backgroundGreen
 	 *          the new background green
 	 */
-	public void setBackgroundGreen(int backgroundGreen) {
+	public void setBackgroundGreen(Integer backgroundGreen) {
 		this.backgroundGreen = backgroundGreen;
 	}
 
@@ -1238,7 +1249,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the background blue
 	 */
-	public int getBackgroundBlue() {
+	public Integer getBackgroundBlue() {
 		return backgroundBlue;
 	}
 
@@ -1248,7 +1259,7 @@ public class Settings implements EntrainerResources {
 	 * @param backgroundBlue
 	 *          the new background blue
 	 */
-	public void setBackgroundBlue(int backgroundBlue) {
+	public void setBackgroundBlue(Integer backgroundBlue) {
 		this.backgroundBlue = backgroundBlue;
 	}
 
@@ -1257,7 +1268,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the dynamic duration
 	 */
-	public int getDynamicDuration() {
+	public Integer getDynamicDuration() {
 		return dynamicDuration;
 	}
 
@@ -1267,7 +1278,7 @@ public class Settings implements EntrainerResources {
 	 * @param dynamicDuration
 	 *          the new dynamic duration
 	 */
-	public void setDynamicDuration(int dynamicDuration) {
+	public void setDynamicDuration(Integer dynamicDuration) {
 		this.dynamicDuration = dynamicDuration;
 	}
 
@@ -1276,7 +1287,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the dynamic transition
 	 */
-	public int getDynamicTransition() {
+	public Integer getDynamicTransition() {
 		return dynamicTransition;
 	}
 
@@ -1286,7 +1297,7 @@ public class Settings implements EntrainerResources {
 	 * @param dynamicTransition
 	 *          the new dynamic transition
 	 */
-	public void setDynamicTransition(int dynamicTransition) {
+	public void setDynamicTransition(Integer dynamicTransition) {
 		this.dynamicTransition = dynamicTransition;
 	}
 
@@ -1295,7 +1306,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is static picture lock
 	 */
-	public boolean isStaticPictureLock() {
+	public Boolean isStaticPictureLock() {
 		return staticPictureLock;
 	}
 
@@ -1305,7 +1316,7 @@ public class Settings implements EntrainerResources {
 	 * @param staticPictureLock
 	 *          the new static picture lock
 	 */
-	public void setStaticPictureLock(boolean staticPictureLock) {
+	public void setStaticPictureLock(Boolean staticPictureLock) {
 		this.staticPictureLock = staticPictureLock;
 	}
 
@@ -1314,7 +1325,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is splash on startup
 	 */
-	public boolean isSplashOnStartup() {
+	public Boolean isSplashOnStartup() {
 		return splashOnStartup;
 	}
 
@@ -1324,7 +1335,7 @@ public class Settings implements EntrainerResources {
 	 * @param splashOnStartup
 	 *          the new splash on startup
 	 */
-	public void setSplashOnStartup(boolean splashOnStartup) {
+	public void setSplashOnStartup(Boolean splashOnStartup) {
 		this.splashOnStartup = splashOnStartup;
 	}
 
@@ -1333,7 +1344,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is opacity
 	 */
-	public boolean isOpacity() {
+	public Boolean isOpacity() {
 		return opacity;
 	}
 
@@ -1343,7 +1354,7 @@ public class Settings implements EntrainerResources {
 	 * @param isOpacity
 	 *          the new opacity
 	 */
-	public void setOpacity(boolean isOpacity) {
+	public void setOpacity(Boolean isOpacity) {
 		this.opacity = isOpacity;
 	}
 
@@ -1352,7 +1363,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is bloom
 	 */
-	public boolean isBloom() {
+	public Boolean isBloom() {
 		return bloom;
 	}
 
@@ -1362,7 +1373,7 @@ public class Settings implements EntrainerResources {
 	 * @param isBloom
 	 *          the new bloom
 	 */
-	public void setBloom(boolean isBloom) {
+	public void setBloom(Boolean isBloom) {
 		this.bloom = isBloom;
 	}
 
@@ -1371,7 +1382,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is box blur
 	 */
-	public boolean isBoxBlur() {
+	public Boolean isBoxBlur() {
 		return boxBlur;
 	}
 
@@ -1381,7 +1392,7 @@ public class Settings implements EntrainerResources {
 	 * @param isBoxBlur
 	 *          the new box blur
 	 */
-	public void setBoxBlur(boolean isBoxBlur) {
+	public void setBoxBlur(Boolean isBoxBlur) {
 		this.boxBlur = isBoxBlur;
 	}
 
@@ -1390,7 +1401,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is gaussian blur
 	 */
-	public boolean isGaussianBlur() {
+	public Boolean isGaussianBlur() {
 		return gaussianBlur;
 	}
 
@@ -1400,7 +1411,7 @@ public class Settings implements EntrainerResources {
 	 * @param isGaussianBlur
 	 *          the new gaussian blur
 	 */
-	public void setGaussianBlur(boolean isGaussianBlur) {
+	public void setGaussianBlur(Boolean isGaussianBlur) {
 		this.gaussianBlur = isGaussianBlur;
 	}
 
@@ -1409,7 +1420,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is glow
 	 */
-	public boolean isGlow() {
+	public Boolean isGlow() {
 		return glow;
 	}
 
@@ -1419,7 +1430,7 @@ public class Settings implements EntrainerResources {
 	 * @param isGlow
 	 *          the new glow
 	 */
-	public void setGlow(boolean isGlow) {
+	public void setGlow(Boolean isGlow) {
 		this.glow = isGlow;
 	}
 
@@ -1428,7 +1439,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is motion blur
 	 */
-	public boolean isMotionBlur() {
+	public Boolean isMotionBlur() {
 		return motionBlur;
 	}
 
@@ -1438,7 +1449,7 @@ public class Settings implements EntrainerResources {
 	 * @param isMotionBlur
 	 *          the new motion blur
 	 */
-	public void setMotionBlur(boolean isMotionBlur) {
+	public void setMotionBlur(Boolean isMotionBlur) {
 		this.motionBlur = isMotionBlur;
 	}
 
@@ -1447,7 +1458,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is sepia tone
 	 */
-	public boolean isSepiaTone() {
+	public Boolean isSepiaTone() {
 		return sepiaTone;
 	}
 
@@ -1457,7 +1468,7 @@ public class Settings implements EntrainerResources {
 	 * @param isSepiaTone
 	 *          the new sepia tone
 	 */
-	public void setSepiaTone(boolean isSepiaTone) {
+	public void setSepiaTone(Boolean isSepiaTone) {
 		this.sepiaTone = isSepiaTone;
 	}
 
@@ -1466,7 +1477,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is shadow
 	 */
-	public boolean isShadow() {
+	public Boolean isShadow() {
 		return shadow;
 	}
 
@@ -1476,7 +1487,7 @@ public class Settings implements EntrainerResources {
 	 * @param isShadow
 	 *          the new shadow
 	 */
-	public void setShadow(boolean isShadow) {
+	public void setShadow(Boolean isShadow) {
 		this.shadow = isShadow;
 	}
 
@@ -1485,7 +1496,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is colour adjust
 	 */
-	public boolean isColourAdjust() {
+	public Boolean isColourAdjust() {
 		return colourAdjust;
 	}
 
@@ -1495,7 +1506,7 @@ public class Settings implements EntrainerResources {
 	 * @param isRandomColourAdjust
 	 *          the new colour adjust
 	 */
-	public void setColourAdjust(boolean isRandomColourAdjust) {
+	public void setColourAdjust(Boolean isRandomColourAdjust) {
 		this.colourAdjust = isRandomColourAdjust;
 	}
 
@@ -1504,7 +1515,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is lighting
 	 */
-	public boolean isLighting() {
+	public Boolean isLighting() {
 		return lighting;
 	}
 
@@ -1514,7 +1525,7 @@ public class Settings implements EntrainerResources {
 	 * @param isLighting
 	 *          the new lighting
 	 */
-	public void setLighting(boolean isLighting) {
+	public void setLighting(Boolean isLighting) {
 		this.lighting = isLighting;
 	}
 
@@ -1523,7 +1534,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the media amplitude
 	 */
-	public double getMediaAmplitude() {
+	public Double getMediaAmplitude() {
 		return mediaAmplitude;
 	}
 
@@ -1533,7 +1544,7 @@ public class Settings implements EntrainerResources {
 	 * @param mediaAmplitude
 	 *          the new media amplitude
 	 */
-	public void setMediaAmplitude(double mediaAmplitude) {
+	public void setMediaAmplitude(Double mediaAmplitude) {
 		this.mediaAmplitude = mediaAmplitude;
 	}
 
@@ -1542,7 +1553,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return the media entrainment strength
 	 */
-	public double getMediaEntrainmentStrength() {
+	public Double getMediaEntrainmentStrength() {
 		return mediaEntrainmentStrength;
 	}
 
@@ -1552,7 +1563,7 @@ public class Settings implements EntrainerResources {
 	 * @param mediaEntrainmentStrength
 	 *          the new media entrainment strength
 	 */
-	public void setMediaEntrainmentStrength(double mediaEntrainmentStrength) {
+	public void setMediaEntrainmentStrength(Double mediaEntrainmentStrength) {
 		this.mediaEntrainmentStrength = mediaEntrainmentStrength;
 	}
 
@@ -1561,7 +1572,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is media loop
 	 */
-	public boolean isMediaLoop() {
+	public Boolean isMediaLoop() {
 		return mediaLoop;
 	}
 
@@ -1571,7 +1582,7 @@ public class Settings implements EntrainerResources {
 	 * @param mediaLoop
 	 *          the new media loop
 	 */
-	public void setMediaLoop(boolean mediaLoop) {
+	public void setMediaLoop(Boolean mediaLoop) {
 		this.mediaLoop = mediaLoop;
 	}
 
@@ -1580,7 +1591,7 @@ public class Settings implements EntrainerResources {
 	 *
 	 * @return true, if is media entrainment
 	 */
-	public boolean isMediaEntrainment() {
+	public Boolean isMediaEntrainment() {
 		return mediaEntrainment;
 	}
 
@@ -1590,7 +1601,7 @@ public class Settings implements EntrainerResources {
 	 * @param mediaEntrainment
 	 *          the new media entrainment
 	 */
-	public void setMediaEntrainment(boolean mediaEntrainment) {
+	public void setMediaEntrainment(Boolean mediaEntrainment) {
 		this.mediaEntrainment = mediaEntrainment;
 	}
 
@@ -1613,35 +1624,35 @@ public class Settings implements EntrainerResources {
 		this.mediaUri = mediaUri;
 	}
 
-	public boolean isFlashAnimation() {
+	public Boolean isFlashAnimation() {
 		return flashAnimation;
 	}
 
-	public void setFlashAnimation(boolean flashAnimation) {
+	public void setFlashAnimation(Boolean flashAnimation) {
 		this.flashAnimation = flashAnimation;
 	}
 
-	public boolean isFlashShimmer() {
+	public Boolean isFlashShimmer() {
 		return flashShimmer;
 	}
 
-	public void setFlashShimmer(boolean flashShimmer) {
+	public void setFlashShimmer(Boolean flashShimmer) {
 		this.flashShimmer = flashShimmer;
 	}
 
-	public boolean isFlashEntrainerFX() {
+	public Boolean isFlashEntrainerFX() {
 		return flashEntrainerFX;
 	}
 
-	public void setFlashEntrainerFX(boolean flashEntrainerFX) {
+	public void setFlashEntrainerFX(Boolean flashEntrainerFX) {
 		this.flashEntrainerFX = flashEntrainerFX;
 	}
 
-	public boolean isFlashMedia() {
+	public Boolean isFlashMedia() {
 		return flashMedia;
 	}
 
-	public void setFlashMedia(boolean flashMedia) {
+	public void setFlashMedia(Boolean flashMedia) {
 		this.flashMedia = flashMedia;
 	}
 
