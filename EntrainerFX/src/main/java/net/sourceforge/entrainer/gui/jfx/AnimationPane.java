@@ -29,8 +29,6 @@ import java.util.ListIterator;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -59,6 +57,7 @@ public class AnimationPane extends AbstractTitledPane {
 	private ComboBox<JFXEntrainerAnimation> animations = new ComboBox<JFXEntrainerAnimation>();
 	private CheckBox runAnimation = new CheckBox("Run Animations");
 	private CheckBox useColourAsBackground = new CheckBox("Use Colour Background");
+	private CheckBox applyAnimation = new CheckBox("Flash Animation");
 	private TextField animationBackground = new TextField();
 	private GridPane pane;
 	private URI imageFile;
@@ -69,6 +68,27 @@ public class AnimationPane extends AbstractTitledPane {
 	public AnimationPane() {
 		super("Animation Options");
 		init();
+	}
+
+	/**
+	 * Checks if is flash animation.
+	 *
+	 * @return true, if is flash animation
+	 */
+	public boolean isFlashAnimation() {
+		return applyAnimation.isSelected();
+	}
+
+	/**
+	 * Sets the flash animation.
+	 *
+	 * @param b
+	 *          the new flash animation
+	 */
+	public void setFlashAnimation(boolean b) {
+		if(applyAnimation.isSelected() == b) return;
+		
+		applyAnimation.setSelected(b);
 	}
 
 	/**
@@ -111,6 +131,7 @@ public class AnimationPane extends AbstractTitledPane {
 		setTooltip(useColourAsBackground, "If true will use a random colour as the animation background");
 		setTooltip(animationBackground, "Click to select a background image for animations");
 		setTooltip(animations, "The list of available animations");
+		setTooltip(applyAnimation, "Apply the chosen flash effect selected in the Flash Options to the animations");
 	}
 
 	/**
@@ -153,6 +174,7 @@ public class AnimationPane extends AbstractTitledPane {
 		setTextFill(useColourAsBackground);
 
 		initCheckBox(runAnimation, MediatorConstants.IS_ANIMATION);
+		initCheckBox(applyAnimation, MediatorConstants.APPLY_FLASH_TO_ANIMATION);
 
 		pane = new GridPane();
 		pane.setPadding(new Insets(10));
@@ -160,12 +182,17 @@ public class AnimationPane extends AbstractTitledPane {
 		pane.setHgap(10);
 		pane.setVgap(10);
 
-		GridPane.setConstraints(runAnimation, 0, 0);
-		GridPane.setConstraints(useColourAsBackground, 0, 1);
-		GridPane.setConstraints(animations, 1, 0);
-		GridPane.setConstraints(animationBackground, 1, 1);
+		int col = 0;
+		int row = 0;
+		
+		GridPane.setConstraints(runAnimation, col++, row);
+		GridPane.setConstraints(animations, col, row++);
+		col = 0;
+		GridPane.setConstraints(applyAnimation, col, row++);
+		GridPane.setConstraints(useColourAsBackground, col++, row);
+		GridPane.setConstraints(animationBackground, col, row);
 
-		pane.getChildren().addAll(runAnimation, animations, useColourAsBackground, animationBackground);
+		pane.getChildren().addAll(applyAnimation, runAnimation, animations, useColourAsBackground, animationBackground);
 
 		expandedProperty().addListener(new InvalidationListener() {
 
@@ -324,13 +351,7 @@ public class AnimationPane extends AbstractTitledPane {
 	}
 
 	private void initCheckBox(final CheckBox checkBox, final MediatorConstants parm) {
-		checkBox.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				fireReceiverChangeEvent(checkBox.isSelected(), parm);
-			}
-		});
+		checkBox.setOnAction(e -> fireReceiverChangeEvent(checkBox.isSelected(), parm));
 		setTextFill(checkBox);
 	}
 
