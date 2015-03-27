@@ -456,12 +456,14 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 			@Override
 			public void invalidated(Observable arg0) {
+				double value = slider.getValue();
+				label.setText(format.format(value));
+				
 				if(fromMediaPane.get()) {
 					fromMediaPane.set(false);
 					return;
 				}
-				double value = slider.getValue();
-				label.setText(format.format(value));
+				
 				fireReceiverChangeEvent(value, event);
 			}
 		});
