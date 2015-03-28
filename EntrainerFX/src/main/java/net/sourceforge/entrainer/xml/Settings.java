@@ -36,6 +36,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -49,7 +50,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.gui.flash.FlashType;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -57,6 +57,7 @@ import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
+import net.sourceforge.entrainer.util.Utils;
 import net.sourceforge.entrainer.xml.program.EntrainerProgramInterval;
 
 // TODO: Auto-generated Javadoc
@@ -67,7 +68,7 @@ import net.sourceforge.entrainer.xml.program.EntrainerProgramInterval;
  */
 @XmlRootElement(name = "entrainer.settings")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Settings implements EntrainerResources {
+public class Settings {
 
 	@XmlElement
 	private Double entrainmentFrequency;
@@ -237,19 +238,19 @@ public class Settings implements EntrainerResources {
 
 	@XmlElement(name = "media.uri")
 	private String mediaUri;
-	
+
 	@XmlElement(name = "flash.animation")
 	private Boolean flashAnimation;
-	
+
 	@XmlElement(name = "flash.shimmer")
 	private Boolean flashShimmer;
-	
+
 	@XmlElement(name = "flash.entrainerfx")
 	private Boolean flashEntrainerFX;
-	
+
 	@XmlElement(name = "flash.media")
 	private Boolean flashMedia;
-	
+
 	private boolean preserveState = false;
 
 	/**
@@ -279,9 +280,7 @@ public class Settings implements EntrainerResources {
 	protected void saveSettings() {
 		lock.lock();
 		try {
-			File file = new File("settings.xml");
-
-			marshal.marshal(instance, file);
+			marshal.marshal(instance, Utils.getSettingsFile().get());
 		} catch (JAXBException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -307,12 +306,9 @@ public class Settings implements EntrainerResources {
 	}
 
 	private static void unmarshalSettings() throws JAXBException {
-		File file = new File(EFX_SETTINGS_DIR + "settings.xml");
-		if (file.exists()) {
-			instance = (Settings) unmarshal.unmarshal(file);
-		} else {
-			instance = new Settings();
-		}
+		Optional<File> file = Utils.getSettingsFile();
+
+		instance = file.isPresent() ? (Settings) unmarshal.unmarshal(file.get()) : new Settings();
 
 		instance.init();
 	}
@@ -355,11 +351,11 @@ public class Settings implements EntrainerResources {
 		EntrainerMediator.getInstance().removeSender(sender);
 		EntrainerMediator.getInstance().removeReceiver(this);
 	}
-	
+
 	@XmlTransient
 	public void setPreserveState(boolean b) {
 		this.preserveState = b;
-		if(!b) initState();
+		if (!b) initState();
 	}
 
 	/**
@@ -373,8 +369,8 @@ public class Settings implements EntrainerResources {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				if(preserveState) return;
-				
+				if (preserveState) return;
+
 				Boolean save = true;
 				switch (e.getParm()) {
 				case AMPLITUDE:
@@ -524,7 +520,7 @@ public class Settings implements EntrainerResources {
 		initState();
 	}
 
-	protected void initState() {
+	public void initState() {
 		fireReceiverChangeEvent(getEntrainmentFrequency(), ENTRAINMENT_FREQUENCY);
 		fireReceiverChangeEvent(getFrequency(), FREQUENCY);
 		fireReceiverChangeEvent(getAmplitude(), AMPLITUDE);
@@ -651,36 +647,36 @@ public class Settings implements EntrainerResources {
 	}
 
 	private void fireReceiverChangeEvent(FlashType type, Boolean b) {
-		if(b == null) return;
+		if (b == null) return;
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, type, b, MediatorConstants.FLASH_TYPE));
 	}
 
 	private void fireReceiverChangeEvent(String interval) {
-		if(interval == null) return;
+		if (interval == null) return;
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, interval, INTERVAL_ADD);
 		sender.fireReceiverChangeEvent(e);
 	}
 
 	private void fireReceiverChangeEvent(String s, MediatorConstants parm) {
-		if(s == null) return;
+		if (s == null) return;
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, s, parm);
 		sender.fireReceiverChangeEvent(e);
 	}
 
 	private void fireReceiverChangeEvent(Integer s, MediatorConstants parm) {
-		if(s == null) return;
+		if (s == null) return;
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, s, parm);
 		sender.fireReceiverChangeEvent(e);
 	}
 
 	private void fireReceiverChangeEvent(Boolean b, MediatorConstants parm) {
-		if(b == null) return;
+		if (b == null) return;
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, b, parm);
 		sender.fireReceiverChangeEvent(e);
 	}
 
 	private void fireReceiverChangeEvent(Double value, MediatorConstants name) {
-		if(value == null) return;
+		if (value == null) return;
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, value, name);
 		sender.fireReceiverChangeEvent(e);
 	}

@@ -18,6 +18,7 @@
  */
 package net.sourceforge.entrainer.gui.jfx.animation;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.FileSystem;
@@ -31,6 +32,7 @@ import java.nio.file.WatchService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -74,10 +76,12 @@ public class JFXAnimationLoader {
 	 */
 	void loadAllAnimations() {
 		log.info("Loading animations");
+		
+		Optional<File> animDir = Utils.getAnimationDir();
 
-		timer.schedule(getTimerTask(Paths.get("animation")), 0);
+		timer.schedule(getTimerTask(Paths.get(animDir.get().toURI())), 0);
 
-		List<Path> jarPaths = EntrainerRegister.getJarFilesInDirectory("animation");
+		List<Path> jarPaths = EntrainerRegister.getJarFilesInDirectory(animDir.get().getAbsolutePath());
 
 		jarPaths = getNewJarPaths(jarPaths);
 

@@ -38,11 +38,14 @@ package net.sourceforge.entrainer.util;
  */
 
 import java.awt.Desktop;
+import java.io.File;
 import java.net.URI;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 
+import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 
 import org.slf4j.Logger;
@@ -52,7 +55,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class Utils.
  */
-public class Utils {
+public class Utils implements EntrainerResources {
 	private static Logger log = LoggerFactory.getLogger(Utils.class);
 
 	/**
@@ -125,6 +128,43 @@ public class Utils {
 		} catch (Throwable e) {
 			GuiUtil.handleProblem(e);
 		}
+	}
+
+	public static Optional<File> getSettingsFile() {
+		return getFile(EFX_SETTINGS_DIR + "settings.xml", EFX_USER_HOME_SETTINGS_DIR + "settings.xml");
+	}
+
+	public static Optional<File> getEntrainerProgramDir() {
+		return getFile(EFX_PROGRAM_DIR, EFX_USER_HOME_PROGRAM_DIR);
+	}
+	
+	public static void openLocalDocumentation() {
+		Optional<File> index = getLocalDocPage();
+		
+		if(index.isPresent() && index.get().exists()) openBrowser(index.get().toURI());
+	}
+
+	private static Optional<File> getLocalDocPage() {
+		return getFile(EFX_DOC_DIR + "/index.html", EFX_USER_HOME_DOC_DIR + "/index.html");
+	}
+
+	public static Optional<File> getAnimationDir() {
+		return getFile(EFX_ANIMATION_DIR, EFX_USER_HOME_ANIMATION_DIR);
+	}
+
+	public static Optional<File> getEspDir() {
+		return getFile(EFX_ESP_DIR, EFX_USER_HOME_ESP_DIR);
+	}
+	
+	public static Optional<File> getCssDir() {
+		return getFile(EFX_CSS_DIR, EFX_USER_HOME_CSS_DIR);
+	}
+
+	private static Optional<File> getFile(String override, String userHome) {
+		File file = new File(override);
+		if (!file.exists()) file = new File(userHome);
+
+		return Optional.of(file);
 	}
 
 }

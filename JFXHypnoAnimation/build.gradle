@@ -34,7 +34,7 @@ task createAnimationJar(dependsOn: [clean, jar], type: Copy) {
 	
 	from 'build/libs/' + animationJar
 	
-	into(dir.getCanonicalPath())
+	into(dir.getAbsolutePath())
 }
 
 jar {

@@ -19,7 +19,6 @@
 package net.sourceforge.entrainer.gui;
 
 import static net.sourceforge.entrainer.gui.EntrainerConstants.ABOUT_ENTRAINER_MENU_NAME;
-import static net.sourceforge.entrainer.gui.EntrainerConstants.ANIMATION_WINDOW_NAME;
 import static net.sourceforge.entrainer.gui.EntrainerConstants.FILE_MENU_NAME;
 import static net.sourceforge.entrainer.gui.EntrainerConstants.HELP_MENU_NAME;
 import static net.sourceforge.entrainer.gui.EntrainerConstants.NEW_XML_PROGRAM_MENU_NAME;
@@ -86,7 +85,6 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.filechooser.FileFilter;
 
-import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.esp.EspConnectionRegister;
 import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.gui.flash.FlashOptions;
@@ -123,6 +121,7 @@ import net.sourceforge.entrainer.sound.SoundControl;
 import net.sourceforge.entrainer.sound.jsyn.JSynSoundControl;
 import net.sourceforge.entrainer.sound.tools.EntrainmentFrequencyPulseNotifier;
 import net.sourceforge.entrainer.sound.tools.Panner;
+import net.sourceforge.entrainer.util.Utils;
 import net.sourceforge.entrainer.xml.Settings;
 import net.sourceforge.entrainer.xml.SleeperManager;
 import net.sourceforge.entrainer.xml.SleeperManagerEvent;
@@ -152,7 +151,7 @@ import com.github.mrstampy.esplab.EspPowerLabWindow;
  * 
  * @author burton
  */
-public class EntrainerFX extends JFrame implements EntrainerResources {
+public class EntrainerFX extends JFrame {
 	private static final int MIN_HEIGHT = 950;
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(EntrainerFX.class);
@@ -172,7 +171,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 	private static EntrainerFX instance;
 
-	private Settings settings;
+	private Settings settings = Settings.getInstance();
 
 	private EntrainerSocketManager socket;
 
@@ -342,7 +341,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 			}
 		});
 	}
-	
+
 	private void initAnimationWindow() {
 		animationWindow = new JFXAnimationWindow();
 		SwingUtilities.invokeLater(() -> initSettings());
@@ -496,12 +495,13 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 		createPanner();
 		addMenu();
+		settings.initState();
 		initSettings();
 
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.isControlDown() && e.getClickCount() == 1) {
-					openBrowser(getLocalDocAddress());
+					Utils.openLocalDocumentation();
 				}
 			}
 		});
@@ -613,7 +613,6 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	}
 
 	private void initSettings() {
-		settings = Settings.reload();
 		if (settings.getXmlProgram() != null && !settings.getXmlProgram().isEmpty() && isVisible()) {
 			readXmlFile(settings.getXmlProgram());
 		} else {
@@ -706,15 +705,11 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				openBrowser(getLocalDocAddress());
+				Utils.openLocalDocumentation();
 			}
 		});
 
 		return item;
-	}
-
-	private URI getLocalDocAddress() {
-		return new File(EFX_DOC_DIR + "/index.html").toURI();
 	}
 
 	private JMenuItem getLicenseItem() {
@@ -1289,7 +1284,7 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 	}
 
 	private void bindSocket() {
-		if (Settings.getInstance().getSocketPort() <= 0) showSocketPortDialog();
+		if (settings.getSocketPort() <= 0) showSocketPortDialog();
 		try {
 			socket.bind();
 			new NotificationWindow("Entrainer socket bound to host " + socket.getHostName() + " and port "
@@ -1616,15 +1611,15 @@ public class EntrainerFX extends JFrame implements EntrainerResources {
 			new NotificationWindow("Exiting Entrainer", this);
 
 			control.exit();
-			
+
 			JFXUtils.runLater(() -> shutdownAnimations());
 
 			exitApplication();
 		}
 	}
-	
+
 	private void shutdownAnimations() {
-		if(animationWindow.isShowing()) animationWindow.setVisible(false);
+		if (animationWindow.isShowing()) animationWindow.setVisible(false);
 	}
 
 	private void exitApplication() {

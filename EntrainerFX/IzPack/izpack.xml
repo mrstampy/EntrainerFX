@@ -54,12 +54,12 @@
 			
 			<file unpack="true" src="build/distributions/EntrainerFX-${EFX_VERSION}.zip" targetdir="$INSTALL_PATH"/>
 			
-			<file src="README.txt" targetdir="$INSTALL_PATH" />
-			<file src="LICENSE.txt" targetdir="$INSTALL_PATH" />
+			<file src="README.txt" targetdir="$USER_HOME/EntrainerFX-Settings" />
+			<file src="LICENSE.txt" targetdir="$USER_HOME/EntrainerFX-Settings" />
 			
 			<file src="src/main/resources/logback.xml" targetdir="$INSTALL_PATH/logback" />
 			
-			<singlefile src="settings.xml.install" target="$INSTALL_PATH/settings.xml" />
+			<singlefile src="settings.xml.install" target="$USER_HOME/EntrainerFX-Settings/settings.xml" />
 
 			<file src="IzPack/windows/entrainer.bat" targetdir="$INSTALL_PATH" />
 			<file src="IzPack/unix/entrainer.sh" targetdir="$INSTALL_PATH" />
@@ -67,23 +67,23 @@
 			<executable targetfile="$INSTALL_PATH/entrainer.bat" stage="never" />
 			<executable targetfile="$INSTALL_PATH/entrainer.sh" stage="never" />
 
-			<fileset dir="wav" targetdir="$INSTALL_PATH/wav">
+			<fileset dir="wav" targetdir="$USER_HOME/EntrainerFX-Settings/wav">
 				<exclude name="*.*" />
 			</fileset>
 
 			<!-- ESP Files and directories -->
 
-			<fileset dir="esp" targetdir="$INSTALL_PATH/esp"/>
+			<fileset dir="esp" targetdir="$USER_HOME/EntrainerFX-Settings/esp"/>
 
-			<fileset dir="esp.lab" targetdir="$INSTALL_PATH/esp.lab">
+			<fileset dir="esp.lab" targetdir="$USER_HOME/EntrainerFX-Settings/esp.lab">
 				<exclude name="*.*" />
 			</fileset>
 
 			<file src="src/main/resources/esp.openbci.properties" targetdir="$INSTALL_PATH/esp.config" />
 
-			<singlefile src="css/entrainer.css.install" target="$INSTALL_PATH/css/entrainer.css" />
+			<singlefile src="css/entrainer.css.install" target="$USER_HOME/EntrainerFX-Settings/css/entrainer.css" />
 			
-			<fileset dir="css" targetdir="$INSTALL_PATH/css">
+			<fileset dir="css" targetdir="$USER_HOME/EntrainerFX-Settings/css">
 				<include name="hawaiisunset2.jpg" />
 				<include name="helux-nebula.jpg" />
 				<include name="indian-ocean-space.jpg" />
@@ -97,7 +97,7 @@
 				<include name="star-birth-clouds.jpg" />
 			</fileset>
 			
-			<fileset dir="xml" targetdir="$INSTALL_PATH/xml">
+			<fileset dir="xml" targetdir="$USER_HOME/EntrainerFX-Settings/xml">
 				<include name="AudioCaffeine.xml" />
 				<include name="Bedtime.xml" />
 				<include name="MindMush.xml" />
@@ -123,7 +123,7 @@
 
 			<fileset dir="lafs/skins" targetdir="$INSTALL_PATH/lafs/skins" />
 
-			<file src="animation/JFXHypnoAnimation-${EFX_VERSION}.jar" targetdir="$INSTALL_PATH/animation" />
+			<file src="animation/JFXHypnoAnimation-${EFX_VERSION}.jar" targetdir="$USER_HOME/EntrainerFX-Settings/animation" />
 
 		</pack>
 
@@ -150,7 +150,7 @@
 
 		<pack name="Documentation" required="no">
 			<description>The Documentation for Entrainer</description>
-			<fileset dir="doc" targetdir="$INSTALL_PATH/doc"/>
+			<fileset dir="doc" targetdir="$USER_HOME/EntrainerFX-Settings/doc"/>
 		</pack>
 
 	</packs>

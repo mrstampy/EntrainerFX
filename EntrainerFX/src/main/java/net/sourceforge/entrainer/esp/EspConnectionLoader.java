@@ -18,6 +18,7 @@
  */
 package net.sourceforge.entrainer.esp;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.FileSystem;
@@ -31,10 +32,10 @@ import java.nio.file.WatchService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
@@ -52,7 +53,7 @@ import com.github.mrstampy.esp.dsp.lab.RawEspConnection;
 /**
  * The Class EspConnectionLoader.
  */
-public class EspConnectionLoader implements EntrainerResources {
+public class EspConnectionLoader {
 	private static final Logger log = LoggerFactory.getLogger(EspConnectionLoader.class);
 
 	private List<RawEspConnection> connections = Collections.synchronizedList(new ArrayList<>());
@@ -92,9 +93,11 @@ public class EspConnectionLoader implements EntrainerResources {
 	void loadAllConnections() {
 		log.debug("Loading ESP Connections");
 
-		timer.schedule(getTimerTask(Paths.get(EFX_ESP_DIR)), 0);
+		Optional<File> espDir = Utils.getEspDir();
 
-		List<Path> jarPaths = EntrainerRegister.getJarFilesInDirectory(EFX_ESP_DIR);
+		timer.schedule(getTimerTask(Paths.get(espDir.get().toURI())), 0);
+
+		List<Path> jarPaths = EntrainerRegister.getJarFilesInDirectory(espDir.get().getAbsolutePath());
 
 		jarPaths = getNewJarPaths(jarPaths);
 

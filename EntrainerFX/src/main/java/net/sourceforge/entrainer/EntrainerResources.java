@@ -18,20 +18,27 @@
  */
 package net.sourceforge.entrainer;
 
+
 // TODO: Auto-generated Javadoc
 /**
  * The Interface EntrainerResources.
  */
 public interface EntrainerResources {
+	
+	public static final String EFX_USER_HOME = System.getProperty("user.home") + "/EntrainerFX-Settings/";
 
 	/** The Constant EFX_CONFIG_DIR. */
 	public static final String EFX_CONFIG_DIR = "./";
 
 	/** The Constant EFX_PROGRAM_DIR. */
 	public static final String EFX_PROGRAM_DIR = EFX_CONFIG_DIR + "xml";
+	
+	public static final String EFX_USER_HOME_PROGRAM_DIR = EFX_USER_HOME + "xml";
 
 	/** The Constant EFX_ANIMATION_DIR. */
 	public static final String EFX_ANIMATION_DIR = EFX_CONFIG_DIR + "animation";
+
+	public static final String EFX_USER_HOME_ANIMATION_DIR = EFX_USER_HOME + "animation";
 
 	/** The Constant EFX_LAF_DIR. */
 	public static final String EFX_LAF_DIR = EFX_CONFIG_DIR + "lafs";
@@ -39,16 +46,25 @@ public interface EntrainerResources {
 	/** The Constant EFX_ESP_DIR. */
 	public static final String EFX_ESP_DIR = EFX_CONFIG_DIR + "esp";
 
+	public static final String EFX_USER_HOME_ESP_DIR = EFX_USER_HOME + "esp";
+
 	/** The Constant EFX_OPENBCI_DIR. */
 	public static final String EFX_OPENBCI_DIR = EFX_CONFIG_DIR + "esp.config";
 
 	/** The Constant EFX_DOC_DIR. */
 	public static final String EFX_DOC_DIR = EFX_CONFIG_DIR + "doc";
 
+	public static final String EFX_USER_HOME_DOC_DIR = EFX_USER_HOME + "doc";
+	
+	public static final String EFX_CSS_DIR = EFX_CONFIG_DIR + "css";
+	
+	public static final String EFX_USER_HOME_CSS_DIR = EFX_USER_HOME + "css";
+
 	/** The Constant EFX_SETTINGS_DIR. */
 	public static final String EFX_SETTINGS_DIR = EFX_CONFIG_DIR;
+	
+	public static final String EFX_USER_HOME_SETTINGS_DIR = EFX_USER_HOME;
 
 	/** The Constant EFX_LOGBACK_XML_DIR. */
 	public static final String EFX_LOGBACK_XML_DIR = EFX_CONFIG_DIR;
-
 }

@@ -85,7 +85,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sourceforge.entrainer.EntrainerResources;
 import net.sourceforge.entrainer.gui.flash.FlashType;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
@@ -102,6 +101,7 @@ import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
+import net.sourceforge.entrainer.util.Utils;
 import net.sourceforge.entrainer.xml.program.EntrainerProgram;
 import net.sourceforge.entrainer.xml.program.EntrainerProgramInterval;
 import net.sourceforge.entrainer.xml.program.EntrainerProgramUnit;
@@ -117,7 +117,7 @@ import org.xml.sax.SAXException;
  * 
  * @author burton
  */
-public class XmlEditor extends JDialog implements EntrainerResources {
+public class XmlEditor extends JDialog {
 
 	private static final Logger log = LoggerFactory.getLogger(XmlEditor.class);
 	private static final long serialVersionUID = 1L;
@@ -475,7 +475,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 		xml.setUseColourAsBackground(animations.getUseColourAsBackground().isSelected());
 		xml.setIntervals(intervalMenu.getLoadedIntervals());
 		xml.setShimmerName(shimmers.getShimmers().getValue());
-		
+
 		xml.setMediaEntrainment(mediaOptions.isMediaEntrainment());
 		xml.setMediaLoop(mediaOptions.isMediaLoop());
 		xml.setMediaUri(mediaOptions.getMediaURI());
@@ -614,13 +614,13 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 
 		pics.setFlashBackground(xml.isFlashBackground());
 		fireReceiverChangeEvent(pics.isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
-		
+
 		animations.setFlashAnimation(xml.isFlashAnimation());
 		fireReceiverChangeEvent(animations.isFlashAnimation(), MediatorConstants.APPLY_FLASH_TO_ANIMATION);
-		
+
 		shimmers.setFlashShimmer(xml.isFlashShimmer());
 		fireReceiverChangeEvent(shimmers.isFlashShimmer(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
-		
+
 		flashOptions.setFlashEntrainerFX(xml.isFlashEntrainerFX());
 		fireReceiverChangeEvent(flashOptions.isFlashEntrainerFX(), MediatorConstants.APPLY_FLASH_TO_ENTRAINER_FX);
 
@@ -640,16 +640,16 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 			pics.setStaticPicture(xml.getStaticPictureFile());
 			fireReceiverChangeEvent(pics.getStaticPicture(), MediatorConstants.BACKGROUND_PIC);
 		}
-		
+
 		mediaOptions.setFlashMedia(xml.isFlashMedia());
 		fireReceiverChangeEvent(xml.isFlashMedia(), MediatorConstants.APPLY_FLASH_TO_MEDIA);
-		
+
 		mediaOptions.setMediaEntrainment(xml.isMediaEntrainment());
 		fireReceiverChangeEvent(xml.isMediaEntrainment(), MediatorConstants.MEDIA_ENTRAINMENT);
-		
+
 		mediaOptions.setMediaURI(xml.getMediaUri());
 		fireReceiverChangeEvent(xml.getMediaUri(), MediatorConstants.MEDIA_URI);
-		
+
 		mediaOptions.setMediaLoop(xml.isMediaLoop());
 
 		pics.setPictureLock(xml.isStaticPictureLock());
@@ -990,7 +990,7 @@ public class XmlEditor extends JDialog implements EntrainerResources {
 	 * @return the xml file chooser
 	 */
 	public static JFileChooser getXmlFileChooser() {
-		JFileChooser chooser = new JFileChooser(EFX_PROGRAM_DIR);
+		JFileChooser chooser = new JFileChooser(Utils.getEntrainerProgramDir().get());
 
 		chooser.setFileFilter(new FileFilter() {
 			@Override

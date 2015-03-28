@@ -42,6 +42,7 @@ import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
+import net.sourceforge.entrainer.util.Utils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -50,7 +51,7 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 public class BackgroundPicturePane extends AbstractTitledPane {
 
 	private CheckBox applyBackground = new CheckBox("Flash Background");
-	private String directoryName = "css";
+	private String directoryName = null;
 	private TextField directory = new TextField(directoryName);
 	private String pictureName = "";
 	private TextField picture = new TextField(pictureName);
@@ -300,6 +301,8 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	protected void init() {
 		directory.setEditable(false);
 		picture.setEditable(false);
+		
+		setDirectory(Utils.getCssDir().get().getAbsolutePath());
 
 		initMediator();
 		initRadioButtons();

@@ -20,6 +20,7 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,6 +36,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.guitools.GuiUtil;
+import net.sourceforge.entrainer.util.Utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -150,7 +152,8 @@ public class JFXUtils {
 	 * @return the entrainer css
 	 */
 	public static URI getEntrainerCSS() {
-		File css = new File("css/entrainer.css");
+		Optional<File> cssDir = Utils.getCssDir();
+		File css = new File(cssDir.get(), "entrainer.css");
 
 		return css.exists() ? css.toURI() : null;
 	}

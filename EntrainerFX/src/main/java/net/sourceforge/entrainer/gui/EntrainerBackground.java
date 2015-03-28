@@ -27,6 +27,7 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -57,6 +58,7 @@ import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
+import net.sourceforge.entrainer.util.Utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,7 +93,7 @@ public class EntrainerBackground {
 
 	private int fadeTime = 5;
 	private int displayTime = 10;
-	private String directoryName = "css";
+	private String directoryName = null;
 
 	private ScheduledExecutorService switchSvc = Executors.newSingleThreadScheduledExecutor();
 
@@ -117,7 +119,7 @@ public class EntrainerBackground {
 	private AtomicInteger ai = new AtomicInteger(1);
 
 	private Map<Integer, ScheduledFuture<?>> futures = new ConcurrentHashMap<>();
-	
+
 	private ExecutorService loadSvc = Executors.newSingleThreadExecutor();
 
 	/**
@@ -127,6 +129,12 @@ public class EntrainerBackground {
 		initMediator();
 		pane.setCache(true);
 		pane.setCacheHint(CacheHint.SPEED);
+		initDirectoryName();
+	}
+
+	private void initDirectoryName() {
+		Optional<File> cssDir = Utils.getCssDir();
+		setDirectoryName(cssDir.get().getAbsolutePath());
 	}
 
 	/**
@@ -313,7 +321,7 @@ public class EntrainerBackground {
 					JFXUtils.runLater(() -> evaluateStaticBackground(false));
 					break;
 				case BACKGROUND_PIC_DIR:
-					if(directoryName != null && directoryName.equals(e.getStringValue())) return;
+					if (directoryName != null && directoryName.equals(e.getStringValue())) return;
 					directoryName = e.getStringValue();
 					if (isDynamic()) {
 						loadSvc.execute(() -> init());
@@ -340,7 +348,7 @@ public class EntrainerBackground {
 
 		});
 	}
-	
+
 	private void loadPictures() {
 		pictureNames.clear();
 		loadFromDirectory();
