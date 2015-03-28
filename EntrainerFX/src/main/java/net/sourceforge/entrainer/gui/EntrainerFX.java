@@ -225,6 +225,10 @@ public class EntrainerFX extends JFrame {
 
 	private EntrainerFX() {
 		super("Entrainer FX");
+		
+		EntrainmentFrequencyPulseNotifier.start();
+		FlashOptions.start();
+		
 		init();
 
 		jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -238,9 +242,6 @@ public class EntrainerFX extends JFrame {
 				background.setDimension(mainPanel.getWidth(), mainPanel.getHeight());
 			}
 		});
-
-		EntrainmentFrequencyPulseNotifier.start();
-		FlashOptions.start();
 	}
 
 	/**

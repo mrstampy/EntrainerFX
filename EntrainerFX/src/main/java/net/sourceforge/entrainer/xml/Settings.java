@@ -536,7 +536,6 @@ public class Settings {
 		fireReceiverChangeEvent(isShimmer(), IS_SHIMMER);
 		fireReceiverChangeEvent(getShimmerRectangle(), SHIMMER_RECTANGLE);
 		fireReceiverChangeEvent(isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
-		fireReceiverChangeEvent(isFlashAnimation(), MediatorConstants.APPLY_FLASH_TO_ANIMATION);
 		fireReceiverChangeEvent(isFlashEntrainerFX(), MediatorConstants.APPLY_FLASH_TO_ENTRAINER_FX);
 		fireReceiverChangeEvent(isFlashMedia(), MediatorConstants.APPLY_FLASH_TO_MEDIA);
 		fireReceiverChangeEvent(isFlashShimmer(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
@@ -574,6 +573,7 @@ public class Settings {
 	}
 	
 	public void initAnimation() {
+		fireReceiverChangeEvent(isFlashAnimation(), MediatorConstants.APPLY_FLASH_TO_ANIMATION);
 		fireReceiverChangeEvent(isAnimation(), IS_ANIMATION);
 		fireReceiverChangeEvent(getAnimationBackground(), MediatorConstants.ANIMATION_BACKGROUND);
 		fireReceiverChangeEvent(getAnimationProgram(), MediatorConstants.ANIMATION_PROGRAM);
