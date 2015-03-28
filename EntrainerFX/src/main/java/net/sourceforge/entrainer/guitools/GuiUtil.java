@@ -58,13 +58,17 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.CountDownLatch;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.gui.laf.LAFRegister;
 import net.sourceforge.entrainer.util.Utils;
 
@@ -232,27 +236,19 @@ public class GuiUtil {
 		e.printStackTrace();
 
 		final String msg = e.getMessage();
-
-		final CountDownLatch latch = useLatch ? new CountDownLatch(1) : null;
-
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				JOptionPane.showMessageDialog(null, msg, "Unexpected Exception", JOptionPane.ERROR_MESSAGE);
-				if (useLatch) latch.countDown();
-			}
-		});
-
+		
 		logger.error(msg, e);
 
-		if (useLatch) {
-			try {
-				latch.await();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-		}
+		JFXUtils.runLater(() -> showAlert(msg));
+	}
+
+	private static void showAlert(String msg) {
+		if(msg == null || msg.equals("null") || msg.isEmpty()) msg = "An unknown error has occurred";
+		
+		Alert alert = new Alert(AlertType.ERROR, msg, ButtonType.OK);
+		alert.setHeaderText("Please see the ~/EntrainerFX-Settings/entrainer.log file for details");
+		alert.setTitle("Unexpected Exception");
+		alert.show();
 	}
 
 	/**
@@ -410,10 +406,7 @@ public class GuiUtil {
 		} catch (IllegalComponentStateException e) {
 			logger.error("Unexpected exception", e);
 			if (e.getMessage().contains("The frame is decorated")) {
-				JOptionPane.showMessageDialog(null,
-						getSpacesInPathMessage(),
-						"Spaces in Directory Names",
-						JOptionPane.ERROR_MESSAGE);
+				JFXUtils.runLater(() -> showAlert(getSpacesInPathMessage()));
 				System.exit(-1);
 			}
 
@@ -454,7 +447,7 @@ public class GuiUtil {
 		tl.playLoop(RepeatBehavior.LOOP);
 	}
 
-	private static Object getSpacesInPathMessage() {
+	private static String getSpacesInPathMessage() {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("It appears that EntrainerFX has been installed\n");
