@@ -317,11 +317,12 @@ public class EntrainerBackground {
 					JFXUtils.runLater(() -> setBackgroundColor(e.getColourValue()));
 					break;
 				case BACKGROUND_PIC:
+					if (backgroundPic != null && backgroundPic.equals(e.getStringValue())) break;
 					backgroundPic = e.getStringValue();
 					JFXUtils.runLater(() -> evaluateStaticBackground(false));
 					break;
 				case BACKGROUND_PIC_DIR:
-					if (directoryName != null && directoryName.equals(e.getStringValue())) return;
+					if (directoryName != null && directoryName.equals(e.getStringValue())) break;
 					directoryName = e.getStringValue();
 					if (isDynamic()) {
 						loadSvc.execute(() -> init());

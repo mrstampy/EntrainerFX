@@ -203,7 +203,7 @@ public class MediaEngine {
 	}
 
 	private void startPlayer() {
-		if (stillPlaying()) return;
+		if (stillPlaying() || player == null) return;
 
 		setPlayerVolume(amplitude);
 
