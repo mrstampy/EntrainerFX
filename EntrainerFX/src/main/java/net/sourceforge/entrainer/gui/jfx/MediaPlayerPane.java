@@ -42,6 +42,7 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
@@ -95,7 +96,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private MediaEngine engine = MediaEngine.getInstance();
 
 	private AtomicBoolean internalTimeRemaining = new AtomicBoolean(false);
-	
+
 	private AtomicBoolean fromMediaPane = new AtomicBoolean(false);
 
 	/**
@@ -122,35 +123,37 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	 *          the new flash media
 	 */
 	public void setFlashMedia(boolean b) {
-		if(applyMedia.isSelected() == b) return;
-		
+		if (b == applyMedia.isSelected()) return;
+
 		applyMedia.setSelected(b);
+
+		if (!b) JFXUtils.resetEffects(view);
 	}
-	
+
 	public boolean isMediaEntrainment() {
 		return enableMedia.isSelected();
 	}
-	
+
 	public void setMediaEntrainment(boolean b) {
-		if(enableMedia.isSelected() == b) return;
-		
+		if (enableMedia.isSelected() == b) return;
+
 		enableMedia.setSelected(b);
 	}
-	
+
 	public boolean isMediaLoop() {
 		return mediaLoop.isSelected();
 	}
-	
+
 	public void setMediaLoop(boolean b) {
-		if(mediaLoop.isSelected() == b) return;
-		
+		if (mediaLoop.isSelected() == b) return;
+
 		mediaLoop.setSelected(b);
 	}
-	
+
 	public String getMediaURI() {
 		return mediaName;
 	}
-	
+
 	public void setMediaURI(String uri) {
 		setMediaUri(uri);
 	}
@@ -263,11 +266,12 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	}
 
 	private void createFileMedia(String file) throws URISyntaxException {
-		File mediaFile = file == null || file.isEmpty() || file.equals("./") ? new File("Does Not Exist") : new File(new URI(file));
+		File mediaFile = file == null || file.isEmpty() || file.equals("./") ? new File("Does Not Exist") : new File(
+				new URI(file));
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Choose Media");
-		
-		if(mediaFile.exists()) {
+
+		if (mediaFile.exists()) {
 			fc.setInitialDirectory(mediaFile.getParentFile());
 			fc.setInitialFileName(mediaFile.getName());
 		}
@@ -279,7 +283,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		mediaName = newMedia.toURI().toString();
 
 		media.setText(newMedia.getName());
-		
+
 		resizeMediaView();
 
 		fireReceiverChangeEvent(newMedia.toURI().toString(), MediatorConstants.MEDIA_URI);
@@ -328,10 +332,14 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		view.setPreserveRatio(true);
 		view.setCache(true);
 		view.setCacheHint(CacheHint.QUALITY);
+
+		prefWidthProperty().addListener(e -> resizeMediaView());
 	}
 
 	private void applyMediaClicked() {
 		fireReceiverChangeEvent(applyMedia.isSelected(), MediatorConstants.APPLY_FLASH_TO_MEDIA);
+
+		if (!applyMedia.isSelected()) JFXUtils.resetEffects(view);
 	}
 
 	private void loopClicked() {
@@ -408,13 +416,62 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		GridPane.setHalignment(view, HPos.CENTER);
 		pane.add(view, 0, row++, 3, 1);
 
-		addSlider("Track Position", trackPosition, timeRemaining, row++);
-		addSlider("Media Volume", amplitude, amplitudeValue, row++);
-		addSlider("Entrainment Strength", strength, strengthValue, row++);
+		pane.add(getSliderPanel(), 0, row++, 3, 1);
 
 		pane.add(getButtonPanel(), 0, row++, 3, 1);
 
 		pane.setAlignment(Pos.CENTER);
+	}
+
+	private Node getSliderPanel() {
+		HBox box = new HBox(10);
+		box.setAlignment(Pos.CENTER);
+
+		box.getChildren().addAll(getSliderLabels(), getSliders(), getValues());
+
+		return box;
+	}
+
+	private Node getSliderLabels() {
+		Label trackPos = createLabel("Track Position");
+		Label vol = createLabel("Media Volume");
+		Label entStr = createLabel("Entrainment Strength");
+
+		VBox box = new VBox(10);
+		box.setAlignment(Pos.CENTER_RIGHT);
+		box.getChildren().addAll(trackPos, vol, entStr);
+
+		return box;
+	}
+
+	private Node getSliders() {
+		VBox box = new VBox(10);
+		box.setAlignment(Pos.CENTER);
+
+		box.getChildren().addAll(trackPosition, amplitude, strength);
+
+		return box;
+	}
+
+	private Label createLabel(String text) {
+		Label label = new Label(text);
+
+		setTextFill(label);
+
+		return label;
+	}
+
+	private Node getValues() {
+		setTextFill(timeRemaining);
+		setTextFill(amplitudeValue);
+		setTextFill(strengthValue);
+
+		VBox box = new VBox(10);
+		box.setAlignment(Pos.CENTER_RIGHT);
+
+		box.getChildren().addAll(timeRemaining, amplitudeValue, strengthValue);
+
+		return box;
 	}
 
 	private Node getMediaField() {
@@ -433,19 +490,6 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		return box;
 	}
 
-	private void addSlider(String label, Slider slider, Label value, int row) {
-		slider.setId(label);
-		Label title = new Label(label);
-
-		setTextFill(title);
-		setTextFill(value);
-
-		pane.add(title, 0, row);
-
-		pane.add(slider, 1, row);
-		pane.add(value, 2, row);
-	}
-
 	private void initSlider(final Slider slider, final Label label, final DecimalFormat format,
 			final MediatorConstants event) {
 		slider.setEffect(new InnerShadow());
@@ -458,12 +502,12 @@ public class MediaPlayerPane extends AbstractTitledPane {
 			public void invalidated(Observable arg0) {
 				double value = slider.getValue();
 				label.setText(format.format(value));
-				
-				if(fromMediaPane.get()) {
+
+				if (fromMediaPane.get()) {
 					fromMediaPane.set(false);
 					return;
 				}
-				
+
 				fireReceiverChangeEvent(value, event);
 			}
 		});
@@ -528,8 +572,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 					setMediaTime(e.getDoubleValue());
 					break;
 				case APPLY_FLASH_TO_MEDIA:
-					if (!b) JFXUtils.resetEffects(view);
-					JFXUtils.runLater(() -> setFlashMedia(e.getBooleanValue()));
+					JFXUtils.runLater(() -> setFlashMedia(b));
 					break;
 				case FLASH_EFFECT:
 					pulseView(e.getEffect());
@@ -544,9 +587,9 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private void pulseView(CurrentEffect currentEffect) {
 		if (!applyMedia.isSelected()) return;
 
-		if (!enableMedia.isSelected() || view.getMediaPlayer() == null || !isPlaying()) return;
+		if (view.getMediaPlayer() == null || view.getFitHeight() <= 0) return;
 
-		if (view.getFitHeight() > 0) JFXUtils.setEffect(view, currentEffect);
+		JFXUtils.setEffect(view, currentEffect);
 	}
 
 	private void setMediaTime(double d) {
@@ -567,7 +610,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		Media m = engine.getMedia();
 
 		if (m == null) return;
-		
+
 		if (m.getWidth() == 0 || m.getHeight() == 0) {
 			resetMediaView();
 			return;
@@ -575,7 +618,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 		view.setMediaPlayer(engine.getPlayer());
 
-		double width = 500;
+		double width = getPrefWidth() - 80;
 		double height = m.getHeight() * width / m.getWidth();
 
 		view.setFitWidth(width);
@@ -609,8 +652,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	}
 
 	private void setMediaUri(String s) {
-		if(s == null || s.isEmpty()) return;
-		
+		if (s == null || s.isEmpty()) return;
+
 		mediaName = s;
 
 		try {

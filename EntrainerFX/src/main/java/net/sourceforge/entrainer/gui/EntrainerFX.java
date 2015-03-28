@@ -403,6 +403,7 @@ public class EntrainerFX extends JFrame {
 		setTitledPaneWidth(shimmerOptions, width);
 		setTitledPaneWidth(flashOptions, width);
 		setTitledPaneWidth(neuralizer, width);
+		setTitledPaneWidth(audioPlayerPane, width);
 		setTitledPaneWidth(pictures, width);
 
 		setShimmerSizes();
