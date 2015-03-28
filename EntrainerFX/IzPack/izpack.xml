@@ -80,7 +80,6 @@
 			</fileset>
 
 			<file src="src/main/resources/esp.openbci.properties" targetdir="$INSTALL_PATH/esp.config" />
-			<file src="src/main/resources/javax.usb.properties" targetdir="$INSTALL_PATH/esp.config" />
 
 			<singlefile src="css/entrainer.css.install" target="$INSTALL_PATH/css/entrainer.css" />
 			

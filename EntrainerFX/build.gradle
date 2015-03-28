@@ -110,7 +110,6 @@ jar {
     
     exclude(
     	'esp.openbci.properties', 
-    	'javax.usb.properties', 
     	'logback.xml')
 }
 
