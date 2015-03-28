@@ -239,16 +239,28 @@ public class GuiUtil {
 		
 		logger.error(msg, e);
 
-		JFXUtils.runLater(() -> showAlert(msg));
+		CountDownLatch cdl = useLatch ? new CountDownLatch(1) : null;
+		JFXUtils.runLater(() -> showAlert(msg, cdl));
+		
+		if(useLatch) try {
+			cdl.await();
+		} catch (InterruptedException e1) {
+			logger.error("Unexpected exception", e1);
+		}
 	}
 
-	private static void showAlert(String msg) {
+	private static void showAlert(String msg, CountDownLatch cdl) {
 		if(msg == null || msg.equals("null") || msg.isEmpty()) msg = "An unknown error has occurred";
 		
 		Alert alert = new Alert(AlertType.ERROR, msg, ButtonType.OK);
 		alert.setHeaderText("Please see the ~/EntrainerFX-Settings/entrainer.log file for details");
 		alert.setTitle("Unexpected Exception");
-		alert.show();
+		if(cdl == null) {
+			alert.show();
+		} else {
+			alert.showAndWait();
+			cdl.countDown();
+		}
 	}
 
 	/**
@@ -406,7 +418,13 @@ public class GuiUtil {
 		} catch (IllegalComponentStateException e) {
 			logger.error("Unexpected exception", e);
 			if (e.getMessage().contains("The frame is decorated")) {
-				JFXUtils.runLater(() -> showAlert(getSpacesInPathMessage()));
+				CountDownLatch cdl = new CountDownLatch(1);
+				JFXUtils.runLater(() -> showAlert(getSpacesInPathMessage(), cdl));
+				try {
+					cdl.await();
+				} catch (InterruptedException e1) {
+					logger.error("Unexpected exception", e1);
+				}
 				System.exit(-1);
 			}
 

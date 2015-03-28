@@ -19,7 +19,6 @@
 package net.sourceforge.entrainer;
 
 import java.awt.Component;
-import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.URISyntaxException;
 
@@ -36,7 +35,6 @@ import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.gui.jfx.trident.ColorPropertyInterpolator;
 import net.sourceforge.entrainer.gui.jfx.trident.LinearGradientInterpolator;
 import net.sourceforge.entrainer.gui.jfx.trident.RadialGradientInterpolator;
-import net.sourceforge.entrainer.gui.popup.NotificationWindow;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.util.Utils;
 import net.sourceforge.entrainer.xml.Settings;
@@ -79,7 +77,6 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		Thread.currentThread().setName("EntrainerFX");
-		architectureCheck();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -89,9 +86,10 @@ public class Main {
 					TridentConfig.getInstance().addPropertyInterpolator(new RadialGradientInterpolator());
 
 					new JFXPanel(); // initializes JavaFX environment
+					architectureCheck();
 					startApplication();
 				} catch (Throwable e) {
-					errorOnStartup(e);
+					GuiUtil.handleProblem(e, true);
 				}
 			}
 		});
@@ -107,31 +105,16 @@ public class Main {
 
 			@Override
 			public void run() {
-				checkForOldSubstanceJar();
 				try {
 					GuiUtil.loadAllLafs();
 				} catch (Exception e) {
-					errorOnStartup(e);
+					GuiUtil.handleProblem(e, true);
 				}
 				GuiUtil.changeLookAndFeel(settings.getLafClass(), settings.getLafThemePack(), new Component[] {});
 				showGui(splash);
 			}
 		});
 		thread.start();
-	}
-
-	private static void checkForOldSubstanceJar() {
-		File oldSubstance = new File("./lafs/substance.jar");
-		if (!oldSubstance.exists()) return;
-
-		oldSubstance.renameTo(new File("./lafs/substance.bak"));
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				new NotificationWindow("Old substance.jar renamed to substance.bak", null);
-			}
-		});
 	}
 
 	private static void architectureCheck() {
@@ -168,14 +151,6 @@ public class Main {
 		};
 
 		thread.start();
-	}
-
-	private static void errorOnStartup(Throwable e) {
-		e.printStackTrace();
-		logger.error("JSyn library must be in the Library Path: " + System.getProperty("java.library.path"), e);
-		System.out.println("Library Path: " + System.getProperty("java.library.path"));
-		About.showAboutDialog();
-		System.exit(0);
 	}
 
 }
