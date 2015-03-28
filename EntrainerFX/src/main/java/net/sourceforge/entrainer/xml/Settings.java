@@ -533,10 +533,6 @@ public class Settings {
 		fireReceiverChangeEvent(getPinkNoisePanAmplitude(), PINK_PAN_AMPLITUDE);
 		fireReceiverChangeEvent(getPinkNoiseEntrainmentMultiple(), PINK_ENTRAINER_MULTIPLE);
 		fireReceiverChangeEvent(isPinkNoisePan(), PINK_PAN);
-		fireReceiverChangeEvent(isAnimation(), IS_ANIMATION);
-		fireReceiverChangeEvent(getAnimationBackground(), MediatorConstants.ANIMATION_BACKGROUND);
-		fireReceiverChangeEvent(getAnimationProgram(), MediatorConstants.ANIMATION_PROGRAM);
-		fireReceiverChangeEvent(isColourBackground(), MediatorConstants.ANIMATION_COLOR_BACKGROUND);
 		fireReceiverChangeEvent(isShimmer(), IS_SHIMMER);
 		fireReceiverChangeEvent(getShimmerRectangle(), SHIMMER_RECTANGLE);
 		fireReceiverChangeEvent(isFlashBackground(), MediatorConstants.APPLY_FLASH_TO_BACKGROUND);
@@ -573,6 +569,15 @@ public class Settings {
 		fireFlashOptions();
 
 		fireMediaOptions();
+		
+		initAnimation();
+	}
+	
+	public void initAnimation() {
+		fireReceiverChangeEvent(isAnimation(), IS_ANIMATION);
+		fireReceiverChangeEvent(getAnimationBackground(), MediatorConstants.ANIMATION_BACKGROUND);
+		fireReceiverChangeEvent(getAnimationProgram(), MediatorConstants.ANIMATION_PROGRAM);
+		fireReceiverChangeEvent(isColourBackground(), MediatorConstants.ANIMATION_COLOR_BACKGROUND);
 	}
 
 	private void fireMediaOptions() {
