@@ -36,6 +36,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.animation.FadeTransition;
@@ -121,6 +122,8 @@ public class EntrainerBackground {
 	private Map<Integer, ScheduledFuture<?>> futures = new ConcurrentHashMap<>();
 
 	private ExecutorService loadSvc = Executors.newSingleThreadExecutor();
+	
+	private AtomicBoolean backgroundChanging = new AtomicBoolean(false);
 
 	/**
 	 * Instantiates a new variable background.
@@ -146,6 +149,7 @@ public class EntrainerBackground {
 	}
 
 	private void init() {
+		if(pt != null) pt.stop();
 		killCurrent();
 		pictureNames.clear();
 		loadFromDirectory();
@@ -153,16 +157,20 @@ public class EntrainerBackground {
 	}
 
 	private void initContent() {
+		if(pt != null) pt.stop();
 		createCurrent();
 		setFadeInImage();
 		fadeIn();
 		fadeIn.play();
 
 		switchPictures();
+		backgroundChanging.set(false);
 	}
 
 	private void loadFromDirectory() {
+		if(pt != null) pt.stop();
 		loadFromDirectory(new File(getDirectoryName()));
+		backgroundChanging.set(false);
 	}
 
 	private void loadFromDirectory(File dir) {
@@ -322,7 +330,8 @@ public class EntrainerBackground {
 					JFXUtils.runLater(() -> evaluateStaticBackground(false));
 					break;
 				case BACKGROUND_PIC_DIR:
-					if (directoryName != null && directoryName.equals(e.getStringValue())) break;
+					if (backgroundChanging.get() || directoryName != null && directoryName.equals(e.getStringValue())) break;
+					backgroundChanging.set(true);
 					directoryName = e.getStringValue();
 					if (isDynamic()) {
 						loadSvc.execute(() -> init());
@@ -331,6 +340,7 @@ public class EntrainerBackground {
 					}
 					break;
 				case BACKGROUND_DURATION_SECONDS:
+					log.debug("EB: received duration {} from {}", e.getDoubleValue(), e.getSource());
 					setDisplayTime((int) e.getDoubleValue());
 					break;
 				case BACKGROUND_TRANSITION_SECONDS:

@@ -503,7 +503,7 @@ public class XmlEditor extends JDialog {
 		xml.setColourAdjust(flashOptions.isColourAdjust());
 
 		try {
-			marshal(xml, xml.getFile().getName());
+			marshal(xml, xml.getFile().getAbsolutePath());
 		} catch (Exception e) {
 			GuiUtil.handleProblem(e);
 		}

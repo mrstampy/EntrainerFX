@@ -20,6 +20,9 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import java.text.DecimalFormat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
@@ -43,6 +46,7 @@ import net.sourceforge.entrainer.sound.MasterLevelController;
  * The Class SliderControlPane.
  */
 public class SliderControlPane extends AbstractTitledPane {
+	private static final Logger log = LoggerFactory.getLogger(SliderControlPane.class);
 
 	/** The Constant CSS_ID. */
 	public static final String CSS_ID = "slider-control-pane";
@@ -206,6 +210,7 @@ public class SliderControlPane extends AbstractTitledPane {
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
 				case AMPLITUDE:
+					log.debug("SCC: received amplitude {} from {}", e.getDoubleValue(), e.getSource());
 					setAmplitudeValue(e.getDoubleValue());
 					break;
 				case ENTRAINMENT_FREQUENCY:
@@ -260,18 +265,17 @@ public class SliderControlPane extends AbstractTitledPane {
 
 		slider.setMinWidth(350);
 
-		slider.valueProperty().addListener(new InvalidationListener() {
-
-			@Override
-			public void invalidated(Observable arg0) {
-				double value = slider.getValue();
-				label.setText(format.format(value));
-				fireReceiverChangeEvent(value, event);
-			}
-		});
+		slider.valueProperty().addListener(e -> onSliderChange(slider, label, format, event));
 
 		label.setText(format.format(slider.getValue()));
 		fireReceiverChangeEvent(slider.getValue(), event);
+	}
+
+	private void onSliderChange(final Slider slider, final Label label, final DecimalFormat format,
+			final MediatorConstants event) {
+		double value = slider.getValue();
+		label.setText(format.format(value));
+		fireReceiverChangeEvent(value, event);
 	}
 
 	/**

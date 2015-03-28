@@ -54,7 +54,7 @@ public class EntrainerProgramUtil {
 	 * @return the entrainer program
 	 */
 	public static EntrainerProgram unmarshal(String fileName) {
-		File file = new File("xml", fileName);
+		File file = new File(fileName);
 
 		return unmarshal(file);
 	}
@@ -91,7 +91,7 @@ public class EntrainerProgramUtil {
 	 *          the file name
 	 */
 	public static void marshal(EntrainerProgram program, String fileName) {
-		File file = new File("xml", fileName);
+		File file = new File(fileName);
 
 		try {
 			marshaller.marshal(program, file);

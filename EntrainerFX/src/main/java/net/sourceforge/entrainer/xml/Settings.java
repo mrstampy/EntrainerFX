@@ -60,6 +60,9 @@ import net.sourceforge.entrainer.mediator.SenderAdapter;
 import net.sourceforge.entrainer.util.Utils;
 import net.sourceforge.entrainer.xml.program.EntrainerProgramInterval;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 // TODO: Auto-generated Javadoc
 /**
  * This class loads the settings saved from previous sessions.
@@ -69,6 +72,7 @@ import net.sourceforge.entrainer.xml.program.EntrainerProgramInterval;
 @XmlRootElement(name = "entrainer.settings")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Settings {
+	private static final Logger log = LoggerFactory.getLogger(Settings.class);
 
 	@XmlElement
 	private Double entrainmentFrequency;
@@ -251,6 +255,7 @@ public class Settings {
 	@XmlElement(name = "flash.media")
 	private Boolean flashMedia;
 
+	@XmlTransient
 	private boolean preserveState = false;
 
 	/**
@@ -354,6 +359,7 @@ public class Settings {
 
 	@XmlTransient
 	public void setPreserveState(boolean b) {
+		log.debug("preserving state {}", b);
 		this.preserveState = b;
 		if (!b) initState();
 	}
@@ -369,11 +375,12 @@ public class Settings {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				if (preserveState) return;
+				if (preserveState || !acceptUpdates) return;
 
 				Boolean save = true;
 				switch (e.getParm()) {
 				case AMPLITUDE:
+					log.debug("settings: amplitude {} from {}", e.getDoubleValue(), e.getSource());
 					setAmplitude(e.getDoubleValue());
 					break;
 				case ENTRAINMENT_FREQUENCY:
@@ -512,12 +519,10 @@ public class Settings {
 					break;
 				}
 
-				if (save && acceptUpdates) saveSettings();
+				if (save) saveSettings();
 			}
 
 		});
-
-		initState();
 	}
 
 	public void initState() {

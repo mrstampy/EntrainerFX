@@ -1639,9 +1639,6 @@ public class EntrainerFX extends JFrame {
 	private void start() {
 		if (isXmlProgram()) {
 			initializeControls();
-		}
-
-		if (isXmlProgram()) {
 			sleeperManagerThread = sleeperManager.start();
 		}
 	}
@@ -1734,7 +1731,7 @@ public class EntrainerFX extends JFrame {
 			if (f != null) {
 				try {
 					clearXmlFile();
-					readXmlFile(f.getName());
+					readXmlFile(f.getAbsolutePath());
 					soundControlPane.setPlayingEntrainerProgram(true);
 				} catch (Exception e) {
 					GuiUtil.handleProblem(e);
@@ -1745,6 +1742,7 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void readXmlFile(String fileName) {
+		if(fileName == null || fileName.isEmpty()) return;
 		sleeperManager = new SleeperManager(fileName);
 
 		sleeperManager.addSleeperManagerListener(new SleeperManagerListener() {
@@ -1777,7 +1775,7 @@ public class EntrainerFX extends JFrame {
 			enableControls(true);
 			soundControlPane.getPause().setDisable(true);
 			soundControlPane.setPlayingEntrainerProgram(false);
-			settings.setPreserveState(true);
+			settings.setPreserveState(false);
 		}
 	}
 
