@@ -1723,6 +1723,7 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void loadXml() {
+		settings.setPreserveState(true);
 		intervalMenu.removeAllIntervals();
 		JFileChooser chooser = XmlEditor.getXmlFileChooser();
 
@@ -1776,6 +1777,7 @@ public class EntrainerFX extends JFrame {
 			enableControls(true);
 			soundControlPane.getPause().setDisable(true);
 			soundControlPane.setPlayingEntrainerProgram(false);
+			settings.setPreserveState(true);
 		}
 	}
 
