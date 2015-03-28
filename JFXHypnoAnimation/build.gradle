@@ -45,7 +45,6 @@ jar {
         'Built-By': 'Burton Alexander',
         'Email-Address': 'burton@users.sourceforge.net',
         'Project-Website': 'http://entrainer.sourceforge.net',
-        'Main-Class': 'net.sourceforge.entrainer.Main',
         'Class-Path': configurations.compile.collect { 'lib/' + it.getName() }.join(' '))
     }
 }
