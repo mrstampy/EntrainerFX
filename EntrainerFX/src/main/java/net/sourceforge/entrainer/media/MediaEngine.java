@@ -58,7 +58,6 @@ public class MediaEngine {
 	private MediaPlayer player;
 
 	private double amplitude;
-	private double entrainmentAmplitude;
 
 	private boolean enableMediaEntrainment;
 	private boolean loop;
@@ -71,6 +70,8 @@ public class MediaEngine {
 
 	private ScheduledExecutorService svc = Executors.newSingleThreadScheduledExecutor();
 	private ScheduledFuture<?> sf;
+	
+	private double frailty;
 
 	/**
 	 * Instantiates a new media engine.
@@ -139,8 +140,7 @@ public class MediaEngine {
 	}
 
 	private void setEntrainmentAmplitude(double strength) {
-		double frailty = 1 - strength;
-		entrainmentAmplitude = frailty * amplitude;
+		frailty = 1 - strength;
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class MediaEngine {
 
 		lock.lock();
 		try {
-			setPlayerVolume(flip ? amplitude : entrainmentAmplitude);
+			setPlayerVolume(flip ? amplitude : frailty * amplitude);
 			flip = !flip;
 		} finally {
 			lock.unlock();
@@ -308,15 +308,6 @@ public class MediaEngine {
 	 */
 	public double getAmplitude() {
 		return amplitude;
-	}
-
-	/**
-	 * Gets the entrainment amplitude.
-	 *
-	 * @return the entrainment amplitude
-	 */
-	public double getEntrainmentAmplitude() {
-		return entrainmentAmplitude;
 	}
 
 	/**
