@@ -19,8 +19,6 @@
 package net.sourceforge.entrainer.sound.tools;
 
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -42,8 +40,6 @@ public class EntrainmentFrequencyPulseNotifier {
 
 	private Sender sender = new SenderAdapter();
 
-	private Lock runLock = new ReentrantLock();
-
 	private Thread notificationThread;
 
 	@SuppressWarnings("unused")
@@ -61,15 +57,10 @@ public class EntrainmentFrequencyPulseNotifier {
 	}
 
 	private void setRun(boolean b) {
-		runLock.lock();
-		try {
-			if (b == isRun()) return;
+		if (b == isRun()) return;
 
-			run.set(b);
-			if (b) startNofificationThread();
-		} finally {
-			runLock.unlock();
-		}
+		run.set(b);
+		if (b) startNofificationThread();
 	}
 
 	private boolean isRun() {
