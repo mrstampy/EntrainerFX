@@ -301,6 +301,12 @@ public class EntrainerStateMessage {
 	private Boolean mediaPause;
 	
 	@XmlElement
+	private Double deltaMediaAmplitude;
+	
+	@XmlElement
+	private Double deltaMediaEntrainmentStrength;
+	
+	@XmlElement
 	private Boolean flashMedia;
 	
 	@XmlElement
@@ -1297,6 +1303,22 @@ public class EntrainerStateMessage {
 
 	public void setAnimationName(String animationName) {
 		this.animationName = animationName;
+	}
+
+	public Double getDeltaMediaAmplitude() {
+		return deltaMediaAmplitude;
+	}
+
+	public void setDeltaMediaAmplitude(Double deltaMediaAmplitude) {
+		this.deltaMediaAmplitude = deltaMediaAmplitude;
+	}
+
+	public Double getDeltaMediaEntrainmentStrength() {
+		return deltaMediaEntrainmentStrength;
+	}
+
+	public void setDeltaMediaEntrainmentStrength(Double deltaMediaEntrainmentStrength) {
+		this.deltaMediaEntrainmentStrength = deltaMediaEntrainmentStrength;
 	}
 
 }

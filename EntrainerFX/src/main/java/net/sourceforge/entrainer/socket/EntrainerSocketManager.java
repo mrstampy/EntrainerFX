@@ -272,6 +272,24 @@ public class EntrainerSocketManager {
 					currentState.setDeltaPinkPanAmplitude(message.getDeltaPinkPanAmplitude());
 
 					break;
+				case DELTA_MEDIA_AMPLITUDE:
+					delta = getDelta(e, currentState.getMediaAmplitude(), e.getEndValue());
+					message.setMediaAmplitude(currentState.getMediaAmplitude() + delta);
+					message.setDeltaMediaAmplitude(e.getDoubleValue());
+
+					currentState.setMediaAmplitude(message.getMediaAmplitude());
+					currentState.setDeltaMediaAmplitude(message.getDeltaMediaAmplitude());
+
+					break;
+				case DELTA_MEDIA_ENTRAINMENT_STRENGTH:
+					delta = getDelta(e, currentState.getMediaEntrainmentStrength(), e.getEndValue());
+					message.setMediaEntrainmentStrength(currentState.getMediaEntrainmentStrength() + delta);
+					message.setDeltaMediaEntrainmentStrength(e.getDoubleValue());
+
+					currentState.setMediaEntrainmentStrength(message.getMediaEntrainmentStrength());
+					currentState.setDeltaMediaEntrainmentStrength(message.getDeltaMediaEntrainmentStrength());
+
+					break;
 				case ENTRAINMENT_FREQUENCY:
 					processing = currentState.getEntrainmentFrequency() == null
 							|| e.getDoubleValue() != currentState.getEntrainmentFrequency();

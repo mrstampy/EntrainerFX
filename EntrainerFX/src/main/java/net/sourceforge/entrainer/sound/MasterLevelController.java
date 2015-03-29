@@ -42,6 +42,9 @@ public class MasterLevelController {
 	private BigDecimal pinkNoiseAmplitude = BigDecimal.ZERO;
 	private BigDecimal pinkPanAmplitude = BigDecimal.ZERO;
 	private BigDecimal pinkEntrainerMultiple = BigDecimal.ZERO;
+	
+	private BigDecimal mediaVolume = BigDecimal.ZERO;
+	private BigDecimal mediaEntrainmentStrength = BigDecimal.ZERO;
 
 	private final SoundControl soundControl;
 
@@ -120,6 +123,14 @@ public class MasterLevelController {
 	public double getPinkPanAmplitude() {
 		return pinkPanAmplitude.doubleValue();
 	}
+	
+	public double getMediaVolume() {
+		return mediaVolume.doubleValue();
+	}
+	
+	public double getMediaEntrainmentStrength() {
+		return mediaEntrainmentStrength.doubleValue();
+	}
 
 	/**
 	 * Clear mediator.
@@ -195,6 +206,20 @@ public class MasterLevelController {
 					case DELTA_PINK_ENTRAINER_MULTIPLE:
 						delta = getDelta(e, pinkEntrainerMultiple.doubleValue(), e.getEndValue());
 						pinkEntrainerMultiple = add(pinkEntrainerMultiple, delta);
+						break;
+					case MEDIA_AMPLITUDE:
+						mediaVolume = new BigDecimal(e.getDoubleValue());
+						break;
+					case MEDIA_ENTRAINMENT_STRENGTH:
+						mediaEntrainmentStrength = new BigDecimal(e.getDoubleValue());
+						break;
+					case DELTA_MEDIA_AMPLITUDE:
+						delta = getDelta(e, mediaVolume.doubleValue(), e.getEndValue());
+						mediaVolume = add(mediaVolume, delta);
+						break;
+					case DELTA_MEDIA_ENTRAINMENT_STRENGTH:
+						delta = getDelta(e, mediaEntrainmentStrength.doubleValue(), e.getEndValue());
+						mediaEntrainmentStrength = add(mediaEntrainmentStrength, delta);
 						break;
 					default:
 						break;

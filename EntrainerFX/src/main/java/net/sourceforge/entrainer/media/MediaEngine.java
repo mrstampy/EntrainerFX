@@ -37,6 +37,7 @@ import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
+import net.sourceforge.entrainer.sound.MasterLevelController;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +73,8 @@ public class MediaEngine {
 	private ScheduledFuture<?> sf;
 	
 	private double frailty;
+	
+	private MasterLevelController controller = new MasterLevelController();
 
 	/**
 	 * Instantiates a new media engine.
@@ -88,11 +91,13 @@ public class MediaEngine {
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
 				case MEDIA_AMPLITUDE:
-					amplitude = e.getDoubleValue();
+				case DELTA_MEDIA_AMPLITUDE:
+					amplitude = controller.getMediaVolume();
 					setPlayerVolume(amplitude);
 					break;
 				case MEDIA_ENTRAINMENT_STRENGTH:
-					setEntrainmentAmplitude(e.getDoubleValue());
+				case DELTA_MEDIA_ENTRAINMENT_STRENGTH:
+					setEntrainmentAmplitude(controller.getMediaEntrainmentStrength());
 					break;
 				case MEDIA_ENTRAINMENT:
 					entrainmentEnabled(e.getBooleanValue());

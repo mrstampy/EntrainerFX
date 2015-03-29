@@ -215,6 +215,12 @@ public class UnitSleeper {
 				DELTA_PINK_ENTRAINER_MULTIPLE);
 		fireReceiverChangeEvent(unit.getPinkNoiseDeltaPerSecond(), unit.getEndPinkNoise(), DELTA_PINK_NOISE_AMPLITUDE);
 		fireReceiverChangeEvent(unit.getPinkPanDeltaPerSecond(), unit.getEndPinkPan(), DELTA_PINK_PAN_AMPLITUDE);
+		fireReceiverChangeEvent(unit.getMediaAmplitudeDeltaPerSecond(),
+				unit.getEndMediaAmplitude(),
+				MediatorConstants.DELTA_MEDIA_AMPLITUDE);
+		fireReceiverChangeEvent(unit.getMediaEntrainmentStrengthDeltaPerSecond(),
+				unit.getEndMediaEntrainmentStrength(),
+				MediatorConstants.DELTA_MEDIA_ENTRAINMENT_STRENGTH);
 	}
 
 	private void fireReceiverChangeEvent(double delta, double endValue, MediatorConstants parm) {
