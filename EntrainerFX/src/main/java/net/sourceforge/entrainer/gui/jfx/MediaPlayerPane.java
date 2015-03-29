@@ -437,15 +437,15 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		Label vol = createLabel("Media Volume");
 		Label entStr = createLabel("Entrainment Strength");
 
-		VBox box = new VBox(10);
-		box.setAlignment(Pos.CENTER_RIGHT);
+		VBox box = new VBox(20);
+		box.setAlignment(Pos.CENTER_LEFT);
 		box.getChildren().addAll(trackPos, vol, entStr);
 
 		return box;
 	}
 
 	private Node getSliders() {
-		VBox box = new VBox(10);
+		VBox box = new VBox(20);
 		box.setAlignment(Pos.CENTER);
 
 		box.getChildren().addAll(trackPosition, amplitude, strength);
@@ -466,8 +466,8 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		setTextFill(amplitudeValue);
 		setTextFill(strengthValue);
 
-		VBox box = new VBox(10);
-		box.setAlignment(Pos.CENTER_RIGHT);
+		VBox box = new VBox(20);
+		box.setAlignment(Pos.CENTER_LEFT);
 
 		box.getChildren().addAll(timeRemaining, amplitudeValue, strengthValue);
 
