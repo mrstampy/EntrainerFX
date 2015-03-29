@@ -517,18 +517,6 @@ public class EntrainerFX extends JFrame {
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
-				case DELTA_AMPLITUDE:
-					setAutoAmplitude(masterLevelController.getAmplitude());
-					break;
-				case DELTA_ENTRAINMENT_FREQUENCY:
-					setAutoEntrainment(masterLevelController.getEntrainmentFrequency());
-					break;
-				case DELTA_FREQUENCY:
-					setAutoFrequency(masterLevelController.getFrequency());
-					break;
-				case DELTA_PINK_NOISE_AMPLITUDE:
-					setAutoPinkNoise(masterLevelController.getPinkNoiseAmplitude());
-					break;
 				case START_ENTRAINMENT:
 					if (e.getSource() == soundControlPane) break;
 					soundControlPane.setPlaying(e.getBooleanValue());
@@ -1557,28 +1545,6 @@ public class EntrainerFX extends JFrame {
 			entrainerProgramInitialized = true;
 			soundControlPane.setPlayingEntrainerProgram(true);
 		}
-	}
-
-	private void setAutoAmplitude(double value) {
-		if (sliderControlPane.getAmplitude().getValue() == value) return;
-
-		sliderControlPane.setAmplitudeValue(value);
-	}
-
-	private void setAutoPinkNoise(double value) {
-		if (sliderControlPane.getPinkNoise().getValue() == value) return;
-
-		sliderControlPane.setPinkNoiseValue(value);
-	}
-
-	private void setAutoFrequency(double value) {
-		if (sliderControlPane.getFrequency().getValue() == value) return;
-
-		sliderControlPane.setFrequencyValue(value);
-	}
-
-	private void setAutoEntrainment(double value) {
-		sliderControlPane.setEntrainmentFrequencyValue(value);
 	}
 
 	private void enableControls(final boolean enabled) {
