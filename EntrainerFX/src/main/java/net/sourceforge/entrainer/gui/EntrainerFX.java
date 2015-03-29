@@ -202,6 +202,7 @@ public class EntrainerFX extends JFrame {
 	private NeuralizerPane neuralizer = new NeuralizerPane();
 	private FlashOptionsPane flashOptions = new FlashOptionsPane();
 
+	@SuppressWarnings("unused")
 	private MasterLevelController masterLevelController;
 
 	private JMenu espDevices;
@@ -1548,12 +1549,17 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void enableControls(final boolean enabled) {
-		JFXUtils.runLater(() -> sliderControlPane.setControlsDisabled(!enabled));
+		JFXUtils.runLater(() -> setPanesDisabled(!enabled));
 
 		getFileMenuItem("New Entrainer Program").setEnabled(enabled);
 		getFileMenuItem("Edit Entrainer Program").setEnabled(enabled);
 		getFileMenuItem("Clear Entrainer Program").setEnabled(!enabled);
 		getFileMenuItem("Load Entrainer Program").setEnabled(enabled);
+	}
+	
+	private void setPanesDisabled(boolean b) {
+		sliderControlPane.setControlsDisabled(b);
+		audioPlayerPane.setControlsDisabled(b);
 	}
 
 	private JMenuItem getFileMenuItem(String text) {
