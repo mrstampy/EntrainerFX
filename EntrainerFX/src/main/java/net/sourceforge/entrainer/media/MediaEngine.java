@@ -342,31 +342,4 @@ public class MediaEngine {
 		return flip;
 	}
 
-	/**
-	 * Gets the sender.
-	 *
-	 * @return the sender
-	 */
-	public Sender getSender() {
-		return sender;
-	}
-
-	/**
-	 * Gets the svc.
-	 *
-	 * @return the svc
-	 */
-	public ScheduledExecutorService getSvc() {
-		return svc;
-	}
-
-	/**
-	 * Gets the sf.
-	 *
-	 * @return the sf
-	 */
-	public ScheduledFuture<?> getSf() {
-		return sf;
-	}
-
 }
