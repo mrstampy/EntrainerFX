@@ -343,15 +343,6 @@ public class MediaEngine {
 	}
 
 	/**
-	 * Gets the lock.
-	 *
-	 * @return the lock
-	 */
-	public Lock getLock() {
-		return lock;
-	}
-
-	/**
 	 * Gets the sender.
 	 *
 	 * @return the sender

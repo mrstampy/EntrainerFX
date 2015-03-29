@@ -144,6 +144,7 @@ public class MasterLevelController {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+				if(!process(e)) return;
 				lock.lock();
 				double delta;
 				try {
@@ -230,6 +231,32 @@ public class MasterLevelController {
 				}
 			}
 		});
+	}
+	
+	private boolean process(ReceiverChangeEvent e) {
+		switch (e.getParm()) {
+		case AMPLITUDE:
+		case FREQUENCY:
+		case ENTRAINMENT_FREQUENCY:
+		case PINK_NOISE_AMPLITUDE:
+		case PINK_PAN_AMPLITUDE:
+		case PINK_PAN_VALUE:
+		case PINK_ENTRAINER_MULTIPLE:
+		case DELTA_AMPLITUDE:
+		case DELTA_FREQUENCY:
+		case DELTA_ENTRAINMENT_FREQUENCY:
+		case DELTA_PINK_NOISE_AMPLITUDE:
+		case DELTA_PINK_PAN_AMPLITUDE:
+		case DELTA_PINK_ENTRAINER_MULTIPLE:
+		case MEDIA_AMPLITUDE:
+		case MEDIA_ENTRAINMENT_STRENGTH:
+		case DELTA_MEDIA_AMPLITUDE:
+		case DELTA_MEDIA_ENTRAINMENT_STRENGTH:
+			return true;
+		default:
+			return false;
+		}
+
 	}
 
 	private BigDecimal getRightFrequency() {
