@@ -20,11 +20,6 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import java.text.DecimalFormat;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -46,8 +41,6 @@ import net.sourceforge.entrainer.sound.MasterLevelController;
  * The Class SliderControlPane.
  */
 public class SliderControlPane extends AbstractTitledPane {
-	private static final Logger log = LoggerFactory.getLogger(SliderControlPane.class);
-
 	/** The Constant CSS_ID. */
 	public static final String CSS_ID = "slider-control-pane";
 	private Slider entrainmentFrequency = new Slider(0, 40, 10);
@@ -210,17 +203,20 @@ public class SliderControlPane extends AbstractTitledPane {
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
 				switch (e.getParm()) {
 				case AMPLITUDE:
-					log.debug("SCC: received amplitude {} from {}", e.getDoubleValue(), e.getSource());
-					setAmplitudeValue(e.getDoubleValue());
+				case DELTA_AMPLITUDE:
+					setAmplitudeValue(masterLevelController.getAmplitude());
 					break;
 				case ENTRAINMENT_FREQUENCY:
-					setEntrainmentFrequencyValue(e.getDoubleValue());
+				case DELTA_ENTRAINMENT_FREQUENCY:
+					setEntrainmentFrequencyValue(masterLevelController.getEntrainmentFrequency());
 					break;
 				case FREQUENCY:
-					setFrequencyValue(e.getDoubleValue());
+				case DELTA_FREQUENCY:
+					setFrequencyValue(masterLevelController.getFrequency());
 					break;
 				case PINK_NOISE_AMPLITUDE:
-					setPinkNoiseValue(e.getDoubleValue());
+				case DELTA_PINK_NOISE_AMPLITUDE:
+					setPinkNoiseValue(masterLevelController.getPinkNoiseAmplitude());
 					break;
 				case PINK_PAN_AMPLITUDE:
 					setPinkAmplitude(masterLevelController.getPinkPanAmplitude());
