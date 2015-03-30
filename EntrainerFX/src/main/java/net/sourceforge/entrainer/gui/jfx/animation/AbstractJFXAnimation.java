@@ -18,17 +18,17 @@
  */
 package net.sourceforge.entrainer.gui.jfx.animation;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import net.sourceforge.entrainer.guitools.GuiUtil;
+import javafx.stage.Screen;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
@@ -50,7 +50,8 @@ import net.sourceforge.entrainer.util.Utils;
  */
 public abstract class AbstractJFXAnimation {
 
-	private Dimension screenSize = GuiUtil.getVirtualScreenSize();
+	// TODO - work on multi monitors
+	private Rectangle2D screenSize = Screen.getPrimary().getBounds();
 
 	private Random rand = new Random(Calendar.getInstance().getTimeInMillis());
 
@@ -231,7 +232,7 @@ public abstract class AbstractJFXAnimation {
 	protected boolean isAtTop(AnimationRectangle2D shape) {
 		AnimationRectangle2D rect = shape;
 
-		return rect.getMinY() + rect.getHeight() >= getScreenSize().height;
+		return rect.getMinY() + rect.getHeight() >= getScreenSize().getHeight();
 	}
 
 	/**
@@ -266,7 +267,7 @@ public abstract class AbstractJFXAnimation {
 	protected boolean isAtRight(AnimationRectangle2D shape) {
 		AnimationRectangle2D rect = shape;
 
-		return rect.getMinX() + rect.getWidth() >= getScreenSize().width;
+		return rect.getMinX() + rect.getWidth() >= getScreenSize().getWidth();
 	}
 
 	/**
@@ -299,8 +300,8 @@ public abstract class AbstractJFXAnimation {
 	 * @return true, if is off screen right
 	 */
 	protected boolean isOffScreenRight(AnimationRectangle2D shape) {
-		Dimension d = getScreenSize();
-		return shape.getMinX() > d.width && shape.getMinX() + shape.getWidth() > d.width;
+		Rectangle2D d = getScreenSize();
+		return shape.getMinX() > d.getWidth() && shape.getMinX() + shape.getWidth() > d.getWidth();
 	}
 
 	/**
@@ -322,8 +323,8 @@ public abstract class AbstractJFXAnimation {
 	 * @return true, if is off screen bottom
 	 */
 	protected boolean isOffScreenBottom(AnimationRectangle2D shape) {
-		Dimension d = getScreenSize();
-		return shape.getMinY() > d.height && shape.getMinY() + shape.getHeight() > d.height;
+		Rectangle2D d = getScreenSize();
+		return shape.getMinY() > d.getHeight() && shape.getMinY() + shape.getHeight() > d.getHeight();
 	}
 
 	/**
@@ -387,7 +388,7 @@ public abstract class AbstractJFXAnimation {
 	 *
 	 * @return the screen size
 	 */
-	public Dimension getScreenSize() {
+	public Rectangle2D getScreenSize() {
 		return screenSize;
 	}
 
@@ -397,7 +398,8 @@ public abstract class AbstractJFXAnimation {
 	 * @return the screen rectangle
 	 */
 	public AnimationRectangle2D getScreenRectangle() {
-		return new AnimationRectangle2D(0, 0, getScreenSize().width, getScreenSize().height);
+		return new AnimationRectangle2D(getScreenSize().getMinX(), getScreenSize().getMinY(), getScreenSize().getWidth(),
+				getScreenSize().getHeight());
 	}
 
 	/**

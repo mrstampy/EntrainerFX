@@ -52,12 +52,12 @@ public class JFXHypnoBackgroundAnimation extends JFXEntrainerAnimation {
 
 	@Override
 	protected AnimationRectangle2D getNewAnimationRectangle2D(Point2D position) {
-		HypnoBackgroundRectangle background = new HypnoBackgroundRectangle(0, 0, getScreenSize().width,
-				getScreenSize().height);
+		HypnoBackgroundRectangle background = new HypnoBackgroundRectangle(0, 0, getScreenSize().getWidth(),
+				getScreenSize().getHeight());
 
 		background.setPaint(hypnoBackgroundColour);
-		background.setGradientXPos(getScreenSize().width * getRandomPositiveDouble());
-		background.setGradientYPos(getScreenSize().height);
+		background.setGradientXPos(getScreenSize().getWidth() * getRandomPositiveDouble());
+		background.setGradientYPos(getScreenSize().getHeight());
 		background.setGradientFactor(getRandomDouble() * 10);
 		background.setGradientPaint(new LinearGradient(0, 0, background.getWidth(), background.getHeight(), true,
 				CycleMethod.NO_CYCLE, new Stop(0, getRandomColourAndAlpha()), new Stop(1, getRandomColourAndAlpha())));
@@ -113,9 +113,9 @@ public class JFXHypnoBackgroundAnimation extends JFXEntrainerAnimation {
 		Color color1 = background.getGradientPaint() == null ? getRandomColourAndAlpha() : background.getGradientPaint()
 				.getStops().get(1).getColor();
 
-		double xPos = (background.getGradientYPos() > 0 && background.getGradientYPos() < getScreenSize().height ? 0
+		double xPos = (background.getGradientYPos() > 0 && background.getGradientYPos() < getScreenSize().getHeight() ? 0
 				: background.getGradientXPos());
-		double yPos = (background.getGradientXPos() > 0 && background.getGradientXPos() < getScreenSize().width ? 0
+		double yPos = (background.getGradientXPos() > 0 && background.getGradientXPos() < getScreenSize().getWidth() ? 0
 				: background.getGradientYPos());
 
 		background.setGradientPaint(new LinearGradient(xPos, yPos, background.getWidth() - xPos, background.getHeight()
@@ -138,9 +138,9 @@ public class JFXHypnoBackgroundAnimation extends JFXEntrainerAnimation {
 			return;
 		}
 
-		if (background.getGradientYPos() > getScreenSize().height) {
-			background.setGradientYPos(getScreenSize().height);
-			if (background.getGradientXPos() == getScreenSize().width) {
+		if (background.getGradientYPos() > getScreenSize().getHeight()) {
+			background.setGradientYPos(getScreenSize().getHeight());
+			if (background.getGradientXPos() == getScreenSize().getWidth()) {
 				resetGradientFactor(background);
 			}
 		} else if (background.getGradientYPos() < 0) {
@@ -162,9 +162,9 @@ public class JFXHypnoBackgroundAnimation extends JFXEntrainerAnimation {
 			return;
 		}
 
-		if (background.getGradientXPos() > getScreenSize().width) {
-			background.setGradientXPos(getScreenSize().width);
-			if (background.getGradientYPos() == getScreenSize().height) {
+		if (background.getGradientXPos() > getScreenSize().getWidth()) {
+			background.setGradientXPos(getScreenSize().getWidth());
+			if (background.getGradientYPos() == getScreenSize().getHeight()) {
 				resetGradientFactor(background);
 			}
 		} else if (background.getGradientXPos() < 0) {
@@ -182,11 +182,11 @@ public class JFXHypnoBackgroundAnimation extends JFXEntrainerAnimation {
 	}
 
 	private boolean isInXBounds(HypnoBackgroundRectangle background) {
-		return background.getGradientXPos() < getScreenSize().width && background.getGradientXPos() > 0;
+		return background.getGradientXPos() < getScreenSize().getWidth() && background.getGradientXPos() > 0;
 	}
 
 	private boolean isInYBounds(HypnoBackgroundRectangle background) {
-		return background.getGradientYPos() < getScreenSize().height && background.getGradientYPos() > 0;
+		return background.getGradientYPos() < getScreenSize().getHeight() && background.getGradientYPos() > 0;
 	}
 
 	private class HypnoBackgroundRectangle extends AnimationRectangle2D {

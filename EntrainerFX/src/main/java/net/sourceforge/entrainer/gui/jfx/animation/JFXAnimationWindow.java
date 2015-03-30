@@ -18,7 +18,6 @@
  */
 package net.sourceforge.entrainer.gui.jfx.animation;
 
-import java.awt.Dimension;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,6 +27,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -37,6 +37,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -213,7 +214,7 @@ public class JFXAnimationWindow extends Stage {
 	}
 
 	private void initGui() {
-		Dimension size = getScreenSize();
+		Rectangle2D size = getScreenSize();
 
 		setWidth(size.getWidth());
 		setHeight(size.getHeight());
@@ -226,8 +227,9 @@ public class JFXAnimationWindow extends Stage {
 		inited = true;
 	}
 
-	private Dimension getScreenSize() {
-		return GuiUtil.getVirtualScreenSize();
+	// TODO - work on multi monitors
+	private Rectangle2D getScreenSize() {
+		return Screen.getPrimary().getBounds();
 	}
 
 	private void initDefaultBackground() {
@@ -235,7 +237,7 @@ public class JFXAnimationWindow extends Stage {
 	}
 
 	private WritableImage createColourBackground() {
-		Dimension size = getScreenSize();
+		Rectangle2D size = getScreenSize();
 		Image image = Util.createBrushedMetalImage(size.getWidth(), size.getHeight(), ShimmerPaintUtils.generateColor(1));
 
 		return new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight());
