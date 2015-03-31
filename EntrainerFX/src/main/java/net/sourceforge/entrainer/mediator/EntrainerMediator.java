@@ -21,11 +21,10 @@ package net.sourceforge.entrainer.mediator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import com.lmax.disruptor.EventHandler;
+import com.lmax.disruptor.LiteBlockingWaitStrategy;
 import com.lmax.disruptor.RingBuffer;
-import com.lmax.disruptor.TimeoutBlockingWaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
 
@@ -156,7 +155,7 @@ public class EntrainerMediator {
 	@SuppressWarnings("unchecked")
 	private void initDisruptor() {
 		disruptor = new Disruptor<MessageEvent>(new MessageEventFactory(), 16, Executors.newCachedThreadPool(),
-				ProducerType.MULTI, new TimeoutBlockingWaitStrategy(10, TimeUnit.MICROSECONDS));
+				ProducerType.MULTI, new LiteBlockingWaitStrategy());
 
 		disruptor.handleEventsWith(messageEventHandler);
 	}
