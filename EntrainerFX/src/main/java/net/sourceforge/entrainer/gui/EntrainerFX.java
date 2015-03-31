@@ -334,14 +334,7 @@ public class EntrainerFX extends JFrame {
 			}
 		});
 
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				setShimmerSizes();
-				animationWindow.warmUp();
-			}
-		});
+		JFXUtils.runLater(() -> setShimmerSizes());
 	}
 
 	private void initAnimationWindow() {

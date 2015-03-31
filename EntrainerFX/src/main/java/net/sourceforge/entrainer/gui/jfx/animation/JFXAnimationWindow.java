@@ -18,6 +18,7 @@
  */
 package net.sourceforge.entrainer.gui.jfx.animation;
 
+import java.awt.Dimension;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,7 +28,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -37,7 +37,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -98,6 +97,7 @@ public class JFXAnimationWindow extends Stage {
 		initMediator();
 		setScene(scene);
 		setResizable(false);
+		setFullScreen(true);
 
 		animator = new Runnable() {
 
@@ -135,12 +135,6 @@ public class JFXAnimationWindow extends Stage {
 				}
 			}
 		});
-	}
-
-	public void warmUp() {
-		setOpacity(0);
-		show();
-		hide();
 	}
 
 	/*
@@ -214,7 +208,7 @@ public class JFXAnimationWindow extends Stage {
 	}
 
 	private void initGui() {
-		Rectangle2D size = getScreenSize();
+		Dimension size = getScreenSize();
 
 		setWidth(size.getWidth());
 		setHeight(size.getHeight());
@@ -227,9 +221,8 @@ public class JFXAnimationWindow extends Stage {
 		inited = true;
 	}
 
-	// TODO - work on multi monitors
-	private Rectangle2D getScreenSize() {
-		return Screen.getPrimary().getBounds();
+	private Dimension getScreenSize() {
+		return GuiUtil.getScreenSize();
 	}
 
 	private void initDefaultBackground() {
@@ -237,7 +230,7 @@ public class JFXAnimationWindow extends Stage {
 	}
 
 	private WritableImage createColourBackground() {
-		Rectangle2D size = getScreenSize();
+		Dimension size = getScreenSize();
 		Image image = Util.createBrushedMetalImage(size.getWidth(), size.getHeight(), ShimmerPaintUtils.generateColor(1));
 
 		return new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight());
@@ -258,10 +251,12 @@ public class JFXAnimationWindow extends Stage {
 					initEntrainerAnimation(e.getStringValue());
 					break;
 				case START_ENTRAINMENT:
+					System.out.println("started");
 					started = e.getBooleanValue();
 					showAnimation();
 					break;
 				case IS_ANIMATION:
+					System.out.println("anim");
 					isAnimating = e.getBooleanValue();
 					showAnimation();
 					break;
@@ -339,6 +334,8 @@ public class JFXAnimationWindow extends Stage {
 
 	private void showAnimation() {
 		boolean b = runAnimation();
+		System.out.println("run: " + b);
+		System.out.println("isshowing: " + isShowing());
 		if (b == isShowing()) return;
 
 		showAnimation(b);
