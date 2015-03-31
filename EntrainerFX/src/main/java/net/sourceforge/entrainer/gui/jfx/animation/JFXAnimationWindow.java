@@ -222,7 +222,7 @@ public class JFXAnimationWindow extends Stage {
 	}
 
 	private Dimension getScreenSize() {
-		return GuiUtil.getScreenSize();
+		return GuiUtil.getVirtualScreenSize();
 	}
 
 	private void initDefaultBackground() {
@@ -251,12 +251,10 @@ public class JFXAnimationWindow extends Stage {
 					initEntrainerAnimation(e.getStringValue());
 					break;
 				case START_ENTRAINMENT:
-					System.out.println("started");
 					started = e.getBooleanValue();
 					showAnimation();
 					break;
 				case IS_ANIMATION:
-					System.out.println("anim");
 					isAnimating = e.getBooleanValue();
 					showAnimation();
 					break;
@@ -334,8 +332,6 @@ public class JFXAnimationWindow extends Stage {
 
 	private void showAnimation() {
 		boolean b = runAnimation();
-		System.out.println("run: " + b);
-		System.out.println("isshowing: " + isShowing());
 		if (b == isShowing()) return;
 
 		showAnimation(b);
