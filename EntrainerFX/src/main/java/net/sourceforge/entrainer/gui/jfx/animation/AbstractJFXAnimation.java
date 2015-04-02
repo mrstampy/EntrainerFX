@@ -50,7 +50,7 @@ import net.sourceforge.entrainer.util.Utils;
  */
 public abstract class AbstractJFXAnimation {
 
-	private Dimension screenSize = GuiUtil.getVirtualScreenSize();
+	private Dimension screenSize = GuiUtil.getScreenSize();
 
 	private Random rand = new Random(Calendar.getInstance().getTimeInMillis());
 

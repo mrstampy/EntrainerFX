@@ -222,7 +222,7 @@ public class JFXAnimationWindow extends Stage {
 	}
 
 	private Dimension getScreenSize() {
-		return GuiUtil.getVirtualScreenSize();
+		return GuiUtil.getScreenSize();
 	}
 
 	private void initDefaultBackground() {
