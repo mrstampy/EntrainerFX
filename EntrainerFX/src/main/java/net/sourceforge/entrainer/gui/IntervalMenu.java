@@ -42,20 +42,19 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.CUSTOM_INTERV
 import static net.sourceforge.entrainer.mediator.MediatorConstants.INTERVAL_ADD;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.INTERVAL_REMOVE;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 
+import javax.swing.JOptionPane;
+
+import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -76,18 +75,16 @@ import net.sourceforge.entrainer.xml.program.EntrainerProgramInterval;
  * 
  * @author burton
  */
-public class IntervalMenu extends JMenu {
-
-	private static final long serialVersionUID = 1L;
+public class IntervalMenu extends Menu {
 
 	/** The add. */
-	protected JMenu add;
+	protected Menu add;
 
 	/** The remove. */
-	protected JMenu remove;
+	protected Menu remove;
 
 	/** The delete. */
-	protected JMenu delete = new JMenu(IMC_DELETE_MENU_NAME);
+	protected Menu delete = new Menu(IMC_DELETE_MENU_NAME);
 
 	private Sender sender;
 
@@ -96,7 +93,7 @@ public class IntervalMenu extends JMenu {
 	 */
 	public IntervalMenu() {
 		super(IMC_INTERVALS_MENU_NAME);
-		setMnemonic(KeyEvent.VK_V);
+		setAccelerator(new KeyCodeCombination(KeyCode.V, KeyCodeCombination.CONTROL_DOWN));
 		init();
 	}
 
@@ -107,10 +104,8 @@ public class IntervalMenu extends JMenu {
 	 */
 	public List<EntrainerProgramInterval> getLoadedIntervals() {
 		List<EntrainerProgramInterval> loaded = new ArrayList<EntrainerProgramInterval>();
-		Component[] comps = remove.getMenuComponents();
-		JMenuItem jmi;
-		for (Component c : comps) {
-			jmi = (JMenuItem) c;
+		List<MenuItem> comps = remove.getItems();
+		for (MenuItem jmi : comps) {
 			EntrainerProgramInterval interval = new EntrainerProgramInterval(jmi.getText());
 			loaded.add(interval);
 		}
@@ -145,10 +140,8 @@ public class IntervalMenu extends JMenu {
 
 	private List<EntrainerProgramInterval> getCustom() {
 		List<EntrainerProgramInterval> custom = new ArrayList<EntrainerProgramInterval>();
-		Component[] comps = delete.getMenuComponents();
-		JMenuItem item;
-		for (Component c : comps) {
-			item = (JMenuItem) c;
+		List<MenuItem> comps = delete.getItems();
+		for (MenuItem item : comps) {
 			EntrainerProgramInterval i = new EntrainerProgramInterval(item.getText());
 			custom.add(i);
 		}
@@ -162,10 +155,8 @@ public class IntervalMenu extends JMenu {
 	 */
 	public List<String> removeAllIntervals() {
 		List<String> loaded = new ArrayList<String>();
-		Component[] comps = remove.getMenuComponents();
-		JMenuItem jmi;
-		for (Component c : comps) {
-			jmi = (JMenuItem) c;
+		List<MenuItem> comps = remove.getItems();
+		for (MenuItem jmi : comps) {
 			removeInterval(jmi);
 			loaded.add(jmi.getText());
 		}
@@ -183,7 +174,7 @@ public class IntervalMenu extends JMenu {
 		removeAllIntervals();
 		for (String s : toLoad) {
 			if (!containsInterval(remove, s)) {
-				JMenuItem item = getInterval(add, s);
+				MenuItem item = getInterval(add, s);
 				if (item != null) {
 					addInterval(item);
 				} else {
@@ -196,10 +187,10 @@ public class IntervalMenu extends JMenu {
 	}
 
 	private void init() {
-		add(getAddMenu());
-		add(getRemoveMenu());
-		add(delete);
-		add(getCustomMenu());
+		getItems().add(getAddMenu());
+		getItems().add(getRemoveMenu());
+		getItems().add(delete);
+		getItems().add(getCustomMenu());
 		initImpl();
 	}
 
@@ -215,7 +206,7 @@ public class IntervalMenu extends JMenu {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				JMenuItem item;
+				MenuItem item;
 				switch (e.getParm()) {
 				case INTERVAL_ADD:
 					item = getAddItem(e.getStringValue());
@@ -227,14 +218,8 @@ public class IntervalMenu extends JMenu {
 							fireIntervalEvent(e.getStringValue(), CUSTOM_INTERVAL_ADD);
 						}
 					} else {
-						final JMenuItem adder = item;
-						SwingUtilities.invokeLater(new Runnable() {
-
-							@Override
-							public void run() {
-								addInterval(adder);
-							}
-						});
+						final MenuItem adder = item;
+						JFXUtils.runLater(() -> addInterval(adder));
 					}
 					break;
 				case INTERVAL_REMOVE:
@@ -262,15 +247,9 @@ public class IntervalMenu extends JMenu {
 		EntrainerMediator.getInstance().removeSender(sender);
 	}
 
-	private JMenuItem getCustomMenu() {
-		JMenuItem menu = new JMenuItem(IMC_CUSTOM_MENU_NAME);
-		menu.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				showCustomDialog();
-			}
-
-		});
+	private MenuItem getCustomMenu() {
+		MenuItem menu = new MenuItem(IMC_CUSTOM_MENU_NAME);
+		menu.setOnAction(e -> showCustomDialog());
 
 		return menu;
 	}
@@ -314,7 +293,7 @@ public class IntervalMenu extends JMenu {
 	 *          the display string
 	 * @return true, if successful
 	 */
-	protected boolean containsInterval(JMenu menu, String displayString) {
+	protected boolean containsInterval(Menu menu, String displayString) {
 		return getInterval(menu, displayString) != null;
 	}
 
@@ -327,11 +306,9 @@ public class IntervalMenu extends JMenu {
 	 *          the display string
 	 * @return the interval
 	 */
-	protected JMenuItem getInterval(JMenu menu, String displayString) {
-		Component[] comps = menu.getMenuComponents();
-		JMenuItem jmi;
-		for (Component c : comps) {
-			jmi = (JMenuItem) c;
+	protected MenuItem getInterval(Menu menu, String displayString) {
+		List<MenuItem> comps = menu.getItems();
+		for (MenuItem jmi : comps) {
 			if (jmi.getText().equals(displayString) || areEquivalentFractions(jmi.getText(), displayString)) {
 				return jmi;
 			}
@@ -355,11 +332,9 @@ public class IntervalMenu extends JMenu {
 		return isEquivalentFraction(add, s) || isEquivalentFraction(remove, s);
 	}
 
-	private boolean isEquivalentFraction(JMenu menu, String s) {
-		Component[] comps = menu.getMenuComponents();
-		JMenuItem jmi;
-		for (Component c : comps) {
-			jmi = (JMenuItem) c;
+	private boolean isEquivalentFraction(Menu menu, String s) {
+		List<MenuItem> comps = menu.getItems();
+		for (MenuItem jmi : comps) {
 			if (areEquivalentFractions(jmi.getText(), s)) {
 				return true;
 			}
@@ -368,14 +343,14 @@ public class IntervalMenu extends JMenu {
 		return false;
 	}
 
-	private JMenu getRemoveMenu() {
-		remove = new JMenu(IMC_REMOVE_MENU_NAME);
+	private Menu getRemoveMenu() {
+		remove = new Menu(IMC_REMOVE_MENU_NAME);
 
 		return remove;
 	}
 
-	private JMenu getAddMenu() {
-		add = new JMenu(IMC_ADD_MENU_NAME);
+	private Menu getAddMenu() {
+		add = new Menu(IMC_ADD_MENU_NAME);
 
 		addInOrder(add, createMenuItem(IMC_FIRST));
 		addInOrder(add, createMenuItem(IMC_SECOND));
@@ -402,20 +377,10 @@ public class IntervalMenu extends JMenu {
 	 *          the interval
 	 * @return the j menu item
 	 */
-	protected JMenuItem createMenuItem(String interval) {
-		final JMenuItem item = new JMenuItem(interval);
+	protected MenuItem createMenuItem(String interval) {
+		final MenuItem item = new MenuItem(interval);
 
-		item.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				if (isAddItem(item)) {
-					addInterval(item);
-				} else if (isRemoveItem(item)) {
-					removeInterval(item);
-				}
-			}
-
-		});
+		item.setOnAction(e -> addOrRemove(item));
 
 		return item;
 	}
@@ -427,21 +392,15 @@ public class IntervalMenu extends JMenu {
 	 *          the interval
 	 * @return the j menu item
 	 */
-	protected JMenuItem createDeleteItem(String interval) {
-		final JMenuItem item = new JMenuItem(interval);
+	protected MenuItem createDeleteItem(String interval) {
+		final MenuItem item = new MenuItem(interval);
 
-		item.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				deleteItem(item);
-			}
-
-		});
+		item.setOnAction(e -> deleteItem(item));
 
 		return item;
 	}
 
-	private void deleteItem(JMenuItem item) {
+	private void deleteItem(MenuItem item) {
 		int choice = JOptionPane.showConfirmDialog(EntrainerFX.getInstance(),
 				"Deleting " + item.getText() + ". Continue?",
 				"Delete Interval",
@@ -449,26 +408,24 @@ public class IntervalMenu extends JMenu {
 		if (choice == JOptionPane.OK_OPTION) {
 			deleteItem(add, item.getText());
 			deleteItem(remove, item.getText());
-			delete.remove(item);
+			delete.getItems().remove(item);
 			fireIntervalEvent(item.getText(), CUSTOM_INTERVAL_REMOVE);
 			itemRemoved(item);
 		}
 	}
 
-	private void deleteItem(JMenu menu, String s) {
-		Component[] comps = menu.getMenuComponents();
-		JMenuItem jmi;
-		for (Component c : comps) {
-			jmi = (JMenuItem) c;
+	private void deleteItem(Menu menu, String s) {
+		List<MenuItem> comps = menu.getItems();
+		for (MenuItem jmi : comps) {
 			if (jmi.getText().equals(s)) {
-				menu.remove(jmi);
+				menu.getItems().remove(jmi);
 			}
 		}
 	}
 
-	private boolean isItem(JMenu menu, JMenuItem item) {
-		Component[] comps = menu.getMenuComponents();
-		for (Component c : comps) {
+	private boolean isItem(Menu menu, MenuItem item) {
+		List<MenuItem> comps = menu.getItems();
+		for (MenuItem c : comps) {
 			if (c == item) {
 				return true;
 			}
@@ -477,11 +434,11 @@ public class IntervalMenu extends JMenu {
 		return false;
 	}
 
-	private boolean isRemoveItem(JMenuItem item) {
+	private boolean isRemoveItem(MenuItem item) {
 		return isItem(remove, item);
 	}
 
-	private boolean isAddItem(JMenuItem item) {
+	private boolean isAddItem(MenuItem item) {
 		return isItem(add, item);
 	}
 
@@ -491,8 +448,8 @@ public class IntervalMenu extends JMenu {
 	 * @param item
 	 *          the item
 	 */
-	protected synchronized void removeInterval(JMenuItem item) {
-		remove.remove(item);
+	protected synchronized void removeInterval(MenuItem item) {
+		remove.getItems().remove(item);
 		addInOrder(add, item);
 		itemRemoved(item);
 	}
@@ -503,8 +460,8 @@ public class IntervalMenu extends JMenu {
 	 * @param item
 	 *          the item
 	 */
-	protected synchronized void addInterval(JMenuItem item) {
-		add.remove(item);
+	protected synchronized void addInterval(MenuItem item) {
+		add.getItems().remove(item);
 		addInOrder(remove, item);
 		itemAdded(item);
 	}
@@ -516,7 +473,7 @@ public class IntervalMenu extends JMenu {
 	 *          the s
 	 * @return the adds the item
 	 */
-	protected JMenuItem getAddItem(String s) {
+	protected MenuItem getAddItem(String s) {
 		return getInterval(add, s);
 	}
 
@@ -527,7 +484,7 @@ public class IntervalMenu extends JMenu {
 	 *          the s
 	 * @return the removes the item
 	 */
-	protected JMenuItem getRemoveItem(String s) {
+	protected MenuItem getRemoveItem(String s) {
 		return getInterval(remove, s);
 	}
 
@@ -537,7 +494,7 @@ public class IntervalMenu extends JMenu {
 	 * @param item
 	 *          the item
 	 */
-	protected void itemAdded(JMenuItem item) {
+	protected void itemAdded(MenuItem item) {
 		fireIntervalEvent(item.getText(), INTERVAL_ADD);
 	}
 
@@ -547,7 +504,7 @@ public class IntervalMenu extends JMenu {
 	 * @param item
 	 *          the item
 	 */
-	protected void itemRemoved(JMenuItem item) {
+	protected void itemRemoved(MenuItem item) {
 		fireIntervalEvent(item.getText(), INTERVAL_REMOVE);
 	}
 
@@ -556,22 +513,20 @@ public class IntervalMenu extends JMenu {
 		sender.fireReceiverChangeEvent(e);
 	}
 
-	private void addInOrder(JMenu menu, JMenuItem item) {
-		Component[] comps = menu.getMenuComponents();
-		JMenuItem jmi;
+	private void addInOrder(Menu menu, MenuItem item) {
+		List<MenuItem> comps = menu.getItems();
 		int i = 0;
-		for (Component c : comps) {
-			jmi = (JMenuItem) c;
+		for (MenuItem jmi : comps) {
 			if (isGreaterThan(jmi.getText(), item.getText())) {
 				break;
 			}
 			i++;
 		}
 
-		if (i < comps.length) {
-			menu.add(item, i);
+		if (i < comps.size()) {
+			menu.getItems().add(i, item);
 		} else {
-			menu.add(item);
+			menu.getItems().add(item);
 		}
 	}
 
@@ -584,6 +539,14 @@ public class IntervalMenu extends JMenu {
 
 	private int getNumerator(String s) {
 		return AbstractSoundInterval.getNumerator(s);
+	}
+
+	private void addOrRemove(final MenuItem item) {
+		if (isAddItem(item)) {
+			addInterval(item);
+		} else if (isRemoveItem(item)) {
+			removeInterval(item);
+		}
 	}
 
 }

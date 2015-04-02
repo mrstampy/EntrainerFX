@@ -28,18 +28,12 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.START_ENTRAIN
 import static net.sourceforge.entrainer.util.Utils.openBrowser;
 
 import java.awt.AWTException;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -55,31 +49,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.util.Duration;
 
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -127,7 +124,6 @@ import net.sourceforge.entrainer.xml.SleeperManager;
 import net.sourceforge.entrainer.xml.SleeperManagerEvent;
 import net.sourceforge.entrainer.xml.SleeperManagerListener;
 
-import org.controlsfx.control.HiddenSidesPane;
 import org.controlsfx.dialog.Dialogs;
 import org.pushingpixels.trident.Timeline.TimelineState;
 import org.pushingpixels.trident.callback.TimelineCallbackAdapter;
@@ -183,7 +179,7 @@ public class EntrainerFX extends JFrame {
 
 	private JFXAnimationWindow animationWindow;
 
-	private JCheckBoxMenuItem connect;
+	private CheckMenuItem connect;
 
 	private final ImageIcon icon = GuiUtil.getIcon("/Brain.png");
 
@@ -205,31 +201,31 @@ public class EntrainerFX extends JFrame {
 	@SuppressWarnings("unused")
 	private MasterLevelController masterLevelController;
 
-	private JMenu espDevices;
-	private JMenuItem startEspDevice;
-	private JMenuItem stopEspDevice;
-	private JMenuItem showEspLab;
-	private JMenuItem saveEspLab;
-	private JMenuItem loadEspLab;
-	private JMenuItem chooseChannel;
+	private Menu espDevices;
+	private MenuItem startEspDevice;
+	private MenuItem stopEspDevice;
+	private MenuItem showEspLab;
+	private MenuItem saveEspLab;
+	private MenuItem loadEspLab;
+	private MenuItem chooseChannel;
 
 	private EspConnectionListener espConnectionListener = new EspConnectionListener();
 
 	private ObjectMapper jsonMapper = new ObjectMapper();
-	private JCheckBoxMenuItem splashOnStartup;
-	private HiddenSidesPane hiddenSidesPane;
+	private CheckMenuItem splashOnStartup;
 
 	private MediaPlayerPane audioPlayerPane = new MediaPlayerPane();
 
 	private boolean enableMediaEntrainment;
 	private boolean flashEFX;
+	private MenuBar bar;
 
 	private EntrainerFX() {
 		super("Entrainer FX");
-		
+
 		EntrainmentFrequencyPulseNotifier.start();
 		FlashOptions.start();
-		
+
 		init();
 
 		jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -390,7 +386,7 @@ public class EntrainerFX extends JFrame {
 	private void setJFXSize(Dimension size) {
 		double width = size.getWidth();
 
-		hiddenSidesPane.setPrefSize(width, size.getHeight());
+		gp.setPrefSize(width, size.getHeight());
 
 		setTitledPaneWidth(sliderControlPane, width);
 		setTitledPaneWidth(animations, width);
@@ -431,42 +427,32 @@ public class EntrainerFX extends JFrame {
 	private PopupMenu getTrayIconPopup() {
 		PopupMenu pop = new PopupMenu("EntrainerFX");
 
-		MenuItem start = new MenuItem("Start EntrainerFX");
-		start.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				fireReceiverChangeEvent(true, START_ENTRAINMENT);
-				playPressed();
-			}
-		});
+		java.awt.MenuItem start = new java.awt.MenuItem("Start EntrainerFX");
+		start.addActionListener(e -> trayStart(true));
 
 		pop.add(start);
 
-		MenuItem stop = new MenuItem("Stop EntrainerFX");
-		stop.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				fireReceiverChangeEvent(false, START_ENTRAINMENT);
-				stopPressed();
-			}
-		});
+		java.awt.MenuItem stop = new java.awt.MenuItem("Stop EntrainerFX");
+		stop.addActionListener(e -> trayStart(false));
 
 		pop.add(stop);
 
-		MenuItem exit = new MenuItem("Exit");
-		exit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				exitPressed();
-			}
-		});
+		java.awt.MenuItem exit = new java.awt.MenuItem("Exit");
+		exit.addActionListener(e -> exitPressed());
 
 		pop.add(exit);
 
 		return pop;
+	}
+
+	private void trayStart(boolean b) {
+		fireReceiverChangeEvent(b, START_ENTRAINMENT);
+
+		if (b) {
+			playPressed();
+		} else {
+			stopPressed();
+		}
 	}
 
 	private void init() {
@@ -483,6 +469,12 @@ public class EntrainerFX extends JFrame {
 		masterLevelController = new MasterLevelController(control);
 		initMediator();
 		wireButtons();
+		
+		soundControlPane.setOnMouseEntered(e -> fade(true, soundControlPane));
+		soundControlPane.setOnMouseExited(e -> fade(false, soundControlPane));
+		soundControlPane.setOpacity(0);
+		
+		addMenu();
 		layoutComponents();
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -491,7 +483,6 @@ public class EntrainerFX extends JFrame {
 		});
 
 		createPanner();
-		addMenu();
 		settings.initState();
 		initSettings();
 
@@ -527,11 +518,11 @@ public class EntrainerFX extends JFrame {
 					setShimmerRectangle(e.getStringValue());
 					break;
 				case ESP_CONNECTIONS_RELOADED:
-					espDevices.removeAll();
-					SwingUtilities.invokeLater(() -> addEspDevices(espDevices));
+					espDevices.getItems().clear();
+					JFXUtils.runLater(() -> addEspDevices(espDevices));
 					break;
 				case SPLASH_ON_STARTUP:
-					SwingUtilities.invokeLater(() -> splashOnStartup.setSelected(e.getBooleanValue()));
+					JFXUtils.runLater(() -> splashOnStartup.setSelected(e.getBooleanValue()));
 					break;
 				case APPLY_FLASH_TO_ENTRAINER_FX:
 					applyFlashEvent(e.getBooleanValue());
@@ -562,9 +553,9 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void setEspMenuItemsEnabled(boolean booleanValue) {
-		espDevices.setEnabled(!booleanValue);
-		startEspDevice.setEnabled(!booleanValue);
-		stopEspDevice.setEnabled(booleanValue);
+		espDevices.setDisable(booleanValue);
+		startEspDevice.setDisable(booleanValue);
+		stopEspDevice.setDisable(!booleanValue);
 	}
 
 	private void setShimmerRectangle(final String stringValue) {
@@ -617,50 +608,57 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void addMenu() {
-		JMenuBar bar = new JMenuBar();
+		bar = new MenuBar();
 
-		JMenu menu = new JMenu(FILE_MENU_NAME);
-		addMnemonic(menu, KeyEvent.VK_F);
+		Menu menu = new Menu(FILE_MENU_NAME);
+		addMnemonic(menu, KeyCode.F);
 
-		menu.add(getStartItem());
-		menu.add(getStopItem());
-		menu.add(new JSeparator());
-		menu.add(getLoadXmlItem());
-		menu.add(getClearXmlItem());
-		menu.add(getEditXmlItem());
-		menu.add(getNewXmlItem());
-		menu.add(new JSeparator());
-		menu.add(getExitItem());
-		bar.add(menu);
+		menu.getItems().add(getStartItem());
+		menu.getItems().add(getStopItem());
+		menu.getItems().add(new SeparatorMenuItem());
+		menu.getItems().add(getLoadXmlItem());
+		menu.getItems().add(getClearXmlItem());
+		menu.getItems().add(getEditXmlItem());
+		menu.getItems().add(getNewXmlItem());
+		menu.getItems().add(new SeparatorMenuItem());
+		menu.getItems().add(getExitItem());
+		bar.getMenus().add(menu);
 
-		bar.add(getLookAndFeels());
+		bar.getMenus().add(getLookAndFeels());
 
-		bar.add(intervalMenu);
+		bar.getMenus().add(intervalMenu);
 
-		bar.add(getEspMenu());
+		bar.getMenus().add(getEspMenu());
 
-		bar.add(getSocketMenu());
+		bar.getMenus().add(getSocketMenu());
 
-		JMenu help = new JMenu(HELP_MENU_NAME);
-		addMnemonic(help, KeyEvent.VK_H);
+		Menu help = new Menu(HELP_MENU_NAME);
+		addMnemonic(help, KeyCode.H);
 
-		help.add(getAboutItem());
-		help.add(getLicenseItem());
-		help.add(getLocalDocItem());
-		help.add(getRemoteDocItem());
-		help.add(getSplashItem());
-		help.add(getSplashOnStartupItem());
-		bar.add(help);
+		help.getItems().add(getAboutItem());
+		help.getItems().add(getLicenseItem());
+		help.getItems().add(getLocalDocItem());
+		help.getItems().add(getRemoteDocItem());
+		help.getItems().add(getSplashItem());
+		help.getItems().add(getSplashOnStartupItem());
+		bar.getMenus().add(help);
 
-		setJMenuBar(bar);
+		bar.setOnMouseEntered(e -> fade(true, bar));
+		bar.setOnMouseExited(e -> fade(false, bar));
+		bar.setOpacity(0);
 	}
 
-	private JMenuItem getSplashOnStartupItem() {
-		splashOnStartup = new JCheckBoxMenuItem("Splash on Startup");
+	private void fade(boolean b, Region c) {
+		FadeTransition ft = new FadeTransition(Duration.millis(500), c);
+		ft.setFromValue(c.getOpacity());
+		ft.setToValue(b ? 0.75 : 0);
+		ft.play();
+	}
 
-		splashOnStartup.setToolTipText("Enables/Disables splash screen on startup");
+	private MenuItem getSplashOnStartupItem() {
+		splashOnStartup = new CheckMenuItem("Splash on Startup");
 
-		splashOnStartup.addActionListener(e -> enableSplashOnStartup(splashOnStartup.isSelected()));
+		splashOnStartup.setOnAction(e -> enableSplashOnStartup(splashOnStartup.isSelected()));
 
 		return splashOnStartup;
 	}
@@ -669,175 +667,120 @@ public class EntrainerFX extends JFrame {
 		fireReceiverChangeEvent(selected, MediatorConstants.SPLASH_ON_STARTUP);
 	}
 
-	private JMenuItem getRemoteDocItem() {
-		JMenuItem item = new JMenuItem("Web Documentation");
-		addMnemonic(item, KeyEvent.VK_W);
-		item.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				openBrowser("http://entrainer.sourceforge.net");
-			}
-		});
+	private MenuItem getRemoteDocItem() {
+		MenuItem item = new MenuItem("Web Documentation");
+		addMnemonic(item, KeyCode.W);
+		item.setOnAction(e -> openBrowser("http://entrainer.sourceforge.net"));
 
 		return item;
 	}
 
-	private JMenuItem getLocalDocItem() {
-		JMenuItem item = new JMenuItem("Local Documentation");
-		addMnemonic(item, KeyEvent.VK_D);
-		item.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Utils.openLocalDocumentation();
-			}
-		});
+	private MenuItem getLocalDocItem() {
+		MenuItem item = new MenuItem("Local Documentation");
+		addMnemonic(item, KeyCode.D);
+		item.setOnAction(e -> Utils.openLocalDocumentation());
 
 		return item;
 	}
 
-	private JMenuItem getLicenseItem() {
-		JMenuItem aboutItem = new JMenuItem("License");
-		addMnemonic(aboutItem, KeyEvent.VK_I);
-		aboutItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				License.showLicenseDialog();
-			}
-		});
+	private MenuItem getLicenseItem() {
+		MenuItem aboutItem = new MenuItem("License");
+		addMnemonic(aboutItem, KeyCode.I);
+		aboutItem.setOnAction(e -> License.showLicenseDialog());
 
 		return aboutItem;
 	}
 
-	private JMenuItem getEditXmlItem() {
-		JMenuItem item = new JMenuItem("Edit Entrainer Program");
-		addMnemonic(item, KeyEvent.VK_E);
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				editXml();
-			}
-		});
+	private MenuItem getEditXmlItem() {
+		MenuItem item = new MenuItem("Edit Entrainer Program");
+		addMnemonic(item, KeyCode.E);
+		item.setOnAction(e -> editXml());
 
 		return item;
 	}
 
-	private JMenuItem getNewXmlItem() {
-		JMenuItem item = new JMenuItem(NEW_XML_PROGRAM_MENU_NAME);
-		addMnemonic(item, KeyEvent.VK_N);
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				newXml();
-			}
-		});
+	private MenuItem getNewXmlItem() {
+		MenuItem item = new MenuItem(NEW_XML_PROGRAM_MENU_NAME);
+		addMnemonic(item, KeyCode.N);
+		item.setOnAction(e -> newXml());
 
 		return item;
 	}
 
-	private JMenuItem getLoadXmlItem() {
-		JMenuItem item = new JMenuItem("Load Entrainer Program");
-		addMnemonic(item, KeyEvent.VK_L);
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				loadXml();
-			}
-		});
+	private MenuItem getLoadXmlItem() {
+		MenuItem item = new MenuItem("Load Entrainer Program");
+		addMnemonic(item, KeyCode.L);
+		item.setOnAction(e -> loadXml());
 
 		return item;
 	}
 
-	private JMenuItem getClearXmlItem() {
-		JMenuItem item = new JMenuItem("Clear Entrainer Program");
-		addMnemonic(item, KeyEvent.VK_C);
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clearXmlFile();
-			}
-		});
+	private MenuItem getClearXmlItem() {
+		MenuItem item = new MenuItem("Clear Entrainer Program");
+		addMnemonic(item, KeyCode.C);
+		item.setOnAction(e -> clearXmlFile());
 
 		return item;
 	}
 
-	private void addMnemonic(JMenuItem item, int charKey) {
-		item.setMnemonic(charKey);
-		if (!(item instanceof JMenu)) {
-			item.setAccelerator(KeyStroke.getKeyStroke(charKey, InputEvent.CTRL_DOWN_MASK));
-		}
+	private void addMnemonic(MenuItem item, KeyCode code) {
+		item.setAccelerator(new KeyCodeCombination(code, KeyCodeCombination.CONTROL_DOWN));
 	}
 
-	private JMenuItem getAboutItem() {
-		JMenuItem aboutItem = new JMenuItem(ABOUT_ENTRAINER_MENU_NAME);
-		addMnemonic(aboutItem, KeyEvent.VK_B);
-		aboutItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				About.showAboutDialog();
-			}
-		});
+	private MenuItem getAboutItem() {
+		MenuItem aboutItem = new MenuItem(ABOUT_ENTRAINER_MENU_NAME);
+		addMnemonic(aboutItem, KeyCode.B);
+		aboutItem.setOnAction(e -> About.showAboutDialog());
 
 		return aboutItem;
 	}
 
-	private JMenuItem getSplashItem() {
-		JMenuItem splashItem = new JMenuItem("Show Splash Screen");
-		addMnemonic(splashItem, KeyEvent.VK_P);
-		splashItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new EntrainerFXSplash();
-			}
-		});
+	private MenuItem getSplashItem() {
+		MenuItem splashItem = new MenuItem("Show Splash Screen");
+		addMnemonic(splashItem, KeyCode.P);
+		splashItem.setOnAction(e -> new EntrainerFXSplash());
 
 		return splashItem;
 	}
 
-	private JMenuItem getExitItem() {
-		JMenuItem exitItem = new JMenuItem("Exit");
-		addMnemonic(exitItem, KeyEvent.VK_X);
-		exitItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				exitPressed();
-			}
-		});
+	private MenuItem getExitItem() {
+		MenuItem exitItem = new MenuItem("Exit");
+		addMnemonic(exitItem, KeyCode.X);
+		exitItem.setOnAction(e -> exitPressed());
 
 		return exitItem;
 	}
 
-	private JMenuItem getStopItem() {
-		JMenuItem stopItem = new JMenuItem("Stop");
-		addMnemonic(stopItem, KeyEvent.VK_T);
-		stopItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				soundControlPane.getStop().fire();
-			}
-		});
+	private MenuItem getStopItem() {
+		MenuItem stopItem = new MenuItem("Stop");
+		addMnemonic(stopItem, KeyCode.T);
+		stopItem.setOnAction(e -> soundControlPane.getStop().fire());
 
 		return stopItem;
 	}
 
-	private JMenuItem getStartItem() {
-		JMenuItem startItem = new JMenuItem("Start");
-		addMnemonic(startItem, KeyEvent.VK_S);
-		startItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				soundControlPane.getPlay().fire();
-			}
-		});
+	private MenuItem getStartItem() {
+		MenuItem startItem = new MenuItem("Start");
+		addMnemonic(startItem, KeyCode.S);
+		startItem.setOnAction(e -> soundControlPane.getPlay().fire());
 
 		return startItem;
 	}
 
-	private JMenu getLookAndFeels() {
-		JMenu menu = new JMenu("Look and Feel");
-		addMnemonic(menu, KeyEvent.VK_K);
+	private Menu getLookAndFeels() {
+		Menu menu = new Menu("Look and Feel");
+		addMnemonic(menu, KeyCode.K);
 		LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
 		Map<String, List<LookAndFeelInfo>> sortedInfos = sortInfos(infos);
 		for (String key : sortedInfos.keySet()) {
 			List<LookAndFeelInfo> sorted = sortedInfos.get(key);
-			JMenu lafMenu = new JMenu(key);
+			Menu lafMenu = new Menu(key);
 			for (LookAndFeelInfo info : sorted) {
-				JMenuItem item = addLookAndFeel(info);
-				lafMenu.add(item);
+				MenuItem item = addLookAndFeel(info);
+				lafMenu.getItems().add(item);
 			}
 			if (!sorted.isEmpty()) {
-				menu.add(lafMenu);
+				menu.getItems().add(lafMenu);
 			}
 		}
 
@@ -890,23 +833,19 @@ public class EntrainerFX extends JFrame {
 		return list;
 	}
 
-	private JMenuItem addLookAndFeel(final LookAndFeelInfo info) {
+	private MenuItem addLookAndFeel(final LookAndFeelInfo info) {
 		if (info.getClassName().equals(SKINNABLE_LAF_CLASS_NAME)) {
 			return getSkinnableLookAndFeelMenu(info);
 		}
 
-		JMenuItem item = new JMenuItem(info.getName());
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				changeLookAndFeel(info.getClassName(), null);
-			}
-		});
+		MenuItem item = new MenuItem(info.getName());
+		item.setOnAction(e -> changeLookAndFeel(info.getClassName(), null));
 
 		return item;
 	}
 
-	private JMenu getSkinnableLookAndFeelMenu(LookAndFeelInfo info) {
-		JMenu menu = new JMenu(info.getName());
+	private Menu getSkinnableLookAndFeelMenu(LookAndFeelInfo info) {
+		Menu menu = new Menu(info.getName());
 
 		File themePacks = new File("lafs/skins");
 		File[] packs = themePacks.listFiles(new java.io.FileFilter() {
@@ -916,20 +855,16 @@ public class EntrainerFX extends JFrame {
 		});
 
 		for (int i = 0; i < packs.length; i++) {
-			menu.add(getThemePackItem(info, packs[i]));
+			menu.getItems().add(getThemePackItem(info, packs[i]));
 		}
 
 		return menu;
 	}
 
-	private JMenuItem getThemePackItem(final LookAndFeelInfo info, final File pack) {
-		JMenuItem item = new JMenuItem(getPackName(pack));
+	private MenuItem getThemePackItem(final LookAndFeelInfo info, final File pack) {
+		MenuItem item = new MenuItem(getPackName(pack));
 
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				changeLookAndFeel(info.getClassName(), pack.getAbsolutePath());
-			}
-		});
+		item.setOnAction(e -> changeLookAndFeel(info.getClassName(), pack.getAbsolutePath()));
 
 		return item;
 	}
@@ -944,42 +879,42 @@ public class EntrainerFX extends JFrame {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
 
-	private JMenu getSocketMenu() {
-		JMenu menu = new JMenu("External Sockets");
-		addMnemonic(menu, KeyEvent.VK_R);
+	private Menu getSocketMenu() {
+		Menu menu = new Menu("External Sockets");
+		addMnemonic(menu, KeyCode.R);
 
-		menu.add(getChangePortItem());
-		menu.add(getConnectorGuiItem());
-		menu.add(getConnectSocketItem());
+		menu.getItems().add(getChangePortItem());
+		menu.getItems().add(getConnectorGuiItem());
+		menu.getItems().add(getConnectSocketItem());
 
 		return menu;
 	}
 
-	private JMenu getEspMenu() {
-		JMenu menu = new JMenu("EEG Signal Processing");
-		addMnemonic(menu, KeyEvent.VK_G);
+	private Menu getEspMenu() {
+		Menu menu = new Menu("EEG Signal Processing");
+		addMnemonic(menu, KeyCode.G);
 
-		menu.add(getEspDeviceMenu());
-		menu.add(new JSeparator());
-		menu.add(chooseChannelMenu());
-		menu.add(new JSeparator());
-		menu.add(getStartEspMenu());
-		menu.add(getStopEspMenu());
-		menu.add(new JSeparator());
-		menu.add(loadLabMenu());
-		menu.add(saveLabMenu());
-		menu.add(new JSeparator());
-		menu.add(showEspLabMenu());
+		menu.getItems().add(getEspDeviceMenu());
+		menu.getItems().add(new SeparatorMenuItem());
+		menu.getItems().add(chooseChannelMenu());
+		menu.getItems().add(new SeparatorMenuItem());
+		menu.getItems().add(getStartEspMenu());
+		menu.getItems().add(getStopEspMenu());
+		menu.getItems().add(new SeparatorMenuItem());
+		menu.getItems().add(loadLabMenu());
+		menu.getItems().add(saveLabMenu());
+		menu.getItems().add(new SeparatorMenuItem());
+		menu.getItems().add(showEspLabMenu());
 
 		setEspMenuItemsEnabled();
 
 		return menu;
 	}
 
-	private JMenuItem chooseChannelMenu() {
-		chooseChannel = new JMenuItem("Choose Channel");
+	private MenuItem chooseChannelMenu() {
+		chooseChannel = new MenuItem("Choose Channel");
 
-		chooseChannel.addActionListener(e -> JFXUtils.runLater(() -> chooseChannel()));
+		chooseChannel.setOnAction(e -> chooseChannel());
 
 		return chooseChannel;
 	}
@@ -996,10 +931,10 @@ public class EntrainerFX extends JFrame {
 		if (channel != null) lab.setChannel(channel.getChannelNumber());
 	}
 
-	private JMenuItem loadLabMenu() {
-		loadEspLab = new JMenuItem("Load ESP Lab Settings");
+	private MenuItem loadLabMenu() {
+		loadEspLab = new MenuItem("Load ESP Lab Settings");
 
-		loadEspLab.addActionListener(e -> JFXUtils.runLater(() -> loadLabSettings()));
+		loadEspLab.setOnAction(e -> loadLabSettings());
 
 		return loadEspLab;
 	}
@@ -1020,10 +955,10 @@ public class EntrainerFX extends JFrame {
 		}
 	}
 
-	private JMenuItem saveLabMenu() {
-		saveEspLab = new JMenuItem("Save ESP Lab Settings");
+	private MenuItem saveLabMenu() {
+		saveEspLab = new MenuItem("Save ESP Lab Settings");
 
-		saveEspLab.addActionListener(e -> JFXUtils.runLater(() -> showSaveLabSettings()));
+		saveEspLab.setOnAction(e -> showSaveLabSettings());
 
 		return saveEspLab;
 	}
@@ -1060,19 +995,19 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void setEspMenuItemsEnabled() {
-		boolean enable = lab != null && lab.getConnection() != null;
-		startEspDevice.setEnabled(enable);
-		stopEspDevice.setEnabled(false);
-		showEspLab.setEnabled(enable);
-		saveEspLab.setEnabled(enable);
-		loadEspLab.setEnabled(enable);
-		chooseChannel.setEnabled(enable ? lab.getNumChannels() > 1 : false);
+		boolean disable = lab == null || lab.getConnection() == null;
+		startEspDevice.setDisable(disable);
+		stopEspDevice.setDisable(false);
+		showEspLab.setDisable(disable);
+		saveEspLab.setDisable(disable);
+		loadEspLab.setDisable(disable);
+		chooseChannel.setDisable(!disable ? lab.getNumChannels() <= 1 : true);
 	}
 
-	private JMenuItem showEspLabMenu() {
-		showEspLab = new JMenuItem("Show ESP Lab");
+	private MenuItem showEspLabMenu() {
+		showEspLab = new MenuItem("Show ESP Lab");
 
-		showEspLab.addActionListener(e -> JFXUtils.runLater(() -> showEspLab()));
+		showEspLab.setOnAction(e -> showEspLab());
 
 		return showEspLab;
 	}
@@ -1086,14 +1021,14 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void setEspLabShowingEnabled(boolean enabled) {
-		espDevices.setEnabled(enabled);
-		showEspLab.setEnabled(enabled);
+		espDevices.setDisable(!enabled);
+		showEspLab.setDisable(!enabled);
 	}
 
-	private JMenuItem getStopEspMenu() {
-		stopEspDevice = new JMenuItem("Stop ESP Device");
+	private MenuItem getStopEspMenu() {
+		stopEspDevice = new MenuItem("Stop ESP Device");
 
-		stopEspDevice.addActionListener(e -> stopEspDevice());
+		stopEspDevice.setOnAction(e -> stopEspDevice());
 
 		return stopEspDevice;
 	}
@@ -1106,10 +1041,10 @@ public class EntrainerFX extends JFrame {
 		JFXUtils.runLater(() -> lab.getConnection().stop());
 	}
 
-	private JMenuItem getStartEspMenu() {
-		startEspDevice = new JMenuItem("Start ESP Device");
+	private MenuItem getStartEspMenu() {
+		startEspDevice = new MenuItem("Start ESP Device");
 
-		startEspDevice.addActionListener(e -> startEspDevice());
+		startEspDevice.setOnAction(e -> startEspDevice());
 
 		return startEspDevice;
 	}
@@ -1144,27 +1079,27 @@ public class EntrainerFX extends JFrame {
 		return true;
 	}
 
-	private JMenu getEspDeviceMenu() {
-		espDevices = new JMenu("Choose ESP Device");
+	private Menu getEspDeviceMenu() {
+		espDevices = new Menu("Choose ESP Device");
 
 		EspConnectionRegister.getEspConnections();
 
 		return espDevices;
 	}
 
-	private void addEspDevices(JMenu menu) {
+	private void addEspDevices(Menu menu) {
 		List<RawEspConnection> connections = EspConnectionRegister.getEspConnections();
-		ButtonGroup bg = new ButtonGroup();
+		ToggleGroup bg = new ToggleGroup();
 		connections.forEach(connection -> addEspDevice(menu, connection, bg));
 	}
 
-	private void addEspDevice(JMenu menu, RawEspConnection connection, ButtonGroup bg) {
-		JRadioButtonMenuItem item = new JRadioButtonMenuItem(connection.getName());
+	private void addEspDevice(Menu menu, RawEspConnection connection, ToggleGroup bg) {
+		RadioMenuItem item = new RadioMenuItem(connection.getName());
 
-		bg.add(item);
-		menu.add(item);
+		item.setToggleGroup(bg);
+		menu.getItems().add(item);
 
-		item.addActionListener(e -> setConnection(connection));
+		item.setOnAction(e -> setConnection(connection));
 	}
 
 	private void setConnection(RawEspConnection connection) {
@@ -1191,18 +1126,10 @@ public class EntrainerFX extends JFrame {
 		stopEspDevice.setText("Stop " + name);
 	}
 
-	private JMenuItem getConnectorGuiItem() {
-		JMenuItem item = new JMenuItem("Show Connector GUI");
+	private MenuItem getConnectorGuiItem() {
+		MenuItem item = new MenuItem("Show Connector GUI");
 
-		item.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				showConnectorGui();
-			}
-		});
-
-		item.setToolTipText("Show the Connector GUI, allowing sending and receiving of Entrainer state messages");
+		item.setOnAction(e -> showConnectorGui());
 
 		return item;
 	}
@@ -1220,40 +1147,28 @@ public class EntrainerFX extends JFrame {
 		}
 	}
 
-	private JMenuItem getChangePortItem() {
-		JMenuItem item = new JMenuItem("Choose Socket Host & Port");
+	private MenuItem getChangePortItem() {
+		MenuItem item = new MenuItem("Choose Socket Host & Port");
 
-		item.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				showSocketPortDialog();
-			}
-		});
-
-		item.setToolTipText("Choose the host and port on which Entrainer sends and receives state messages");
+		item.setOnAction(e -> showSocketPortDialog());
 
 		return item;
 	}
 
-	private JMenuItem getConnectSocketItem() {
-		connect = new JCheckBoxMenuItem("Accept Connections");
+	private MenuItem getConnectSocketItem() {
+		connect = new CheckMenuItem("Accept Connections");
 
-		connect.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (connect.isSelected()) {
-					bindSocket();
-				} else {
-					unbindSocket();
-				}
-			}
-		});
-
-		connect.setToolTipText("Bind / unbind the socket on which Entrainer sends and receives state messages");
+		connect.setOnAction(e -> connectClicked());
 
 		return connect;
+	}
+
+	private void connectClicked() {
+		if (connect.isSelected()) {
+			bindSocket();
+		} else {
+			unbindSocket();
+		}
 	}
 
 	private boolean isSocketBound() {
@@ -1344,54 +1259,16 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void wireButtons() {
-		soundControlPane.getPlay().addEventHandler(javafx.event.ActionEvent.ACTION,
-				new EventHandler<javafx.event.ActionEvent>() {
-
-					@Override
-					public void handle(javafx.event.ActionEvent arg0) {
-						playPressed();
-					}
-				});
-
-		soundControlPane.getStop().addEventHandler(javafx.event.ActionEvent.ACTION,
-				new EventHandler<javafx.event.ActionEvent>() {
-
-					@Override
-					public void handle(javafx.event.ActionEvent arg0) {
-						stopPressed();
-					}
-				});
-
-		soundControlPane.getPause().addEventHandler(javafx.event.ActionEvent.ACTION,
-				new EventHandler<javafx.event.ActionEvent>() {
-
-					@Override
-					public void handle(javafx.event.ActionEvent arg0) {
-						pausePressed();
-					}
-				});
-
-		soundControlPane.getRecord().addEventHandler(javafx.event.ActionEvent.ACTION,
-				new EventHandler<javafx.event.ActionEvent>() {
-
-					@Override
-					public void handle(javafx.event.ActionEvent arg0) {
-						recordClicked();
-					}
-				});
+		soundControlPane.getPlay().addEventHandler(javafx.event.ActionEvent.ACTION, e -> playPressed());
+		soundControlPane.getStop().addEventHandler(javafx.event.ActionEvent.ACTION, e -> stopPressed());
+		soundControlPane.getPause().addEventHandler(javafx.event.ActionEvent.ACTION, e -> pausePressed());
+		soundControlPane.getRecord().addEventHandler(javafx.event.ActionEvent.ACTION, e -> recordClicked());
 	}
 
 	private void recordClicked() {
 		if (soundControlPane.getRecord().isSelected()) {
-
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					boolean recording = showWavFileChooser();
-					JFXUtils.runLater(() -> recordClicked(recording));
-				}
-			});
+			boolean recording = showWavFileChooser();
+			recordClicked(recording);
 		} else {
 			control.setWavFile(null);
 			setMessage("Recording cancelled");
@@ -1544,26 +1421,24 @@ public class EntrainerFX extends JFrame {
 	private void enableControls(final boolean enabled) {
 		JFXUtils.runLater(() -> setPanesDisabled(!enabled));
 
-		getFileMenuItem("New Entrainer Program").setEnabled(enabled);
-		getFileMenuItem("Edit Entrainer Program").setEnabled(enabled);
-		getFileMenuItem("Clear Entrainer Program").setEnabled(!enabled);
-		getFileMenuItem("Load Entrainer Program").setEnabled(enabled);
+		getFileMenuItem("New Entrainer Program").setDisable(!enabled);
+		getFileMenuItem("Edit Entrainer Program").setDisable(!enabled);
+		getFileMenuItem("Clear Entrainer Program").setDisable(enabled);
+		getFileMenuItem("Load Entrainer Program").setDisable(!enabled);
 	}
-	
+
 	private void setPanesDisabled(boolean b) {
 		sliderControlPane.setControlsDisabled(b);
 		audioPlayerPane.setControlsDisabled(b);
 	}
 
-	private JMenuItem getFileMenuItem(String text) {
-		JMenu file = getJMenuBar().getMenu(0);
+	private MenuItem getFileMenuItem(String text) {
+		Menu file = bar.getMenus().get(0);
 
-		Component[] comps = file.getMenuComponents();
-		JMenuItem jmi;
-		for (Component c : comps) {
-			if (c instanceof JMenuItem) {
-				jmi = (JMenuItem) c;
-				if (jmi.getText().equals(text)) {
+		List<MenuItem> comps = file.getItems();
+		for (MenuItem jmi : comps) {
+			if (jmi instanceof MenuItem) {
+				if (text.equals(jmi.getText())) {
 					return jmi;
 				}
 			}
@@ -1638,8 +1513,9 @@ public class EntrainerFX extends JFrame {
 		mainPanel = new JFXPanel();
 
 		int v = 0;
+		GridPane.setConstraints(bar, 0, v++);
+		GridPane.setConstraints(soundControlPane, 0, v++);
 		GridPane.setConstraints(sliderControlPane, 0, v++);
-		GridPane.setMargin(sliderControlPane, new Insets(40, 0, 0, 0));
 		GridPane.setConstraints(audioPlayerPane, 0, v++);
 		GridPane.setConstraints(pictures, 0, v++);
 		GridPane.setConstraints(shimmerOptions, 0, v++);
@@ -1647,19 +1523,16 @@ public class EntrainerFX extends JFrame {
 		GridPane.setConstraints(flashOptions, 0, v++);
 		GridPane.setConstraints(neuralizer, 0, v++);
 
-		gp.setPadding(new Insets(5, 13, 5, 5));
-		gp.getChildren().addAll(sliderControlPane,
+		gp.setPadding(new Insets(0, 8, 0, 0));
+		gp.getChildren().addAll(bar,
+				soundControlPane,
+				sliderControlPane,
 				animations,
 				shimmerOptions,
 				pictures,
 				flashOptions,
 				neuralizer,
 				audioPlayerPane);
-
-		hiddenSidesPane = new HiddenSidesPane();
-		hiddenSidesPane.setContent(gp);
-		hiddenSidesPane.setTop(soundControlPane);
-		hiddenSidesPane.setTriggerDistance(25);
 
 		final URI css = JFXUtils.getEntrainerCSS();
 
@@ -1670,7 +1543,7 @@ public class EntrainerFX extends JFrame {
 				group = new Group();
 
 				shimmer.setInUse(true);
-				group.getChildren().addAll(background.getPane(), shimmer, hiddenSidesPane);
+				group.getChildren().addAll(background.getPane(), shimmer, gp);
 				Scene scene = new Scene(group);
 				if (css != null) scene.getStylesheets().add(css.toString());
 				mainPanel.setScene(scene);
@@ -1710,7 +1583,7 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void readXmlFile(String fileName) {
-		if(fileName == null || fileName.isEmpty()) return;
+		if (fileName == null || fileName.isEmpty()) return;
 		sleeperManager = new SleeperManager(fileName);
 
 		sleeperManager.addSleeperManagerListener(new SleeperManagerListener() {
