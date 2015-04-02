@@ -171,8 +171,6 @@ public class AnimationPane extends AbstractTitledPane {
 		animations.setOnAction(e -> animationSelected());
 		useColourAsBackground.setOnAction(e -> useColourClicked());
 
-		setTextFill(useColourAsBackground);
-
 		initCheckBox(runAnimation, MediatorConstants.IS_ANIMATION);
 		initCheckBox(applyAnimation, MediatorConstants.APPLY_FLASH_TO_ANIMATION);
 
@@ -355,7 +353,6 @@ public class AnimationPane extends AbstractTitledPane {
 
 	private void initCheckBox(final CheckBox checkBox, final MediatorConstants parm) {
 		checkBox.setOnAction(e -> fireReceiverChangeEvent(checkBox.isSelected(), parm));
-		setTextFill(checkBox);
 	}
 
 	/*

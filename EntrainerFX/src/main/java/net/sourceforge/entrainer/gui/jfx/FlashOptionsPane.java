@@ -290,27 +290,12 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	 */
 	protected void init() {
 		initMediator();
-		setCheckboxFills();
 		setTooltips();
 		setEventHandlers();
 
 		initLayout();
 
 		super.init();
-	}
-
-	private void setCheckboxFills() {
-		setTextFill(opacity);
-		setTextFill(bloom);
-		setTextFill(boxBlur);
-		setTextFill(gaussianBlur);
-		setTextFill(glow);
-		setTextFill(motionBlur);
-		setTextFill(sepiaTone);
-		setTextFill(shadow);
-		setTextFill(lighting);
-		setTextFill(colourAdjust);
-		setTextFill(applyEntrainerFX);
 	}
 
 	private void initLayout() {
@@ -345,7 +330,6 @@ public class FlashOptionsPane extends AbstractTitledPane {
 
 	private Node getAdditiveOptions() {
 		Label title = new Label("Additive Options");
-		setTextFill(title);
 
 		Insets insets = new Insets(10);
 
@@ -395,7 +379,6 @@ public class FlashOptionsPane extends AbstractTitledPane {
 
 	private Node getNonAdditiveOptions() {
 		Label title = new Label("Non Additive Options");
-		setTextFill(title);
 
 		VBox box = new VBox(10, title, new HBox(10, colourAdjust, lighting));
 

@@ -21,10 +21,8 @@ package net.sourceforge.entrainer.gui.jfx;
 import javafx.animation.FadeTransition;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -44,9 +42,6 @@ public abstract class AbstractTitledPane extends TitledPane {
 	/** The Constant EXPANDED_OPACITY. */
 	public static final double EXPANDED_OPACITY = 0.75;
 
-	/** The Constant TEXT_FILL. */
-	protected static final Color TEXT_FILL = Color.CORNSILK;
-
 	private Sender sender = new SenderAdapter();
 
 	/**
@@ -58,7 +53,6 @@ public abstract class AbstractTitledPane extends TitledPane {
 	public AbstractTitledPane(String title) {
 		super();
 		setText(title);
-		setStyle("-fx-background-color: black");
 		EntrainerMediator.getInstance().addSender(sender);
 	}
 
@@ -86,7 +80,6 @@ public abstract class AbstractTitledPane extends TitledPane {
 	 * Inits the.
 	 */
 	protected void init() {
-		setStyle("-fx-background-color: black");
 		Node contentPane = getContentPane();
 		contentPane.setStyle("-fx-background-color: black");
 		setContent(contentPane);
@@ -128,16 +121,6 @@ public abstract class AbstractTitledPane extends TitledPane {
 	 * @return the content pane
 	 */
 	protected abstract Node getContentPane();
-
-	/**
-	 * Sets the text fill.
-	 *
-	 * @param lb
-	 *          the new text fill
-	 */
-	protected void setTextFill(Labeled lb) {
-		lb.setTextFill(TEXT_FILL);
-	}
 
 	/**
 	 * Fire receiver change event.

@@ -163,8 +163,6 @@ public class SliderControlPane extends AbstractTitledPane {
 			addSlider("Pan Amplitude", pinkAmplitude, pinkAmplitudeValue, row++);
 			addSlider("Entrainer Multiple", multiple, multipleValue, row++);
 		}
-
-		setTextFill(panCheck);
 		setTooltips();
 
 		pane.setAlignment(Pos.CENTER);
@@ -245,9 +243,6 @@ public class SliderControlPane extends AbstractTitledPane {
 	private void addSlider(String label, Slider slider, Label value, int row) {
 		slider.setId(label);
 		Label title = new Label(label);
-
-		setTextFill(title);
-		setTextFill(value);
 
 		pane.add(title, 0, row);
 

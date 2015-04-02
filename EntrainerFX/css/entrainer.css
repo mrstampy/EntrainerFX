@@ -15,3 +15,58 @@
 .root {
 
 }
+
+.menu-bar {
+	-fx-background-color: black;	
+}
+
+.menu-bar .label {
+	-fx-text-fill: cornsilk;
+}
+
+.menu-bar:menu:focused {
+     -fx-background-color: royalblue;
+}
+
+.menu .label {
+	-fx-text-fill: cornsilk;
+}
+
+.menu:focused {
+     -fx-background-color: royalblue;
+}
+
+.menu-item:focused {
+     -fx-background-color: royalblue;
+}
+
+.context-menu {
+    -fx-skin: "com.sun.javafx.scene.control.skin.ContextMenuSkin";
+    -fx-background-color: black;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
+    -fx-padding: 0.333333em 0.083333em 0.666667em 0.083333em;
+    -fx-opacity: 0.75;
+}
+
+.check-box {
+	-fx-text-fill: cornsilk;
+}
+
+.radio-button {
+	-fx-text-fill: cornsilk;
+}
+
+.label {
+	-fx-text-fill: cornsilk;
+}
+
+.titled-pane {
+	-fx-text-fill: cornsilk;
+	-fx-background-color: black;
+    -fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
+}
+
+.titled-pane .title {
+    -fx-background-color: midnightblue;
+}

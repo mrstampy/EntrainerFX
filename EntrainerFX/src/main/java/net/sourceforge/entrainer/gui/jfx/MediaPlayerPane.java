@@ -319,10 +319,6 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		enableMedia.setOnAction(e -> enableMediaClicked());
 		mediaLoop.setOnAction(e -> loopClicked());
 
-		setTextFill(enableMedia);
-		setTextFill(mediaLoop);
-		setTextFill(applyMedia);
-
 		media.setEditable(false);
 		media.setPrefWidth(200);
 
@@ -456,16 +452,10 @@ public class MediaPlayerPane extends AbstractTitledPane {
 	private Label createLabel(String text) {
 		Label label = new Label(text);
 
-		setTextFill(label);
-
 		return label;
 	}
 
 	private Node getValues() {
-		setTextFill(timeRemaining);
-		setTextFill(amplitudeValue);
-		setTextFill(strengthValue);
-
 		VBox box = new VBox(20);
 		box.setAlignment(Pos.CENTER_LEFT);
 
@@ -476,7 +466,6 @@ public class MediaPlayerPane extends AbstractTitledPane {
 
 	private Node getMediaField() {
 		Label label = new Label("Select Media");
-		setTextFill(label);
 
 		HBox box = new HBox(10, label, media, mediaLoop);
 		box.setAlignment(Pos.CENTER);

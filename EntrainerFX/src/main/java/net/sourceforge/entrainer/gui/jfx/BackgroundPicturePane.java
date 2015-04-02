@@ -311,9 +311,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setWidths();
 		layoutComponents();
 
-		setTextFill(applyBackground);
-		setTextFill(staticPictureLock);
-
 		super.init();
 	}
 
@@ -380,10 +377,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		pane.setAlignment(Pos.CENTER);
 	}
 
-	private void initRadioButton(RadioButton rb) {
-		setTextFill(rb);
-	}
-
 	private void setState() {
 		setDynamicState();
 		setStaticState();
@@ -437,7 +430,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 
 	private Label createLabel(String text) {
 		Label label = new Label(text);
-		setTextFill(label);
 		return label;
 	}
 
@@ -511,10 +503,6 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		dynamic.setToggleGroup(picGroup);
 		staticPic.setToggleGroup(picGroup);
 		noPic.setToggleGroup(picGroup);
-
-		initRadioButton(dynamic);
-		initRadioButton(staticPic);
-		initRadioButton(noPic);
 
 		dynamic.setSelected(true);
 		JFXUtils.runLater(() -> setState());

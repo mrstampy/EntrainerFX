@@ -121,9 +121,6 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 		
 		applyShimmer.setOnAction(e -> applyShimmerClicked());
 
-		setTextFill(shimmer);
-		setTextFill(applyShimmer);
-
 		fp.setAlignment(Pos.CENTER);
 
 		super.init();

@@ -99,7 +99,6 @@ public class NeuralizerPane extends TitledPane {
 	}
 
 	private void init() {
-		setStyle("-fx-background-color: black");
 		initMediator();
 		initNeuralizer();
 		initGrid();
