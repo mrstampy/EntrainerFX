@@ -24,7 +24,11 @@
 	-fx-text-fill: cornsilk;
 }
 
-.menu-bar:menu:focused {
+.menu-bar .menu:hover {
+     -fx-background-color: royalblue;
+}
+
+.menu-bar .menu:showing {
      -fx-background-color: royalblue;
 }
 
