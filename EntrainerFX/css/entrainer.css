@@ -53,8 +53,28 @@
 	-fx-text-fill: cornsilk;
 }
 
+.check-box .box {
+    -fx-background-color: royalblue;
+}
+
+.check-box:selected .box .mark {
+    -fx-background-color: black;
+}
+
 .radio-button {
 	-fx-text-fill: cornsilk;
+}
+
+.radio-button .radio {
+    -fx-background-color: royalblue;
+}
+
+.radio-button .radio .dot {
+    -fx-background-color: royalblue;
+}
+
+.radio-button:selected .radio .dot {
+    -fx-background-color: black;
 }
 
 .label {
@@ -69,6 +89,52 @@
 
 .titled-pane .title {
     -fx-background-color: derive(midnightblue, -50.0%);
+}
+
+.text-field {
+	-fx-text-fill: cornsilk;
+	-fx-background-color: midnightblue;	
+}
+
+.combo-box {
+	-fx-background-color: midnightblue;		
+}
+
+.combo-box .list-cell {
+	-fx-text-fill: cornsilk;
+	-fx-background-color: midnightblue;
+}
+
+.combo-box .combo-box-popup .list-view {
+	-fx-opacity: 0.75;
+}
+
+.color-picker {
+	-fx-background-color: midnightblue;		
+}
+
+.spinner .increment-arrow-button {
+	-fx-background-color: royalblue;		
+}
+
+.spinner .increment-arrow-button .increment-arrow {
+	-fx-background-color: black;		
+}
+
+.spinner .decrement-arrow-button {
+	-fx-background-color: royalblue;		
+}
+
+.spinner .decrement-arrow-button .decrement-arrow {
+	-fx-background-color: black;		
+}
+
+.slider .track {
+	-fx-background-color: midnightblue;		
+}
+
+.slider .thumb {
+	-fx-background-color: derive(midnightblue, 100.0%);		
 }
 
 #AnimationPane-layout {
