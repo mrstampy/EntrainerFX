@@ -8,16 +8,7 @@ import javafx.scene.input.MouseEvent;
 
 public class EntrainerFXResizer {
 
-	private enum Corner {
-		TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT;
-	}
-
-	private enum Side {
-		TOP, RIGHT, BOTTOM, LEFT;
-	}
-
 	private ResizerListener listener;
-	private Corner corner;
 	private Rectangle2D size;
 
 	private boolean dragStarting;
@@ -62,7 +53,6 @@ public class EntrainerFXResizer {
 
 	private void initDrag(MouseEvent e) {
 		resize = e.isMetaDown();
-		setCorner(e);
 		dragStarting = true;
 	}
 
@@ -76,100 +66,12 @@ public class EntrainerFXResizer {
 	}
 
 	private void resize(MouseEvent e) {
-		switch(corner) {
-		case BOTTOM_LEFT:
-			resizeBottomLeft(e);
-			break;
-		case BOTTOM_RIGHT:
-			resizeBottomRight(e);
-			break;
-		case TOP_LEFT:
-			resizeTopLeft(e);
-			break;
-		case TOP_RIGHT:
-			resizeTopRight(e);
-			break;
-		default:
-			break;
+		double width = size.getWidth() + (e.getScreenX() - screenX);
+		double height = size.getHeight() + (e.getScreenY() - screenY);
 		
-		}
+		size = new Rectangle2D(size.getMinX(), size.getMinY(), width, height);
 		
 		listener.resize(size);
-	}
-
-	private void resizeTopRight(MouseEvent e) {
-		double width = size.getWidth() + (screenX - e.getScreenX());
-		double height = size.getHeight() + (screenY - e.getScreenY());
-		double minX = size.getMinX();
-		double minY = size.getMinY() + (screenY - e.getScreenY());
-		
-		size = new Rectangle2D(minX, minY, width, height);
-	}
-
-	private void resizeTopLeft(MouseEvent e) {
-		double width = size.getWidth() + (e.getScreenX()- screenX);
-		double height = size.getHeight() + (screenY - e.getScreenY());
-		double minX = size.getMinX() + (screenX - e.getScreenX());
-		double minY = size.getMinY() + (screenY - e.getScreenY());
-		
-		size = new Rectangle2D(minX, minY, width, height);
-	}
-
-	private void resizeBottomRight(MouseEvent e) {
-		double width = size.getWidth() + (screenX - e.getScreenX());
-		double height = size.getHeight() + (e.getScreenY() - screenY);
-		double minX = size.getMinX();
-		double minY = size.getMinY();
-		
-		size = new Rectangle2D(minX, minY, width, height);
-	}
-
-	private void resizeBottomLeft(MouseEvent e) {
-		double width = size.getWidth() + (e.getScreenX()- screenX);
-		double height = size.getHeight() + (e.getScreenY() - screenY);
-		double minX = size.getMinX();
-		double minY = size.getMinY();
-		
-		size = new Rectangle2D(minX, minY, width, height);
-	}
-
-	private void setCorner(MouseEvent e) {
-		double leftToMouse = e.getX() - size.getMinX();
-		double mouseToRight = size.getMaxX() - e.getX();
-
-		Side leftRight = leftToMouse <= mouseToRight ? Side.LEFT : Side.RIGHT;
-
-		double topToMouse = e.getY() - size.getMinY();
-		double mouseToBottom = size.getMaxY() - e.getY();
-
-		Side topBottom = topToMouse <= mouseToBottom ? Side.TOP : Side.BOTTOM;
-
-		switch (topBottom) {
-		case TOP:
-			switch (leftRight) {
-			case LEFT:
-				corner = Corner.TOP_LEFT;
-				break;
-			case RIGHT:
-				corner = Corner.TOP_RIGHT;
-				break;
-			default:
-				break;
-			}
-		case BOTTOM:
-			switch (leftRight) {
-			case LEFT:
-				corner = Corner.BOTTOM_LEFT;
-				break;
-			case RIGHT:
-				corner = Corner.BOTTOM_RIGHT;
-				break;
-			default:
-				break;
-			}
-		default:
-			break;
-		}
 	}
 
 	public void setSize(Rectangle2D size) {
