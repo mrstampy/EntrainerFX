@@ -48,6 +48,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -219,6 +221,13 @@ public class EntrainerFX extends JFrame {
 	private boolean enableMediaEntrainment;
 	private boolean flashEFX;
 	private MenuBar bar;
+	
+	private Lock moveLock = new ReentrantLock();
+	private boolean moveStarted;
+	private double moveX;
+	private double moveY;
+	private double mouseX;
+	private double mouseY;
 
 	private EntrainerFX() {
 		super("Entrainer FX");
@@ -1552,8 +1561,34 @@ public class EntrainerFX extends JFrame {
 
 		gp.setCache(true);
 		gp.setCacheHint(CacheHint.SPEED);
+		
+		gp.setOnMouseDragged(e -> onDrag(e));
+		gp.setOnMouseReleased(e -> onRelease(e));
 
 		getContentPane().add(mainPanel);
+	}
+
+	private void onRelease(javafx.scene.input.MouseEvent e) {
+		moveStarted = false;
+	}
+
+	private void onDrag(javafx.scene.input.MouseEvent e) {
+		moveLock.lock();
+		try {
+			if(!moveStarted) {
+				moveX = getLocation().getX();
+				moveY = getLocation().getY();
+				moveStarted = true;
+			} else {
+				moveX = moveX + (e.getScreenX() - mouseX);
+				moveY = moveY + (e.getScreenY() - mouseY);
+			}
+			mouseX = e.getScreenX();
+			mouseY = e.getScreenY();
+			setLocation((int)moveX, (int)moveY);
+		} finally {
+			moveLock.unlock();
+		}
 	}
 
 	private void setMessage(String s) {
