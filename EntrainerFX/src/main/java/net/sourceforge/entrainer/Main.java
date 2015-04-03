@@ -97,7 +97,7 @@ public class Main {
 
 	private static void startApplication() throws InstantiationException, IllegalAccessException, ClassNotFoundException,
 			URISyntaxException, InterruptedException {
-		JFrame.setDefaultLookAndFeelDecorated(true);
+//		JFrame.setDefaultLookAndFeelDecorated(true);
 		JDialog.setDefaultLookAndFeelDecorated(true);
 		Settings settings = Settings.getInstance();
 		final EntrainerFXSplash splash = settings.isSplashOnStartup() ? new EntrainerFXSplash() : null;

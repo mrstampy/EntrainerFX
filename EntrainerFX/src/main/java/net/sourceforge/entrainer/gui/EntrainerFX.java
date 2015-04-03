@@ -29,6 +29,7 @@ import static net.sourceforge.entrainer.util.Utils.openBrowser;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -54,7 +55,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -221,16 +222,12 @@ public class EntrainerFX extends JFrame {
 	private boolean enableMediaEntrainment;
 	private boolean flashEFX;
 	private MenuBar bar;
-	
-	private Lock moveLock = new ReentrantLock();
-	private boolean moveStarted;
-	private double moveX;
-	private double moveY;
-	private double mouseX;
-	private double mouseY;
+	private EntrainerFXResizer resizer;
 
 	private EntrainerFX() {
 		super("Entrainer FX");
+
+		setUndecorated(true);
 
 		EntrainmentFrequencyPulseNotifier.start();
 		FlashOptions.start();
@@ -365,6 +362,9 @@ public class EntrainerFX extends JFrame {
 
 		GuiUtil.centerOnScreen(EntrainerFX.this);
 		JFXUtils.runLater(() -> unexpandTitledPanes());
+		
+		Rectangle2D r = new Rectangle2D(getLocation().getX(), getLocation().getY(), getWidth(), getHeight());
+		resizer.setSize(r);
 	}
 
 	private void unexpandTitledPanes() {
@@ -479,11 +479,11 @@ public class EntrainerFX extends JFrame {
 		masterLevelController = new MasterLevelController(control);
 		initMediator();
 		wireButtons();
-		
+
 		soundControlPane.setOnMouseEntered(e -> fade(true, soundControlPane));
 		soundControlPane.setOnMouseExited(e -> fade(false, soundControlPane));
 		soundControlPane.setOpacity(0);
-		
+
 		addMenu();
 		layoutComponents();
 		addWindowListener(new WindowAdapter() {
@@ -1533,7 +1533,6 @@ public class EntrainerFX extends JFrame {
 		GridPane.setConstraints(flashOptions, 0, v++);
 		GridPane.setConstraints(neuralizer, 0, v++);
 
-		gp.setPadding(new Insets(0, 8, 0, 0));
 		gp.getChildren().addAll(bar,
 				soundControlPane,
 				sliderControlPane,
@@ -1562,33 +1561,23 @@ public class EntrainerFX extends JFrame {
 
 		gp.setCache(true);
 		gp.setCacheHint(CacheHint.SPEED);
-		
-		gp.setOnMouseDragged(e -> onDrag(e));
-		gp.setOnMouseReleased(e -> onRelease(e));
+
+		resizer = new EntrainerFXResizer(r -> resizeDimensions(r));
+
+		gp.setOnMouseDragged(e -> resizer.onDrag(e));
+		gp.setOnMouseReleased(e -> resizer.onRelease(e));
 
 		getContentPane().add(mainPanel);
 	}
 
-	private void onRelease(javafx.scene.input.MouseEvent e) {
-		moveStarted = false;
-	}
+	private void resizeDimensions(Rectangle2D r) {
+		Point p = getLocationOnScreen();
+		if (p.getX() != r.getMinX() || p.getY() != r.getMinY()) {
+			setLocation((int) r.getMinX(), (int) r.getMinY());
+		}
 
-	private void onDrag(javafx.scene.input.MouseEvent e) {
-		moveLock.lock();
-		try {
-			if(!moveStarted) {
-				moveX = getLocation().getX();
-				moveY = getLocation().getY();
-				moveStarted = true;
-			} else {
-				moveX = moveX + (e.getScreenX() - mouseX);
-				moveY = moveY + (e.getScreenY() - mouseY);
-			}
-			mouseX = e.getScreenX();
-			mouseY = e.getScreenY();
-			setLocation((int)moveX, (int)moveY);
-		} finally {
-			moveLock.unlock();
+		if (getWidth() != r.getWidth() || getHeight() != r.getHeight()) {
+			setSize((int) r.getWidth(), (int) r.getHeight());
 		}
 	}
 
