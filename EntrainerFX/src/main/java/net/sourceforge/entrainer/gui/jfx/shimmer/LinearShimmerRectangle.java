@@ -32,15 +32,11 @@ public class LinearShimmerRectangle extends AbstractShimmer<LinearGradient> {
 	/** The Constant NAME. */
 	public static final String NAME = "Linear Gradient";
 
-	/** The Constant CSS_ID. */
-	public static final String CSS_ID = "shimmer-rectangle";
-
 	/**
 	 * Instantiates a new linear shimmer rectangle.
 	 */
 	public LinearShimmerRectangle() {
 		super();
-		setId(CSS_ID);
 	}
 
 	/*

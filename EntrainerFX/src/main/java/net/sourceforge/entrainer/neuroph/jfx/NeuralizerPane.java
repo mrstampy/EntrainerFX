@@ -405,7 +405,7 @@ public class NeuralizerPane extends TitledPane {
 	}
 
 	private void initVbox() {
-		layout.setStyle("-fx-background-color: black");
+		layout.setId(getClass().getSimpleName() + "-layout");
 		layout.setAlignment(Pos.CENTER);
 		layout.setPadding(new Insets(5));
 		layout.getChildren().addAll(grid.getGridPane());

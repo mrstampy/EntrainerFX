@@ -143,8 +143,8 @@ public class NeuronGrid {
 		}
 
 		gridPane.getChildren().addAll(flattened);
-
-		gridPane.setStyle("-fx-background-color: black");
+		
+		gridPane.setId(getClass().getSimpleName() + "-layout");
 	}
 
 	/**

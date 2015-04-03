@@ -54,6 +54,7 @@ public abstract class AbstractTitledPane extends TitledPane {
 		super();
 		setText(title);
 		EntrainerMediator.getInstance().addSender(sender);
+		setId(getClass().getSimpleName());
 	}
 
 	/**
@@ -81,7 +82,9 @@ public abstract class AbstractTitledPane extends TitledPane {
 	 */
 	protected void init() {
 		Node contentPane = getContentPane();
-		contentPane.setStyle("-fx-background-color: black");
+		
+		contentPane.setId(getClass().getSimpleName() + "-layout");
+
 		setContent(contentPane);
 
 		expandedProperty().addListener(e -> setOpacity(isExpanded() ? EXPANDED_OPACITY : COLLAPSED_OPACITY));

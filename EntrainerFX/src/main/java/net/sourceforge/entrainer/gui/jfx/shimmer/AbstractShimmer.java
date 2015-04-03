@@ -74,6 +74,7 @@ public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 		setFill(null);
 		setCache(true);
 		setCacheHint(CacheHint.SPEED);
+		setId(getClass().getSimpleName());
 	}
 
 	/**

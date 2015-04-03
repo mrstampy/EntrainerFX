@@ -41,8 +41,6 @@ import net.sourceforge.entrainer.sound.MasterLevelController;
  * The Class SliderControlPane.
  */
 public class SliderControlPane extends AbstractTitledPane {
-	/** The Constant CSS_ID. */
-	public static final String CSS_ID = "slider-control-pane";
 	private Slider entrainmentFrequency = new Slider(0, 40, 10);
 	private Slider frequency = new Slider(20, 500, 200);
 	private Slider amplitude = new Slider(0, 1, 0.5);
@@ -123,8 +121,6 @@ public class SliderControlPane extends AbstractTitledPane {
 
 	private void initLayout() {
 		initMediator();
-
-		setId(CSS_ID);
 
 		pane.setHgap(10);
 		pane.setVgap(20);

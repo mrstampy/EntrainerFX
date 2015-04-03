@@ -28,9 +28,6 @@ import javafx.scene.paint.RadialGradient;
  */
 public class InversionRadialShimmerRectangle extends AbstractShimmer<RadialGradient> {
 
-	/** The Constant CSS_ID. */
-	public static final String CSS_ID = "shimmer-rectangle";
-
 	private int angle;
 
 	/**
@@ -38,7 +35,6 @@ public class InversionRadialShimmerRectangle extends AbstractShimmer<RadialGradi
 	 */
 	public InversionRadialShimmerRectangle() {
 		super();
-		setId(CSS_ID);
 	}
 
 	/*

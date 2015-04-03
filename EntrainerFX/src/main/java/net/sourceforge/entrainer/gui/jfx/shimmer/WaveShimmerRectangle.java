@@ -33,15 +33,11 @@ public class WaveShimmerRectangle extends AbstractShimmer<LinearGradient> {
 	/** The Constant NAME. */
 	public static final String NAME = "Wave Gradient";
 
-	/** The Constant CSS_ID. */
-	public static final String CSS_ID = "shimmer-rectangle";
-
 	/**
 	 * Instantiates a new wave shimmer rectangle.
 	 */
 	public WaveShimmerRectangle() {
 		super();
-		setId(CSS_ID);
 	}
 
 	/*

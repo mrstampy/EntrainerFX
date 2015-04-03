@@ -28,15 +28,11 @@ import javafx.scene.paint.Color;
  */
 public class ColorShimmerRectangle extends AbstractShimmer<Color> {
 
-	/** The Constant CSS_ID. */
-	public static final String CSS_ID = "shimmer-rectangle";
-
 	/**
 	 * Instantiates a new color shimmer rectangle.
 	 */
 	public ColorShimmerRectangle() {
 		super();
-		setId(CSS_ID);
 	}
 
 	/*

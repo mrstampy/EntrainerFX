@@ -29,15 +29,11 @@ import javafx.scene.paint.LinearGradient;
  */
 public class InversionLinearShimmerRectangle extends AbstractShimmer<LinearGradient> {
 
-	/** The Constant CSS_ID. */
-	public static final String CSS_ID = "shimmer-rectangle";
-
 	/**
 	 * Instantiates a new inversion linear shimmer rectangle.
 	 */
 	public InversionLinearShimmerRectangle() {
 		super();
-		setId(CSS_ID);
 	}
 
 	/*

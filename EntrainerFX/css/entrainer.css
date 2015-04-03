@@ -70,3 +70,35 @@
 .titled-pane .title {
     -fx-background-color: midnightblue;
 }
+
+#AnimationPane-layout {
+    -fx-background-color: black;	
+}
+
+#BackgroundPicturePane-layout {
+    -fx-background-color: black;	
+}
+
+#FlashOptionsPane-layout {
+    -fx-background-color: black;	
+}
+
+#MediaPlayerPane-layout {
+    -fx-background-color: black;	
+}
+
+#ShimmerOptionsPane-layout {
+    -fx-background-color: black;	
+}
+
+#SliderControlPane-layout {
+    -fx-background-color: black;	
+}
+
+#NeuralizerPane-layout {
+    -fx-background-color: black;	
+}
+
+#NeuronGrid-layout {
+    -fx-background-color: black;	
+}

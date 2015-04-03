@@ -432,6 +432,10 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		Label trackPos = createLabel("Track Position");
 		Label vol = createLabel("Media Volume");
 		Label entStr = createLabel("Entrainment Strength");
+		
+		trackPosition.setId(trackPos.getText());
+		amplitude.setId(vol.getText());
+		strength.setId(entStr.getText());
 
 		VBox box = new VBox(20);
 		box.setAlignment(Pos.CENTER_LEFT);
