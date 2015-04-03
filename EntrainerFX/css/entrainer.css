@@ -17,7 +17,7 @@
 }
 
 .menu-bar {
-	-fx-background-color: black;	
+	-fx-background-color: derive(midnightblue, -50.0%);	
 }
 
 .menu-bar .label {
