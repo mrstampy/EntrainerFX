@@ -207,7 +207,7 @@ public class JFXAnimationWindow extends Stage {
 		}
 	}
 
-	private void initGui() {
+	public void initGui() {
 		Dimension size = getScreenSize();
 
 		setWidth(size.getWidth());

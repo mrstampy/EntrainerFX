@@ -345,6 +345,7 @@ public class EntrainerFX extends JFrame {
 	private void initAnimationWindow() {
 		animationWindow = new JFXAnimationWindow();
 		settings.initAnimation();
+		animationWindow.initGui();
 		SwingUtilities.invokeLater(() -> initSettings());
 	}
 
