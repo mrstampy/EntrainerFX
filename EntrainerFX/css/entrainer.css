@@ -68,7 +68,7 @@
 }
 
 .titled-pane .title {
-    -fx-background-color: midnightblue;
+    -fx-background-color: derive(midnightblue, -50%);
 }
 
 #AnimationPane-layout {
