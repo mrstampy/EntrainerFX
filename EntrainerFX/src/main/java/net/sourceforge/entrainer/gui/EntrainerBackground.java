@@ -38,6 +38,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -82,9 +83,9 @@ public class EntrainerBackground {
 
 	private BackgroundMode mode;
 
-	private ImageView current;
+	private AtomicReference<ImageView> current = new AtomicReference<>();
 	private String currentFile;
-	private ImageView old;
+	private AtomicReference<ImageView> old = new AtomicReference<>();
 	private AnchorPane pane = new AnchorPane();
 
 	private FadeTransition fadeIn = new FadeTransition();
@@ -109,7 +110,7 @@ public class EntrainerBackground {
 
 	private String backgroundPic;
 
-	private ParallelTransition pt;
+	private AtomicReference<ParallelTransition> pt = new AtomicReference<>(new ParallelTransition());
 
 	private Rectangle rect;
 
@@ -122,7 +123,7 @@ public class EntrainerBackground {
 	private Map<Integer, ScheduledFuture<?>> futures = new ConcurrentHashMap<>();
 
 	private ExecutorService loadSvc = Executors.newSingleThreadExecutor();
-	
+
 	private AtomicBoolean backgroundChanging = new AtomicBoolean(false);
 
 	/**
@@ -149,7 +150,7 @@ public class EntrainerBackground {
 	}
 
 	private void init() {
-		if(pt != null) pt.stop();
+		getPt().stop();
 		killCurrent();
 		pictureNames.clear();
 		loadFromDirectory();
@@ -157,7 +158,7 @@ public class EntrainerBackground {
 	}
 
 	private void initContent() {
-		if(pt != null) pt.stop();
+		getPt().stop();
 		createCurrent();
 		setFadeInImage();
 		fadeIn();
@@ -168,7 +169,7 @@ public class EntrainerBackground {
 	}
 
 	private void loadFromDirectory() {
-		if(pt != null) pt.stop();
+		getPt().stop();
 		loadFromDirectory(new File(getDirectoryName()));
 		backgroundChanging.set(false);
 	}
@@ -222,7 +223,7 @@ public class EntrainerBackground {
 
 		if (!isDynamic()) return;
 
-		old = current;
+		setOld(getCurrent());
 
 		createCurrent();
 
@@ -231,15 +232,18 @@ public class EntrainerBackground {
 		fadeOut();
 		fadeIn();
 
-		pt = new ParallelTransition(fadeIn, fadeOut);
+		ParallelTransition pt = new ParallelTransition(fadeIn, fadeOut);
 
 		pt.setOnFinished(e -> switchPictures());
+		
+		this.pt.set(pt);
 
 		JFXUtils.runLater(() -> pt.play());
 	}
 
 	private void createCurrent() {
-		current = new ImageView();
+		ImageView current = new ImageView();
+		
 		current.setOpacity(0.01);
 		current.setSmooth(true);
 		current.setPreserveRatio(true);
@@ -247,6 +251,8 @@ public class EntrainerBackground {
 		current.setScaleY(1);
 		current.setCache(true);
 		current.setCacheHint(CacheHint.SPEED);
+		
+		setCurrent(current);
 	}
 
 	private void killCurrent() {
@@ -267,34 +273,36 @@ public class EntrainerBackground {
 	}
 
 	private void scaleImage() {
-		current.setImage(currentImage);
+		getCurrent().setImage(currentImage);
 
 		scale();
 
-		pane.getChildren().remove(current);
-		pane.getChildren().add(current);
+		pane.getChildren().remove(getCurrent());
+		pane.getChildren().add(getCurrent());
 	}
 
 	private void scale() {
 		Dimension2D area = new Dimension2D(getWidth(), getHeight());
 
-		JFXUtils.scale(current, area);
-		JFXUtils.scale(old, area);
+		JFXUtils.scale(getCurrent(), area);
+		JFXUtils.scale(getOld(), area);
 	}
 
 	private void fadeIn() {
-		fadeIn = new FadeTransition(Duration.seconds(getFadeTime()), current);
-		fadeIn.setFromValue(current.getOpacity());
+		ImageView im = getCurrent();
+		fadeIn = new FadeTransition(Duration.seconds(getFadeTime()), im);
+		fadeIn.setFromValue(im.getOpacity());
 		fadeIn.setToValue(1);
 		fadeIn.setInterpolator(Interpolator.LINEAR);
 	}
 
 	private void fadeOut() {
-		fadeOut = new FadeTransition(Duration.seconds(getFadeTime()), old);
-		fadeOut.setFromValue(old.getOpacity());
+		ImageView im = getOld();
+		fadeOut = new FadeTransition(Duration.seconds(getFadeTime()), im);
+		fadeOut.setFromValue(im.getOpacity());
 		fadeOut.setToValue(0.0);
 		fadeOut.setInterpolator(Interpolator.LINEAR);
-		fadeOut.setOnFinished(e -> pane.getChildren().remove(old));
+		fadeOut.setOnFinished(e -> pane.getChildren().remove(im));
 	}
 
 	private void initMediator() {
@@ -302,58 +310,62 @@ public class EntrainerBackground {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				switch (e.getParm()) {
-				case APPLY_FLASH_TO_BACKGROUND:
-					applyFlashEvent(e.getBooleanValue());
-					break;
-				case STATIC_BACKGROUND:
-					if (isStatic()) return;
-					mode = BackgroundMode.STATIC;
-					JFXUtils.runLater(() -> evaluateStaticBackground(true));
-					break;
-				case DYNAMIC_BACKGROUND:
-					if (isDynamic()) return;
-					mode = BackgroundMode.DYNAMIC;
-					loadSvc.execute(() -> init());
-					break;
-				case NO_BACKGROUND:
-					if (isNoBackground()) return;
-					mode = BackgroundMode.NO_BACKGROUND;
-					JFXUtils.runLater(() -> clearBackground());
-					break;
-				case NO_BACKGROUND_COLOUR:
-					JFXUtils.runLater(() -> setBackgroundColor(e.getColourValue()));
-					break;
-				case BACKGROUND_PIC:
-					if (backgroundPic != null && backgroundPic.equals(e.getStringValue())) break;
-					backgroundPic = e.getStringValue();
-					JFXUtils.runLater(() -> evaluateStaticBackground(false));
-					break;
-				case BACKGROUND_PIC_DIR:
-					if (backgroundChanging.get() || directoryName != null && directoryName.equals(e.getStringValue())) break;
-					backgroundChanging.set(true);
-					directoryName = e.getStringValue();
-					if (isDynamic()) {
+				try {
+					switch (e.getParm()) {
+					case APPLY_FLASH_TO_BACKGROUND:
+						applyFlashEvent(e.getBooleanValue());
+						break;
+					case STATIC_BACKGROUND:
+						if (isStatic()) return;
+						mode = BackgroundMode.STATIC;
+						JFXUtils.runLater(() -> evaluateStaticBackground(true));
+						break;
+					case DYNAMIC_BACKGROUND:
+						if (isDynamic()) return;
+						mode = BackgroundMode.DYNAMIC;
 						loadSvc.execute(() -> init());
-					} else {
-						loadSvc.execute(() -> loadPictures());
+						break;
+					case NO_BACKGROUND:
+						if (isNoBackground()) return;
+						mode = BackgroundMode.NO_BACKGROUND;
+						JFXUtils.runLater(() -> clearBackground());
+						break;
+					case NO_BACKGROUND_COLOUR:
+						JFXUtils.runLater(() -> setBackgroundColor(e.getColourValue()));
+						break;
+					case BACKGROUND_PIC:
+						if (backgroundPic != null && backgroundPic.equals(e.getStringValue())) break;
+						backgroundPic = e.getStringValue();
+						JFXUtils.runLater(() -> evaluateStaticBackground(false));
+						break;
+					case BACKGROUND_PIC_DIR:
+						if (backgroundChanging.get() || directoryName != null && directoryName.equals(e.getStringValue())) break;
+						backgroundChanging.set(true);
+						directoryName = e.getStringValue();
+						if (isDynamic()) {
+							loadSvc.execute(() -> init());
+						} else {
+							loadSvc.execute(() -> loadPictures());
+						}
+						break;
+					case BACKGROUND_DURATION_SECONDS:
+						log.debug("EB: received duration {} from {}", e.getDoubleValue(), e.getSource());
+						setDisplayTime((int) e.getDoubleValue());
+						break;
+					case BACKGROUND_TRANSITION_SECONDS:
+						setFadeTime((int) e.getDoubleValue());
+						break;
+					case STATIC_PICTURE_LOCK:
+						staticPictureLock = e.getBooleanValue();
+						break;
+					case FLASH_EFFECT:
+						transition(e.getEffect());
+						break;
+					default:
+						break;
 					}
-					break;
-				case BACKGROUND_DURATION_SECONDS:
-					log.debug("EB: received duration {} from {}", e.getDoubleValue(), e.getSource());
-					setDisplayTime((int) e.getDoubleValue());
-					break;
-				case BACKGROUND_TRANSITION_SECONDS:
-					setFadeTime((int) e.getDoubleValue());
-					break;
-				case STATIC_PICTURE_LOCK:
-					staticPictureLock = e.getBooleanValue();
-					break;
-				case FLASH_EFFECT:
-					transition(e.getEffect());
-					break;
-				default:
-					break;
+				} catch (Exception f) {
+					log.error("Unexpected exception ", f);
 				}
 			}
 
@@ -439,7 +451,7 @@ public class EntrainerBackground {
 
 		createCurrent();
 		scaleImage();
-		current.setOpacity(1);
+		getCurrent().setOpacity(1);
 
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, backgroundPic, MediatorConstants.BACKGROUND_PIC));
 	}
@@ -576,7 +588,7 @@ public class EntrainerBackground {
 	 * @return the current image
 	 */
 	public Image getCurrentImage() {
-		return current.getImage();
+		return getCurrent().getImage();
 	}
 
 	/**
@@ -635,5 +647,25 @@ public class EntrainerBackground {
 	 */
 	public void setHeight(double height) {
 		this.height = height;
+	}
+	
+	private ImageView getCurrent() {
+		return current.get();
+	}
+	
+	private ImageView getOld() {
+		return old.get();
+	}
+	
+	private void setCurrent(ImageView current) {
+		this.current.set(current);
+	}
+	
+	private void setOld(ImageView old) {
+		this.old.set(old);
+	}
+	
+	private ParallelTransition getPt() {
+		return pt.get();
 	}
 }

@@ -66,22 +66,26 @@ public class JFXUtils {
 	}
 
 	private static void setEffectImpl(Node node, CurrentEffect effect) {
-		CacheHint orig = node.getCacheHint();
-		boolean isSpeed = orig == CacheHint.SPEED;
+		try {
+			CacheHint orig = node.getCacheHint();
+			boolean isSpeed = orig == CacheHint.SPEED;
 
-		if (!isSpeed) node.setCacheHint(CacheHint.SPEED);
+			if (!isSpeed) node.setCacheHint(CacheHint.SPEED);
 
-		node.effectProperty().addListener(new ChangeListener<Effect>() {
+			node.effectProperty().addListener(new ChangeListener<Effect>() {
 
-			@Override
-			public void changed(ObservableValue<? extends Effect> observable, Effect oldValue, Effect newValue) {
-				if (!isSpeed) node.setCacheHint(orig);
-				node.effectProperty().removeListener(this);
-			}
-		});
+				@Override
+				public void changed(ObservableValue<? extends Effect> observable, Effect oldValue, Effect newValue) {
+					if (!isSpeed) node.setCacheHint(orig);
+					node.effectProperty().removeListener(this);
+				}
+			});
 
-		setOpacity(node, effect);
-		node.setEffect(effect.getEffect());
+			setOpacity(node, effect);
+			node.setEffect(effect.getEffect());
+		} catch (Exception e) {
+			log.error("Unexpected exception", e);
+		}
 	}
 
 	private static void setOpacity(Node node, CurrentEffect effect) {
