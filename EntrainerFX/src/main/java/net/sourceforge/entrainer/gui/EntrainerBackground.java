@@ -277,7 +277,6 @@ public class EntrainerBackground {
 
 		scale();
 
-		pane.getChildren().remove(getCurrent());
 		pane.getChildren().add(getCurrent());
 	}
 

@@ -18,6 +18,7 @@
  */
 package net.sourceforge.entrainer.media;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -72,6 +73,8 @@ public class MediaEngine {
 	private ScheduledExecutorService svc = Executors.newSingleThreadScheduledExecutor();
 	private ScheduledFuture<?> sf;
 	
+	private ExecutorService pulseSvc = Executors.newSingleThreadExecutor();
+	
 	private double frailty;
 	
 	private MasterLevelController controller = new MasterLevelController();
@@ -115,7 +118,7 @@ public class MediaEngine {
 					svc.execute(() -> setUri(e.getStringValue()));
 					break;
 				case ENTRAINMENT_FREQUENCY_PULSE:
-					entrain(e.getBooleanValue());
+					pulseSvc.execute(() -> entrain(e.getBooleanValue()));
 					break;
 				case MEDIA_TIME:
 					setPlayerTime(e.getDoubleValue());

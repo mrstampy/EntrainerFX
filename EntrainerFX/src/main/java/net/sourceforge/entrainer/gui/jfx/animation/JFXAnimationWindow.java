@@ -88,6 +88,8 @@ public class JFXAnimationWindow extends Stage {
 	private ExecutorService svc = Executors.newCachedThreadPool();
 
 	private boolean inited;
+	
+	private ExecutorService pulseSvc = Executors.newSingleThreadExecutor();
 
 	/**
 	 * Instantiates a new JFX animation window.
@@ -260,16 +262,11 @@ public class JFXAnimationWindow extends Stage {
 					break;
 				case FLASH_EFFECT:
 					if (!isShowing()) break;
-					pulseReceived(e.getEffect());
+					flashEffect(e.getEffect());
 					break;
 				case ENTRAINMENT_FREQUENCY_PULSE:
 					if (!isShowing()) break;
-					if (e.getBooleanValue() && runAnimation()) {
-						paint();
-					} else {
-						getEntrainerAnimation().clearAnimation();
-						JFXUtils.resetEffects(canvas);
-					}
+					pulseSvc.execute(() -> pulseReceived(e.getBooleanValue()));
 					break;
 				case APPLY_FLASH_TO_ANIMATION:
 					evaluateFlash(e.getBooleanValue());
@@ -282,6 +279,15 @@ public class JFXAnimationWindow extends Stage {
 
 				}
 
+			}
+
+			private void pulseReceived(boolean b) {
+				if (b && runAnimation()) {
+					paint();
+				} else {
+					getEntrainerAnimation().clearAnimation();
+					JFXUtils.resetEffects(canvas);
+				}
 			}
 		});
 	}
@@ -302,7 +308,7 @@ public class JFXAnimationWindow extends Stage {
 		if (!flashAnimation) JFXUtils.resetEffects(canvas);
 	}
 
-	private void pulseReceived(CurrentEffect currentEffect) {
+	private void flashEffect(CurrentEffect currentEffect) {
 		if (!isAnimating || !flashAnimation) return;
 
 		JFXUtils.setEffect(canvas, currentEffect);
