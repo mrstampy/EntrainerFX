@@ -292,7 +292,7 @@ public class XmlEditor extends JDialog {
 	private void addMenuBar() {
 		JMenuBar bar = new JMenuBar();
 
-		bar.add(intervalMenu);
+//		bar.add(intervalMenu);
 
 		JMenu help = new JMenu(HELP_MENU_NAME);
 		addMnemonic(help, KeyEvent.VK_H);
