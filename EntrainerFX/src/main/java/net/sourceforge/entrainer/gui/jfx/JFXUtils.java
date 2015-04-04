@@ -41,8 +41,6 @@ import net.sourceforge.entrainer.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sun.glass.ui.Application;
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class JFXUtils.
@@ -173,7 +171,7 @@ public class JFXUtils {
 		if (Platform.isFxApplicationThread()) {
 			runNow(run);
 		} else {
-			Application.invokeLater(() -> runNow(run));
+			Platform.runLater(() -> runNow(run));
 		}
 	}
 
