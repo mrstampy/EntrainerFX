@@ -469,15 +469,7 @@ public class EntrainerBackground {
 	}
 
 	private void transition(CurrentEffect effect) {
-		if (shouldRun()) invert(effect);
-	}
-
-	private void invert(CurrentEffect effect) {
 		if (flashBackground) JFXUtils.setEffect(pane, effect);
-	}
-
-	private boolean shouldRun() {
-		return flashBackground || pane.getChildren().contains(rect);
 	}
 
 	/**

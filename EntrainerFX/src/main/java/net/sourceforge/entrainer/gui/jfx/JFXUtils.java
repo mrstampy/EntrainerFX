@@ -21,8 +21,6 @@ package net.sourceforge.entrainer.gui.jfx;
 import java.io.File;
 import java.net.URI;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -50,9 +48,6 @@ public class JFXUtils {
 
 	private static ColorAdjust defaultColourAdjust = new ColorAdjust();
 
-	/** The flash svc. */
-	private static ExecutorService FLASH_SVC = Executors.newCachedThreadPool();
-
 	/**
 	 * Sets the effect.
 	 *
@@ -68,7 +63,6 @@ public class JFXUtils {
 		if (!isSpeed) node.setCacheHint(CacheHint.SPEED);
 
 		runLater(() -> setEffectInNode(node, effect, isSpeed, orig));
-		FLASH_SVC.execute(() -> setOpacity(node, effect));
 	}
 
 	private static void setEffectInNode(Node node, CurrentEffect effect, boolean isSpeed, CacheHint orig) {
@@ -82,6 +76,7 @@ public class JFXUtils {
 				}
 			});
 			node.setEffect(effect.getEffect());
+			setOpacity(node, effect);
 		} catch (Exception e) {
 			log.error("Unexpected exception ", e);
 		}
