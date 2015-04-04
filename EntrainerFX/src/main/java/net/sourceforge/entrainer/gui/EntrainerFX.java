@@ -224,6 +224,7 @@ public class EntrainerFX extends Application {
 	private boolean flashEFX;
 	private MenuBar bar;
 	private EntrainerFXResizer resizer;
+	private boolean exiting;
 
 	public EntrainerFX() throws Exception {
 		EntrainmentFrequencyPulseNotifier.start();
@@ -1238,6 +1239,9 @@ public class EntrainerFX extends Application {
 	}
 
 	private void exitPressed() {
+		if(exiting) return;
+		
+		exiting = true;
 		stopPressed();
 
 		Alert alert = new Alert(AlertType.CONFIRMATION, "Exiting: Confirm?", ButtonType.OK, ButtonType.CANCEL);
@@ -1251,6 +1255,8 @@ public class EntrainerFX extends Application {
 			JFXUtils.runLater(() -> shutdownAnimations());
 
 			exitApplication();
+		} else {
+			exiting = false;
 		}
 	}
 

@@ -20,6 +20,8 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import java.io.File;
 import java.net.URI;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,6 +42,8 @@ import net.sourceforge.entrainer.util.Utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.sun.javafx.tk.Toolkit;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -62,10 +66,6 @@ public class JFXUtils {
 	 *          the effect
 	 */
 	public static void setEffect(Node node, CurrentEffect effect) {
-		FLASH_SVC.execute(() -> setEffectImpl(node, effect));
-	}
-
-	private static void setEffectImpl(Node node, CurrentEffect effect) {
 		CacheHint orig = node.getCacheHint();
 		boolean isSpeed = orig == CacheHint.SPEED;
 
@@ -78,7 +78,7 @@ public class JFXUtils {
 	private static void setEffectInNode(Node node, CurrentEffect effect, boolean isSpeed, CacheHint orig) {
 		try {
 			node.effectProperty().addListener(new ChangeListener<Effect>() {
-				
+
 				@Override
 				public void changed(ObservableValue<? extends Effect> observable, Effect oldValue, Effect newValue) {
 					if (!isSpeed) node.setCacheHint(orig);
@@ -175,8 +175,20 @@ public class JFXUtils {
 		if (Platform.isFxApplicationThread()) {
 			runNow(run);
 		} else {
-			Platform.runLater(run);
+			FLASH_SVC.execute(() -> jfxHack(run));
 		}
+	}
+
+	// Puts the runnable on the JFX app thread w/o
+	// the overhead of Platform.runLater, better performance
+	// wrt effect switching.
+	private static void jfxHack(Runnable run) {
+		Toolkit.getToolkit().defer(() -> {
+			AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
+				runNow(run);
+				return null;
+			}, AccessController.getContext());
+		});
 	}
 
 	private static void runNow(Runnable run) {
