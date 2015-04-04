@@ -410,9 +410,9 @@ public class EntrainerFX extends Application {
 		fireReceiverChangeEvent(b, START_ENTRAINMENT);
 
 		if (b) {
-			playPressed();
+			JFXUtils.runLater(() -> playPressed());
 		} else {
-			stopPressed();
+			JFXUtils.runLater(() -> stopPressed());
 		}
 	}
 
