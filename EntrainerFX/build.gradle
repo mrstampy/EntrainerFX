@@ -104,7 +104,7 @@ jar {
         'Built-By': 'Burton Alexander',
         'Email-Address': 'burton@users.sourceforge.net',
         'Project-Website': 'http://entrainer.sourceforge.net',
-        'Main-Class': 'net.sourceforge.entrainer.Main',
+        'Main-Class': 'net.sourceforge.entrainer.gui.EntrainerFX',
         'Class-Path': 'esp.config/ ' + 'logback/ ' + configurations.compile.collect { 'lib/' + it.getName() }.join(' '))
     }
     

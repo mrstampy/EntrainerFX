@@ -13,7 +13,6 @@
  * The root element defines properties for all JavaFX components.
  */
 .root {
-
 }
 
 .menu-bar {
@@ -139,6 +138,9 @@
 
 .slider .thumb {
 	-fx-background-color: derive(midnightblue, 100.0%);		
+}
+
+#EntrainerFX-layout {
 }
 
 #AnimationPane-layout {

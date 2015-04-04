@@ -186,7 +186,7 @@ public class XmlEditor extends JDialog {
 	}
 
 	private Dimension getAggregatedSize() {
-		int prefWidth = EntrainerFX.getInstance().getMinimumSize().width;
+		int prefWidth = (int)EntrainerFX.getInstance().getMinSize().getWidth();
 		int prefHeight = getContentPane().getSize().height + 450;
 
 		return new Dimension(prefWidth, prefHeight);

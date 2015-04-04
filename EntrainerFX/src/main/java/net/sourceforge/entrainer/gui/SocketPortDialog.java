@@ -21,6 +21,7 @@ package net.sourceforge.entrainer.gui;
 import static net.sourceforge.entrainer.util.Utils.openBrowser;
 
 import java.awt.Component;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -61,7 +62,7 @@ public class SocketPortDialog extends JDialog {
 	 *           the unknown host exception
 	 */
 	public SocketPortDialog() throws UnknownHostException {
-		super(EntrainerFX.getInstance(), "Choose Socket Port");
+		super((Frame)null, "Choose Socket Port");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		init();
 	}

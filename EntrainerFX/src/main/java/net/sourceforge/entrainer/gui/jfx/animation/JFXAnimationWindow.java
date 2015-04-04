@@ -99,7 +99,7 @@ public class JFXAnimationWindow extends Stage {
 		initMediator();
 		setScene(scene);
 		setResizable(false);
-		setFullScreen(true);
+//		setFullScreen(true);
 
 		animator = new Runnable() {
 

@@ -42,6 +42,7 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.CUSTOM_INTERV
 import static net.sourceforge.entrainer.mediator.MediatorConstants.INTERVAL_ADD;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.INTERVAL_REMOVE;
 
+import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -255,7 +256,7 @@ public class IntervalMenu extends Menu {
 	}
 
 	private void showCustomDialog() {
-		final CustomInterval ci = new CustomInterval(EntrainerFX.getInstance(), this);
+		final CustomInterval ci = new CustomInterval((Frame)null, this);
 
 		ci.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
@@ -401,7 +402,7 @@ public class IntervalMenu extends Menu {
 	}
 
 	private void deleteItem(MenuItem item) {
-		int choice = JOptionPane.showConfirmDialog(EntrainerFX.getInstance(),
+		int choice = JOptionPane.showConfirmDialog(null,
 				"Deleting " + item.getText() + ". Continue?",
 				"Delete Interval",
 				JOptionPane.OK_CANCEL_OPTION);

@@ -29,14 +29,9 @@ import static net.sourceforge.entrainer.util.Utils.openBrowser;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -48,13 +43,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
@@ -67,24 +62,27 @@ import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.filechooser.FileFilter;
 
+import net.sourceforge.entrainer.JavaVersionChecker;
 import net.sourceforge.entrainer.esp.EspConnectionRegister;
 import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.gui.flash.FlashOptions;
@@ -99,9 +97,13 @@ import net.sourceforge.entrainer.gui.jfx.SliderControlPane;
 import net.sourceforge.entrainer.gui.jfx.SoundControlPane;
 import net.sourceforge.entrainer.gui.jfx.animation.JFXAnimationRegister;
 import net.sourceforge.entrainer.gui.jfx.animation.JFXAnimationWindow;
+import net.sourceforge.entrainer.gui.jfx.animation.JFXEntrainerAnimation;
 import net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer;
 import net.sourceforge.entrainer.gui.jfx.shimmer.LinearShimmerRectangle;
 import net.sourceforge.entrainer.gui.jfx.shimmer.ShimmerRegister;
+import net.sourceforge.entrainer.gui.jfx.trident.ColorPropertyInterpolator;
+import net.sourceforge.entrainer.gui.jfx.trident.LinearGradientInterpolator;
+import net.sourceforge.entrainer.gui.jfx.trident.RadialGradientInterpolator;
 import net.sourceforge.entrainer.gui.popup.NotificationWindow;
 import net.sourceforge.entrainer.gui.socket.EntrainerSocketConnector;
 import net.sourceforge.entrainer.guitools.GuiUtil;
@@ -129,6 +131,7 @@ import net.sourceforge.entrainer.xml.SleeperManagerListener;
 
 import org.controlsfx.dialog.Dialogs;
 import org.pushingpixels.trident.Timeline.TimelineState;
+import org.pushingpixels.trident.TridentConfig;
 import org.pushingpixels.trident.callback.TimelineCallbackAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -150,9 +153,8 @@ import com.github.mrstampy.esplab.EspPowerLabWindow;
  * 
  * @author burton
  */
-public class EntrainerFX extends JFrame {
+public class EntrainerFX extends Application {
 	private static final int MIN_HEIGHT = 950;
-	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory.getLogger(EntrainerFX.class);
 
 	// JSyn classes
@@ -189,12 +191,14 @@ public class EntrainerFX extends JFrame {
 	private AbstractShimmer<?> shimmer = ShimmerRegister.getShimmer(LinearShimmerRectangle.NAME);
 
 	private GridPane gp = new GridPane();
-	private JFXPanel mainPanel;
-	// private ImageView background = new ImageView();
+
 	private EntrainerBackground background = new EntrainerBackground();
-	private AnimationPane animations = new AnimationPane();
+	private AnimationPane animations;
 	private BackgroundPicturePane pictures = new BackgroundPicturePane();
+
 	private Group group;
+	private Scene scene;
+	private Stage stage;
 
 	private ShimmerOptionsPane shimmerOptions = new ShimmerOptionsPane();
 	private Lab lab;
@@ -224,27 +228,20 @@ public class EntrainerFX extends JFrame {
 	private MenuBar bar;
 	private EntrainerFXResizer resizer;
 
-	private EntrainerFX() {
-		super("Entrainer FX");
-
-		setUndecorated(true);
-
+	public EntrainerFX() throws Exception {
 		EntrainmentFrequencyPulseNotifier.start();
 		FlashOptions.start();
+
+		group = new Group();
+		scene = new Scene(group, Color.BLACK);
+
+		resizer = new EntrainerFXResizer(r -> resizeDimensions(r));
 
 		init();
 
 		jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
-		setIconImage(icon.getImage());
 
-		addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowOpened(WindowEvent e) {
-				settings.setAcceptUpdates(true);
-				background.setDimension(mainPanel.getWidth(), mainPanel.getHeight());
-			}
-		});
+		instance = this;
 	}
 
 	/**
@@ -253,74 +250,34 @@ public class EntrainerFX extends JFrame {
 	 * @return single instance of Entrainer
 	 */
 	public static synchronized EntrainerFX getInstance() {
-		if (instance == null) {
-			final CountDownLatch cdl = new CountDownLatch(1);
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						if (instance == null) instance = new EntrainerFX();
-					} finally {
-						cdl.countDown();
-					}
-				}
-			});
-			try {
-				cdl.await();
-			} catch (InterruptedException e) {
-			}
-			instance.setLocationRelativeTo(null);
-		}
-
 		return instance;
 	}
 
-	/**
-	 * Gets the background image.
-	 *
-	 * @return the background image
-	 */
-	Image getBackgroundImage() {
-		// TODO fix me
-		return background.getCurrentImage();
+	public Rectangle2D getBounds() {
+		return resizer.getSize();
+	}
+
+	public boolean isVisible() {
+		return stage.isShowing();
+	}
+
+	public void toFront() {
+		stage.toFront();
+	}
+
+	public void toBack() {
+		stage.toBack();
+	}
+
+	public Rectangle2D getMinSize() {
+		return new Rectangle2D(stage.getX(), stage.getY(), stage.getMinWidth(), stage.getMinHeight());
 	}
 
 	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.Window#pack()
-	 */
-	public void pack() {
-		setMinimumSize(settings.getMinSize());
-		super.pack();
-	}
-
-	/**
-	 * Overridden to set visible property to true always. Circumvents bug when
-	 * window is closing and exit is canceled.
-	 *
-	 * @param b
-	 *          the new visible
-	 */
-	public void setVisible(boolean b) {
-		if (b) displayComponents();
-
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				EntrainerFX.super.setVisible(true);
-			}
-		});
-	}
-
 	private void displayComponents() {
-		mainPanel.setVisible(true);
 		gp.setVisible(true);
 
 		scaleSize();
@@ -336,34 +293,29 @@ public class EntrainerFX extends JFrame {
 			}
 		});
 
-		JFXUtils.runLater(() -> setShimmerSizes());
+		JFXUtils.runLater(() -> setShimmerSizes(resizer.getSize()));
 	}
 
 	private void initAnimationWindow() {
 		animationWindow = new JFXAnimationWindow();
-		settings.initAnimation();
 		animationWindow.initGui();
 		SwingUtilities.invokeLater(() -> initSettings());
 	}
 
-	private void setShimmerSizes() {
+	private void setShimmerSizes(Rectangle2D size) {
 		for (AbstractShimmer<?> shimmer : ShimmerRegister.getShimmers()) {
-			shimmer.setWidth(getWidth());
-			shimmer.setHeight(getHeight());
+			shimmer.setWidth(size.getWidth());
+			shimmer.setHeight(size.getHeight());
 		}
 	}
 
 	private void scaleSize() {
-		Dimension d = mainPanel.getPreferredSize();
 		Dimension screen = GuiUtil.getWorkingScreenSize();
 		int height = MIN_HEIGHT > screen.getHeight() ? (int) (screen.getHeight() - 50) : MIN_HEIGHT;
 
-		setSize(new Dimension((int) d.getWidth(), height));
+		gp.setPrefHeight(height);
 
-		GuiUtil.centerOnScreen(EntrainerFX.this);
-		JFXUtils.runLater(() -> unexpandTitledPanes());
-		
-		Rectangle2D r = new Rectangle2D(getLocation().getX(), getLocation().getY(), getWidth(), getHeight());
+		Rectangle2D r = new Rectangle2D(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight());
 		resizer.setSize(r);
 	}
 
@@ -376,24 +328,10 @@ public class EntrainerFX extends JFrame {
 		unexpandeTitledPane(flashOptions);
 		unexpandeTitledPane(audioPlayerPane);
 
-		setMinimumSize(new Dimension(mainPanel.getPreferredSize().width, getHeight() / 2));
-
-		addComponentListener(new ComponentAdapter() {
-
-			@Override
-			public void componentResized(ComponentEvent e) {
-				resizeBackground();
-			}
-		});
+		gp.setMinSize(scene.getWidth(), scene.getHeight() / 2);
 	}
 
-	private void resizeBackground() {
-		Dimension size = getSize();
-
-		JFXUtils.runLater(() -> setJFXSize(size));
-	}
-
-	private void setJFXSize(Dimension size) {
+	private void setJFXSize(Rectangle2D size) {
 		double width = size.getWidth();
 
 		gp.setPrefSize(width, size.getHeight());
@@ -406,9 +344,17 @@ public class EntrainerFX extends JFrame {
 		setTitledPaneWidth(audioPlayerPane, width);
 		setTitledPaneWidth(pictures, width);
 
-		setShimmerSizes();
+		setShimmerSizes(size);
+
+		setAnimationPosition(size);
 
 		background.setDimension(size.getWidth(), size.getHeight());
+	}
+
+	private void setAnimationPosition(Rectangle2D size) {
+		for (JFXEntrainerAnimation animation : JFXAnimationRegister.getEntrainerAnimations()) {
+			animation.setEntrainerFramePosition(size);
+		}
 	}
 
 	private void setTitledPaneWidth(TitledPane tp, double width) {
@@ -463,46 +409,6 @@ public class EntrainerFX extends JFrame {
 		} else {
 			stopPressed();
 		}
-	}
-
-	private void init() {
-		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-
-			@Override
-			public void uncaughtException(Thread arg0, Throwable arg1) {
-				GuiUtil.handleProblem(arg1);
-			}
-		});
-
-		intervalMenu = new IntervalMenu();
-		control = new JSynSoundControl();
-		masterLevelController = new MasterLevelController(control);
-		initMediator();
-		wireButtons();
-
-		soundControlPane.setOnMouseEntered(e -> fade(true, soundControlPane));
-		soundControlPane.setOnMouseExited(e -> fade(false, soundControlPane));
-		soundControlPane.setOpacity(0);
-
-		addMenu();
-		layoutComponents();
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				exitPressed();
-			}
-		});
-
-		createPanner();
-		settings.initState();
-		initSettings();
-
-		addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.isControlDown() && e.getClickCount() == 1) {
-					Utils.openLocalDocumentation();
-				}
-			}
-		});
 	}
 
 	private void initMediator() {
@@ -574,16 +480,11 @@ public class EntrainerFX extends JFrame {
 		final AbstractShimmer<?> shimmer = ShimmerRegister.getShimmer(stringValue);
 		if (shimmer == null) return;
 
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				swapShimmers(shimmer);
-			}
-		});
+		JFXUtils.runLater(() -> swapShimmers(shimmer));
 	}
 
 	private void swapShimmers(final AbstractShimmer<?> shimmer) {
+		if (group.getChildren().isEmpty()) return;
 		AbstractShimmer<?> old = (AbstractShimmer<?>) group.getChildren().get(1);
 		if (old == shimmer) return;
 		try {
@@ -599,7 +500,7 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void initSettings() {
-		if (settings.getXmlProgram() != null && !settings.getXmlProgram().isEmpty() && isVisible()) {
+		if (settings.getXmlProgram() != null && !settings.getXmlProgram().isEmpty() && stage.isShowing()) {
 			readXmlFile(settings.getXmlProgram());
 		} else {
 			enableControls(true);
@@ -880,9 +781,9 @@ public class EntrainerFX extends JFrame {
 	}
 
 	private void changeLookAndFeel(String className, String themePack) {
-		GuiUtil.changeLookAndFeel(className, themePack, this);
-		fireReceiverChangeEvent(className, MediatorConstants.LOOK_AND_FEEL);
-		fireReceiverChangeEvent(themePack, MediatorConstants.THEME_PACK);
+		// GuiUtil.changeLookAndFeel(className, themePack, this);
+		// fireReceiverChangeEvent(className, MediatorConstants.LOOK_AND_FEEL);
+		// fireReceiverChangeEvent(themePack, MediatorConstants.THEME_PACK);
 	}
 
 	private void fireReceiverChangeEvent(String value, MediatorConstants parm) {
@@ -1078,7 +979,7 @@ public class EntrainerFX extends JFrame {
 			if (Platform.isFxApplicationThread()) {
 				Dialogs.create().title("No ESP Device Selected").message("Choose an ESP device first").showWarning();
 			} else {
-				JOptionPane.showMessageDialog(this,
+				JOptionPane.showMessageDialog(null,
 						"Choose an ESP device first",
 						"No ESP Device Selected",
 						JOptionPane.ERROR_MESSAGE);
@@ -1189,7 +1090,7 @@ public class EntrainerFX extends JFrame {
 		int portNum = socket.getPortNumber();
 		String hostName = socket.getHostName();
 		socket.unbind();
-		new NotificationWindow("Entrainer socket unbound from host " + hostName + " and port " + portNum, this);
+		new NotificationWindow("Entrainer socket unbound from host " + hostName + " and port " + portNum, null);
 		settings.setSocketConnected(false);
 	}
 
@@ -1198,13 +1099,13 @@ public class EntrainerFX extends JFrame {
 		try {
 			socket.bind();
 			new NotificationWindow("Entrainer socket bound to host " + socket.getHostName() + " and port "
-					+ socket.getPortNumber(), this);
+					+ socket.getPortNumber(), null);
 			settings.setSocketConnected(true);
 		} catch (IOException e) {
 			GuiUtil.handleProblem(e);
 			connect.setSelected(false);
 		} catch (InvalidPortNumberException e) {
-			JOptionPane.showMessageDialog(EntrainerFX.this,
+			JOptionPane.showMessageDialog(null,
 					"The port number " + e.getPort() + " is not valid",
 					"Invalid Port Number",
 					JOptionPane.ERROR_MESSAGE);
@@ -1230,7 +1131,7 @@ public class EntrainerFX extends JFrame {
 
 	private void editXml() {
 		JFileChooser xmlChooser = XmlEditor.getXmlFileChooser();
-		int val = xmlChooser.showOpenDialog(this);
+		int val = xmlChooser.showOpenDialog(null);
 		if (val == JFileChooser.APPROVE_OPTION) {
 			showXmlEditor(xmlChooser.getSelectedFile());
 		}
@@ -1239,7 +1140,7 @@ public class EntrainerFX extends JFrame {
 	private void showXmlEditor(File f) {
 		settings.setPreserveState(true);
 		intervalCache = intervalMenu.removeAllIntervals();
-		final XmlEditor editor = new XmlEditor(this, f);
+		final XmlEditor editor = new XmlEditor(null, f);
 		editor.addXmlFileSaveListener(new XmlFileSaveListener() {
 			public void xmlFileSaveEventPerformed(XmlFileSaveEvent e) {
 				xmlFileSaved(e.getXmlFile());
@@ -1300,11 +1201,11 @@ public class EntrainerFX extends JFrame {
 	private boolean showWavFileChooser() {
 		JFileChooser wavChooser = getWavFileChooser();
 
-		int val = wavChooser.showDialog(this, "Ok");
+		int val = wavChooser.showDialog(null, "Ok");
 		if (val == JFileChooser.APPROVE_OPTION) {
 			File wavFile = processFile(wavChooser.getSelectedFile());
 			if (!isValidFile(wavFile)) {
-				JOptionPane.showMessageDialog(this,
+				JOptionPane.showMessageDialog(null,
 						wavFile.getName() + " is not a valid WAV file name\n(it must end with a '.wav' extension)",
 						"Invalid WAV File Name",
 						JOptionPane.WARNING_MESSAGE);
@@ -1360,7 +1261,7 @@ public class EntrainerFX extends JFrame {
 			@Override
 			public void run() {
 				setMessage(control.isRecord() ? "Recording Stopped" : "Stopped");
-				stop();
+				stopImpl();
 			}
 		});
 	}
@@ -1459,9 +1360,9 @@ public class EntrainerFX extends JFrame {
 
 	private void exitPressed() {
 		stopPressed();
-		int option = JOptionPane.showConfirmDialog(this, "Exiting: Confirm?", "Exit Entrainer", JOptionPane.YES_NO_OPTION);
+		int option = JOptionPane.showConfirmDialog(null, "Exiting: Confirm?", "Exit Entrainer", JOptionPane.YES_NO_OPTION);
 		if (option == JOptionPane.YES_OPTION) {
-			new NotificationWindow("Exiting Entrainer", this);
+			new NotificationWindow("Exiting Entrainer", null);
 
 			control.exit();
 
@@ -1486,7 +1387,7 @@ public class EntrainerFX extends JFrame {
 			}
 		};
 
-		GuiUtil.fadeOut(this, 5000, tca);
+		GuiUtil.fadeOut(null, 5000, tca);
 	}
 
 	private void start() {
@@ -1508,7 +1409,7 @@ public class EntrainerFX extends JFrame {
 		Panner.getInstance();
 	}
 
-	private void stop() {
+	private void stopImpl() {
 		if (isXmlProgram()) {
 			sleeperManager.stop();
 		}
@@ -1519,66 +1420,24 @@ public class EntrainerFX extends JFrame {
 		control.pause();
 	}
 
-	private void layoutComponents() {
-		mainPanel = new JFXPanel();
-
-		int v = 0;
-		GridPane.setConstraints(bar, 0, v++);
-		GridPane.setConstraints(soundControlPane, 0, v++);
-		GridPane.setConstraints(sliderControlPane, 0, v++);
-		GridPane.setConstraints(audioPlayerPane, 0, v++);
-		GridPane.setConstraints(pictures, 0, v++);
-		GridPane.setConstraints(shimmerOptions, 0, v++);
-		GridPane.setConstraints(animations, 0, v++);
-		GridPane.setConstraints(flashOptions, 0, v++);
-		GridPane.setConstraints(neuralizer, 0, v++);
-
-		gp.getChildren().addAll(bar,
-				soundControlPane,
-				sliderControlPane,
-				animations,
-				shimmerOptions,
-				pictures,
-				flashOptions,
-				neuralizer,
-				audioPlayerPane);
-
-		final URI css = JFXUtils.getEntrainerCSS();
-
-		JFXUtils.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				group = new Group();
-
-				shimmer.setInUse(true);
-				group.getChildren().addAll(background.getPane(), shimmer, gp);
-				Scene scene = new Scene(group);
-				if (css != null) scene.getStylesheets().add(css.toString());
-				mainPanel.setScene(scene);
-			}
-		});
-
-		gp.setCache(true);
-		gp.setCacheHint(CacheHint.SPEED);
-
-		resizer = new EntrainerFXResizer(r -> resizeDimensions(r));
-
-		gp.setOnMouseDragged(e -> resizer.onDrag(e));
-		gp.setOnMouseReleased(e -> resizer.onRelease(e));
-
-		getContentPane().add(mainPanel);
-	}
-
 	private void resizeDimensions(Rectangle2D r) {
-		Point p = getLocationOnScreen();
-		if (p.getX() != r.getMinX() || p.getY() != r.getMinY()) {
-			setLocation((int) r.getMinX(), (int) r.getMinY());
+		if (stage.getX() != r.getMinX()) {
+			stage.setX(r.getMinX());
 		}
 
-		if (getWidth() != r.getWidth() || getHeight() != r.getHeight()) {
-			setSize((int) r.getWidth(), (int) r.getHeight());
+		if (stage.getY() != r.getMinY()) {
+			stage.setY(r.getMinY());
 		}
+
+		if (stage.getWidth() != r.getWidth()) {
+			stage.setWidth(r.getWidth());
+		}
+
+		if (stage.getHeight() != r.getHeight()) {
+			stage.setHeight(r.getHeight());
+		}
+
+		setJFXSize(r);
 	}
 
 	private void setMessage(String s) {
@@ -1590,7 +1449,7 @@ public class EntrainerFX extends JFrame {
 		intervalMenu.removeAllIntervals();
 		JFileChooser chooser = XmlEditor.getXmlFileChooser();
 
-		int val = chooser.showOpenDialog(this);
+		int val = chooser.showOpenDialog(null);
 		if (val == JFileChooser.APPROVE_OPTION) {
 			File f = chooser.getSelectedFile();
 
@@ -1665,5 +1524,140 @@ public class EntrainerFX extends JFrame {
 			}
 		}
 
+	}
+
+	public void init() {
+		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+
+			@Override
+			public void uncaughtException(Thread arg0, Throwable arg1) {
+				GuiUtil.handleProblem(arg1);
+			}
+		});
+
+		intervalMenu = new IntervalMenu();
+		control = new JSynSoundControl();
+		masterLevelController = new MasterLevelController(control);
+		initMediator();
+		wireButtons();
+
+		soundControlPane.setOnMouseEntered(e -> fade(true, soundControlPane));
+		soundControlPane.setOnMouseExited(e -> fade(false, soundControlPane));
+		soundControlPane.setOpacity(0);
+
+		addMenu();
+
+		createPanner();
+		initSettings();
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		this.stage = new Stage(StageStyle.TRANSPARENT);
+
+		stage.initOwner(primaryStage);
+		primaryStage.setTitle("EntrainerFX");
+
+		stage.setScene(scene);
+
+		stage.addEventHandler(javafx.stage.WindowEvent.WINDOW_SHOWN, e -> startup());
+		stage.addEventHandler(javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST, e -> exitPressed());
+
+		int v = 0;
+
+		animations = new AnimationPane();
+
+		GridPane.setConstraints(bar, 0, v++);
+		GridPane.setConstraints(soundControlPane, 0, v++);
+		GridPane.setConstraints(sliderControlPane, 0, v++);
+		GridPane.setConstraints(audioPlayerPane, 0, v++);
+		GridPane.setConstraints(pictures, 0, v++);
+		GridPane.setConstraints(shimmerOptions, 0, v++);
+		GridPane.setConstraints(animations, 0, v++);
+		GridPane.setConstraints(flashOptions, 0, v++);
+		GridPane.setConstraints(neuralizer, 0, v++);
+
+		gp.getChildren().addAll(bar,
+				soundControlPane,
+				sliderControlPane,
+				animations,
+				shimmerOptions,
+				pictures,
+				flashOptions,
+				neuralizer,
+				audioPlayerPane);
+
+		unexpandTitledPanes();
+
+		URI css = JFXUtils.getEntrainerCSS();
+
+		shimmer.setInUse(true);
+		group.getChildren().addAll(background.getPane(), shimmer, gp);
+		if (css != null) scene.getStylesheets().add(css.toString());
+
+		gp.setCache(true);
+		gp.setCacheHint(CacheHint.SPEED);
+
+		gp.setId(getClass().getSimpleName() + "-layout");
+
+		stage.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> resizer.onDrag(e));
+		stage.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> resizer.onRelease(e));
+
+		displayComponents();
+
+		settings.initState();
+
+		if (settings.isSplashOnStartup()) {
+			EntrainerFXSplash splash = new EntrainerFXSplash();
+			splash.onClose(e -> show());
+		} else {
+			show();
+		}
+	}
+
+	private void show() {
+		stage.centerOnScreen();
+		stage.setOpacity(0);
+		stage.show();
+		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(stage.opacityProperty(), 1)));
+		tl.play();
+	}
+
+	private void startup() {
+		settings.setAcceptUpdates(true);
+		Rectangle2D size = new Rectangle2D(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight());
+		resizer.setSize(size);
+		background.setDimension(stage.getWidth(), stage.getHeight());
+		resizeDimensions(size);
+	}
+
+	public static void main(String[] args) throws Exception {
+		initTridentInterpolators();
+		architectureCheck();
+
+		launch(args);
+	}
+
+	private static void initTridentInterpolators() {
+		TridentConfig.getInstance().addPropertyInterpolator(new ColorPropertyInterpolator());
+		TridentConfig.getInstance().addPropertyInterpolator(new LinearGradientInterpolator());
+		TridentConfig.getInstance().addPropertyInterpolator(new RadialGradientInterpolator());
+	}
+
+	private static void architectureCheck() {
+		try {
+			if (!JavaVersionChecker.VERSION_OK) {
+				StringBuilder builder = new StringBuilder();
+				builder.append("Cannot run Entrainer.  Minimum version required is ");
+				builder.append(JavaVersionChecker.MIN_VERSION);
+				builder.append(".\nYou are running version ");
+				builder.append(JavaVersionChecker.CURRENT);
+				builder.append(".\nPlease visit http://java.oracle.com to get the latest Java Runtime Environment");
+				GuiUtil.handleProblem(new RuntimeException(builder.toString()), true);
+				System.exit(-1);
+			}
+		} catch (Throwable e) {
+			log.error("Cannot evaluate java version {}", System.getProperty("java.version"), e);
+		}
 	}
 }

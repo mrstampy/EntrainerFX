@@ -18,17 +18,13 @@
  */
 package net.sourceforge.entrainer.gui.jfx.animation;
 
-import java.awt.Rectangle;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import net.sourceforge.entrainer.gui.EntrainerBackground;
-import net.sourceforge.entrainer.gui.EntrainerFX;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -77,7 +73,7 @@ import net.sourceforge.entrainer.gui.EntrainerFX;
  */
 public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 
-	private Rectangle entrainerFramePosition;
+	private Rectangle2D entrainerFramePosition;
 	private List<AnimationRectangle2D> shapes = new ArrayList<AnimationRectangle2D>();
 	private List<AnimationRectangle2D> removables = new ArrayList<AnimationRectangle2D>();
 
@@ -86,30 +82,7 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 	 */
 	public JFXEntrainerAnimation() {
 		super();
-		initEntrainerFrame();
 		setHideEntrainerFrame(false);
-	}
-
-	private void initEntrainerFrame() {
-		EntrainerFX frame = EntrainerFX.getInstance();
-		frame.addComponentListener(getComponentListener());
-		setEntrainerFramePosition(frame.getBounds());
-	}
-
-	private ComponentListener getComponentListener() {
-		return new ComponentAdapter() {
-
-			@Override
-			public void componentMoved(ComponentEvent e) {
-				setEntrainerFramePosition(e.getComponent().getBounds());
-			}
-
-			@Override
-			public void componentShown(ComponentEvent e) {
-				setEntrainerFramePosition(e.getComponent().getBounds());
-			}
-
-		};
 	}
 
 	/**
@@ -196,7 +169,7 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 	 * @return true, if is intersecting with entrainer frame
 	 */
 	protected boolean isIntersectingWithEntrainerFrame(AnimationRectangle2D shape) {
-		Rectangle r = getEntrainerFramePosition();
+		Rectangle2D r = getEntrainerFramePosition();
 		return shape.intersects(r.getMinX(), r.getMinY(), r.getMaxX(), r.getMaxY());
 	}
 
@@ -224,7 +197,12 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 	 * @return the center of entrainer frame
 	 */
 	protected Point2D getCenterOfEntrainerFrame() {
-		return new Point2D(getEntrainerFramePosition().getCenterX(), getEntrainerFramePosition().getCenterY());
+		Rectangle2D r = getEntrainerFramePosition();
+		
+		double centerX = r.getMinX() + r.getWidth() / 2;
+		double centerY = r.getMinY() + r.getHeight() / 2;
+		
+		return new Point2D(centerX, centerY);
 	}
 
 	private void removeRemovables() {
@@ -241,11 +219,11 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 	 *
 	 * @return the entrainer frame position
 	 */
-	public Rectangle getEntrainerFramePosition() {
+	public Rectangle2D getEntrainerFramePosition() {
 		return entrainerFramePosition;
 	}
 
-	private void setEntrainerFramePosition(Rectangle entrainerFramePosition) {
+	public void setEntrainerFramePosition(Rectangle2D entrainerFramePosition) {
 		this.entrainerFramePosition = entrainerFramePosition;
 	}
 

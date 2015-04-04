@@ -77,6 +77,10 @@ public class EntrainerFXResizer {
 	public void setSize(Rectangle2D size) {
 		this.size = size;
 	}
+	
+	public Rectangle2D getSize() {
+		return size;
+	}
 
 	public interface ResizerListener {
 		void resize(Rectangle2D size);

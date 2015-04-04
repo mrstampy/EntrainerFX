@@ -51,6 +51,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import net.sourceforge.entrainer.Version;
 import net.sourceforge.entrainer.guitools.GuiUtil;
@@ -85,6 +86,10 @@ public class EntrainerFXSplash extends Application implements Version {
 				}
 			}
 		});
+	}
+	
+	public void onClose(EventHandler<WindowEvent> handler) {
+		stage.setOnHiding(handler);
 	}
 
 	/**
@@ -202,7 +207,7 @@ public class EntrainerFXSplash extends Application implements Version {
 	}
 
 	private Transition getFadeIn() {
-		FadeTransition ft = new FadeTransition(Duration.seconds(6), stack);
+		FadeTransition ft = new FadeTransition(Duration.seconds(1), stack);
 
 		ft.setFromValue(0);
 		ft.setToValue(1);
@@ -239,7 +244,7 @@ public class EntrainerFXSplash extends Application implements Version {
 	}
 
 	private Transition getScaling() {
-		ScaleTransition st = new ScaleTransition(Duration.seconds(10), splash);
+		ScaleTransition st = new ScaleTransition(Duration.seconds(5), splash);
 
 		st.setByX(0.75);
 		st.setByY(0.75);

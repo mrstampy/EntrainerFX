@@ -51,7 +51,7 @@ public class JFXUtils {
 	private static ColorAdjust defaultColourAdjust = new ColorAdjust();
 
 	/** The flash svc. */
-	public static ExecutorService FLASH_SVC = Executors.newCachedThreadPool();
+	private static ExecutorService FLASH_SVC = Executors.newCachedThreadPool();
 
 	/**
 	 * Sets the effect.
@@ -62,29 +62,32 @@ public class JFXUtils {
 	 *          the effect
 	 */
 	public static void setEffect(Node node, CurrentEffect effect) {
-		runLater(() -> setEffectImpl(node, effect));
+		FLASH_SVC.execute(() -> setEffectImpl(node, effect));
 	}
 
 	private static void setEffectImpl(Node node, CurrentEffect effect) {
+		CacheHint orig = node.getCacheHint();
+		boolean isSpeed = orig == CacheHint.SPEED;
+
+		if (!isSpeed) node.setCacheHint(CacheHint.SPEED);
+
+		runLater(() -> setEffectInNode(node, effect, isSpeed, orig));
+		setOpacity(node, effect);
+	}
+
+	private static void setEffectInNode(Node node, CurrentEffect effect, boolean isSpeed, CacheHint orig) {
 		try {
-			CacheHint orig = node.getCacheHint();
-			boolean isSpeed = orig == CacheHint.SPEED;
-
-			if (!isSpeed) node.setCacheHint(CacheHint.SPEED);
-
 			node.effectProperty().addListener(new ChangeListener<Effect>() {
-
+				
 				@Override
 				public void changed(ObservableValue<? extends Effect> observable, Effect oldValue, Effect newValue) {
 					if (!isSpeed) node.setCacheHint(orig);
 					node.effectProperty().removeListener(this);
 				}
 			});
-
-			setOpacity(node, effect);
 			node.setEffect(effect.getEffect());
 		} catch (Exception e) {
-			log.error("Unexpected exception", e);
+			log.error("Unexpected exception ", e);
 		}
 	}
 
