@@ -59,6 +59,10 @@ public interface EntrainerResources {
 	public static final String EFX_CSS_DIR = EFX_CONFIG_DIR + "css";
 	
 	public static final String EFX_USER_HOME_CSS_DIR = EFX_USER_HOME + "css";
+	
+	public static final String EFX_RECORDING_DIR = EFX_CONFIG_DIR + "wav";
+	
+	public static final String EFX_USER_HOME_RECORDING_DIR = EFX_USER_HOME + "wav";
 
 	/** The Constant EFX_SETTINGS_DIR. */
 	public static final String EFX_SETTINGS_DIR = EFX_CONFIG_DIR;

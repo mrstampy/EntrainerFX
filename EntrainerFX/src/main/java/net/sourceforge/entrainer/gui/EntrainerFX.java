@@ -64,6 +64,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
@@ -84,7 +85,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.filechooser.FileFilter;
 
 import net.sourceforge.entrainer.JavaVersionChecker;
 import net.sourceforge.entrainer.esp.EspConnectionRegister;
@@ -1172,10 +1172,10 @@ public class EntrainerFX extends Application {
 	}
 
 	private void wireButtons() {
-		soundControlPane.getPlay().addEventHandler(javafx.event.ActionEvent.ACTION, e -> playPressed());
-		soundControlPane.getStop().addEventHandler(javafx.event.ActionEvent.ACTION, e -> stopPressed());
-		soundControlPane.getPause().addEventHandler(javafx.event.ActionEvent.ACTION, e -> pausePressed());
-		soundControlPane.getRecord().addEventHandler(javafx.event.ActionEvent.ACTION, e -> recordClicked());
+		soundControlPane.getPlay().setOnAction(e -> playPressed());
+		soundControlPane.getStop().setOnAction(e -> stopPressed());
+		soundControlPane.getPause().setOnAction(e -> pausePressed());
+		soundControlPane.getRecord().setOnAction(e -> recordClicked());
 	}
 
 	private void recordClicked() {
@@ -1201,19 +1201,37 @@ public class EntrainerFX extends Application {
 	}
 
 	private boolean showWavFileChooser() {
-		JFileChooser wavChooser = getWavFileChooser();
+		TextInputDialog in = new TextInputDialog("EntrainerFX-recording.wav");
 
-		int val = wavChooser.showDialog(null, "Ok");
-		if (val == JFileChooser.APPROVE_OPTION) {
-			File wavFile = processFile(wavChooser.getSelectedFile());
-			if (!isValidFile(wavFile)) {
-				JOptionPane.showMessageDialog(null,
-						wavFile.getName() + " is not a valid WAV file name\n(it must end with a '.wav' extension)",
-						"Invalid WAV File Name",
-						JOptionPane.WARNING_MESSAGE);
+		in.setTitle("EntrainerFX Recording File Name");
+		in.setHeaderText("Enter the name of the recording output file");
+
+		Optional<String> name = in.showAndWait();
+
+		if (name.isPresent()) {
+			File f = processFile(new File(Utils.getRecordingDir().get(), name.get()));
+
+			if (f.exists()) {
+				Alert alert = new Alert(AlertType.CONFIRMATION, f.getAbsolutePath() + " already exists; overwrite?",
+						ButtonType.OK, ButtonType.CANCEL);
+				alert.setTitle("Recording File Exists");
+				Optional<ButtonType> button = alert.showAndWait();
+				if (!button.isPresent() || button.get() != ButtonType.OK) {
+					control.setWavFile(null);
+					return false;
+				}
+			}
+
+			if (!isValidFile(f)) {
+				Alert alert = new Alert(AlertType.ERROR, f.getName()
+						+ " is not a valid WAV file\n(It must end with a '.wav' extension')", ButtonType.OK);
+				alert.setTitle("Invalid Recording File");
+				alert.showAndWait();
+				control.setWavFile(null);
 				return false;
 			}
-			control.setWavFile(wavFile);
+
+			control.setWavFile(f);
 			return true;
 		}
 
@@ -1235,25 +1253,6 @@ public class EntrainerFX extends Application {
 
 	private boolean isValidFile(File f) {
 		return f.getName().indexOf(".wav") == f.getName().length() - 4;
-	}
-
-	private JFileChooser getWavFileChooser() {
-		JFileChooser wavChooser = new JFileChooser(new File(System.getProperty("user.dir") + "/wav"));
-		wavChooser.setDialogTitle("WAV File Chooser, select or enter WAV file for recording");
-
-		wavChooser.setFileFilter(new FileFilter() {
-			@Override
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().indexOf(".wav") > 0;
-			}
-
-			@Override
-			public String getDescription() {
-				return "WAV files";
-			}
-		});
-
-		return wavChooser;
 	}
 
 	private void stopPressed() {
@@ -1447,11 +1446,12 @@ public class EntrainerFX extends Application {
 
 		FileChooser fc = new FileChooser();
 		fc.setInitialDirectory(Utils.getEntrainerProgramDir().get());
+		fc.setSelectedExtensionFilter(new ExtensionFilter("EntrainerFX Programs", "xml"));
 		fc.setTitle("EntrainerFX Programs");
-		
+
 		File f = fc.showOpenDialog(stage);
 		if (f == null) return;
-		
+
 		try {
 			clearXmlFile();
 			readXmlFile(f.getAbsolutePath());

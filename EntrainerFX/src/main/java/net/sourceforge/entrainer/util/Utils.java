@@ -138,6 +138,10 @@ public class Utils implements EntrainerResources {
 		return getFile(EFX_PROGRAM_DIR, EFX_USER_HOME_PROGRAM_DIR);
 	}
 	
+	public static Optional<File> getRecordingDir() {
+		return getFile(EFX_RECORDING_DIR, EFX_USER_HOME_RECORDING_DIR);
+	}
+	
 	public static void openLocalDocumentation() {
 		Optional<File> index = getLocalDocPage();
 		
