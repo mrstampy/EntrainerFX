@@ -1482,6 +1482,7 @@ public class EntrainerFX extends Application {
 
 		stage.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> resizer.onDrag(e));
 		stage.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> resizer.onRelease(e));
+		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> resizer.onClick(e));
 
 		displayComponents();
 

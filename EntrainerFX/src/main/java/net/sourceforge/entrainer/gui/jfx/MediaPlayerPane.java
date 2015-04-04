@@ -432,7 +432,7 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		Label trackPos = createLabel("Track Position");
 		Label vol = createLabel("Media Volume");
 		Label entStr = createLabel("Entrainment Strength");
-		
+
 		trackPosition.setId(trackPos.getText());
 		amplitude.setId(vol.getText());
 		strength.setId(entStr.getText());
@@ -592,11 +592,14 @@ public class MediaPlayerPane extends AbstractTitledPane {
 			resizeMediaView();
 		}
 
+		JFXUtils.runLater(() -> adjustTime(d));
+	}
+
+	private void adjustTime(double d) {
 		internalTimeRemaining.set(true);
 		trackPosition.adjustValue(d);
+		timeRemaining.setText(formatTimeRemaining(d));
 		internalTimeRemaining.set(false);
-
-		JFXUtils.runLater(() -> timeRemaining.setText(formatTimeRemaining(d)));
 	}
 
 	private void resizeMediaView() {

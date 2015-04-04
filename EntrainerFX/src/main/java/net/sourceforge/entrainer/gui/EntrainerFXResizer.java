@@ -1,5 +1,9 @@
 package net.sourceforge.entrainer.gui;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -11,27 +15,38 @@ public class EntrainerFXResizer {
 	private ResizerListener listener;
 	private Rectangle2D size;
 
-	private boolean dragStarting;
+	private boolean dragStarted;
 	private boolean resize;
 
 	private Lock lock = new ReentrantLock();
 
 	private double screenX;
 	private double screenY;
+	
+	private ScheduledExecutorService svc = Executors.newSingleThreadScheduledExecutor();
+	private boolean clicked;
+	private Future<?> future;
 
 	public EntrainerFXResizer(ResizerListener listener) {
 		this.listener = listener;
 	}
 
 	public void onRelease(MouseEvent e) {
-		dragStarting = false;
+		dragStarted = false;
 		resize = false;
+	}
+	
+	public void onClick(MouseEvent e) {
+		clicked = true;
+		if(future != null) future.cancel(true);
+		
+		future = svc.schedule(() -> clicked = false, 500, TimeUnit.MILLISECONDS);
 	}
 
 	public void onDrag(MouseEvent e) {
 		lock.lock();
 		try {
-			if (dragStarting) {
+			if (dragStarted) {
 				doDrag(e);
 			} else {
 				initDrag(e);
@@ -52,8 +67,10 @@ public class EntrainerFXResizer {
 	}
 
 	private void initDrag(MouseEvent e) {
-		resize = e.isMetaDown();
-		dragStarting = true;
+		if(future != null) future.cancel(true);
+		resize = clicked;
+		dragStarted = true;
+		clicked = false;
 	}
 
 	private void reposition(MouseEvent e) {
