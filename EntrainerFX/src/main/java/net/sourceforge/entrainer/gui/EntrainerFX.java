@@ -59,8 +59,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -150,7 +148,6 @@ import com.github.mrstampy.esp.multiconnectionsocket.ConnectionEventListener;
 import com.github.mrstampy.esp.multiconnectionsocket.EspChannel;
 import com.github.mrstampy.esp.multiconnectionsocket.MultiConnectionSocketException;
 import com.github.mrstampy.esplab.EspPowerLabWindow;
-import com.sun.javafx.scene.control.behavior.OptionalBoolean;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -1365,11 +1362,11 @@ public class EntrainerFX extends Application {
 
 	private void exitPressed() {
 		stopPressed();
-		
+
 		Alert alert = new Alert(AlertType.CONFIRMATION, "Exiting: Confirm?", ButtonType.OK, ButtonType.CANCEL);
 		alert.setTitle("Exiting EntrainerFX");
 		alert.setHeaderText("Confirm exit");
-		
+
 		Optional<ButtonType> button = alert.showAndWait();
 		if (button.isPresent() && button.get() == ButtonType.OK) {
 			control.exit();
@@ -1447,22 +1444,21 @@ public class EntrainerFX extends Application {
 	private void loadXml() {
 		settings.setPreserveState(true);
 		intervalMenu.removeAllIntervals();
-		JFileChooser chooser = XmlEditor.getXmlFileChooser();
 
-		int val = chooser.showOpenDialog(null);
-		if (val == JFileChooser.APPROVE_OPTION) {
-			File f = chooser.getSelectedFile();
-
-			if (f != null) {
-				try {
-					clearXmlFile();
-					readXmlFile(f.getAbsolutePath());
-					soundControlPane.setPlayingEntrainerProgram(true);
-				} catch (Exception e) {
-					GuiUtil.handleProblem(e);
-					soundControlPane.setPlayingEntrainerProgram(false);
-				}
-			}
+		FileChooser fc = new FileChooser();
+		fc.setInitialDirectory(Utils.getEntrainerProgramDir().get());
+		fc.setTitle("EntrainerFX Programs");
+		
+		File f = fc.showOpenDialog(stage);
+		if (f == null) return;
+		
+		try {
+			clearXmlFile();
+			readXmlFile(f.getAbsolutePath());
+			soundControlPane.setPlayingEntrainerProgram(true);
+		} catch (Exception e) {
+			GuiUtil.handleProblem(e);
+			soundControlPane.setPlayingEntrainerProgram(false);
 		}
 	}
 
