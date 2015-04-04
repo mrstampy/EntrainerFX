@@ -282,7 +282,6 @@ public class EntrainerFX extends Application {
 	private void displayComponents() {
 		gp.setVisible(true);
 
-		scaleSize();
 		JFXUtils.runLater(() -> initAnimationWindow());
 		SwingUtilities.invokeLater(new Runnable() {
 
@@ -294,14 +293,11 @@ public class EntrainerFX extends Application {
 				setMessage("Started Entrainer");
 			}
 		});
-
-		JFXUtils.runLater(() -> setShimmerSizes(resizer.getSize()));
 	}
 
 	private void initAnimationWindow() {
 		animationWindow = new JFXAnimationWindow();
 		animationWindow.initGui();
-		SwingUtilities.invokeLater(() -> initSettings());
 	}
 
 	private void setShimmerSizes(Rectangle2D size) {
@@ -316,6 +312,7 @@ public class EntrainerFX extends Application {
 		int height = MIN_HEIGHT > screen.getHeight() ? (int) (screen.getHeight() - 50) : MIN_HEIGHT;
 
 		gp.setPrefHeight(height);
+		stage.setHeight(height);
 
 		Rectangle2D r = new Rectangle2D(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight());
 		resizer.setSize(r);
@@ -1612,9 +1609,11 @@ public class EntrainerFX extends Application {
 	}
 
 	private void show() {
+		scaleSize();
 		stage.centerOnScreen();
 		stage.setOpacity(0);
 		stage.show();
+		setShimmerSizes(resizer.getSize());
 		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(stage.opacityProperty(), 1)));
 		tl.play();
 	}
