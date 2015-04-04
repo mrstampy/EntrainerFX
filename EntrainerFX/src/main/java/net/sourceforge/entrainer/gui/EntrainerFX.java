@@ -47,7 +47,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
@@ -64,6 +63,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseEvent;
@@ -77,9 +77,6 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import net.sourceforge.entrainer.JavaVersionChecker;
 import net.sourceforge.entrainer.esp.EspConnectionRegister;
@@ -279,16 +276,10 @@ public class EntrainerFX extends Application {
 		gp.setVisible(true);
 
 		JFXUtils.runLater(() -> initAnimationWindow());
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				initSocket();
-				initSettings();
-				addSystemTrayIcon();
-				setMessage("Started Entrainer");
-			}
-		});
+		initSocket();
+		initSettings();
+		addSystemTrayIcon();
+		setMessage("Started Entrainer");
 	}
 
 	private void initAnimationWindow() {
@@ -857,14 +848,10 @@ public class EntrainerFX extends Application {
 
 	private boolean connectionCheck() {
 		if (lab.getConnection() == null) {
-			if (Platform.isFxApplicationThread()) {
-				Dialogs.create().title("No ESP Device Selected").message("Choose an ESP device first").showWarning();
-			} else {
-				JOptionPane.showMessageDialog(null,
-						"Choose an ESP device first",
-						"No ESP Device Selected",
-						JOptionPane.ERROR_MESSAGE);
-			}
+			Alert alert = new Alert(AlertType.WARNING, "Choose an ESP device first", ButtonType.OK);
+			alert.setHeaderText("No ESP Device Selected");
+			alert.setTitle("No ESP Device Selected");
+			alert.showAndWait();
 			return false;
 		}
 
@@ -986,10 +973,10 @@ public class EntrainerFX extends Application {
 			GuiUtil.handleProblem(e);
 			connect.setSelected(false);
 		} catch (InvalidPortNumberException e) {
-			JOptionPane.showMessageDialog(null,
-					"The port number " + e.getPort() + " is not valid",
-					"Invalid Port Number",
-					JOptionPane.ERROR_MESSAGE);
+			Alert alert = new Alert(AlertType.ERROR, "The port number " + e.getPort() + " is not valid", ButtonType.OK);
+			alert.setHeaderText("Invalid Port Number");
+			alert.setTitle("Invalid Port Number");
+			alert.showAndWait();
 			connect.setSelected(false);
 		}
 	}
@@ -1002,20 +989,16 @@ public class EntrainerFX extends Application {
 		}
 	}
 
-	private String getPackName(File pack) {
-		String name = pack.getName();
-
-		name = name.substring(0, name.indexOf("themepack.zip"));
-
-		return name;
-	}
-
 	private void editXml() {
-		JFileChooser xmlChooser = XmlEditor.getXmlFileChooser();
-		int val = xmlChooser.showOpenDialog(null);
-		if (val == JFileChooser.APPROVE_OPTION) {
-			showXmlEditor(xmlChooser.getSelectedFile());
-		}
+		FileChooser fc = new FileChooser();
+		fc.setInitialDirectory(Utils.getEntrainerProgramDir().get());
+		fc.setSelectedExtensionFilter(new ExtensionFilter("EntrainerFX Programs", "xml"));
+		fc.setTitle("EntrainerFX Programs");
+
+		File f = fc.showOpenDialog(stage);
+		if (f == null) return;
+
+		showXmlEditor(f);
 	}
 
 	private void showXmlEditor(File f) {
@@ -1136,14 +1119,8 @@ public class EntrainerFX extends Application {
 
 	private void stopPressed() {
 		if (isPaused()) return;
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				setMessage(control.isRecord() ? "Recording Stopped" : "Stopped");
-				stopImpl();
-			}
-		});
+		setMessage(control.isRecord() ? "Recording Stopped" : "Stopped");
+		stopImpl();
 	}
 
 	private boolean isPaused() {
@@ -1151,20 +1128,14 @@ public class EntrainerFX extends Application {
 	}
 
 	private void playPressed() {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				if (animations.getRunAnimation().isSelected()) {
-					startAnimation();
-				}
-				start();
-				if (!animations.getRunAnimation().isSelected()) {
-					setMessage(control.isRecord() ? "Recording Started" : "Entrainment Started");
-				}
-			}
-		});
-
+		if (animations.getRunAnimation().isSelected()) startAnimation();
+		
+		start();
+		
+		if (!animations.getRunAnimation().isSelected()) {
+			setMessage(control.isRecord() ? "Recording Started" : "Entrainment Started");
+		}
+		
 		if (enableMediaEntrainment) fireReceiverChangeEvent(true, MediatorConstants.MEDIA_PLAY);
 	}
 
@@ -1239,8 +1210,8 @@ public class EntrainerFX extends Application {
 	}
 
 	private void exitPressed() {
-		if(exiting) return;
-		
+		if (exiting) return;
+
 		exiting = true;
 		stopPressed();
 
@@ -1437,6 +1408,7 @@ public class EntrainerFX extends Application {
 
 		stage.initOwner(primaryStage);
 		primaryStage.setTitle("EntrainerFX");
+		stage.setTitle("EntrainerFX");
 
 		stage.setScene(scene);
 
@@ -1483,6 +1455,11 @@ public class EntrainerFX extends Application {
 		stage.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> resizer.onDrag(e));
 		stage.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> resizer.onRelease(e));
 		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> resizer.onClick(e));
+		
+		Image brainz = new Image(getClass().getResourceAsStream("/Brain.png"));
+		
+		stage.getIcons().add(brainz);
+		primaryStage.getIcons().add(brainz);
 
 		displayComponents();
 
