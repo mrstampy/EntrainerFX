@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -54,7 +55,12 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -130,9 +136,7 @@ import net.sourceforge.entrainer.xml.SleeperManagerEvent;
 import net.sourceforge.entrainer.xml.SleeperManagerListener;
 
 import org.controlsfx.dialog.Dialogs;
-import org.pushingpixels.trident.Timeline.TimelineState;
 import org.pushingpixels.trident.TridentConfig;
-import org.pushingpixels.trident.callback.TimelineCallbackAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -146,6 +150,7 @@ import com.github.mrstampy.esp.multiconnectionsocket.ConnectionEventListener;
 import com.github.mrstampy.esp.multiconnectionsocket.EspChannel;
 import com.github.mrstampy.esp.multiconnectionsocket.MultiConnectionSocketException;
 import com.github.mrstampy.esplab.EspPowerLabWindow;
+import com.sun.javafx.scene.control.behavior.OptionalBoolean;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -394,7 +399,7 @@ public class EntrainerFX extends Application {
 		pop.add(stop);
 
 		java.awt.MenuItem exit = new java.awt.MenuItem("Exit");
-		exit.addActionListener(e -> exitPressed());
+		exit.addActionListener(e -> JFXUtils.runLater(() -> exitPressed()));
 
 		pop.add(exit);
 
@@ -1360,10 +1365,13 @@ public class EntrainerFX extends Application {
 
 	private void exitPressed() {
 		stopPressed();
-		int option = JOptionPane.showConfirmDialog(null, "Exiting: Confirm?", "Exit Entrainer", JOptionPane.YES_NO_OPTION);
-		if (option == JOptionPane.YES_OPTION) {
-			new NotificationWindow("Exiting Entrainer", null);
-
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Exiting: Confirm?", ButtonType.OK, ButtonType.CANCEL);
+		alert.setTitle("Exiting EntrainerFX");
+		alert.setHeaderText("Confirm exit");
+		
+		Optional<ButtonType> button = alert.showAndWait();
+		if (button.isPresent() && button.get() == ButtonType.OK) {
 			control.exit();
 
 			JFXUtils.runLater(() -> shutdownAnimations());
@@ -1377,17 +1385,9 @@ public class EntrainerFX extends Application {
 	}
 
 	private void exitApplication() {
-		TimelineCallbackAdapter tca = new TimelineCallbackAdapter() {
-
-			public void onTimelineStateChanged(TimelineState oldState, TimelineState newState, float durationFraction,
-					float timelinePosition) {
-				if (TimelineState.DONE == newState || TimelineState.CANCELLED == newState) {
-					System.exit(0);
-				}
-			}
-		};
-
-		GuiUtil.fadeOut(null, 5000, tca);
+		Timeline tl = new Timeline(new KeyFrame(Duration.millis(1500), new KeyValue(stage.opacityProperty(), 0)));
+		tl.setOnFinished(e -> System.exit(0));
+		tl.play();
 	}
 
 	private void start() {
