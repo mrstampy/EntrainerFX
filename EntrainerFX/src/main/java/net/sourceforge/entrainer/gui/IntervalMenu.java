@@ -47,14 +47,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
-
-import javax.swing.JOptionPane;
-
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
@@ -256,7 +257,7 @@ public class IntervalMenu extends Menu {
 	}
 
 	private void showCustomDialog() {
-		final CustomInterval ci = new CustomInterval((Frame)null, this);
+		final CustomInterval ci = new CustomInterval((Frame) null, this);
 
 		ci.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
@@ -402,11 +403,12 @@ public class IntervalMenu extends Menu {
 	}
 
 	private void deleteItem(MenuItem item) {
-		int choice = JOptionPane.showConfirmDialog(null,
-				"Deleting " + item.getText() + ". Continue?",
-				"Delete Interval",
-				JOptionPane.OK_CANCEL_OPTION);
-		if (choice == JOptionPane.OK_OPTION) {
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Deleting " + item.getText() + ". Continue?", ButtonType.OK,
+				ButtonType.CANCEL);
+		alert.setTitle("Delete Interval");
+
+		Optional<ButtonType> button = alert.showAndWait();
+		if (button.isPresent() && button.get() == ButtonType.OK) {
 			deleteItem(add, item.getText());
 			deleteItem(remove, item.getText());
 			delete.getItems().remove(item);
