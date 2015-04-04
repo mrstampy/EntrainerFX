@@ -640,7 +640,7 @@ public class EntrainerFX extends Application {
 	}
 
 	private void addMnemonic(MenuItem item, KeyCode code) {
-		item.setAccelerator(new KeyCodeCombination(code, KeyCodeCombination.CONTROL_DOWN));
+		item.setAccelerator(new KeyCodeCombination(code, KeyCodeCombination.META_DOWN));
 	}
 
 	private MenuItem getAboutItem() {
