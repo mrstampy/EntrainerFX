@@ -1246,7 +1246,7 @@ public class EntrainerFX extends Application {
 
 		Alert alert = new Alert(AlertType.CONFIRMATION, "Exiting: Confirm?", ButtonType.OK, ButtonType.CANCEL);
 		alert.setTitle("Exiting EntrainerFX");
-		alert.setHeaderText("Confirm exit");
+		alert.setHeaderText("Exit Confirmation");
 
 		Optional<ButtonType> button = alert.showAndWait();
 		if (button.isPresent() && button.get() == ButtonType.OK) {
