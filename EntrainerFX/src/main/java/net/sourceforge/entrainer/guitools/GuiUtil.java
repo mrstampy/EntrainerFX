@@ -37,7 +37,6 @@ package net.sourceforge.entrainer.guitools;
  * 
  */
 
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
@@ -54,7 +53,6 @@ import java.awt.image.BufferedImage;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.CountDownLatch;
 
@@ -66,10 +64,8 @@ import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
-import net.sourceforge.entrainer.gui.laf.LAFRegister;
 import net.sourceforge.entrainer.util.Utils;
 
 import org.pushingpixels.trident.Timeline;
@@ -236,13 +232,13 @@ public class GuiUtil {
 		e.printStackTrace();
 
 		final String msg = e.getMessage();
-		
+
 		logger.error(msg, e);
 
 		CountDownLatch cdl = useLatch ? new CountDownLatch(1) : null;
 		JFXUtils.runLater(() -> showAlert(msg, cdl));
-		
-		if(useLatch) try {
+
+		if (useLatch) try {
 			cdl.await();
 		} catch (InterruptedException e1) {
 			logger.error("Unexpected exception", e1);
@@ -250,12 +246,12 @@ public class GuiUtil {
 	}
 
 	private static void showAlert(String msg, CountDownLatch cdl) {
-		if(msg == null || msg.equals("null") || msg.isEmpty()) msg = "An unknown error has occurred";
-		
+		if (msg == null || msg.equals("null") || msg.isEmpty()) msg = "An unknown error has occurred";
+
 		Alert alert = new Alert(AlertType.ERROR, msg, ButtonType.OK);
 		alert.setHeaderText("Please see the ~/EntrainerFX-Settings/entrainer.log file for details");
 		alert.setTitle("Unexpected Exception");
-		if(cdl == null) {
+		if (cdl == null) {
 			alert.show();
 		} else {
 			alert.showAndWait();
@@ -321,49 +317,6 @@ public class GuiUtil {
 		button.setBorderPainted(false);
 		button.setContentAreaFilled(false);
 		button.setToolTipText(toolTip);
-	}
-
-	/**
-	 * Change look and feel.
-	 *
-	 * @param className
-	 *          the class name
-	 * @param themePackName
-	 *          the theme pack name
-	 * @param components
-	 *          the components
-	 */
-	public static void changeLookAndFeel(String className, String themePackName, Component... components) {
-		try {
-			LAFRegister.setLookAndFeel(className, themePackName, components);
-		} catch (Exception e) {
-			e.printStackTrace();
-			try {
-				LAFRegister.setLookAndFeel(UIManager.getSystemLookAndFeelClassName(), components);
-			} catch (Exception f) {
-				GuiUtil.handleProblem(f);
-				System.exit(-1);
-			}
-		}
-
-		System.gc();
-	}
-
-	/**
-	 * Load all lafs.
-	 *
-	 * @throws URISyntaxException
-	 *           the URI syntax exception
-	 * @throws InstantiationException
-	 *           the instantiation exception
-	 * @throws IllegalAccessException
-	 *           the illegal access exception
-	 * @throws ClassNotFoundException
-	 *           the class not found exception
-	 */
-	public static void loadAllLafs() throws URISyntaxException, InstantiationException, IllegalAccessException,
-			ClassNotFoundException {
-		LAFRegister.loadAllLafs();
 	}
 
 	/**

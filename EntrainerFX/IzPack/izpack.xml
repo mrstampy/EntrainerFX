@@ -105,23 +105,6 @@
 				<include name="SchumannPerfected.xml" />
 				<include name="Sleepy3.xml" />
 			</fileset>
-			
-			<fileset dir="lafs" targetdir="$INSTALL_PATH/lafs">
-				<include name="kunststoff.jar" />
-				<include name="napkinlaf-1.2.jar" />
-				<include name="skinlf.jar" />
-				<include name="substance-7.3.jar" />
-				<include name="laf-plugin-7.3.jar" />
-				<include name="laf-widget-7.3.jar" />
-				<include name="JTattoo-1.6.11.jar" />
-	
-				<include name="LICENSE.skinlf" />
-				<include name="napkin-licence.html" />
-				<include name="kunststoff_Licence.txt" />
-				<include name="JTattoo.licence.txt" />
-			</fileset>
-
-			<fileset dir="lafs/skins" targetdir="$INSTALL_PATH/lafs/skins" />
 
 			<file src="animation/JFXHypnoAnimation-${EFX_VERSION}.jar" targetdir="$USER_HOME/EntrainerFX-Settings/animation" />
 

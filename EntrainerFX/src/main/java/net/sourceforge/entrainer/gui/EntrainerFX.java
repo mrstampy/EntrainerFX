@@ -22,7 +22,6 @@ import static net.sourceforge.entrainer.gui.EntrainerConstants.ABOUT_ENTRAINER_M
 import static net.sourceforge.entrainer.gui.EntrainerConstants.FILE_MENU_NAME;
 import static net.sourceforge.entrainer.gui.EntrainerConstants.HELP_MENU_NAME;
 import static net.sourceforge.entrainer.gui.EntrainerConstants.NEW_XML_PROGRAM_MENU_NAME;
-import static net.sourceforge.entrainer.gui.laf.LAFConstants.SKINNABLE_LAF_CLASS_NAME;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.MESSAGE;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.START_ENTRAINMENT;
 import static net.sourceforge.entrainer.util.Utils.openBrowser;
@@ -40,9 +39,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javafx.animation.FadeTransition;
@@ -83,8 +80,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 import net.sourceforge.entrainer.JavaVersionChecker;
 import net.sourceforge.entrainer.esp.EspConnectionRegister;
@@ -534,8 +529,6 @@ public class EntrainerFX extends Application {
 		menu.getItems().add(getExitItem());
 		bar.getMenus().add(menu);
 
-		bar.getMenus().add(getLookAndFeels());
-
 		bar.getMenus().add(intervalMenu);
 
 		bar.getMenus().add(getEspMenu());
@@ -675,118 +668,6 @@ public class EntrainerFX extends Application {
 		startItem.setOnAction(e -> soundControlPane.getPlay().fire());
 
 		return startItem;
-	}
-
-	private Menu getLookAndFeels() {
-		Menu menu = new Menu("Look and Feel");
-		addMnemonic(menu, KeyCode.K);
-		LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
-		Map<String, List<LookAndFeelInfo>> sortedInfos = sortInfos(infos);
-		for (String key : sortedInfos.keySet()) {
-			List<LookAndFeelInfo> sorted = sortedInfos.get(key);
-			Menu lafMenu = new Menu(key);
-			for (LookAndFeelInfo info : sorted) {
-				MenuItem item = addLookAndFeel(info);
-				lafMenu.getItems().add(item);
-			}
-			if (!sorted.isEmpty()) {
-				menu.getItems().add(lafMenu);
-			}
-		}
-
-		return menu;
-	}
-
-	private Map<String, List<LookAndFeelInfo>> sortInfos(LookAndFeelInfo[] infos) {
-		Map<String, List<LookAndFeelInfo>> sorted = new LinkedHashMap<String, List<LookAndFeelInfo>>();
-
-		String[] known = { "substance", "jgoodies", "jtattoo" };
-
-		sorted.put("Substance", getLAFInfo("substance", infos));
-		sorted.put("JGoodies", getLAFInfo("jgoodies", infos));
-		sorted.put("JTattoo", getLAFInfo("jtattoo", infos));
-		sorted.put("Other", getOtherLAFInfo(known, infos));
-
-		return sorted;
-	}
-
-	private List<LookAndFeelInfo> getOtherLAFInfo(String[] known, LookAndFeelInfo[] infos) {
-		List<LookAndFeelInfo> list = new ArrayList<LookAndFeelInfo>();
-
-		for (LookAndFeelInfo info : infos) {
-			if (!isKnownLAFInfo(info, known)) {
-				list.add(info);
-			}
-		}
-
-		return list;
-	}
-
-	private boolean isKnownLAFInfo(LookAndFeelInfo info, String[] known) {
-		for (String s : known) {
-			if (info.getClassName().contains(s)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private List<LookAndFeelInfo> getLAFInfo(String name, LookAndFeelInfo[] infos) {
-		List<LookAndFeelInfo> list = new ArrayList<LookAndFeelInfo>();
-
-		for (LookAndFeelInfo info : infos) {
-			if (info.getClassName().contains(name)) {
-				list.add(info);
-			}
-		}
-
-		return list;
-	}
-
-	private MenuItem addLookAndFeel(final LookAndFeelInfo info) {
-		if (info.getClassName().equals(SKINNABLE_LAF_CLASS_NAME)) {
-			return getSkinnableLookAndFeelMenu(info);
-		}
-
-		MenuItem item = new MenuItem(info.getName());
-		item.setOnAction(e -> changeLookAndFeel(info.getClassName(), null));
-
-		return item;
-	}
-
-	private Menu getSkinnableLookAndFeelMenu(LookAndFeelInfo info) {
-		Menu menu = new Menu(info.getName());
-
-		File themePacks = new File("lafs/skins");
-		File[] packs = themePacks.listFiles(new java.io.FileFilter() {
-			public boolean accept(File pathname) {
-				return pathname.isFile() && pathname.getName().toLowerCase().endsWith(".zip");
-			}
-		});
-
-		for (int i = 0; i < packs.length; i++) {
-			menu.getItems().add(getThemePackItem(info, packs[i]));
-		}
-
-		return menu;
-	}
-
-	private MenuItem getThemePackItem(final LookAndFeelInfo info, final File pack) {
-		MenuItem item = new MenuItem(getPackName(pack));
-
-		item.setOnAction(e -> changeLookAndFeel(info.getClassName(), pack.getAbsolutePath()));
-
-		return item;
-	}
-
-	private void changeLookAndFeel(String className, String themePack) {
-		// GuiUtil.changeLookAndFeel(className, themePack, this);
-		// fireReceiverChangeEvent(className, MediatorConstants.LOOK_AND_FEEL);
-		// fireReceiverChangeEvent(themePack, MediatorConstants.THEME_PACK);
-	}
-
-	private void fireReceiverChangeEvent(String value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
 	}
 
 	private Menu getSocketMenu() {
