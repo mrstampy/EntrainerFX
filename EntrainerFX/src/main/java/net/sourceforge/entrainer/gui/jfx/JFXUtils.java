@@ -20,8 +20,6 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import java.io.File;
 import java.net.URI;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,7 +41,7 @@ import net.sourceforge.entrainer.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sun.javafx.tk.Toolkit;
+import com.sun.glass.ui.Application;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -72,7 +70,7 @@ public class JFXUtils {
 		if (!isSpeed) node.setCacheHint(CacheHint.SPEED);
 
 		runLater(() -> setEffectInNode(node, effect, isSpeed, orig));
-		setOpacity(node, effect);
+		FLASH_SVC.execute(() -> setOpacity(node, effect));
 	}
 
 	private static void setEffectInNode(Node node, CurrentEffect effect, boolean isSpeed, CacheHint orig) {
@@ -175,20 +173,8 @@ public class JFXUtils {
 		if (Platform.isFxApplicationThread()) {
 			runNow(run);
 		} else {
-			FLASH_SVC.execute(() -> jfxHack(run));
+			Application.invokeLater(() -> runNow(run));
 		}
-	}
-
-	// Puts the runnable on the JFX app thread w/o
-	// the overhead of Platform.runLater, better performance
-	// wrt effect switching.
-	private static void jfxHack(Runnable run) {
-		Toolkit.getToolkit().defer(() -> {
-			AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
-				runNow(run);
-				return null;
-			}, AccessController.getContext());
-		});
 	}
 
 	private static void runNow(Runnable run) {

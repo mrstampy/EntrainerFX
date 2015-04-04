@@ -88,9 +88,6 @@ public class EntrainerBackground {
 	private AtomicReference<ImageView> old = new AtomicReference<>();
 	private AnchorPane pane = new AnchorPane();
 
-	private FadeTransition fadeIn = new FadeTransition();
-	private FadeTransition fadeOut = new FadeTransition();
-
 	private Image currentImage;
 
 	private int fadeTime = 5;
@@ -161,8 +158,7 @@ public class EntrainerBackground {
 		getPt().stop();
 		createCurrent();
 		setFadeInImage();
-		fadeIn();
-		fadeIn.play();
+		fadeIn().play();
 
 		switchPictures();
 		backgroundChanging.set(false);
@@ -229,13 +225,10 @@ public class EntrainerBackground {
 
 		setFadeInImage();
 
-		fadeOut();
-		fadeIn();
-
-		ParallelTransition pt = new ParallelTransition(fadeIn, fadeOut);
+		ParallelTransition pt = new ParallelTransition(fadeIn(), fadeOut());
 
 		pt.setOnFinished(e -> switchPictures());
-		
+
 		this.pt.set(pt);
 
 		JFXUtils.runLater(() -> pt.play());
@@ -243,7 +236,7 @@ public class EntrainerBackground {
 
 	private void createCurrent() {
 		ImageView current = new ImageView();
-		
+
 		current.setOpacity(0.01);
 		current.setSmooth(true);
 		current.setPreserveRatio(true);
@@ -251,7 +244,7 @@ public class EntrainerBackground {
 		current.setScaleY(1);
 		current.setCache(true);
 		current.setCacheHint(CacheHint.SPEED);
-		
+
 		setCurrent(current);
 	}
 
@@ -261,15 +254,21 @@ public class EntrainerBackground {
 	}
 
 	private void setFadeInImage() {
+		currentImage = getRandomImage();
+		JFXUtils.runLater(() -> scaleImage());
+	}
+
+	private Image getRandomImage() {
 		int idx = rand.nextInt(pictureNames.size());
 
 		try {
 			currentFile = pictureNames.get(idx);
-			currentImage = new Image(new FileInputStream(currentFile));
-			JFXUtils.runLater(() -> scaleImage());
+			return new Image(new FileInputStream(currentFile));
 		} catch (FileNotFoundException e) {
 			log.error("Unexpected exception for picture {}", pictureNames.get(idx), e);
 		}
+
+		return null;
 	}
 
 	private void scaleImage() {
@@ -287,21 +286,27 @@ public class EntrainerBackground {
 		JFXUtils.scale(getOld(), area);
 	}
 
-	private void fadeIn() {
+	private FadeTransition fadeIn() {
 		ImageView im = getCurrent();
-		fadeIn = new FadeTransition(Duration.seconds(getFadeTime()), im);
+		FadeTransition fadeIn = new FadeTransition(Duration.seconds(getFadeTime()), im);
+
 		fadeIn.setFromValue(im.getOpacity());
 		fadeIn.setToValue(1);
 		fadeIn.setInterpolator(Interpolator.LINEAR);
+
+		return fadeIn;
 	}
 
-	private void fadeOut() {
+	private FadeTransition fadeOut() {
 		ImageView im = getOld();
-		fadeOut = new FadeTransition(Duration.seconds(getFadeTime()), im);
+		FadeTransition fadeOut = new FadeTransition(Duration.seconds(getFadeTime()), im);
+
 		fadeOut.setFromValue(im.getOpacity());
 		fadeOut.setToValue(0.0);
 		fadeOut.setInterpolator(Interpolator.LINEAR);
 		fadeOut.setOnFinished(e -> pane.getChildren().remove(im));
+
+		return fadeOut;
 	}
 
 	private void initMediator() {
@@ -450,7 +455,7 @@ public class EntrainerBackground {
 
 		createCurrent();
 		scaleImage();
-		getCurrent().setOpacity(1);
+		fadeIn().play();
 
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, backgroundPic, MediatorConstants.BACKGROUND_PIC));
 	}
@@ -647,23 +652,23 @@ public class EntrainerBackground {
 	public void setHeight(double height) {
 		this.height = height;
 	}
-	
+
 	private ImageView getCurrent() {
 		return current.get();
 	}
-	
+
 	private ImageView getOld() {
 		return old.get();
 	}
-	
+
 	private void setCurrent(ImageView current) {
 		this.current.set(current);
 	}
-	
+
 	private void setOld(ImageView old) {
 		this.old.set(old);
 	}
-	
+
 	private ParallelTransition getPt() {
 		return pt.get();
 	}
