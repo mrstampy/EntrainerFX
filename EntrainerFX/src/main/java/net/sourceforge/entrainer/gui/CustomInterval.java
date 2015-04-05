@@ -65,7 +65,7 @@ public class CustomInterval extends DialogPane {
 	 * @return the numerator
 	 */
 	public int getNumerator() {
-		return (int) numerator.getTextFormatter().getValue();
+		return getValue(numerator);
 	}
 
 	/**
@@ -74,7 +74,11 @@ public class CustomInterval extends DialogPane {
 	 * @return the denominator
 	 */
 	public int getDenominator() {
-		return (int) denominator.getTextFormatter().getValue();
+		return getValue(denominator);
+	}
+	
+	private int getValue(TextField tf) {
+		return Integer.parseInt(tf.getText());
 	}
 
 	/**

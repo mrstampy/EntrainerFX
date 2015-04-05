@@ -18,10 +18,12 @@
  */
 package net.sourceforge.entrainer.gui.jfx;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 import javafx.animation.Animation;
-import javafx.animation.FillTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -33,8 +35,10 @@ import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.CacheHint;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Bloom;
@@ -46,7 +50,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -55,6 +58,7 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import net.sourceforge.entrainer.Version;
 import net.sourceforge.entrainer.guitools.GuiUtil;
+import net.sourceforge.entrainer.util.Utils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -116,11 +120,13 @@ public class EntrainerFXSplash extends Application implements Version {
 	 */
 	@Override
 	public void init() {
-		splash = new ImageView(new Image("/brain.jpg"));
+		splash = new ImageView(new Image("/Brain.png"));
 		Glow glow = new Glow(0.65);
 		glow.setInput(new DropShadow());
 		splash.setEffect(glow);
-		splash.setOpacity(0.6);
+		splash.setOpacity(0.4);
+		splash.setCache(true);
+		splash.setCacheHint(CacheHint.SPEED);
 
 		title = new Label("Entrainer FX");
 		title.setAlignment(Pos.CENTER);
@@ -177,20 +183,14 @@ public class EntrainerFXSplash extends Application implements Version {
 		initFill(splashScene);
 	}
 
-	private void initFill(Scene splashScene) {
-		Rectangle r = new Rectangle(0, 0, splashScene.getWidth(), splashScene.getHeight());
-		stack.getChildren().add(0, r);
-
-		final FillTransition filler = new FillTransition(Duration.seconds(1), r, createColor(), createColor());
-		filler.setOnFinished(e -> resetFill(filler));
-
-		filler.play();
-	}
-	
-	private void resetFill(FillTransition filler) {
-		filler.setFromValue(filler.getToValue());
-		filler.setToValue(createColor());
-		filler.play();
+	private void initFill(Scene splashScene) throws FileNotFoundException {
+		Image image = new Image(new FileInputStream(new File(Utils.getCssDir().get(), "fire2.gif")));
+		ImageView iv = new ImageView(image);
+		iv.setCache(true);
+		iv.setCacheHint(CacheHint.SPEED);
+		
+		JFXUtils.scale(iv, new Dimension2D(splashScene.getWidth(), splashScene.getHeight()));
+		stack.getChildren().add(0, iv);
 	}
 
 	private void initFade(final Stage initStage) {

@@ -95,6 +95,7 @@
 				<include name="solar-system-montage.jpg" />
 				<include name="spiral-galaxy.jpg" />
 				<include name="star-birth-clouds.jpg" />
+				<include name="fire2.gif" />
 			</fileset>
 			
 			<fileset dir="xml" targetdir="$USER_HOME/EntrainerFX-Settings/xml">
