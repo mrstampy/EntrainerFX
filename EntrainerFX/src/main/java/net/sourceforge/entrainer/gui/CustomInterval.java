@@ -18,26 +18,16 @@
  */
 package net.sourceforge.entrainer.gui;
 
-import static net.sourceforge.entrainer.gui.CustomIntervalConstants.CIC_DENOMINATOR_NAME;
-import static net.sourceforge.entrainer.gui.CustomIntervalConstants.CIC_DIALOG_NAME;
-import static net.sourceforge.entrainer.gui.CustomIntervalConstants.CIC_NUMERATOR_NAME;
-import static net.sourceforge.entrainer.gui.CustomIntervalConstants.CIC_OK_BUTTON;
-
-import java.awt.Container;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
-
-import net.sourceforge.entrainer.guitools.GuiUtil;
-import net.sourceforge.entrainer.guitools.MigHelper;
-import net.sourceforge.entrainer.widgets.IntegerTextField;
+import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.layout.HBox;
+import javafx.util.converter.IntegerStringConverter;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -47,14 +37,10 @@ import net.sourceforge.entrainer.widgets.IntegerTextField;
  * @author burton
  *
  */
-public class CustomInterval extends JDialog {
+public class CustomInterval extends DialogPane {
 
-	private static final long serialVersionUID = 1L;
-
-	private IntegerTextField numerator = new CustomIntegerTextField(5);
-	private IntegerTextField denominator = new IntegerTextField(5);
-
-	private JButton ok = new JButton(CIC_OK_BUTTON);
+	private TextField numerator = new TextField();
+	private TextField denominator = new TextField();
 
 	private boolean isOk;
 	private IntervalMenu menu;
@@ -67,22 +53,8 @@ public class CustomInterval extends JDialog {
 	 * @param menu
 	 *          the menu
 	 */
-	public CustomInterval(Frame arg0, IntervalMenu menu) {
-		super(arg0, CIC_DIALOG_NAME, true);
-		this.menu = menu;
-		init();
-	}
-
-	/**
-	 * Instantiates a new custom interval.
-	 *
-	 * @param arg0
-	 *          the arg0
-	 * @param menu
-	 *          the menu
-	 */
-	public CustomInterval(Dialog arg0, IntervalMenu menu) {
-		super(arg0, CIC_DIALOG_NAME, true);
+	public CustomInterval(IntervalMenu menu) {
+		super();
 		this.menu = menu;
 		init();
 	}
@@ -93,7 +65,7 @@ public class CustomInterval extends JDialog {
 	 * @return the numerator
 	 */
 	public int getNumerator() {
-		return (int) numerator.getNumber();
+		return (int) numerator.getTextFormatter().getValue();
 	}
 
 	/**
@@ -102,7 +74,7 @@ public class CustomInterval extends JDialog {
 	 * @return the denominator
 	 */
 	public int getDenominator() {
-		return (int) denominator.getNumber();
+		return (int) denominator.getTextFormatter().getValue();
 	}
 
 	/**
@@ -124,48 +96,30 @@ public class CustomInterval extends JDialog {
 	}
 
 	private void init() {
-		setResizable(false);
+		initFields();
 		initLayout();
-		addListeners();
-		numerator.setName(CIC_NUMERATOR_NAME);
-		denominator.setName(CIC_DENOMINATOR_NAME);
-		ok.setName(CIC_OK_BUTTON);
 	}
 
-	private void addListeners() {
-		ok.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				okPressed();
-			}
-		});
-
-		numerator.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				okPressed();
-			}
-		});
-
-		denominator.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				okPressed();
-			}
-		});
+	private void initFields() {
+		numerator.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
+		denominator.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
+		getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+		numerator.setMaxWidth(70);
+		denominator.setMaxWidth(70);
+		numerator.setAlignment(Pos.CENTER_RIGHT);
+		denominator.setAlignment(Pos.CENTER_RIGHT);
 	}
 
-	private void okPressed() {
-		if (validated()) {
-			isOk = true;
-			GuiUtil.fadeOutAndDispose(this, 500);
-		}
-	}
-
-	private boolean validated() {
+	public boolean validated() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(getNumeratorErrors());
 		builder.append(getDenominatorErrors());
 		builder.append(getEquivalentError());
 		if (builder.toString().length() > 0) {
-			JOptionPane.showMessageDialog(this, builder.toString(), "Errors", JOptionPane.ERROR_MESSAGE);
+			Alert alert = new Alert(AlertType.ERROR, builder.toString(), ButtonType.OK);
+			alert.setTitle("Errors");
+			alert.showAndWait();
+
 			return false;
 		}
 
@@ -181,7 +135,7 @@ public class CustomInterval extends JDialog {
 	}
 
 	private String getNumeratorErrors() {
-		if (numerator.getNumber() == 0) {
+		if (getNumerator() == 0) {
 			return "Numerator must not be = 0\n\n";
 		}
 
@@ -193,7 +147,7 @@ public class CustomInterval extends JDialog {
 	}
 
 	private String getDenominatorErrors() {
-		if (denominator.getNumber() <= 0) {
+		if (getDenominator() <= 0) {
 			return "Denominator must be > 0\n\n";
 		}
 
@@ -201,29 +155,13 @@ public class CustomInterval extends JDialog {
 	}
 
 	private void initLayout() {
-		MigHelper mh = new MigHelper(getContentPane());
-
-		mh.setLayoutFillX(true).setLayoutInsets(0, 2, 0, 2);
-
-		mh.addLast(getContentPanel()).grow(100).add(getButtonPanel());
-	}
-
-	private Container getContentPanel() {
-		MigHelper mh = new MigHelper();
-
-		mh.add(numerator).add(" / ").addLast(denominator);
-
-		return mh.getContainer();
-	}
-
-	private Container getButtonPanel() {
-		JPanel panel = new JPanel();
-		panel.setBorder(new BevelBorder(BevelBorder.RAISED));
-
-		MigHelper mh = new MigHelper(panel);
-		mh.add(ok);
-
-		return mh.getContainer();
+		HBox box = new HBox(10);
+		box.setAlignment(Pos.CENTER);
+		Label slash = new Label("/");
+		
+		box.getChildren().addAll(numerator, slash, denominator);
+		
+		setContent(box);
 	}
 
 	/**
@@ -233,35 +171,6 @@ public class CustomInterval extends JDialog {
 	 */
 	public boolean isOk() {
 		return isOk;
-	}
-
-	/**
-	 * The Class CustomIntegerTextField.
-	 */
-	class CustomIntegerTextField extends IntegerTextField {
-		private static final long serialVersionUID = 1L;
-
-		/**
-		 * Instantiates a new custom integer text field.
-		 *
-		 * @param cols
-		 *          the cols
-		 */
-		public CustomIntegerTextField(int cols) {
-			super(cols);
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * net.sourceforge.entrainer.widgets.IntegerTextField#isValidCharacter(char,
-		 * int)
-		 */
-		@Override
-		protected boolean isValidCharacter(char key, int position) {
-			return isNumeric(key) || (position == 0 && key == '-');
-		}
 	}
 
 }

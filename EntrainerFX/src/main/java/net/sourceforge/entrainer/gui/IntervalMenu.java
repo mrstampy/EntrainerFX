@@ -42,9 +42,6 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.CUSTOM_INTERV
 import static net.sourceforge.entrainer.mediator.MediatorConstants.INTERVAL_ADD;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.INTERVAL_REMOVE;
 
-import java.awt.Frame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -52,12 +49,12 @@ import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
-import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
@@ -257,22 +254,23 @@ public class IntervalMenu extends Menu {
 	}
 
 	private void showCustomDialog() {
-		final CustomInterval ci = new CustomInterval((Frame) null, this);
-
-		ci.addWindowListener(new WindowAdapter() {
-			public void windowClosed(WindowEvent e) {
-				if (ci.isOk()) {
-					String displayString = ci.getDisplayString();
-					if (!containsInterval(displayString)) {
-						addInOrder(add, createMenuItem(displayString));
-						addInOrder(delete, createDeleteItem(displayString));
-						fireIntervalEvent(displayString, CUSTOM_INTERVAL_ADD);
-					}
-				}
+		CustomInterval ci = new CustomInterval(this);
+		
+		Dialog<ButtonType> dci = new Dialog<>();
+		dci.setTitle("Custom Interval");
+		dci.setDialogPane(ci);
+		dci.setResizable(false);
+		
+		Optional<ButtonType> bt = dci.showAndWait();
+		
+		if(bt.isPresent() && bt.get() == ButtonType.OK && ci.validated()) {
+			String displayString = ci.getDisplayString();
+			if (!containsInterval(displayString)) {
+				addInOrder(add, createMenuItem(displayString));
+				addInOrder(delete, createDeleteItem(displayString));
+				fireIntervalEvent(displayString, CUSTOM_INTERVAL_ADD);
 			}
-		});
-
-		GuiUtil.showDialog(ci);
+		}
 	}
 
 	/**
@@ -419,11 +417,14 @@ public class IntervalMenu extends Menu {
 
 	private void deleteItem(Menu menu, String s) {
 		List<MenuItem> comps = menu.getItems();
+		MenuItem del = null;
 		for (MenuItem jmi : comps) {
 			if (jmi.getText().equals(s)) {
-				menu.getItems().remove(jmi);
+				del = jmi;
 			}
 		}
+		
+		if(del != null) comps.remove(del);
 	}
 
 	private boolean isItem(Menu menu, MenuItem item) {
