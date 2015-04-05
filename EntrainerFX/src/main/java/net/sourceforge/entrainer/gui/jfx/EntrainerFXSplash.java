@@ -32,7 +32,6 @@ import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -68,7 +67,7 @@ public class EntrainerFXSplash extends Application implements Version {
 	private Label title;
 	private Label version;
 
-	private Random rand = new Random(System.currentTimeMillis());
+	private Random rand = new Random(System.nanoTime());
 
 	/**
 	 * Instantiates a new entrainer fx splash.
@@ -130,7 +129,7 @@ public class EntrainerFXSplash extends Application implements Version {
 		InnerShadow is = new InnerShadow();
 		is.setOffsetX(5);
 		is.setOffsetY(5);
-		is.setColor(Color.GOLD);
+		is.setColor(createColor());
 		is.setInput(new Bloom());
 
 		title.setEffect(is);
@@ -183,16 +182,14 @@ public class EntrainerFXSplash extends Application implements Version {
 		stack.getChildren().add(0, r);
 
 		final FillTransition filler = new FillTransition(Duration.seconds(1), r, createColor(), createColor());
-		filler.setOnFinished(new EventHandler<ActionEvent>() {
+		filler.setOnFinished(e -> resetFill(filler));
 
-			@Override
-			public void handle(ActionEvent arg0) {
-				filler.setFromValue(filler.getToValue());
-				filler.setToValue(createColor());
-				filler.play();
-			}
-		});
-
+		filler.play();
+	}
+	
+	private void resetFill(FillTransition filler) {
+		filler.setFromValue(filler.getToValue());
+		filler.setToValue(createColor());
 		filler.play();
 	}
 
