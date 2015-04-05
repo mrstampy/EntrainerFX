@@ -20,17 +20,18 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import java.util.Random;
 
-import javafx.animation.FadeTransition;
+import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -167,14 +168,7 @@ public class EntrainerFXSplash extends Application implements Version {
 		initStage.setOpacity(0);
 		initStage.initStyle(StageStyle.UNDECORATED);
 		initStage.setScene(splashScene);
-
-		stack.opacityProperty().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> arg0, Number old, Number newVal) {
-				initStage.setOpacity(newVal.doubleValue());
-			}
-		});
+		splashScene.setFill(Color.BLACK);
 
 		initFade(initStage);
 
@@ -188,7 +182,7 @@ public class EntrainerFXSplash extends Application implements Version {
 		Rectangle r = new Rectangle(0, 0, splashScene.getWidth(), splashScene.getHeight());
 		stack.getChildren().add(0, r);
 
-		final FillTransition filler = new FillTransition(Duration.millis(1500), r, createColor(), createColor());
+		final FillTransition filler = new FillTransition(Duration.seconds(1), r, createColor(), createColor());
 		filler.setOnFinished(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -206,41 +200,28 @@ public class EntrainerFXSplash extends Application implements Version {
 		new SequentialTransition(getFadeIn(), getScaling(), getFadeOut(initStage)).play();
 	}
 
-	private Transition getFadeIn() {
-		FadeTransition ft = new FadeTransition(Duration.seconds(1), stack);
-
-		ft.setFromValue(0);
-		ft.setToValue(1);
-
-		return ft;
+	private Animation getFadeIn() {
+		return new Timeline(new KeyFrame(Duration.millis(1500), new KeyValue(stage.opacityProperty(), 1)));
 	}
 
-	private Transition getFadeOut(final Stage initStage) {
-		FadeTransition ft = new FadeTransition(Duration.seconds(3), stack);
+	private Animation getFadeOut(final Stage initStage) {
+		Timeline tl = new Timeline(new KeyFrame(Duration.seconds(3), new KeyValue(stage.opacityProperty(), 0)));
+		
+		tl.setOnFinished(e -> initStage.close());
 
-		ft.setFromValue(1);
-		ft.setToValue(0);
-		ft.setOnFinished(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				initStage.close();
-			}
-		});
-
-		RotateTransition rt = new RotateTransition(Duration.millis(600), splash);
+		RotateTransition rt = new RotateTransition(Duration.millis(300), splash);
 
 		rt.setInterpolator(Interpolator.LINEAR);
-		rt.setCycleCount(5);
+		rt.setCycleCount(10);
 		rt.setToAngle(360);
 
-		ScaleTransition st = new ScaleTransition(Duration.seconds(3), splash);
+		ScaleTransition st = new ScaleTransition(Duration.seconds(4), splash);
 
 		st.setByX(-2.0);
 		st.setByY(-2.0);
 		st.setInterpolator(Interpolator.EASE_BOTH);
 
-		return new ParallelTransition(ft, rt, st);
+		return new ParallelTransition(tl, rt, st);
 	}
 
 	private Transition getScaling() {
