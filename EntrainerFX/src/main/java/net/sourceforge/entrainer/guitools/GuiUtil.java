@@ -229,8 +229,13 @@ public class GuiUtil {
 	 *          the use latch
 	 */
 	public static void handleProblem(Throwable e, boolean useLatch) {
-		e.printStackTrace();
+		if(e instanceof UnsupportedOperationException) {
+			logger.debug("Expected exception (if one-off...)", e);
+			return;
+		}
 
+		e.printStackTrace();
+		
 		final String msg = e.getMessage();
 
 		logger.error(msg, e);
