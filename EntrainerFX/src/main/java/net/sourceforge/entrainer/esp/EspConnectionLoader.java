@@ -94,6 +94,8 @@ public class EspConnectionLoader {
 		log.debug("Loading ESP Connections");
 
 		Optional<File> espDir = Utils.getEspDir();
+		
+		log.info("Loading ESP jars from {}", espDir.get().getAbsolutePath());
 
 		timer.schedule(getTimerTask(Paths.get(espDir.get().toURI())), 0);
 
