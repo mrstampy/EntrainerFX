@@ -142,14 +142,14 @@ public class Utils implements EntrainerResources {
 		return getFile(EFX_RECORDING_DIR, EFX_USER_HOME_RECORDING_DIR);
 	}
 	
-	public static void openLocalDocumentation() {
-		Optional<File> index = getLocalDocPage();
+	public static void openLocalDocumentation(String htmlPage) {
+		Optional<File> index = getLocalDocPage(htmlPage);
 		
 		if(index.isPresent() && index.get().exists()) openBrowser(index.get().toURI());
 	}
-
-	private static Optional<File> getLocalDocPage() {
-		return getFile(EFX_DOC_DIR + "/index.html", EFX_USER_HOME_DOC_DIR + "/index.html");
+	
+	private static Optional<File> getLocalDocPage(String htmlPage) {
+		return getFile(EFX_DOC_DIR + "/" + htmlPage, EFX_USER_HOME_DOC_DIR + "/" + htmlPage);
 	}
 
 	public static Optional<File> getAnimationDir() {

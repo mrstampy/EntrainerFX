@@ -105,13 +105,15 @@ public class CustomInterval extends DialogPane {
 	}
 
 	private void initFields() {
-		numerator.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
-		denominator.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
 		getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-		numerator.setMaxWidth(70);
-		denominator.setMaxWidth(70);
-		numerator.setAlignment(Pos.CENTER_RIGHT);
-		denominator.setAlignment(Pos.CENTER_RIGHT);
+		initField(numerator);
+		initField(denominator);
+	}
+	
+	private void initField(TextField tf) {
+		tf.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
+		tf.setMaxWidth(70);
+		tf.setAlignment(Pos.CENTER_RIGHT);		
 	}
 
 	public boolean validated() {

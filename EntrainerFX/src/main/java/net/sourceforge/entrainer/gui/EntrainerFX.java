@@ -55,6 +55,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -125,7 +127,6 @@ import net.sourceforge.entrainer.xml.SleeperManager;
 import net.sourceforge.entrainer.xml.SleeperManagerEvent;
 import net.sourceforge.entrainer.xml.SleeperManagerListener;
 
-import org.controlsfx.dialog.Dialogs;
 import org.pushingpixels.trident.TridentConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -573,7 +574,7 @@ public class EntrainerFX extends Application {
 	private MenuItem getLocalDocItem() {
 		MenuItem item = new MenuItem("Local Documentation");
 		addMnemonic(item, KeyCode.D);
-		item.setOnAction(e -> Utils.openLocalDocumentation());
+		item.setOnAction(e -> Utils.openLocalDocumentation("index.html"));
 
 		return item;
 	}
@@ -703,15 +704,13 @@ public class EntrainerFX extends Application {
 	}
 
 	private void chooseChannel() {
-		//@formatter:off
-		EspChannel channel = Dialogs
-				.create()
-				.title("Choose Channel")
-				.message("Choose the channel for processing")
-				.showChoices(lab.getConnection().getChannels());
-		//@formatter:on
-
-		if (channel != null) lab.setChannel(channel.getChannelNumber());
+		ChoiceDialog<EspChannel> cd = new ChoiceDialog<EspChannel>(null, lab.getConnection().getChannels());
+		cd.setTitle("Choose Channel");
+		cd.setHeaderText("Choose the channel for processing");
+		
+		Optional<EspChannel> channel = cd.showAndWait();
+		
+		if (channel.isPresent()) lab.setChannel(channel.get().getChannelNumber());
 	}
 
 	private MenuItem loadLabMenu() {
@@ -982,10 +981,21 @@ public class EntrainerFX extends Application {
 	}
 
 	private void showSocketPortDialog() {
+		SocketPortDialog spd = null;
 		try {
-			GuiUtil.showDialog(new SocketPortDialog());
+			spd = new SocketPortDialog();
 		} catch (UnknownHostException e) {
-			GuiUtil.handleProblem(e);
+			log.error("Unexpected exception", e);
+			return;
+		}
+		
+		Dialog<ButtonType> socker = new Dialog<ButtonType>();
+		socker.setDialogPane(spd);
+		socker.setTitle("Choose Host and Port");
+		Optional<ButtonType> bt = socker.showAndWait();
+		
+		if(bt.isPresent() && bt.get() == ButtonType.OK) {
+			spd.validateAndSave();
 		}
 	}
 

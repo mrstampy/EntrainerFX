@@ -18,42 +18,35 @@
  */
 package net.sourceforge.entrainer.gui;
 
-import static net.sourceforge.entrainer.util.Utils.openBrowser;
-
-import java.awt.Component;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-
-import net.sourceforge.entrainer.guitools.GuiUtil;
-import net.sourceforge.entrainer.guitools.MigHelper;
-import net.sourceforge.entrainer.widgets.IntegerTextField;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.util.converter.IntegerStringConverter;
+import net.sourceforge.entrainer.util.Utils;
 import net.sourceforge.entrainer.xml.Settings;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class SocketPortDialog.
  */
-@SuppressWarnings("serial")
-public class SocketPortDialog extends JDialog {
+public class SocketPortDialog extends DialogPane {
 
-	private JButton ok = new JButton("Ok");
-	private JButton cancel = new JButton("Cancel");
-	private JCheckBox deltaSocketMessage = new JCheckBox("Delta Messages");
-	private IntegerTextField port = new IntegerTextField(6);
-	private JTextField ipAddress = new JTextField(10);
+	private CheckBox deltaSocketMessage = new CheckBox("Delta Messages");
+	private TextField port = new TextField();
+	private TextField ipAddress = new TextField();
 
 	/**
 	 * Instantiates a new socket port dialog.
@@ -62,13 +55,18 @@ public class SocketPortDialog extends JDialog {
 	 *           the unknown host exception
 	 */
 	public SocketPortDialog() throws UnknownHostException {
-		super((Frame)null, "Choose Socket Port");
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		super();
 		init();
+		setId(getClass().getSimpleName());
 	}
 
 	private void init() throws UnknownHostException {
-		port.setNumber(Settings.getInstance().getSocketPort());
+		port.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
+		port.setMaxWidth(70);
+
+		Integer sp = Settings.getInstance().getSocketPort();
+		port.setText(sp == null ? "" : sp.toString());
+
 		String address = Settings.getInstance().getSocketIPAddress();
 		if (address == null || address.trim().length() == 0) address = initIPAddress();
 		ipAddress.setText(address);
@@ -77,13 +75,7 @@ public class SocketPortDialog extends JDialog {
 		initGui();
 		setToolTips();
 
-		addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.isControlDown() && e.getClickCount() == 1) {
-					openBrowser(getLocalDocAddress());
-				}
-			}
-		});
+		setOnMouseClicked(e -> localDoc(e));
 	}
 
 	private String initIPAddress() throws UnknownHostException {
@@ -93,95 +85,75 @@ public class SocketPortDialog extends JDialog {
 		return ipAddress;
 	}
 
-	private String getLocalDocAddress() {
-		File file = new File(".");
+	private void localDoc(MouseEvent e) {
+		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		String path = file.getAbsolutePath();
-
-		path = path.substring(0, path.lastIndexOf("."));
-
-		return "file://" + path + "doc/sockets.html";
+		Utils.openLocalDocumentation("sockets.html");
 	}
 
 	private void setToolTips() {
-		port.setToolTipText("Choose a free socket port for Entrainer (typically > 1000)");
-		ipAddress.setToolTipText("Set the hostname or ip address if known, leave blank otherwise");
-		deltaSocketMessage
-				.setToolTipText("Send Entrainer's entire state (unchecked) or just the delta change (checked) per message");
+		port.setTooltip(new Tooltip("Choose a free socket port for Entrainer (typically > 1000)"));
+		ipAddress.setTooltip(new Tooltip("Set the hostname or ip address if known, leave blank otherwise"));
+		deltaSocketMessage.setTooltip(new Tooltip(
+				"Send Entrainer's entire state (unchecked) or just the delta change (checked) per message"));
 	}
 
 	private void initGui() {
-		MigHelper mh = new MigHelper(getContentPane());
-		mh.addLast(getPortPanel()).addLast(deltaSocketMessage).add(getButtonPanel());
+		getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+		GridPane gp = new GridPane();
+		gp.setPadding(new Insets(10));
+
+		Label pn = new Label("Port Number");
+		Label ha = new Label("Host Address");
+
+		int row = 0;
+		int col = 0;
+
+		setConstraints(pn, col++, row);
+		setConstraints(port, col, row++);
+
+		col = 0;
+
+		setConstraints(ha, col++, row);
+		setConstraints(ipAddress, col, row++);
+
+		col = 0;
+
+		setConstraints(deltaSocketMessage, col, row);
+
+		gp.getChildren().addAll(pn, port, ha, ipAddress, deltaSocketMessage);
+
+		setContent(gp);
 	}
 
-	private Component getPortPanel() {
-		MigHelper mh = new MigHelper();
-
-		mh.add("Port Number").alignWest().addLast(port);
-		mh.add("Host Address").alignWest().addLast(ipAddress);
-
-		return mh.getContainer();
-	}
-
-	private Component getButtonPanel() {
-		MigHelper mh = new MigHelper();
-
-		mh.add(ok).add(cancel);
-
-		return mh.getContainer();
+	private void setConstraints(Node node, int col, int row) {
+		GridPane.setConstraints(node, col, row);
+		GridPane.setMargin(node, new Insets(5));
 	}
 
 	private void initListener() {
-		ok.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				validateAndSavePort();
-			}
-		});
-
-		cancel.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				close();
-			}
-		});
-
-		deltaSocketMessage.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Settings.getInstance().setDeltaSocketMessage(deltaSocketMessage.isSelected());
-			}
-		});
-	}
-
-	private void close() {
-		GuiUtil.fadeOutAndDispose(this, 500);
+		deltaSocketMessage.setOnAction(e -> Settings.getInstance().setDeltaSocketMessage(deltaSocketMessage.isSelected()));
 	}
 
 	/**
-	 * Validate and save port.
+	 * Validate and save.
 	 */
-	protected void validateAndSavePort() {
-		if (port.getNumber() <= 0) {
-			showErrorDialog();
+	public void validateAndSave() {
+		int port = Integer.parseInt(this.port.getText());
+		if (port <= 0) {
+			showErrorDialog(port);
 			return;
 		}
 
-		Settings.getInstance().setSocketPort((int) port.getNumber());
+		Settings.getInstance().setSocketPort(port);
 		Settings.getInstance().setSocketIPAddress(ipAddress.getText());
-
-		close();
 	}
 
-	private void showErrorDialog() {
-		JOptionPane.showMessageDialog(this,
-				port.getNumber() + " is not a valid port number",
-				"Invalid Port Number",
-				JOptionPane.ERROR_MESSAGE);
+	private void showErrorDialog(int port) {
+		Alert alert = new Alert(AlertType.ERROR, port + " is not a valid port number", ButtonType.OK);
+		alert.setTitle("Invalid Port Number");
+		alert.showAndWait();
 	}
 
 }
