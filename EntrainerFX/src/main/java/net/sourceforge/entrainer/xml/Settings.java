@@ -99,12 +99,6 @@ public class Settings {
 	private String xmlProgram;
 
 	@XmlElement
-	private String lafClass;
-
-	@XmlElement
-	private String lafThemePack;
-
-	@XmlElement
 	private Boolean isAnimation;
 
 	@XmlElement
@@ -430,12 +424,6 @@ public class Settings {
 					break;
 				case IS_SHIMMER:
 					setShimmer(e.getBooleanValue());
-					break;
-				case LOOK_AND_FEEL:
-					setLafClass(e.getStringValue());
-					break;
-				case THEME_PACK:
-					setLafThemePack(e.getStringValue());
 					break;
 				case SHIMMER_RECTANGLE:
 					setShimmerRectangle(e.getStringValue());
@@ -774,44 +762,6 @@ public class Settings {
 	public void setXmlProgram(String xmlProgram) {
 		this.xmlProgram = xmlProgram;
 		saveSettings();
-	}
-
-	/**
-	 * Gets the laf class.
-	 *
-	 * @return the laf class
-	 */
-	public String getLafClass() {
-		return lafClass;
-	}
-
-	/**
-	 * Sets the laf class.
-	 *
-	 * @param lafClass
-	 *          the new laf class
-	 */
-	public void setLafClass(String lafClass) {
-		this.lafClass = lafClass;
-	}
-
-	/**
-	 * Gets the laf theme pack.
-	 *
-	 * @return the laf theme pack
-	 */
-	public String getLafThemePack() {
-		return lafThemePack;
-	}
-
-	/**
-	 * Sets the laf theme pack.
-	 *
-	 * @param lafThemePack
-	 *          the new laf theme pack
-	 */
-	public void setLafThemePack(String lafThemePack) {
-		this.lafThemePack = lafThemePack;
 	}
 
 	/**

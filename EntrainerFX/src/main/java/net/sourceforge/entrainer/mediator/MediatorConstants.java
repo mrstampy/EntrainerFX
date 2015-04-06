@@ -102,14 +102,8 @@ public enum MediatorConstants {
 	/** The is shimmer. */
 	IS_SHIMMER("Is Shimmer"),
 
-	/** The look and feel. */
-	LOOK_AND_FEEL("Look And Feel"),
-
 	/** The shimmer rectangle. */
 	SHIMMER_RECTANGLE("Shimmer Rectangle Implementation"),
-
-	/** The theme pack. */
-	THEME_PACK("Theme Pack"),
 
 	/** The esp start. */
 	ESP_START("ESP Device Start"),

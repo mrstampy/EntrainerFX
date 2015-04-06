@@ -9,7 +9,6 @@
     <pinkNoisePan>true</pinkNoisePan>
     <pinkNoiseAmplitude>0.5</pinkNoiseAmplitude>
     <pinkNoiseEntrainmentMultiple>120</pinkNoiseEntrainmentMultiple>
-    <lafClass>org.pushingpixels.substance.api.skin.SubstanceCremeLookAndFeel</lafClass>
     <isAnimation>false</isAnimation>
     <isPsychedelic>false</isPsychedelic>
     <isShimmer>false</isShimmer>
