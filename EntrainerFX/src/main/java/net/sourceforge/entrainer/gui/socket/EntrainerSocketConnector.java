@@ -428,7 +428,7 @@ public class EntrainerSocketConnector extends DialogPane {
 				}
 
 				public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-					remoteDisconnection();
+					JFXUtils.runLater(() -> remoteDisconnection());
 				}
 
 				@Override
