@@ -588,9 +588,18 @@ public class EntrainerFX extends Application {
 	private MenuItem getLicenseItem() {
 		MenuItem aboutItem = new MenuItem("License");
 		addMnemonic(aboutItem, KeyCode.I);
-		aboutItem.setOnAction(e -> License.showLicenseDialog());
+		aboutItem.setOnAction(e -> showLicenseDialog());
 
 		return aboutItem;
+	}
+	
+	private void showLicenseDialog() {
+		Dialog<ButtonType> d = new Dialog<ButtonType>();
+		d.setDialogPane(new License());
+		d.setTitle("EntrainerFX License");
+		d.initOwner(stage);
+		
+		d.showAndWait();
 	}
 
 	private MenuItem getEditXmlItem() {
@@ -632,9 +641,18 @@ public class EntrainerFX extends Application {
 	private MenuItem getAboutItem() {
 		MenuItem aboutItem = new MenuItem(ABOUT_ENTRAINER_MENU_NAME);
 		addMnemonic(aboutItem, KeyCode.B);
-		aboutItem.setOnAction(e -> About.showAboutDialog());
+		aboutItem.setOnAction(e -> showAboutDialog());
 
 		return aboutItem;
+	}
+	
+	private void showAboutDialog() {
+		Dialog<ButtonType> d = new Dialog<ButtonType>();
+		d.setDialogPane(new About());
+		d.setTitle("About EntrainerFX");
+		d.initOwner(stage);
+		
+		d.showAndWait();
 	}
 
 	private MenuItem getSplashItem() {

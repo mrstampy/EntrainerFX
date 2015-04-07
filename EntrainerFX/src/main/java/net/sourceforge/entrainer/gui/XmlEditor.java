@@ -308,7 +308,7 @@ public class XmlEditor extends JDialog {
 		addMnemonic(item, KeyEvent.VK_A);
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				XmlEditorAbout.showDialog();
+//				XmlEditorAbout.showDialog();
 			}
 		});
 

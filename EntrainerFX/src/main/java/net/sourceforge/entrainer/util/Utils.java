@@ -134,6 +134,10 @@ public class Utils implements EntrainerResources {
 		return getFile(EFX_SETTINGS_DIR + "settings.xml", EFX_USER_HOME_SETTINGS_DIR + "settings.xml");
 	}
 
+	public static Optional<File> getLicenseFile() {
+		return getFile(EFX_SETTINGS_DIR + "LICENSE.txt", EFX_USER_HOME_SETTINGS_DIR + "LICENSE.txt");
+	}
+
 	public static Optional<File> getEntrainerProgramDir() {
 		return getFile(EFX_PROGRAM_DIR, EFX_USER_HOME_PROGRAM_DIR);
 	}

@@ -18,66 +18,64 @@
  */
 package net.sourceforge.entrainer.gui;
 
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.TextAlignment;
 import net.sourceforge.entrainer.Version;
-import net.sourceforge.entrainer.guitools.GuiUtil;
+import net.sourceforge.entrainer.util.Utils;
 
 // TODO: Auto-generated Javadoc
 /**
  * Simple dialog to display information about {@link EntrainerFX}.
  * 
- * TODO extract html to separate html file.
- * 
  * @author burton
  *
  */
-public class About extends InformationDialog implements Version {
+public class About extends DialogPane implements Version {
+	private Label label;
 
-	private static final long serialVersionUID = 1L;
-
-	private static About instance;
-
-	private About() {
-		super("About Entrainer");
+	public About() {
+		init();
 	}
 
-	/**
-	 * Instantiates and shows the dialog.
-	 */
-	public static void showAboutDialog() {
-		if (instance == null) {
-			instance = new About();
-		}
-		instance.pack();
-		GuiUtil.centerOnScreen(instance);
-		GuiUtil.addFadeOutInvisibleListener(instance, 500);
-		GuiUtil.fadeIn(instance, 500);
+	private void init() {
+		label = new Label();
+		label.setText(getHtmlText());
+		label.setTextAlignment(TextAlignment.CENTER);
+		
+		getButtonTypes().add(ButtonType.OK);
+		
+		setContent(label);
+		
+		label.setOnMouseClicked(e -> showDoco(e));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.InformationDialog#getContent()
-	 */
-	@Override
-	protected String getContent() {
-		StringBuffer buf = new StringBuffer("<b><center>Entrainer ");
+	private void showDoco(MouseEvent e) {
+		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
+
+		Utils.openLocalDocumentation("index.html");
+	}
+
+	protected String getHtmlText() {
+		StringBuffer buf = new StringBuffer("Entrainer ");
 		buf.append(VERSION);
-		buf.append("</center></b>");
 
-		buf.append("<br><b><u>Release Date:</u></b> ");
+		buf.append("\nRelease Date: ");
 		buf.append(RELEASE);
-		buf.append("<br><br><b><u>Entrainer Home Page:</u></b> http://entrainer.sourceforge.net/");
-		buf.append("<br><b><u>Project Home Page:</u></b> https://sourceforge.net/projects/entrainer");
+		buf.append("\n\nEntrainer Home Page: http://entrainer.sourceforge.net/");
+		buf.append("\nProject Home Page: https://sourceforge.net/projects/entrainer");
 
-		buf.append("<br><br>Copyright Burton Alexander, 2008 - 2015");
-		buf.append("<br><br>This program creates entrainment frequencies, allowing the user to control the base frequency, the entrainment frequency");
-		buf.append("<br>and the amplitude of the sound waves.  It is best used with high quality headphones.");
+		buf.append("\n\nCopyright Burton Alexander, 2008 - 2015");
+		buf.append("\n\nThis program creates entrainment frequencies, allowing the user to control the base frequency, the entrainment frequency");
+		buf.append("\nand the amplitude of the sound waves.  It is best used with high quality headphones.");
 
-		buf.append("<br><br>JSyn binaries provided under license from Mobileer Incorporated solely for use with Entrainer.");
+		buf.append("\n\nJSyn binaries provided under license from Mobileer Incorporated solely for use with Entrainer.");
 
-		buf.append("<br><br>Written to scratch an entrainment itch.");
+		buf.append("\n\nWritten to scratch an entrainment itch.");
 
-		buf.append("<br><br><b><u>WARNING WARNING WARNING!!!</u></b> Do not use if you suffer from epilepsy or any related medical conditions.");
+		buf.append("\n\nWARNING WARNING WARNING!!! Do not use if you suffer from epilepsy or any related medical conditions.");
 
 		return buf.toString();
 	}

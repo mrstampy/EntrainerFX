@@ -18,20 +18,17 @@
  */
 package net.sourceforge.entrainer.gui;
 
-import java.awt.Container;
-import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Optional;
 
-import javax.swing.JEditorPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.BevelBorder;
-
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.TextArea;
 import net.sourceforge.entrainer.guitools.GuiUtil;
-import net.sourceforge.entrainer.guitools.MigHelper;
+import net.sourceforge.entrainer.util.Utils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -40,84 +37,38 @@ import net.sourceforge.entrainer.guitools.MigHelper;
  * @author burton
  *
  */
-public class License extends InformationDialog {
+public class License extends DialogPane {
 
-	private static final long serialVersionUID = 1L;
 	private static String NOT_FOUND = "License not found.  Released under the GPL";
 
-	private static License instance;
+	private TextArea area = new TextArea();
 
-	private License() {
-		super("License");
+	public License() {
+		area.setPrefColumnCount(55);
+		area.setPrefRowCount(50);
+		area.setText(getLicense());
+
+		getButtonTypes().add(ButtonType.OK);
+
+		setContent(area);
 	}
 
-	/**
-	 * Convenience method to display the license dialog.
-	 */
-	public static void showLicenseDialog() {
-		if (instance == null) {
-			instance = new License();
-		}
-
-		GuiUtil.showDialog(instance);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.InformationDialog#getButtonPanel()
-	 */
-	protected Container getButtonPanel() {
-		ok.setIcon(GuiUtil.getIcon("/licenses-gpl.png"));
-		ok.setText(null);
-		JPanel jp = new JPanel();
-		jp.setBorder(new BevelBorder(BevelBorder.RAISED));
-		MigHelper mh = new MigHelper(jp);
-		mh.add(ok);
-
-		return mh.getContainer();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.InformationDialog#layoutComponents()
-	 */
-	@Override
-	protected void layoutComponents() {
-		MigHelper mh = new MigHelper(getContentPane());
-		mh.setLayoutInsets(0, 0, 0, 0).setLayoutFill(true);
-
-		JEditorPane pane = getInfoPane();
-		JScrollPane scroll = new JScrollPane(pane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scroll.setPreferredSize(new Dimension(500, 500));
-
-		mh.grow(100).addLast(scroll).grow(100).add(getButtonPanel());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.InformationDialog#getContent()
-	 */
-	@Override
-	protected String getContent() {
-		File f = new File(System.getProperty("user.dir") + "/LICENSE.txt");
-		if (!f.exists()) {
+	private String getLicense() {
+		Optional<File> license = Utils.getLicenseFile();
+		if (!license.isPresent()) {
 			return NOT_FOUND;
 		}
 
 		BufferedReader reader = null;
 		try {
-			reader = new BufferedReader(new FileReader(f));
+			reader = new BufferedReader(new FileReader(license.get()));
 
 			String line = reader.readLine();
 
 			StringBuffer buf = new StringBuffer();
 			while (line != null) {
 				buf.append(line);
-				buf.append("<br>");
+				buf.append("\n");
 				line = reader.readLine();
 			}
 
