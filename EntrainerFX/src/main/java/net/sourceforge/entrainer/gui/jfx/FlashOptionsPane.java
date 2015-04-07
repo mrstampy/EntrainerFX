@@ -24,6 +24,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -32,6 +33,7 @@ import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
+import net.sourceforge.entrainer.util.Utils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -399,6 +401,14 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTooltip(shadow, "Shadow effect for flashing");
 		setTooltip(colourAdjust, "Random Colour Adjust effect for flashing");
 		setTooltip(applyEntrainerFX, "Apply the chosen flash effect to the main window");
+		
+		setOnMouseClicked(e -> localDoc(e));
+	}
+	
+	private void localDoc(MouseEvent e) {
+		if(!(e.isMetaDown() && e.getClickCount() == 1)) return;
+		
+		Utils.openLocalDocumentation("flashing.html");
 	}
 
 	private void setEventHandlers() {

@@ -24,6 +24,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer;
@@ -32,6 +33,7 @@ import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
+import net.sourceforge.entrainer.util.Utils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -94,6 +96,14 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 	private void setToolTips() {
 		setTooltip(shimmer, "Adds a shimmer effect to the application");
 		setTooltip(applyShimmer, "Apply the chosen flash effect selected in the Flash Options to the shimmers");
+		
+		setOnMouseClicked(e -> localDoc(e));
+	}
+	
+	private void localDoc(MouseEvent e) {
+		if(!(e.isMetaDown() && e.getClickCount() == 1)) return;
+		
+		Utils.openLocalDocumentation("shimmers.html");
 	}
 
 	/*

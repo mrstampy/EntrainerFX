@@ -324,6 +324,14 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 		setTooltip(noPic, "No background image (choose colour)");
 		setTooltip(staticPictureLock, "Prevents inadvertent static image changing if selected");
 		setTooltip(applyBackground, "Apply chosen flash effect selected in the Flash Options to the background");
+		
+		setOnMouseClicked(e -> localDoc(e));
+	}
+	
+	private void localDoc(MouseEvent e) {
+		if(!(e.isMetaDown() && e.getClickCount() == 1)) return;
+		
+		Utils.openLocalDocumentation("backgrounds.html");
 	}
 
 	private void layoutComponents() {

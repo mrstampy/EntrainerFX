@@ -54,6 +54,7 @@ import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
+import net.sourceforge.entrainer.util.Utils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -236,6 +237,14 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		setTooltip(strength, "Sets media entrainment strength");
 		setTooltip(trackPosition, "Set/displays the track's current position");
 		setTooltip(applyMedia, "Apply the chosen flash effect to the media (if applicable)");
+		
+		setOnMouseClicked(e -> localDoc(e));
+	}
+	
+	private void localDoc(MouseEvent e) {
+		if(!(e.isMetaDown() && e.getClickCount() == 1)) return;
+		
+		Utils.openLocalDocumentation("media.html");
 	}
 
 	private void mediaClicked(MouseEvent e) {

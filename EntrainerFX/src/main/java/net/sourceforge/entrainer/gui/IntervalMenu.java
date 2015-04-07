@@ -260,6 +260,7 @@ public class IntervalMenu extends Menu {
 		dci.setTitle("Custom Interval");
 		dci.setDialogPane(ci);
 		dci.setResizable(false);
+		dci.initOwner(EntrainerFX.getInstance().getStage());
 		
 		Optional<ButtonType> bt = dci.showAndWait();
 		

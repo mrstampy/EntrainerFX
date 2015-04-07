@@ -27,6 +27,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -35,6 +36,7 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
 import net.sourceforge.entrainer.sound.MasterLevelController;
+import net.sourceforge.entrainer.util.Utils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -172,6 +174,14 @@ public class SliderControlPane extends AbstractTitledPane {
 		setTooltip(pinkAmplitude, "Sets the pan amplitude of the generated pink noise");
 		setTooltip(multiple, "Sets the speed of pink noise panning");
 		setTooltip(panCheck, "Enables/disables pink noise panning");
+		
+		setOnMouseClicked(e -> localDoc(e));
+	}
+	
+	private void localDoc(MouseEvent e) {
+		if(!(e.isMetaDown() && e.getClickCount() == 1)) return;
+		
+		Utils.openLocalDocumentation("sound.html");
 	}
 
 	private void panChecked() {

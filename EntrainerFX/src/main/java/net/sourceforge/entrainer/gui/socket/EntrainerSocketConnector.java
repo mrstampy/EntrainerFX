@@ -18,7 +18,6 @@
  */
 package net.sourceforge.entrainer.gui.socket;
 
-import static net.sourceforge.entrainer.util.Utils.openBrowser;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -48,13 +47,6 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.math.BigDecimal;
@@ -67,25 +59,34 @@ import java.text.DecimalFormat;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JTextArea;
-import javax.swing.JToggleButton;
-import javax.swing.WindowConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
+import javafx.scene.effect.InnerShadow;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
 import javax.xml.bind.JAXBException;
 
+import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.guitools.GuiUtil;
-import net.sourceforge.entrainer.guitools.MigHelper;
 import net.sourceforge.entrainer.socket.EntrainerStateMessage;
 import net.sourceforge.entrainer.socket.EntrainerStateMessageMarshal;
 import net.sourceforge.entrainer.socket.WebSocketHandler;
+import net.sourceforge.entrainer.util.Utils;
 import net.sourceforge.entrainer.xml.Settings;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -96,32 +97,32 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 /**
  * The Class EntrainerSocketConnector.
  */
-@SuppressWarnings("serial")
-public class EntrainerSocketConnector extends JFrame {
+public class EntrainerSocketConnector extends DialogPane {
 
-	private JTextArea output = new JTextArea(30, 50);
-	private JToggleButton connect = new JToggleButton("Connect");
-	private JButton cancel = new JButton("Cancel");
-	private JButton clear = new JButton("Clear");
+	private TextArea output = new TextArea(); // 30, 50
+	private ToggleButton connect = new ToggleButton("Connect");
+	private Button clear = new Button("Clear");
 
-	private JRadioButton nioConnection = new JRadioButton("NIO Connection");
-	private JRadioButton webSocketConnection = new JRadioButton("Web Socket Connection");
+	private RadioButton nioConnection = new RadioButton("NIO Connection");
+	private RadioButton webSocketConnection = new RadioButton("Web Socket Connection");
 
-	private ButtonGroup connectionTypes = new ButtonGroup();
+	private ToggleGroup connectionTypes = new ToggleGroup();
 
-	private JSlider entrainmentFrequency = new JSlider(JSlider.HORIZONTAL, 0, 4000, 1000);
-	private JSlider frequency = new JSlider(JSlider.HORIZONTAL, 20, 500, 200);
-	private JSlider amplitude = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
-	private JSlider pinkNoise = new JSlider(JSlider.HORIZONTAL, 0, 1000, 0);
+	private Slider entrainmentFrequency = new Slider(0, 40, 10);
+	private Slider frequency = new Slider(20, 500, 200);
+	private Slider amplitude = new Slider(0, 1, 0.5);
+	private Slider pinkNoise = new Slider(0, 1, 0);
 
 	private DecimalFormat entrainmentFormat = new DecimalFormat("#0.00Hz");
 	private DecimalFormat amplitudeFormat = new DecimalFormat("#0%");
 	private DecimalFormat frequencyFormat = new DecimalFormat("##0Hz");
 
-	private JLabel entrainmentValue = new JLabel();
-	private JLabel frequencyValue = new JLabel();
-	private JLabel amplitudeValue = new JLabel();
-	private JLabel pinkNoiseValue = new JLabel();
+	private Label entrainmentValue = new Label();
+	private Label frequencyValue = new Label();
+	private Label amplitudeValue = new Label();
+	private Label pinkNoiseValue = new Label();
+
+	private GridPane pane = new GridPane();
 
 	// booleans to prevent message reflection feedback
 	private volatile boolean isEntrainerEntrainmentFrequencyMessage;
@@ -152,10 +153,6 @@ public class EntrainerSocketConnector extends JFrame {
 	 *           the unknown host exception
 	 */
 	public EntrainerSocketConnector(String ipAddress, int port) throws UnknownHostException {
-		super("Entrainer Socket Connector");
-		setIconImage(GuiUtil.getIcon("/Brain.png").getImage());
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
 		jsonMapper.configure(SerializationFeature.INDENT_OUTPUT, Boolean.TRUE);
 		jsonMapper.setSerializationInclusion(Include.NON_NULL);
 
@@ -178,122 +175,92 @@ public class EntrainerSocketConnector extends JFrame {
 		initListeners();
 		wireSliders();
 		initGui();
+		setTooltips();
 
-		addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.isControlDown() && e.getClickCount() == 1) {
-					openBrowser(getLocalDocAddress());
-				}
-			}
-		});
+		output.setPrefColumnCount(50);
+		output.setPrefRowCount(30);
+
+		getButtonTypes().add(ButtonType.CANCEL);
+
+		setOnMouseClicked(e -> getLocalDocAddress(e));
 	}
 
-	private String getLocalDocAddress() {
-		File file = new File(".");
+	private void setTooltips() {
+		nioConnection.setTooltip(new Tooltip("Connect to EntrainerFX using Java NIO Sockets"));
+		webSocketConnection.setTooltip(new Tooltip("Connect to EntrainerFX using Web Sockets"));
+		connect.setTooltip(new Tooltip("Connects to Entrainer's external socket"));
+		clear.setTooltip(new Tooltip("Clears the messages"));
+		output.setTooltip(new Tooltip("Displays messages received from Entrainer"));
+	}
 
-		String path = file.getAbsolutePath();
+	private void getLocalDocAddress(MouseEvent e) {
+		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		path = path.substring(0, path.lastIndexOf("."));
-
-		return "file://" + path + "doc/sockets.html";
+		Utils.openLocalDocumentation("sockets.html");
 	}
 
 	private void initGui() {
-		MigHelper mh = new MigHelper(getContentPane());
+		GridPane gp = new GridPane();
+		gp.setPadding(new Insets(10));
+		gp.setHgap(10);
+		gp.setVgap(10);
 
-		mh.add(new JScrollPane(output, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER))
-				.addLast(getSliderPanel());
-		mh.add(getButtonPanel());
+		GridPane.setConstraints(output, 0, 0);
+		GridPane.setConstraints(pane, 1, 0);
+		GridPane.setValignment(pane, VPos.CENTER);
+
+		Node buttonPanel = getButtonPanel();
+
+		GridPane.setConstraints(buttonPanel, 0, 1);
+
+		gp.getChildren().addAll(output, pane, buttonPanel);
+
+		setContent(gp);
 	}
 
-	private Container getSliderPanel() {
-		MigHelper mh = new MigHelper();
+	private Node getButtonPanel() {
+		HBox box = new HBox(10, getConnectionTypePanel(), connect, clear);
+		box.setAlignment(Pos.CENTER);
 
-		mh.setColumnGrowWeights(0, 0, 1).setColumnShrinkWeights(0, 0, 1);
-		mh.setColumnGrowWeights(100, 2).setColumnShrinkWeights(100, 2).setLayoutFill(true);
-
-		mh.gapY(10, 10).alignEast().add("Entrainment Frequency").alignCenter().add(entrainmentFrequency).alignWest()
-				.setWidth(60).addLast(entrainmentValue);
-
-		mh.gapY(10, 10).alignEast().add("Frequency").alignCenter().add(frequency).alignWest().addLast(frequencyValue);
-
-		mh.gapY(10, 10).alignEast().add("Amplitude").alignCenter().add(amplitude).alignWest().addLast(amplitudeValue);
-
-		mh.gapY(0, 0).alignEast().add("Pink Noise").alignCenter().add(pinkNoise).alignWest().addLast(pinkNoiseValue);
-
-		return mh.getContainer();
+		return box;
 	}
 
-	private Component getButtonPanel() {
-		MigHelper mh = new MigHelper();
-
-		mh.add(getConnectionTypePanel()).add(connect).add(clear).add(cancel);
-
-		return mh.getContainer();
-	}
-
-	private Component getConnectionTypePanel() {
-		MigHelper mh = new MigHelper();
-
-		connectionTypes.add(nioConnection);
-		connectionTypes.add(webSocketConnection);
-
-		nioConnection.setToolTipText("Connect to EntrainerFX using Java NIO Sockets");
-		webSocketConnection.setToolTipText("Connect to EntrainerFX using Web Sockets");
-
-		mh.alignWest().addLast(nioConnection).alignWest().add(webSocketConnection);
+	private Node getConnectionTypePanel() {
+		nioConnection.setToggleGroup(connectionTypes);
+		webSocketConnection.setToggleGroup(connectionTypes);
+		
 		nioConnection.setSelected(true);
 
-		return mh.getContainer();
+		VBox box = new VBox(10, nioConnection, webSocketConnection);
+
+		return box;
 	}
 
 	private void initListeners() {
 		output.setEditable(false);
-		output.setToolTipText("Displays messages received from Entrainer");
 
-		cancel.addActionListener(new ActionListener() {
+		connect.setOnAction(e -> onConnect());
+		clear.setOnAction(e -> output.setText(""));
+	}
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				GuiUtil.fadeOutAndDispose(EntrainerSocketConnector.this, 500);
-			}
-		});
-		cancel.setToolTipText("Closes this Entrainer Socket Connector");
-
-		connect.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (connect.isSelected()) {
-					try {
-						if (connectToEntrainer()) {
-							connect.setText("Disconnect");
-							enableConnectionTypes(false);
-						} else {
-							connectionFailed();
-						}
-					} catch (Throwable f) {
-						GuiUtil.handleProblem(f);
-						connectionFailed();
-					}
+	private void onConnect() {
+		if (connect.isSelected()) {
+			try {
+				if (connectToEntrainer()) {
+					connect.setText("Disconnect");
+					enableConnectionTypes(false);
 				} else {
-					disconnectFromEntrainer();
-					enableConnectionTypes(true);
-					connect.setText("Connect");
+					connectionFailed();
 				}
+			} catch (Throwable f) {
+				GuiUtil.handleProblem(f);
+				connectionFailed();
 			}
-		});
-
-		connect.setToolTipText("Connects to Entrainer's external socket");
-
-		clear.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				output.setText("");
-			}
-		});
-		clear.setToolTipText("Clears the messages");
+		} else {
+			disconnectFromEntrainer();
+			enableConnectionTypes(true);
+			connect.setText("Connect");
+		}
 	}
 
 	private void connectionFailed() {
@@ -302,8 +269,8 @@ public class EntrainerSocketConnector extends JFrame {
 	}
 
 	private void enableConnectionTypes(boolean enable) {
-		nioConnection.setEnabled(enable);
-		webSocketConnection.setEnabled(enable);
+		nioConnection.setDisable(!enable);
+		webSocketConnection.setDisable(!enable);
 	}
 
 	private boolean isActiveConnection() {
@@ -311,93 +278,102 @@ public class EntrainerSocketConnector extends JFrame {
 	}
 
 	private void wireSliders() {
-		entrainmentFrequency.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				setEntrainmentFrequencyValue();
-				if (isActiveConnection() && !isEntrainerEntrainmentFrequencyMessage) sendEntrainmentFrequencyChange();
-				isEntrainerEntrainmentFrequencyMessage = false;
-			}
-		});
-		setEntrainmentFrequencyValue();
+		initSlider(amplitude, amplitudeValue, amplitudeFormat);
+		initSlider(entrainmentFrequency, entrainmentValue, entrainmentFormat);
+		initSlider(frequency, frequencyValue, frequencyFormat);
+		initSlider(pinkNoise, pinkNoiseValue, amplitudeFormat);
 
-		amplitude.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				setAmplitudeValue();
-				if (isActiveConnection() && !isEntrainerAmplitudeMessage) sendAmplitudeChange();
-				isEntrainerAmplitudeMessage = false;
-			}
-		});
-		setAmplitudeValue();
+		pinkNoise.valueProperty().addListener(e -> sendPinkNoiseChange());
+		frequency.valueProperty().addListener(e -> sendFrequencyChange());
+		amplitude.valueProperty().addListener(e -> sendAmplitudeChange());
+		entrainmentFrequency.valueProperty().addListener(e -> sendEntrainmentFrequencyChange());
 
-		frequency.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				setFrequencyValue();
-				if (isActiveConnection() && !isEntrainerFrequencyMessage) sendFrequencyChange();
-				isEntrainerFrequencyMessage = false;
-			}
-		});
-		setFrequencyValue();
+		pane.setHgap(10);
+		pane.setVgap(20);
+		pane.setPadding(new Insets(10));
 
-		pinkNoise.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				setPinkNoiseValue();
-				if (isActiveConnection() && !isEntrainerPinkNoiseAmplitudeMessage) sendPinkNoiseChange();
-				isEntrainerPinkNoiseAmplitudeMessage = false;
-			}
-		});
-		setPinkNoiseValue();
+		int row = 0;
+		addSlider("Entrainment Frequency", entrainmentFrequency, entrainmentValue, row++);
+		addSlider("Frequency", frequency, frequencyValue, row++);
+		addSlider("Volume", amplitude, amplitudeValue, row++);
+		addSlider("Pink Noise", pinkNoise, pinkNoiseValue, row++);
 	}
 
-	private void setFrequencyValue() {
-		frequencyValue.setText(frequencyFormat.format(getFrequencyValue()));
+	private void addSlider(String label, Slider slider, Label value, int row) {
+		slider.setId(label);
+		Label title = new Label(label);
+
+		pane.add(title, 0, row);
+
+		pane.add(slider, 1, row);
+		pane.add(value, 2, row);
 	}
 
-	private void setPinkNoiseValue() {
-		pinkNoiseValue.setText(amplitudeFormat.format(getPinkNoiseValue()));
+	private void initSlider(Slider slider, Label label, DecimalFormat format) {
+		slider.setEffect(new InnerShadow());
+
+		slider.setMinWidth(350);
+
+		slider.valueProperty().addListener(e -> onSliderChange(slider, label, format));
+
+		label.setText(format.format(slider.getValue()));
 	}
 
-	private void setAmplitudeValue() {
-		amplitudeValue.setText(amplitudeFormat.format(getAmplitudeFromSlider()));
-	}
-
-	private void setEntrainmentFrequencyValue() {
-		entrainmentValue.setText(entrainmentFormat.format(getEntrainmentFrequencyFromSlider()));
+	private void onSliderChange(Slider slider, Label label, DecimalFormat format) {
+		double value = slider.getValue();
+		JFXUtils.runLater(() -> label.setText(format.format(value)));
 	}
 
 	private void sendAmplitudeChange() {
-		EntrainerStateMessage esm = new EntrainerStateMessage();
-		esm.setAmplitude(getAmplitudeFromSlider());
-		sendMessage(esm);
+		if (isActiveConnection() && !isEntrainerAmplitudeMessage) {
+			EntrainerStateMessage esm = new EntrainerStateMessage();
+			esm.setAmplitude(getAmplitudeFromSlider());
+			sendMessage(esm);
+		}
+
+		isEntrainerAmplitudeMessage = false;
 	}
 
 	private void sendPinkNoiseChange() {
-		EntrainerStateMessage esm = new EntrainerStateMessage();
-		esm.setPinkNoiseAmplitude(getPinkNoiseValue());
-		sendMessage(esm);
+		if (isActiveConnection() && !isEntrainerPinkNoiseAmplitudeMessage) {
+			EntrainerStateMessage esm = new EntrainerStateMessage();
+			esm.setPinkNoiseAmplitude(getPinkNoiseValue());
+			sendMessage(esm);
+		}
+
+		isEntrainerPinkNoiseAmplitudeMessage = false;
 	}
 
 	private void sendFrequencyChange() {
-		EntrainerStateMessage esm = new EntrainerStateMessage();
-		esm.setFrequency(getFrequencyValue());
-		sendMessage(esm);
+		if (isActiveConnection() && !isEntrainerFrequencyMessage) {
+			EntrainerStateMessage esm = new EntrainerStateMessage();
+			esm.setFrequency(getFrequencyValue());
+			sendMessage(esm);
+		}
+
+		isEntrainerFrequencyMessage = false;
 	}
 
 	private void sendEntrainmentFrequencyChange() {
-		EntrainerStateMessage esm = new EntrainerStateMessage();
-		esm.setEntrainmentFrequency(getEntrainmentFrequencyFromSlider());
-		sendMessage(esm);
+		if (isActiveConnection() && !isEntrainerEntrainmentFrequencyMessage) {
+			EntrainerStateMessage esm = new EntrainerStateMessage();
+			esm.setEntrainmentFrequency(getEntrainmentFrequencyFromSlider());
+			sendMessage(esm);
+		}
+
+		isEntrainerEntrainmentFrequencyMessage = false;
 	}
 
 	private double getAmplitudeFromSlider() {
-		return ((double) amplitude.getValue()) / 100;
+		return ((double) amplitude.getValue());
 	}
 
 	private double getEntrainmentFrequencyFromSlider() {
-		return ((double) entrainmentFrequency.getValue()) / 100;
+		return ((double) entrainmentFrequency.getValue());
 	}
 
 	private double getPinkNoiseValue() {
-		return ((double) pinkNoise.getValue()) / 1000;
+		return ((double) pinkNoise.getValue());
 	}
 
 	private double getFrequencyValue() {
@@ -524,7 +500,7 @@ public class EntrainerSocketConnector extends JFrame {
 			}
 
 			public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-				remoteDisconnection();
+				JFXUtils.runLater(() -> remoteDisconnection());
 			}
 
 			@Override
@@ -541,49 +517,45 @@ public class EntrainerSocketConnector extends JFrame {
 	 *          the esm
 	 */
 	protected void processMessage(EntrainerStateMessage esm) {
-		if (esm.getAmplitude() != null && !amplitude.getValueIsAdjusting()) {
+		if (esm.getAmplitude() != null && !amplitude.isValueChanging()) {
 			setAutoAmplitude(esm.getAmplitude());
 		}
 
-		if (esm.getFrequency() != null && !frequency.getValueIsAdjusting()) {
+		if (esm.getFrequency() != null && !frequency.isValueChanging()) {
 			setAutoFrequency(esm.getFrequency());
 		}
 
-		if (esm.getEntrainmentFrequency() != null && !entrainmentFrequency.getValueIsAdjusting()) {
+		if (esm.getEntrainmentFrequency() != null && !entrainmentFrequency.isValueChanging()) {
 			setAutoEntrainment(esm.getEntrainmentFrequency());
 		}
 
-		if (esm.getPinkNoiseAmplitude() != null && !pinkNoise.getValueIsAdjusting()) {
+		if (esm.getPinkNoiseAmplitude() != null && !pinkNoise.isValueChanging()) {
 			setAutoPinkNoise(esm.getPinkNoiseAmplitude());
 		}
 	}
 
 	private void setAutoAmplitude(double value) {
-		int val = new BigDecimal(value * 100).divide(BigDecimal.ONE, 0, RoundingMode.HALF_UP).intValue();
 		if (amplitude.getValue() == value) return;
 		isEntrainerAmplitudeMessage = true;
-		amplitude.setValue(val);
+		amplitude.setValue(value);
 	}
 
 	private void setAutoPinkNoise(double value) {
-		int val = new BigDecimal(value * 1000).divide(BigDecimal.ONE, 0, RoundingMode.HALF_UP).intValue();
-		if (pinkNoise.getValue() == val) return;
+		if (pinkNoise.getValue() == value) return;
 		isEntrainerPinkNoiseAmplitudeMessage = true;
-		pinkNoise.setValue(val);
+		pinkNoise.setValue(value);
 	}
 
 	private void setAutoFrequency(double value) {
-		int val = new BigDecimal(value).divide(BigDecimal.ONE, 0, RoundingMode.HALF_UP).intValue();
-		if (frequency.getValue() == val) return;
+		if (frequency.getValue() == value) return;
 		isEntrainerFrequencyMessage = true;
-		frequency.setValue(val);
+		frequency.setValue(value);
 	}
 
 	private void setAutoEntrainment(double value) {
-		double val = new BigDecimal(value * 100).divide(BigDecimal.ONE, 0, RoundingMode.HALF_UP).doubleValue();
-		if (entrainmentFrequency.getValue() == val) return;
+		if (entrainmentFrequency.getValue() == value) return;
 		isEntrainerEntrainmentFrequencyMessage = true;
-		entrainmentFrequency.setValue((int) val);
+		entrainmentFrequency.setValue(value);
 	}
 
 	private void sendMessage(EntrainerStateMessage esm) {
@@ -619,7 +591,7 @@ public class EntrainerSocketConnector extends JFrame {
 		return cf.isSuccess();
 	}
 
-	private void disconnectFromEntrainer() {
+	public void disconnectFromEntrainer() {
 		bootstrap.group().shutdownGracefully();
 		if (channel != null) channel.close();
 		channel = null;
@@ -632,7 +604,7 @@ public class EntrainerSocketConnector extends JFrame {
 			String oldText = output.getText();
 			String newText = text + "\n" + oldText;
 			output.setText(newText.length() > 10000 ? newText.substring(0, 10000) : newText);
-			output.setCaretPosition(0);
+			output.home();
 		}
 	}
 

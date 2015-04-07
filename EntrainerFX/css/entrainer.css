@@ -140,6 +140,44 @@
 	-fx-background-color: derive(midnightblue, 100.0%);		
 }
 
+.dialog-pane {
+	-fx-background-color: black;		
+	-fx-text-fill: cornsilk;
+}
+
+.button {
+	-fx-background-color: midnightblue;		
+	-fx-text-fill: cornsilk;
+}
+
+.button:armed {
+	-fx-background-color: royalblue;		
+	-fx-text-fill: cornsilk;
+}
+
+.toggle-button {
+	-fx-background-color: midnightblue;		
+	-fx-text-fill: cornsilk;
+}
+
+.toggle-button:armed {
+	-fx-background-color: royalblue;		
+	-fx-text-fill: cornsilk;
+}
+
+.toggle-button:selected {
+	-fx-background-color: derive(midnightblue, 100.0%);		
+	-fx-text-fill: cornsilk;
+}
+
+.text-area {
+	-fx-text-fill: cornsilk;
+}
+
+.text-area .content {
+	-fx-background-color: midnightblue;		
+}
+
 #EntrainerFX-layout {
 }
 

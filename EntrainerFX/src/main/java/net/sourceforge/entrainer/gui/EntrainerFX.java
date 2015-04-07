@@ -74,11 +74,13 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 import net.sourceforge.entrainer.JavaVersionChecker;
 import net.sourceforge.entrainer.esp.EspConnectionRegister;
@@ -268,6 +270,10 @@ public class EntrainerFX extends Application {
 	public Rectangle2D getMinSize() {
 		return new Rectangle2D(stage.getX(), stage.getY(), stage.getMinWidth(), stage.getMinHeight());
 	}
+	
+	public Stage getStage() {
+		return stage;
+	}
 
 	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
 		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
@@ -279,7 +285,7 @@ public class EntrainerFX extends Application {
 		JFXUtils.runLater(() -> initAnimationWindow());
 		initSocket();
 		initSettings();
-		addSystemTrayIcon();
+		SwingUtilities.invokeLater(() -> addSystemTrayIcon());
 		setMessage("Started Entrainer");
 	}
 
@@ -707,6 +713,7 @@ public class EntrainerFX extends Application {
 		ChoiceDialog<EspChannel> cd = new ChoiceDialog<EspChannel>(null, lab.getConnection().getChannels());
 		cd.setTitle("Choose Channel");
 		cd.setHeaderText("Choose the channel for processing");
+		cd.initOwner(stage);
 		
 		Optional<EspChannel> channel = cd.showAndWait();
 		
@@ -850,6 +857,7 @@ public class EntrainerFX extends Application {
 			Alert alert = new Alert(AlertType.WARNING, "Choose an ESP device first", ButtonType.OK);
 			alert.setHeaderText("No ESP Device Selected");
 			alert.setTitle("No ESP Device Selected");
+			alert.initOwner(stage);
 			alert.showAndWait();
 			return false;
 		}
@@ -916,10 +924,13 @@ public class EntrainerFX extends Application {
 		try {
 			EntrainerSocketConnector esc = new EntrainerSocketConnector(settings.getSocketIPAddress(),
 					settings.getSocketPort());
-			esc.pack();
-			GuiUtil.centerOnScreen(esc);
-			GuiUtil.addFadeOutInvisibleListener(esc, 500);
-			GuiUtil.fadeIn(esc, 500);
+			Dialog<ButtonType> d = new Dialog<>();
+			d.setDialogPane(esc);
+			d.setTitle("Entrainer Socket Connector");
+			d.initModality(Modality.NONE);
+			d.initOwner(stage);
+			d.setOnHiding(e -> esc.disconnectFromEntrainer());
+			d.show();
 		} catch (UnknownHostException e) {
 			GuiUtil.handleProblem(e);
 		}
@@ -975,6 +986,7 @@ public class EntrainerFX extends Application {
 			Alert alert = new Alert(AlertType.ERROR, "The port number " + e.getPort() + " is not valid", ButtonType.OK);
 			alert.setHeaderText("Invalid Port Number");
 			alert.setTitle("Invalid Port Number");
+			alert.initOwner(stage);
 			alert.showAndWait();
 			connect.setSelected(false);
 		}
@@ -992,6 +1004,7 @@ public class EntrainerFX extends Application {
 		Dialog<ButtonType> socker = new Dialog<ButtonType>();
 		socker.setDialogPane(spd);
 		socker.setTitle("Choose Host and Port");
+		socker.initOwner(stage);
 		Optional<ButtonType> bt = socker.showAndWait();
 		
 		if(bt.isPresent() && bt.get() == ButtonType.OK) {
@@ -1077,6 +1090,7 @@ public class EntrainerFX extends Application {
 
 		in.setTitle("EntrainerFX Recording File Name");
 		in.setHeaderText("Enter the name of the recording output file");
+		in.initOwner(stage);
 
 		Optional<String> name = in.showAndWait();
 
@@ -1087,6 +1101,7 @@ public class EntrainerFX extends Application {
 				Alert alert = new Alert(AlertType.CONFIRMATION, f.getAbsolutePath() + " already exists; overwrite?",
 						ButtonType.OK, ButtonType.CANCEL);
 				alert.setTitle("Recording File Exists");
+				alert.initOwner(stage);
 				Optional<ButtonType> button = alert.showAndWait();
 				if (!button.isPresent() || button.get() != ButtonType.OK) {
 					control.setWavFile(null);
@@ -1098,6 +1113,7 @@ public class EntrainerFX extends Application {
 				Alert alert = new Alert(AlertType.ERROR, f.getName()
 						+ " is not a valid WAV file\n(It must end with a '.wav' extension')", ButtonType.OK);
 				alert.setTitle("Invalid Recording File");
+				alert.initOwner(stage);
 				alert.showAndWait();
 				control.setWavFile(null);
 				return false;
@@ -1228,6 +1244,7 @@ public class EntrainerFX extends Application {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "Exiting: Confirm?", ButtonType.OK, ButtonType.CANCEL);
 		alert.setTitle("Exiting EntrainerFX");
 		alert.setHeaderText("Exit Confirmation");
+		alert.initOwner(stage);
 
 		Optional<ButtonType> button = alert.showAndWait();
 		if (button.isPresent() && button.get() == ButtonType.OK) {

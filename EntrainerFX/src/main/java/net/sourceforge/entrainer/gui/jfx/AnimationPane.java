@@ -35,6 +35,7 @@ import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import net.sourceforge.entrainer.gui.jfx.animation.JFXAnimationRegister;
@@ -43,6 +44,7 @@ import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
+import net.sourceforge.entrainer.util.Utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,6 +134,14 @@ public class AnimationPane extends AbstractTitledPane {
 		setTooltip(animationBackground, "Click to select a background image for animations");
 		setTooltip(animations, "The list of available animations");
 		setTooltip(applyAnimation, "Apply the chosen flash effect selected in the Flash Options to the animations");
+		
+		setOnMouseClicked(e -> localDoc(e));
+	}
+	
+	private void localDoc(MouseEvent e) {
+		if(!(e.isMetaDown() && e.getClickCount() == 1)) return;
+		
+		Utils.openLocalDocumentation("animations.html");
 	}
 
 	/**
