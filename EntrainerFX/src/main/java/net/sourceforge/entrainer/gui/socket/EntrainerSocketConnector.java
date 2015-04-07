@@ -59,7 +59,6 @@ import java.util.concurrent.Executors;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -205,7 +204,6 @@ public class EntrainerSocketConnector extends DialogPane {
 
 		GridPane.setConstraints(output, 0, 0);
 		GridPane.setConstraints(pane, 1, 0);
-		GridPane.setValignment(pane, VPos.CENTER);
 
 		Node buttonPanel = getButtonPanel();
 
@@ -226,7 +224,7 @@ public class EntrainerSocketConnector extends DialogPane {
 	private Node getConnectionTypePanel() {
 		nioConnection.setToggleGroup(connectionTypes);
 		webSocketConnection.setToggleGroup(connectionTypes);
-		
+
 		nioConnection.setSelected(true);
 
 		VBox box = new VBox(10, nioConnection, webSocketConnection);
@@ -289,6 +287,7 @@ public class EntrainerSocketConnector extends DialogPane {
 		pane.setHgap(10);
 		pane.setVgap(20);
 		pane.setPadding(new Insets(10));
+		pane.setAlignment(Pos.CENTER);
 
 		int row = 0;
 		addSlider("Entrainment Frequency", entrainmentFrequency, entrainmentValue, row++);
