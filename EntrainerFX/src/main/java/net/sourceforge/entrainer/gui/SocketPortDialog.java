@@ -153,6 +153,7 @@ public class SocketPortDialog extends DialogPane {
 	private void showErrorDialog(int port) {
 		Alert alert = new Alert(AlertType.ERROR, port + " is not a valid port number", ButtonType.OK);
 		alert.setTitle("Invalid Port Number");
+		alert.initOwner(EntrainerFX.getInstance().getStage());
 		alert.showAndWait();
 	}
 

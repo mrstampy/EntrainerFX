@@ -405,6 +405,7 @@ public class IntervalMenu extends Menu {
 		Alert alert = new Alert(AlertType.CONFIRMATION, "Deleting " + item.getText() + ". Continue?", ButtonType.OK,
 				ButtonType.CANCEL);
 		alert.setTitle("Delete Interval");
+		alert.initOwner(EntrainerFX.getInstance().getStage());
 
 		Optional<ButtonType> button = alert.showAndWait();
 		if (button.isPresent() && button.get() == ButtonType.OK) {

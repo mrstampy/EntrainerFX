@@ -18,6 +18,8 @@
  */
 package net.sourceforge.entrainer.gui;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -78,7 +80,8 @@ public class CustomInterval extends DialogPane {
 	}
 	
 	private int getValue(TextField tf) {
-		return Integer.parseInt(tf.getText());
+		String text = tf.getText();
+		return StringUtils.isEmpty(text) ? 0 : Integer.parseInt(text);
 	}
 
 	/**
@@ -124,6 +127,7 @@ public class CustomInterval extends DialogPane {
 		if (builder.toString().length() > 0) {
 			Alert alert = new Alert(AlertType.ERROR, builder.toString(), ButtonType.OK);
 			alert.setTitle("Errors");
+			alert.initOwner(EntrainerFX.getInstance().getStage());
 			alert.showAndWait();
 
 			return false;
