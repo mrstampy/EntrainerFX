@@ -968,7 +968,7 @@ public class EntrainerFX extends Application {
 		int portNum = socket.getPortNumber();
 		String hostName = socket.getHostName();
 		socket.unbind();
-		new NotificationWindow("Entrainer socket unbound from host " + hostName + " and port " + portNum, null);
+		new NotificationWindow("Entrainer socket unbound from host " + hostName + " and port " + portNum);
 		settings.setSocketConnected(false);
 	}
 
@@ -977,7 +977,7 @@ public class EntrainerFX extends Application {
 		try {
 			socket.bind();
 			new NotificationWindow("Entrainer socket bound to host " + socket.getHostName() + " and port "
-					+ socket.getPortNumber(), null);
+					+ socket.getPortNumber());
 			settings.setSocketConnected(true);
 		} catch (IOException e) {
 			GuiUtil.handleProblem(e);

@@ -18,29 +18,26 @@
  */
 package net.sourceforge.entrainer.gui.popup;
 
-import java.awt.Color;
-import java.awt.Container;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JWindow;
-import javax.swing.border.BevelBorder;
-
-import net.sourceforge.entrainer.guitools.GuiUtil;
-
-import org.pushingpixels.trident.Timeline.TimelineState;
-import org.pushingpixels.trident.callback.TimelineCallbackAdapter;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
+import net.sourceforge.entrainer.gui.EntrainerFX;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class NotificationWindow.
  */
-@SuppressWarnings("serial")
-public class NotificationWindow extends JWindow {
-
-	private JPanel panel = new JPanel();
-
-	private Color background = new Color(145, 140, 247);
+public class NotificationWindow extends Stage {
 
 	/**
 	 * Instantiates a new notification window.
@@ -50,40 +47,47 @@ public class NotificationWindow extends JWindow {
 	 * @param container
 	 *          the container
 	 */
-	public NotificationWindow(String message, Container container) {
-		initGui(message, container);
-		pack();
+	public NotificationWindow(String message) {
+		super(StageStyle.TRANSPARENT);
+		initOwner(EntrainerFX.getInstance().getStage());
+		initGui(message);
 		execute();
 	}
 
-	private void initGui(String message, Container container) {
-		panel.setBackground(background);
-		panel.setBorder(new BevelBorder(BevelBorder.RAISED));
-		panel.add(new JLabel(message));
+	private void initGui(String message) {
+		Label label = new Label(message);
+		
+		label.setStyle("-fx-background-color: midnightblue; -fx-text-fill: cornsilk;");
+		label.setFont(Font.font(16));
+		
+		HBox box = new HBox(10, label);
+		Scene scene = new Scene(box);
 
-		add(panel);
-
-		setLocationRelativeTo(container);
+		setScene(scene);
 	}
 
 	private void execute() {
-		TimelineCallbackAdapter tca = new TimelineCallbackAdapter() {
+		SequentialTransition st = new SequentialTransition(getFadeIn(), getPause(), getFadeOut());
 
-			public void onTimelineStateChanged(TimelineState oldState, TimelineState newState, float durationFraction,
-					float timelinePosition) {
-				toFront();
+		st.onFinishedProperty().addListener(e -> hide());
 
-				if (TimelineState.DONE == newState) {
-					fadeOut();
-				}
-			}
-		};
+		setOpacity(0);
 
-		GuiUtil.fadeIn(this, 500, tca);
+		show();
+
+		st.play();
 	}
 
-	private void fadeOut() {
-		GuiUtil.fadeOutAndDispose(this, 4000);
+	private Animation getFadeOut() {
+		return new Timeline(new KeyFrame(Duration.millis(1000), new KeyValue(opacityProperty(), 0)));
+	}
+
+	private Animation getFadeIn() {
+		return new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 0.75)));
+	}
+
+	private Animation getPause() {
+		return new PauseTransition(Duration.seconds(2));
 	}
 
 }
