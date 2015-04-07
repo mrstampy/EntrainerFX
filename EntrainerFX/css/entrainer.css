@@ -145,6 +145,10 @@
 	-fx-text-fill: cornsilk;
 }
 
+.dialog-pane .header-panel {
+	-fx-background-color: royalblue;
+}
+
 .button {
 	-fx-background-color: midnightblue;		
 	-fx-text-fill: cornsilk;

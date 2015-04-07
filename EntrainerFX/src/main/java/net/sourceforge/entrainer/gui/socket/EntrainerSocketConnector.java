@@ -49,8 +49,6 @@ import io.netty.util.CharsetUtil;
 
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
