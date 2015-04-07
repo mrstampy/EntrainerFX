@@ -65,6 +65,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 
+import net.sourceforge.entrainer.gui.EntrainerFX;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.util.Utils;
 
@@ -256,6 +257,8 @@ public class GuiUtil {
 		Alert alert = new Alert(AlertType.ERROR, msg, ButtonType.OK);
 		alert.setHeaderText("Please see the ~/EntrainerFX-Settings/entrainer.log file for details");
 		alert.setTitle("Unexpected Exception");
+		EntrainerFX efx = EntrainerFX.getInstance();
+		alert.initOwner(efx == null ? null : efx.getStage());
 		if (cdl == null) {
 			alert.show();
 		} else {
