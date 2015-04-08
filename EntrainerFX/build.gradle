@@ -75,7 +75,6 @@ dependencies {
 	entrainer 'jsyn:jsyn:16.7.3'
 	entrainer 'neuroph-core:neuroph-core:2.8.0'
 	entrainer 'com.netflix.rxjava:rxjava-core:0.17.5'
-	entrainer 'com.miglayout:miglayout-ideutil:5.0'
 	entrainer 'com.lmax:disruptor:3.3.2'
 	entrainer 'ch.qos.logback:logback-classic:1.1.2'
 	entrainer 'ch.qos.logback:logback-core:1.1.2'

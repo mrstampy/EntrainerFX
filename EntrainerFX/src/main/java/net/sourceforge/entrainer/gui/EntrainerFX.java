@@ -902,9 +902,10 @@ public class EntrainerFX extends Application {
 	}
 	
 	private void setProgramItemsDisabled(boolean b) {
-		getFileMenuItem(MENU_NEW_ENTRAINER_FX_PROGRAM).setDisable(b);
-		getFileMenuItem(MENU_EDIT_ENTRAINER_FX_PROGRAM).setDisable(b);
-		getFileMenuItem(MENU_LOAD_ENTRAINER_FX_PROGRAM).setDisable(b);
+		boolean disable = b || soundControlPane.isPlayingEntrainerProgram() || soundControlPane.isRecordingEntrainerProgram();
+		getFileMenuItem(MENU_NEW_ENTRAINER_FX_PROGRAM).setDisable(disable);
+		getFileMenuItem(MENU_EDIT_ENTRAINER_FX_PROGRAM).setDisable(disable);
+		getFileMenuItem(MENU_LOAD_ENTRAINER_FX_PROGRAM).setDisable(disable);
 	}
 
 	private boolean connectionCheck() {
