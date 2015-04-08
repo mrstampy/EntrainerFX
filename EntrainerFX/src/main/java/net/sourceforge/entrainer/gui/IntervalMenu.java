@@ -154,7 +154,7 @@ public class IntervalMenu extends Menu {
 	 */
 	public List<String> removeAllIntervals() {
 		List<String> loaded = new ArrayList<String>();
-		List<MenuItem> comps = remove.getItems();
+		List<MenuItem> comps = new ArrayList<>(remove.getItems());
 		for (MenuItem jmi : comps) {
 			removeInterval(jmi);
 			loaded.add(jmi.getText());

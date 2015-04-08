@@ -116,7 +116,6 @@ public class XmlEditor extends Stage {
 
 	private Button removeUnit = new Button();
 	private Button addUnit = new Button();
-	private Button showChart = new Button();
 
 	private UnitEditorPane visibleUnitEditorPane;
 	private UnitEditorPane previousUnitEditorPane;
@@ -310,10 +309,6 @@ public class XmlEditor extends Stage {
 		addUnit.setOnAction(e -> addUnitPressed());
 		addUnit.setTooltip(new Tooltip("Add a Unit"));
 		ControlButtonFactory.decorateButton(addUnit, "/add.png", "/add-Hot.png");
-
-		showChart.setOnAction(e -> showChartPressed());
-		showChart.setTooltip(new Tooltip("Show Chart of the Entrainer Program Settings"));
-		ControlButtonFactory.decorateButton(showChart, "/Column-Chart-Normal.png", "/Column-Chart-Hot.png");
 
 		units.getSelectionModel().selectedIndexProperty().addListener(e -> switchEditors());
 	}
@@ -749,7 +744,6 @@ public class XmlEditor extends Stage {
 		units.setDisable(b);
 		removeUnit.setDisable(b);
 		addUnit.setDisable(b);
-		showChart.setDisable(b);
 	}
 
 	private void fireReceiverChangeEvent(boolean b, MediatorConstants parm) {
@@ -833,7 +827,7 @@ public class XmlEditor extends Stage {
 	}
 
 	private Node getTopButtons() {
-		HBox box = new HBox(10, addUnit, removeUnit, showChart);
+		HBox box = new HBox(10, addUnit, removeUnit);
 		box.setAlignment(Pos.CENTER);
 		return box;
 	}
