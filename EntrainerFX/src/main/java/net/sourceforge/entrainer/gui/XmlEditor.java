@@ -77,7 +77,6 @@ import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
 import net.sourceforge.entrainer.gui.jfx.ControlButtonFactory;
 import net.sourceforge.entrainer.gui.jfx.FlashOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
-import net.sourceforge.entrainer.gui.jfx.MediaPlayerPane;
 import net.sourceforge.entrainer.gui.jfx.ShimmerOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.SliderControlPane;
 import net.sourceforge.entrainer.guitools.GridPaneHelper;
@@ -129,7 +128,6 @@ public class XmlEditor extends Stage {
 	private SliderControlPane pinkPan = new SliderControlPane(false);
 	private BackgroundPicturePane pics = new BackgroundPicturePane();
 	private FlashOptionsPane flashOptions = new FlashOptionsPane();
-	private MediaPlayerPane mediaOptions = new MediaPlayerPane();
 
 	private boolean cancelPressed = false;
 
@@ -167,7 +165,6 @@ public class XmlEditor extends Stage {
 		unexpandeTitledPane(pinkPan);
 		unexpandeTitledPane(pics);
 		unexpandeTitledPane(flashOptions);
-		unexpandeTitledPane(mediaOptions);
 	}
 
 	private void unexpandeTitledPane(TitledPane tp) {
@@ -364,7 +361,6 @@ public class XmlEditor extends Stage {
 		animations.clearMediatorObjects();
 		pinkPan.clearMediatorObjects();
 		shimmers.clearMediatorObjects();
-		mediaOptions.clearMediatorObjects();
 		pics.clearMediatorObjects();
 		flashOptions.clearMediatorObjects();
 		background.stop();
@@ -406,17 +402,12 @@ public class XmlEditor extends Stage {
 		xml.setShimmer(shimmers.getShimmer().isSelected());
 		xml.setFlashAnimation(animations.isFlashAnimation());
 		xml.setFlashEntrainerFX(flashOptions.isFlashEntrainerFX());
-		xml.setFlashMedia(mediaOptions.isFlashMedia());
 		xml.setFlashShimmer(shimmers.isFlashShimmer());
 		xml.setAnimationBackground(animations.getAnimationBackgroundPicture());
 		xml.setAnimationProgram(animations.getSelectedAnimationName());
 		xml.setUseColourAsBackground(animations.getUseColourAsBackground().isSelected());
 		xml.setIntervals(intervalMenu.getLoadedIntervals());
 		xml.setShimmerName(shimmers.getShimmers().getValue());
-
-		xml.setMediaEntrainment(mediaOptions.isMediaEntrainment());
-		xml.setMediaLoop(mediaOptions.isMediaLoop());
-		xml.setMediaUri(mediaOptions.getMediaURI());
 
 		xml.setBackgroundColour(JFXUtils.fromJFXColor(pics.getBackgroundColour()));
 		xml.setDynamicDuration(pics.getDuration());
@@ -575,17 +566,6 @@ public class XmlEditor extends Stage {
 			pics.setStaticPicture(xml.getStaticPictureFile());
 			fireReceiverChangeEvent(pics.getStaticPicture(), MediatorConstants.BACKGROUND_PIC);
 		}
-
-		mediaOptions.setFlashMedia(xml.isFlashMedia());
-		fireReceiverChangeEvent(xml.isFlashMedia(), MediatorConstants.APPLY_FLASH_TO_MEDIA);
-
-		mediaOptions.setMediaEntrainment(xml.isMediaEntrainment());
-		fireReceiverChangeEvent(xml.isMediaEntrainment(), MediatorConstants.MEDIA_ENTRAINMENT);
-
-		mediaOptions.setMediaURI(xml.getMediaUri());
-		fireReceiverChangeEvent(xml.getMediaUri(), MediatorConstants.MEDIA_URI);
-
-		mediaOptions.setMediaLoop(xml.isMediaLoop());
 
 		pics.setPictureLock(xml.isStaticPictureLock());
 		fireReceiverChangeEvent(pics.isPictureLock(), MediatorConstants.STATIC_PICTURE_LOCK);
@@ -845,7 +825,6 @@ public class XmlEditor extends Stage {
 			.addLast(units)
 			.addLast(bottomButtons)
 			.addLast(pinkPan)
-			.addLast(mediaOptions)
 			.addLast(pics)
 			.addLast(shimmers)
 			.addLast(animations)
