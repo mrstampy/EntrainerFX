@@ -18,10 +18,6 @@
  */
 package net.sourceforge.entrainer.gui;
 
-import static net.sourceforge.entrainer.gui.EntrainerConstants.ABOUT_ENTRAINER_MENU_NAME;
-import static net.sourceforge.entrainer.gui.EntrainerConstants.FILE_MENU_NAME;
-import static net.sourceforge.entrainer.gui.EntrainerConstants.HELP_MENU_NAME;
-import static net.sourceforge.entrainer.gui.EntrainerConstants.NEW_XML_PROGRAM_MENU_NAME;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.MESSAGE;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.START_ENTRAINMENT;
 import static net.sourceforge.entrainer.util.Utils.openBrowser;
@@ -150,6 +146,10 @@ import com.github.mrstampy.esplab.EspPowerLabWindow;
  * @author burton
  */
 public class EntrainerFX extends Application {
+	private static final String MENU_CLEAR_ENTRAINER_FX_PROGRAM = "Clear EntrainerFX Program";
+	private static final String MENU_LOAD_ENTRAINER_FX_PROGRAM = "Load EntrainerFX Program";
+	private static final String MENU_EDIT_ENTRAINER_FX_PROGRAM = "Edit EntrainerFX Program";
+	private static final String MENU_NEW_ENTRAINER_FX_PROGRAM = "New EntrainerFX Program";
 	private static final int MIN_HEIGHT = 950;
 	private static final Logger log = LoggerFactory.getLogger(EntrainerFX.class);
 
@@ -545,7 +545,7 @@ public class EntrainerFX extends Application {
 	private void addMenu() {
 		bar = new MenuBar();
 
-		Menu menu = new Menu(FILE_MENU_NAME);
+		Menu menu = new Menu("File");
 		addMnemonic(menu, KeyCode.F);
 
 		menu.getItems().add(getStartItem());
@@ -565,7 +565,7 @@ public class EntrainerFX extends Application {
 
 		bar.getMenus().add(getSocketMenu());
 
-		Menu help = new Menu(HELP_MENU_NAME);
+		Menu help = new Menu("Help");
 		addMnemonic(help, KeyCode.H);
 
 		help.getItems().add(getAboutItem());
@@ -634,7 +634,7 @@ public class EntrainerFX extends Application {
 	}
 
 	private MenuItem getEditXmlItem() {
-		MenuItem item = new MenuItem("Edit Entrainer Program");
+		MenuItem item = new MenuItem(MENU_EDIT_ENTRAINER_FX_PROGRAM);
 		addMnemonic(item, KeyCode.E);
 		item.setOnAction(e -> editXml());
 
@@ -642,7 +642,7 @@ public class EntrainerFX extends Application {
 	}
 
 	private MenuItem getNewXmlItem() {
-		MenuItem item = new MenuItem(NEW_XML_PROGRAM_MENU_NAME);
+		MenuItem item = new MenuItem(MENU_NEW_ENTRAINER_FX_PROGRAM);
 		addMnemonic(item, KeyCode.N);
 		item.setOnAction(e -> newXml());
 
@@ -650,7 +650,7 @@ public class EntrainerFX extends Application {
 	}
 
 	private MenuItem getLoadXmlItem() {
-		MenuItem item = new MenuItem("Load Entrainer Program");
+		MenuItem item = new MenuItem(MENU_LOAD_ENTRAINER_FX_PROGRAM);
 		addMnemonic(item, KeyCode.L);
 		item.setOnAction(e -> loadXml());
 
@@ -658,7 +658,7 @@ public class EntrainerFX extends Application {
 	}
 
 	private MenuItem getClearXmlItem() {
-		MenuItem item = new MenuItem("Clear Entrainer Program");
+		MenuItem item = new MenuItem(MENU_CLEAR_ENTRAINER_FX_PROGRAM);
 		addMnemonic(item, KeyCode.C);
 		item.setOnAction(e -> clearXmlFile());
 
@@ -670,7 +670,7 @@ public class EntrainerFX extends Application {
 	}
 
 	private MenuItem getAboutItem() {
-		MenuItem aboutItem = new MenuItem(ABOUT_ENTRAINER_MENU_NAME);
+		MenuItem aboutItem = new MenuItem("About EntrainerFX");
 		addMnemonic(aboutItem, KeyCode.B);
 		aboutItem.setOnAction(e -> showAboutDialog());
 
@@ -900,6 +900,12 @@ public class EntrainerFX extends Application {
 			}
 		});
 	}
+	
+	private void setProgramItemsDisabled(boolean b) {
+		getFileMenuItem(MENU_NEW_ENTRAINER_FX_PROGRAM).setDisable(b);
+		getFileMenuItem(MENU_EDIT_ENTRAINER_FX_PROGRAM).setDisable(b);
+		getFileMenuItem(MENU_LOAD_ENTRAINER_FX_PROGRAM).setDisable(b);
+	}
 
 	private boolean connectionCheck() {
 		if (lab.getConnection() == null) {
@@ -1076,12 +1082,10 @@ public class EntrainerFX extends Application {
 	private void showXmlEditor(File f) {
 		settings.setPreserveState(true);
 		intervalCache = intervalMenu.removeAllIntervals();
-		final XmlEditor editor = new XmlEditor(stage, f);
-		editor.addXmlFileSaveListener(new XmlFileSaveListener() {
-			public void xmlFileSaveEventPerformed(XmlFileSaveEvent e) {
-				xmlFileSaved(e.getXmlFile());
-			}
-		});
+
+		XmlEditor editor = new XmlEditor(stage, f);
+		
+		editor.addXmlFileSaveListener(e -> xmlFileSaved(e.getXmlFile()));
 
 		editor.setOnHiding(e -> resetIntervalCache());
 		editor.setOpacity(0);
@@ -1263,10 +1267,10 @@ public class EntrainerFX extends Application {
 	private void enableControls(final boolean enabled) {
 		JFXUtils.runLater(() -> setPanesDisabled(!enabled));
 
-		getFileMenuItem("New Entrainer Program").setDisable(!enabled);
-		getFileMenuItem("Edit Entrainer Program").setDisable(!enabled);
-		getFileMenuItem("Clear Entrainer Program").setDisable(enabled);
-		getFileMenuItem("Load Entrainer Program").setDisable(!enabled);
+		getFileMenuItem(MENU_NEW_ENTRAINER_FX_PROGRAM).setDisable(!enabled);
+		getFileMenuItem(MENU_EDIT_ENTRAINER_FX_PROGRAM).setDisable(!enabled);
+		getFileMenuItem(MENU_CLEAR_ENTRAINER_FX_PROGRAM).setDisable(enabled);
+		getFileMenuItem(MENU_LOAD_ENTRAINER_FX_PROGRAM).setDisable(!enabled);
 	}
 
 	private void setPanesDisabled(boolean b) {
@@ -1327,6 +1331,7 @@ public class EntrainerFX extends Application {
 			initializeControls();
 			sleeperManagerThread = sleeperManager.start();
 		}
+		setProgramItemsDisabled(true);
 	}
 
 	private void resume() {
@@ -1346,6 +1351,7 @@ public class EntrainerFX extends Application {
 			sleeperManager.stop();
 		}
 		entrainerProgramInitialized = false;
+		setProgramItemsDisabled(false);
 	}
 
 	private void pause() {
@@ -1426,7 +1432,7 @@ public class EntrainerFX extends Application {
 			sleeperManager.clearMediatorObjects();
 			sleeperManager = null;
 			sleeperManagerThread = null;
-			setMessage("Cleared Entrainer Program");
+			setMessage("Cleared EntrainerFX Program");
 			entrainerProgramInitialized = false;
 			settings.setXmlProgram("");
 			enableControls(true);

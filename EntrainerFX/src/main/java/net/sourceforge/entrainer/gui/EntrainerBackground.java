@@ -263,6 +263,7 @@ public class EntrainerBackground {
 
 		try {
 			currentFile = pictureNames.get(idx);
+			log.debug("Random image {}", currentFile);
 			return new Image(new FileInputStream(currentFile));
 		} catch (FileNotFoundException e) {
 			log.error("Unexpected exception for picture {}", pictureNames.get(idx), e);
@@ -353,7 +354,6 @@ public class EntrainerBackground {
 						}
 						break;
 					case BACKGROUND_DURATION_SECONDS:
-						log.debug("EB: received duration {} from {}", e.getDoubleValue(), e.getSource());
 						setDisplayTime((int) e.getDoubleValue());
 						break;
 					case BACKGROUND_TRANSITION_SECONDS:
