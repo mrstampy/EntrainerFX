@@ -18,16 +18,6 @@
  */
 package net.sourceforge.entrainer.gui;
 
-import static net.sourceforge.entrainer.gui.EntrainerConstants.HELP_MENU_NAME;
-import static net.sourceforge.entrainer.gui.XmlEditorConstants.XEC_ABOUT_MENU_NAME;
-import static net.sourceforge.entrainer.gui.XmlEditorConstants.XEC_ADD_UNIT_NAME;
-import static net.sourceforge.entrainer.gui.XmlEditorConstants.XEC_CANCEL_NAME;
-import static net.sourceforge.entrainer.gui.XmlEditorConstants.XEC_DIALOG_NAME;
-import static net.sourceforge.entrainer.gui.XmlEditorConstants.XEC_REMOVE_UNIT_NAME;
-import static net.sourceforge.entrainer.gui.XmlEditorConstants.XEC_SAVE_AS_NAME;
-import static net.sourceforge.entrainer.gui.XmlEditorConstants.XEC_SAVE_NAME;
-import static net.sourceforge.entrainer.gui.XmlEditorConstants.XEC_SHOW_CHART_NAME;
-import static net.sourceforge.entrainer.gui.XmlEditorConstants.XEC_UNITS_NAME;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_BACKGROUND;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.ANIMATION_PROGRAM;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_ANIMATION;
@@ -35,21 +25,9 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.IS_SHIMMER;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.MESSAGE;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_PAN;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.SHIMMER_RECTANGLE;
-import static net.sourceforge.entrainer.util.Utils.openBrowser;
 import static net.sourceforge.entrainer.xml.program.EntrainerProgramUtil.marshal;
 import static net.sourceforge.entrainer.xml.program.EntrainerProgramUtil.unmarshal;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -58,44 +36,51 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
-import javafx.embed.swing.JFXPanel;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.KeyStroke;
-import javax.swing.border.BevelBorder;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sourceforge.entrainer.gui.flash.FlashType;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
+import net.sourceforge.entrainer.gui.jfx.ControlButtonFactory;
 import net.sourceforge.entrainer.gui.jfx.FlashOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.gui.jfx.MediaPlayerPane;
 import net.sourceforge.entrainer.gui.jfx.ShimmerOptionsPane;
 import net.sourceforge.entrainer.gui.jfx.SliderControlPane;
+import net.sourceforge.entrainer.guitools.GridPaneHelper;
 import net.sourceforge.entrainer.guitools.GuiUtil;
-import net.sourceforge.entrainer.guitools.MigHelper;
-import net.sourceforge.entrainer.jfreechart.UnitChart;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
@@ -117,22 +102,21 @@ import org.xml.sax.SAXException;
  * 
  * @author burton
  */
-public class XmlEditor extends JDialog {
+public class XmlEditor extends Stage {
 
 	private static final Logger log = LoggerFactory.getLogger(XmlEditor.class);
-	private static final long serialVersionUID = 1L;
 
 	private EntrainerProgram xml;
 
-	private JTabbedPane units = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
+	private TabPane units = new TabPane();
 
-	private JButton save = new JButton(XEC_SAVE_NAME);
-	private JButton saveAs = new JButton(XEC_SAVE_AS_NAME);
-	private JButton cancel = new JButton(XEC_CANCEL_NAME);
+	private Button save = new Button("Save");
+	private Button saveAs = new Button("Save As");
+	private Button cancel = new Button("Cancel");
 
-	private JButton removeUnit = new JButton();
-	private JButton addUnit = new JButton();
-	private JButton showChart = new JButton();
+	private Button removeUnit = new Button();
+	private Button addUnit = new Button();
+	private Button showChart = new Button();
 
 	private UnitEditorPane visibleUnitEditorPane;
 	private UnitEditorPane previousUnitEditorPane;
@@ -154,11 +138,13 @@ public class XmlEditor extends JDialog {
 	private IntervalMenu intervalMenu = new IntervalMenu();
 
 	private Sender sender = new SenderAdapter();
-	private JFXPanel panel = new JFXPanel();
 	private EntrainerBackground background = new EntrainerBackground();
 
 	private volatile boolean closing = false;
 	private GridPane gp;
+
+	private EntrainerFXResizer resizer;
+	private MenuBar bar;
 
 	/**
 	 * Instantiates a new xml editor.
@@ -168,28 +154,11 @@ public class XmlEditor extends JDialog {
 	 * @param file
 	 *          the file
 	 */
-	public XmlEditor(Frame owner, File file) {
-		super(owner, XEC_DIALOG_NAME, true);
+	public XmlEditor(Stage owner, File file) {
+		super(StageStyle.TRANSPARENT);
+		initOwner(owner);
 		init(file);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.Window#pack()
-	 */
-	public void pack() {
-		super.pack();
-		setPreferredSize(getAggregatedSize());
-		setSize(getPreferredSize());
-		JFXUtils.runLater(() -> unexpandTitledPanes());
-	}
-
-	private Dimension getAggregatedSize() {
-		int prefWidth = (int)EntrainerFX.getInstance().getMinSize().getWidth();
-		int prefHeight = getContentPane().getSize().height + 450;
-
-		return new Dimension(prefWidth, prefHeight);
+		unexpandTitledPanes();
 	}
 
 	private void unexpandTitledPanes() {
@@ -238,51 +207,70 @@ public class XmlEditor extends JDialog {
 		initFields();
 		createTabs();
 		addListeners();
-		layoutComponents();
+		initUi();
 		if (f != null) {
 			setMessage("Loaded " + f.getName());
 		}
-		setComponentNames();
 
-		addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.isControlDown() && e.getClickCount() == 1) {
-					openBrowser(getLocalDocAddress());
-				}
-			}
-		});
+		resizer = new EntrainerFXResizer(e -> resizeDimensions(e));
 
-		addWindowListener(new WindowAdapter() {
+		addEventHandler(MouseEvent.MOUSE_CLICKED, e -> showDoc(e));
 
-			@Override
-			public void windowOpened(WindowEvent e) {
-				JFXUtils.runLater(() -> resizeBackground());
-			}
-		});
+		addEventHandler(MouseEvent.MOUSE_CLICKED, e -> resizer.onClick(e));
+		addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> resizer.onDrag(e));
+		addEventHandler(MouseEvent.MOUSE_RELEASED, e -> resizer.onRelease(e));
+
+		setOnShown(e -> setResizer());
 	}
 
-	private void resizeBackground() {
-		background.setDimension(panel.getWidth(), panel.getHeight());
+	private void setResizer() {
+		Rectangle2D size = new Rectangle2D(getX(), getY(), getWidth(), getHeight());
+		resizer.setSize(size);
+		background.setDimension(size.getWidth(), size.getHeight());
 	}
 
-	private String getLocalDocAddress() {
-		File file = new File(".");
+	private void resizeDimensions(Rectangle2D r) {
+		if (getX() != r.getMinX()) {
+			setX(r.getMinX());
+		}
 
-		String path = file.getAbsolutePath();
+		if (getY() != r.getMinY()) {
+			setY(r.getMinY());
+		}
 
-		path = path.substring(0, path.lastIndexOf("."));
+		if (getWidth() != r.getWidth()) {
+			setWidth(r.getWidth());
+		}
 
-		return "file://" + path + "doc/editing.html";
+		if (getHeight() != r.getHeight()) {
+			setHeight(r.getHeight());
+		}
+
+		setJFXSize(r);
 	}
 
-	private void setComponentNames() {
-		save.setName(XEC_SAVE_NAME);
-		cancel.setName(XEC_CANCEL_NAME);
-		removeUnit.setName(XEC_REMOVE_UNIT_NAME);
-		saveAs.setName(XEC_SAVE_AS_NAME);
-		showChart.setName(XEC_SHOW_CHART_NAME);
-		units.setName(XEC_UNITS_NAME);
-		addUnit.setName(XEC_ADD_UNIT_NAME);
+	private void setJFXSize(Rectangle2D size) {
+		double width = size.getWidth();
+
+		gp.setPrefSize(width, size.getHeight());
+
+		setTitledPaneWidth(pics, width);
+		setTitledPaneWidth(animations, width);
+		setTitledPaneWidth(pinkPan, width);
+		setTitledPaneWidth(flashOptions, width);
+		setTitledPaneWidth(shimmers, width);
+
+		background.setDimension(size.getWidth(), size.getHeight());
+	}
+
+	private void setTitledPaneWidth(TitledPane tp, double width) {
+		tp.setPrefWidth(width);
+	}
+
+	private void showDoc(javafx.scene.input.MouseEvent e) {
+		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
+
+		Utils.openLocalDocumentation("editing.html");
 	}
 
 	private void initMediator() {
@@ -290,127 +278,85 @@ public class XmlEditor extends JDialog {
 	}
 
 	private void addMenuBar() {
-		JMenuBar bar = new JMenuBar();
+		bar = new MenuBar();
+		bar.getMenus().add(intervalMenu);
 
-//		bar.add(intervalMenu);
+		Menu help = new Menu("Help");
 
-		JMenu help = new JMenu(HELP_MENU_NAME);
-		addMnemonic(help, KeyEvent.VK_H);
-		help.add(getAboutItem());
+		MenuItem doc = new MenuItem("Documentation");
+		doc.setOnAction(e -> Utils.openLocalDocumentation("editing.html"));
+		help.getItems().add(doc);
 
-		bar.add(help);
-
-		setJMenuBar(bar);
-	}
-
-	private JMenuItem getAboutItem() {
-		JMenuItem item = new JMenuItem(XEC_ABOUT_MENU_NAME);
-		addMnemonic(item, KeyEvent.VK_A);
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				XmlEditorAbout.showDialog();
-			}
-		});
-
-		return item;
-	}
-
-	private void addMnemonic(JMenuItem item, int charKey) {
-		item.setMnemonic(charKey);
-		if (!(item instanceof JMenu)) {
-			item.setAccelerator(KeyStroke.getKeyStroke(charKey, InputEvent.CTRL_DOWN_MASK));
-		}
+		bar.getMenus().add(help);
+		bar.setOpacity(0.75);
 	}
 
 	private void addListeners() {
-		save.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				savePressed(true);
-			}
-		});
+		save.setOnAction(e -> savePressed(true));
+		save.setTooltip(new Tooltip("Save the Entrainer Program"));
 
-		save.setToolTipText("Save the Entrainer Program");
+		saveAs.setOnAction(e -> savePressed(false));
+		saveAs.setTooltip(new Tooltip("Save Entrainer Program As..."));
 
-		saveAs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				savePressed(false);
-			}
-		});
+		cancel.setOnAction(e -> fadeOut());
+		cancel.setTooltip(new Tooltip("Cancel Entrainer Program Changes"));
 
-		saveAs.setToolTipText("Save Entrainer Program As...");
+		setOnHiding(e -> exit());
 
-		cancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				exit();
-			}
-		});
+		removeUnit.setOnAction(e -> removeUnitPressed());
+		removeUnit.setTooltip(new Tooltip("Remove the Current Unit"));
+		ControlButtonFactory.decorateButton(removeUnit, "/delete.png", "/delete-Hot.png");
 
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				exit();
-			}
-		});
+		addUnit.setOnAction(e -> addUnitPressed());
+		addUnit.setTooltip(new Tooltip("Add a Unit"));
+		ControlButtonFactory.decorateButton(addUnit, "/add.png", "/add-Hot.png");
 
-		cancel.setToolTipText("Cancel Entrainer Program Changes");
+		showChart.setOnAction(e -> showChartPressed());
+		showChart.setTooltip(new Tooltip("Show Chart of the Entrainer Program Settings"));
+		ControlButtonFactory.decorateButton(showChart, "/Column-Chart-Normal.png", "/Column-Chart-Hot.png");
 
-		removeUnit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				removeUnitPressed();
-			}
-		});
+		units.getSelectionModel().selectedIndexProperty().addListener(e -> switchEditors());
+	}
 
-		removeUnit.setIcon(GuiUtil.getIcon("/delete.png"));
-		removeUnit.setRolloverIcon(GuiUtil.getIcon("/delete-Hot.png"));
-		GuiUtil.initIconButton(removeUnit, "Remove the Current Unit");
+	private void fadeOut() {
+		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 0)));
+		tl.setOnFinished(e -> hide());
+		tl.play();
+	}
 
-		addUnit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addUnitPressed();
-			}
-		});
-
-		addUnit.setIcon(GuiUtil.getIcon("/add.png"));
-		addUnit.setRolloverIcon(GuiUtil.getIcon("/add-Hot.png"));
-		GuiUtil.initIconButton(addUnit, "Add a Unit");
-
-		showChart.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				showChartPressed();
-			}
-		});
-
-		showChart.setIcon(GuiUtil.getIcon("/Column-Chart-Normal.png"));
-		showChart.setRolloverIcon(GuiUtil.getIcon("/Column-Chart-Hot.png"));
-		GuiUtil.initIconButton(showChart, "Show Chart of the Entrainer Program Settings");
-
-		units.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				previousUnitEditorPane = visibleUnitEditorPane;
-				visibleUnitEditorPane = getUnitEditorPane(units.getSelectedIndex());
-			}
-		});
+	private void switchEditors() {
+		previousUnitEditorPane = visibleUnitEditorPane;
+		visibleUnitEditorPane = getUnitEditorPane(units.getSelectionModel().getSelectedIndex());
 	}
 
 	private void showChartPressed() {
-		UnitChart chart = new UnitChart(this, getUnits(), xml.getFile() != null ? xml.getFile().getName()
-				: "New Entrainer Program", intervalMenu.getLoadedIntervals());
-		GuiUtil.showDialog(chart);
+		// UnitChart chart = new UnitChart(this, getUnits(), xml.getFile() != null ?
+		// xml.getFile().getName()
+		// : "New Entrainer Program", intervalMenu.getLoadedIntervals());
+		// GuiUtil.showDialog(chart);
 	}
 
 	private void savePressed(boolean isSave) {
-		if (units.getTabCount() == 0) {
-			JOptionPane.showMessageDialog(this, "No units specified", "Missing Units", JOptionPane.ERROR_MESSAGE);
+		if (units.getTabs().isEmpty()) {
+			showError("No units specified", "Missing Units");
 			return;
 		}
 
-		if (validatePane(getUnitEditorPane(units.getSelectedIndex()))) {
+		if (validatePane(getUnitEditorPane(units.getSelectionModel().getSelectedIndex()))) {
 			try {
 				saveXmlFile(isSave);
 			} catch (Exception e) {
 				GuiUtil.handleProblem(e);
 			}
 		}
+	}
+
+	private void showError(String content, String title) {
+		Alert alert = new Alert(AlertType.ERROR, content, ButtonType.OK);
+		alert.initOwner(this);
+		alert.setTitle(title);
+
+		alert.showAndWait();
 	}
 
 	private void cancelPressed() {
@@ -420,7 +366,7 @@ public class XmlEditor extends JDialog {
 	}
 
 	private void clearMediatorObjects() {
-		for (int i = 0; i < units.getTabCount(); i++) {
+		for (int i = 0; i < units.getTabs().size(); i++) {
 			getUnitEditorPane(i).clearMediatorObjects();
 		}
 		xml.clearMediatorObjects();
@@ -436,32 +382,34 @@ public class XmlEditor extends JDialog {
 
 	private void saveXmlFile(boolean isSave) throws ParserConfigurationException, SAXException, IOException {
 		if (xml.getFile() == null || !isSave) {
-			JFileChooser xmlChooser = getXmlFileChooser();
-			int result = xmlChooser.showSaveDialog(this);
-			if (result == JFileChooser.APPROVE_OPTION) {
-				File f = processFile(xmlChooser.getSelectedFile());
-				if (!isValidFile(f)) {
-					JOptionPane.showMessageDialog(this,
-							"The file " + f.getName() + " is invalid",
-							"Invalid File Name",
-							JOptionPane.WARNING_MESSAGE);
-					return;
-				} else {
-					xml.setFile(f);
-				}
+			FileChooser fc = new FileChooser();
+			fc.setInitialDirectory(Utils.getEntrainerProgramDir().get());
+			fc.setSelectedExtensionFilter(new ExtensionFilter("EntrainerFX Programs", "xml"));
+			fc.setTitle("EntrainerFX Programs");
+
+			File f = fc.showOpenDialog(this);
+			if (f == null) return;
+
+			f = processFile(f);
+			if (!isValidFile(f)) {
+				showError("The file " + f.getName() + " is invalid", "Invalid File Name");
+				return;
 			} else {
-				return;
+				xml.setFile(f);
 			}
 		}
+
 		if (xml.getFile().exists()) {
-			int option = JOptionPane.showConfirmDialog(this,
-					"File " + xml.getFile().getName() + " already exists. Continue?",
-					"File exists",
-					JOptionPane.OK_CANCEL_OPTION);
-			if (option != JOptionPane.OK_OPTION) {
-				return;
-			}
+			Alert alert = new Alert(AlertType.CONFIRMATION, "File " + xml.getFile().getName() + " already exists. Continue?",
+					ButtonType.OK, ButtonType.CANCEL);
+			alert.initOwner(this);
+			alert.setTitle("File Exists");
+
+			Optional<ButtonType> bt = alert.showAndWait();
+
+			if (!bt.isPresent() || bt.get() != ButtonType.OK) return;
 		}
+
 		xml.setUnits(getUnits());
 		xml.setAnimation(animations.getRunAnimation().isSelected());
 		xml.setPinkPan(pinkPan.getPanCheck().isSelected());
@@ -514,11 +462,7 @@ public class XmlEditor extends JDialog {
 	}
 
 	private File processFile(File selected) {
-		if (isUntypedFile(selected)) {
-			return new File(selected.getAbsolutePath() + ".xml");
-		}
-
-		return selected;
+		return isUntypedFile(selected) ? new File(selected.getAbsolutePath() + ".xml") : selected;
 	}
 
 	private boolean isUntypedFile(File f) {
@@ -532,7 +476,7 @@ public class XmlEditor extends JDialog {
 	private List<EntrainerProgramUnit> getUnits() {
 		List<EntrainerProgramUnit> list = new LinkedList<EntrainerProgramUnit>();
 
-		for (int i = 0; i < units.getTabCount(); i++) {
+		for (int i = 0; i < units.getTabs().size(); i++) {
 			list.add(getUnitEditorPane(i).getUnit());
 		}
 
@@ -540,22 +484,23 @@ public class XmlEditor extends JDialog {
 	}
 
 	private void removeUnitPressed() {
-		if (units.getTabCount() > 0) {
-			int option = JOptionPane.showConfirmDialog(this,
-					"About to remove this unit.  Continue?",
-					"Remove Unit",
-					JOptionPane.OK_CANCEL_OPTION);
-			if (option == JOptionPane.OK_OPTION) {
-				int idx = units.getSelectedIndex();
+		if (units.getTabs().size() > 0) {
+			Alert alert = new Alert(AlertType.CONFIRMATION, "About to remove this unit.  Continue?", ButtonType.OK,
+					ButtonType.CANCEL);
+			alert.setTitle("Remove Unit");
+			alert.initOwner(this);
+			Optional<ButtonType> bt = alert.showAndWait();
+			if (bt.isPresent() && bt.get() == ButtonType.OK) {
+				int idx = units.getSelectionModel().getSelectedIndex();
 				UnitEditorPane pane = getUnitEditorPane(idx);
 				pane.removeListener();
 				pane.clearMediatorObjects();
-				units.remove(idx);
-				for (int i = idx; i < units.getTabCount(); i++) {
+				units.getTabs().remove(idx);
+				for (int i = idx; i < units.getTabs().size(); i++) {
 					setTabTitle(i);
 				}
 
-				if (idx < units.getTabCount()) {
+				if (idx < units.getTabs().size()) {
 					UnitEditorPane replacement = getUnitEditorPane(idx);
 					replacement.fireAllChanged();
 				}
@@ -565,16 +510,16 @@ public class XmlEditor extends JDialog {
 
 	private void addUnitPressed() {
 		EntrainerProgramUnit unit = new EntrainerProgramUnit();
-		if (units.getTabCount() > 0) {
+		if (units.getTabs().size() > 0) {
 			setLastFromPrevious(unit);
 		}
 		addTab(unit);
 
-		units.setSelectedIndex(units.getTabCount() - 1);
+		units.getSelectionModel().select(units.getTabs().size() - 1);
 	}
 
 	private void setLastFromPrevious(EntrainerProgramUnit unit) {
-		UnitEditorPane pane = getUnitEditorPane(units.getTabCount() - 1);
+		UnitEditorPane pane = getUnitEditorPane(units.getTabs().size() - 1);
 		EntrainerProgramUnit last = pane.getUnit();
 		setUnitSetter(unit.getStartUnitSetter(), last);
 		setUnitSetter(unit.getEndUnitSetter(), last);
@@ -593,7 +538,7 @@ public class XmlEditor extends JDialog {
 		if (idx < 0) {
 			idx = 0;
 		}
-		return (UnitEditorPane) units.getComponentAt(idx);
+		return (UnitEditorPane) units.getTabs().get(idx);
 	}
 
 	private void initFields() {
@@ -718,7 +663,7 @@ public class XmlEditor extends JDialog {
 			addTab(unit);
 		}
 
-		if (units.getTabCount() == 0) {
+		if (units.getTabs().isEmpty()) {
 			addTab(new EntrainerProgramUnit());
 		}
 	}
@@ -727,8 +672,8 @@ public class XmlEditor extends JDialog {
 		String s = pane.validateFields();
 		if (s.trim().length() > 0) {
 			try {
-				units.setSelectedComponent(pane);
-				JOptionPane.showMessageDialog(this, s, "Errors", JOptionPane.ERROR_MESSAGE);
+				units.getSelectionModel().select(pane);
+				showError(s, "Errors");
 			} catch (IllegalArgumentException e) {
 				// pane has been removed
 				pane = null;
@@ -782,8 +727,8 @@ public class XmlEditor extends JDialog {
 	}
 
 	private void setTabTitle(int idx) {
-		units.setTitleAt(idx, getTabTitle(idx));
-		units.getComponentAt(idx).setName(XEC_UNITS_NAME + (idx + 1));
+		Tab selected = units.getTabs().get(idx);
+		selected.setText(getTabTitle(idx));
 	}
 
 	private long getPreviousTimeInMillis(int idx) {
@@ -797,14 +742,14 @@ public class XmlEditor extends JDialog {
 		return seconds * 1000;
 	}
 
-	private void enableControls(boolean enabled) {
-		cancel.setEnabled(enabled);
-		save.setEnabled(enabled);
-		saveAs.setEnabled(enabled);
-		units.setEnabled(enabled);
-		removeUnit.setEnabled(enabled);
-		addUnit.setEnabled(enabled);
-		showChart.setEnabled(enabled);
+	private void disableControls(boolean b) {
+		cancel.setDisable(b);
+		save.setDisable(b);
+		saveAs.setDisable(b);
+		units.setDisable(b);
+		removeUnit.setDisable(b);
+		addUnit.setDisable(b);
+		showChart.setDisable(b);
 	}
 
 	private void fireReceiverChangeEvent(boolean b, MediatorConstants parm) {
@@ -838,19 +783,15 @@ public class XmlEditor extends JDialog {
 	private void addTab(EntrainerProgramUnit unit) {
 		final UnitEditorPane pane = new UnitEditorPane(unit);
 
-		units.addTab(getTabTitle(units.getTabCount(), pane), pane);
+		String tabTitle = getTabTitle(units.getTabs().size(), pane);
+		pane.setText(tabTitle);
+		units.getTabs().add(pane);
 
-		pane.addTimeChangeListener(new ChangeListener() {
-
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				setTabTitles(units.indexOfComponent(pane));
-			}
-		});
+		pane.addTimeChangeListener(e -> setTabTitles(units.getTabs().indexOf(pane)));
 
 		pane.addTestUnitListener(new TestUnitListener() {
 			public void testUnitEventPerformed(TestUnitEvent e) {
-				enableControls(e.isActionStop());
+				disableControls(!e.isActionStop());
 
 				fireReceiverChangeEvent(animations.getRunAnimation().isSelected(), IS_ANIMATION);
 				fireReceiverChangeEvent(pinkPan.getPanCheck().isSelected(), PINK_PAN);
@@ -861,25 +802,24 @@ public class XmlEditor extends JDialog {
 			}
 		});
 
-		pane.addAncestorListener(new AncestorListener() {
-			public void ancestorAdded(AncestorEvent event) {
-			}
+		units.getTabs().addListener(new ListChangeListener<Tab>() {
 
-			public void ancestorMoved(AncestorEvent event) {
-			}
-
-			public void ancestorRemoved(AncestorEvent event) {
-				if (previousUnitEditorPane == pane && !cancelPressed) {
-					if (validatePane(pane)) {
-						setTabTitles(0);
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Tab> c) {
+				try {
+					if (c.wasRemoved() && previousUnitEditorPane == pane && !cancelPressed) {
+						if (validatePane(pane)) {
+							setTabTitles(0);
+						}
 					}
+				} catch (IllegalStateException e) {
+					// e.printStackTrace();
 				}
 			}
+
 		});
 
-		pane.setName(XEC_UNITS_NAME + units.getTabCount());
-
-		if (units.getTabCount() == 1) {
+		if (units.getTabs().size() == 1) {
 			visibleUnitEditorPane = pane;
 			previousUnitEditorPane = pane;
 		}
@@ -887,130 +827,65 @@ public class XmlEditor extends JDialog {
 
 	private void setTabTitles(int idx) {
 		setTabTitle(idx);
-		for (int i = units.getSelectedIndex(); i < units.getTabCount(); i++) {
+		for (int i = units.getSelectionModel().getSelectedIndex(); i < units.getTabs().size(); i++) {
 			setTabTitle(i);
 		}
 	}
 
-	private void layoutComponents() {
-		MigHelper mh = new MigHelper(getContentPane());
-		mh.setLayoutFillX(true).setLayoutInsets(0, 0, 0, 0);
-
-		mh.growX(100).addLast(getEntrainerAttributeWithChartPanel()).growX(100).addLast(getUnitTabPanel());
-
-		mh.growX(100).addLast(getButtonPanel()).growX(100).add(getMessagePanel());
+	private Node getTopButtons() {
+		HBox box = new HBox(10, addUnit, removeUnit, showChart);
+		box.setAlignment(Pos.CENTER);
+		return box;
 	}
 
-	private Container getUnitTabPanel() {
-		JPanel jp = new JPanel();
-		jp.setBorder(new BevelBorder(BevelBorder.LOWERED));
-		MigHelper mh = new MigHelper(jp);
-
-		mh.setLayoutFillX(true).setLayoutInsets(0, 0, 0, 0);
-
-		mh.add(units);
-
-		return mh.getContainer();
+	private Node getBottomButtons() {
+		HBox box = new HBox(10, save, saveAs, cancel);
+		box.setAlignment(Pos.CENTER);
+		return box;
 	}
 
-	private Container getUnitTabButtonPanel() {
-		MigHelper mh = new MigHelper();
-		mh.setLayoutFillX(true);
-		mh.setLayoutInsets(5, 30, 5, 30).setLayoutGridGap(30, 0);
+	private void initUi() {
+		Node topButtons = getTopButtons();
+		Node bottomButtons = getBottomButtons();
 
-		mh.add(addUnit).add(removeUnit);
+		GridPaneHelper gph = new GridPaneHelper();
+		//@formatter:off
+		gph
+			.addLast(bar)
+			.addLast(topButtons)
+			.addLast(units)
+			.addLast(bottomButtons)
+			.addLast(pinkPan)
+			.addLast(mediaOptions)
+			.addLast(pics)
+			.addLast(shimmers)
+			.addLast(animations)
+			.addLast(flashOptions)
+			.alignment(Pos.TOP_CENTER)
+			.padding(new Insets(0, 0, 10, 0));
+		//@formatter:on
 
-		return mh.getContainer();
-	}
-
-	private Container getEntrainerAttributeWithChartPanel() {
-		JPanel jp = new JPanel();
-		jp.setBorder(new BevelBorder(BevelBorder.RAISED));
-		MigHelper mh = new MigHelper(jp);
-		mh.setLayoutInsets(5, 5, 5, 50);
-		mh.alignEast().add(getUnitTabButtonPanel()).add(showChart);
-
-		return mh.getContainer();
-	}
-
-	private Container getButtonPanel() {
-		JPanel jp = new JPanel();
-		jp.setBorder(new BevelBorder(BevelBorder.RAISED));
-		MigHelper mh = new MigHelper(jp);
-		mh.setLayoutInsets(5, 15, 5, 15).setLayoutGridGap(15, 0);
-
-		mh.alignEast().add(save);
-		if (xml.getFile() != null) {
-			mh.alignCenter().add(saveAs);
-		}
-		mh.alignWest().add(cancel);
-
-		return mh.getContainer();
-	}
-
-	private Container getMessagePanel() {
-		gp = new GridPane();
-		gp.setAlignment(Pos.CENTER);
-		gp.setPadding(new Insets(10, 0, 10, 5));
-
-		int h = 0;
-		GridPane.setConstraints(pinkPan, 0, h++);
-		GridPane.setConstraints(mediaOptions, 0, h++);
-		GridPane.setConstraints(pics, 0, h++);
-		GridPane.setConstraints(shimmers, 0, h++);
-		GridPane.setConstraints(animations, 0, h++);
-		GridPane.setConstraints(flashOptions, 0, h++);
-		gp.getChildren().addAll(pinkPan, animations, shimmers, pics, flashOptions, mediaOptions);
+		gp = gph.getPane();
 
 		final URI css = JFXUtils.getEntrainerCSS();
+		Group group = new Group();
 
-		JFXUtils.runLater(new Runnable() {
+		group.getChildren().addAll(background.getPane(), gp);
+		Scene scene = new Scene(group);
+		if (css != null) scene.getStylesheets().add(css.toString());
 
-			@Override
-			public void run() {
-				Group group = new Group();
-
-				group.getChildren().addAll(background.getPane(), gp);
-				Scene scene = new Scene(group);
-				if (css != null) scene.getStylesheets().add(css.toString());
-				panel.setScene(scene);
-			}
-		});
-
-		return panel;
+		setScene(scene);
+		setHeight(950);
 	}
 
 	private void setMessage(String s) {
 		fireReceiverChangeEvent(s, MESSAGE);
 	}
 
-	/**
-	 * Gets the xml file chooser.
-	 *
-	 * @return the xml file chooser
-	 */
-	public static JFileChooser getXmlFileChooser() {
-		JFileChooser chooser = new JFileChooser(Utils.getEntrainerProgramDir().get());
-
-		chooser.setFileFilter(new FileFilter() {
-			@Override
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().indexOf(".xml") > 0;
-			}
-
-			@Override
-			public String getDescription() {
-				return "EntrainerFX Programs";
-			}
-		});
-		return chooser;
-	}
-
 	private void exit() {
 		if (closing) return;
 		closing = true;
 		cancelPressed();
-		GuiUtil.fadeOutAndDispose(this, 750);
 	}
 
 }

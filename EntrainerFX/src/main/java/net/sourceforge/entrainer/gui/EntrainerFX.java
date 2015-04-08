@@ -31,8 +31,6 @@ import java.awt.Dimension;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -1046,22 +1044,27 @@ public class EntrainerFX extends Application {
 	private void showXmlEditor(File f) {
 		settings.setPreserveState(true);
 		intervalCache = intervalMenu.removeAllIntervals();
-		final XmlEditor editor = new XmlEditor(null, f);
+		final XmlEditor editor = new XmlEditor(stage, f);
 		editor.addXmlFileSaveListener(new XmlFileSaveListener() {
 			public void xmlFileSaveEventPerformed(XmlFileSaveEvent e) {
 				xmlFileSaved(e.getXmlFile());
 			}
 		});
+		
+		editor.setOnHiding(e -> resetIntervalCache());
+		editor.setOpacity(0);
+		
+		Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(editor.opacityProperty(), 1)));
 
-		editor.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				intervalMenu.loadIntervals(intervalCache);
-				intervalMenu.loadCustomIntervals();
-			}
-		});
+		tl.play();
+		editor.showAndWait();
 
-		GuiUtil.showDialog(editor);
 		settings.setPreserveState(false);
+	}
+
+	private void resetIntervalCache() {
+		intervalMenu.loadIntervals(intervalCache);
+		intervalMenu.loadCustomIntervals();
 	}
 
 	private void xmlFileSaved(File xmlFile) {

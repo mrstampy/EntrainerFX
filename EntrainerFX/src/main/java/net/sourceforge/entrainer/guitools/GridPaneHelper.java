@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -160,6 +161,12 @@ public class GridPaneHelper {
 	
 	public GridPaneHelper vGap(double gap) {
 		pane.setVgap(gap);
+		
+		return this;
+	}
+	
+	public GridPaneHelper padding(Insets insets) {
+		pane.setPadding(insets);
 		
 		return this;
 	}

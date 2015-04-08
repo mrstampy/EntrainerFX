@@ -18,6 +18,8 @@
  */
 package net.sourceforge.entrainer.gui.popup;
 
+import java.net.URI;
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -32,6 +34,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import net.sourceforge.entrainer.gui.EntrainerFX;
+import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -57,11 +60,12 @@ public class NotificationWindow extends Stage {
 	private void initGui(String message) {
 		Label label = new Label(message);
 		
-		label.setStyle("-fx-background-color: midnightblue; -fx-text-fill: cornsilk;");
 		label.setFont(Font.font(16));
 		
 		HBox box = new HBox(10, label);
 		Scene scene = new Scene(box);
+		URI css = JFXUtils.getEntrainerCSS();
+		if(css != null) scene.getStylesheets().add(css.toString());
 
 		setScene(scene);
 	}

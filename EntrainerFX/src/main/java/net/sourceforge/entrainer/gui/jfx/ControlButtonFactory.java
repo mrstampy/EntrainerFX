@@ -56,19 +56,37 @@ public class ControlButtonFactory {
 	 * @return the button base
 	 */
 	public static ButtonBase createButton(String baseName) {
-		return decorateButton(getButton(baseName), baseName);
-	}
-	
-	public static ButtonBase decorateButton(ButtonBase button, String baseName) {
-		button.setId(baseName);
+		ButtonBase button = getButton(baseName);
+		decorateButton(button, baseName);
 
+		return button;
+	}
+
+	public static void decorateButton(ButtonBase button, String baseName) {
+		button.setId(baseName);
+		
+		ImageView normal = new ImageView("/" + baseName + NORMAL_PART);
+		ImageView hot = new ImageView("/" + baseName + HOT_PART);
+		ImageView pressed = new ImageView("/" + baseName + PRESSED_PART);
+		ImageView disabled = new ImageView("/" + baseName + DISABLED_PART);
+		
+		decorateButton(button, normal, hot, pressed, disabled);
+	}
+
+	public static void decorateButton(ButtonBase button, String normalUri, String hotUri) {
+		ImageView normal = new ImageView(normalUri);
+		ImageView hot = new ImageView(hotUri);
+		decorateButton(button, normal, hot);
+	}
+
+	public static void decorateButton(ButtonBase button, ImageView normal, ImageView hot) {
+		decorateButton(button, normal, hot, normal, null);
+	}
+
+	public static void decorateButton(ButtonBase button, ImageView normal, ImageView hot, ImageView pressed,
+			ImageView disabled) {
 		button.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 		button.setStyle(BORDERLESS_BUTTON_STYLE);
-
-		final ImageView normal = new ImageView("/" + baseName + NORMAL_PART);
-		final ImageView hot = new ImageView("/" + baseName + HOT_PART);
-		final ImageView pressed = new ImageView("/" + baseName + PRESSED_PART);
-		final ImageView disabled = new ImageView("/" + baseName + DISABLED_PART);
 
 		button.setGraphic(normal);
 
@@ -82,15 +100,15 @@ public class ControlButtonFactory {
 
 		button.setOnMouseReleased(e -> setButtonGraphic(button, normal));
 
-		button.disabledProperty().addListener(new ChangeListener<Boolean>() {
+		if (disabled != null) {
+			button.disabledProperty().addListener(new ChangeListener<Boolean>() {
 
-			@Override
-			public void changed(ObservableValue<? extends Boolean> ob, Boolean from, Boolean to) {
-				setButtonGraphic(button, from ? normal : disabled);
-			}
-		});
-
-		return button;
+				@Override
+				public void changed(ObservableValue<? extends Boolean> ob, Boolean from, Boolean to) {
+					setButtonGraphic(button, from ? normal : disabled);
+				}
+			});
+		}
 	}
 
 	private static void setButtonGraphic(final ButtonBase button, final ImageView graphic) {

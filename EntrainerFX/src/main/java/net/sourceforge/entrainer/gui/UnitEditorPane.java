@@ -29,7 +29,9 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.START_ENTRAIN
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
@@ -188,7 +190,7 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
 	 * @param l
 	 *          the l
 	 */
-	public void addTimeChangeListener(ChangeListener<Integer> l) {
+	public void addTimeChangeListener(InvalidationListener l) {
 		minutes.getValueFactory().valueProperty().addListener(l);
 		seconds.getValueFactory().valueProperty().addListener(l);
 	}
@@ -373,10 +375,10 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
 	private Node getTimeContainer() {
 		GridPaneHelper gph = new GridPaneHelper();
 		
-		gph.add("Minutes:").addLast(minutes);
+		gph.add("Minutes:").add(minutes);
 		gph.add("Seconds:").addLast(seconds);
 		
-		return gph.getPane();
+		return gph.alignment(Pos.CENTER).padding(new Insets(10)).hGap(10).vGap(10).getPane();
 	}
 
 	private Node getStartEndContainer() {
@@ -394,7 +396,7 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
 		
 		gph.skip(2).add(testStart).skip().addLast(testEnd);
 		
-		return gph.getPane();
+		return gph.alignment(Pos.CENTER).padding(new Insets(10)).hGap(10).vGap(10).getPane();
 	}
 
 	private void initSpinners() {

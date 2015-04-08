@@ -186,6 +186,23 @@
 	-fx-background-color: midnightblue;		
 }
 
+.tab-pane .tab-header-area .tab-header-background {
+	-fx-background-color: transparent;	
+}
+
+.tab-pane .tab-header-area .tab {
+	-fx-background-color: midnightblue;	
+    -fx-opacity: 0.75;
+}
+
+.tab-pane .tab-header-area .tab:selected {
+	-fx-background-color: derive(midnightblue, 100.0%);		
+}
+
+.tab-pane .tab-header-area .tab .tab-label {
+	-fx-text-fill: cornsilk;
+}
+
 #EntrainerFX-layout {
 }
 
