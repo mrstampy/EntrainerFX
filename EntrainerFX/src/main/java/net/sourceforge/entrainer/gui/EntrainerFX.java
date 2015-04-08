@@ -106,6 +106,7 @@ import net.sourceforge.entrainer.gui.jfx.trident.LinearGradientInterpolator;
 import net.sourceforge.entrainer.gui.jfx.trident.RadialGradientInterpolator;
 import net.sourceforge.entrainer.gui.popup.NotificationWindow;
 import net.sourceforge.entrainer.gui.socket.EntrainerSocketConnector;
+import net.sourceforge.entrainer.guitools.GridPaneHelper;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
@@ -187,7 +188,7 @@ public class EntrainerFX extends Application {
 
 	private AbstractShimmer<?> shimmer = ShimmerRegister.getShimmer(LinearShimmerRectangle.NAME);
 
-	private GridPane gp = new GridPane();
+	private GridPane gp;
 
 	private EntrainerBackground background = new EntrainerBackground();
 	private AnimationPane animations;
@@ -1460,29 +1461,24 @@ public class EntrainerFX extends Application {
 		stage.addEventHandler(javafx.stage.WindowEvent.WINDOW_SHOWN, e -> startup());
 		stage.addEventHandler(javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST, e -> exitPressed());
 
-		int v = 0;
-
 		animations = new AnimationPane();
+		
+		GridPaneHelper gph = new GridPaneHelper();
+		
+		//@formatter:off
+		gph
+			.addLast(bar)
+			.addLast(soundControlPane)
+			.addLast(sliderControlPane)
+			.addLast(audioPlayerPane)
+			.addLast(pictures)
+			.addLast(shimmerOptions)
+			.addLast(animations)
+			.addLast(flashOptions)
+			.addLast(neuralizer);
+		//@formatter:on
 
-		GridPane.setConstraints(bar, 0, v++);
-		GridPane.setConstraints(soundControlPane, 0, v++);
-		GridPane.setConstraints(sliderControlPane, 0, v++);
-		GridPane.setConstraints(audioPlayerPane, 0, v++);
-		GridPane.setConstraints(pictures, 0, v++);
-		GridPane.setConstraints(shimmerOptions, 0, v++);
-		GridPane.setConstraints(animations, 0, v++);
-		GridPane.setConstraints(flashOptions, 0, v++);
-		GridPane.setConstraints(neuralizer, 0, v++);
-
-		gp.getChildren().addAll(bar,
-				soundControlPane,
-				sliderControlPane,
-				animations,
-				shimmerOptions,
-				pictures,
-				flashOptions,
-				neuralizer,
-				audioPlayerPane);
+		gp = gph.getPane();
 
 		unexpandTitledPanes();
 

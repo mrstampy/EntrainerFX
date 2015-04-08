@@ -20,14 +20,12 @@ package net.sourceforge.entrainer.gui.jfx;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -58,8 +56,10 @@ public class ControlButtonFactory {
 	 * @return the button base
 	 */
 	public static ButtonBase createButton(String baseName) {
-		final ButtonBase button = getButton(baseName);
-
+		return decorateButton(getButton(baseName), baseName);
+	}
+	
+	public static ButtonBase decorateButton(ButtonBase button, String baseName) {
 		button.setId(baseName);
 
 		button.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -74,37 +74,13 @@ public class ControlButtonFactory {
 
 		button.setEffect(new DropShadow());
 
-		button.setOnMouseEntered(new EventHandler<MouseEvent>() {
+		button.setOnMouseEntered(e -> setButtonGraphic(button, e.isPrimaryButtonDown() ? pressed : hot));
 
-			@Override
-			public void handle(MouseEvent arg0) {
-				setButtonGraphic(button, arg0.isPrimaryButtonDown() ? pressed : hot);
-			}
-		});
+		button.setOnMouseExited(e -> setButtonGraphic(button, normal));
 
-		button.setOnMouseExited(new EventHandler<MouseEvent>() {
+		button.setOnMousePressed(e -> setButtonGraphic(button, pressed));
 
-			@Override
-			public void handle(MouseEvent arg0) {
-				setButtonGraphic(button, normal);
-			}
-		});
-
-		button.setOnMousePressed(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent arg0) {
-				setButtonGraphic(button, pressed);
-			}
-		});
-
-		button.setOnMouseReleased(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent arg0) {
-				setButtonGraphic(button, normal);
-			}
-		});
+		button.setOnMouseReleased(e -> setButtonGraphic(button, normal));
 
 		button.disabledProperty().addListener(new ChangeListener<Boolean>() {
 

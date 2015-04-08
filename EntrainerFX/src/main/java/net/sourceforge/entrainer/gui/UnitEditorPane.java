@@ -26,26 +26,18 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_NOISE_AM
 import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_PAN_AMPLITUDE;
 import static net.sourceforge.entrainer.mediator.MediatorConstants.START_ENTRAINMENT;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
-import javax.swing.JToggleButton;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.border.BevelBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import net.sourceforge.entrainer.guitools.GuiUtil;
-import net.sourceforge.entrainer.guitools.MigHelper;
+import javafx.beans.value.ChangeListener;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.Tab;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.VBox;
+import net.sourceforge.entrainer.gui.jfx.ControlButtonFactory;
+import net.sourceforge.entrainer.guitools.GridPaneHelper;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
@@ -60,27 +52,25 @@ import net.sourceforge.entrainer.xml.program.UnitSetter;
  * 
  * @author burton
  */
-public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, UnitEditorListener {
+public class UnitEditorPane extends Tab implements UnitEditorListener {
 
-	private static final long serialVersionUID = 1L;
+	private Spinner<Double> startFrequency;
+	private Spinner<Double> endFrequency;
+	private Spinner<Double> startEntrainmentFrequency;
+	private Spinner<Double> endEntrainmentFrequency;
+	private Spinner<Double> startAmplitude;
+	private Spinner<Double> endAmplitude;
+	private Spinner<Double> startPinkNoise;
+	private Spinner<Double> endPinkNoise;
+	private Spinner<Double> startPinkPanAmplitude;
+	private Spinner<Double> endPinkPanAmplitude;
+	private Spinner<Double> startPinkEntrainerMultiple;
+	private Spinner<Double> endPinkEntrainerMultiple;
+	private Spinner<Integer> minutes;
+	private Spinner<Integer> seconds;
 
-	private JSpinner startFrequency;
-	private JSpinner endFrequency;
-	private JSpinner startEntrainmentFrequency;
-	private JSpinner endEntrainmentFrequency;
-	private JSpinner startAmplitude;
-	private JSpinner endAmplitude;
-	private JSpinner startPinkNoise;
-	private JSpinner endPinkNoise;
-	private JSpinner startPinkPanAmplitude;
-	private JSpinner endPinkPanAmplitude;
-	private JSpinner startPinkEntrainerMultiple;
-	private JSpinner endPinkEntrainerMultiple;
-	private JSpinner minutes;
-	private JSpinner seconds;
-
-	private JToggleButton testStart = new JToggleButton();
-	private JToggleButton testEnd = new JToggleButton();
+	private ToggleButton testStart = new ToggleButton();
+	private ToggleButton testEnd = new ToggleButton();
 
 	private List<TestUnitListener> testListeners = new ArrayList<TestUnitListener>();
 
@@ -133,22 +123,22 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	private void setFromPrev(UnitEditorEvent e) {
 		switch (e.getParm()) {
 		case END_AMPLITUDE:
-			startAmplitude.setValue(e.getValue());
+			startAmplitude.getValueFactory().setValue(e.getValue());
 			break;
 		case END_FREQUENCY:
-			startFrequency.setValue(e.getValue());
+			startFrequency.getValueFactory().setValue(e.getValue());
 			break;
 		case END_ENTRAINMENT_FREQUENCY:
-			startEntrainmentFrequency.setValue(e.getValue());
+			startEntrainmentFrequency.getValueFactory().setValue(e.getValue());
 			break;
 		case END_PINK_ENTRAINER_MULTIPLE:
-			startPinkEntrainerMultiple.setValue(e.getValue());
+			startPinkEntrainerMultiple.getValueFactory().setValue(e.getValue());
 			break;
 		case END_PINK_NOISE:
-			startPinkNoise.setValue(e.getValue());
+			startPinkNoise.getValueFactory().setValue(e.getValue());
 			break;
 		case END_PINK_PAN_AMPLITUDE:
-			startPinkPanAmplitude.setValue(e.getValue());
+			startPinkPanAmplitude.getValueFactory().setValue(e.getValue());
 			break;
 		default:
 			break;
@@ -158,22 +148,22 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	private void setFromNext(UnitEditorEvent e) {
 		switch (e.getParm()) {
 		case START_AMPLITUDE:
-			endAmplitude.setValue(e.getValue());
+			endAmplitude.getValueFactory().setValue(e.getValue());
 			break;
 		case START_FREQUENCY:
-			endFrequency.setValue(e.getValue());
+			endFrequency.getValueFactory().setValue(e.getValue());
 			break;
 		case START_ENTRAINMENT_FREQUENCY:
-			endEntrainmentFrequency.setValue(e.getValue());
+			endEntrainmentFrequency.getValueFactory().setValue(e.getValue());
 			break;
 		case START_PINK_ENTRAINER_MULTIPLE:
-			endPinkEntrainerMultiple.setValue(e.getValue());
+			endPinkEntrainerMultiple.getValueFactory().setValue(e.getValue());
 			break;
 		case START_PINK_NOISE:
-			endPinkNoise.setValue(e.getValue());
+			endPinkNoise.getValueFactory().setValue(e.getValue());
 			break;
 		case START_PINK_PAN_AMPLITUDE:
-			endPinkPanAmplitude.setValue(e.getValue());
+			endPinkPanAmplitude.getValueFactory().setValue(e.getValue());
 			break;
 		default:
 			break;
@@ -181,9 +171,7 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	}
 
 	private int getIndex() {
-		JTabbedPane parent = (JTabbedPane) getParent();
-
-		return parent.indexOfComponent(this);
+		return getTabPane().getTabs().indexOf(this);
 	}
 
 	/**
@@ -200,9 +188,9 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	 * @param l
 	 *          the l
 	 */
-	public void addTimeChangeListener(ChangeListener l) {
-		minutes.addChangeListener(l);
-		seconds.addChangeListener(l);
+	public void addTimeChangeListener(ChangeListener<Integer> l) {
+		minutes.getValueFactory().valueProperty().addListener(l);
+		seconds.getValueFactory().valueProperty().addListener(l);
 	}
 
 	/**
@@ -223,7 +211,7 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	 * @param button
 	 *          the button
 	 */
-	protected void fireTestUnitEvent(JToggleButton button) {
+	protected void fireTestUnitEvent(ToggleButton button) {
 		int action = button.isSelected() ? TestUnitEvent.ACTION_START : TestUnitEvent.ACTION_STOP;
 		int terminal = button == testStart ? TestUnitEvent.TERMINAL_START : TestUnitEvent.TERMINAL_END;
 
@@ -271,27 +259,16 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	private void init() {
 		initMediator();
 		addListeners();
+		initButtons();
 		layoutComponents();
-		setComponentNames();
 	}
 
-	private void setComponentNames() {
-		startFrequency.setName(UEPC_START_FREQUENCY_NAME);
-		endFrequency.setName(UEPC_END_FREQUENCY_NAME);
-		startEntrainmentFrequency.setName(UEPC_START_ENTRAINMENT_FREQUENCY_NAME);
-		endEntrainmentFrequency.setName(UEPC_END_ENTRAINMENT_FREQUENCY_NAME);
-		startAmplitude.setName(UEPC_START_AMPLITUDE_NAME);
-		endAmplitude.setName(UEPC_END_AMPLITUDE_NAME);
-		startPinkNoise.setName(UEPC_START_PINK_NOISE_NAME);
-		endPinkNoise.setName(UEPC_END_PINK_NOISE_NAME);
-		startPinkPanAmplitude.setName(UEPC_START_PINK_PAN_AMPLITUDE_NAME);
-		endPinkPanAmplitude.setName(UEPC_END_PINK_PAN_AMPLITUDE_NAME);
-		startPinkEntrainerMultiple.setName(UEPC_START_PINK_ENTRAINER_MULTIPLE_NAME);
-		endPinkEntrainerMultiple.setName(UEPC_END_PINK_ENTRAINER_MULTIPLE_NAME);
-		minutes.setName(UEPC_MINUTES_NAME);
-		seconds.setName(UEPC_SECONDS_NAME);
-		testStart.setName(UEPC_TEST_START_NAME);
-		testEnd.setName(UEPC_TEST_END_NAME);
+	private void initButtons() {
+		ControlButtonFactory.decorateButton(testStart, "Play");
+		ControlButtonFactory.decorateButton(testEnd, "Play");
+		
+		testStart.setUserData("Start");
+		testEnd.setUserData("End");
 	}
 
 	private void initMediator() {
@@ -299,161 +276,48 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	}
 
 	private void addListeners() {
-		testStart.setActionCommand("Start");
-		testEnd.setActionCommand("End");
-		GuiUtil.initButton("Play", testStart, "Test Start Parameters");
-		GuiUtil.initButton("Play", testEnd, "Test End Parameters");
-		testStart.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				toggleButtonPressed(testStart, testEnd);
-			}
-		});
-
-		testEnd.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				toggleButtonPressed(testEnd, testStart);
-			}
-		});
+		testStart.setOnAction(e -> toggleButtonPressed(testStart, testEnd));
+		testEnd.setOnAction(e -> toggleButtonPressed(testEnd, testStart));
 
 		addValueListeners();
 	}
 
 	private void addValueListeners() {
-		startAmplitude.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				startAmplitudeChanged();
-			}
-		});
-		startAmplitude.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				startAmplitudeChanged();
-			}
-		});
-
-		startEntrainmentFrequency.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				startEntrainmentFrequencyChanged();
-			}
-		});
-		startEntrainmentFrequency.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				startEntrainmentFrequencyChanged();
-			}
-		});
-
-		startFrequency.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				startFrequencyChanged();
-			}
-		});
-		startFrequency.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				startFrequencyChanged();
-			}
-		});
-
-		startPinkEntrainerMultiple.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				startPinkEntrainerMultipleChanged();
-			}
-		});
-		startPinkEntrainerMultiple.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				startPinkEntrainerMultipleChanged();
-			}
-		});
-
-		startPinkNoise.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				startPinkNoiseChanged();
-			}
-		});
-		startPinkNoise.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				startPinkNoiseChanged();
-			}
-		});
-
-		startPinkPanAmplitude.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				startPinkPanAmplitudeChanged();
-			}
-		});
-		startPinkPanAmplitude.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				startPinkPanAmplitudeChanged();
-			}
-		});
-
-		endAmplitude.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				endAmplitudeChanged();
-			}
-		});
-		endAmplitude.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				endAmplitudeChanged();
-			}
-		});
-
-		endEntrainmentFrequency.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				endEntrainmentFrequencyChanged();
-			}
-		});
-		endEntrainmentFrequency.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				endEntrainmentFrequencyChanged();
-			}
-		});
-
-		endFrequency.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				endFrequencyChanged();
-			}
-		});
-		endFrequency.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				endFrequencyChanged();
-			}
-		});
-
-		endPinkEntrainerMultiple.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				endPinkEntrainerMultipleChanged();
-			}
-		});
-		endPinkEntrainerMultiple.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				endPinkEntrainerMultipleChanged();
-			}
-		});
-
-		endPinkNoise.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				endPinkNoiseChanged();
-			}
-		});
-		endPinkNoise.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				endPinkNoiseChanged();
-			}
-		});
-
-		endPinkPanAmplitude.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				endPinkPanChanged();
-			}
-		});
-		endPinkPanAmplitude.addFocusListener(new FocusAdapter() {
-			public void focusLost(FocusEvent e) {
-				endPinkPanChanged();
-			}
-		});
+		startAmplitude.setOnMouseClicked(e -> startAmplitudeChanged());
+		startAmplitude.focusedProperty().addListener(e -> startAmplitudeChanged());
+		
+		startEntrainmentFrequency.setOnMouseClicked(e -> startEntrainmentFrequencyChanged());
+		startEntrainmentFrequency.focusedProperty().addListener(e -> startEntrainmentFrequencyChanged());
+		
+		startFrequency.setOnMouseClicked(e -> startFrequencyChanged());
+		startFrequency.focusedProperty().addListener(e -> startFrequencyChanged());
+		
+		startPinkEntrainerMultiple.setOnMouseClicked(e -> startPinkEntrainerMultipleChanged());
+		startPinkEntrainerMultiple.focusedProperty().addListener(e -> startPinkEntrainerMultipleChanged());
+		
+		startPinkNoise.setOnMouseClicked(e -> startPinkNoiseChanged());
+		startPinkNoise.focusedProperty().addListener(e -> startPinkNoiseChanged());
+		
+		startPinkPanAmplitude.setOnMouseClicked(e -> startPinkPanAmplitudeChanged());
+		startPinkPanAmplitude.focusedProperty().addListener(e -> startPinkPanAmplitudeChanged());
+		
+		endAmplitude.setOnMouseClicked(e -> endAmplitudeChanged());
+		endAmplitude.focusedProperty().addListener(e -> endAmplitudeChanged());
+		
+		endEntrainmentFrequency.setOnMouseClicked(e -> endEntrainmentFrequencyChanged());
+		endEntrainmentFrequency.focusedProperty().addListener(e -> endEntrainmentFrequencyChanged());
+		
+		endFrequency.setOnMouseClicked(e -> endFrequencyChanged());
+		endFrequency.focusedProperty().addListener(e -> endFrequencyChanged());
+		
+		endPinkEntrainerMultiple.setOnMouseClicked(e -> endPinkEntrainerMultipleChanged());
+		endPinkEntrainerMultiple.focusedProperty().addListener(e -> endPinkEntrainerMultipleChanged());
+		
+		endPinkNoise.setOnMouseClicked(e -> endPinkNoiseChanged());
+		endPinkNoise.focusedProperty().addListener(e -> endPinkNoiseChanged());
+		
+		endPinkPanAmplitude.setOnMouseClicked(e -> endPinkPanChanged());
+		endPinkPanAmplitude.focusedProperty().addListener(e -> endPinkPanChanged());
 	}
 
 	private void fireUnitEditorEvent(UnitEditorParm parm, double value) {
@@ -463,81 +327,74 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 		}
 	}
 
-	private void toggleButtonPressed(JToggleButton pressed, JToggleButton other) {
-		other.setEnabled(!pressed.isSelected());
+	private void toggleButtonPressed(ToggleButton pressed, ToggleButton other) {
+		other.setDisable(pressed.isSelected());
 
-		setFieldsEnabled(!pressed.isSelected(), pressed.getActionCommand());
+		setFieldsDisabled(pressed.isSelected(), pressed.getUserData().toString());
 
 		fireTestUnitEvent(pressed);
 	}
 
-	private void setFieldsEnabled(boolean enabled, String buttonText) {
-		minutes.setEnabled(enabled);
-		seconds.setEnabled(enabled);
+	private void setFieldsDisabled(boolean enabled, String buttonText) {
+		minutes.setDisable(enabled);
+		seconds.setDisable(enabled);
 		if ("Start".equals(buttonText)) {
-			setEndFieldsEnabled(enabled);
+			setEndFieldsDisabled(enabled);
 		} else {
-			setStartFieldsEnabled(enabled);
+			setStartFieldsDisabled(enabled);
 		}
 	}
 
-	private void setStartFieldsEnabled(boolean enabled) {
-		startFrequency.setEnabled(enabled);
-		startEntrainmentFrequency.setEnabled(enabled);
-		startAmplitude.setEnabled(enabled);
-		startPinkNoise.setEnabled(enabled);
-		startPinkPanAmplitude.setEnabled(enabled);
-		startPinkEntrainerMultiple.setEnabled(enabled);
+	private void setStartFieldsDisabled(boolean b) {
+		startFrequency.setDisable(b);
+		startEntrainmentFrequency.setDisable(b);
+		startAmplitude.setDisable(b);
+		startPinkNoise.setDisable(b);
+		startPinkPanAmplitude.setDisable(b);
+		startPinkEntrainerMultiple.setDisable(b);
 	}
 
-	private void setEndFieldsEnabled(boolean enabled) {
-		endFrequency.setEnabled(enabled);
-		endEntrainmentFrequency.setEnabled(enabled);
-		endAmplitude.setEnabled(enabled);
-		endPinkNoise.setEnabled(enabled);
-		endPinkPanAmplitude.setEnabled(enabled);
-		endPinkEntrainerMultiple.setEnabled(enabled);
+	private void setEndFieldsDisabled(boolean b) {
+		endFrequency.setDisable(b);
+		endEntrainmentFrequency.setDisable(b);
+		endAmplitude.setDisable(b);
+		endPinkNoise.setDisable(b);
+		endPinkPanAmplitude.setDisable(b);
+		endPinkEntrainerMultiple.setDisable(b);
 	}
 
 	private void layoutComponents() {
-		MigHelper mh = new MigHelper(this);
-		mh.setLayoutFillX(true);
-		mh.growX(100);
-		mh.setLayoutInsets(0, 0, 0, 0);
-
-		mh.addLast(getTimeContainer()).add(getStartEndContainer());
+		VBox box = new VBox(10, getTimeContainer(), getStartEndContainer());
+		box.setAlignment(Pos.CENTER);
+		
+		setContent(box);
 	}
 
-	private Container getTimeContainer() {
-		JPanel jp = new JPanel();
-		jp.setBorder(new BevelBorder(BevelBorder.RAISED));
-		MigHelper mh = new MigHelper(jp);
-
-		mh.alignWest().add("Minutes:").alignEast().add(minutes);
-		mh.alignWest().add("Seconds:").alignEast().add(seconds);
-
-		return mh.getContainer();
+	private Node getTimeContainer() {
+		GridPaneHelper gph = new GridPaneHelper();
+		
+		gph.add("Minutes:").addLast(minutes);
+		gph.add("Seconds:").addLast(seconds);
+		
+		return gph.getPane();
 	}
 
-	private Container getStartEndContainer() {
-		JPanel jp = new JPanel();
-		jp.setBorder(new BevelBorder(BevelBorder.LOWERED));
-		MigHelper mh = new MigHelper(jp);
-		mh.setLayoutInsets(10, 10, 10, 10);
-
-		addLine(mh, "Entrainment Frequency (0 -> 40Hz)", startEntrainmentFrequency, endEntrainmentFrequency);
-		addLine(mh, "Frequency (20 -> 500Hz)", startFrequency, endFrequency);
-		addLine(mh, "Amplitude (0 -> 100)", startAmplitude, endAmplitude);
-		addLine(mh, "Pink Noise (0 -> 100)", startPinkNoise, endPinkNoise);
-		addLine(mh, "Pink Noise Pan (0 -> 100)", startPinkPanAmplitude, endPinkPanAmplitude);
-		addLine(mh,
+	private Node getStartEndContainer() {
+		GridPaneHelper gph = new GridPaneHelper();
+		
+		addLine(gph, "Entrainment Frequency (0 -> 40Hz)", startEntrainmentFrequency, endEntrainmentFrequency);
+		addLine(gph, "Frequency (20 -> 500Hz)", startFrequency, endFrequency);
+		addLine(gph, "Amplitude (0 -> 100)", startAmplitude, endAmplitude);
+		addLine(gph, "Pink Noise (0 -> 100)", startPinkNoise, endPinkNoise);
+		addLine(gph, "Pink Noise Pan (0 -> 100)", startPinkPanAmplitude, endPinkPanAmplitude);
+		addLine(gph,
 				"Pink Noise Entrainment Frequency Multiple (1 -> 512)",
 				startPinkEntrainerMultiple,
 				endPinkEntrainerMultiple);
-
-		mh.skip(2).add(testStart).skip().add(testEnd);
-
-		return mh.getContainer();
+		
+		gph.skip(2).add(testStart).skip().addLast(testEnd);
+		
+		return gph.getPane();
 	}
 
 	private void initSpinners() {
@@ -557,31 +414,24 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 		seconds = createSpinner(0, 0, 60, 1);
 	}
 
-	private JSpinner createSpinner(double val, double min, double max, double incr) {
-		JSpinner spinner = new JSpinner(new SpinnerNumberModel(val, min, max, incr));
+	private Spinner<Double> createSpinner(double val, double min, double max, double incr) {
+		Spinner<Double> spin = new Spinner<>(min, max, val, incr);
+		
+		spin.setPrefWidth(70);
 
-		setSpinnerSize(spinner);
-
-		return spinner;
+		return spin;
 	}
 
-	private JSpinner createSpinner(int val, int min, int max, int incr) {
-		JSpinner spinner = new JSpinner(new SpinnerNumberModel(val, min, max, incr));
+	private Spinner<Integer> createSpinner(int val, int min, int max, int incr) {
+		Spinner<Integer> spin = new Spinner<>(min, max, val, incr);
+		
+		spin.setPrefWidth(70);
 
-		setSpinnerSize(spinner);
-
-		return spinner;
+		return spin;
 	}
 
-	private void setSpinnerSize(JSpinner spinner) {
-		Dimension constant = new Dimension(70, 20);
-		spinner.setMinimumSize(constant);
-	}
-
-	private void addLine(MigHelper mh, String label, JSpinner start, JSpinner end) {
-		mh.alignWest().add(label).alignEast().add("Start:").alignWest().add(start);
-
-		mh.alignEast().add("End:").alignWest().addLast(end);
+	private void addLine(GridPaneHelper gph, String label, Spinner<Double> start, Spinner<Double> end) {
+		gph.add(label).add("Start:").add(start).add("End:").addLast(end);
 	}
 
 	/**
@@ -707,20 +557,20 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 	}
 
 	private void setUnitFields(EntrainerProgramUnit unit) {
-		startFrequency.setValue(unit.getStartFrequency());
-		endFrequency.setValue(unit.getEndFrequency());
-		startEntrainmentFrequency.setValue(unit.getStartEntrainmentFrequency());
-		endEntrainmentFrequency.setValue(unit.getEndEntrainmentFrequency());
-		startAmplitude.setValue(unit.getStartAmplitude() * 100);
-		endAmplitude.setValue(unit.getEndAmplitude() * 100);
-		startPinkNoise.setValue(unit.getStartPinkNoise() * 100);
-		endPinkNoise.setValue(unit.getEndPinkNoise() * 100);
-		startPinkPanAmplitude.setValue(unit.getStartPinkPan() * 100);
-		endPinkPanAmplitude.setValue(unit.getEndPinkPan() * 100);
-		startPinkEntrainerMultiple.setValue(unit.getStartPinkEntrainerMultiple());
-		endPinkEntrainerMultiple.setValue(unit.getEndPinkEntrainerMultiple());
-		minutes.setValue(unit.getTime().getMinutes());
-		seconds.setValue(unit.getTime().getSeconds());
+		startFrequency.getValueFactory().setValue(unit.getStartFrequency());
+		endFrequency.getValueFactory().setValue(unit.getEndFrequency());
+		startEntrainmentFrequency.getValueFactory().setValue(unit.getStartEntrainmentFrequency());
+		endEntrainmentFrequency.getValueFactory().setValue(unit.getEndEntrainmentFrequency());
+		startAmplitude.getValueFactory().setValue(unit.getStartAmplitude() * 100);
+		endAmplitude.getValueFactory().setValue(unit.getEndAmplitude() * 100);
+		startPinkNoise.getValueFactory().setValue(unit.getStartPinkNoise() * 100);
+		endPinkNoise.getValueFactory().setValue(unit.getEndPinkNoise() * 100);
+		startPinkPanAmplitude.getValueFactory().setValue(unit.getStartPinkPan() * 100);
+		endPinkPanAmplitude.getValueFactory().setValue(unit.getEndPinkPan() * 100);
+		startPinkEntrainerMultiple.getValueFactory().setValue(unit.getStartPinkEntrainerMultiple());
+		endPinkEntrainerMultiple.getValueFactory().setValue(unit.getEndPinkEntrainerMultiple());
+		minutes.getValueFactory().setValue(unit.getTime().getMinutes());
+		seconds.getValueFactory().setValue(unit.getTime().getSeconds());
 	}
 
 	/**
@@ -781,7 +631,7 @@ public class UnitEditorPane extends JPanel implements UnitEditorPaneConstants, U
 		unit.getEndUnitSetter().setPinkNoise(getDecimalValue(endPinkNoise));
 	}
 
-	private double getDecimalValue(JSpinner spinner) {
+	private double getDecimalValue(Spinner<Double> spinner) {
 		return getValue(spinner.getValue()) / 100;
 	}
 
