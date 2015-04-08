@@ -588,6 +588,9 @@ public class EntrainerSocketConnector extends DialogPane {
 		return cf.isSuccess();
 	}
 
+	/**
+	 * Disconnect from entrainer.
+	 */
 	public void disconnectFromEntrainer() {
 		bootstrap.group().shutdownGracefully();
 		if (channel != null) channel.close();

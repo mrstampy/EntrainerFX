@@ -62,7 +62,11 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	private HBox options = new HBox();
 
 	private GridPane additives;
+
+	/** The apply background. */
 	protected boolean applyBackground;
+
+	/** The apply shimmer. */
 	protected boolean applyShimmer;
 	private boolean applyAnimation;
 
@@ -401,13 +405,13 @@ public class FlashOptionsPane extends AbstractTitledPane {
 		setTooltip(shadow, "Shadow effect for flashing");
 		setTooltip(colourAdjust, "Random Colour Adjust effect for flashing");
 		setTooltip(applyEntrainerFX, "Apply the chosen flash effect to the main window");
-		
+
 		setOnMouseClicked(e -> localDoc(e));
 	}
-	
+
 	private void localDoc(MouseEvent e) {
-		if(!(e.isMetaDown() && e.getClickCount() == 1)) return;
-		
+		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
+
 		Utils.openLocalDocumentation("flashing.html");
 	}
 
@@ -435,8 +439,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	}
 
 	private void setOptionsEnabled() {
-		boolean b = applyAnimation || applyBackground || applyShimmer
-				|| applyMedia || applyEntrainerFX.isSelected();
+		boolean b = applyAnimation || applyBackground || applyShimmer || applyMedia || applyEntrainerFX.isSelected();
 
 		options.setDisable(!b);
 	}

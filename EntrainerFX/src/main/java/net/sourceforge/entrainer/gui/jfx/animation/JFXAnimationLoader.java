@@ -76,7 +76,7 @@ public class JFXAnimationLoader {
 	 */
 	void loadAllAnimations() {
 		log.info("Loading animations");
-		
+
 		Optional<File> animDir = Utils.getAnimationDir();
 
 		timer.schedule(getTimerTask(Paths.get(animDir.get().toURI())), 0);

@@ -198,10 +198,10 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 	 */
 	protected Point2D getCenterOfEntrainerFrame() {
 		Rectangle2D r = getEntrainerFramePosition();
-		
+
 		double centerX = r.getMinX() + r.getWidth() / 2;
 		double centerY = r.getMinY() + r.getHeight() / 2;
-		
+
 		return new Point2D(centerX, centerY);
 	}
 
@@ -223,6 +223,12 @@ public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 		return entrainerFramePosition;
 	}
 
+	/**
+	 * Sets the entrainer frame position.
+	 *
+	 * @param entrainerFramePosition
+	 *          the new entrainer frame position
+	 */
 	public void setEntrainerFramePosition(Rectangle2D entrainerFramePosition) {
 		this.entrainerFramePosition = entrainerFramePosition;
 	}

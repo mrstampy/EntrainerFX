@@ -174,13 +174,13 @@ public class SliderControlPane extends AbstractTitledPane {
 		setTooltip(pinkAmplitude, "Sets the pan amplitude of the generated pink noise");
 		setTooltip(multiple, "Sets the speed of pink noise panning");
 		setTooltip(panCheck, "Enables/disables pink noise panning");
-		
+
 		setOnMouseClicked(e -> localDoc(e));
 	}
-	
+
 	private void localDoc(MouseEvent e) {
-		if(!(e.isMetaDown() && e.getClickCount() == 1)) return;
-		
+		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
+
 		Utils.openLocalDocumentation("sound.html");
 	}
 

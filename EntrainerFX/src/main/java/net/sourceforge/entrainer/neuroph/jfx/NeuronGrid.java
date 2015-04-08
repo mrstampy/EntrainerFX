@@ -143,7 +143,7 @@ public class NeuronGrid {
 		}
 
 		gridPane.getChildren().addAll(flattened);
-		
+
 		gridPane.setId(getClass().getSimpleName() + "-layout");
 	}
 

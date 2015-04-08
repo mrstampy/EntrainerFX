@@ -18,8 +18,6 @@
  */
 package net.sourceforge.entrainer.gui;
 
-import org.apache.commons.lang3.StringUtils;
-
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -30,6 +28,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.HBox;
 import javafx.util.converter.IntegerStringConverter;
+
+import org.apache.commons.lang3.StringUtils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -50,8 +50,6 @@ public class CustomInterval extends DialogPane {
 	/**
 	 * Instantiates a new custom interval.
 	 *
-	 * @param arg0
-	 *          the arg0
 	 * @param menu
 	 *          the menu
 	 */
@@ -78,7 +76,7 @@ public class CustomInterval extends DialogPane {
 	public int getDenominator() {
 		return getValue(denominator);
 	}
-	
+
 	private int getValue(TextField tf) {
 		String text = tf.getText();
 		return StringUtils.isEmpty(text) ? 0 : Integer.parseInt(text);
@@ -112,13 +110,18 @@ public class CustomInterval extends DialogPane {
 		initField(numerator);
 		initField(denominator);
 	}
-	
+
 	private void initField(TextField tf) {
 		tf.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
 		tf.setMaxWidth(70);
-		tf.setAlignment(Pos.CENTER_RIGHT);		
+		tf.setAlignment(Pos.CENTER_RIGHT);
 	}
 
+	/**
+	 * Validated.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean validated() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(getNumeratorErrors());
@@ -168,9 +171,9 @@ public class CustomInterval extends DialogPane {
 		HBox box = new HBox(10);
 		box.setAlignment(Pos.CENTER);
 		Label slash = new Label("/");
-		
+
 		box.getChildren().addAll(numerator, slash, denominator);
-		
+
 		setContent(box);
 	}
 

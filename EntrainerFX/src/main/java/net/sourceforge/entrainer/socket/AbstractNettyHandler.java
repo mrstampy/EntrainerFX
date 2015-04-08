@@ -272,13 +272,13 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 		fireReceiverChangeEvent(esm.getShadow(), FlashType.SHADOW, MediatorConstants.FLASH_TYPE);
 
 		fireReceiverChangeEvent(esm.getFlashEntrainerFX(), MediatorConstants.APPLY_FLASH_TO_ENTRAINER_FX);
-		
+
 		fireReceiverChangeEvent(esm.getAnimation(), MediatorConstants.IS_ANIMATION);
 		fireReceiverChangeEvent(esm.getFlashAnimation(), MediatorConstants.APPLY_FLASH_TO_ANIMATION);
 		fireReceiverChangeEvent(esm.getAnimationBackgroundColour(), MediatorConstants.ANIMATION_COLOR_BACKGROUND);
 		fireReceiverChangeEvent(esm.getAnimationBackgroundPic(), MediatorConstants.ANIMATION_BACKGROUND);
 		fireReceiverChangeEvent(esm.getAnimationName(), MediatorConstants.ANIMATION_PROGRAM);
-		
+
 		fireReceiverChangeEvent(esm.getShimmer(), MediatorConstants.IS_SHIMMER);
 		fireReceiverChangeEvent(esm.getFlashShimmer(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
 		fireReceiverChangeEvent(esm.getShimmerName(), MediatorConstants.SHIMMER_RECTANGLE);
@@ -302,7 +302,7 @@ public abstract class AbstractNettyHandler<I extends Object> extends SimpleChann
 		fireReceiverChangeEvent(esm.getMediaEntrainmentStrength(), MediatorConstants.MEDIA_ENTRAINMENT_STRENGTH);
 		fireReceiverChangeEvent(esm.getMediaPlay(), MediatorConstants.MEDIA_PLAY);
 		fireReceiverChangeEvent(esm.getMediaPause(), MediatorConstants.MEDIA_PAUSE);
-		
+
 		fireReceiverChangeEvent(esm.getPinkPan(), MediatorConstants.PINK_PAN);
 		fireReceiverChangeEvent(esm.getAmplitude(), MediatorConstants.AMPLITUDE);
 		fireReceiverChangeEvent(esm.getEntrainmentFrequency(), MediatorConstants.ENTRAINMENT_FREQUENCY);

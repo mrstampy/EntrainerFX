@@ -49,9 +49,14 @@ import org.slf4j.LoggerFactory;
  */
 public class MediaEngine {
 	private static final Logger log = LoggerFactory.getLogger(MediaEngine.class);
-	
+
 	private static MediaEngine mediaEngine = new MediaEngine();
-	
+
+	/**
+	 * Gets the single instance of MediaEngine.
+	 *
+	 * @return single instance of MediaEngine
+	 */
 	public static MediaEngine getInstance() {
 		return mediaEngine;
 	}
@@ -72,11 +77,11 @@ public class MediaEngine {
 
 	private ScheduledExecutorService svc = Executors.newSingleThreadScheduledExecutor();
 	private ScheduledFuture<?> sf;
-	
+
 	private ExecutorService pulseSvc = Executors.newSingleThreadExecutor();
-	
+
 	private double frailty;
-	
+
 	private MasterLevelController controller = new MasterLevelController();
 
 	/**

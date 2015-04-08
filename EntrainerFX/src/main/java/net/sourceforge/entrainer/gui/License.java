@@ -43,6 +43,9 @@ public class License extends DialogPane {
 
 	private TextArea area = new TextArea();
 
+	/**
+	 * Instantiates a new license.
+	 */
 	public License() {
 		area.setPrefColumnCount(55);
 		area.setPrefRowCount(50);

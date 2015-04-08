@@ -268,7 +268,7 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
 	private void initButtons() {
 		ControlButtonFactory.decorateButton(testStart, "Play");
 		ControlButtonFactory.decorateButton(testEnd, "Play");
-		
+
 		testStart.setUserData("Start");
 		testEnd.setUserData("End");
 	}
@@ -287,37 +287,37 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
 	private void addValueListeners() {
 		startAmplitude.setOnMouseClicked(e -> startAmplitudeChanged());
 		startAmplitude.focusedProperty().addListener(e -> startAmplitudeChanged());
-		
+
 		startEntrainmentFrequency.setOnMouseClicked(e -> startEntrainmentFrequencyChanged());
 		startEntrainmentFrequency.focusedProperty().addListener(e -> startEntrainmentFrequencyChanged());
-		
+
 		startFrequency.setOnMouseClicked(e -> startFrequencyChanged());
 		startFrequency.focusedProperty().addListener(e -> startFrequencyChanged());
-		
+
 		startPinkEntrainerMultiple.setOnMouseClicked(e -> startPinkEntrainerMultipleChanged());
 		startPinkEntrainerMultiple.focusedProperty().addListener(e -> startPinkEntrainerMultipleChanged());
-		
+
 		startPinkNoise.setOnMouseClicked(e -> startPinkNoiseChanged());
 		startPinkNoise.focusedProperty().addListener(e -> startPinkNoiseChanged());
-		
+
 		startPinkPanAmplitude.setOnMouseClicked(e -> startPinkPanAmplitudeChanged());
 		startPinkPanAmplitude.focusedProperty().addListener(e -> startPinkPanAmplitudeChanged());
-		
+
 		endAmplitude.setOnMouseClicked(e -> endAmplitudeChanged());
 		endAmplitude.focusedProperty().addListener(e -> endAmplitudeChanged());
-		
+
 		endEntrainmentFrequency.setOnMouseClicked(e -> endEntrainmentFrequencyChanged());
 		endEntrainmentFrequency.focusedProperty().addListener(e -> endEntrainmentFrequencyChanged());
-		
+
 		endFrequency.setOnMouseClicked(e -> endFrequencyChanged());
 		endFrequency.focusedProperty().addListener(e -> endFrequencyChanged());
-		
+
 		endPinkEntrainerMultiple.setOnMouseClicked(e -> endPinkEntrainerMultipleChanged());
 		endPinkEntrainerMultiple.focusedProperty().addListener(e -> endPinkEntrainerMultipleChanged());
-		
+
 		endPinkNoise.setOnMouseClicked(e -> endPinkNoiseChanged());
 		endPinkNoise.focusedProperty().addListener(e -> endPinkNoiseChanged());
-		
+
 		endPinkPanAmplitude.setOnMouseClicked(e -> endPinkPanChanged());
 		endPinkPanAmplitude.focusedProperty().addListener(e -> endPinkPanChanged());
 	}
@@ -368,22 +368,22 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
 	private void layoutComponents() {
 		VBox box = new VBox(10, getTimeContainer(), getStartEndContainer());
 		box.setAlignment(Pos.CENTER);
-		
+
 		setContent(box);
 	}
 
 	private Node getTimeContainer() {
 		GridPaneHelper gph = new GridPaneHelper();
-		
+
 		gph.add("Minutes:").add(minutes);
 		gph.add("Seconds:").addLast(seconds);
-		
+
 		return gph.alignment(Pos.CENTER).padding(new Insets(10)).hGap(10).vGap(10).getPane();
 	}
 
 	private Node getStartEndContainer() {
 		GridPaneHelper gph = new GridPaneHelper();
-		
+
 		addLine(gph, "Entrainment Frequency (0 -> 40Hz)", startEntrainmentFrequency, endEntrainmentFrequency);
 		addLine(gph, "Frequency (20 -> 500Hz)", startFrequency, endFrequency);
 		addLine(gph, "Amplitude (0 -> 100)", startAmplitude, endAmplitude);
@@ -393,9 +393,9 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
 				"Pink Noise Entrainment Frequency Multiple (1 -> 512)",
 				startPinkEntrainerMultiple,
 				endPinkEntrainerMultiple);
-		
+
 		gph.skip(2).add(testStart).skip().addLast(testEnd);
-		
+
 		return gph.alignment(Pos.CENTER).padding(new Insets(10)).hGap(10).vGap(10).getPane();
 	}
 
@@ -418,7 +418,7 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
 
 	private Spinner<Double> createSpinner(double val, double min, double max, double incr) {
 		Spinner<Double> spin = new Spinner<>(min, max, val, incr);
-		
+
 		spin.setPrefWidth(70);
 
 		return spin;
@@ -426,7 +426,7 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
 
 	private Spinner<Integer> createSpinner(int val, int min, int max, int incr) {
 		Spinner<Integer> spin = new Spinner<>(min, max, val, incr);
-		
+
 		spin.setPrefWidth(70);
 
 		return spin;

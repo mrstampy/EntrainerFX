@@ -36,6 +36,9 @@ import net.sourceforge.entrainer.util.Utils;
 public class About extends DialogPane implements Version {
 	private Label label;
 
+	/**
+	 * Instantiates a new about.
+	 */
 	public About() {
 		init();
 	}
@@ -44,11 +47,11 @@ public class About extends DialogPane implements Version {
 		label = new Label();
 		label.setText(getHtmlText());
 		label.setTextAlignment(TextAlignment.CENTER);
-		
+
 		getButtonTypes().add(ButtonType.OK);
-		
+
 		setContent(label);
-		
+
 		label.setOnMouseClicked(e -> showDoco(e));
 	}
 
@@ -58,6 +61,11 @@ public class About extends DialogPane implements Version {
 		Utils.openLocalDocumentation("index.html");
 	}
 
+	/**
+	 * Gets the html text.
+	 *
+	 * @return the html text
+	 */
 	protected String getHtmlText() {
 		StringBuffer buf = new StringBuffer("Entrainer ");
 		buf.append(VERSION);

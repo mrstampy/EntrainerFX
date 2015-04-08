@@ -212,7 +212,7 @@ public class EntrainerStateMessage {
 
 	@XmlElement
 	private Boolean shimmer;
-	
+
 	@XmlElement
 	private String shimmerName;
 
@@ -293,37 +293,37 @@ public class EntrainerStateMessage {
 
 	@XmlElement
 	private String mediaUri;
-	
+
 	@XmlElement
 	private Boolean mediaPlay;
-	
+
 	@XmlElement
 	private Boolean mediaPause;
-	
+
 	@XmlElement
 	private Double deltaMediaAmplitude;
-	
+
 	@XmlElement
 	private Double deltaMediaEntrainmentStrength;
-	
+
 	@XmlElement
 	private Boolean flashMedia;
-	
+
 	@XmlElement
 	private Boolean flashAnimation;
-	
+
 	@XmlElement
 	private Boolean flashEntrainerFX;
-	
+
 	@XmlElement
 	private Boolean flashShimmer;
-	
+
 	@XmlElement
 	private Boolean animationBackgroundColour;
-	
+
 	@XmlElement
 	private String animationBackgroundPic;
-	
+
 	@XmlElement
 	private String animationName;
 
@@ -1225,98 +1225,230 @@ public class EntrainerStateMessage {
 		this.mediaUri = mediaUri;
 	}
 
+	/**
+	 * Gets the flash media.
+	 *
+	 * @return the flash media
+	 */
 	public Boolean getFlashMedia() {
 		return flashMedia;
 	}
 
+	/**
+	 * Sets the flash media.
+	 *
+	 * @param flashMedia
+	 *          the new flash media
+	 */
 	public void setFlashMedia(Boolean flashMedia) {
 		this.flashMedia = flashMedia;
 	}
 
+	/**
+	 * Gets the flash animation.
+	 *
+	 * @return the flash animation
+	 */
 	public Boolean getFlashAnimation() {
 		return flashAnimation;
 	}
 
+	/**
+	 * Sets the flash animation.
+	 *
+	 * @param flashAnimation
+	 *          the new flash animation
+	 */
 	public void setFlashAnimation(Boolean flashAnimation) {
 		this.flashAnimation = flashAnimation;
 	}
 
+	/**
+	 * Gets the flash entrainer fx.
+	 *
+	 * @return the flash entrainer fx
+	 */
 	public Boolean getFlashEntrainerFX() {
 		return flashEntrainerFX;
 	}
 
+	/**
+	 * Sets the flash entrainer fx.
+	 *
+	 * @param flashEntrainerFX
+	 *          the new flash entrainer fx
+	 */
 	public void setFlashEntrainerFX(Boolean flashEntrainerFX) {
 		this.flashEntrainerFX = flashEntrainerFX;
 	}
 
+	/**
+	 * Gets the flash shimmer.
+	 *
+	 * @return the flash shimmer
+	 */
 	public Boolean getFlashShimmer() {
 		return flashShimmer;
 	}
 
+	/**
+	 * Sets the flash shimmer.
+	 *
+	 * @param flashShimmer
+	 *          the new flash shimmer
+	 */
 	public void setFlashShimmer(Boolean flashShimmer) {
 		this.flashShimmer = flashShimmer;
 	}
 
+	/**
+	 * Gets the media play.
+	 *
+	 * @return the media play
+	 */
 	public Boolean getMediaPlay() {
 		return mediaPlay;
 	}
 
+	/**
+	 * Sets the media play.
+	 *
+	 * @param mediaPlay
+	 *          the new media play
+	 */
 	public void setMediaPlay(Boolean mediaPlay) {
 		this.mediaPlay = mediaPlay;
 	}
 
+	/**
+	 * Gets the media pause.
+	 *
+	 * @return the media pause
+	 */
 	public Boolean getMediaPause() {
 		return mediaPause;
 	}
 
+	/**
+	 * Sets the media pause.
+	 *
+	 * @param mediaPause
+	 *          the new media pause
+	 */
 	public void setMediaPause(Boolean mediaPause) {
 		this.mediaPause = mediaPause;
 	}
 
+	/**
+	 * Gets the shimmer name.
+	 *
+	 * @return the shimmer name
+	 */
 	public String getShimmerName() {
 		return shimmerName;
 	}
 
+	/**
+	 * Sets the shimmer name.
+	 *
+	 * @param shimmerName
+	 *          the new shimmer name
+	 */
 	public void setShimmerName(String shimmerName) {
 		this.shimmerName = shimmerName;
 	}
 
+	/**
+	 * Gets the animation background colour.
+	 *
+	 * @return the animation background colour
+	 */
 	public Boolean getAnimationBackgroundColour() {
 		return animationBackgroundColour;
 	}
 
+	/**
+	 * Sets the animation background colour.
+	 *
+	 * @param animationBackgroundColour
+	 *          the new animation background colour
+	 */
 	public void setAnimationBackgroundColour(Boolean animationBackgroundColour) {
 		this.animationBackgroundColour = animationBackgroundColour;
 	}
 
+	/**
+	 * Gets the animation background pic.
+	 *
+	 * @return the animation background pic
+	 */
 	public String getAnimationBackgroundPic() {
 		return animationBackgroundPic;
 	}
 
+	/**
+	 * Sets the animation background pic.
+	 *
+	 * @param animationBackgroundPic
+	 *          the new animation background pic
+	 */
 	public void setAnimationBackgroundPic(String animationBackgroundPic) {
 		this.animationBackgroundPic = animationBackgroundPic;
 	}
 
+	/**
+	 * Gets the animation name.
+	 *
+	 * @return the animation name
+	 */
 	public String getAnimationName() {
 		return animationName;
 	}
 
+	/**
+	 * Sets the animation name.
+	 *
+	 * @param animationName
+	 *          the new animation name
+	 */
 	public void setAnimationName(String animationName) {
 		this.animationName = animationName;
 	}
 
+	/**
+	 * Gets the delta media amplitude.
+	 *
+	 * @return the delta media amplitude
+	 */
 	public Double getDeltaMediaAmplitude() {
 		return deltaMediaAmplitude;
 	}
 
+	/**
+	 * Sets the delta media amplitude.
+	 *
+	 * @param deltaMediaAmplitude
+	 *          the new delta media amplitude
+	 */
 	public void setDeltaMediaAmplitude(Double deltaMediaAmplitude) {
 		this.deltaMediaAmplitude = deltaMediaAmplitude;
 	}
 
+	/**
+	 * Gets the delta media entrainment strength.
+	 *
+	 * @return the delta media entrainment strength
+	 */
 	public Double getDeltaMediaEntrainmentStrength() {
 		return deltaMediaEntrainmentStrength;
 	}
 
+	/**
+	 * Sets the delta media entrainment strength.
+	 *
+	 * @param deltaMediaEntrainmentStrength
+	 *          the new delta media entrainment strength
+	 */
 	public void setDeltaMediaEntrainmentStrength(Double deltaMediaEntrainmentStrength) {
 		this.deltaMediaEntrainmentStrength = deltaMediaEntrainmentStrength;
 	}

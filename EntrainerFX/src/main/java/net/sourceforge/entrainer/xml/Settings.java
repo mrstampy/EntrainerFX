@@ -351,6 +351,12 @@ public class Settings {
 		EntrainerMediator.getInstance().removeReceiver(this);
 	}
 
+	/**
+	 * Sets the preserve state.
+	 *
+	 * @param b
+	 *          the new preserve state
+	 */
 	@XmlTransient
 	public void setPreserveState(boolean b) {
 		log.debug("preserving state {}", b);
@@ -513,6 +519,9 @@ public class Settings {
 		});
 	}
 
+	/**
+	 * Inits the state.
+	 */
 	public void initState() {
 		fireReceiverChangeEvent(getEntrainmentFrequency(), ENTRAINMENT_FREQUENCY);
 		fireReceiverChangeEvent(getFrequency(), FREQUENCY);
@@ -556,10 +565,13 @@ public class Settings {
 		fireFlashOptions();
 
 		fireMediaOptions();
-		
+
 		initAnimation();
 	}
-	
+
+	/**
+	 * Inits the animation.
+	 */
 	public void initAnimation() {
 		fireReceiverChangeEvent(isFlashAnimation(), MediatorConstants.APPLY_FLASH_TO_ANIMATION);
 		fireReceiverChangeEvent(isAnimation(), IS_ANIMATION);
@@ -1595,34 +1607,78 @@ public class Settings {
 		this.mediaUri = mediaUri;
 	}
 
+	/**
+	 * Checks if is flash animation.
+	 *
+	 * @return the boolean
+	 */
 	public Boolean isFlashAnimation() {
 		return flashAnimation;
 	}
 
+	/**
+	 * Sets the flash animation.
+	 *
+	 * @param flashAnimation
+	 *          the new flash animation
+	 */
 	public void setFlashAnimation(Boolean flashAnimation) {
 		this.flashAnimation = flashAnimation;
 	}
 
+	/**
+	 * Checks if is flash shimmer.
+	 *
+	 * @return the boolean
+	 */
 	public Boolean isFlashShimmer() {
 		return flashShimmer;
 	}
 
+	/**
+	 * Sets the flash shimmer.
+	 *
+	 * @param flashShimmer
+	 *          the new flash shimmer
+	 */
 	public void setFlashShimmer(Boolean flashShimmer) {
 		this.flashShimmer = flashShimmer;
 	}
 
+	/**
+	 * Checks if is flash entrainer fx.
+	 *
+	 * @return the boolean
+	 */
 	public Boolean isFlashEntrainerFX() {
 		return flashEntrainerFX;
 	}
 
+	/**
+	 * Sets the flash entrainer fx.
+	 *
+	 * @param flashEntrainerFX
+	 *          the new flash entrainer fx
+	 */
 	public void setFlashEntrainerFX(Boolean flashEntrainerFX) {
 		this.flashEntrainerFX = flashEntrainerFX;
 	}
 
+	/**
+	 * Checks if is flash media.
+	 *
+	 * @return the boolean
+	 */
 	public Boolean isFlashMedia() {
 		return flashMedia;
 	}
 
+	/**
+	 * Sets the flash media.
+	 *
+	 * @param flashMedia
+	 *          the new flash media
+	 */
 	public void setFlashMedia(Boolean flashMedia) {
 		this.flashMedia = flashMedia;
 	}

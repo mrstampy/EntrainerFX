@@ -225,6 +225,12 @@ public class EntrainerFX extends Application {
 	private EntrainerFXResizer resizer;
 	private boolean exiting;
 
+	/**
+	 * Instantiates a new entrainer fx.
+	 *
+	 * @throws Exception
+	 *           the exception
+	 */
 	public EntrainerFX() throws Exception {
 		EntrainmentFrequencyPulseNotifier.start();
 		FlashOptions.start();
@@ -250,26 +256,52 @@ public class EntrainerFX extends Application {
 		return instance;
 	}
 
+	/**
+	 * Gets the bounds.
+	 *
+	 * @return the bounds
+	 */
 	public Rectangle2D getBounds() {
 		return resizer.getSize();
 	}
 
+	/**
+	 * Checks if is visible.
+	 *
+	 * @return true, if is visible
+	 */
 	public boolean isVisible() {
 		return stage.isShowing();
 	}
 
+	/**
+	 * To front.
+	 */
 	public void toFront() {
 		stage.toFront();
 	}
 
+	/**
+	 * To back.
+	 */
 	public void toBack() {
 		stage.toBack();
 	}
 
+	/**
+	 * Gets the min size.
+	 *
+	 * @return the min size
+	 */
 	public Rectangle2D getMinSize() {
 		return new Rectangle2D(stage.getX(), stage.getY(), stage.getMinWidth(), stage.getMinHeight());
 	}
-	
+
+	/**
+	 * Gets the stage.
+	 *
+	 * @return the stage
+	 */
 	public Stage getStage() {
 		return stage;
 	}
@@ -591,13 +623,13 @@ public class EntrainerFX extends Application {
 
 		return aboutItem;
 	}
-	
+
 	private void showLicenseDialog() {
 		Dialog<ButtonType> d = new Dialog<ButtonType>();
 		d.setDialogPane(new License());
 		d.setTitle("EntrainerFX License");
 		d.initOwner(stage);
-		
+
 		d.showAndWait();
 	}
 
@@ -644,13 +676,13 @@ public class EntrainerFX extends Application {
 
 		return aboutItem;
 	}
-	
+
 	private void showAboutDialog() {
 		Dialog<ButtonType> d = new Dialog<ButtonType>();
 		d.setDialogPane(new About());
 		d.setTitle("About EntrainerFX");
 		d.initOwner(stage);
-		
+
 		d.showAndWait();
 	}
 
@@ -731,9 +763,9 @@ public class EntrainerFX extends Application {
 		cd.setTitle("Choose Channel");
 		cd.setHeaderText("Choose the channel for processing");
 		cd.initOwner(stage);
-		
+
 		Optional<EspChannel> channel = cd.showAndWait();
-		
+
 		if (channel.isPresent()) lab.setChannel(channel.get().getChannelNumber());
 	}
 
@@ -1017,14 +1049,14 @@ public class EntrainerFX extends Application {
 			log.error("Unexpected exception", e);
 			return;
 		}
-		
+
 		Dialog<ButtonType> socker = new Dialog<ButtonType>();
 		socker.setDialogPane(spd);
 		socker.setTitle("Choose Host and Port");
 		socker.initOwner(stage);
 		Optional<ButtonType> bt = socker.showAndWait();
-		
-		if(bt.isPresent() && bt.get() == ButtonType.OK) {
+
+		if (bt.isPresent() && bt.get() == ButtonType.OK) {
 			spd.validateAndSave();
 		}
 	}
@@ -1050,10 +1082,10 @@ public class EntrainerFX extends Application {
 				xmlFileSaved(e.getXmlFile());
 			}
 		});
-		
+
 		editor.setOnHiding(e -> resetIntervalCache());
 		editor.setOpacity(0);
-		
+
 		Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(editor.opacityProperty(), 1)));
 
 		tl.play();
@@ -1177,13 +1209,13 @@ public class EntrainerFX extends Application {
 
 	private void playPressed() {
 		if (animations.getRunAnimation().isSelected()) startAnimation();
-		
+
 		start();
-		
+
 		if (!animations.getRunAnimation().isSelected()) {
 			setMessage(control.isRecord() ? "Recording Started" : "Entrainment Started");
 		}
-		
+
 		if (enableMediaEntrainment) fireReceiverChangeEvent(true, MediatorConstants.MEDIA_PLAY);
 	}
 
@@ -1426,6 +1458,11 @@ public class EntrainerFX extends Application {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.application.Application#init()
+	 */
 	public void init() {
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 
@@ -1451,6 +1488,11 @@ public class EntrainerFX extends Application {
 		initSettings();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.stage = new Stage(StageStyle.TRANSPARENT);
@@ -1465,9 +1507,9 @@ public class EntrainerFX extends Application {
 		stage.addEventHandler(javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST, e -> exitPressed());
 
 		animations = new AnimationPane();
-		
+
 		GridPaneHelper gph = new GridPaneHelper();
-		
+
 		//@formatter:off
 		gph
 			.addLast(bar)
@@ -1499,9 +1541,9 @@ public class EntrainerFX extends Application {
 		stage.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> resizer.onDrag(e));
 		stage.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> resizer.onRelease(e));
 		stage.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> resizer.onClick(e));
-		
+
 		Image brainz = new Image(getClass().getResourceAsStream("/Brain.png"));
-		
+
 		stage.getIcons().add(brainz);
 		primaryStage.getIcons().add(brainz);
 
@@ -1535,6 +1577,14 @@ public class EntrainerFX extends Application {
 		resizeDimensions(size);
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args
+	 *          the arguments
+	 * @throws Exception
+	 *           the exception
+	 */
 	public static void main(String[] args) throws Exception {
 		initTridentInterpolators();
 		architectureCheck();

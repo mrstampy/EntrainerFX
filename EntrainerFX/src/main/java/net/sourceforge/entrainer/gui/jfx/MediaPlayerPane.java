@@ -131,30 +131,60 @@ public class MediaPlayerPane extends AbstractTitledPane {
 		if (!b) JFXUtils.resetEffects(view);
 	}
 
+	/**
+	 * Checks if is media entrainment.
+	 *
+	 * @return true, if is media entrainment
+	 */
 	public boolean isMediaEntrainment() {
 		return enableMedia.isSelected();
 	}
 
+	/**
+	 * Sets the media entrainment.
+	 *
+	 * @param b the new media entrainment
+	 */
 	public void setMediaEntrainment(boolean b) {
 		if (enableMedia.isSelected() == b) return;
 
 		enableMedia.setSelected(b);
 	}
 
+	/**
+	 * Checks if is media loop.
+	 *
+	 * @return true, if is media loop
+	 */
 	public boolean isMediaLoop() {
 		return mediaLoop.isSelected();
 	}
 
+	/**
+	 * Sets the media loop.
+	 *
+	 * @param b the new media loop
+	 */
 	public void setMediaLoop(boolean b) {
 		if (mediaLoop.isSelected() == b) return;
 
 		mediaLoop.setSelected(b);
 	}
 
+	/**
+	 * Gets the media uri.
+	 *
+	 * @return the media uri
+	 */
 	public String getMediaURI() {
 		return mediaName;
 	}
 
+	/**
+	 * Sets the media uri.
+	 *
+	 * @param uri the new media uri
+	 */
 	public void setMediaURI(String uri) {
 		setMediaUri(uri);
 	}

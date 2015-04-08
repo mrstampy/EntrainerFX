@@ -88,7 +88,7 @@ public class JFXAnimationWindow extends Stage {
 	private ExecutorService svc = Executors.newCachedThreadPool();
 
 	private boolean inited;
-	
+
 	private ExecutorService pulseSvc = Executors.newSingleThreadExecutor();
 
 	/**
@@ -143,6 +143,12 @@ public class JFXAnimationWindow extends Stage {
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Window#setVisible(boolean)
+	 */
+	/**
+	 * Sets the visible.
+	 *
+	 * @param b
+	 *          the new visible
 	 */
 	public void setVisible(boolean b) {
 		if (b) {
@@ -209,6 +215,9 @@ public class JFXAnimationWindow extends Stage {
 		}
 	}
 
+	/**
+	 * Inits the gui.
+	 */
 	public void initGui() {
 		Dimension size = getScreenSize();
 

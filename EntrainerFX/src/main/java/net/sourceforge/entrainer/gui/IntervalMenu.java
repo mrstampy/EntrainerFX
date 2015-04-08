@@ -255,16 +255,16 @@ public class IntervalMenu extends Menu {
 
 	private void showCustomDialog() {
 		CustomInterval ci = new CustomInterval(this);
-		
+
 		Dialog<ButtonType> dci = new Dialog<>();
 		dci.setTitle("Custom Interval");
 		dci.setDialogPane(ci);
 		dci.setResizable(false);
 		dci.initOwner(EntrainerFX.getInstance().getStage());
-		
+
 		Optional<ButtonType> bt = dci.showAndWait();
-		
-		if(bt.isPresent() && bt.get() == ButtonType.OK && ci.validated()) {
+
+		if (bt.isPresent() && bt.get() == ButtonType.OK && ci.validated()) {
 			String displayString = ci.getDisplayString();
 			if (!containsInterval(displayString)) {
 				addInOrder(add, createMenuItem(displayString));
@@ -425,8 +425,8 @@ public class IntervalMenu extends Menu {
 				del = jmi;
 			}
 		}
-		
-		if(del != null) comps.remove(del);
+
+		if (del != null) comps.remove(del);
 	}
 
 	private boolean isItem(Menu menu, MenuItem item) {

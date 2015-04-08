@@ -82,7 +82,7 @@ public abstract class AbstractTitledPane extends TitledPane {
 	 */
 	protected void init() {
 		Node contentPane = getContentPane();
-		
+
 		contentPane.setId(getClass().getSimpleName() + "-layout");
 
 		setContent(contentPane);

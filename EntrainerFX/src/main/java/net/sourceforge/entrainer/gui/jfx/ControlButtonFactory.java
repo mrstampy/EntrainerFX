@@ -62,27 +62,69 @@ public class ControlButtonFactory {
 		return button;
 	}
 
+	/**
+	 * Decorate button.
+	 *
+	 * @param button
+	 *          the button
+	 * @param baseName
+	 *          the base name
+	 */
 	public static void decorateButton(ButtonBase button, String baseName) {
 		button.setId(baseName);
-		
+
 		ImageView normal = new ImageView("/" + baseName + NORMAL_PART);
 		ImageView hot = new ImageView("/" + baseName + HOT_PART);
 		ImageView pressed = new ImageView("/" + baseName + PRESSED_PART);
 		ImageView disabled = new ImageView("/" + baseName + DISABLED_PART);
-		
+
 		decorateButton(button, normal, hot, pressed, disabled);
 	}
 
+	/**
+	 * Decorate button.
+	 *
+	 * @param button
+	 *          the button
+	 * @param normalUri
+	 *          the normal uri
+	 * @param hotUri
+	 *          the hot uri
+	 */
 	public static void decorateButton(ButtonBase button, String normalUri, String hotUri) {
 		ImageView normal = new ImageView(normalUri);
 		ImageView hot = new ImageView(hotUri);
 		decorateButton(button, normal, hot);
 	}
 
+	/**
+	 * Decorate button.
+	 *
+	 * @param button
+	 *          the button
+	 * @param normal
+	 *          the normal
+	 * @param hot
+	 *          the hot
+	 */
 	public static void decorateButton(ButtonBase button, ImageView normal, ImageView hot) {
 		decorateButton(button, normal, hot, normal, null);
 	}
 
+	/**
+	 * Decorate button.
+	 *
+	 * @param button
+	 *          the button
+	 * @param normal
+	 *          the normal
+	 * @param hot
+	 *          the hot
+	 * @param pressed
+	 *          the pressed
+	 * @param disabled
+	 *          the disabled
+	 */
 	public static void decorateButton(ButtonBase button, ImageView normal, ImageView hot, ImageView pressed,
 			ImageView disabled) {
 		button.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);

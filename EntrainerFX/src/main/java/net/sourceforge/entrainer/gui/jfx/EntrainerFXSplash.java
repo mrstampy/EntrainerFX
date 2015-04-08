@@ -91,7 +91,13 @@ public class EntrainerFXSplash extends Application implements Version {
 			}
 		});
 	}
-	
+
+	/**
+	 * On close.
+	 *
+	 * @param handler
+	 *          the handler
+	 */
 	public void onClose(EventHandler<WindowEvent> handler) {
 		stage.setOnHiding(handler);
 	}
@@ -188,7 +194,7 @@ public class EntrainerFXSplash extends Application implements Version {
 		ImageView iv = new ImageView(image);
 		iv.setCache(true);
 		iv.setCacheHint(CacheHint.SPEED);
-		
+
 		JFXUtils.scale(iv, new Dimension2D(splashScene.getWidth(), splashScene.getHeight()));
 		stack.getChildren().add(0, iv);
 	}
@@ -203,7 +209,7 @@ public class EntrainerFXSplash extends Application implements Version {
 
 	private Animation getFadeOut(final Stage initStage) {
 		Timeline tl = new Timeline(new KeyFrame(Duration.seconds(3), new KeyValue(stage.opacityProperty(), 0)));
-		
+
 		tl.setOnFinished(e -> initStage.close());
 
 		RotateTransition rt = new RotateTransition(Duration.millis(300), splash);

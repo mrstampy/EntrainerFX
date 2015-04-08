@@ -47,8 +47,6 @@ public class NotificationWindow extends Stage {
 	 *
 	 * @param message
 	 *          the message
-	 * @param container
-	 *          the container
 	 */
 	public NotificationWindow(String message) {
 		super(StageStyle.TRANSPARENT);
@@ -59,13 +57,13 @@ public class NotificationWindow extends Stage {
 
 	private void initGui(String message) {
 		Label label = new Label(message);
-		
+
 		label.setFont(Font.font(16));
-		
+
 		HBox box = new HBox(10, label);
 		Scene scene = new Scene(box);
 		URI css = JFXUtils.getEntrainerCSS();
-		if(css != null) scene.getStylesheets().add(css.toString());
+		if (css != null) scene.getStylesheets().add(css.toString());
 
 		setScene(scene);
 	}

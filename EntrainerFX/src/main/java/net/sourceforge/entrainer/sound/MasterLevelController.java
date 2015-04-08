@@ -42,7 +42,7 @@ public class MasterLevelController {
 	private BigDecimal pinkNoiseAmplitude = BigDecimal.ZERO;
 	private BigDecimal pinkPanAmplitude = BigDecimal.ZERO;
 	private BigDecimal pinkEntrainerMultiple = BigDecimal.ZERO;
-	
+
 	private BigDecimal mediaVolume = BigDecimal.ZERO;
 	private BigDecimal mediaEntrainmentStrength = BigDecimal.ZERO;
 
@@ -123,11 +123,21 @@ public class MasterLevelController {
 	public double getPinkPanAmplitude() {
 		return pinkPanAmplitude.doubleValue();
 	}
-	
+
+	/**
+	 * Gets the media volume.
+	 *
+	 * @return the media volume
+	 */
 	public double getMediaVolume() {
 		return mediaVolume.doubleValue();
 	}
-	
+
+	/**
+	 * Gets the media entrainment strength.
+	 *
+	 * @return the media entrainment strength
+	 */
 	public double getMediaEntrainmentStrength() {
 		return mediaEntrainmentStrength.doubleValue();
 	}
@@ -144,7 +154,7 @@ public class MasterLevelController {
 
 			@Override
 			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				if(!process(e)) return;
+				if (!process(e)) return;
 				lock.lock();
 				double delta;
 				try {
@@ -232,7 +242,7 @@ public class MasterLevelController {
 			}
 		});
 	}
-	
+
 	private boolean process(ReceiverChangeEvent e) {
 		switch (e.getParm()) {
 		case AMPLITUDE:

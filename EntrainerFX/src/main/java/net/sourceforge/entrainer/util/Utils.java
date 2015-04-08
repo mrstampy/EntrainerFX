@@ -130,40 +130,81 @@ public class Utils implements EntrainerResources {
 		}
 	}
 
+	/**
+	 * Gets the settings file.
+	 *
+	 * @return the settings file
+	 */
 	public static Optional<File> getSettingsFile() {
 		return getFile(EFX_SETTINGS_DIR + "settings.xml", EFX_USER_HOME_SETTINGS_DIR + "settings.xml");
 	}
 
+	/**
+	 * Gets the license file.
+	 *
+	 * @return the license file
+	 */
 	public static Optional<File> getLicenseFile() {
 		return getFile(EFX_SETTINGS_DIR + "LICENSE.txt", EFX_USER_HOME_SETTINGS_DIR + "LICENSE.txt");
 	}
 
+	/**
+	 * Gets the entrainer program dir.
+	 *
+	 * @return the entrainer program dir
+	 */
 	public static Optional<File> getEntrainerProgramDir() {
 		return getFile(EFX_PROGRAM_DIR, EFX_USER_HOME_PROGRAM_DIR);
 	}
-	
+
+	/**
+	 * Gets the recording dir.
+	 *
+	 * @return the recording dir
+	 */
 	public static Optional<File> getRecordingDir() {
 		return getFile(EFX_RECORDING_DIR, EFX_USER_HOME_RECORDING_DIR);
 	}
-	
+
+	/**
+	 * Open local documentation.
+	 *
+	 * @param htmlPage
+	 *          the html page
+	 */
 	public static void openLocalDocumentation(String htmlPage) {
 		Optional<File> index = getLocalDocPage(htmlPage);
-		
-		if(index.isPresent() && index.get().exists()) openBrowser(index.get().toURI());
+
+		if (index.isPresent() && index.get().exists()) openBrowser(index.get().toURI());
 	}
-	
+
 	private static Optional<File> getLocalDocPage(String htmlPage) {
 		return getFile(EFX_DOC_DIR + "/" + htmlPage, EFX_USER_HOME_DOC_DIR + "/" + htmlPage);
 	}
 
+	/**
+	 * Gets the animation dir.
+	 *
+	 * @return the animation dir
+	 */
 	public static Optional<File> getAnimationDir() {
 		return getFile(EFX_ANIMATION_DIR, EFX_USER_HOME_ANIMATION_DIR);
 	}
 
+	/**
+	 * Gets the esp dir.
+	 *
+	 * @return the esp dir
+	 */
 	public static Optional<File> getEspDir() {
 		return getFile(EFX_ESP_DIR, EFX_USER_HOME_ESP_DIR);
 	}
-	
+
+	/**
+	 * Gets the css dir.
+	 *
+	 * @return the css dir
+	 */
 	public static Optional<File> getCssDir() {
 		return getFile(EFX_CSS_DIR, EFX_USER_HOME_CSS_DIR);
 	}

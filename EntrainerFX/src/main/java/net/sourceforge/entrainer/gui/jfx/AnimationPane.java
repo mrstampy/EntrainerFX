@@ -88,8 +88,8 @@ public class AnimationPane extends AbstractTitledPane {
 	 *          the new flash animation
 	 */
 	public void setFlashAnimation(boolean b) {
-		if(applyAnimation.isSelected() == b) return;
-		
+		if (applyAnimation.isSelected() == b) return;
+
 		applyAnimation.setSelected(b);
 	}
 
@@ -134,13 +134,13 @@ public class AnimationPane extends AbstractTitledPane {
 		setTooltip(animationBackground, "Click to select a background image for animations");
 		setTooltip(animations, "The list of available animations");
 		setTooltip(applyAnimation, "Apply the chosen flash effect selected in the Flash Options to the animations");
-		
+
 		setOnMouseClicked(e -> localDoc(e));
 	}
-	
+
 	private void localDoc(MouseEvent e) {
-		if(!(e.isMetaDown() && e.getClickCount() == 1)) return;
-		
+		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
+
 		Utils.openLocalDocumentation("animations.html");
 	}
 
@@ -192,7 +192,7 @@ public class AnimationPane extends AbstractTitledPane {
 
 		int col = 0;
 		int row = 0;
-		
+
 		GridPane.setConstraints(runAnimation, col++, row);
 		GridPane.setConstraints(animations, col, row++);
 		col = 0;
