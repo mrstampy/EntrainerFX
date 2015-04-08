@@ -59,6 +59,7 @@ public class NotificationWindow extends Stage {
 		Label label = new Label(message);
 
 		label.setFont(Font.font(16));
+		label.setStyle("-fx-background-color: midnightblue");
 
 		HBox box = new HBox(10, label);
 		Scene scene = new Scene(box);
