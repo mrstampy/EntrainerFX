@@ -62,6 +62,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -314,6 +315,7 @@ public class XmlEditor extends Stage {
 	}
 
 	private void fadeOut() {
+		cancelPressed();
 		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 0)));
 		tl.setOnFinished(e -> hide());
 		tl.play();
@@ -322,13 +324,6 @@ public class XmlEditor extends Stage {
 	private void switchEditors() {
 		previousUnitEditorPane = visibleUnitEditorPane;
 		visibleUnitEditorPane = getUnitEditorPane(units.getSelectionModel().getSelectedIndex());
-	}
-
-	private void showChartPressed() {
-		// UnitChart chart = new UnitChart(this, getUnits(), xml.getFile() != null ?
-		// xml.getFile().getName()
-		// : "New Entrainer Program", intervalMenu.getLoadedIntervals());
-		// GuiUtil.showDialog(chart);
 	}
 
 	private void savePressed(boolean isSave) {
@@ -372,7 +367,7 @@ public class XmlEditor extends Stage {
 		mediaOptions.clearMediatorObjects();
 		pics.clearMediatorObjects();
 		flashOptions.clearMediatorObjects();
-		background.clearMediatorObjects();
+		background.stop();
 	}
 
 	private void saveXmlFile(boolean isSave) throws ParserConfigurationException, SAXException, IOException {
@@ -865,7 +860,7 @@ public class XmlEditor extends Stage {
 		Group group = new Group();
 
 		group.getChildren().addAll(background.getPane(), gp);
-		Scene scene = new Scene(group);
+		Scene scene = new Scene(group, Color.BLACK);
 		if (css != null) scene.getStylesheets().add(css.toString());
 
 		setScene(scene);

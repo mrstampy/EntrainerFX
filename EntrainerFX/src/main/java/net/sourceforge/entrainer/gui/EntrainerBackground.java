@@ -141,7 +141,10 @@ public class EntrainerBackground {
 	/**
 	 * Clear mediator objects.
 	 */
-	public void clearMediatorObjects() {
+	public void stop() {
+		log.debug("Stopping background");
+		clearFutures();
+		loadSvc.shutdownNow();
 		EntrainerMediator.getInstance().removeReceiver(this);
 		EntrainerMediator.getInstance().removeSender(sender);
 	}
