@@ -98,7 +98,7 @@ import org.xml.sax.SAXException;
 
 // TODO: Auto-generated Javadoc
 /**
- * The editor dialog for entrainer xml files (Entrainer Programs).
+ * The editor dialog for entrainer xml files (EntrainerFX Programs).
  * 
  * @author burton
  */
@@ -290,13 +290,13 @@ public class XmlEditor extends Stage {
 
 	private void addListeners() {
 		save.setOnAction(e -> savePressed(true));
-		save.setTooltip(new Tooltip("Save the Entrainer Program"));
+		save.setTooltip(new Tooltip("Save the EntrainerFX Program"));
 
 		saveAs.setOnAction(e -> savePressed(false));
-		saveAs.setTooltip(new Tooltip("Save Entrainer Program As..."));
+		saveAs.setTooltip(new Tooltip("Save EntrainerFX Program As..."));
 
 		cancel.setOnAction(e -> fadeOut());
-		cancel.setTooltip(new Tooltip("Cancel Entrainer Program Changes"));
+		cancel.setTooltip(new Tooltip("Cancel EntrainerFX Program Changes"));
 
 		setOnHiding(e -> exit());
 

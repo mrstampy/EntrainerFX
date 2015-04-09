@@ -67,7 +67,7 @@ public class About extends DialogPane implements Version {
 	 * @return the html text
 	 */
 	protected String getHtmlText() {
-		StringBuffer buf = new StringBuffer("Entrainer ");
+		StringBuffer buf = new StringBuffer("EntrainerFX ");
 		buf.append(VERSION);
 
 		buf.append("\nRelease Date: ");

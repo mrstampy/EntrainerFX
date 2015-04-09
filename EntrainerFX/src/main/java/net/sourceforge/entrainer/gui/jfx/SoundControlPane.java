@@ -145,7 +145,7 @@ public class SoundControlPane extends HBox {
 		setTooltip(play, "Start Entrainment");
 		setTooltip(record, "Flag/Clear Recording to '.wav' File");
 		setTooltip(stop, "Stop Entrainment");
-		setTooltip(pause, "Pause/Resume an Entrainer Program");
+		setTooltip(pause, "Pause/Resume an EntrainerFX Program");
 	}
 
 	private void setTooltip(Control node, String tip) {

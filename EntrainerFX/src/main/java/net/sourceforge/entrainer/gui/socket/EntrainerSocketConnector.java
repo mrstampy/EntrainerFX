@@ -578,8 +578,8 @@ public class EntrainerSocketConnector extends DialogPane {
 	private boolean connectToEntrainer() throws InterruptedException {
 		ChannelFuture cf = bootstrap.connect(ipAddress, port).sync();
 
-		setOutputText(cf.isSuccess() ? "Connected to Entrainer on host " + ipAddress + " and port " + port
-				: "Cannot connect to Entrainer on host " + ipAddress + " and port " + port);
+		setOutputText(cf.isSuccess() ? "Connected to EntrainerFX on host " + ipAddress + " and port " + port
+				: "Cannot connect to EntrainerFX on host " + ipAddress + " and port " + port);
 
 		if (cf.isSuccess()) {
 			channel = cf.channel();

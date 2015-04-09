@@ -982,7 +982,7 @@ public class EntrainerFX extends Application {
 					settings.getSocketPort());
 			Dialog<ButtonType> d = new Dialog<>();
 			d.setDialogPane(esc);
-			d.setTitle("Entrainer Socket Connector");
+			d.setTitle("EntrainerFX Socket Connector");
 			d.initModality(Modality.NONE);
 			d.initOwner(stage);
 			d.setOnHiding(e -> esc.disconnectFromEntrainer());
@@ -1024,7 +1024,7 @@ public class EntrainerFX extends Application {
 		int portNum = socket.getPortNumber();
 		String hostName = socket.getHostName();
 		socket.unbind();
-		new NotificationWindow("Entrainer socket unbound from host " + hostName + " and port " + portNum);
+		new NotificationWindow("EntrainerFX socket unbound from host " + hostName + " and port " + portNum);
 		settings.setSocketConnected(false);
 	}
 
@@ -1032,7 +1032,7 @@ public class EntrainerFX extends Application {
 		if (settings.getSocketPort() <= 0) showSocketPortDialog();
 		try {
 			socket.bind();
-			new NotificationWindow("Entrainer socket bound to host " + socket.getHostName() + " and port "
+			new NotificationWindow("EntrainerFX socket bound to host " + socket.getHostName() + " and port "
 					+ socket.getPortNumber());
 			settings.setSocketConnected(true);
 		} catch (IOException e) {

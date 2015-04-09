@@ -92,7 +92,7 @@ public class SocketPortDialog extends DialogPane {
 	}
 
 	private void setToolTips() {
-		port.setTooltip(new Tooltip("Choose a free socket port for Entrainer (typically > 1000)"));
+		port.setTooltip(new Tooltip("Choose a free socket port for EntrainerFX (typically > 1000)"));
 		ipAddress.setTooltip(new Tooltip("Set the hostname or ip address if known, leave blank otherwise"));
 		deltaSocketMessage.setTooltip(new Tooltip(
 				"Send Entrainer's entire state (unchecked) or just the delta change (checked) per message"));
