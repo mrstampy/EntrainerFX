@@ -108,7 +108,8 @@ jar {
     
     exclude(
     	'esp.openbci.properties', 
-    	'logback.xml')
+    	'logback.xml',
+    	'logback.xml.install')
 }
 
 distributions {

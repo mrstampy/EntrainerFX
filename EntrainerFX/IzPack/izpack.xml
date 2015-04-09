@@ -57,7 +57,7 @@
 			<file src="README.txt" targetdir="$USER_HOME/EntrainerFX-Settings" />
 			<file src="LICENSE.txt" targetdir="$USER_HOME/EntrainerFX-Settings" />
 			
-			<file src="src/main/resources/logback.xml" targetdir="$INSTALL_PATH/logback" />
+			<singlefile src="src/main/resources/logback.xml.install" target="$INSTALL_PATH/logback/logback.xml" />
 			
 			<singlefile src="settings.xml.install" target="$USER_HOME/EntrainerFX-Settings/settings.xml" />
 
