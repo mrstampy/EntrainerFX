@@ -197,6 +197,7 @@ public class XmlEditor extends Stage {
 	}
 
 	private void init(File f) {
+		log.debug("Loading EFX program {}", f);
 		initMediator();
 		addMenuBar();
 		xml = unmarshal(f);
