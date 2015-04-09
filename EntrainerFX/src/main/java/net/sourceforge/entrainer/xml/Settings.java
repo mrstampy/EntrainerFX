@@ -536,6 +536,10 @@ public class Settings {
 		fireReceiverChangeEvent(isFlashEntrainerFX(), MediatorConstants.APPLY_FLASH_TO_ENTRAINER_FX);
 		fireReceiverChangeEvent(isFlashMedia(), MediatorConstants.APPLY_FLASH_TO_MEDIA);
 		fireReceiverChangeEvent(isFlashShimmer(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
+		
+		if (isDynamicPicture()) fireReceiverChangeEvent(true, MediatorConstants.DYNAMIC_BACKGROUND);
+		if (isStaticPicture()) fireReceiverChangeEvent(true, MediatorConstants.STATIC_BACKGROUND);
+		if (isNoPicture()) fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
 
 		if (getStaticPictureFile() != null) {
 			fireReceiverChangeEvent(getStaticPictureFile(), MediatorConstants.BACKGROUND_PIC);
@@ -544,10 +548,6 @@ public class Settings {
 		if (getPictureDirectory() != null) {
 			fireReceiverChangeEvent(getPictureDirectory(), MediatorConstants.BACKGROUND_PIC_DIR);
 		}
-
-		if (isDynamicPicture()) fireReceiverChangeEvent(true, MediatorConstants.DYNAMIC_BACKGROUND);
-		if (isStaticPicture()) fireReceiverChangeEvent(true, MediatorConstants.STATIC_BACKGROUND);
-		if (isNoPicture()) fireReceiverChangeEvent(true, MediatorConstants.NO_BACKGROUND);
 
 		ReceiverChangeEvent e = new ReceiverChangeEvent(this, new Color(getBackgroundRed(), getBackgroundGreen(),
 				getBackgroundBlue()), MediatorConstants.NO_BACKGROUND_COLOUR);
