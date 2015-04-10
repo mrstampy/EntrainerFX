@@ -1609,7 +1609,7 @@ public class EntrainerFX extends Application {
 		try {
 			if (!JavaVersionChecker.VERSION_OK) {
 				StringBuilder builder = new StringBuilder();
-				builder.append("Cannot run Entrainer.  Minimum version required is ");
+				builder.append("Cannot run EntrainerFX.  Minimum version required is ");
 				builder.append(JavaVersionChecker.MIN_VERSION);
 				builder.append(".\nYou are running version ");
 				builder.append(JavaVersionChecker.CURRENT);
