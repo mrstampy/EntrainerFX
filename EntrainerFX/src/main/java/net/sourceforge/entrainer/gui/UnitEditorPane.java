@@ -287,39 +287,51 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
 	private void addValueListeners() {
 		startAmplitude.setOnMouseClicked(e -> startAmplitudeChanged());
 		startAmplitude.focusedProperty().addListener(e -> startAmplitudeChanged());
+		startAmplitude.setEditable(true);
 
 		startEntrainmentFrequency.setOnMouseClicked(e -> startEntrainmentFrequencyChanged());
 		startEntrainmentFrequency.focusedProperty().addListener(e -> startEntrainmentFrequencyChanged());
+		startEntrainmentFrequency.setEditable(true);
 
 		startFrequency.setOnMouseClicked(e -> startFrequencyChanged());
 		startFrequency.focusedProperty().addListener(e -> startFrequencyChanged());
+		startFrequency.setEditable(true);
 
 		startPinkEntrainerMultiple.setOnMouseClicked(e -> startPinkEntrainerMultipleChanged());
 		startPinkEntrainerMultiple.focusedProperty().addListener(e -> startPinkEntrainerMultipleChanged());
+		startPinkEntrainerMultiple.setEditable(true);
 
 		startPinkNoise.setOnMouseClicked(e -> startPinkNoiseChanged());
 		startPinkNoise.focusedProperty().addListener(e -> startPinkNoiseChanged());
+		startPinkNoise.setEditable(true);
 
 		startPinkPanAmplitude.setOnMouseClicked(e -> startPinkPanAmplitudeChanged());
 		startPinkPanAmplitude.focusedProperty().addListener(e -> startPinkPanAmplitudeChanged());
+		startPinkPanAmplitude.setEditable(true);
 
 		endAmplitude.setOnMouseClicked(e -> endAmplitudeChanged());
 		endAmplitude.focusedProperty().addListener(e -> endAmplitudeChanged());
+		endAmplitude.setEditable(true);
 
 		endEntrainmentFrequency.setOnMouseClicked(e -> endEntrainmentFrequencyChanged());
 		endEntrainmentFrequency.focusedProperty().addListener(e -> endEntrainmentFrequencyChanged());
+		endEntrainmentFrequency.setEditable(true);
 
 		endFrequency.setOnMouseClicked(e -> endFrequencyChanged());
 		endFrequency.focusedProperty().addListener(e -> endFrequencyChanged());
+		endFrequency.setEditable(true);
 
 		endPinkEntrainerMultiple.setOnMouseClicked(e -> endPinkEntrainerMultipleChanged());
 		endPinkEntrainerMultiple.focusedProperty().addListener(e -> endPinkEntrainerMultipleChanged());
+		endPinkEntrainerMultiple.setEditable(true);
 
 		endPinkNoise.setOnMouseClicked(e -> endPinkNoiseChanged());
 		endPinkNoise.focusedProperty().addListener(e -> endPinkNoiseChanged());
+		endPinkNoise.setEditable(true);
 
 		endPinkPanAmplitude.setOnMouseClicked(e -> endPinkPanChanged());
 		endPinkPanAmplitude.focusedProperty().addListener(e -> endPinkPanChanged());
+		endPinkPanAmplitude.setEditable(true);
 	}
 
 	private void fireUnitEditorEvent(UnitEditorParm parm, double value) {
@@ -332,18 +344,18 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
 	private void toggleButtonPressed(ToggleButton pressed, ToggleButton other) {
 		other.setDisable(pressed.isSelected());
 
-		setFieldsDisabled(pressed.isSelected(), pressed.getUserData().toString());
-
 		fireTestUnitEvent(pressed);
+
+		setFieldsDisabled(pressed.isSelected(), pressed.getUserData().toString());
 	}
 
-	private void setFieldsDisabled(boolean enabled, String buttonText) {
-		minutes.setDisable(enabled);
-		seconds.setDisable(enabled);
+	private void setFieldsDisabled(boolean b, String buttonText) {
+		minutes.setDisable(b);
+		seconds.setDisable(b);
 		if ("Start".equals(buttonText)) {
-			setEndFieldsDisabled(enabled);
+			setEndFieldsDisabled(b);
 		} else {
-			setStartFieldsDisabled(enabled);
+			setStartFieldsDisabled(b);
 		}
 	}
 
@@ -386,8 +398,8 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
 
 		addLine(gph, "Entrainment Frequency (0 -> 40Hz)", startEntrainmentFrequency, endEntrainmentFrequency);
 		addLine(gph, "Frequency (20 -> 500Hz)", startFrequency, endFrequency);
-		addLine(gph, "Amplitude (0 -> 100)", startAmplitude, endAmplitude);
-		addLine(gph, "Pink Noise (0 -> 100)", startPinkNoise, endPinkNoise);
+		addLine(gph, "Volume (0 -> 100)", startAmplitude, endAmplitude);
+		addLine(gph, "Pink Noise Volume (0 -> 100)", startPinkNoise, endPinkNoise);
 		addLine(gph, "Pink Noise Pan (0 -> 100)", startPinkPanAmplitude, endPinkPanAmplitude);
 		addLine(gph,
 				"Pink Noise Entrainment Frequency Multiple (1 -> 512)",

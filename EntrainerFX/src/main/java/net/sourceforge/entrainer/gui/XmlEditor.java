@@ -717,7 +717,6 @@ public class XmlEditor extends Stage {
 		cancel.setDisable(b);
 		save.setDisable(b);
 		saveAs.setDisable(b);
-		units.setDisable(b);
 		removeUnit.setDisable(b);
 		addUnit.setDisable(b);
 	}
