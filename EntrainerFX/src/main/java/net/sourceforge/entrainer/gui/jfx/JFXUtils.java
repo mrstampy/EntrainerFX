@@ -151,7 +151,7 @@ public class JFXUtils {
 	 */
 	public static URI getEntrainerCSS() {
 		Optional<File> cssDir = Utils.getCssDir();
-		File css = new File(cssDir.get(), "entrainer.css");
+		File css = new File(cssDir.get(), "entrainerfx.css");
 
 		return css.exists() ? css.toURI() : null;
 	}

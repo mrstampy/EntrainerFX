@@ -61,11 +61,11 @@
 			
 			<singlefile src="settings.xml.install" target="$USER_HOME/EntrainerFX-Settings/settings.xml" />
 
-			<file src="IzPack/windows/entrainer.bat" targetdir="$INSTALL_PATH" />
-			<file src="IzPack/unix/entrainer.sh" targetdir="$INSTALL_PATH" />
+			<file src="IzPack/windows/entrainerfx.bat" targetdir="$INSTALL_PATH" />
+			<file src="IzPack/unix/entrainerfx.sh" targetdir="$INSTALL_PATH" />
 
-			<executable targetfile="$INSTALL_PATH/entrainer.bat" stage="never" />
-			<executable targetfile="$INSTALL_PATH/entrainer.sh" stage="never" />
+			<executable targetfile="$INSTALL_PATH/entrainerfx.bat" stage="never" />
+			<executable targetfile="$INSTALL_PATH/entrainerfx.sh" stage="never" />
 
 			<fileset dir="wav" targetdir="$USER_HOME/EntrainerFX-Settings/wav">
 				<exclude name="*.*" />
@@ -81,7 +81,7 @@
 
 			<file src="src/main/resources/esp.openbci.properties" targetdir="$INSTALL_PATH/esp.config" />
 
-			<singlefile src="css/entrainer.css.install" target="$USER_HOME/EntrainerFX-Settings/css/entrainer.css" />
+			<singlefile src="css/entrainerfx.css.install" target="$USER_HOME/EntrainerFX-Settings/css/entrainerfx.css" />
 			
 			<fileset dir="css" targetdir="$USER_HOME/EntrainerFX-Settings/css">
 				<include name="hawaiisunset2.jpg" />
