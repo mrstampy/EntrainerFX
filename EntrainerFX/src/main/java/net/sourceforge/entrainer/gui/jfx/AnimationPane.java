@@ -141,7 +141,7 @@ public class AnimationPane extends AbstractTitledPane {
 	private void localDoc(MouseEvent e) {
 		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		Utils.openLocalDocumentation("animations.html");
+		Utils.openLocalDocumentation("overview.html");
 	}
 
 	/**

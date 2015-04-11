@@ -103,7 +103,7 @@ public class ShimmerOptionsPane extends AbstractTitledPane {
 	private void localDoc(MouseEvent e) {
 		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		Utils.openLocalDocumentation("shimmers.html");
+		Utils.openLocalDocumentation("overview.html");
 	}
 
 	/*

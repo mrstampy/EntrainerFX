@@ -412,7 +412,7 @@ public class FlashOptionsPane extends AbstractTitledPane {
 	private void localDoc(MouseEvent e) {
 		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		Utils.openLocalDocumentation("flashing.html");
+		Utils.openLocalDocumentation("overview.html");
 	}
 
 	private void setEventHandlers() {

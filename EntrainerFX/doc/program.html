@@ -23,9 +23,9 @@
 	<nav>
 	  <div id="menubar">
         <ul id="nav">
-          <li class="current"><a href="index.html">Home</a></li>
+          <li><a href="index.html">Home</a></li>
           <li><a href="overview.html">Overview</a></li>
-          <li><a href="program.html">Programs</a></li>
+          <li class="current"><a href="program.html">Programs</a></li>
           <li><a href="esp.html">ESP</a></li>
           <li><a href="advanced.html">Advanced</a></li>
         </ul>
@@ -75,61 +75,33 @@
 	
 	  <div id="content">
         <div class="content_item">
-		  <h1>What is EntrainerFX?</h1>
+		  <h1>EntrainerFX Programs</h1>
           <p>
-          	EntrainerFX started as a simple <a href="http://en.wikipedia.org/wiki/Binaural_beats">binaural beat generator</a> for
-          	brainwave entrainment.  After attaining that goal in short order I then asked the question "How much stuff can I 
-          	get into it?".
-          </p>   	
-		   
-          <p>
-          	EntrainerFX is now a simple image viewer. It plays audio and video. It has animations and effects. It 
-          	interfaces with EEG hardware. It can be remotely controlled.  It is programmable.  It is configurable.  And all 
-          	features center around the chosen entrainment frequency, designed and implemented to assist in 
-          	conscious state control.
-          </p>   	
-		   
-		  <h1>Why EntrainerFX?</h1>
-		  <div class="content_imagetext">
-		    <div class="content_image">
-		      <img src="images/neuralizerGrid.jpg" alt="image1"/>
-	        </div>
-          <p>
-          	There are many ways to alter conscious state, from meditation to Metallica.  The benefits attained include
-          	increased attention span and self control. Conditions such as ADHD can be mitigated by the attention and focus
-          	required to exercise conscious state control. EntrainerFX provides many different types of audio and visual 
-          	entrainment methods including binaural beats, volume level and flashing effect entrainment and animations timed
-          	to the chosen entrainment frequency.  Control of the entrainment is precise and repeatable and its configurability ensures 
-          	entrainment sessions are never boring.
-          </p>
-		  </div><!--close content_imagetext-->		  
-
-		  <h1>Prerequisites</h1>
-          <p>
-          	EntrainerFX requires the latest Java Runtime Environment (<a href="http://java.oracle.com/javase/downloads/">Java 8 / 1.8.0_40</a>) 
-          	and is designed to run under Windows, Mac and Linux.
-          </p>
-
-		  <h1>Medical Warning</h1>
-          <p>
-          	EntrainerFX should not be used by anyone prone to seizures or related medical conditions. 
+          	While EntrainerFX can easily be used free-form, structured entrainment sessions are possible using 
+          	EntrainerFX programs.  Choosing the 'New' or 'Edit' options in the File menu brings up the EntrainerFX program
+          	editor.
           </p>
           
-          <!--				  
-		  <div class="content_container">
-		    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque cursus tempor enim. Aliquam facilisis neque non nunc posuere eget volutpat metus tincidunt.</p>
-		  	<div class="button_small">
-		      <a href="#">Read more</a>
-		    </div><!--close button_small-->
-		  </div><!--close content_container-->
-		  
-		  <!--
-          <div class="content_container">
-		    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque cursus tempor enim. Aliquam facilisis neque non nunc posuere eget volutpat metus tincidunt.</p>          
-		  	<div class="button_small">
-		      <a href="#">Read more</a>
-		    </div><!--close button_small-->		  
-		  </div><!--close content_container-->
+          <center><img src="images/programEditor.jpg" alt="editor"/></center><br>
+          
+          <p>
+            Each tab in the program editor represents a discrete unit of time where the value of the controls
+            varies between the from and to values.  Additional state controls ie. the background, animations, shimmers
+            are available below the tabs and are visible on mouse over.  The buttons at the top enable the addition and
+            removal of tabs from the editor.
+          </p>
+          
+		  <h1>EntrainerFX Program Playback</h1>
+          
+          <center><img src="images/programPlayback.jpg" alt="editor"/></center><br>
+          
+		  <p>
+		    EntrainerFX comes with several sample programs located in the <b><i>~/EntrainerFX-Settings/xml</i></b> directory.
+		    Selecting 'Load' from the File menu and choosing a program loads it into EntrainerFX.  The variable
+		    controls become disabled and are automatically adjusted during program playback.  The pause button 
+		    becomes enabled during playback allowing the session to be paused and unpaused as required.  When finished
+		    selecting 'Clear' from the File menu clears the program from EntrainerFX. 
+		  </p>
 		  			  
 		</div><!--close content_item-->
       </div><!--close content-->   

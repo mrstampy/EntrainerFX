@@ -1,0 +1,205 @@
+<!DOCTYPE html> 
+<html>
+
+<head>
+  <title>EntrainerFX</title>
+  <meta name="description" content="EntrainerFX, an image viewer, media player, EEG controllable, audio synthesizing, open source brainwave entrainment solution" />
+  <meta name="keywords" content="brain eeg brainwave entrainment open source EntrainerFX" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <!-- modernizr enables HTML5 elements and feature detects -->
+  <script type="text/javascript" src="js/modernizr-1.5.min.js"></script>
+</head>
+
+<body>
+  <div id="main">
+    <header>
+	  <div id="welcome">
+	    <h2>EntrainerFX</h2>
+	    <h3>An image viewer, media player, EEG controllable, audio synthesizing, open source brainwave entrainment solution</h3>
+	  </div><!--close welcome-->			  	
+	</header>
+	
+	<nav>
+	  <div id="menubar">
+        <ul id="nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="overview.html">Overview</a></li>
+          <li><a href="program.html">Programs</a></li>
+          <li class="current"><a href="esp.html">ESP</a></li>
+          <li><a href="advanced.html">Advanced</a></li>
+        </ul>
+      </div><!--close menubar-->	
+    </nav>	
+    
+	<div id="site_content">		
+
+      <div class="slideshow">
+	    <ul class="slideshow">
+          <li class="show"><img width="786" height="238" src="images/efxFile.jpg" alt="EntrainerFX Functions" /></li>
+          <li><img width="785" height="254" src="images/efxIntervals.jpg" alt="EntrainerFX Intervals" /></li>
+          <li><img width="783" height="244" src="images/efxEEG.jpg" alt="EntrainerFX ESP" /></li>
+          <li><img width="786" height="209" src="images/efxSockets.jpg" alt="EntrainerFX External Connectivity" /></li>
+          <li><img width="787" height="226" src="images/efxHelp.jpg" alt="EntrainerFX Documentation" /></li>
+        </ul> 
+	  </div><!--close slideshow-->	
+	
+	  <div class="sidebar_container">
+	         
+		<div class="sidebar">
+          <div class="sidebar_item">
+            <h2>New Website</h2>
+            <p>Welcome to the new EntrainerFX website. Please have a look around, any feedback is much appreciated.</p>
+          </div><!--close sidebar_item--> 
+        </div><!--close sidebar-->
+             		
+		<div class="sidebar">
+          <div class="sidebar_item">
+            <h2>Latest Update</h2>
+            <h3>April 2015</h3>
+            <p>EntrainerFX 6.0.0 released</p>         
+		  </div><!--close sidebar_item--> 
+        </div><!--close sidebar-->
+        
+        <div class="sidebar">
+          <div class="sidebar_item">
+            <h2>Contact</h2>
+            <p><a href="mailto:burton@users.sourceforge.net">burton@users.sourceforge.net</a></p>
+            <p><a href="https://plus.google.com/112157326543408665325" rel="publisher">EntrainerFX on Google+</a></p>
+            <p><a href="http://sourceforge.net/projects/entrainer" title="Sourceforge Project Page">SourceForge Project Page</a></p>
+            <p><a href="https://github.com/mrstampy/EntrainerFX.git" title="EntrainerFX Git Repository">EntrainerFX Git Repository</a></p>
+          </div><!--close sidebar_item--> 
+        </div><!--close sidebar-->
+        
+       </div><!--close sidebar_container-->	
+	
+	  <div id="content">
+        <div class="content_item">
+		  <h1>EEG Signal Processing</h1>
+		  <center><img src="images/efxEEG.jpg" alt="EntrainerFX ESP" /></center><br>
+		  
+          <p>
+          	If in possesion of an <a href="http://www.ocz.com">OCZ Nia</a>, 
+          	<a href="http://www.neurosky.com">NeuroSky Mindwave</a> (with Thinkgear Connector) or 
+          	<a href="http://www.openbci.com/">OpenBCI hardware</a> (experimental, 
+          	see the <a href="advanced.html">Advanced</a> page for more information)
+          	then the raw EEG signal can be processed by EntrainerFX.  Choosing a device from the Signal Processing menu and
+          	clicking 'Start' will begin this acquisition.
+          </p>
+          
+          <center><img src="images/niaRunning.jpg" alt="nia"/></center><br>
+          
+          <p>
+          	To process the signal choose 'Show ESP Lab' from the Signal Processing menu to display the 
+          	<a href="http://mrstampy.github.io/ESPLab">laboratory</a>.
+          </p>
+          
+          <center><img src="images/espLab.jpg" alt="lab"/></center><br>
+          
+          <p>
+            When the desired DSP algorithms have been applied the lab settings can be saved and loaded in future entrainment
+            sessions.
+          </p>
+          
+		  <h1>Neuralizer Controls</h1>
+          
+          <center><img src="images/neuralizer.jpg" alt="editor"/></center><br>
+          
+		  <p>
+			The purpose of the Neuralizer panel is to provide visual feedback of the conscious state of the user of
+			EntrainerFX through the use of various EEG hardware devices via the 
+			<a href="http://mrstampy.github.io/ESP/">ESP (version 2.1)</a> library.  The intent is for the user to either set EntrainerFX
+			at a constant entrainment frequency or to run an <a href="program.html">EntrainerFX program</a>, process the raw
+			EEG signal and have the result sent through the <a href="http://neuroph.sourceforge.net">Neuroph</a> neural network
+			to provide the visual feedback. The Neuralizer network consists
+			of 144 output neurons from 40 power raw signal input neurons corresponding to the EntrainerFX's entrainment frequency range.
+			In order to use the Neuralizer the neural network must first be trained to recognize specific conscious states.
+		  </p>
+		  
+		  <p>
+    		Control of the Neuralizer is accomplished via the mouse and keyboard when the 
+    		Neuralizer TitledPane is expanded.
+    	  </p>
+    
+	    <h3>Neuralizer Controls (always available)</h3>
+		<ul>
+			<li>Right click - save current network</li>
+			<li>Left clicking a neuron selects / deselects the neuron</li>
+			<li>Click-drag-click (x direction) controls panel opacity (left to right = opaque, right to left = see thru)</li>
+		</ul>
+	    
+	   	<h3>ESP Device Disconnected</h3>
+		<ul>
+			<li>Shift + Right click - load network</li>
+		</ul>
+	   	
+	   	<h3>ESP Device Connected</h3>
+		<ul>
+			<li>Double click (Left) - start / stop recording for network training</li>
+			<li>Shift + Left click - randomize network weightings</li>
+		</ul>
+	
+   	<h3>Selecting Neurons</h3>
+   	
+   	<center><img alt="Entrainer Neuralizer Bias Neurons" src="images/neuronSelection.jpg"/></center><br>
+   	
+   	<p>
+   		Any number or pattern of neurons can be selected.  The selected neurons are used as 
+   		<a href="http://stackoverflow.com/questions/2480650/role-of-bias-in-neural-networks">bias neurons</a>
+   		when the network is being trained and provide visual queues for the user.
+   	</p>
+   	
+   	<h3>Network Save</h3>
+   	
+   	<p>
+   		Right clicking will bring up the network save dialog.
+   		Shift + right click will bring up the network load dialog when disconnected from devices.  
+   		When a network is saved two files are written, one with 
+   		the name specified and one with a '.selections' extension.  The named file is the saved neural network while '.selections'
+   		is a list of selected neurons and is loaded when the network is loaded.  Once loaded the neurons will briefly change 
+   		color to indicate a successful network load.
+   	</p>
+	
+	<p>
+		After successful connection with the EEG device the neurons change colour and start responding to the 
+		power signal from the device.  In preparation for neural network training EntrainerFX can be used to 
+		entrain one's brainwaves to a desired entrainment frequency state until ready to train the neural network.
+	</p>
+	
+	<h3>Training</h3>
+	
+	<center><img alt="Training" src="images/neuronTraining.jpg"/></center><br>
+	
+	<p>
+		Double clicking changes the neuron colour and starts the training process.  Recording should be allowed to span
+		at least several seconds to several minutes while EntrainerFX should be used to keep one's conscious state steady.
+		Double clicking again halts the recording and the values are then used to train the neural network.  
+		When the selected neurons are fully opaque then the network can be considered trained.
+	</p>
+	
+	<p>
+		Shift-clicking will randomize the network weightings which may be necessary for network training.
+		The color of the neurons will change briefly to indicate successful randomization.
+	</p>
+	
+	<h3>Trained Network</h3>
+	<center><img alt="Trained" src="images/trainedNetwork.jpg"/></center><br>
+		  			  
+		</div><!--close content_item-->
+      </div><!--close content-->   
+	
+	</div><!--close site_content-->  	
+  
+    <footer>
+	  <a href="#">copyright Burton Alexander 2008 - 2015</a><br/><br/>
+	  website template by <a href="http://www.freehtml5templates.co.uk">Free HTML5 Templates</a>
+    </footer> 
+  
+  </div><!--close main-->
+  
+  <!-- javascript at the bottom for fast page loading -->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/image_slide.js"></script>
+  
+</body>
+</html>

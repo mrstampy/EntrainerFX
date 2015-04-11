@@ -181,7 +181,7 @@ public class SliderControlPane extends AbstractTitledPane {
 	private void localDoc(MouseEvent e) {
 		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		Utils.openLocalDocumentation("sound.html");
+		Utils.openLocalDocumentation("overview.html");
 	}
 
 	private void panChecked() {

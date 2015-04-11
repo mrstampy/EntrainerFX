@@ -1,0 +1,195 @@
+<!DOCTYPE html> 
+<html>
+
+<head>
+  <title>EntrainerFX</title>
+  <meta name="description" content="EntrainerFX, an image viewer, media player, EEG controllable, audio synthesizing, open source brainwave entrainment solution" />
+  <meta name="keywords" content="brain eeg brainwave entrainment open source EntrainerFX" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <!-- modernizr enables HTML5 elements and feature detects -->
+  <script type="text/javascript" src="js/modernizr-1.5.min.js"></script>
+</head>
+
+<body>
+  <div id="main">
+    <header>
+	  <div id="welcome">
+	    <h2>EntrainerFX</h2>
+	    <h3>An image viewer, media player, EEG controllable, audio synthesizing, open source brainwave entrainment solution</h3>
+	  </div><!--close welcome-->			  	
+	</header>
+	
+	<nav>
+	  <div id="menubar">
+        <ul id="nav">
+          <li><a href="index.html">Home</a></li>
+          <li class="current"><a href="overview.html">Overview</a></li>
+          <li><a href="program.html">Programs</a></li>
+          <li><a href="esp.html">ESP</a></li>
+          <li><a href="advanced.html">Advanced</a></li>
+        </ul>
+      </div><!--close menubar-->	
+    </nav>	
+    
+	<div id="site_content">		
+
+      <div class="slideshow">
+	    <ul class="slideshow">
+          <li class="show"><img width="786" height="238" src="images/efxFile.jpg" alt="EntrainerFX Functions" /></li>
+          <li><img width="785" height="254" src="images/efxIntervals.jpg" alt="EntrainerFX Intervals" /></li>
+          <li><img width="783" height="244" src="images/efxEEG.jpg" alt="EntrainerFX ESP" /></li>
+          <li><img width="786" height="209" src="images/efxSockets.jpg" alt="EntrainerFX External Connectivity" /></li>
+          <li><img width="787" height="226" src="images/efxHelp.jpg" alt="EntrainerFX Documentation" /></li>
+        </ul> 
+	  </div><!--close slideshow-->	
+	
+	  <div class="sidebar_container">
+	         
+		<div class="sidebar">
+          <div class="sidebar_item">
+            <h2>New Website</h2>
+            <p>Welcome to the new EntrainerFX website. Please have a look around, any feedback is much appreciated.</p>
+          </div><!--close sidebar_item--> 
+        </div><!--close sidebar-->
+             		
+		<div class="sidebar">
+          <div class="sidebar_item">
+            <h2>Latest Update</h2>
+            <h3>April 2015</h3>
+            <p>EntrainerFX 6.0.0 released</p>         
+		  </div><!--close sidebar_item--> 
+        </div><!--close sidebar-->
+        
+        <div class="sidebar">
+          <div class="sidebar_item">
+            <h2>Contact</h2>
+            <p><a href="mailto:burton@users.sourceforge.net">burton@users.sourceforge.net</a></p>
+            <p><a href="https://plus.google.com/112157326543408665325" rel="publisher">EntrainerFX on Google+</a></p>
+            <p><a href="http://sourceforge.net/projects/entrainer" title="Sourceforge Project Page">SourceForge Project Page</a></p>
+            <p><a href="https://github.com/mrstampy/EntrainerFX.git" title="EntrainerFX Git Repository">EntrainerFX Git Repository</a></p>
+          </div><!--close sidebar_item--> 
+        </div><!--close sidebar-->
+        
+       </div><!--close sidebar_container-->	
+	
+	  <div id="content">
+        <div class="content_item">
+		  <h1>Installation</h1>
+          <p>
+          	The installer for EntrainerFX creates two directory structures.  The first is requested by the installer
+          	and defaults to <b><i>~/EntrainerFX-6.0.0</i></b> (under the user home directory).  This directory contains the EntrainerFX
+          	executable, libraries and resources required to run.  The second directory is <b><i>~/EntrainerFX-Settings</i></b> and contains
+          	settings, EntrainerFX programs, animation and eeg libraries, the css style sheet and is the root directory
+          	for saving EntrainerFX programs, recordings etc. The reason for the split is to provide a common directory 
+          	for EntrainerFX settings on a per user basis and to provide the user with easy access to EntrainerFX configuration.
+          </p>
+          
+          <p>
+            Once installed EntrainerFX can be started by double clicking the <b><i>~/EntrainerFX-6.0.0/EntrainerFX.jar</i></b> file.
+          </p>
+             	
+		  <h1>Styling</h1>
+          <p>
+            Previous versions of EntrainerFX based on Java Swing used Swing's look and feel architecture to dynamically
+            change its appearance at runtime.  EntrainerFX is now entirely written in JavaFX and uses a 
+            <a href="http://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html">cascading style 
+            sheet</a> for its styling.  This file is located at <b><i>~/EntrainerFX-Settings/css/entrainerfx.css</i></b>.  A simple colour
+            scheme was chosen for the release and this can be changed as desired by editing this file.
+            <a href="http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/apply-css.htm#CHDGHCDG">Tutorials</a> are available
+            to provide assistance.
+          </p>
+          
+          <h1>EntrainerFX Startup</h1>
+          <center><img src="images/entrainerfxStart.jpg" alt="startup"/></center><br>
+          
+          <p>
+            On startup the user is presented with an undecorated window, randomly displaying images from the <b><i>~/EntrainerFX-Settings/css</i></b>
+            directory.  All controls are invisible by default and are revealed on mouse over. Contextual tooltips are provided on mouse over of
+            the individual controls providing additional information about function.
+          </p>
+          
+          <h2>Moving and Resizing</h2>
+          <p>
+            Mouse: Click-drag moves the window, double click-drag resizes the window.<br><br>
+            Trackpad: Double click-drag moves the window, primary button double click and hold while moving the cursor resizes the window.
+          </p>
+		   
+          <h1>Audio Controls</h1>
+          <center><img src="images/audioControl.jpg" alt="audio"/></center><br>
+          <p>
+          	Clicking the Sound Options pane displays the heart of EntrainerFX. This control panel provides access to the generated sounds
+          	used to create binaural beats.  The control buttons at the top start and stop EntrainerFX, pause running EntrainerFX programs
+          	and record EntrainerFX sessions.
+          </p>
+          
+          <p>
+            Frequency intervals can be added to the base and entrainment frequencies via the Intervals menu located at the top of the window.
+            Several intervals are provided and custom intervals can be created.
+          </p>
+          <center><img src="images/efxIntervals.jpg" alt="intervals"/></center><br>
+		   
+          <h1>Flash Controls</h1>
+          <center><img src="images/flashControl.jpg" alt="flash"/></center><br>
+          <p>
+          	If using EntrainerFX as a visual entrainer these controls allow the user to flash any of the background,
+          	shimmer effects, animations, media and the EntrainerFX UI in sync with the chosen entrainment frequency.
+          	The additive effects can be chained together and can be terminated by either of the non-additive effects providing
+          	many many different and varied effects for EntrainerFX flashing.
+          </p>
+          
+          <h1>Background Controls</h1>
+          <center><img src="images/backgroundControl.jpg" alt="background"/></center><br>
+          <p>
+            This control panel allows the user to choose either an image directory from which to display random images,
+            a static image, or a solid colour background.  Checking the <i>Flash Background</i> checkbox will cause the 
+            background to flash at the chosen entrainment frequency using the flash options selected.
+          </p>
+          
+          <h1>Media Controls</h1>
+          <center><img src="images/mediaControl.jpg" alt="media"/></center><br>
+          <p>
+            The media player will play the chosen audio or video file and during entrainment sessions can
+            use the media's volume for entrainment by checking the <i>Enable Media Entrainment</i> checkbox and
+            for video can flash the playback screen using the chosed flash options.  The volume entrainment
+            can be varied to taste by either increasing or decreasing the Entrainment Strength.  Media playback
+            is automatic if the <i>Enable Media Entrainment</i> checkbox is selected and EntrainerFX started.
+          </p>
+          
+          <h1>Shimmer Controls</h1>
+          <center><img src="images/shimmerControl.jpg" alt="shimmer"/></center><br>
+          <p>
+            Shimmers are a translucent colour effect applied over EntrainerFX which vary in composition
+            and translucency reminiscent of a thin layer of oil on water.  They can also flash using the 
+            chosen flash options.
+          </p>
+          <center><img src="images/shimmerEffect.jpg" alt="sEffect"/></center><br>
+          
+          <h1>Animation Controls</h1>
+          <center><img src="images/animationControl.jpg" alt="animation"/></center><br>
+          <p>
+            Animations are run during entrainment sessions and will create the animation on either
+            a random colour background or on a background containing a specified image.  Animations are
+            painted in time with the chosen entrainment frequency and can also flash using the chosen flash
+            options.  Right clicking the animation window will bring EntrainerFX to the front.
+          </p>
+          <center><img src="images/hbAnimation.jpg" alt="hbanimation"/></center><br>
+		  			  
+		</div><!--close content_item-->
+      </div><!--close content-->   
+	
+	</div><!--close site_content-->  	
+  
+    <footer>
+	  <a href="#">copyright Burton Alexander 2008 - 2015</a><br/><br/>
+	  website template by <a href="http://www.freehtml5templates.co.uk">Free HTML5 Templates</a>
+    </footer> 
+  
+  </div><!--close main-->
+  
+  <!-- javascript at the bottom for fast page loading -->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/image_slide.js"></script>
+  
+</body>
+</html>

@@ -331,7 +331,7 @@ public class BackgroundPicturePane extends AbstractTitledPane {
 	private void localDoc(MouseEvent e) {
 		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		Utils.openLocalDocumentation("backgrounds.html");
+		Utils.openLocalDocumentation("overview.html");
 	}
 
 	private void layoutComponents() {

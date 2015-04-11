@@ -88,7 +88,7 @@ public class SocketPortDialog extends DialogPane {
 	private void localDoc(MouseEvent e) {
 		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		Utils.openLocalDocumentation("sockets.html");
+		Utils.openLocalDocumentation("advanced.html");
 	}
 
 	private void setToolTips() {

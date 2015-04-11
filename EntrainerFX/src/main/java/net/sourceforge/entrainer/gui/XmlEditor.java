@@ -268,7 +268,7 @@ public class XmlEditor extends Stage {
 	private void showDoc(javafx.scene.input.MouseEvent e) {
 		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		Utils.openLocalDocumentation("editing.html");
+		Utils.openLocalDocumentation("program.html");
 	}
 
 	private void initMediator() {
@@ -282,7 +282,7 @@ public class XmlEditor extends Stage {
 		Menu help = new Menu("Help");
 
 		MenuItem doc = new MenuItem("Documentation");
-		doc.setOnAction(e -> Utils.openLocalDocumentation("editing.html"));
+		doc.setOnAction(e -> Utils.openLocalDocumentation("program.html"));
 		help.getItems().add(doc);
 
 		bar.getMenus().add(help);

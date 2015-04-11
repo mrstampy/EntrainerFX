@@ -193,7 +193,7 @@ public class EntrainerSocketConnector extends DialogPane {
 	private void getLocalDocAddress(MouseEvent e) {
 		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		Utils.openLocalDocumentation("sockets.html");
+		Utils.openLocalDocumentation("advanced.html");
 	}
 
 	private void initGui() {
