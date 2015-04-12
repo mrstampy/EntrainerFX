@@ -525,6 +525,7 @@ public class XmlEditor extends Stage {
 
 	private void initFields() {
 		animations.getRunAnimation().setSelected(xml.isAnimation());
+		fireReceiverChangeEvent(xml.isAnimation(), IS_ANIMATION);
 		if (xml.getAnimationProgram() != null) {
 			animations.refreshAnimations();
 			fireReceiverChangeEvent(xml.getAnimationProgram(), ANIMATION_PROGRAM);
