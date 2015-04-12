@@ -1094,7 +1094,7 @@ public class EntrainerFX extends Application {
 		Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(editor.opacityProperty(), 1)));
 
 		tl.play();
-		editor.showAndWait();
+		editor.show();
 
 		settings.setPreserveState(false);
 	}

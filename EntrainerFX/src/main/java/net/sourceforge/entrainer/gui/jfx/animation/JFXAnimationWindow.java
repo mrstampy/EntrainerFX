@@ -22,6 +22,7 @@ import java.awt.Dimension;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javafx.animation.KeyFrame;
@@ -90,6 +91,8 @@ public class JFXAnimationWindow extends Stage {
 	private boolean inited;
 
 	private ExecutorService pulseSvc = Executors.newSingleThreadExecutor();
+	
+	private AtomicBoolean fading = new AtomicBoolean();
 
 	/**
 	 * Instantiates a new JFX animation window.
@@ -151,6 +154,9 @@ public class JFXAnimationWindow extends Stage {
 	 *          the new visible
 	 */
 	public void setVisible(boolean b) {
+		if(fading.get()) return;
+		
+		fading.set(true);
 		if (b) {
 			if (!inited) initGui();
 			fadeIn();
@@ -162,6 +168,7 @@ public class JFXAnimationWindow extends Stage {
 	private void fadeIn() {
 		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 1)));
 		tl.currentTimeProperty().addListener(e -> EntrainerFX.getInstance().toFront());
+		tl.setOnFinished(e -> fading.set(false));
 		tl.play();
 		show();
 	}
@@ -169,8 +176,13 @@ public class JFXAnimationWindow extends Stage {
 	private void fadeOut() {
 		getEntrainerAnimation().clearAnimation();
 		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 0)));
-		tl.setOnFinished(e -> hide());
+		tl.setOnFinished(e -> fadedOut());
 		tl.play();
+	}
+	
+	private void fadedOut() {
+		fading.set(false);
+		hide();
 	}
 
 	private void paint() {
