@@ -374,7 +374,7 @@ public class XmlEditor extends Stage {
 			fc.setSelectedExtensionFilter(new ExtensionFilter("EntrainerFX Programs", "xml"));
 			fc.setTitle("EntrainerFX Programs");
 
-			File f = fc.showOpenDialog(this);
+			File f = fc.showSaveDialog(this);
 			if (f == null) return;
 
 			f = processFile(f);
