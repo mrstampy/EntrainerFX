@@ -276,11 +276,13 @@ public class EntrainerBackground {
 	}
 
 	private void scaleImage() {
-		getCurrent().setImage(currentImage);
+		ImageView iv = getCurrent();
+		iv.setImage(currentImage);
 
 		scale();
 
-		pane.getChildren().add(getCurrent());
+		pane.getChildren().remove(iv);
+		pane.getChildren().add(iv);
 	}
 
 	private void scale() {
