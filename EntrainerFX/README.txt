@@ -18,6 +18,28 @@ on your personal media device.
 
 EntrainerFX will run on Windows, OS X and Linux and was built using Java 8 (1.8.0_40).
 
+6.0.0 - April 15, 2015
+  - full conversion to JavaFX
+  - added media player entrainment functions
+  - added flashing options for various EntrainerFX components
+  - new documentation
+  - EntrainerFX program split from EntrainerFX settings
+    - Program saved to user defined directory on installation (defaulting to ~/EntrainerFX-6.0.0)
+    - Settings saved to ~/EntrainerFX-Settings
+
+5.2.0 - March 19, 2015
+  - Prep for full JavaFX conversion
+  - Functionally identical to 5.1.0
+  - UI redesign, HUP controls invisible until mouse over or mouse proximity
+  - Images displayed at full opacity
+  - Entrainment frequency pulse notification now sent over EntrainerFX's event system
+  - Disruptor now used in event system for best notification performance
+  - Main window now resizable
+  - Bugfix, new EntrainerFX program functionality fixed
+  
+5.1.1 - March 19, 2015
+  - Bugfix, new EntrainerFX program functionality fixed
+
 5.1.0 - March 14, 2015
   - Last feature release prior to full JavaFX conversion
   - Minimum Java version - 1.8.0_40

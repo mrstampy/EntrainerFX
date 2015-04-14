@@ -50,7 +50,7 @@
 	<!-- The packs section. We specify here our packs. -->
 	<packs>
 		<pack name="Base" required="yes">
-			<description>The base files</description>
+			<description>The base program files installing to $INSTALL_PATH and settings to $USER_HOME/EntrainerFX-Settings</description>
 			
 			<file unpack="true" src="build/distributions/EntrainerFX-${EFX_VERSION}.zip" targetdir="$INSTALL_PATH"/>
 			
@@ -133,7 +133,7 @@
 		</pack>
 
 		<pack name="Documentation" required="no">
-			<description>The Documentation for Entrainer</description>
+			<description>The Documentation for EntrainerFX installing to $USER_HOME/EntrainerFX-Settings/doc</description>
 			<fileset dir="doc" targetdir="$USER_HOME/EntrainerFX-Settings/doc"/>
 		</pack>
 
