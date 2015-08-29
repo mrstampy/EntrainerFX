@@ -34,6 +34,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.guitools.GuiUtil;
+import net.sourceforge.entrainer.util.Kloner;
 import net.sourceforge.entrainer.util.Utils;
 
 import org.slf4j.Logger;
@@ -75,7 +76,7 @@ public class JFXUtils {
 					node.effectProperty().removeListener(this);
 				}
 			});
-			node.setEffect(effect.getEffect());
+			node.setEffect(Kloner.klone(effect.getEffect()));
 			setOpacity(node, effect);
 		} catch (Exception e) {
 			log.error("Unexpected exception ", e);
