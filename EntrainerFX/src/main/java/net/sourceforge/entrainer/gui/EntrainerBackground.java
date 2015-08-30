@@ -211,6 +211,7 @@ public class EntrainerBackground {
 
 	private void switchPictures() {
 		int key = ai.getAndIncrement();
+		clearFutures();
 		ScheduledFuture<?> sf = switchSvc.schedule(() -> fadeInOut(key), getDisplayTime(), TimeUnit.SECONDS);
 		futures.put(key, sf);
 	}
