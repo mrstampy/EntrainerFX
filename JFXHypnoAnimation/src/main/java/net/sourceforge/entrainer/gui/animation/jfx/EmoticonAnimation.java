@@ -1,5 +1,12 @@
 /*
- * Copyright (C) 2008 - 2013 Burton Alexander
+ *      ______      __             _                 _______  __
+ *     / ____/___  / /__________ _(_)___  ___  _____/ ____/ |/ /
+ *    / __/ / __ \/ __/ ___/ __ `/ / __ \/ _ \/ ___/ /_   |   / 
+ *   / /___/ / / / /_/ /  / /_/ / / / / /  __/ /  / __/  /   |  
+ *  /_____/_/ /_/\__/_/   \__,_/_/_/ /_/\___/_/  /_/    /_/|_|  
+ *                                                          
+ *
+ * Copyright (C) 2008 - 2016 Burton Alexander
  * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
