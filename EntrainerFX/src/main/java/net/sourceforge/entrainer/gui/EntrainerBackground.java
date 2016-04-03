@@ -270,6 +270,8 @@ public class EntrainerBackground {
 	}
 
 	private Image getRandomImage() {
+	  if(pictureNames.isEmpty()) return null;
+	  
 		int idx = rand.nextInt(pictureNames.size());
 
 		try {
