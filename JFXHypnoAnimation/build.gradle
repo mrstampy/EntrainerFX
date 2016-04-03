@@ -20,8 +20,8 @@ repositories {
 }
 
 dependencies {
-	hypno 'org.slf4j:slf4j-api:1.7.10'
-	hypno 'org.slf4j:log4j-over-slf4j:1.7.10'
+	hypno 'org.slf4j:slf4j-api:1.7.20'
+	hypno 'org.slf4j:log4j-over-slf4j:1.7.20'
 	hypno 'com.github.insubstantial:trident:7.3'
 
 	compile configurations.hypno

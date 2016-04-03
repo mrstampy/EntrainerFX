@@ -20,13 +20,14 @@ package net.sourceforge.entrainer.mediator;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Executors;
 
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.LiteBlockingWaitStrategy;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
+
+import net.sourceforge.entrainer.util.EntrainerFXThreadFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -47,158 +48,159 @@ import com.lmax.disruptor.dsl.ProducerType;
  * @see MediatorConstants
  */
 public class EntrainerMediator {
-	private List<Sender> senders = new CopyOnWriteArrayList<Sender>();
-	private List<Receiver> receivers = new CopyOnWriteArrayList<Receiver>();
-	private List<Receiver> pulseReceivers = new CopyOnWriteArrayList<Receiver>();
+  private List<Sender> senders = new CopyOnWriteArrayList<Sender>();
+  private List<Receiver> receivers = new CopyOnWriteArrayList<Receiver>();
+  private List<Receiver> pulseReceivers = new CopyOnWriteArrayList<Receiver>();
 
-	private static EntrainerMediator mediator = new EntrainerMediator();
+  private static EntrainerMediator mediator = new EntrainerMediator();
 
-	private EventHandler<MessageEvent> messageEventHandler;
+  private EventHandler<MessageEvent> messageEventHandler;
 
-	private Disruptor<MessageEvent> disruptor;
+  private Disruptor<MessageEvent> disruptor;
 
-	private RingBuffer<MessageEvent> rb;
+  private RingBuffer<MessageEvent> rb;
 
-	/**
-	 * Returns the only instance of this class.
-	 *
-	 * @return single instance of EntrainerMediator
-	 */
-	public static EntrainerMediator getInstance() {
-		return mediator;
-	}
+  /**
+   * Returns the only instance of this class.
+   *
+   * @return single instance of EntrainerMediator
+   */
+  public static EntrainerMediator getInstance() {
+    return mediator;
+  }
 
-	private EntrainerMediator() {
-		super();
+  private EntrainerMediator() {
+    super();
 
-		initMessageEventHandler();
-		initDisruptor();
-		rb = disruptor.start();
-	}
+    initMessageEventHandler();
+    initDisruptor();
+    rb = disruptor.start();
+  }
 
-	/**
-	 * Adds a {@link Sender} to the list of senders.
-	 *
-	 * @param sender
-	 *          the sender
-	 */
-	public synchronized void addSender(Sender sender) {
-		senders.add(sender);
-	}
+  /**
+   * Adds a {@link Sender} to the list of senders.
+   *
+   * @param sender
+   *          the sender
+   */
+  public synchronized void addSender(Sender sender) {
+    senders.add(sender);
+  }
 
-	/**
-	 * Removes the specified {@link Sender} from the list.
-	 *
-	 * @param sender
-	 *          the sender
-	 */
-	public synchronized void removeSender(Sender sender) {
-		senders.remove(sender);
-	}
+  /**
+   * Removes the specified {@link Sender} from the list.
+   *
+   * @param sender
+   *          the sender
+   */
+  public synchronized void removeSender(Sender sender) {
+    senders.remove(sender);
+  }
 
-	/**
-	 * Adds a {@link Receiver} to the list of receivers.
-	 *
-	 * @param receiver
-	 *          the receiver
-	 */
-	public void addReceiver(Receiver receiver) {
-		receivers.add(receiver);
-		if (receiver.isPulseReceiver()) pulseReceivers.add(receiver);
-	}
+  /**
+   * Adds a {@link Receiver} to the list of receivers.
+   *
+   * @param receiver
+   *          the receiver
+   */
+  public void addReceiver(Receiver receiver) {
+    receivers.add(receiver);
+    if (receiver.isPulseReceiver()) pulseReceivers.add(receiver);
+  }
 
-	/**
-	 * Adds the first receiver.
-	 *
-	 * @param receiver
-	 *          the receiver
-	 */
-	public void addFirstReceiver(Receiver receiver) {
-		receivers.add(0, receiver);
-	}
+  /**
+   * Adds the first receiver.
+   *
+   * @param receiver
+   *          the receiver
+   */
+  public void addFirstReceiver(Receiver receiver) {
+    receivers.add(0, receiver);
+  }
 
-	/**
-	 * Removes the {@link Receiver} associated with the object which instantiated
-	 * it.
-	 *
-	 * @param source
-	 *          the source
-	 */
-	public void removeReceiver(Object source) {
-		if (source != null) {
-			for (int i = receivers.size() - 1; i >= 0; i--) {
-				if (receivers.get(i).getSource().equals(source)) {
-					receivers.remove(i);
-				}
-			}
-			for (int i = pulseReceivers.size() - 1; i >= 0; i--) {
-				if (pulseReceivers.get(i).getSource().equals(source)) {
-					pulseReceivers.remove(i);
-				}
-			}
-		}
-	}
+  /**
+   * Removes the {@link Receiver} associated with the object which instantiated
+   * it.
+   *
+   * @param source
+   *          the source
+   */
+  public void removeReceiver(Object source) {
+    if (source != null) {
+      for (int i = receivers.size() - 1; i >= 0; i--) {
+        if (receivers.get(i).getSource().equals(source)) {
+          receivers.remove(i);
+        }
+      }
+      for (int i = pulseReceivers.size() - 1; i >= 0; i--) {
+        if (pulseReceivers.get(i).getSource().equals(source)) {
+          pulseReceivers.remove(i);
+        }
+      }
+    }
+  }
 
-	/**
-	 * Notify receivers.
-	 *
-	 * @param e
-	 *          the e
-	 */
-	void notifyReceivers(final ReceiverChangeEvent e) {
-		long seq = rb.next();
-		MessageEvent be = rb.get(seq);
-		be.setMessage(e);
-		rb.publish(seq);
-	}
+  /**
+   * Notify receivers.
+   *
+   * @param e
+   *          the e
+   */
+  void notifyReceivers(final ReceiverChangeEvent e) {
+    long seq = rb.next();
+    MessageEvent be = rb.get(seq);
+    be.setMessage(e);
+    rb.publish(seq);
+  }
 
-	@SuppressWarnings("unchecked")
-	private void initDisruptor() {
-		disruptor = new Disruptor<MessageEvent>(new MessageEventFactory(), 16, Executors.newCachedThreadPool(),
-				ProducerType.MULTI, new LiteBlockingWaitStrategy());
+  @SuppressWarnings("unchecked")
+  private void initDisruptor() {
+    disruptor = new Disruptor<MessageEvent>(new MessageEventFactory(), 16,
+        new EntrainerFXThreadFactory("Disruptor/Mediator Thread Pool"), ProducerType.MULTI,
+        new LiteBlockingWaitStrategy());
 
-		disruptor.handleEventsWith(messageEventHandler);
-	}
+    disruptor.handleEventsWith(messageEventHandler);
+  }
 
-	private void initMessageEventHandler() {
-		messageEventHandler = new EventHandler<MessageEvent>() {
+  private void initMessageEventHandler() {
+    messageEventHandler = new EventHandler<MessageEvent>() {
 
-			@Override
-			public void onEvent(final MessageEvent event, long sequence, boolean endOfBatch) throws Exception {
-				sendEvent(event.getMessage());
-			}
-		};
-	}
+      @Override
+      public void onEvent(final MessageEvent event, long sequence, boolean endOfBatch) throws Exception {
+        sendEvent(event.getMessage());
+      }
+    };
+  }
 
-	/**
-	 * Send event.
-	 *
-	 * @param e
-	 *          the e
-	 */
-	protected void sendEvent(ReceiverChangeEvent e) {
-		switch (e.getParm()) {
-		case ENTRAINMENT_FREQUENCY_PULSE:
-		case FLASH_EFFECT:
-			notifyPulseReceivers(e);
-			break;
-		default:
-			notifyAllReceivers(e);
-			break;
-		}
-	}
+  /**
+   * Send event.
+   *
+   * @param e
+   *          the e
+   */
+  protected void sendEvent(ReceiverChangeEvent e) {
+    switch (e.getParm()) {
+    case ENTRAINMENT_FREQUENCY_PULSE:
+    case FLASH_EFFECT:
+      notifyPulseReceivers(e);
+      break;
+    default:
+      notifyAllReceivers(e);
+      break;
+    }
+  }
 
-	private void notifyAllReceivers(ReceiverChangeEvent e) {
-		for (Receiver receiver : receivers) {
-			if (e.getSource() == receiver.getSource()) continue;
-			receiver.receiverChangeEventPerformed(e);
-		}
-	}
+  private void notifyAllReceivers(ReceiverChangeEvent e) {
+    for (Receiver receiver : receivers) {
+      if (e.getSource() == receiver.getSource()) continue;
+      receiver.receiverChangeEventPerformed(e);
+    }
+  }
 
-	private void notifyPulseReceivers(ReceiverChangeEvent e) {
-		for (Receiver receiver : pulseReceivers) {
-			receiver.receiverChangeEventPerformed(e);
-		}
-	}
+  private void notifyPulseReceivers(ReceiverChangeEvent e) {
+    for (Receiver receiver : pulseReceivers) {
+      receiver.receiverChangeEventPerformed(e);
+    }
+  }
 
 }

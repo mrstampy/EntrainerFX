@@ -61,13 +61,13 @@ task createDirs {
 build.dependsOn copySettings, createDirs
 
 dependencies {
-	entrainer 'org.slf4j:slf4j-api:1.7.12'
-	entrainer 'org.slf4j:log4j-over-slf4j:1.7.12'
+	entrainer 'org.slf4j:slf4j-api:1.7.20'
+	entrainer 'org.slf4j:log4j-over-slf4j:1.7.20'
 	entrainer 'com.github.insubstantial:trident:7.3'
-	entrainer 'io.netty:netty-all:4.0.30.Final'
-	entrainer 'com.fasterxml.jackson.core:jackson-core:2.6.1'
-	entrainer 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
-	entrainer 'com.fasterxml.jackson.core:jackson-annotations:2.6.1'
+	entrainer 'io.netty:netty-all:4.0.35.Final'
+	entrainer 'com.fasterxml.jackson.core:jackson-core:2.7.3'
+	entrainer 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
+	entrainer 'com.fasterxml.jackson.core:jackson-annotations:2.7.3'
 	entrainer 'com.github.mrstampy:esp:2.1'
 	entrainer 'com.github.mrstampy:esplab:1.2'
 	entrainer 'org.controlsfx:controlsfx:8.20.8'
@@ -75,24 +75,24 @@ dependencies {
 	entrainer 'jsyn:jsyn:16.7.3'
 	entrainer 'neuroph-core:neuroph-core:2.8.0'
 	entrainer 'com.netflix.rxjava:rxjava-core:0.17.5'
-	entrainer 'com.lmax:disruptor:3.3.2'
-	entrainer 'ch.qos.logback:logback-classic:1.1.3'
-	entrainer 'ch.qos.logback:logback-core:1.1.3'
-	entrainer 'org.apache.mina:mina-core:2.0.9'
-	entrainer 'org.apache.mina:mina-transport-serial:2.0.9'
+	entrainer 'com.lmax:disruptor:3.3.4'
+	entrainer 'ch.qos.logback:logback-classic:1.1.7'
+	entrainer 'ch.qos.logback:logback-core:1.1.7'
+	entrainer 'org.apache.mina:mina-core:2.0.13'
+	entrainer 'org.apache.mina:mina-transport-serial:2.0.13'
 	entrainer 'javolution:javolution:5.5.1'
 	entrainer 'org.usb4java:usb4java:1.2.0'
 	entrainer 'org.usb4java:usb4java-javax:1.2.0'
 	entrainer 'org.rxtx:rxtx:2.1.7'
 	entrainer 'org.reactfx:reactfx:1.4.1'
-	entrainer 'org.jfxtras:jfxtras-labs:8.0-r3'
+	entrainer 'org.jfxtras:jfxtras-labs:8.0-r4'
 	entrainer 'uk.com.robust-it:cloning:1.9.2'
 
 	compile configurations.entrainer
 	
 	testCompile 'junit:junit:4.12'
 	
-	izpack 'org.codehaus.izpack:izpack-standalone-compiler:4.3.4'
+	izpack 'org.codehaus.izpack:izpack-standalone-compiler:4.3.5'
 }
 
 jar {
