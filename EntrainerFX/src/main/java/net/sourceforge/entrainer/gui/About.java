@@ -82,7 +82,7 @@ public class About extends DialogPane implements Version {
 		buf.append("\n\nEntrainer Home Page: http://entrainer.sourceforge.net/");
 		buf.append("\nProject Home Page: https://sourceforge.net/projects/entrainer");
 
-		buf.append("\n\nCopyright Burton Alexander, 2008 - 2015");
+		buf.append("\n\nCopyright Burton Alexander, 2008 - 2016");
 		buf.append("\n\nThis program creates entrainment frequencies, allowing the user to control the base frequency, the entrainment frequency");
 		buf.append("\nand the amplitude of the sound waves.  It is best used with high quality headphones.");
 
