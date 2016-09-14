@@ -458,7 +458,12 @@ public class JSynSoundControl extends AbstractSoundControl {
 
   private void initRecording() throws IOException {
     getWavFile().delete();
-    recorder = new WaveRecorder(synth, getWavFile());
+    recorder = new WaveRecorder(synth, getWavFile(), 2);
+    
+    leftChannel.output.connect(0, recorder.getInput(), IS_LEFT);
+    rightChannel.output.connect(0, recorder.getInput(), IS_RIGHT);
+    pinkPanRight.output.connect(0, recorder.getInput(), IS_RIGHT);
+    pinkPanLeft.output.connect(0, recorder.getInput(), IS_LEFT);
   }
 
   private void startRecording() {
@@ -467,6 +472,11 @@ public class JSynSoundControl extends AbstractSoundControl {
 
   private void stopRecording() {
     recorder.stop();
+    
+    leftChannel.output.disconnect(recorder.getInput());
+    rightChannel.output.disconnect(recorder.getInput());
+    pinkPanRight.output.disconnect(recorder.getInput());
+    pinkPanLeft.output.disconnect(recorder.getInput());
   }
 
   /*
