@@ -36,6 +36,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
+import com.jsyn.ports.UnitInputPort;
 import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.Pan;
 import com.jsyn.unitgen.PinkNoise;
@@ -400,6 +401,8 @@ public class JSynSoundControl extends AbstractSoundControl {
     
     initSineOscillators();
     initPinkNoise();
+    
+    connect(out.input);
   }
 
   private void initPinkNoise() {
@@ -409,18 +412,12 @@ public class JSynSoundControl extends AbstractSoundControl {
     
     pinkPanRight.input.connect(pinkNoise.output);
     pinkPanLeft.input.connect(pinkNoise.output);
-    
-    pinkPanRight.output.connect(0, out.input, IS_RIGHT);
-    pinkPanLeft.output.connect(0, out.input, IS_LEFT);
   }
 
   private void initSineOscillators() {
     synth.add(leftChannel = new SineOscillator());
     synth.add(rightChannel = new SineOscillator());
     synth.add(out = new LineOut());
-    
-    leftChannel.output.connect(0, out.input, IS_LEFT);
-    rightChannel.output.connect(0, out.input, IS_RIGHT);
   }
 
   private void setMixerGains() {
@@ -460,10 +457,7 @@ public class JSynSoundControl extends AbstractSoundControl {
     getWavFile().delete();
     recorder = new WaveRecorder(synth, getWavFile(), 2);
     
-    leftChannel.output.connect(0, recorder.getInput(), IS_LEFT);
-    rightChannel.output.connect(0, recorder.getInput(), IS_RIGHT);
-    pinkPanRight.output.connect(0, recorder.getInput(), IS_RIGHT);
-    pinkPanLeft.output.connect(0, recorder.getInput(), IS_LEFT);
+    connect(recorder.getInput());
   }
 
   private void startRecording() {
@@ -473,10 +467,21 @@ public class JSynSoundControl extends AbstractSoundControl {
   private void stopRecording() {
     recorder.stop();
     
-    leftChannel.output.disconnect(recorder.getInput());
-    rightChannel.output.disconnect(recorder.getInput());
-    pinkPanRight.output.disconnect(recorder.getInput());
-    pinkPanLeft.output.disconnect(recorder.getInput());
+    disconnect(recorder.getInput());
+  }
+  
+  private void connect(UnitInputPort input) {
+    leftChannel.output.connect(0, input, IS_LEFT);
+    rightChannel.output.connect(0, input, IS_RIGHT);
+    pinkPanRight.output.connect(0, input, IS_RIGHT);
+    pinkPanLeft.output.connect(0, input, IS_LEFT);
+  }
+  
+  private void disconnect(UnitInputPort input) {
+    leftChannel.output.disconnect(input);
+    rightChannel.output.disconnect(input);
+    pinkPanRight.output.disconnect(input);
+    pinkPanLeft.output.disconnect(input);
   }
 
   /*
