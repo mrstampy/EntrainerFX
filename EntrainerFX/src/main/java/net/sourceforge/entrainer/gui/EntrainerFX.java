@@ -247,8 +247,6 @@ public class EntrainerFX extends Application {
 
 		resizer = new EntrainerFXResizer(r -> resizeDimensions(r));
 
-		init();
-
 		jsonMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		instance = this;
