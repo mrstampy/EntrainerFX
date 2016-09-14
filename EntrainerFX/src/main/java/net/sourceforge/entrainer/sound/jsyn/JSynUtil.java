@@ -25,9 +25,9 @@
  */
 package net.sourceforge.entrainer.sound.jsyn;
 
-import com.softsynth.jsyn.AddUnit;
-import com.softsynth.jsyn.SynthInput;
-import com.softsynth.jsyn.SynthOutput;
+import com.jsyn.ports.UnitInputPort;
+import com.jsyn.ports.UnitOutputPort;
+import com.jsyn.unitgen.Add;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -53,8 +53,9 @@ public class JSynUtil {
 	 *          the output b
 	 * @return the adds the unit
 	 */
-	public static AddUnit add(SynthOutput outputA, SynthOutput outputB) {
-		AddUnit unit = new AddUnit();
+	public static Add add(UnitOutputPort outputA, UnitOutputPort outputB) {
+		Add unit = new Add();
+		
 		unit.inputA.connect(outputA);
 		unit.inputB.connect(outputB);
 
@@ -69,7 +70,7 @@ public class JSynUtil {
 	 * @param from
 	 *          the from
 	 */
-	public static void connect(SynthInput to, SynthOutput from) {
+	public static void connect(UnitInputPort to, UnitOutputPort from) {
 		to.connect(from);
 	}
 
@@ -81,7 +82,7 @@ public class JSynUtil {
 	 * @param from
 	 *          the from
 	 */
-	public static void connectToLeftChannel(SynthInput to, SynthOutput from) {
+	public static void connectToLeftChannel(UnitInputPort to, UnitOutputPort from) {
 		connect(to, from, LEFT_CHANNEL);
 	}
 
@@ -93,7 +94,7 @@ public class JSynUtil {
 	 * @param from
 	 *          the from
 	 */
-	public static void connectToRightChannel(SynthInput to, SynthOutput from) {
+	public static void connectToRightChannel(UnitInputPort to, UnitOutputPort from) {
 		connect(to, from, RIGHT_CHANNEL);
 	}
 
@@ -107,7 +108,7 @@ public class JSynUtil {
 	 * @param channel
 	 *          the channel
 	 */
-	public static void connect(SynthInput to, SynthOutput from, int channel) {
+	public static void connect(UnitInputPort to, UnitOutputPort from, int channel) {
 		to.connect(0, from, channel);
 	}
 
@@ -119,7 +120,7 @@ public class JSynUtil {
 	 * @param from
 	 *          the from
 	 */
-	public static void connect(SynthOutput to, SynthInput from) {
+	public static void connect(UnitOutputPort to, UnitInputPort from) {
 		to.connect(from);
 	}
 
@@ -131,7 +132,7 @@ public class JSynUtil {
 	 * @param from
 	 *          the from
 	 */
-	public static void connectToLeftChannel(SynthOutput to, SynthInput from) {
+	public static void connectToLeftChannel(UnitOutputPort to, UnitInputPort from) {
 		connect(to, from, LEFT_CHANNEL);
 	}
 
@@ -143,7 +144,7 @@ public class JSynUtil {
 	 * @param from
 	 *          the from
 	 */
-	public static void connectToRightChannel(SynthOutput to, SynthInput from) {
+	public static void connectToRightChannel(UnitOutputPort to, UnitInputPort from) {
 		connect(to, from, RIGHT_CHANNEL);
 	}
 
@@ -157,20 +158,20 @@ public class JSynUtil {
 	 * @param channel
 	 *          the channel
 	 */
-	public static void connect(SynthOutput to, SynthInput from, int channel) {
+	public static void connect(UnitOutputPort to, UnitInputPort from, int channel) {
 		to.connect(0, from, channel);
 	}
 
 	/**
-	 * Connects the 'from' SynthInput to the 'to' SynthInput.
+	 * Connects the 'from' UnitInputPort to the 'to' UnitInputPort.
 	 *
 	 * @param to
 	 *          the to
 	 * @param from
 	 *          the from
-	 */
-	public static void connect(SynthInput to, SynthInput from) {
+	public static void connect(UnitInputPort to, UnitInputPort from) {
 		to.connect(from);
 	}
+	 */
 
 }

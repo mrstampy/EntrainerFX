@@ -25,10 +25,10 @@
  */
 package net.sourceforge.entrainer.sound.jsyn;
 
-import net.sourceforge.entrainer.sound.AbstractSoundInterval;
+import com.jsyn.unitgen.SineOscillator;
+import com.jsyn.unitgen.UnitOscillator;
 
-import com.softsynth.jsyn.SineOscillator;
-import com.softsynth.jsyn.SynthOscillator;
+import net.sourceforge.entrainer.sound.AbstractSoundInterval;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -38,7 +38,7 @@ import com.softsynth.jsyn.SynthOscillator;
  *
  */
 public class JSynInterval extends AbstractSoundInterval {
-	private SynthOscillator leftChannel;
+	private UnitOscillator leftChannel;
 
 	/**
 	 * Instantiates a new j syn interval.
@@ -229,7 +229,7 @@ public class JSynInterval extends AbstractSoundInterval {
 	 *
 	 * @return the left channel
 	 */
-	SynthOscillator getLeftChannel() {
+	UnitOscillator getLeftChannel() {
 		return leftChannel;
 	}
 
