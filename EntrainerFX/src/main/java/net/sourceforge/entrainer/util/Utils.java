@@ -33,11 +33,11 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 
-import net.sourceforge.entrainer.EntrainerResources;
-import net.sourceforge.entrainer.guitools.GuiUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sourceforge.entrainer.EntrainerResources;
+import net.sourceforge.entrainer.guitools.GuiUtil;
 
 // TODO: Auto-generated Javadoc
 /**

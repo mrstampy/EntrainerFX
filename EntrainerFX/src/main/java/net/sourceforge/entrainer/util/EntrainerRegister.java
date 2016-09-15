@@ -58,10 +58,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.sourceforge.entrainer.guitools.GuiUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sourceforge.entrainer.guitools.GuiUtil;
 
 // TODO: Auto-generated Javadoc
 /**

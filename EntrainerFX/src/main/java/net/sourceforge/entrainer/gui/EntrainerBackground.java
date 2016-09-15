@@ -47,6 +47,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
@@ -68,9 +71,6 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
 import net.sourceforge.entrainer.util.Utils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**

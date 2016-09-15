@@ -25,14 +25,6 @@
  */
 package net.sourceforge.entrainer.socket;
 
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.util.concurrent.GlobalEventExecutor;
-
 import java.awt.Color;
 import java.io.IOException;
 import java.io.StringReader;
@@ -41,13 +33,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.entrainer.gui.flash.FlashType;
-import net.sourceforge.entrainer.mediator.EntrainerMediator;
-import net.sourceforge.entrainer.mediator.MediatorConstants;
-import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
-import net.sourceforge.entrainer.mediator.Sender;
-import net.sourceforge.entrainer.mediator.SenderAdapter;
-
 import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -55,6 +40,20 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.DefaultChannelGroup;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.util.concurrent.GlobalEventExecutor;
+import net.sourceforge.entrainer.gui.flash.FlashType;
+import net.sourceforge.entrainer.mediator.EntrainerMediator;
+import net.sourceforge.entrainer.mediator.MediatorConstants;
+import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
+import net.sourceforge.entrainer.mediator.Sender;
+import net.sourceforge.entrainer.mediator.SenderAdapter;
 
 // TODO: Auto-generated Javadoc
 /**

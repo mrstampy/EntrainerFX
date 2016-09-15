@@ -38,6 +38,13 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.neuroph.core.NeuralNetwork;
+import org.neuroph.core.data.DataSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.github.mrstampy.esp.dsp.lab.Lab;
+
 import javafx.animation.FadeTransition;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -59,16 +66,8 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
 import net.sourceforge.entrainer.neuroph.Neuralizer;
 import net.sourceforge.entrainer.neuroph.SignalDataAggregator;
 import net.sourceforge.entrainer.util.Utils;
-
-import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.data.DataSet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import rx.Subscription;
 import rx.schedulers.Schedulers;
-
-import com.github.mrstampy.esp.dsp.lab.Lab;
 
 // TODO: Auto-generated Javadoc
 /**

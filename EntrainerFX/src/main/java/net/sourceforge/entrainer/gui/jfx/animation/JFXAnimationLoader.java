@@ -43,10 +43,10 @@ import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.log4j.Logger;
+
 import net.sourceforge.entrainer.util.EntrainerRegister;
 import net.sourceforge.entrainer.util.Utils;
-
-import org.apache.log4j.Logger;
 
 // TODO: Auto-generated Javadoc
 /**

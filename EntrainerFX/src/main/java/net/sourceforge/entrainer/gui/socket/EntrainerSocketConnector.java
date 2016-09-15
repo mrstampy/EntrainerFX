@@ -25,6 +25,22 @@
  */
 package net.sourceforge.entrainer.gui.socket;
 
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.net.InetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.UnknownHostException;
+import java.text.DecimalFormat;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+import javax.xml.bind.JAXBException;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -53,17 +69,6 @@ import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
-
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.net.InetAddress;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.UnknownHostException;
-import java.text.DecimalFormat;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -82,9 +87,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import javax.xml.bind.JAXBException;
-
 import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.socket.EntrainerStateMessage;
@@ -92,10 +94,6 @@ import net.sourceforge.entrainer.socket.EntrainerStateMessageMarshal;
 import net.sourceforge.entrainer.socket.WebSocketHandler;
 import net.sourceforge.entrainer.util.Utils;
 import net.sourceforge.entrainer.xml.Settings;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 // TODO: Auto-generated Javadoc
 /**

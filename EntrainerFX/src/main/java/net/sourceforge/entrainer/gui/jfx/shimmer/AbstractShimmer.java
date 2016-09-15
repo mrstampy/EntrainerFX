@@ -27,6 +27,10 @@ package net.sourceforge.entrainer.gui.jfx.shimmer;
 
 import java.util.Random;
 
+import org.pushingpixels.trident.Timeline;
+import org.pushingpixels.trident.Timeline.TimelineState;
+import org.pushingpixels.trident.callback.TimelineCallback;
+
 import javafx.scene.CacheHint;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -36,10 +40,6 @@ import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.ReceiverAdapter;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
-
-import org.pushingpixels.trident.Timeline;
-import org.pushingpixels.trident.Timeline.TimelineState;
-import org.pushingpixels.trident.callback.TimelineCallback;
 
 // TODO: Auto-generated Javadoc
 /**

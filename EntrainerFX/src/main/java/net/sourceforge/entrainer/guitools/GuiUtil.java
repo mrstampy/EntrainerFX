@@ -55,17 +55,16 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.concurrent.CountDownLatch;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-
 import javax.swing.ImageIcon;
-
-import net.sourceforge.entrainer.gui.EntrainerFX;
-import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import net.sourceforge.entrainer.gui.EntrainerFX;
+import net.sourceforge.entrainer.gui.jfx.JFXUtils;
 
 // TODO: Auto-generated Javadoc
 /**

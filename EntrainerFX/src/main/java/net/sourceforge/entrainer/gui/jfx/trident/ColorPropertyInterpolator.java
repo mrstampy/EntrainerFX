@@ -25,10 +25,10 @@
  */
 package net.sourceforge.entrainer.gui.jfx.trident;
 
-import javafx.scene.paint.Color;
-
 import org.pushingpixels.trident.TridentConfig;
 import org.pushingpixels.trident.interpolator.PropertyInterpolator;
+
+import javafx.scene.paint.Color;
 
 // TODO: Auto-generated Javadoc
 /**

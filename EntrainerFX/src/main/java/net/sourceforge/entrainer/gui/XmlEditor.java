@@ -45,6 +45,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -75,9 +81,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import net.sourceforge.entrainer.gui.flash.FlashType;
 import net.sourceforge.entrainer.gui.jfx.AnimationPane;
 import net.sourceforge.entrainer.gui.jfx.BackgroundPicturePane;
@@ -98,10 +101,6 @@ import net.sourceforge.entrainer.xml.program.EntrainerProgram;
 import net.sourceforge.entrainer.xml.program.EntrainerProgramInterval;
 import net.sourceforge.entrainer.xml.program.EntrainerProgramUnit;
 import net.sourceforge.entrainer.xml.program.UnitSetter;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
 
 // TODO: Auto-generated Javadoc
 /**

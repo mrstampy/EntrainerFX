@@ -26,6 +26,7 @@
 package net.sourceforge.entrainer.gui.jfx;
 
 import static net.sourceforge.entrainer.mediator.MediatorConstants.START_ENTRAINMENT;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;

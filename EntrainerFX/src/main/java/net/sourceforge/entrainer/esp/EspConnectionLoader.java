@@ -43,6 +43,11 @@ import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.github.mrstampy.esp.dsp.lab.RawEspConnection;
+
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
 import net.sourceforge.entrainer.mediator.MediatorConstants;
 import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
@@ -50,11 +55,6 @@ import net.sourceforge.entrainer.mediator.Sender;
 import net.sourceforge.entrainer.mediator.SenderAdapter;
 import net.sourceforge.entrainer.util.EntrainerRegister;
 import net.sourceforge.entrainer.util.Utils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.github.mrstampy.esp.dsp.lab.RawEspConnection;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -29,6 +29,9 @@ import java.io.File;
 import java.net.URI;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -43,9 +46,6 @@ import net.sourceforge.entrainer.gui.flash.CurrentEffect;
 import net.sourceforge.entrainer.guitools.GuiUtil;
 import net.sourceforge.entrainer.util.Kloner;
 import net.sourceforge.entrainer.util.Utils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**

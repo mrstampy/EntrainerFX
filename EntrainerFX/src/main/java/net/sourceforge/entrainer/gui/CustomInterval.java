@@ -25,6 +25,8 @@
  */
 package net.sourceforge.entrainer.gui;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -35,8 +37,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.HBox;
 import javafx.util.converter.IntegerStringConverter;
-
-import org.apache.commons.lang3.StringUtils;
 
 // TODO: Auto-generated Javadoc
 /**

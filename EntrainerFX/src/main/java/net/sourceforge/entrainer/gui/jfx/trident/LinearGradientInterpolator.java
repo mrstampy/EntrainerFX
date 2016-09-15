@@ -27,11 +27,11 @@ package net.sourceforge.entrainer.gui.jfx.trident;
 
 import java.util.List;
 
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
-
 import org.pushingpixels.trident.TridentConfig;
 import org.pushingpixels.trident.interpolator.PropertyInterpolator;
+
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 
 // TODO: Auto-generated Javadoc
 /**
