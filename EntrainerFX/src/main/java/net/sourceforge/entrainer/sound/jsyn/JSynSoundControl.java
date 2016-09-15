@@ -458,6 +458,13 @@ public class JSynSoundControl extends AbstractSoundControl {
     recorder = new WaveRecorder(synth, getWavFile(), 2);
     
     connect(recorder.getInput());
+    
+    intervals.stream().forEach(ji -> attachInterval(ji, recorder.getInput()));
+  }
+  
+  private void attachInterval(JSynInterval ji, UnitInputPort input) {
+    ji.getLeftChannel().output.connect(0, input, IS_LEFT);
+    ji.getLeftChannel().output.connect(0, input, IS_RIGHT);
   }
 
   private void startRecording() {
@@ -468,8 +475,14 @@ public class JSynSoundControl extends AbstractSoundControl {
     recorder.stop();
     
     disconnect(recorder.getInput());
+    
+    intervals.stream().forEach(ji -> detachInterval(ji, recorder.getInput()));
   }
   
+  private void detachInterval(JSynInterval ji, UnitInputPort input) {
+    ji.getLeftChannel().output.disconnect(input);
+  }
+
   private void connect(UnitInputPort input) {
     leftChannel.output.connect(0, input, IS_LEFT);
     rightChannel.output.connect(0, input, IS_RIGHT);
