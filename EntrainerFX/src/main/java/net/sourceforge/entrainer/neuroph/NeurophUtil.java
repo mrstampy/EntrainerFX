@@ -36,77 +36,77 @@ import java.util.List;
  */
 public class NeurophUtil {
 
-	/**
-	 * Weighted moving average.
-	 *
-	 * @param wma
-	 *          the wma
-	 * @param current
-	 *          the current
-	 * @param size
-	 *          the size
-	 * @return the double
-	 */
-	public static double weightedMovingAverage(List<Double> wma, double current, int size) {
-		wma.add(0, current);
-		while (wma.size() > size) {
-			wma.remove(wma.size() - 1);
-		}
+  /**
+   * Weighted moving average.
+   *
+   * @param wma
+   *          the wma
+   * @param current
+   *          the current
+   * @param size
+   *          the size
+   * @return the double
+   */
+  public static double weightedMovingAverage(List<Double> wma, double current, int size) {
+    wma.add(0, current);
+    while (wma.size() > size) {
+      wma.remove(wma.size() - 1);
+    }
 
-		return weightedMovingAverage(wma);
-	}
+    return weightedMovingAverage(wma);
+  }
 
-	/**
-	 * Weighted moving average.
-	 *
-	 * @param wma
-	 *          the wma
-	 * @return the double
-	 */
-	public static double weightedMovingAverage(List<Double> wma) {
-		double bd = 0;
-		int j = 0;
-		for (int i = wma.size(); i > 0; i--) {
-			Double val = wma.get(wma.size() - i);
-			bd = bd + (val.doubleValue() * i);
-			j += i;
-		}
+  /**
+   * Weighted moving average.
+   *
+   * @param wma
+   *          the wma
+   * @return the double
+   */
+  public static double weightedMovingAverage(List<Double> wma) {
+    double bd = 0;
+    int j = 0;
+    for (int i = wma.size(); i > 0; i--) {
+      Double val = wma.get(wma.size() - i);
+      bd = bd + (val.doubleValue() * i);
+      j += i;
+    }
 
-		bd = new BigDecimal(bd).divide(new BigDecimal(j), 5, RoundingMode.HALF_UP).doubleValue();
+    bd = new BigDecimal(bd).divide(new BigDecimal(j), 5, RoundingMode.HALF_UP).doubleValue();
 
-		return bd;
-	}
+    return bd;
+  }
 
-	/**
-	 * Normalize.
-	 *
-	 * @param raw
-	 *          the raw
-	 * @return the list
-	 */
-	public static List<Double> normalize(List<Double> raw) {
-		List<Double> normalized = new ArrayList<Double>();
+  /**
+   * Normalize.
+   *
+   * @param raw
+   *          the raw
+   * @return the list
+   */
+  public static List<Double> normalize(List<Double> raw) {
+    List<Double> normalized = new ArrayList<Double>();
 
-		BigDecimal max = getMax(raw);
-		for (Double d : raw) {
-			normalized.add(new BigDecimal(d).divide(max, 3, RoundingMode.HALF_UP).doubleValue());
-		}
+    BigDecimal max = getMax(raw);
+    for (Double d : raw) {
+      normalized.add(new BigDecimal(d).divide(max, 3, RoundingMode.HALF_UP).doubleValue());
+    }
 
-		return normalized;
-	}
+    return normalized;
+  }
 
-	private static BigDecimal getMax(List<Double> list) {
-		double d = Double.MIN_VALUE;
+  private static BigDecimal getMax(List<Double> list) {
+    double d = Double.MIN_VALUE;
 
-		for (Double dbl : list) {
-			d = Math.max(d, dbl.doubleValue());
-		}
+    for (Double dbl : list) {
+      d = Math.max(d, dbl.doubleValue());
+    }
 
-		return new BigDecimal(d);
-	}
+    return new BigDecimal(d);
+  }
 
-	private NeurophUtil() {
+  private NeurophUtil() {
 
-	}
+  }
 
 }

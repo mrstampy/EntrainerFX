@@ -36,50 +36,50 @@ import java.util.EventObject;
  *
  */
 public class SleeperManagerEvent extends EventObject {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	/** The Constant STARTED. */
-	public static final int STARTED = 0;
+  /** The Constant STARTED. */
+  public static final int STARTED = 0;
 
-	/** The Constant STOPPED. */
-	public static final int STOPPED = 1;
+  /** The Constant STOPPED. */
+  public static final int STOPPED = 1;
 
-	private int action;
+  private int action;
 
-	/**
-	 * Instantiates a new sleeper manager event.
-	 *
-	 * @param source
-	 *          the source
-	 * @param action
-	 *          the action
-	 */
-	public SleeperManagerEvent(Object source, int action) {
-		super(source);
+  /**
+   * Instantiates a new sleeper manager event.
+   *
+   * @param source
+   *          the source
+   * @param action
+   *          the action
+   */
+  public SleeperManagerEvent(Object source, int action) {
+    super(source);
 
-		setAction(action);
-	}
+    setAction(action);
+  }
 
-	/**
-	 * Checks if is started.
-	 *
-	 * @return true, if is started
-	 */
-	public boolean isStarted() {
-		return action == STARTED;
-	}
+  /**
+   * Checks if is started.
+   *
+   * @return true, if is started
+   */
+  public boolean isStarted() {
+    return action == STARTED;
+  }
 
-	/**
-	 * Checks if is stopped.
-	 *
-	 * @return true, if is stopped
-	 */
-	public boolean isStopped() {
-		return action == STOPPED;
-	}
+  /**
+   * Checks if is stopped.
+   *
+   * @return true, if is stopped
+   */
+  public boolean isStopped() {
+    return action == STOPPED;
+  }
 
-	private void setAction(int action) {
-		this.action = action;
-	}
+  private void setAction(int action) {
+    this.action = action;
+  }
 
 }

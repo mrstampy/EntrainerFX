@@ -41,147 +41,146 @@ import javafx.scene.input.MouseEvent;
  */
 public class EntrainerFXResizer {
 
-	private ResizerListener listener;
-	private Rectangle2D size;
+  private ResizerListener listener;
+  private Rectangle2D size;
 
-	private boolean dragStarted;
-	private boolean resize;
+  private boolean dragStarted;
+  private boolean resize;
 
-	private Lock lock = new ReentrantLock();
+  private Lock lock = new ReentrantLock();
 
-	private double screenX;
-	private double screenY;
+  private double screenX;
+  private double screenY;
 
-	private ScheduledExecutorService svc = Executors.newSingleThreadScheduledExecutor();
-	private boolean clicked;
-	private Future<?> future;
+  private ScheduledExecutorService svc = Executors.newSingleThreadScheduledExecutor();
+  private boolean clicked;
+  private Future<?> future;
 
-	/**
-	 * Instantiates a new entrainer fx resizer.
-	 *
-	 * @param listener
-	 *          the listener
-	 */
-	public EntrainerFXResizer(ResizerListener listener) {
-		this.listener = listener;
-	}
+  /**
+   * Instantiates a new entrainer fx resizer.
+   *
+   * @param listener
+   *          the listener
+   */
+  public EntrainerFXResizer(ResizerListener listener) {
+    this.listener = listener;
+  }
 
-	/**
-	 * On release.
-	 *
-	 * @param e
-	 *          the e
-	 */
-	public void onRelease(MouseEvent e) {
-		dragStarted = false;
-		resize = false;
-	}
+  /**
+   * On release.
+   *
+   * @param e
+   *          the e
+   */
+  public void onRelease(MouseEvent e) {
+    dragStarted = false;
+    resize = false;
+  }
 
-	/**
-	 * On click.
-	 *
-	 * @param e
-	 *          the e
-	 */
-	public void onClick(MouseEvent e) {
-		clicked = true;
-		if (future != null) future.cancel(true);
+  /**
+   * On click.
+   *
+   * @param e
+   *          the e
+   */
+  public void onClick(MouseEvent e) {
+    clicked = true;
+    if (future != null) future.cancel(true);
 
-		future = svc.schedule(() -> clicked = false, 500, TimeUnit.MILLISECONDS);
-	}
+    future = svc.schedule(() -> clicked = false, 500, TimeUnit.MILLISECONDS);
+  }
 
-	/**
-	 * On drag.
-	 *
-	 * @param e
-	 *          the e
-	 */
-	public void onDrag(MouseEvent e) {
-		lock.lock();
-		try {
-			if (dragStarted) {
-				doDrag(e);
-			} else {
-				initDrag(e);
-			}
-			screenX = e.getScreenX();
-			screenY = e.getScreenY();
-		} finally {
-			lock.unlock();
-		}
-	}
+  /**
+   * On drag.
+   *
+   * @param e
+   *          the e
+   */
+  public void onDrag(MouseEvent e) {
+    lock.lock();
+    try {
+      if (dragStarted) {
+        doDrag(e);
+      } else {
+        initDrag(e);
+      }
+      screenX = e.getScreenX();
+      screenY = e.getScreenY();
+    } finally {
+      lock.unlock();
+    }
+  }
 
-	private void doDrag(MouseEvent e) {
-		if (resize) {
-			resize(e);
-		} else {
-			reposition(e);
-		}
-	}
+  private void doDrag(MouseEvent e) {
+    if (resize) {
+      resize(e);
+    } else {
+      reposition(e);
+    }
+  }
 
-	private void initDrag(MouseEvent e) {
-		if (future != null) future.cancel(true);
-		resize = clicked;
-		dragStarted = true;
-		clicked = false;
-	}
+  private void initDrag(MouseEvent e) {
+    if (future != null) future.cancel(true);
+    resize = clicked;
+    dragStarted = true;
+    clicked = false;
+  }
 
-	private void reposition(MouseEvent e) {
-		double minX = size.getMinX() + (e.getScreenX() - screenX);
-		double minY = size.getMinY() + (e.getScreenY() - screenY);
+  private void reposition(MouseEvent e) {
+    double minX = size.getMinX() + (e.getScreenX() - screenX);
+    double minY = size.getMinY() + (e.getScreenY() - screenY);
 
-		size = new Rectangle2D(minX, minY, size.getWidth(), size.getHeight());
+    size = new Rectangle2D(minX, minY, size.getWidth(), size.getHeight());
 
-		listener.resize(size);
-	}
+    listener.resize(size);
+  }
 
-	private void resize(MouseEvent e) {
-		double width = size.getWidth() + (e.getScreenX() - screenX);
-		double height = size.getHeight() + (e.getScreenY() - screenY);
+  private void resize(MouseEvent e) {
+    double width = size.getWidth() + (e.getScreenX() - screenX);
+    double height = size.getHeight() + (e.getScreenY() - screenY);
 
-		size = new Rectangle2D(size.getMinX(), size.getMinY(), width, height);
+    size = new Rectangle2D(size.getMinX(), size.getMinY(), width, height);
 
-		listener.resize(size);
-	}
+    listener.resize(size);
+  }
 
-	/**
-	 * Sets the size.
-	 *
-	 * @param size
-	 *          the new size
-	 */
-	public void setSize(Rectangle2D size) {
-		this.size = size;
-	}
+  /**
+   * Sets the size.
+   *
+   * @param size
+   *          the new size
+   */
+  public void setSize(Rectangle2D size) {
+    this.size = size;
+  }
 
-	/**
-	 * Gets the size.
-	 *
-	 * @return the size
-	 */
-	public Rectangle2D getSize() {
-		return size;
-	}
+  /**
+   * Gets the size.
+   *
+   * @return the size
+   */
+  public Rectangle2D getSize() {
+    return size;
+  }
 
-	/**
-	 * The listener interface for receiving resizer events. The class that is
-	 * interested in processing a resizer event implements this interface, and the
-	 * object created with that class is registered with a component using the
-	 * component's <code>addResizerListener<code> method. When
-	 * the resizer event occurs, that object's appropriate
-	 * method is invoked.
-	 *
-	 * @see ResizerEvent
-	 */
-	public interface ResizerListener {
+  /**
+   * The listener interface for receiving resizer events. The class that is
+   * interested in processing a resizer event implements this interface, and the
+   * object created with that class is registered with a component using the
+   * component's <code>addResizerListener<code> method. When the resizer event
+   * occurs, that object's appropriate method is invoked.
+   *
+   * @see ResizerEvent
+   */
+  public interface ResizerListener {
 
-		/**
-		 * Resize.
-		 *
-		 * @param size
-		 *          the size
-		 */
-		void resize(Rectangle2D size);
-	}
+    /**
+     * Resize.
+     *
+     * @param size
+     *          the size
+     */
+    void resize(Rectangle2D size);
+  }
 
 }

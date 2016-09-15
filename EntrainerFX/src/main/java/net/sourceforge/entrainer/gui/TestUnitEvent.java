@@ -40,130 +40,130 @@ import net.sourceforge.entrainer.xml.program.UnitSetter;
  */
 public class TestUnitEvent extends EventObject {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	/** The Constant TERMINAL_START. */
-	public static final int TERMINAL_START = 0;
+  /** The Constant TERMINAL_START. */
+  public static final int TERMINAL_START = 0;
 
-	/** The Constant TERMINAL_END. */
-	public static final int TERMINAL_END = 1;
+  /** The Constant TERMINAL_END. */
+  public static final int TERMINAL_END = 1;
 
-	/** The Constant ACTION_START. */
-	public static final int ACTION_START = 2;
+  /** The Constant ACTION_START. */
+  public static final int ACTION_START = 2;
 
-	/** The Constant ACTION_STOP. */
-	public static final int ACTION_STOP = 3;
+  /** The Constant ACTION_STOP. */
+  public static final int ACTION_STOP = 3;
 
-	private EntrainerProgramUnit unit;
-	private int terminal;
-	private int action;
+  private EntrainerProgramUnit unit;
+  private int terminal;
+  private int action;
 
-	/**
-	 * Instantiate with the source, the {@link EntrainerProgramUnit}, the terminal
-	 * (start/end) and the action (start/stop).
-	 *
-	 * @param source
-	 *          the source
-	 * @param unit
-	 *          the unit
-	 * @param terminal
-	 *          the terminal
-	 * @param action
-	 *          the action
-	 */
-	public TestUnitEvent(Object source, EntrainerProgramUnit unit, int terminal, int action) {
-		super(source);
-		setUnit(unit);
-		setTerminal(terminal);
-		setAction(action);
-	}
+  /**
+   * Instantiate with the source, the {@link EntrainerProgramUnit}, the terminal
+   * (start/end) and the action (start/stop).
+   *
+   * @param source
+   *          the source
+   * @param unit
+   *          the unit
+   * @param terminal
+   *          the terminal
+   * @param action
+   *          the action
+   */
+  public TestUnitEvent(Object source, EntrainerProgramUnit unit, int terminal, int action) {
+    super(source);
+    setUnit(unit);
+    setTerminal(terminal);
+    setAction(action);
+  }
 
-	/**
-	 * Checks if is action start.
-	 *
-	 * @return true, if is action start
-	 */
-	public boolean isActionStart() {
-		return action == ACTION_START;
-	}
+  /**
+   * Checks if is action start.
+   *
+   * @return true, if is action start
+   */
+  public boolean isActionStart() {
+    return action == ACTION_START;
+  }
 
-	/**
-	 * Checks if is action stop.
-	 *
-	 * @return true, if is action stop
-	 */
-	public boolean isActionStop() {
-		return action == ACTION_STOP;
-	}
+  /**
+   * Checks if is action stop.
+   *
+   * @return true, if is action stop
+   */
+  public boolean isActionStop() {
+    return action == ACTION_STOP;
+  }
 
-	/**
-	 * Checks if is terminal start.
-	 *
-	 * @return true, if is terminal start
-	 */
-	public boolean isTerminalStart() {
-		return terminal == TERMINAL_START;
-	}
+  /**
+   * Checks if is terminal start.
+   *
+   * @return true, if is terminal start
+   */
+  public boolean isTerminalStart() {
+    return terminal == TERMINAL_START;
+  }
 
-	/**
-	 * Checks if is terminal end.
-	 *
-	 * @return true, if is terminal end
-	 */
-	public boolean isTerminalEnd() {
-		return terminal == TERMINAL_END;
-	}
+  /**
+   * Checks if is terminal end.
+   *
+   * @return true, if is terminal end
+   */
+  public boolean isTerminalEnd() {
+    return terminal == TERMINAL_END;
+  }
 
-	/**
-	 * Gets the unit.
-	 *
-	 * @return the unit
-	 */
-	public EntrainerProgramUnit getUnit() {
-		return unit;
-	}
+  /**
+   * Gets the unit.
+   *
+   * @return the unit
+   */
+  public EntrainerProgramUnit getUnit() {
+    return unit;
+  }
 
-	/**
-	 * Sets the unit.
-	 *
-	 * @param unit
-	 *          the new unit
-	 */
-	public void setUnit(EntrainerProgramUnit unit) {
-		this.unit = unit;
-	}
+  /**
+   * Sets the unit.
+   *
+   * @param unit
+   *          the new unit
+   */
+  public void setUnit(EntrainerProgramUnit unit) {
+    this.unit = unit;
+  }
 
-	/**
-	 * Gets the unit setter.
-	 *
-	 * @return the unit setter
-	 */
-	public UnitSetter getUnitSetter() {
-		if (isTerminalStart()) {
-			return getUnit().getStartUnitSetter();
-		}
+  /**
+   * Gets the unit setter.
+   *
+   * @return the unit setter
+   */
+  public UnitSetter getUnitSetter() {
+    if (isTerminalStart()) {
+      return getUnit().getStartUnitSetter();
+    }
 
-		return getUnit().getEndUnitSetter();
-	}
+    return getUnit().getEndUnitSetter();
+  }
 
-	/**
-	 * Sets the terminal.
-	 *
-	 * @param terminal
-	 *          the new terminal
-	 */
-	protected void setTerminal(int terminal) {
-		this.terminal = terminal;
-	}
+  /**
+   * Sets the terminal.
+   *
+   * @param terminal
+   *          the new terminal
+   */
+  protected void setTerminal(int terminal) {
+    this.terminal = terminal;
+  }
 
-	/**
-	 * Sets the action.
-	 *
-	 * @param action
-	 *          the new action
-	 */
-	protected void setAction(int action) {
-		this.action = action;
-	}
+  /**
+   * Sets the action.
+   *
+   * @param action
+   *          the new action
+   */
+  protected void setAction(int action) {
+    this.action = action;
+  }
 
 }

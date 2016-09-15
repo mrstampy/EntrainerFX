@@ -38,48 +38,48 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(value = XmlAccessType.FIELD)
 public class EntrainerProgramUnitTime {
 
-	@XmlAttribute
-	private int minutes;
+  @XmlAttribute
+  private int minutes;
 
-	@XmlAttribute
-	private int seconds;
+  @XmlAttribute
+  private int seconds;
 
-	/**
-	 * Gets the minutes.
-	 *
-	 * @return the minutes
-	 */
-	public int getMinutes() {
-		return minutes;
-	}
+  /**
+   * Gets the minutes.
+   *
+   * @return the minutes
+   */
+  public int getMinutes() {
+    return minutes;
+  }
 
-	/**
-	 * Sets the minutes.
-	 *
-	 * @param minutes
-	 *          the new minutes
-	 */
-	public void setMinutes(int minutes) {
-		this.minutes = minutes;
-	}
+  /**
+   * Sets the minutes.
+   *
+   * @param minutes
+   *          the new minutes
+   */
+  public void setMinutes(int minutes) {
+    this.minutes = minutes;
+  }
 
-	/**
-	 * Gets the seconds.
-	 *
-	 * @return the seconds
-	 */
-	public int getSeconds() {
-		return seconds;
-	}
+  /**
+   * Gets the seconds.
+   *
+   * @return the seconds
+   */
+  public int getSeconds() {
+    return seconds;
+  }
 
-	/**
-	 * Sets the seconds.
-	 *
-	 * @param seconds
-	 *          the new seconds
-	 */
-	public void setSeconds(int seconds) {
-		this.seconds = seconds;
-	}
+  /**
+   * Sets the seconds.
+   *
+   * @param seconds
+   *          the new seconds
+   */
+  public void setSeconds(int seconds) {
+    this.seconds = seconds;
+  }
 
 }

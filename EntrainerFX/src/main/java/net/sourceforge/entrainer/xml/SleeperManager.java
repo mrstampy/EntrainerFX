@@ -110,16 +110,16 @@ public class SleeperManager {
     for (EntrainerProgramInterval i : getXml().getIntervals()) {
       fireReceiverChangeEvent(i.getValue(), INTERVAL_ADD);
     }
-    
+
     AtomicInteger seconds = new AtomicInteger(0);
-    getUnits().forEach(epu -> seconds.addAndGet((int)(epu.getTimeInMillis() / 1000)));
-    
+    getUnits().forEach(epu -> seconds.addAndGet((int) (epu.getTimeInMillis() / 1000)));
+
     fireReceiverChangeEvent(seconds.get(), MediatorConstants.PROGRAM_END_TIME_SECONDS);
-    
+
     String name = getXml().getFile().getName();
     int idx = name.lastIndexOf(".");
     name = idx > 0 ? name.substring(0, idx) : name;
-    
+
     fireReceiverChangeEvent(name, MediatorConstants.PROGRAM_NAME);
   }
 

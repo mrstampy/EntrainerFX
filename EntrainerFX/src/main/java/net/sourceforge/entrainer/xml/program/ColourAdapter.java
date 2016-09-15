@@ -35,42 +35,42 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  */
 public class ColourAdapter extends XmlAdapter<String, Color> {
 
-	/**
-	 * Instantiates a new colour adapter.
-	 */
-	public ColourAdapter() {
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Instantiates a new colour adapter.
+   */
+  public ColourAdapter() {
+    // TODO Auto-generated constructor stub
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
-	 */
-	@Override
-	public String marshal(Color v) throws Exception {
-		return v.getRed() + "," + v.getGreen() + "," + v.getBlue();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
+   */
+  @Override
+  public String marshal(Color v) throws Exception {
+    return v.getRed() + "," + v.getGreen() + "," + v.getBlue();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
-	 */
-	@Override
-	public Color unmarshal(String v) throws Exception {
-		String[] values = v.split(",");
-		if (values.length != 3) {
-			throw new IllegalArgumentException("Colour string " + v + " is not valid.  Must be of the form 'r,g,b'.");
-		}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
+   */
+  @Override
+  public Color unmarshal(String v) throws Exception {
+    String[] values = v.split(",");
+    if (values.length != 3) {
+      throw new IllegalArgumentException("Colour string " + v + " is not valid.  Must be of the form 'r,g,b'.");
+    }
 
-		int r = Integer.parseInt(values[0]);
-		int g = Integer.parseInt(values[1]);
-		int b = Integer.parseInt(values[2]);
+    int r = Integer.parseInt(values[0]);
+    int g = Integer.parseInt(values[1]);
+    int b = Integer.parseInt(values[2]);
 
-		return new Color(r, g, b);
-	}
+    return new Color(r, g, b);
+  }
 
 }

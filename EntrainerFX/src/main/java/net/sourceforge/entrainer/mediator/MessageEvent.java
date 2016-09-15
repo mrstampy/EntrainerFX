@@ -31,25 +31,25 @@ package net.sourceforge.entrainer.mediator;
  */
 public class MessageEvent {
 
-	private ReceiverChangeEvent message;
+  private ReceiverChangeEvent message;
 
-	/**
-	 * Gets the message.
-	 *
-	 * @return the message
-	 */
-	public ReceiverChangeEvent getMessage() {
-		return message;
-	}
+  /**
+   * Gets the message.
+   *
+   * @return the message
+   */
+  public ReceiverChangeEvent getMessage() {
+    return message;
+  }
 
-	/**
-	 * Sets the message.
-	 *
-	 * @param message
-	 *          the new message
-	 */
-	public void setMessage(ReceiverChangeEvent message) {
-		this.message = message;
-	}
+  /**
+   * Sets the message.
+   *
+   * @param message
+   *          the new message
+   */
+  public void setMessage(ReceiverChangeEvent message) {
+    this.message = message;
+  }
 
 }

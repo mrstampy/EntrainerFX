@@ -35,23 +35,23 @@ package net.sourceforge.entrainer.mediator;
  * @see ReceiverChangeEvent
  */
 public class SenderAdapter implements Sender {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	/**
-	 * Instantiates a new sender adapter.
-	 */
-	public SenderAdapter() {
-		super();
-	}
+  /**
+   * Instantiates a new sender adapter.
+   */
+  public SenderAdapter() {
+    super();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.mediator.Sender#fireReceiverChangeEvent(net.
-	 * sourceforge.entrainer.mediator.ReceiverChangeEvent)
-	 */
-	public synchronized void fireReceiverChangeEvent(ReceiverChangeEvent e) {
-		EntrainerMediator.getInstance().notifyReceivers(e);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.mediator.Sender#fireReceiverChangeEvent(net.
+   * sourceforge.entrainer.mediator.ReceiverChangeEvent)
+   */
+  public synchronized void fireReceiverChangeEvent(ReceiverChangeEvent e) {
+    EntrainerMediator.getInstance().notifyReceivers(e);
+  }
 
 }

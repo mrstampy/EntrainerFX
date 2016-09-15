@@ -42,67 +42,67 @@ import javafx.scene.paint.Stop;
  */
 public abstract class AbstractGradientInterpolator {
 
-	private ColorPropertyInterpolator helper = new ColorPropertyInterpolator();
+  private ColorPropertyInterpolator helper = new ColorPropertyInterpolator();
 
-	/**
-	 * Because of the nature of gradients, certain properties must be equal in
-	 * order to perform a meaningful interpolation. Should any of these properties
-	 * differ an {@link UnsupportedOperationException} will be thrown.
-	 *
-	 * @param prop1
-	 *          the prop1
-	 * @param prop2
-	 *          the prop2
-	 * @param cyc1
-	 *          the cyc1
-	 * @param cyc2
-	 *          the cyc2
-	 * @param st1
-	 *          must be the same size as st2
-	 * @param st2
-	 *          must be the same size as st1
-	 */
-	protected void validate(boolean prop1, boolean prop2, CycleMethod cyc1, CycleMethod cyc2, List<Stop> st1,
-			List<Stop> st2) {
-		if (st1.size() != st2.size()) {
-			throw new UnsupportedOperationException("Number of stops must be the same to animate Gradients");
-		}
+  /**
+   * Because of the nature of gradients, certain properties must be equal in
+   * order to perform a meaningful interpolation. Should any of these properties
+   * differ an {@link UnsupportedOperationException} will be thrown.
+   *
+   * @param prop1
+   *          the prop1
+   * @param prop2
+   *          the prop2
+   * @param cyc1
+   *          the cyc1
+   * @param cyc2
+   *          the cyc2
+   * @param st1
+   *          must be the same size as st2
+   * @param st2
+   *          must be the same size as st1
+   */
+  protected void validate(boolean prop1, boolean prop2, CycleMethod cyc1, CycleMethod cyc2, List<Stop> st1,
+      List<Stop> st2) {
+    if (st1.size() != st2.size()) {
+      throw new UnsupportedOperationException("Number of stops must be the same to animate Gradients");
+    }
 
-		if (cyc1 != cyc2) {
-			throw new UnsupportedOperationException("Cycle method must be the same to animate Gradients");
-		}
+    if (cyc1 != cyc2) {
+      throw new UnsupportedOperationException("Cycle method must be the same to animate Gradients");
+    }
 
-		if (prop1 != prop2) {
-			throw new UnsupportedOperationException("Proportional setting must be the same to animate Gradients");
-		}
-	}
+    if (prop1 != prop2) {
+      throw new UnsupportedOperationException("Proportional setting must be the same to animate Gradients");
+    }
+  }
 
-	/**
-	 * Interpolate stops.
-	 *
-	 * @param f
-	 *          the f
-	 * @param startStops
-	 *          the start stops
-	 * @param endStops
-	 *          the end stops
-	 * @return the list
-	 */
-	protected List<Stop> interpolateStops(float f, List<Stop> startStops, List<Stop> endStops) {
-		List<Stop> newStops = new ArrayList<Stop>();
-		for (int i = 0; i < startStops.size(); i++) {
-			newStops.add(interpolateStop(startStops.get(i), endStops.get(i), f));
-		}
+  /**
+   * Interpolate stops.
+   *
+   * @param f
+   *          the f
+   * @param startStops
+   *          the start stops
+   * @param endStops
+   *          the end stops
+   * @return the list
+   */
+  protected List<Stop> interpolateStops(float f, List<Stop> startStops, List<Stop> endStops) {
+    List<Stop> newStops = new ArrayList<Stop>();
+    for (int i = 0; i < startStops.size(); i++) {
+      newStops.add(interpolateStop(startStops.get(i), endStops.get(i), f));
+    }
 
-		return newStops;
-	}
+    return newStops;
+  }
 
-	private Stop interpolateStop(Stop startStop, Stop endStop, float f) {
-		double offset = startStop.getOffset() + ((endStop.getOffset() - startStop.getOffset()) * f);
+  private Stop interpolateStop(Stop startStop, Stop endStop, float f) {
+    double offset = startStop.getOffset() + ((endStop.getOffset() - startStop.getOffset()) * f);
 
-		Color c = helper.interpolate(startStop.getColor(), endStop.getColor(), f);
+    Color c = helper.interpolate(startStop.getColor(), endStop.getColor(), f);
 
-		return new Stop(offset, c);
-	}
+    return new Stop(offset, c);
+  }
 
 }

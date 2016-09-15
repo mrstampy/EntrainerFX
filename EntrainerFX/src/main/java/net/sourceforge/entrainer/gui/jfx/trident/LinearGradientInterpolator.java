@@ -41,48 +41,48 @@ import org.pushingpixels.trident.interpolator.PropertyInterpolator;
  * @author burton
  * @see TridentConfig#addPropertyInterpolator(PropertyInterpolator)
  */
-public class LinearGradientInterpolator extends AbstractGradientInterpolator implements
-		PropertyInterpolator<LinearGradient> {
+public class LinearGradientInterpolator extends AbstractGradientInterpolator
+    implements PropertyInterpolator<LinearGradient> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#
-	 * getBasePropertyClass()
-	 */
-	@SuppressWarnings("rawtypes")
-	@Override
-	public Class getBasePropertyClass() {
-		return LinearGradient.class;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#
+   * getBasePropertyClass()
+   */
+  @SuppressWarnings("rawtypes")
+  @Override
+  public Class getBasePropertyClass() {
+    return LinearGradient.class;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.pushingpixels.trident.interpolator.PropertyInterpolator#interpolate
-	 * (java.lang.Object, java.lang.Object, float)
-	 */
-	@Override
-	public LinearGradient interpolate(LinearGradient lg1, LinearGradient lg2, float f) {
-		List<Stop> startStops = lg1.getStops();
-		List<Stop> endStops = lg2.getStops();
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * org.pushingpixels.trident.interpolator.PropertyInterpolator#interpolate
+   * (java.lang.Object, java.lang.Object, float)
+   */
+  @Override
+  public LinearGradient interpolate(LinearGradient lg1, LinearGradient lg2, float f) {
+    List<Stop> startStops = lg1.getStops();
+    List<Stop> endStops = lg2.getStops();
 
-		validate(lg1.isProportional(),
-				lg2.isProportional(),
-				lg1.getCycleMethod(),
-				lg2.getCycleMethod(),
-				startStops,
-				endStops);
+    validate(lg1.isProportional(),
+        lg2.isProportional(),
+        lg1.getCycleMethod(),
+        lg2.getCycleMethod(),
+        startStops,
+        endStops);
 
-		double startX = lg1.getStartX() + ((lg2.getStartX() - lg1.getStartX()) * f);
-		double startY = lg1.getStartY() + ((lg2.getStartY() - lg1.getStartY()) * f);
-		double endX = lg1.getEndX() + ((lg2.getEndX() - lg1.getEndX()) * f);
-		double endY = lg1.getEndY() + ((lg2.getEndY() - lg1.getEndY()) * f);
+    double startX = lg1.getStartX() + ((lg2.getStartX() - lg1.getStartX()) * f);
+    double startY = lg1.getStartY() + ((lg2.getStartY() - lg1.getStartY()) * f);
+    double endX = lg1.getEndX() + ((lg2.getEndX() - lg1.getEndX()) * f);
+    double endY = lg1.getEndY() + ((lg2.getEndY() - lg1.getEndY()) * f);
 
-		List<Stop> newStops = interpolateStops(f, startStops, endStops);
+    List<Stop> newStops = interpolateStops(f, startStops, endStops);
 
-		return new LinearGradient(startX, startY, endX, endY, lg1.isProportional(), lg1.getCycleMethod(), newStops);
-	}
+    return new LinearGradient(startX, startY, endX, endY, lg1.isProportional(), lg1.getCycleMethod(), newStops);
+  }
 
 }

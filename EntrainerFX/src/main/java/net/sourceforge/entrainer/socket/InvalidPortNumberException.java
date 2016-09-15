@@ -30,37 +30,37 @@ package net.sourceforge.entrainer.socket;
  * The Class InvalidPortNumberException.
  */
 public class InvalidPortNumberException extends Exception {
-	private static final long serialVersionUID = 4761430971124130720L;
+  private static final long serialVersionUID = 4761430971124130720L;
 
-	private int port;
+  private int port;
 
-	/**
-	 * Instantiates a new invalid port number exception.
-	 *
-	 * @param port
-	 *          the port
-	 */
-	public InvalidPortNumberException(int port) {
-		setPort(port);
-	}
+  /**
+   * Instantiates a new invalid port number exception.
+   *
+   * @param port
+   *          the port
+   */
+  public InvalidPortNumberException(int port) {
+    setPort(port);
+  }
 
-	/**
-	 * Gets the port.
-	 *
-	 * @return the port
-	 */
-	public int getPort() {
-		return port;
-	}
+  /**
+   * Gets the port.
+   *
+   * @return the port
+   */
+  public int getPort() {
+    return port;
+  }
 
-	/**
-	 * Sets the port.
-	 *
-	 * @param port
-	 *          the new port
-	 */
-	public void setPort(int port) {
-		this.port = port;
-	}
+  /**
+   * Sets the port.
+   *
+   * @param port
+   *          the new port
+   */
+  public void setPort(int port) {
+    this.port = port;
+  }
 
 }

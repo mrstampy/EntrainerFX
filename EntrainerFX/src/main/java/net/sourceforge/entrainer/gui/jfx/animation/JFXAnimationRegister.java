@@ -37,51 +37,51 @@ import java.util.List;
  * @author burton
  */
 public final class JFXAnimationRegister {
-	private static JFXAnimationLoader animationLoader = new JFXAnimationLoader();
+  private static JFXAnimationLoader animationLoader = new JFXAnimationLoader();
 
-	static {
-		animationLoader.loadAllAnimations();
-	}
+  static {
+    animationLoader.loadAllAnimations();
+  }
 
-	private JFXAnimationRegister() {
-		super();
-	}
+  private JFXAnimationRegister() {
+    super();
+  }
 
-	/**
-	 * Returns the list of {@link JFXEntrainerAnimation} implementations that have
-	 * been loaded on startup.
-	 *
-	 * @return the entrainer animations
-	 */
-	public static List<JFXEntrainerAnimation> getEntrainerAnimations() {
-		return new ArrayList<JFXEntrainerAnimation>(animationLoader.getEntrainerAnimations());
-	}
+  /**
+   * Returns the list of {@link JFXEntrainerAnimation} implementations that have
+   * been loaded on startup.
+   *
+   * @return the entrainer animations
+   */
+  public static List<JFXEntrainerAnimation> getEntrainerAnimations() {
+    return new ArrayList<JFXEntrainerAnimation>(animationLoader.getEntrainerAnimations());
+  }
 
-	/**
-	 * Checks if is empty.
-	 *
-	 * @return true, if is empty
-	 */
-	public static boolean isEmpty() {
-		return animationLoader.isEmpty();
-	}
+  /**
+   * Checks if is empty.
+   *
+   * @return true, if is empty
+   */
+  public static boolean isEmpty() {
+    return animationLoader.isEmpty();
+  }
 
-	/**
-	 * Returns the {@link JFXEntrainerAnimation} specified by its
-	 * <code>toString();</code> implementation.
-	 *
-	 * @param stringRep
-	 *          the string rep
-	 * @return the entrainer animation
-	 */
-	public static JFXEntrainerAnimation getEntrainerAnimation(String stringRep) {
-		for (JFXEntrainerAnimation animation : getEntrainerAnimations()) {
-			if (stringRep.equals(animation.toString())) {
-				return animation;
-			}
-		}
+  /**
+   * Returns the {@link JFXEntrainerAnimation} specified by its
+   * <code>toString();</code> implementation.
+   *
+   * @param stringRep
+   *          the string rep
+   * @return the entrainer animation
+   */
+  public static JFXEntrainerAnimation getEntrainerAnimation(String stringRep) {
+    for (JFXEntrainerAnimation animation : getEntrainerAnimations()) {
+      if (stringRep.equals(animation.toString())) {
+        return animation;
+      }
+    }
 
-		return null;
-	}
+    return null;
+  }
 
 }

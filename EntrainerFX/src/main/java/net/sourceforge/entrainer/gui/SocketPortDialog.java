@@ -51,117 +51,117 @@ import net.sourceforge.entrainer.xml.Settings;
  */
 public class SocketPortDialog extends DialogPane {
 
-	private CheckBox deltaSocketMessage = new CheckBox("Delta Messages");
-	private TextField port = new TextField();
-	private TextField ipAddress = new TextField();
+  private CheckBox deltaSocketMessage = new CheckBox("Delta Messages");
+  private TextField port = new TextField();
+  private TextField ipAddress = new TextField();
 
-	/**
-	 * Instantiates a new socket port dialog.
-	 *
-	 * @throws UnknownHostException
-	 *           the unknown host exception
-	 */
-	public SocketPortDialog() throws UnknownHostException {
-		super();
-		init();
-		setId(getClass().getSimpleName());
-	}
+  /**
+   * Instantiates a new socket port dialog.
+   *
+   * @throws UnknownHostException
+   *           the unknown host exception
+   */
+  public SocketPortDialog() throws UnknownHostException {
+    super();
+    init();
+    setId(getClass().getSimpleName());
+  }
 
-	private void init() throws UnknownHostException {
-		port.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
-		port.setMaxWidth(70);
+  private void init() throws UnknownHostException {
+    port.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
+    port.setMaxWidth(70);
 
-		Integer sp = Settings.getInstance().getSocketPort();
-		port.setText(sp == null ? "" : sp.toString());
+    Integer sp = Settings.getInstance().getSocketPort();
+    port.setText(sp == null ? "" : sp.toString());
 
-		String address = Settings.getInstance().getSocketIPAddress();
-		if (address == null || address.trim().length() == 0) address = initIPAddress();
-		ipAddress.setText(address);
-		deltaSocketMessage.setSelected(Settings.getInstance().isDeltaSocketMessage());
-		initListener();
-		initGui();
-		setToolTips();
+    String address = Settings.getInstance().getSocketIPAddress();
+    if (address == null || address.trim().length() == 0) address = initIPAddress();
+    ipAddress.setText(address);
+    deltaSocketMessage.setSelected(Settings.getInstance().isDeltaSocketMessage());
+    initListener();
+    initGui();
+    setToolTips();
 
-		setOnMouseClicked(e -> localDoc(e));
-	}
+    setOnMouseClicked(e -> localDoc(e));
+  }
 
-	private String initIPAddress() throws UnknownHostException {
-		String ipAddress = InetAddress.getLocalHost().getHostAddress();
-		Settings.getInstance().setSocketIPAddress(ipAddress);
+  private String initIPAddress() throws UnknownHostException {
+    String ipAddress = InetAddress.getLocalHost().getHostAddress();
+    Settings.getInstance().setSocketIPAddress(ipAddress);
 
-		return ipAddress;
-	}
+    return ipAddress;
+  }
 
-	private void localDoc(MouseEvent e) {
-		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
+  private void localDoc(MouseEvent e) {
+    if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		Utils.openLocalDocumentation("advanced.html");
-	}
+    Utils.openLocalDocumentation("advanced.html");
+  }
 
-	private void setToolTips() {
-		port.setTooltip(new Tooltip("Choose a free socket port for EntrainerFX (typically > 1000)"));
-		ipAddress.setTooltip(new Tooltip("Set the hostname or ip address if known, leave blank otherwise"));
-		deltaSocketMessage.setTooltip(new Tooltip(
-				"Send Entrainer's entire state (unchecked) or just the delta change (checked) per message"));
-	}
+  private void setToolTips() {
+    port.setTooltip(new Tooltip("Choose a free socket port for EntrainerFX (typically > 1000)"));
+    ipAddress.setTooltip(new Tooltip("Set the hostname or ip address if known, leave blank otherwise"));
+    deltaSocketMessage.setTooltip(
+        new Tooltip("Send Entrainer's entire state (unchecked) or just the delta change (checked) per message"));
+  }
 
-	private void initGui() {
-		getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+  private void initGui() {
+    getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
-		GridPane gp = new GridPane();
-		gp.setPadding(new Insets(10));
+    GridPane gp = new GridPane();
+    gp.setPadding(new Insets(10));
 
-		Label pn = new Label("Port Number");
-		Label ha = new Label("Host Address");
+    Label pn = new Label("Port Number");
+    Label ha = new Label("Host Address");
 
-		int row = 0;
-		int col = 0;
+    int row = 0;
+    int col = 0;
 
-		setConstraints(pn, col++, row);
-		setConstraints(port, col, row++);
+    setConstraints(pn, col++, row);
+    setConstraints(port, col, row++);
 
-		col = 0;
+    col = 0;
 
-		setConstraints(ha, col++, row);
-		setConstraints(ipAddress, col, row++);
+    setConstraints(ha, col++, row);
+    setConstraints(ipAddress, col, row++);
 
-		col = 0;
+    col = 0;
 
-		setConstraints(deltaSocketMessage, col, row);
+    setConstraints(deltaSocketMessage, col, row);
 
-		gp.getChildren().addAll(pn, port, ha, ipAddress, deltaSocketMessage);
+    gp.getChildren().addAll(pn, port, ha, ipAddress, deltaSocketMessage);
 
-		setContent(gp);
-	}
+    setContent(gp);
+  }
 
-	private void setConstraints(Node node, int col, int row) {
-		GridPane.setConstraints(node, col, row);
-		GridPane.setMargin(node, new Insets(5));
-	}
+  private void setConstraints(Node node, int col, int row) {
+    GridPane.setConstraints(node, col, row);
+    GridPane.setMargin(node, new Insets(5));
+  }
 
-	private void initListener() {
-		deltaSocketMessage.setOnAction(e -> Settings.getInstance().setDeltaSocketMessage(deltaSocketMessage.isSelected()));
-	}
+  private void initListener() {
+    deltaSocketMessage.setOnAction(e -> Settings.getInstance().setDeltaSocketMessage(deltaSocketMessage.isSelected()));
+  }
 
-	/**
-	 * Validate and save.
-	 */
-	public void validateAndSave() {
-		int port = Integer.parseInt(this.port.getText());
-		if (port <= 0) {
-			showErrorDialog(port);
-			return;
-		}
+  /**
+   * Validate and save.
+   */
+  public void validateAndSave() {
+    int port = Integer.parseInt(this.port.getText());
+    if (port <= 0) {
+      showErrorDialog(port);
+      return;
+    }
 
-		Settings.getInstance().setSocketPort(port);
-		Settings.getInstance().setSocketIPAddress(ipAddress.getText());
-	}
+    Settings.getInstance().setSocketPort(port);
+    Settings.getInstance().setSocketIPAddress(ipAddress.getText());
+  }
 
-	private void showErrorDialog(int port) {
-		Alert alert = new Alert(AlertType.ERROR, port + " is not a valid port number", ButtonType.OK);
-		alert.setTitle("Invalid Port Number");
-		alert.initOwner(EntrainerFX.getInstance().getStage());
-		alert.showAndWait();
-	}
+  private void showErrorDialog(int port) {
+    Alert alert = new Alert(AlertType.ERROR, port + " is not a valid port number", ButtonType.OK);
+    alert.setTitle("Invalid Port Number");
+    alert.initOwner(EntrainerFX.getInstance().getStage());
+    alert.showAndWait();
+  }
 
 }

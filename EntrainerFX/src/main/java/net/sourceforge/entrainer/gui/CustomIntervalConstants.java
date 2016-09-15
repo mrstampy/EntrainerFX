@@ -31,15 +31,15 @@ package net.sourceforge.entrainer.gui;
  */
 public interface CustomIntervalConstants {
 
-	/** The cic ok button. */
-	String CIC_OK_BUTTON = "Ok";
+  /** The cic ok button. */
+  String CIC_OK_BUTTON = "Ok";
 
-	/** The cic dialog name. */
-	String CIC_DIALOG_NAME = "Custom";
+  /** The cic dialog name. */
+  String CIC_DIALOG_NAME = "Custom";
 
-	/** The cic numerator name. */
-	String CIC_NUMERATOR_NAME = "numerator";
+  /** The cic numerator name. */
+  String CIC_NUMERATOR_NAME = "numerator";
 
-	/** The cic denominator name. */
-	String CIC_DENOMINATOR_NAME = "denominator";
+  /** The cic denominator name. */
+  String CIC_DENOMINATOR_NAME = "denominator";
 }

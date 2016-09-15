@@ -55,306 +55,306 @@ import org.slf4j.LoggerFactory;
  * The Class MediaEngine.
  */
 public class MediaEngine {
-	private static final Logger log = LoggerFactory.getLogger(MediaEngine.class);
+  private static final Logger log = LoggerFactory.getLogger(MediaEngine.class);
 
-	private static MediaEngine mediaEngine = new MediaEngine();
+  private static MediaEngine mediaEngine = new MediaEngine();
 
-	/**
-	 * Gets the single instance of MediaEngine.
-	 *
-	 * @return single instance of MediaEngine
-	 */
-	public static MediaEngine getInstance() {
-		return mediaEngine;
-	}
+  /**
+   * Gets the single instance of MediaEngine.
+   *
+   * @return single instance of MediaEngine
+   */
+  public static MediaEngine getInstance() {
+    return mediaEngine;
+  }
 
-	private Media media;
-	private MediaPlayer player;
+  private Media media;
+  private MediaPlayer player;
 
-	private double amplitude;
+  private double amplitude;
 
-	private boolean enableMediaEntrainment;
-	private boolean loop;
+  private boolean enableMediaEntrainment;
+  private boolean loop;
 
-	private boolean flip = false;
+  private boolean flip = false;
 
-	private Lock lock = new ReentrantLock();
+  private Lock lock = new ReentrantLock();
 
-	private Sender sender = new SenderAdapter();
+  private Sender sender = new SenderAdapter();
 
-	private ScheduledExecutorService svc = Executors.newSingleThreadScheduledExecutor();
-	private ScheduledFuture<?> sf;
+  private ScheduledExecutorService svc = Executors.newSingleThreadScheduledExecutor();
+  private ScheduledFuture<?> sf;
 
-	private ExecutorService pulseSvc = Executors.newSingleThreadExecutor();
+  private ExecutorService pulseSvc = Executors.newSingleThreadExecutor();
 
-	private double frailty;
+  private double frailty;
 
-	private MasterLevelController controller = new MasterLevelController();
+  private MasterLevelController controller = new MasterLevelController();
 
-	/**
-	 * Instantiates a new media engine.
-	 */
-	private MediaEngine() {
-		initMediator();
-	}
+  /**
+   * Instantiates a new media engine.
+   */
+  private MediaEngine() {
+    initMediator();
+  }
 
-	private void initMediator() {
-		EntrainerMediator.getInstance().addSender(sender);
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {
+  private void initMediator() {
+    EntrainerMediator.getInstance().addSender(sender);
+    EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {
 
-			@Override
-			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				switch (e.getParm()) {
-				case MEDIA_AMPLITUDE:
-				case DELTA_MEDIA_AMPLITUDE:
-					amplitude = controller.getMediaVolume();
-					setPlayerVolume(amplitude);
-					break;
-				case MEDIA_ENTRAINMENT_STRENGTH:
-				case DELTA_MEDIA_ENTRAINMENT_STRENGTH:
-					setEntrainmentAmplitude(controller.getMediaEntrainmentStrength());
-					break;
-				case MEDIA_ENTRAINMENT:
-					entrainmentEnabled(e.getBooleanValue());
-					break;
-				case MEDIA_LOOP:
-					loop = e.getBooleanValue();
-					break;
-				case MEDIA_PAUSE:
-					pause(e.getBooleanValue());
-					break;
-				case MEDIA_PLAY:
-					play(e.getBooleanValue());
-					break;
-				case MEDIA_URI:
-					svc.execute(() -> setUri(e.getStringValue()));
-					break;
-				case ENTRAINMENT_FREQUENCY_PULSE:
-					pulseSvc.execute(() -> entrain(e.getBooleanValue()));
-					break;
-				case MEDIA_TIME:
-					setPlayerTime(e.getDoubleValue());
-					break;
-				default:
-					break;
-				}
-			}
-		});
-	}
+      @Override
+      protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+        switch (e.getParm()) {
+        case MEDIA_AMPLITUDE:
+        case DELTA_MEDIA_AMPLITUDE:
+          amplitude = controller.getMediaVolume();
+          setPlayerVolume(amplitude);
+          break;
+        case MEDIA_ENTRAINMENT_STRENGTH:
+        case DELTA_MEDIA_ENTRAINMENT_STRENGTH:
+          setEntrainmentAmplitude(controller.getMediaEntrainmentStrength());
+          break;
+        case MEDIA_ENTRAINMENT:
+          entrainmentEnabled(e.getBooleanValue());
+          break;
+        case MEDIA_LOOP:
+          loop = e.getBooleanValue();
+          break;
+        case MEDIA_PAUSE:
+          pause(e.getBooleanValue());
+          break;
+        case MEDIA_PLAY:
+          play(e.getBooleanValue());
+          break;
+        case MEDIA_URI:
+          svc.execute(() -> setUri(e.getStringValue()));
+          break;
+        case ENTRAINMENT_FREQUENCY_PULSE:
+          pulseSvc.execute(() -> entrain(e.getBooleanValue()));
+          break;
+        case MEDIA_TIME:
+          setPlayerTime(e.getDoubleValue());
+          break;
+        default:
+          break;
+        }
+      }
+    });
+  }
 
-	private void setPlayerVolume(double d) {
-		if (player == null) return;
+  private void setPlayerVolume(double d) {
+    if (player == null) return;
 
-		player.setVolume(d);
-	}
+    player.setVolume(d);
+  }
 
-	private void entrainmentEnabled(boolean b) {
-		enableMediaEntrainment = b;
-		if (!b) setPlayerVolume(amplitude);
-	}
+  private void entrainmentEnabled(boolean b) {
+    enableMediaEntrainment = b;
+    if (!b) setPlayerVolume(amplitude);
+  }
 
-	private void setPlayerTime(double d) {
-		if (player == null) return;
+  private void setPlayerTime(double d) {
+    if (player == null) return;
 
-		player.seek(player.getTotalDuration().subtract(Duration.seconds(d)));
-	}
+    player.seek(player.getTotalDuration().subtract(Duration.seconds(d)));
+  }
 
-	private void setEntrainmentAmplitude(double strength) {
-		frailty = 1 - strength;
-	}
+  private void setEntrainmentAmplitude(double strength) {
+    frailty = 1 - strength;
+  }
 
-	/**
-	 * Entrain.
-	 *
-	 * @param b
-	 *          the b
-	 */
-	protected void entrain(boolean b) {
-		if (!b) {
-			setPlayerVolume(amplitude);
-			return;
-		}
+  /**
+   * Entrain.
+   *
+   * @param b
+   *          the b
+   */
+  protected void entrain(boolean b) {
+    if (!b) {
+      setPlayerVolume(amplitude);
+      return;
+    }
 
-		if (!enableMediaEntrainment) return;
+    if (!enableMediaEntrainment) return;
 
-		lock.lock();
-		try {
-			setPlayerVolume(flip ? amplitude : frailty * amplitude);
-			flip = !flip;
-		} finally {
-			lock.unlock();
-		}
-	}
+    lock.lock();
+    try {
+      setPlayerVolume(flip ? amplitude : frailty * amplitude);
+      flip = !flip;
+    } finally {
+      lock.unlock();
+    }
+  }
 
-	private void setUri(String uri) {
-		if (uri == null || uri.isEmpty()) return;
-		if (media != null && media.getSource().equals(uri)) return;
+  private void setUri(String uri) {
+    if (uri == null || uri.isEmpty()) return;
+    if (media != null && media.getSource().equals(uri)) return;
 
-		try {
-			media = new Media(uri);
-			if (player != null) player.dispose();
-			player = new MediaPlayer(media);
-			player.statusProperty().addListener(new ChangeListener<Status>() {
+    try {
+      media = new Media(uri);
+      if (player != null) player.dispose();
+      player = new MediaPlayer(media);
+      player.statusProperty().addListener(new ChangeListener<Status>() {
 
-				@Override
-				public void changed(ObservableValue<? extends Status> observable, Status oldValue, Status newValue) {
-					notifyPlayTime(newValue);
-				}
-			});
-		} catch (Exception e) {
-			log.warn("URI {} is invalid", uri, e);
-			media = null;
-		}
-	}
+        @Override
+        public void changed(ObservableValue<? extends Status> observable, Status oldValue, Status newValue) {
+          notifyPlayTime(newValue);
+        }
+      });
+    } catch (Exception e) {
+      log.warn("URI {} is invalid", uri, e);
+      media = null;
+    }
+  }
 
-	private void play(boolean b) {
-		if (b) {
-			startPlayer();
-		} else {
-			lock.lock();
-			try {
-				player.stop();
-				player.seek(player.getStartTime());
-				if (sf != null) sf.cancel(true);
-			} finally {
-				lock.unlock();
-			}
-		}
-	}
+  private void play(boolean b) {
+    if (b) {
+      startPlayer();
+    } else {
+      lock.lock();
+      try {
+        player.stop();
+        player.seek(player.getStartTime());
+        if (sf != null) sf.cancel(true);
+      } finally {
+        lock.unlock();
+      }
+    }
+  }
 
-	private void startPlayer() {
-		if (stillPlaying() || player == null) return;
+  private void startPlayer() {
+    if (stillPlaying() || player == null) return;
 
-		setPlayerVolume(amplitude);
+    setPlayerVolume(amplitude);
 
-		player.setOnEndOfMedia(() -> evalLoop());
-		player.play();
+    player.setOnEndOfMedia(() -> evalLoop());
+    player.play();
 
-		startMediaTimeThread();
-	}
+    startMediaTimeThread();
+  }
 
-	private void startMediaTimeThread() {
-		sf = svc.scheduleAtFixedRate(() -> fireTimeRemaining(), 1, 1, TimeUnit.SECONDS);
-	}
+  private void startMediaTimeThread() {
+    sf = svc.scheduleAtFixedRate(() -> fireTimeRemaining(), 1, 1, TimeUnit.SECONDS);
+  }
 
-	private void fireTimeRemaining() {
-		if (!stillPlaying()) {
-			sf.cancel(true);
-			return;
-		}
+  private void fireTimeRemaining() {
+    if (!stillPlaying()) {
+      sf.cancel(true);
+      return;
+    }
 
-		double length = media.getDuration().toSeconds();
+    double length = media.getDuration().toSeconds();
 
-		double currentPos = player.getCurrentTime().toSeconds();
+    double currentPos = player.getCurrentTime().toSeconds();
 
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, length - currentPos, MediatorConstants.MEDIA_TIME));
-	}
+    sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, length - currentPos, MediatorConstants.MEDIA_TIME));
+  }
 
-	private void notifyPlayTime(Status newValue) {
-		switch (newValue) {
-		case READY:
-		case STOPPED:
-		case HALTED:
-			break;
-		default:
-			return;
-		}
+  private void notifyPlayTime(Status newValue) {
+    switch (newValue) {
+    case READY:
+    case STOPPED:
+    case HALTED:
+      break;
+    default:
+      return;
+    }
 
-		Duration d = media.getDuration();
-		if (d == Duration.UNKNOWN || d == Duration.INDEFINITE) return;
+    Duration d = media.getDuration();
+    if (d == Duration.UNKNOWN || d == Duration.INDEFINITE) return;
 
-		double seconds = d.toSeconds();
+    double seconds = d.toSeconds();
 
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, seconds, MediatorConstants.MEDIA_TIME));
+    sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, seconds, MediatorConstants.MEDIA_TIME));
 
-		player.seek(player.getStartTime());
-	}
+    player.seek(player.getStartTime());
+  }
 
-	private boolean stillPlaying() {
-		if (player == null || player.getStatus() == null) return false;
-		switch (player.getStatus()) {
-		case PLAYING:
-		case PAUSED:
-			return true;
-		default:
-			return false;
-		}
-	}
+  private boolean stillPlaying() {
+    if (player == null || player.getStatus() == null) return false;
+    switch (player.getStatus()) {
+    case PLAYING:
+    case PAUSED:
+      return true;
+    default:
+      return false;
+    }
+  }
 
-	private void evalLoop() {
-		if (loop) {
-			player.seek(player.getStartTime());
-			play(true);
-		} else {
-			sendStop();
-		}
-	}
+  private void evalLoop() {
+    if (loop) {
+      player.seek(player.getStartTime());
+      play(true);
+    } else {
+      sendStop();
+    }
+  }
 
-	private void sendStop() {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, false, MediatorConstants.MEDIA_PLAY));
-		if (sf != null) sf.cancel(true);
-	}
+  private void sendStop() {
+    sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, false, MediatorConstants.MEDIA_PLAY));
+    if (sf != null) sf.cancel(true);
+  }
 
-	private void pause(boolean b) {
-		if (b) {
-			player.pause();
-		} else {
-			player.play();
-		}
-	}
+  private void pause(boolean b) {
+    if (b) {
+      player.pause();
+    } else {
+      player.play();
+    }
+  }
 
-	/**
-	 * Gets the media.
-	 *
-	 * @return the media
-	 */
-	public Media getMedia() {
-		return media;
-	}
+  /**
+   * Gets the media.
+   *
+   * @return the media
+   */
+  public Media getMedia() {
+    return media;
+  }
 
-	/**
-	 * Gets the player.
-	 *
-	 * @return the player
-	 */
-	public MediaPlayer getPlayer() {
-		return player;
-	}
+  /**
+   * Gets the player.
+   *
+   * @return the player
+   */
+  public MediaPlayer getPlayer() {
+    return player;
+  }
 
-	/**
-	 * Gets the amplitude.
-	 *
-	 * @return the amplitude
-	 */
-	public double getAmplitude() {
-		return amplitude;
-	}
+  /**
+   * Gets the amplitude.
+   *
+   * @return the amplitude
+   */
+  public double getAmplitude() {
+    return amplitude;
+  }
 
-	/**
-	 * Checks if is enable media entrainment.
-	 *
-	 * @return true, if is enable media entrainment
-	 */
-	public boolean isEnableMediaEntrainment() {
-		return enableMediaEntrainment;
-	}
+  /**
+   * Checks if is enable media entrainment.
+   *
+   * @return true, if is enable media entrainment
+   */
+  public boolean isEnableMediaEntrainment() {
+    return enableMediaEntrainment;
+  }
 
-	/**
-	 * Checks if is loop.
-	 *
-	 * @return true, if is loop
-	 */
-	public boolean isLoop() {
-		return loop;
-	}
+  /**
+   * Checks if is loop.
+   *
+   * @return true, if is loop
+   */
+  public boolean isLoop() {
+    return loop;
+  }
 
-	/**
-	 * Checks if is flip.
-	 *
-	 * @return true, if is flip
-	 */
-	public boolean isFlip() {
-		return flip;
-	}
+  /**
+   * Checks if is flip.
+   *
+   * @return true, if is flip
+   */
+  public boolean isFlip() {
+    return flip;
+  }
 
 }

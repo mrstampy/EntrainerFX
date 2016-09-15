@@ -42,146 +42,146 @@ import javafx.scene.paint.Stop;
  * The Class ShimmerPaintUtils.
  */
 public class ShimmerPaintUtils {
-	private static Random rand = new Random(System.nanoTime());
+  private static Random rand = new Random(System.nanoTime());
 
-	private static int NUM_SAVED_STOPS = 9;
+  private static int NUM_SAVED_STOPS = 9;
 
-	private static BigDecimal NUM_WAVE_STOPS = new BigDecimal(10);
+  private static BigDecimal NUM_WAVE_STOPS = new BigDecimal(10);
 
-	/**
-	 * Creates the new paint.
-	 *
-	 * @param opacity
-	 *          the opacity
-	 * @param width
-	 *          the width
-	 * @param height
-	 *          the height
-	 * @return the linear gradient
-	 */
-	public static LinearGradient createLinearGradient(double opacity, double width, double height) {
-		Stop stop0 = createStop(0, opacity);
-		Color inverted = stop0.getColor().invert();
-		Color c2 = new Color(inverted.getRed(), inverted.getGreen(), inverted.getBlue(), inverted.getOpacity() == 0 ? 0
-				: rand.nextDouble());
-		Stop stop1 = new Stop(1, c2);
-		return new LinearGradient(0, 0, width, height, false, CycleMethod.NO_CYCLE, stop0, stop1);
-	}
+  /**
+   * Creates the new paint.
+   *
+   * @param opacity
+   *          the opacity
+   * @param width
+   *          the width
+   * @param height
+   *          the height
+   * @return the linear gradient
+   */
+  public static LinearGradient createLinearGradient(double opacity, double width, double height) {
+    Stop stop0 = createStop(0, opacity);
+    Color inverted = stop0.getColor().invert();
+    Color c2 = new Color(inverted.getRed(), inverted.getGreen(), inverted.getBlue(),
+        inverted.getOpacity() == 0 ? 0 : rand.nextDouble());
+    Stop stop1 = new Stop(1, c2);
+    return new LinearGradient(0, 0, width, height, false, CycleMethod.NO_CYCLE, stop0, stop1);
+  }
 
-	/**
-	 * Creates the new paint.
-	 *
-	 * @param opacity
-	 *          the opacity
-	 * @param angle
-	 *          the angle
-	 * @return the radial gradient
-	 */
-	public static RadialGradient createRadialGradient(double opacity, double angle) {
-		return new RadialGradient(angle, 0.20, 0.5, 0.5, 0.5, true, CycleMethod.REFLECT, createStops(opacity));
-	}
+  /**
+   * Creates the new paint.
+   *
+   * @param opacity
+   *          the opacity
+   * @param angle
+   *          the angle
+   * @return the radial gradient
+   */
+  public static RadialGradient createRadialGradient(double opacity, double angle) {
+    return new RadialGradient(angle, 0.20, 0.5, 0.5, 0.5, true, CycleMethod.REFLECT, createStops(opacity));
+  }
 
-	/**
-	 * Generates a random colour using the specified opacity.
-	 *
-	 * @param a
-	 *          the alpha (opacity) value.
-	 * @return the color
-	 */
-	public static Color generateColor(double a) {
-		return new Color(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), a);
-	}
+  /**
+   * Generates a random colour using the specified opacity.
+   *
+   * @param a
+   *          the alpha (opacity) value.
+   * @return the color
+   */
+  public static Color generateColor(double a) {
+    return new Color(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), a);
+  }
 
-	/**
-	 * Creates the wave stop.
-	 *
-	 * @param opacity
-	 *          the opacity
-	 * @param width
-	 *          the width
-	 * @param height
-	 *          the height
-	 * @param stops
-	 *          the stops
-	 * @return the linear gradient
-	 */
-	public static LinearGradient createWaveStop(double opacity, double width, double height, List<Stop> stops) {
-		return new LinearGradient(0, 0, width, height, false, CycleMethod.NO_CYCLE, opacity == 0 ? createWaveStops(opacity)
-				: createWaveStops(stops));
-	}
+  /**
+   * Creates the wave stop.
+   *
+   * @param opacity
+   *          the opacity
+   * @param width
+   *          the width
+   * @param height
+   *          the height
+   * @param stops
+   *          the stops
+   * @return the linear gradient
+   */
+  public static LinearGradient createWaveStop(double opacity, double width, double height, List<Stop> stops) {
+    return new LinearGradient(0, 0, width, height, false, CycleMethod.NO_CYCLE,
+        opacity == 0 ? createWaveStops(opacity) : createWaveStops(stops));
+  }
 
-	private static List<Stop> createWaveStops(double opacity) {
-		List<Stop> to = new ArrayList<Stop>();
+  private static List<Stop> createWaveStops(double opacity) {
+    List<Stop> to = new ArrayList<Stop>();
 
-		for (int i = 0; i <= NUM_WAVE_STOPS.intValue(); i++) {
-			to.add(createStop(createWaveDouble(i), opacity));
-		}
+    for (int i = 0; i <= NUM_WAVE_STOPS.intValue(); i++) {
+      to.add(createStop(createWaveDouble(i), opacity));
+    }
 
-		return to;
-	}
+    return to;
+  }
 
-	private static List<Stop> createWaveStops(List<Stop> from) {
-		List<Stop> to = new ArrayList<Stop>();
+  private static List<Stop> createWaveStops(List<Stop> from) {
+    List<Stop> to = new ArrayList<Stop>();
 
-		to.add(new Stop(0, ShimmerPaintUtils.generateColor(rand.nextDouble())));
+    to.add(new Stop(0, ShimmerPaintUtils.generateColor(rand.nextDouble())));
 
-		for (double i = 1; i <= NUM_WAVE_STOPS.intValue(); i++) {
-			to.add(new Stop(createWaveDouble(i), from.get((int) i - 1).getColor()));
-		}
+    for (double i = 1; i <= NUM_WAVE_STOPS.intValue(); i++) {
+      to.add(new Stop(createWaveDouble(i), from.get((int) i - 1).getColor()));
+    }
 
-		return to;
-	}
+    return to;
+  }
 
-	private static double createWaveDouble(double idx) {
-		BigDecimal num = new BigDecimal(idx);
+  private static double createWaveDouble(double idx) {
+    BigDecimal num = new BigDecimal(idx);
 
-		double val = num.divide(NUM_WAVE_STOPS, 6, RoundingMode.HALF_UP).doubleValue();
+    double val = num.divide(NUM_WAVE_STOPS, 6, RoundingMode.HALF_UP).doubleValue();
 
-		return val < 1 ? val : 1;
-	}
+    return val < 1 ? val : 1;
+  }
 
-	private static Stop createStop(double offset, double a) {
-		return new Stop(offset, generateColor(a));
-	}
+  private static Stop createStop(double offset, double a) {
+    return new Stop(offset, generateColor(a));
+  }
 
-	private static List<Stop> createStops(double a) {
-		List<Stop> list = new ArrayList<Stop>();
+  private static List<Stop> createStops(double a) {
+    List<Stop> list = new ArrayList<Stop>();
 
-		List<Color> colours = getColourList(a);
-		int half = colours.size() / 2;
+    List<Color> colours = getColourList(a);
+    int half = colours.size() / 2;
 
-		for (double i = 0; i < colours.size(); i++) {
-			list.add(new Stop(i / NUM_SAVED_STOPS, colours.get((int) i)));
-		}
+    for (double i = 0; i < colours.size(); i++) {
+      list.add(new Stop(i / NUM_SAVED_STOPS, colours.get((int) i)));
+    }
 
-		if (half < colours.size()) {
-			list.add(new Stop(half * 2 / NUM_SAVED_STOPS, colours.get(half * 2)));
-		}
+    if (half < colours.size()) {
+      list.add(new Stop(half * 2 / NUM_SAVED_STOPS, colours.get(half * 2)));
+    }
 
-		return list;
-	}
+    return list;
+  }
 
-	private static List<Color> getColourList(double a) {
-		int numInversions = NUM_SAVED_STOPS / 2;
+  private static List<Color> getColourList(double a) {
+    int numInversions = NUM_SAVED_STOPS / 2;
 
-		List<Color> list = new ArrayList<>();
-		for (int i = 0; i < numInversions; i++) {
-			list.add(generateColor(a));
-		}
+    List<Color> list = new ArrayList<>();
+    for (int i = 0; i < numInversions; i++) {
+      list.add(generateColor(a));
+    }
 
-		for (int i = numInversions - 1; i >= 0; i--) {
-			Color c = list.get(i);
-			list.add(c.invert());
-		}
+    for (int i = numInversions - 1; i >= 0; i--) {
+      Color c = list.get(i);
+      list.add(c.invert());
+    }
 
-		if (numInversions < NUM_SAVED_STOPS) {
-			list.add(generateColor(a));
-		}
+    if (numInversions < NUM_SAVED_STOPS) {
+      list.add(generateColor(a));
+    }
 
-		return list;
-	}
+    return list;
+  }
 
-	private ShimmerPaintUtils() {
-	}
+  private ShimmerPaintUtils() {
+  }
 
 }

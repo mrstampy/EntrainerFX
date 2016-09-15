@@ -34,54 +34,54 @@ import java.util.EventObject;
 @SuppressWarnings("serial")
 public class UnitEditorEvent extends EventObject {
 
-	private final int idx;
-	private final UnitEditorParm parm;
-	private final double value;
+  private final int idx;
+  private final UnitEditorParm parm;
+  private final double value;
 
-	/**
-	 * Instantiates a new unit editor event.
-	 *
-	 * @param source
-	 *          the source
-	 * @param idx
-	 *          the idx
-	 * @param parm
-	 *          the parm
-	 * @param value
-	 *          the value
-	 */
-	public UnitEditorEvent(Object source, int idx, UnitEditorParm parm, double value) {
-		super(source);
-		this.idx = idx;
-		this.value = value;
-		this.parm = parm;
-	}
+  /**
+   * Instantiates a new unit editor event.
+   *
+   * @param source
+   *          the source
+   * @param idx
+   *          the idx
+   * @param parm
+   *          the parm
+   * @param value
+   *          the value
+   */
+  public UnitEditorEvent(Object source, int idx, UnitEditorParm parm, double value) {
+    super(source);
+    this.idx = idx;
+    this.value = value;
+    this.parm = parm;
+  }
 
-	/**
-	 * Gets the value.
-	 *
-	 * @return the value
-	 */
-	public double getValue() {
-		return value;
-	}
+  /**
+   * Gets the value.
+   *
+   * @return the value
+   */
+  public double getValue() {
+    return value;
+  }
 
-	/**
-	 * Gets the parm.
-	 *
-	 * @return the parm
-	 */
-	public UnitEditorParm getParm() {
-		return parm;
-	}
+  /**
+   * Gets the parm.
+   *
+   * @return the parm
+   */
+  public UnitEditorParm getParm() {
+    return parm;
+  }
 
-	/**
-	 * Gets the idx.
-	 *
-	 * @return the idx
-	 */
-	public int getIdx() {
-		return idx;
-	}
+  /**
+   * Gets the idx.
+   *
+   * @return the idx
+   */
+  public int getIdx() {
+    return idx;
+  }
 
 }

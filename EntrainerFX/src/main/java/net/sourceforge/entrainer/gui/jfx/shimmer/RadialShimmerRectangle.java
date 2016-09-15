@@ -35,42 +35,42 @@ import javafx.scene.paint.RadialGradient;
  */
 public class RadialShimmerRectangle extends AbstractShimmer<RadialGradient> {
 
-	private int angle;
+  private int angle;
 
-	/**
-	 * Instantiates a new radial shimmer rectangle.
-	 */
-	public RadialShimmerRectangle() {
-		super();
-	}
+  /**
+   * Instantiates a new radial shimmer rectangle.
+   */
+  public RadialShimmerRectangle() {
+    super();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
-	 * (double)
-	 */
-	@Override
-	protected RadialGradient createNewPaint(double opacity) {
-		return ShimmerPaintUtils.createRadialGradient(opacity, getAngle());
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
+   * (double)
+   */
+  @Override
+  protected RadialGradient createNewPaint(double opacity) {
+    return ShimmerPaintUtils.createRadialGradient(opacity, getAngle());
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
-	 */
-	public String toString() {
-		return "Radial Gradient";
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
+   */
+  public String toString() {
+    return "Radial Gradient";
+  }
 
-	private int getAngle() {
-		int current = angle;
+  private int getAngle() {
+    int current = angle;
 
-		angle += 10;
-		if (angle > 359) angle = angle - 360;
+    angle += 10;
+    if (angle > 359) angle = angle - 360;
 
-		return current;
-	}
+    return current;
+  }
 }

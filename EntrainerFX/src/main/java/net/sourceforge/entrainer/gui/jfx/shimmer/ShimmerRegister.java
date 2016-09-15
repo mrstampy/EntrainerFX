@@ -37,55 +37,55 @@ import java.util.List;
  */
 public class ShimmerRegister {
 
-	private static List<AbstractShimmer<?>> shimmers = new ArrayList<AbstractShimmer<?>>();
+  private static List<AbstractShimmer<?>> shimmers = new ArrayList<AbstractShimmer<?>>();
 
-	static {
-		shimmers.add(new ColorShimmerRectangle());
-		shimmers.add(new LinearShimmerRectangle());
-		shimmers.add(new RadialShimmerRectangle());
-		shimmers.add(new InversionLinearShimmerRectangle());
-		shimmers.add(new InversionRadialShimmerRectangle());
-		shimmers.add(new WaveShimmerRectangle());
-	}
+  static {
+    shimmers.add(new ColorShimmerRectangle());
+    shimmers.add(new LinearShimmerRectangle());
+    shimmers.add(new RadialShimmerRectangle());
+    shimmers.add(new InversionLinearShimmerRectangle());
+    shimmers.add(new InversionRadialShimmerRectangle());
+    shimmers.add(new WaveShimmerRectangle());
+  }
 
-	/**
-	 * Gets the shimmers.
-	 *
-	 * @return the shimmers
-	 */
-	public static List<AbstractShimmer<?>> getShimmers() {
-		return new ArrayList<AbstractShimmer<?>>(shimmers);
-	}
+  /**
+   * Gets the shimmers.
+   *
+   * @return the shimmers
+   */
+  public static List<AbstractShimmer<?>> getShimmers() {
+    return new ArrayList<AbstractShimmer<?>>(shimmers);
+  }
 
-	/**
-	 * Returns a shimmer instance based upon the
-	 * {@link AbstractShimmer#toString()} implementation.
-	 *
-	 * @param name
-	 *          the name
-	 * @return the shimmer
-	 */
-	public static AbstractShimmer<?> getShimmer(String name) {
-		for (AbstractShimmer<?> shimmer : getShimmers()) {
-			if (shimmer.toString().equals(name)) return shimmer;
-		}
+  /**
+   * Returns a shimmer instance based upon the
+   * {@link AbstractShimmer#toString()} implementation.
+   *
+   * @param name
+   *          the name
+   * @return the shimmer
+   */
+  public static AbstractShimmer<?> getShimmer(String name) {
+    for (AbstractShimmer<?> shimmer : getShimmers()) {
+      if (shimmer.toString().equals(name)) return shimmer;
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	/**
-	 * Gets a list of all shimmer names.
-	 *
-	 * @return the shimmer names
-	 */
-	public static List<String> getShimmerNames() {
-		List<String> names = new ArrayList<String>();
+  /**
+   * Gets a list of all shimmer names.
+   *
+   * @return the shimmer names
+   */
+  public static List<String> getShimmerNames() {
+    List<String> names = new ArrayList<String>();
 
-		for (AbstractShimmer<?> shimmer : getShimmers()) {
-			names.add(shimmer.toString());
-		}
+    for (AbstractShimmer<?> shimmer : getShimmers()) {
+      names.add(shimmer.toString());
+    }
 
-		return names;
-	}
+    return names;
+  }
 
 }

@@ -153,7 +153,7 @@ public class ProgramHUD extends VBox {
         JFXUtils.runLater(() -> setLabelText());
       }
     });
-    
+
     tl.play();
   }
 

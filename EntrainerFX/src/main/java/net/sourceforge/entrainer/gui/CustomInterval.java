@@ -48,149 +48,149 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class CustomInterval extends DialogPane {
 
-	private TextField numerator = new TextField();
-	private TextField denominator = new TextField();
+  private TextField numerator = new TextField();
+  private TextField denominator = new TextField();
 
-	private boolean isOk;
-	private IntervalMenu menu;
+  private boolean isOk;
+  private IntervalMenu menu;
 
-	/**
-	 * Instantiates a new custom interval.
-	 *
-	 * @param menu
-	 *          the menu
-	 */
-	public CustomInterval(IntervalMenu menu) {
-		super();
-		this.menu = menu;
-		init();
-	}
+  /**
+   * Instantiates a new custom interval.
+   *
+   * @param menu
+   *          the menu
+   */
+  public CustomInterval(IntervalMenu menu) {
+    super();
+    this.menu = menu;
+    init();
+  }
 
-	/**
-	 * Gets the numerator.
-	 *
-	 * @return the numerator
-	 */
-	public int getNumerator() {
-		return getValue(numerator);
-	}
+  /**
+   * Gets the numerator.
+   *
+   * @return the numerator
+   */
+  public int getNumerator() {
+    return getValue(numerator);
+  }
 
-	/**
-	 * Gets the denominator.
-	 *
-	 * @return the denominator
-	 */
-	public int getDenominator() {
-		return getValue(denominator);
-	}
+  /**
+   * Gets the denominator.
+   *
+   * @return the denominator
+   */
+  public int getDenominator() {
+    return getValue(denominator);
+  }
 
-	private int getValue(TextField tf) {
-		String text = tf.getText();
-		return StringUtils.isEmpty(text) ? 0 : Integer.parseInt(text);
-	}
+  private int getValue(TextField tf) {
+    String text = tf.getText();
+    return StringUtils.isEmpty(text) ? 0 : Integer.parseInt(text);
+  }
 
-	/**
-	 * Gets the display string.
-	 *
-	 * @return the display string
-	 */
-	public String getDisplayString() {
-		return getNumerator() + "/" + getDenominator();
-	}
+  /**
+   * Gets the display string.
+   *
+   * @return the display string
+   */
+  public String getDisplayString() {
+    return getNumerator() + "/" + getDenominator();
+  }
 
-	/**
-	 * Gets the interval.
-	 *
-	 * @return the interval
-	 */
-	public double getInterval() {
-		return ((double) getNumerator()) / ((double) getDenominator());
-	}
+  /**
+   * Gets the interval.
+   *
+   * @return the interval
+   */
+  public double getInterval() {
+    return ((double) getNumerator()) / ((double) getDenominator());
+  }
 
-	private void init() {
-		initFields();
-		initLayout();
-	}
+  private void init() {
+    initFields();
+    initLayout();
+  }
 
-	private void initFields() {
-		getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-		initField(numerator);
-		initField(denominator);
-	}
+  private void initFields() {
+    getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+    initField(numerator);
+    initField(denominator);
+  }
 
-	private void initField(TextField tf) {
-		tf.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
-		tf.setMaxWidth(70);
-		tf.setAlignment(Pos.CENTER_RIGHT);
-	}
+  private void initField(TextField tf) {
+    tf.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
+    tf.setMaxWidth(70);
+    tf.setAlignment(Pos.CENTER_RIGHT);
+  }
 
-	/**
-	 * Validated.
-	 *
-	 * @return true, if successful
-	 */
-	public boolean validated() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(getNumeratorErrors());
-		builder.append(getDenominatorErrors());
-		builder.append(getEquivalentError());
-		if (builder.toString().length() > 0) {
-			Alert alert = new Alert(AlertType.ERROR, builder.toString(), ButtonType.OK);
-			alert.setTitle("Errors");
-			alert.initOwner(EntrainerFX.getInstance().getStage());
-			alert.showAndWait();
+  /**
+   * Validated.
+   *
+   * @return true, if successful
+   */
+  public boolean validated() {
+    StringBuilder builder = new StringBuilder();
+    builder.append(getNumeratorErrors());
+    builder.append(getDenominatorErrors());
+    builder.append(getEquivalentError());
+    if (builder.toString().length() > 0) {
+      Alert alert = new Alert(AlertType.ERROR, builder.toString(), ButtonType.OK);
+      alert.setTitle("Errors");
+      alert.initOwner(EntrainerFX.getInstance().getStage());
+      alert.showAndWait();
 
-			return false;
-		}
+      return false;
+    }
 
-		return true;
-	}
+    return true;
+  }
 
-	private String getEquivalentError() {
-		if (menu.isEquivalentFraction(getDisplayString())) {
-			return "The interval " + getDisplayString() + "  (" + getInterval() + ")  already exists.\n\n";
-		}
+  private String getEquivalentError() {
+    if (menu.isEquivalentFraction(getDisplayString())) {
+      return "The interval " + getDisplayString() + "  (" + getInterval() + ")  already exists.\n\n";
+    }
 
-		return "";
-	}
+    return "";
+  }
 
-	private String getNumeratorErrors() {
-		if (getNumerator() == 0) {
-			return "Numerator must not be = 0\n\n";
-		}
+  private String getNumeratorErrors() {
+    if (getNumerator() == 0) {
+      return "Numerator must not be = 0\n\n";
+    }
 
-		if (getInterval() <= -1) {
-			return "Negative intervals must be between -1 and 0\n\n";
-		}
+    if (getInterval() <= -1) {
+      return "Negative intervals must be between -1 and 0\n\n";
+    }
 
-		return "";
-	}
+    return "";
+  }
 
-	private String getDenominatorErrors() {
-		if (getDenominator() <= 0) {
-			return "Denominator must be > 0\n\n";
-		}
+  private String getDenominatorErrors() {
+    if (getDenominator() <= 0) {
+      return "Denominator must be > 0\n\n";
+    }
 
-		return "";
-	}
+    return "";
+  }
 
-	private void initLayout() {
-		HBox box = new HBox(10);
-		box.setAlignment(Pos.CENTER);
-		Label slash = new Label("/");
+  private void initLayout() {
+    HBox box = new HBox(10);
+    box.setAlignment(Pos.CENTER);
+    Label slash = new Label("/");
 
-		box.getChildren().addAll(numerator, slash, denominator);
+    box.getChildren().addAll(numerator, slash, denominator);
 
-		setContent(box);
-	}
+    setContent(box);
+  }
 
-	/**
-	 * Returns true if the ok button was pressed and the values passed validation.
-	 *
-	 * @return true, if is ok
-	 */
-	public boolean isOk() {
-		return isOk;
-	}
+  /**
+   * Returns true if the ok button was pressed and the values passed validation.
+   *
+   * @return true, if is ok
+   */
+  public boolean isOk() {
+    return isOk;
+  }
 
 }

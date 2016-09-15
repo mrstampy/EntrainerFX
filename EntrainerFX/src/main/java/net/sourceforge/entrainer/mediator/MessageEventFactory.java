@@ -33,14 +33,14 @@ import com.lmax.disruptor.EventFactory;
  */
 public class MessageEventFactory implements EventFactory<MessageEvent> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lmax.disruptor.EventFactory#newInstance()
-	 */
-	@Override
-	public MessageEvent newInstance() {
-		return new MessageEvent();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.lmax.disruptor.EventFactory#newInstance()
+   */
+  @Override
+  public MessageEvent newInstance() {
+    return new MessageEvent();
+  }
 
 }

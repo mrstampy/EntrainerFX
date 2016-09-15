@@ -45,150 +45,149 @@ import net.sourceforge.entrainer.mediator.MediatorConstants;
  *
  */
 public abstract class UnitSetterPropertyChangeListener implements PropertyChangeListener {
-	private String propertyName;
-	private double oldValue;
-	private double newValue;
+  private String propertyName;
+  private double oldValue;
+  private double newValue;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent
-	 * )
-	 */
-	public void propertyChange(PropertyChangeEvent e) {
-		setPropertyName(e.getPropertyName());
-		setOldValue(((Double) e.getOldValue()).doubleValue());
-		setNewValue(((Double) e.getNewValue()).doubleValue());
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
+   * PropertyChangeEvent )
+   */
+  public void propertyChange(PropertyChangeEvent e) {
+    setPropertyName(e.getPropertyName());
+    setOldValue(((Double) e.getOldValue()).doubleValue());
+    setNewValue(((Double) e.getNewValue()).doubleValue());
 
-		propertyChangeImpl();
-	}
+    propertyChangeImpl();
+  }
 
-	/**
-	 * Implement in subclasses to deal with the property change event.
-	 */
-	protected abstract void propertyChangeImpl();
+  /**
+   * Implement in subclasses to deal with the property change event.
+   */
+  protected abstract void propertyChangeImpl();
 
-	/**
-	 * Gets the property name.
-	 *
-	 * @return the property name
-	 */
-	public String getPropertyName() {
-		return propertyName;
-	}
+  /**
+   * Gets the property name.
+   *
+   * @return the property name
+   */
+  public String getPropertyName() {
+    return propertyName;
+  }
 
-	/**
-	 * Sets the property name.
-	 *
-	 * @param propertyName
-	 *          the new property name
-	 */
-	public void setPropertyName(String propertyName) {
-		this.propertyName = propertyName;
-	}
+  /**
+   * Sets the property name.
+   *
+   * @param propertyName
+   *          the new property name
+   */
+  public void setPropertyName(String propertyName) {
+    this.propertyName = propertyName;
+  }
 
-	/**
-	 * Gets the old value.
-	 *
-	 * @return the old value
-	 */
-	public double getOldValue() {
-		return oldValue;
-	}
+  /**
+   * Gets the old value.
+   *
+   * @return the old value
+   */
+  public double getOldValue() {
+    return oldValue;
+  }
 
-	/**
-	 * Sets the old value.
-	 *
-	 * @param oldValue
-	 *          the new old value
-	 */
-	public void setOldValue(double oldValue) {
-		this.oldValue = oldValue;
-	}
+  /**
+   * Sets the old value.
+   *
+   * @param oldValue
+   *          the new old value
+   */
+  public void setOldValue(double oldValue) {
+    this.oldValue = oldValue;
+  }
 
-	/**
-	 * Gets the new value.
-	 *
-	 * @return the new value
-	 */
-	public double getNewValue() {
-		return newValue;
-	}
+  /**
+   * Gets the new value.
+   *
+   * @return the new value
+   */
+  public double getNewValue() {
+    return newValue;
+  }
 
-	/**
-	 * Sets the new value.
-	 *
-	 * @param newValue
-	 *          the new new value
-	 */
-	public void setNewValue(double newValue) {
-		this.newValue = newValue;
-	}
+  /**
+   * Sets the new value.
+   *
+   * @param newValue
+   *          the new new value
+   */
+  public void setNewValue(double newValue) {
+    this.newValue = newValue;
+  }
 
-	/**
-	 * Checks if is amplitude.
-	 *
-	 * @return true, if is amplitude
-	 */
-	public boolean isAmplitude() {
-		return isProperty(AMPLITUDE);
-	}
+  /**
+   * Checks if is amplitude.
+   *
+   * @return true, if is amplitude
+   */
+  public boolean isAmplitude() {
+    return isProperty(AMPLITUDE);
+  }
 
-	/**
-	 * Checks if is entrainment frequency.
-	 *
-	 * @return true, if is entrainment frequency
-	 */
-	public boolean isEntrainmentFrequency() {
-		return isProperty(ENTRAINMENT_FREQUENCY);
-	}
+  /**
+   * Checks if is entrainment frequency.
+   *
+   * @return true, if is entrainment frequency
+   */
+  public boolean isEntrainmentFrequency() {
+    return isProperty(ENTRAINMENT_FREQUENCY);
+  }
 
-	/**
-	 * Checks if is frequency.
-	 *
-	 * @return true, if is frequency
-	 */
-	public boolean isFrequency() {
-		return isProperty(FREQUENCY);
-	}
+  /**
+   * Checks if is frequency.
+   *
+   * @return true, if is frequency
+   */
+  public boolean isFrequency() {
+    return isProperty(FREQUENCY);
+  }
 
-	/**
-	 * Checks if is pink entrainer multiple.
-	 *
-	 * @return true, if is pink entrainer multiple
-	 */
-	public boolean isPinkEntrainerMultiple() {
-		return isProperty(PINK_ENTRAINER_MULTIPLE);
-	}
+  /**
+   * Checks if is pink entrainer multiple.
+   *
+   * @return true, if is pink entrainer multiple
+   */
+  public boolean isPinkEntrainerMultiple() {
+    return isProperty(PINK_ENTRAINER_MULTIPLE);
+  }
 
-	/**
-	 * Checks if is pink noise.
-	 *
-	 * @return true, if is pink noise
-	 */
-	public boolean isPinkNoise() {
-		return isProperty(PINK_NOISE_AMPLITUDE);
-	}
+  /**
+   * Checks if is pink noise.
+   *
+   * @return true, if is pink noise
+   */
+  public boolean isPinkNoise() {
+    return isProperty(PINK_NOISE_AMPLITUDE);
+  }
 
-	/**
-	 * Checks if is pink pan.
-	 *
-	 * @return true, if is pink pan
-	 */
-	public boolean isPinkPan() {
-		return isProperty(PINK_PAN_AMPLITUDE);
-	}
+  /**
+   * Checks if is pink pan.
+   *
+   * @return true, if is pink pan
+   */
+  public boolean isPinkPan() {
+    return isProperty(PINK_PAN_AMPLITUDE);
+  }
 
-	/**
-	 * Checks if is property.
-	 *
-	 * @param name
-	 *          the name
-	 * @return true, if is property
-	 */
-	protected boolean isProperty(MediatorConstants name) {
-		return name.equals(getPropertyName());
-	}
+  /**
+   * Checks if is property.
+   *
+   * @param name
+   *          the name
+   * @return true, if is property
+   */
+  protected boolean isProperty(MediatorConstants name) {
+    return name.equals(getPropertyName());
+  }
 
 }

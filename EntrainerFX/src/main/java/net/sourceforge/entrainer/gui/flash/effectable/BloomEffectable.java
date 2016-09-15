@@ -33,21 +33,21 @@ import javafx.scene.effect.Bloom;
  */
 public class BloomEffectable extends Bloom implements Effectable {
 
-	/**
-	 * Instantiates a new bloom effectable.
-	 */
-	public BloomEffectable() {
-		super();
-	}
+  /**
+   * Instantiates a new bloom effectable.
+   */
+  public BloomEffectable() {
+    super();
+  }
 
-	/**
-	 * Instantiates a new bloom effectable.
-	 *
-	 * @param threshold
-	 *          the threshold
-	 */
-	public BloomEffectable(double threshold) {
-		super(threshold);
-	}
+  /**
+   * Instantiates a new bloom effectable.
+   *
+   * @param threshold
+   *          the threshold
+   */
+  public BloomEffectable(double threshold) {
+    super(threshold);
+  }
 
 }

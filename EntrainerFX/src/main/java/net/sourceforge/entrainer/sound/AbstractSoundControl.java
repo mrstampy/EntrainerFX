@@ -39,75 +39,75 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
  */
 public abstract class AbstractSoundControl extends AbstractSoundSettings implements SoundControl {
 
-	private File wavFile;
-	private boolean isRecord;
+  private File wavFile;
+  private boolean isRecord;
 
-	/**
-	 * Instantiates a new abstract sound control.
-	 */
-	protected AbstractSoundControl() {
-		super();
-		initMediator();
-	}
+  /**
+   * Instantiates a new abstract sound control.
+   */
+  protected AbstractSoundControl() {
+    super();
+    initMediator();
+  }
 
-	/**
-	 * Inits the mediator.
-	 */
-	protected void initMediator() {
-		EntrainerMediator.getInstance().addFirstReceiver(new ReceiverAdapter(this) {
+  /**
+   * Inits the mediator.
+   */
+  protected void initMediator() {
+    EntrainerMediator.getInstance().addFirstReceiver(new ReceiverAdapter(this) {
 
-			@Override
-			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				switch (e.getParm()) {
-				case START_ENTRAINMENT:
-					if (e.getBooleanValue()) {
-						start();
-					} else {
-						stop();
-					}
-					break;
-				default:
-					break;
-				}
-			}
+      @Override
+      protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+        switch (e.getParm()) {
+        case START_ENTRAINMENT:
+          if (e.getBooleanValue()) {
+            start();
+          } else {
+            stop();
+          }
+          break;
+        default:
+          break;
+        }
+      }
 
-		});
-	}
+    });
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundControl#getWavFile()
-	 */
-	public File getWavFile() {
-		return wavFile;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundControl#getWavFile()
+   */
+  public File getWavFile() {
+    return wavFile;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundControl#setWavFile(java.io.File)
-	 */
-	public void setWavFile(File wavFile) {
-		this.wavFile = wavFile;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundControl#setWavFile(java.io.File)
+   */
+  public void setWavFile(File wavFile) {
+    this.wavFile = wavFile;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundControl#isRecord()
-	 */
-	public boolean isRecord() {
-		return isRecord;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundControl#isRecord()
+   */
+  public boolean isRecord() {
+    return isRecord;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundControl#setRecord(boolean)
-	 */
-	public void setRecord(boolean isRecord) {
-		this.isRecord = isRecord;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundControl#setRecord(boolean)
+   */
+  public void setRecord(boolean isRecord) {
+    this.isRecord = isRecord;
+  }
 
 }

@@ -38,199 +38,198 @@ import net.sourceforge.entrainer.sound.AbstractSoundInterval;
  *
  */
 public class JSynInterval extends AbstractSoundInterval {
-	private UnitOscillator leftChannel;
+  private UnitOscillator leftChannel;
 
-	/**
-	 * Instantiates a new j syn interval.
-	 *
-	 * @param numerator
-	 *          the numerator
-	 * @param denominator
-	 *          the denominator
-	 */
-	public JSynInterval(int numerator, int denominator) {
-		super(numerator, denominator);
-		init();
-	}
+  /**
+   * Instantiates a new j syn interval.
+   *
+   * @param numerator
+   *          the numerator
+   * @param denominator
+   *          the denominator
+   */
+  public JSynInterval(int numerator, int denominator) {
+    super(numerator, denominator);
+    init();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#getLeftAmplitude()
-	 */
-	public double getLeftAmplitude() {
-		return leftChannel.amplitude.get();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundSettings#getLeftAmplitude()
+   */
+  public double getLeftAmplitude() {
+    return leftChannel.amplitude.get();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#getLeftFrequency()
-	 */
-	public double getLeftFrequency() {
-		return leftChannel.frequency.get();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundSettings#getLeftFrequency()
+   */
+  public double getLeftFrequency() {
+    return leftChannel.frequency.get();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#getPinkNoiseAmplitude()
-	 */
-	public double getPinkNoiseAmplitude() {
-		return 0;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundSettings#getPinkNoiseAmplitude()
+   */
+  public double getPinkNoiseAmplitude() {
+    return 0;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.sound.SoundSettings#getPinkPanLeftAmplitude()
-	 */
-	public double getPinkPanLeftAmplitude() {
-		return 0;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.sound.SoundSettings#getPinkPanLeftAmplitude()
+   */
+  public double getPinkPanLeftAmplitude() {
+    return 0;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.sound.SoundSettings#getPinkPanRightAmplitude()
-	 */
-	public double getPinkPanRightAmplitude() {
-		return 0;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.sound.SoundSettings#getPinkPanRightAmplitude()
+   */
+  public double getPinkPanRightAmplitude() {
+    return 0;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#getRightAmplitude()
-	 */
-	public double getRightAmplitude() {
-		return 0;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundSettings#getRightAmplitude()
+   */
+  public double getRightAmplitude() {
+    return 0;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#getRightFrequency()
-	 */
-	public double getRightFrequency() {
-		return 0;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundSettings#getRightFrequency()
+   */
+  public double getRightFrequency() {
+    return 0;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#setLeftAmplitude(double)
-	 */
-	public void setLeftAmplitude(double d) {
-		leftChannel.amplitude.set(d);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundSettings#setLeftAmplitude(double)
+   */
+  public void setLeftAmplitude(double d) {
+    leftChannel.amplitude.set(d);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#setLeftFrequency(double)
-	 */
-	public void setLeftFrequency(double d) {
-		double interval = d + (d * getInterval());
-		leftChannel.frequency.set(interval);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundSettings#setLeftFrequency(double)
+   */
+  public void setLeftFrequency(double d) {
+    double interval = d + (d * getInterval());
+    leftChannel.frequency.set(interval);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.sound.SoundSettings#setPinkNoiseAmplitude(double)
-	 */
-	public void setPinkNoiseAmplitude(double d) {
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.sound.SoundSettings#setPinkNoiseAmplitude(double)
+   */
+  public void setPinkNoiseAmplitude(double d) {
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.sound.SoundSettings#setPinkPanLeftAmplitude(double
-	 * )
-	 */
-	public void setPinkPanLeftAmplitude(double d) {
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundSettings#setPinkPanLeftAmplitude(
+   * double )
+   */
+  public void setPinkPanLeftAmplitude(double d) {
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.sound.SoundSettings#setPinkPanRightAmplitude(
-	 * double)
-	 */
-	public void setPinkPanRightAmplitude(double d) {
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.sound.SoundSettings#setPinkPanRightAmplitude(
+   * double)
+   */
+  public void setPinkPanRightAmplitude(double d) {
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.sound.SoundSettings#setRightAmplitude(double)
-	 */
-	public void setRightAmplitude(double d) {
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.sound.SoundSettings#setRightAmplitude(double)
+   */
+  public void setRightAmplitude(double d) {
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.sound.SoundSettings#setRightFrequency(double)
-	 */
-	public void setRightFrequency(double d) {
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.sound.SoundSettings#setRightFrequency(double)
+   */
+  public void setRightFrequency(double d) {
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#start()
-	 */
-	public void start() {
-		leftChannel.start();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundSettings#start()
+   */
+  public void start() {
+    leftChannel.start();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundSettings#stop()
-	 */
-	public void stop() {
-		leftChannel.stop();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundSettings#stop()
+   */
+  public void stop() {
+    leftChannel.stop();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundInterval#getInterval()
-	 */
-	public double getInterval() {
-		return ((double) getIntervalNumerator()) / ((double) getIntervalDenominator());
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundInterval#getInterval()
+   */
+  public double getInterval() {
+    return ((double) getIntervalNumerator()) / ((double) getIntervalDenominator());
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.sound.SoundInterval#isInterval(int, int)
-	 */
-	public boolean isInterval(int num, int denom) {
-		return num == getIntervalNumerator() && denom == getIntervalDenominator();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.sound.SoundInterval#isInterval(int, int)
+   */
+  public boolean isInterval(int num, int denom) {
+    return num == getIntervalNumerator() && denom == getIntervalDenominator();
+  }
 
-	private void init() {
-		leftChannel = new SineOscillator();
-	}
+  private void init() {
+    leftChannel = new SineOscillator();
+  }
 
-	/**
-	 * Gets the left channel.
-	 *
-	 * @return the left channel
-	 */
-	UnitOscillator getLeftChannel() {
-		return leftChannel;
-	}
+  /**
+   * Gets the left channel.
+   *
+   * @return the left channel
+   */
+  UnitOscillator getLeftChannel() {
+    return leftChannel;
+  }
 
 }

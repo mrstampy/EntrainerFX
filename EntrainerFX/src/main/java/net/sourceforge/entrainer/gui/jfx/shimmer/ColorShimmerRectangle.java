@@ -35,32 +35,32 @@ import javafx.scene.paint.Color;
  */
 public class ColorShimmerRectangle extends AbstractShimmer<Color> {
 
-	/**
-	 * Instantiates a new color shimmer rectangle.
-	 */
-	public ColorShimmerRectangle() {
-		super();
-	}
+  /**
+   * Instantiates a new color shimmer rectangle.
+   */
+  public ColorShimmerRectangle() {
+    super();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
-	 * (double)
-	 */
-	@Override
-	protected Color createNewPaint(double opacity) {
-		return ShimmerPaintUtils.generateColor(opacity);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
+   * (double)
+   */
+  @Override
+  protected Color createNewPaint(double opacity) {
+    return ShimmerPaintUtils.generateColor(opacity);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
-	 */
-	public String toString() {
-		return "Colour";
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
+   */
+  public String toString() {
+    return "Colour";
+  }
 
 }

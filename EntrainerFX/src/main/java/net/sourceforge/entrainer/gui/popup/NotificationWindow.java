@@ -49,55 +49,55 @@ import net.sourceforge.entrainer.gui.jfx.JFXUtils;
  */
 public class NotificationWindow extends Stage {
 
-	/**
-	 * Instantiates a new notification window.
-	 *
-	 * @param message
-	 *          the message
-	 */
-	public NotificationWindow(String message) {
-		super(StageStyle.TRANSPARENT);
-		initOwner(EntrainerFX.getInstance().getStage());
-		initGui(message);
-		execute();
-	}
+  /**
+   * Instantiates a new notification window.
+   *
+   * @param message
+   *          the message
+   */
+  public NotificationWindow(String message) {
+    super(StageStyle.TRANSPARENT);
+    initOwner(EntrainerFX.getInstance().getStage());
+    initGui(message);
+    execute();
+  }
 
-	private void initGui(String message) {
-		Label label = new Label(message);
+  private void initGui(String message) {
+    Label label = new Label(message);
 
-		label.setFont(Font.font(16));
-		label.setStyle("-fx-background-color: midnightblue");
+    label.setFont(Font.font(16));
+    label.setStyle("-fx-background-color: midnightblue");
 
-		HBox box = new HBox(10, label);
-		Scene scene = new Scene(box);
-		URI css = JFXUtils.getEntrainerCSS();
-		if (css != null) scene.getStylesheets().add(css.toString());
+    HBox box = new HBox(10, label);
+    Scene scene = new Scene(box);
+    URI css = JFXUtils.getEntrainerCSS();
+    if (css != null) scene.getStylesheets().add(css.toString());
 
-		setScene(scene);
-	}
+    setScene(scene);
+  }
 
-	private void execute() {
-		SequentialTransition st = new SequentialTransition(getFadeIn(), getPause(), getFadeOut());
+  private void execute() {
+    SequentialTransition st = new SequentialTransition(getFadeIn(), getPause(), getFadeOut());
 
-		st.onFinishedProperty().addListener(e -> hide());
+    st.onFinishedProperty().addListener(e -> hide());
 
-		setOpacity(0);
+    setOpacity(0);
 
-		show();
+    show();
 
-		st.play();
-	}
+    st.play();
+  }
 
-	private Animation getFadeOut() {
-		return new Timeline(new KeyFrame(Duration.millis(1000), new KeyValue(opacityProperty(), 0)));
-	}
+  private Animation getFadeOut() {
+    return new Timeline(new KeyFrame(Duration.millis(1000), new KeyValue(opacityProperty(), 0)));
+  }
 
-	private Animation getFadeIn() {
-		return new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 0.75)));
-	}
+  private Animation getFadeIn() {
+    return new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 0.75)));
+  }
 
-	private Animation getPause() {
-		return new PauseTransition(Duration.seconds(2));
-	}
+  private Animation getPause() {
+    return new PauseTransition(Duration.seconds(2));
+  }
 
 }

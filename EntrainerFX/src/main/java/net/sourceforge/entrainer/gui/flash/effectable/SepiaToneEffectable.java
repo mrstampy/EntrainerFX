@@ -33,21 +33,21 @@ import javafx.scene.effect.SepiaTone;
  */
 public class SepiaToneEffectable extends SepiaTone implements Effectable {
 
-	/**
-	 * Instantiates a new sepia tone effectable.
-	 */
-	public SepiaToneEffectable() {
-		super();
-	}
+  /**
+   * Instantiates a new sepia tone effectable.
+   */
+  public SepiaToneEffectable() {
+    super();
+  }
 
-	/**
-	 * Instantiates a new sepia tone effectable.
-	 *
-	 * @param level
-	 *          the level
-	 */
-	public SepiaToneEffectable(double level) {
-		super(level);
-	}
+  /**
+   * Instantiates a new sepia tone effectable.
+   *
+   * @param level
+   *          the level
+   */
+  public SepiaToneEffectable(double level) {
+    super(level);
+  }
 
 }

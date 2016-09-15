@@ -33,21 +33,21 @@ import javafx.scene.effect.Glow;
  */
 public class GlowEffectable extends Glow implements Effectable {
 
-	/**
-	 * Instantiates a new glow effectable.
-	 */
-	public GlowEffectable() {
-		super();
-	}
+  /**
+   * Instantiates a new glow effectable.
+   */
+  public GlowEffectable() {
+    super();
+  }
 
-	/**
-	 * Instantiates a new glow effectable.
-	 *
-	 * @param level
-	 *          the level
-	 */
-	public GlowEffectable(double level) {
-		super(level);
-	}
+  /**
+   * Instantiates a new glow effectable.
+   *
+   * @param level
+   *          the level
+   */
+  public GlowEffectable(double level) {
+    super(level);
+  }
 
 }

@@ -37,88 +37,88 @@ import java.util.List;
  */
 public interface SoundControl extends SoundSettings {
 
-	/**
-	 * Adds the interval control.
-	 *
-	 * @param displayString
-	 *          the display string
-	 */
-	void addIntervalControl(String displayString);
+  /**
+   * Adds the interval control.
+   *
+   * @param displayString
+   *          the display string
+   */
+  void addIntervalControl(String displayString);
 
-	/**
-	 * Removes the interval control.
-	 *
-	 * @param displayString
-	 *          the display string
-	 */
-	void removeIntervalControl(String displayString);
+  /**
+   * Removes the interval control.
+   *
+   * @param displayString
+   *          the display string
+   */
+  void removeIntervalControl(String displayString);
 
-	/**
-	 * Gets the intervals.
-	 *
-	 * @return the intervals
-	 */
-	List<String> getIntervals();
+  /**
+   * Gets the intervals.
+   *
+   * @return the intervals
+   */
+  List<String> getIntervals();
 
-	/**
-	 * Adds the interval control.
-	 *
-	 * @param intervalNumerator
-	 *          the interval numerator
-	 * @param intervalDenominator
-	 *          the interval denominator
-	 */
-	void addIntervalControl(int intervalNumerator, int intervalDenominator);
+  /**
+   * Adds the interval control.
+   *
+   * @param intervalNumerator
+   *          the interval numerator
+   * @param intervalDenominator
+   *          the interval denominator
+   */
+  void addIntervalControl(int intervalNumerator, int intervalDenominator);
 
-	/**
-	 * Removes the interval control.
-	 *
-	 * @param intervalNumerator
-	 *          the interval numerator
-	 * @param intervalDenominator
-	 *          the interval denominator
-	 */
-	void removeIntervalControl(int intervalNumerator, int intervalDenominator);
+  /**
+   * Removes the interval control.
+   *
+   * @param intervalNumerator
+   *          the interval numerator
+   * @param intervalDenominator
+   *          the interval denominator
+   */
+  void removeIntervalControl(int intervalNumerator, int intervalDenominator);
 
-	/**
-	 * Sets the wav file.
-	 *
-	 * @param wavFile
-	 *          the new wav file
-	 */
-	void setWavFile(File wavFile);
+  /**
+   * Sets the wav file.
+   *
+   * @param wavFile
+   *          the new wav file
+   */
+  void setWavFile(File wavFile);
 
-	/**
-	 * Teardown.
-	 */
-	void teardown();
+  /**
+   * Teardown.
+   */
+  void teardown();
 
-	/**
-	 * Gets the wav file.
-	 *
-	 * @return the wav file
-	 */
-	File getWavFile();
+  /**
+   * Gets the wav file.
+   *
+   * @return the wav file
+   */
+  File getWavFile();
 
-	/**
-	 * Set to true to indicate the sounds should be recorded.
-	 *
-	 * @param isRecord
-	 *          the new record
-	 */
-	void setRecord(boolean isRecord);
+  /**
+   * Set to true to indicate the sounds should be recorded.
+   *
+   * @param isRecord
+   *          the new record
+   */
+  void setRecord(boolean isRecord);
 
-	/**
-	 * Returns true if sounds should be recorded to the file set in setWavFile
-	 * implementation.
-	 *
-	 * @return true, if is record
-	 */
-	boolean isRecord();
+  /**
+   * Returns true if sounds should be recorded to the file set in setWavFile
+   * implementation.
+   *
+   * @return true, if is record
+   */
+  boolean isRecord();
 
-	/**
-	 * Exit.
-	 */
-	void exit();
+  /**
+   * Exit.
+   */
+  void exit();
 
 }

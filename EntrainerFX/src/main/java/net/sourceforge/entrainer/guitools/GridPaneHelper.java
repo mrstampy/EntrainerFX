@@ -46,366 +46,366 @@ import javafx.scene.layout.Priority;
  */
 public class GridPaneHelper {
 
-	private GridPane pane;
+  private GridPane pane;
 
-	private List<Node> nodes = new ArrayList<>();
+  private List<Node> nodes = new ArrayList<>();
 
-	private int row;
-	private int column;
+  private int row;
+  private int column;
 
-	/**
-	 * Instantiates a new grid pane helper.
-	 */
-	public GridPaneHelper() {
-		this(new GridPane());
-	}
+  /**
+   * Instantiates a new grid pane helper.
+   */
+  public GridPaneHelper() {
+    this(new GridPane());
+  }
 
-	/**
-	 * Instantiates a new grid pane helper.
-	 *
-	 * @param pane
-	 *          the pane
-	 */
-	public GridPaneHelper(GridPane pane) {
-		this.pane = pane;
-	}
+  /**
+   * Instantiates a new grid pane helper.
+   *
+   * @param pane
+   *          the pane
+   */
+  public GridPaneHelper(GridPane pane) {
+    this.pane = pane;
+  }
 
-	/**
-	 * Skip.
-	 *
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper skip() {
-		return skip(1);
-	}
+  /**
+   * Skip.
+   *
+   * @return the grid pane helper
+   */
+  public GridPaneHelper skip() {
+    return skip(1);
+  }
 
-	/**
-	 * Skip.
-	 *
-	 * @param num
-	 *          the num
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper skip(int num) {
-		column += num;
-		return this;
-	}
+  /**
+   * Skip.
+   *
+   * @param num
+   *          the num
+   * @return the grid pane helper
+   */
+  public GridPaneHelper skip(int num) {
+    column += num;
+    return this;
+  }
 
-	/**
-	 * New line.
-	 *
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper newLine() {
-		return newLine(1);
-	}
+  /**
+   * New line.
+   *
+   * @return the grid pane helper
+   */
+  public GridPaneHelper newLine() {
+    return newLine(1);
+  }
 
-	/**
-	 * New line.
-	 *
-	 * @param num
-	 *          the num
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper newLine(int num) {
-		row += num;
-		column = 0;
+  /**
+   * New line.
+   *
+   * @param num
+   *          the num
+   * @return the grid pane helper
+   */
+  public GridPaneHelper newLine(int num) {
+    row += num;
+    column = 0;
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * Adds the.
-	 *
-	 * @param label
-	 *          the label
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper add(String label) {
-		return add(new Label(label));
-	}
+  /**
+   * Adds the.
+   *
+   * @param label
+   *          the label
+   * @return the grid pane helper
+   */
+  public GridPaneHelper add(String label) {
+    return add(new Label(label));
+  }
 
-	/**
-	 * Adds the.
-	 *
-	 * @param label
-	 *          the label
-	 * @param width
-	 *          the width
-	 * @param height
-	 *          the height
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper add(String label, int width, int height) {
-		return add(new Label(label), width, height);
-	}
+  /**
+   * Adds the.
+   *
+   * @param label
+   *          the label
+   * @param width
+   *          the width
+   * @param height
+   *          the height
+   * @return the grid pane helper
+   */
+  public GridPaneHelper add(String label, int width, int height) {
+    return add(new Label(label), width, height);
+  }
 
-	/**
-	 * Adds the last.
-	 *
-	 * @param label
-	 *          the label
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper addLast(String label) {
-		return addLast(new Label(label));
-	}
+  /**
+   * Adds the last.
+   *
+   * @param label
+   *          the label
+   * @return the grid pane helper
+   */
+  public GridPaneHelper addLast(String label) {
+    return addLast(new Label(label));
+  }
 
-	/**
-	 * Adds the last.
-	 *
-	 * @param label
-	 *          the label
-	 * @param width
-	 *          the width
-	 * @param height
-	 *          the height
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper addLast(String label, int width, int height) {
-		return addLast(new Label(label), width, height);
-	}
+  /**
+   * Adds the last.
+   *
+   * @param label
+   *          the label
+   * @param width
+   *          the width
+   * @param height
+   *          the height
+   * @return the grid pane helper
+   */
+  public GridPaneHelper addLast(String label, int width, int height) {
+    return addLast(new Label(label), width, height);
+  }
 
-	/**
-	 * Adds the last.
-	 *
-	 * @param node
-	 *          the node
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper addLast(Node node) {
-		return addLast(node, 1, 1);
-	}
+  /**
+   * Adds the last.
+   *
+   * @param node
+   *          the node
+   * @return the grid pane helper
+   */
+  public GridPaneHelper addLast(Node node) {
+    return addLast(node, 1, 1);
+  }
 
-	/**
-	 * Adds the last.
-	 *
-	 * @param node
-	 *          the node
-	 * @param width
-	 *          the width
-	 * @param height
-	 *          the height
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper addLast(Node node, int width, int height) {
-		add(node, width, height);
+  /**
+   * Adds the last.
+   *
+   * @param node
+   *          the node
+   * @param width
+   *          the width
+   * @param height
+   *          the height
+   * @return the grid pane helper
+   */
+  public GridPaneHelper addLast(Node node, int width, int height) {
+    add(node, width, height);
 
-		newLine();
+    newLine();
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * Adds the.
-	 *
-	 * @param node
-	 *          the node
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper add(Node node) {
-		return add(node, 1, 1);
-	}
+  /**
+   * Adds the.
+   *
+   * @param node
+   *          the node
+   * @return the grid pane helper
+   */
+  public GridPaneHelper add(Node node) {
+    return add(node, 1, 1);
+  }
 
-	/**
-	 * Adds the.
-	 *
-	 * @param node
-	 *          the node
-	 * @param width
-	 *          the width
-	 * @param height
-	 *          the height
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper add(Node node, int width, int height) {
-		GridPane.setConstraints(node, column, row, width, height);
+  /**
+   * Adds the.
+   *
+   * @param node
+   *          the node
+   * @param width
+   *          the width
+   * @param height
+   *          the height
+   * @return the grid pane helper
+   */
+  public GridPaneHelper add(Node node, int width, int height) {
+    GridPane.setConstraints(node, column, row, width, height);
 
-		skip(width);
+    skip(width);
 
-		nodes.add(node);
+    nodes.add(node);
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * H grow.
-	 *
-	 * @param node
-	 *          the node
-	 * @param priority
-	 *          the priority
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper hGrow(Node node, Priority priority) {
-		GridPane.setHgrow(node, priority);
+  /**
+   * H grow.
+   *
+   * @param node
+   *          the node
+   * @param priority
+   *          the priority
+   * @return the grid pane helper
+   */
+  public GridPaneHelper hGrow(Node node, Priority priority) {
+    GridPane.setHgrow(node, priority);
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * V grow.
-	 *
-	 * @param node
-	 *          the node
-	 * @param priority
-	 *          the priority
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper vGrow(Node node, Priority priority) {
-		GridPane.setVgrow(node, priority);
+  /**
+   * V grow.
+   *
+   * @param node
+   *          the node
+   * @param priority
+   *          the priority
+   * @return the grid pane helper
+   */
+  public GridPaneHelper vGrow(Node node, Priority priority) {
+    GridPane.setVgrow(node, priority);
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * H alignment.
-	 *
-	 * @param node
-	 *          the node
-	 * @param pos
-	 *          the pos
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper hAlignment(Node node, HPos pos) {
-		GridPane.setHalignment(node, pos);
+  /**
+   * H alignment.
+   *
+   * @param node
+   *          the node
+   * @param pos
+   *          the pos
+   * @return the grid pane helper
+   */
+  public GridPaneHelper hAlignment(Node node, HPos pos) {
+    GridPane.setHalignment(node, pos);
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * V alignment.
-	 *
-	 * @param node
-	 *          the node
-	 * @param pos
-	 *          the pos
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper vAlignment(Node node, VPos pos) {
-		GridPane.setValignment(node, pos);
+  /**
+   * V alignment.
+   *
+   * @param node
+   *          the node
+   * @param pos
+   *          the pos
+   * @return the grid pane helper
+   */
+  public GridPaneHelper vAlignment(Node node, VPos pos) {
+    GridPane.setValignment(node, pos);
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * Fill height.
-	 *
-	 * @param node
-	 *          the node
-	 * @param fill
-	 *          the fill
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper fillHeight(Node node, Boolean fill) {
-		GridPane.setFillHeight(node, fill);
+  /**
+   * Fill height.
+   *
+   * @param node
+   *          the node
+   * @param fill
+   *          the fill
+   * @return the grid pane helper
+   */
+  public GridPaneHelper fillHeight(Node node, Boolean fill) {
+    GridPane.setFillHeight(node, fill);
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * Fill width.
-	 *
-	 * @param node
-	 *          the node
-	 * @param fill
-	 *          the fill
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper fillWidth(Node node, Boolean fill) {
-		GridPane.setFillWidth(node, fill);
+  /**
+   * Fill width.
+   *
+   * @param node
+   *          the node
+   * @param fill
+   *          the fill
+   * @return the grid pane helper
+   */
+  public GridPaneHelper fillWidth(Node node, Boolean fill) {
+    GridPane.setFillWidth(node, fill);
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * Reset.
-	 *
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper reset() {
-		nodes.clear();
-		this.pane = new GridPane();
-		row = 0;
-		column = 0;
+  /**
+   * Reset.
+   *
+   * @return the grid pane helper
+   */
+  public GridPaneHelper reset() {
+    nodes.clear();
+    this.pane = new GridPane();
+    row = 0;
+    column = 0;
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * Alignment.
-	 *
-	 * @param pos
-	 *          the pos
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper alignment(Pos pos) {
-		pane.setAlignment(pos);
+  /**
+   * Alignment.
+   *
+   * @param pos
+   *          the pos
+   * @return the grid pane helper
+   */
+  public GridPaneHelper alignment(Pos pos) {
+    pane.setAlignment(pos);
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * Grid lines.
-	 *
-	 * @param b
-	 *          the b
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper gridLines(boolean b) {
-		pane.setGridLinesVisible(b);
+  /**
+   * Grid lines.
+   *
+   * @param b
+   *          the b
+   * @return the grid pane helper
+   */
+  public GridPaneHelper gridLines(boolean b) {
+    pane.setGridLinesVisible(b);
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * H gap.
-	 *
-	 * @param gap
-	 *          the gap
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper hGap(double gap) {
-		pane.setHgap(gap);
+  /**
+   * H gap.
+   *
+   * @param gap
+   *          the gap
+   * @return the grid pane helper
+   */
+  public GridPaneHelper hGap(double gap) {
+    pane.setHgap(gap);
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * V gap.
-	 *
-	 * @param gap
-	 *          the gap
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper vGap(double gap) {
-		pane.setVgap(gap);
+  /**
+   * V gap.
+   *
+   * @param gap
+   *          the gap
+   * @return the grid pane helper
+   */
+  public GridPaneHelper vGap(double gap) {
+    pane.setVgap(gap);
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * Padding.
-	 *
-	 * @param insets
-	 *          the insets
-	 * @return the grid pane helper
-	 */
-	public GridPaneHelper padding(Insets insets) {
-		pane.setPadding(insets);
+  /**
+   * Padding.
+   *
+   * @param insets
+   *          the insets
+   * @return the grid pane helper
+   */
+  public GridPaneHelper padding(Insets insets) {
+    pane.setPadding(insets);
 
-		return this;
-	}
+    return this;
+  }
 
-	/**
-	 * Gets the pane.
-	 *
-	 * @return the pane
-	 */
-	public GridPane getPane() {
-		if (pane.getChildren().isEmpty()) pane.getChildren().addAll(nodes);
+  /**
+   * Gets the pane.
+   *
+   * @return the pane
+   */
+  public GridPane getPane() {
+    if (pane.getChildren().isEmpty()) pane.getChildren().addAll(nodes);
 
-		return pane;
-	}
+    return pane;
+  }
 
 }

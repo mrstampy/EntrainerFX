@@ -35,37 +35,37 @@ import javafx.scene.paint.Color;
  */
 public class ShadowEffectable extends Shadow implements Effectable {
 
-	/**
-	 * Instantiates a new shadow effectable.
-	 */
-	public ShadowEffectable() {
-		super();
-	}
+  /**
+   * Instantiates a new shadow effectable.
+   */
+  public ShadowEffectable() {
+    super();
+  }
 
-	/**
-	 * Instantiates a new shadow effectable.
-	 *
-	 * @param radius
-	 *          the radius
-	 * @param color
-	 *          the color
-	 */
-	public ShadowEffectable(double radius, Color color) {
-		super(radius, color);
-	}
+  /**
+   * Instantiates a new shadow effectable.
+   *
+   * @param radius
+   *          the radius
+   * @param color
+   *          the color
+   */
+  public ShadowEffectable(double radius, Color color) {
+    super(radius, color);
+  }
 
-	/**
-	 * Instantiates a new shadow effectable.
-	 *
-	 * @param blurType
-	 *          the blur type
-	 * @param color
-	 *          the color
-	 * @param radius
-	 *          the radius
-	 */
-	public ShadowEffectable(BlurType blurType, Color color, double radius) {
-		super(blurType, color, radius);
-	}
+  /**
+   * Instantiates a new shadow effectable.
+   *
+   * @param blurType
+   *          the blur type
+   * @param color
+   *          the color
+   * @param radius
+   *          the radius
+   */
+  public ShadowEffectable(BlurType blurType, Color color, double radius) {
+    super(blurType, color, radius);
+  }
 
 }

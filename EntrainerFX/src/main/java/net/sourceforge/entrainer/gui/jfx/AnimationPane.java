@@ -61,344 +61,344 @@ import org.slf4j.LoggerFactory;
  * The Class AnimationPane.
  */
 public class AnimationPane extends AbstractTitledPane {
-	private static final Logger log = LoggerFactory.getLogger(AnimationPane.class);
+  private static final Logger log = LoggerFactory.getLogger(AnimationPane.class);
 
-	private ComboBox<JFXEntrainerAnimation> animations = new ComboBox<JFXEntrainerAnimation>();
-	private CheckBox runAnimation = new CheckBox("Run Animations");
-	private CheckBox useColourAsBackground = new CheckBox("Use Colour Background");
-	private CheckBox applyAnimation = new CheckBox("Flash Animation");
-	private TextField animationBackground = new TextField();
-	private GridPane pane;
-	private URI imageFile;
+  private ComboBox<JFXEntrainerAnimation> animations = new ComboBox<JFXEntrainerAnimation>();
+  private CheckBox runAnimation = new CheckBox("Run Animations");
+  private CheckBox useColourAsBackground = new CheckBox("Use Colour Background");
+  private CheckBox applyAnimation = new CheckBox("Flash Animation");
+  private TextField animationBackground = new TextField();
+  private GridPane pane;
+  private URI imageFile;
 
-	/**
-	 * Instantiates a new animation pane.
-	 */
-	public AnimationPane() {
-		super("Animation Options");
-		init();
-	}
+  /**
+   * Instantiates a new animation pane.
+   */
+  public AnimationPane() {
+    super("Animation Options");
+    init();
+  }
 
-	/**
-	 * Checks if is flash animation.
-	 *
-	 * @return true, if is flash animation
-	 */
-	public boolean isFlashAnimation() {
-		return applyAnimation.isSelected();
-	}
+  /**
+   * Checks if is flash animation.
+   *
+   * @return true, if is flash animation
+   */
+  public boolean isFlashAnimation() {
+    return applyAnimation.isSelected();
+  }
 
-	/**
-	 * Sets the flash animation.
-	 *
-	 * @param b
-	 *          the new flash animation
-	 */
-	public void setFlashAnimation(boolean b) {
-		if (applyAnimation.isSelected() == b) return;
+  /**
+   * Sets the flash animation.
+   *
+   * @param b
+   *          the new flash animation
+   */
+  public void setFlashAnimation(boolean b) {
+    if (applyAnimation.isSelected() == b) return;
 
-		applyAnimation.setSelected(b);
-	}
+    applyAnimation.setSelected(b);
+  }
 
-	/**
-	 * Sets the animation selected.
-	 *
-	 * @param selected
-	 *          the new animation selected
-	 */
-	public void setAnimationSelected(boolean selected) {
-		setSelected(selected, runAnimation);
-	}
+  /**
+   * Sets the animation selected.
+   *
+   * @param selected
+   *          the new animation selected
+   */
+  public void setAnimationSelected(boolean selected) {
+    setSelected(selected, runAnimation);
+  }
 
-	/**
-	 * Gets the selected animation name.
-	 *
-	 * @return the selected animation name
-	 */
-	public String getSelectedAnimationName() {
-		JFXEntrainerAnimation selected = animations.getValue();
+  /**
+   * Gets the selected animation name.
+   *
+   * @return the selected animation name
+   */
+  public String getSelectedAnimationName() {
+    JFXEntrainerAnimation selected = animations.getValue();
 
-		return selected == null ? null : selected.toString();
-	}
+    return selected == null ? null : selected.toString();
+  }
 
-	/**
-	 * Gets the animation background picture.
-	 *
-	 * @return the animation background picture
-	 */
-	public String getAnimationBackgroundPicture() {
-		return imageFile == null ? "" : imageFile.toString();
-	}
+  /**
+   * Gets the animation background picture.
+   *
+   * @return the animation background picture
+   */
+  public String getAnimationBackgroundPicture() {
+    return imageFile == null ? "" : imageFile.toString();
+  }
 
-	private void setSelected(final boolean selected, final CheckBox checkBox) {
-		if (checkBox.isSelected() == selected) return;
-		JFXUtils.runLater(() -> checkBox.setSelected(selected));
-	}
+  private void setSelected(final boolean selected, final CheckBox checkBox) {
+    if (checkBox.isSelected() == selected) return;
+    JFXUtils.runLater(() -> checkBox.setSelected(selected));
+  }
 
-	private void setToolTips() {
-		setTooltip(runAnimation, "Run Animation During Entrainment Session");
-		setTooltip(useColourAsBackground, "If true will use a random colour as the animation background");
-		setTooltip(animationBackground, "Click to select a background image for animations");
-		setTooltip(animations, "The list of available animations");
-		setTooltip(applyAnimation, "Apply the chosen flash effect selected in the Flash Options to the animations");
+  private void setToolTips() {
+    setTooltip(runAnimation, "Run Animation During Entrainment Session");
+    setTooltip(useColourAsBackground, "If true will use a random colour as the animation background");
+    setTooltip(animationBackground, "Click to select a background image for animations");
+    setTooltip(animations, "The list of available animations");
+    setTooltip(applyAnimation, "Apply the chosen flash effect selected in the Flash Options to the animations");
 
-		setOnMouseClicked(e -> localDoc(e));
-	}
+    setOnMouseClicked(e -> localDoc(e));
+  }
 
-	private void localDoc(MouseEvent e) {
-		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
+  private void localDoc(MouseEvent e) {
+    if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		Utils.openLocalDocumentation("overview.html");
-	}
+    Utils.openLocalDocumentation("overview.html");
+  }
 
-	/**
-	 * Gets the animation.
-	 *
-	 * @return the animation
-	 */
-	public CheckBox getRunAnimation() {
-		return runAnimation;
-	}
+  /**
+   * Gets the animation.
+   *
+   * @return the animation
+   */
+  public CheckBox getRunAnimation() {
+    return runAnimation;
+  }
 
-	/**
-	 * Gets the use desktop as background.
-	 *
-	 * @return the use desktop as background
-	 */
-	public CheckBox getUseColourAsBackground() {
-		return useColourAsBackground;
-	}
+  /**
+   * Gets the use desktop as background.
+   *
+   * @return the use desktop as background
+   */
+  public CheckBox getUseColourAsBackground() {
+    return useColourAsBackground;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
-	 */
-	protected void init() {
-		initMediator();
-		initGui();
-		setToolTips();
-		super.init();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
+   */
+  protected void init() {
+    initMediator();
+    initGui();
+    setToolTips();
+    super.init();
+  }
 
-	private void initGui() {
-		animationBackground.setEditable(false);
-		animationBackground.setOnMouseClicked(e -> showImageChooser());
+  private void initGui() {
+    animationBackground.setEditable(false);
+    animationBackground.setOnMouseClicked(e -> showImageChooser());
 
-		animations.setOnAction(e -> animationSelected());
-		useColourAsBackground.setOnAction(e -> useColourClicked());
+    animations.setOnAction(e -> animationSelected());
+    useColourAsBackground.setOnAction(e -> useColourClicked());
 
-		initCheckBox(runAnimation, MediatorConstants.IS_ANIMATION);
-		initCheckBox(applyAnimation, MediatorConstants.APPLY_FLASH_TO_ANIMATION);
+    initCheckBox(runAnimation, MediatorConstants.IS_ANIMATION);
+    initCheckBox(applyAnimation, MediatorConstants.APPLY_FLASH_TO_ANIMATION);
 
-		pane = new GridPane();
-		pane.setPadding(new Insets(10));
-		pane.setAlignment(Pos.CENTER);
-		pane.setHgap(10);
-		pane.setVgap(10);
+    pane = new GridPane();
+    pane.setPadding(new Insets(10));
+    pane.setAlignment(Pos.CENTER);
+    pane.setHgap(10);
+    pane.setVgap(10);
 
-		int col = 0;
-		int row = 0;
+    int col = 0;
+    int row = 0;
 
-		GridPane.setConstraints(runAnimation, col++, row);
-		GridPane.setConstraints(animations, col, row++);
-		col = 0;
-		GridPane.setConstraints(applyAnimation, col, row++);
-		GridPane.setConstraints(useColourAsBackground, col++, row);
-		GridPane.setConstraints(animationBackground, col, row);
+    GridPane.setConstraints(runAnimation, col++, row);
+    GridPane.setConstraints(animations, col, row++);
+    col = 0;
+    GridPane.setConstraints(applyAnimation, col, row++);
+    GridPane.setConstraints(useColourAsBackground, col++, row);
+    GridPane.setConstraints(animationBackground, col, row);
 
-		pane.getChildren().addAll(applyAnimation, runAnimation, animations, useColourAsBackground, animationBackground);
+    pane.getChildren().addAll(applyAnimation, runAnimation, animations, useColourAsBackground, animationBackground);
 
-		expandedProperty().addListener(new InvalidationListener() {
+    expandedProperty().addListener(new InvalidationListener() {
 
-			@Override
-			public void invalidated(Observable arg0) {
-				refreshAnimations();
-			}
-		});
+      @Override
+      public void invalidated(Observable arg0) {
+        refreshAnimations();
+      }
+    });
 
-		pane.setAlignment(Pos.CENTER);
-	}
+    pane.setAlignment(Pos.CENTER);
+  }
 
-	/**
-	 * Refresh animations.
-	 */
-	public void refreshAnimations() {
-		final List<JFXEntrainerAnimation> all = JFXAnimationRegister.getEntrainerAnimations();
+  /**
+   * Refresh animations.
+   */
+  public void refreshAnimations() {
+    final List<JFXEntrainerAnimation> all = JFXAnimationRegister.getEntrainerAnimations();
 
-		List<JFXEntrainerAnimation> bag = animations.getItems();
+    List<JFXEntrainerAnimation> bag = animations.getItems();
 
-		JFXEntrainerAnimation selected = animations.getValue();
-		String name = selected == null ? null : selected.toString();
+    JFXEntrainerAnimation selected = animations.getValue();
+    String name = selected == null ? null : selected.toString();
 
-		for (JFXEntrainerAnimation animation : all) {
-			if (!bag.contains(animation)) {
-				removeOldAnimation(animation, bag);
-				bag.add(animation);
-			}
-		}
+    for (JFXEntrainerAnimation animation : all) {
+      if (!bag.contains(animation)) {
+        removeOldAnimation(animation, bag);
+        bag.add(animation);
+      }
+    }
 
-		if (name != null) animations.setValue(JFXAnimationRegister.getEntrainerAnimation(name));
+    if (name != null) animations.setValue(JFXAnimationRegister.getEntrainerAnimation(name));
 
-		if (all.isEmpty()) {
-			throw new RuntimeException("Could not load animations");
-		}
-	}
+    if (all.isEmpty()) {
+      throw new RuntimeException("Could not load animations");
+    }
+  }
 
-	private void removeOldAnimation(JFXEntrainerAnimation animation, List<JFXEntrainerAnimation> bag) {
-		ListIterator<JFXEntrainerAnimation> it = bag.listIterator();
-		while (it.hasNext()) {
-			JFXEntrainerAnimation existing = it.next();
-			if (existing.toString().equals(animation.toString()) && existing != animation) {
-				it.remove();
-				it.add(animation);
-			}
-		}
-	}
+  private void removeOldAnimation(JFXEntrainerAnimation animation, List<JFXEntrainerAnimation> bag) {
+    ListIterator<JFXEntrainerAnimation> it = bag.listIterator();
+    while (it.hasNext()) {
+      JFXEntrainerAnimation existing = it.next();
+      if (existing.toString().equals(animation.toString()) && existing != animation) {
+        it.remove();
+        it.add(animation);
+      }
+    }
+  }
 
-	/**
-	 * Show image chooser.
-	 */
-	protected void showImageChooser() {
-		FileChooser chooser = new FileChooser();
-		chooser.setTitle("Choose Background Image for Animation");
-		chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.gif",
-				"*.bmp", "*.png"));
+  /**
+   * Show image chooser.
+   */
+  protected void showImageChooser() {
+    FileChooser chooser = new FileChooser();
+    chooser.setTitle("Choose Background Image for Animation");
+    chooser.getExtensionFilters()
+        .add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.gif", "*.bmp", "*.png"));
 
-		File f = chooser.showOpenDialog(null);
+    File f = chooser.showOpenDialog(null);
 
-		if (f == null && imageFile == null) {
-			useColourAsBackground.setSelected(true);
-		} else if (f != null) {
-			String externalForm = f.toURI().toString();
-			fireBackgroundSelection(externalForm);
-			initAnimationBackground(externalForm);
-		}
-	}
+    if (f == null && imageFile == null) {
+      useColourAsBackground.setSelected(true);
+    } else if (f != null) {
+      String externalForm = f.toURI().toString();
+      fireBackgroundSelection(externalForm);
+      initAnimationBackground(externalForm);
+    }
+  }
 
-	private void initMediator() {
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
+  private void initMediator() {
+    EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
 
-			@Override
-			protected void processReceiverChangeEvent(final ReceiverChangeEvent e) {
-				switch (e.getParm()) {
+      @Override
+      protected void processReceiverChangeEvent(final ReceiverChangeEvent e) {
+        switch (e.getParm()) {
 
-				case ANIMATION_BACKGROUND:
-					initAnimationBackground(e.getStringValue());
-					break;
-				case ANIMATION_COLOR_BACKGROUND:
-					JFXUtils.runLater(() -> useColourAsBackground.setSelected(e.getBooleanValue()));
-					break;
-				case ANIMATION_PROGRAM:
-					initEntrainerAnimation(e.getStringValue());
-					break;
-				case IS_ANIMATION:
-					setAnimationSelected(e.getBooleanValue());
-					break;
-				case APPLY_FLASH_TO_ANIMATION:
-					JFXUtils.runLater(() -> setFlashAnimation(e.getBooleanValue()));
-					break;
-				default:
-					break;
+        case ANIMATION_BACKGROUND:
+          initAnimationBackground(e.getStringValue());
+          break;
+        case ANIMATION_COLOR_BACKGROUND:
+          JFXUtils.runLater(() -> useColourAsBackground.setSelected(e.getBooleanValue()));
+          break;
+        case ANIMATION_PROGRAM:
+          initEntrainerAnimation(e.getStringValue());
+          break;
+        case IS_ANIMATION:
+          setAnimationSelected(e.getBooleanValue());
+          break;
+        case APPLY_FLASH_TO_ANIMATION:
+          JFXUtils.runLater(() -> setFlashAnimation(e.getBooleanValue()));
+          break;
+        default:
+          break;
 
-				}
+        }
 
-			}
-		});
-	}
+      }
+    });
+  }
 
-	private void initEntrainerAnimation(final String animationProgram) {
-		if (animationProgram != null && animationProgram.trim().length() > 0) {
-			JFXUtils.runLater(new Runnable() {
+  private void initEntrainerAnimation(final String animationProgram) {
+    if (animationProgram != null && animationProgram.trim().length() > 0) {
+      JFXUtils.runLater(new Runnable() {
 
-				@Override
-				public void run() {
-					animations.setValue(JFXAnimationRegister.getEntrainerAnimation(animationProgram));
-					setBackgroundFields(animations.getValue());
-				}
-			});
-		}
-	}
+        @Override
+        public void run() {
+          animations.setValue(JFXAnimationRegister.getEntrainerAnimation(animationProgram));
+          setBackgroundFields(animations.getValue());
+        }
+      });
+    }
+  }
 
-	private void setBackgroundFields(JFXEntrainerAnimation selectedItem) {
-		if (selectedItem.useBackgroundColour()) {
-			useColourAsBackground.setSelected(false);
-			animationBackground.setDisable(true);
-			return;
-		}
+  private void setBackgroundFields(JFXEntrainerAnimation selectedItem) {
+    if (selectedItem.useBackgroundColour()) {
+      useColourAsBackground.setSelected(false);
+      animationBackground.setDisable(true);
+      return;
+    }
 
-		if (selectedItem.useDesktopBackground()) {
-			useColourAsBackground.setSelected(true);
-			animationBackground.setDisable(false);
-		} else {
-			useColourAsBackground.setSelected(false);
-			animationBackground.setDisable(true);
-		}
-	}
+    if (selectedItem.useDesktopBackground()) {
+      useColourAsBackground.setSelected(true);
+      animationBackground.setDisable(false);
+    } else {
+      useColourAsBackground.setSelected(false);
+      animationBackground.setDisable(true);
+    }
+  }
 
-	private void initAnimationBackground(final String s) {
-		JFXUtils.runLater(() -> setBackgroundFile(s));
-	}
+  private void initAnimationBackground(final String s) {
+    JFXUtils.runLater(() -> setBackgroundFile(s));
+  }
 
-	private void setBackgroundFile(String s) {
-		if (s == null || s.isEmpty()) {
-			imageFile = null;
-			animationBackground.setText("");
-			return;
-		}
+  private void setBackgroundFile(String s) {
+    if (s == null || s.isEmpty()) {
+      imageFile = null;
+      animationBackground.setText("");
+      return;
+    }
 
-		try {
-			imageFile = new URI(s);
-			File f = new File(imageFile.isAbsolute() ? imageFile : imageFile.normalize());
-			animationBackground.setText(f.getName());
-		} catch (URISyntaxException e) {
-			log.error("Unexpected exception", e);
-		}
-	}
+    try {
+      imageFile = new URI(s);
+      File f = new File(imageFile.isAbsolute() ? imageFile : imageFile.normalize());
+      animationBackground.setText(f.getName());
+    } catch (URISyntaxException e) {
+      log.error("Unexpected exception", e);
+    }
+  }
 
-	private void fireDesktopBackground() {
-		fireReceiverChangeEvent(useColourAsBackground.isSelected(), MediatorConstants.ANIMATION_COLOR_BACKGROUND);
-	}
+  private void fireDesktopBackground() {
+    fireReceiverChangeEvent(useColourAsBackground.isSelected(), MediatorConstants.ANIMATION_COLOR_BACKGROUND);
+  }
 
-	private void fireAnimationSelection(String name) {
-		fireReceiverChangeEvent(name, ANIMATION_PROGRAM);
-	}
+  private void fireAnimationSelection(String name) {
+    fireReceiverChangeEvent(name, ANIMATION_PROGRAM);
+  }
 
-	private void fireBackgroundSelection(String name) {
-		fireReceiverChangeEvent(name, ANIMATION_BACKGROUND);
-	}
+  private void fireBackgroundSelection(String name) {
+    fireReceiverChangeEvent(name, ANIMATION_BACKGROUND);
+  }
 
-	private void initCheckBox(final CheckBox checkBox, final MediatorConstants parm) {
-		checkBox.setOnAction(e -> fireReceiverChangeEvent(checkBox.isSelected(), parm));
-	}
+  private void initCheckBox(final CheckBox checkBox, final MediatorConstants parm) {
+    checkBox.setOnAction(e -> fireReceiverChangeEvent(checkBox.isSelected(), parm));
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#getContentPane()
-	 */
-	@Override
-	protected Node getContentPane() {
-		return pane;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#getContentPane()
+   */
+  @Override
+  protected Node getContentPane() {
+    return pane;
+  }
 
-	private void animationSelected() {
-		JFXEntrainerAnimation val = animations.getValue();
-		if (val != null) {
-			fireAnimationSelection(val.toString());
-			setBackgroundFields(val);
-		}
-	}
+  private void animationSelected() {
+    JFXEntrainerAnimation val = animations.getValue();
+    if (val != null) {
+      fireAnimationSelection(val.toString());
+      setBackgroundFields(val);
+    }
+  }
 
-	private void useColourClicked() {
-		fireDesktopBackground();
-		if (!useColourAsBackground.isSelected()) {
-			if (imageFile == null) {
-				showImageChooser();
-			} else {
-				fireBackgroundSelection(imageFile.toString());
-			}
-		}
-	}
+  private void useColourClicked() {
+    fireDesktopBackground();
+    if (!useColourAsBackground.isSelected()) {
+      if (imageFile == null) {
+        showImageChooser();
+      } else {
+        fireBackgroundSelection(imageFile.toString());
+      }
+    }
+  }
 
 }

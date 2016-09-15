@@ -48,192 +48,192 @@ import net.sourceforge.entrainer.util.Utils;
  */
 public class ShimmerOptionsPane extends AbstractTitledPane {
 
-	private ComboBox<String> shimmers = new ComboBox<String>();
-	private CheckBox shimmer = new CheckBox("Shimmer");
-	private CheckBox applyShimmer = new CheckBox("Flash Shimmer");
-	private HBox fp;
+  private ComboBox<String> shimmers = new ComboBox<String>();
+  private CheckBox shimmer = new CheckBox("Shimmer");
+  private CheckBox applyShimmer = new CheckBox("Flash Shimmer");
+  private HBox fp;
 
-	/**
-	 * Instantiates a new shimmer options pane.
-	 */
-	public ShimmerOptionsPane() {
-		super("Shimmer Options");
-		init();
-	}
+  /**
+   * Instantiates a new shimmer options pane.
+   */
+  public ShimmerOptionsPane() {
+    super("Shimmer Options");
+    init();
+  }
 
-	/**
-	 * Checks if is flash shimmer.
-	 *
-	 * @return true, if is flash shimmer
-	 */
-	public boolean isFlashShimmer() {
-		return applyShimmer.isSelected();
-	}
+  /**
+   * Checks if is flash shimmer.
+   *
+   * @return true, if is flash shimmer
+   */
+  public boolean isFlashShimmer() {
+    return applyShimmer.isSelected();
+  }
 
-	/**
-	 * Sets the flash shimmer.
-	 *
-	 * @param b
-	 *          the new flash shimmer
-	 */
-	public void setFlashShimmer(boolean b) {
-		if (applyShimmer.isSelected() == b) return;
-		applyShimmer.setSelected(b);
-	}
+  /**
+   * Sets the flash shimmer.
+   *
+   * @param b
+   *          the new flash shimmer
+   */
+  public void setFlashShimmer(boolean b) {
+    if (applyShimmer.isSelected() == b) return;
+    applyShimmer.setSelected(b);
+  }
 
-	/**
-	 * Gets the shimmer.
-	 *
-	 * @return the shimmer
-	 */
-	public CheckBox getShimmer() {
-		return shimmer;
-	}
+  /**
+   * Gets the shimmer.
+   *
+   * @return the shimmer
+   */
+  public CheckBox getShimmer() {
+    return shimmer;
+  }
 
-	/**
-	 * Sets the shimmer selected.
-	 *
-	 * @param selected
-	 *          the new shimmer selected
-	 */
-	public void setShimmerSelected(boolean selected) {
-		setSelected(selected, shimmer);
-	}
+  /**
+   * Sets the shimmer selected.
+   *
+   * @param selected
+   *          the new shimmer selected
+   */
+  public void setShimmerSelected(boolean selected) {
+    setSelected(selected, shimmer);
+  }
 
-	private void setToolTips() {
-		setTooltip(shimmer, "Adds a shimmer effect to the application");
-		setTooltip(applyShimmer, "Apply the chosen flash effect selected in the Flash Options to the shimmers");
+  private void setToolTips() {
+    setTooltip(shimmer, "Adds a shimmer effect to the application");
+    setTooltip(applyShimmer, "Apply the chosen flash effect selected in the Flash Options to the shimmers");
 
-		setOnMouseClicked(e -> localDoc(e));
-	}
+    setOnMouseClicked(e -> localDoc(e));
+  }
 
-	private void localDoc(MouseEvent e) {
-		if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
+  private void localDoc(MouseEvent e) {
+    if (!(e.isMetaDown() && e.getClickCount() == 1)) return;
 
-		Utils.openLocalDocumentation("overview.html");
-	}
+    Utils.openLocalDocumentation("overview.html");
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
-	 */
-	protected void init() {
-		initMediator();
-		setToolTips();
-		setText("Shimmer Options");
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#init()
+   */
+  protected void init() {
+    initMediator();
+    setToolTips();
+    setText("Shimmer Options");
 
-		shimmers.getItems().addAll(ShimmerRegister.getShimmerNames());
-		initCheckBox(shimmer, MediatorConstants.IS_SHIMMER);
+    shimmers.getItems().addAll(ShimmerRegister.getShimmerNames());
+    initCheckBox(shimmer, MediatorConstants.IS_SHIMMER);
 
-		fp = new HBox(10, getCheckBoxLayout(), shimmers);
+    fp = new HBox(10, getCheckBoxLayout(), shimmers);
 
-		shimmers.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+    shimmers.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
-			@Override
-			public void handle(ActionEvent arg0) {
-				fireShimmerSelected(ShimmerRegister.getShimmer(shimmers.getValue()));
-			}
-		});
+      @Override
+      public void handle(ActionEvent arg0) {
+        fireShimmerSelected(ShimmerRegister.getShimmer(shimmers.getValue()));
+      }
+    });
 
-		applyShimmer.setOnAction(e -> applyShimmerClicked());
+    applyShimmer.setOnAction(e -> applyShimmerClicked());
 
-		fp.setAlignment(Pos.CENTER);
+    fp.setAlignment(Pos.CENTER);
 
-		super.init();
-	}
+    super.init();
+  }
 
-	private void applyShimmerClicked() {
-		fireReceiverChangeEvent(applyShimmer.isSelected(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
-	}
+  private void applyShimmerClicked() {
+    fireReceiverChangeEvent(applyShimmer.isSelected(), MediatorConstants.APPLY_FLASH_TO_SHIMMER);
+  }
 
-	private Node getCheckBoxLayout() {
-		return new VBox(10, shimmer, applyShimmer);
-	}
+  private Node getCheckBoxLayout() {
+    return new VBox(10, shimmer, applyShimmer);
+  }
 
-	private void setSelected(final boolean selected, final CheckBox checkBox) {
-		if (checkBox.isSelected() == selected) return;
-		JFXUtils.runLater(new Runnable() {
+  private void setSelected(final boolean selected, final CheckBox checkBox) {
+    if (checkBox.isSelected() == selected) return;
+    JFXUtils.runLater(new Runnable() {
 
-			@Override
-			public void run() {
-				checkBox.setSelected(selected);
-			}
-		});
-	}
+      @Override
+      public void run() {
+        checkBox.setSelected(selected);
+      }
+    });
+  }
 
-	private void initCheckBox(final CheckBox checkBox, final MediatorConstants parm) {
-		checkBox.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+  private void initCheckBox(final CheckBox checkBox, final MediatorConstants parm) {
+    checkBox.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
-			@Override
-			public void handle(ActionEvent arg0) {
-				fireReceiverChangeEvent(checkBox.isSelected(), parm);
-			}
-		});
-	}
+      @Override
+      public void handle(ActionEvent arg0) {
+        fireReceiverChangeEvent(checkBox.isSelected(), parm);
+      }
+    });
+  }
 
-	private void fireShimmerSelected(AbstractShimmer<?> shimmer) {
-		if (shimmer == null) return;
-		fireReceiverChangeEvent(shimmer.toString(), MediatorConstants.SHIMMER_RECTANGLE);
-	}
+  private void fireShimmerSelected(AbstractShimmer<?> shimmer) {
+    if (shimmer == null) return;
+    fireReceiverChangeEvent(shimmer.toString(), MediatorConstants.SHIMMER_RECTANGLE);
+  }
 
-	private void initMediator() {
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
+  private void initMediator() {
+    EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
 
-			@Override
-			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				switch (e.getParm()) {
+      @Override
+      protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+        switch (e.getParm()) {
 
-				case SHIMMER_RECTANGLE:
-					setItemSelected(e.getStringValue());
-					break;
-				case IS_SHIMMER:
-					setShimmerSelected(e.getBooleanValue());
-					break;
-				case APPLY_FLASH_TO_SHIMMER:
-					JFXUtils.runLater(() -> setFlashShimmer(e.getBooleanValue()));
-					break;
-				default:
-					break;
+        case SHIMMER_RECTANGLE:
+          setItemSelected(e.getStringValue());
+          break;
+        case IS_SHIMMER:
+          setShimmerSelected(e.getBooleanValue());
+          break;
+        case APPLY_FLASH_TO_SHIMMER:
+          JFXUtils.runLater(() -> setFlashShimmer(e.getBooleanValue()));
+          break;
+        default:
+          break;
 
-				}
+        }
 
-			}
-		});
-	}
+      }
+    });
+  }
 
-	private void setItemSelected(final String stringValue) {
-		AbstractShimmer<?> shimmer = ShimmerRegister.getShimmer(stringValue);
-		if (shimmer == null) return;
-		String selected = shimmers.getValue();
-		if (selected != null && selected.equals(shimmer.toString())) return;
+  private void setItemSelected(final String stringValue) {
+    AbstractShimmer<?> shimmer = ShimmerRegister.getShimmer(stringValue);
+    if (shimmer == null) return;
+    String selected = shimmers.getValue();
+    if (selected != null && selected.equals(shimmer.toString())) return;
 
-		JFXUtils.runLater(new Runnable() {
+    JFXUtils.runLater(new Runnable() {
 
-			@Override
-			public void run() {
-				shimmers.setValue(stringValue);
-			}
-		});
-	}
+      @Override
+      public void run() {
+        shimmers.setValue(stringValue);
+      }
+    });
+  }
 
-	/**
-	 * Gets the shimmers.
-	 *
-	 * @return the shimmers
-	 */
-	public ComboBox<String> getShimmers() {
-		return shimmers;
-	}
+  /**
+   * Gets the shimmers.
+   *
+   * @return the shimmers
+   */
+  public ComboBox<String> getShimmers() {
+    return shimmers;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#getContentPane()
-	 */
-	@Override
-	protected Node getContentPane() {
-		return fp;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.gui.jfx.AbstractTitledPane#getContentPane()
+   */
+  @Override
+  protected Node getContentPane() {
+    return fp;
+  }
 
 }

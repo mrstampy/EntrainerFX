@@ -38,64 +38,64 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EntrainerProgramInterval {
 
-	@XmlAttribute
-	private String value;
+  @XmlAttribute
+  private String value;
 
-	/**
-	 * Instantiates a new entrainer program interval.
-	 */
-	public EntrainerProgramInterval() {
-		//
-	}
+  /**
+   * Instantiates a new entrainer program interval.
+   */
+  public EntrainerProgramInterval() {
+    //
+  }
 
-	/**
-	 * Instantiates a new entrainer program interval.
-	 *
-	 * @param value
-	 *          the value
-	 */
-	public EntrainerProgramInterval(String value) {
-		setValue(value);
-	}
+  /**
+   * Instantiates a new entrainer program interval.
+   *
+   * @param value
+   *          the value
+   */
+  public EntrainerProgramInterval(String value) {
+    setValue(value);
+  }
 
-	/**
-	 * Gets the value.
-	 *
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
-	}
+  /**
+   * Gets the value.
+   *
+   * @return the value
+   */
+  public String getValue() {
+    return value;
+  }
 
-	/**
-	 * Sets the value.
-	 *
-	 * @param value
-	 *          the new value
-	 */
-	public void setValue(String value) {
-		this.value = value;
-	}
+  /**
+   * Sets the value.
+   *
+   * @param value
+   *          the new value
+   */
+  public void setValue(String value) {
+    this.value = value;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object o) {
-		if (o == null) return false;
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  public boolean equals(Object o) {
+    if (o == null) return false;
 
-		if (o instanceof EntrainerProgramInterval) return getValue().equals(((EntrainerProgramInterval) o).getValue());
+    if (o instanceof EntrainerProgramInterval) return getValue().equals(((EntrainerProgramInterval) o).getValue());
 
-		return false;
-	}
+    return false;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode() {
-		return 17 * getValue().hashCode();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#hashCode()
+   */
+  public int hashCode() {
+    return 17 * getValue().hashCode();
+  }
 }

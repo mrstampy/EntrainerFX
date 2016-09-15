@@ -37,37 +37,39 @@ import javafx.scene.paint.LinearGradient;
  */
 public class WaveShimmerRectangle extends AbstractShimmer<LinearGradient> {
 
-	/** The Constant NAME. */
-	public static final String NAME = "Wave Gradient";
+  /** The Constant NAME. */
+  public static final String NAME = "Wave Gradient";
 
-	/**
-	 * Instantiates a new wave shimmer rectangle.
-	 */
-	public WaveShimmerRectangle() {
-		super();
-	}
+  /**
+   * Instantiates a new wave shimmer rectangle.
+   */
+  public WaveShimmerRectangle() {
+    super();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
-	 * (double)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinearGradient createNewPaint(double opacity) {
-		return ShimmerPaintUtils.createWaveStop(opacity, getWidth(), getHeight(), getP1() == null ? Collections.EMPTY_LIST
-				: getP1().getStops());
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
+   * (double)
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  protected LinearGradient createNewPaint(double opacity) {
+    return ShimmerPaintUtils.createWaveStop(opacity,
+        getWidth(),
+        getHeight(),
+        getP1() == null ? Collections.EMPTY_LIST : getP1().getStops());
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
-	 */
-	public String toString() {
-		return NAME;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
+   */
+  public String toString() {
+    return NAME;
+  }
 
 }

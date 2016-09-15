@@ -30,20 +30,19 @@ package net.sourceforge.entrainer.neuroph;
  * The listener interface for receiving networkProcessed events. The class that
  * is interested in processing a networkProcessed event implements this
  * interface, and the object created with that class is registered with a
- * component using the component's
- * <code>addNetworkProcessedListener<code> method. When
- * the networkProcessed event occurs, that object's appropriate
- * method is invoked.
+ * component using the component's <code>addNetworkProcessedListener
+ * <code> method. When the networkProcessed event occurs, that object's
+ * appropriate method is invoked.
  *
  * @see NetworkProcessedEvent
  */
 public interface NetworkProcessedListener {
 
-	/**
-	 * Network processed.
-	 *
-	 * @param processed
-	 *          the processed
-	 */
-	void networkProcessed(double[] processed);
+  /**
+   * Network processed.
+   *
+   * @param processed
+   *          the processed
+   */
+  void networkProcessed(double[] processed);
 }

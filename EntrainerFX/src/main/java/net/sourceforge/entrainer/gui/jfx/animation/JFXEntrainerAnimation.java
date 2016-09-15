@@ -80,174 +80,173 @@ import net.sourceforge.entrainer.gui.EntrainerBackground;
  */
 public abstract class JFXEntrainerAnimation extends AbstractJFXAnimation {
 
-	private Rectangle2D entrainerFramePosition;
-	private List<AnimationRectangle2D> shapes = new ArrayList<AnimationRectangle2D>();
-	private List<AnimationRectangle2D> removables = new ArrayList<AnimationRectangle2D>();
+  private Rectangle2D entrainerFramePosition;
+  private List<AnimationRectangle2D> shapes = new ArrayList<AnimationRectangle2D>();
+  private List<AnimationRectangle2D> removables = new ArrayList<AnimationRectangle2D>();
 
-	/**
-	 * Call <code>super();</code> in all subclass constructors.
-	 */
-	public JFXEntrainerAnimation() {
-		super();
-		setHideEntrainerFrame(false);
-	}
+  /**
+   * Call <code>super();</code> in all subclass constructors.
+   */
+  public JFXEntrainerAnimation() {
+    super();
+    setHideEntrainerFrame(false);
+  }
 
-	/**
-	 * Implement to return a new shape. Typically called by the
-	 * <code>maybeAddNewAnimationRectangle2D();</code> implementation.
-	 *
-	 * @param position
-	 *          the position
-	 * @return the new animation rectangle2 d
-	 */
-	protected abstract AnimationRectangle2D getNewAnimationRectangle2D(Point2D position);
+  /**
+   * Implement to return a new shape. Typically called by the
+   * <code>maybeAddNewAnimationRectangle2D();</code> implementation.
+   *
+   * @param position
+   *          the position
+   * @return the new animation rectangle2 d
+   */
+  protected abstract AnimationRectangle2D getNewAnimationRectangle2D(Point2D position);
 
-	/**
-	 * Implement to decide how to move, change colours of, etc. the specified
-	 * shape. The implementation must also draw the shape.
-	 *
-	 * @param gc
-	 *          the gc
-	 * @param shape
-	 *          the shape
-	 */
-	protected abstract void move(GraphicsContext gc, AnimationRectangle2D shape);
+  /**
+   * Implement to decide how to move, change colours of, etc. the specified
+   * shape. The implementation must also draw the shape.
+   *
+   * @param gc
+   *          the gc
+   * @param shape
+   *          the shape
+   */
+  protected abstract void move(GraphicsContext gc, AnimationRectangle2D shape);
 
-	/**
-	 * Implement to decide whether or not to add a new shape to the animation. To
-	 * do so, call the <code>getNewAnimationRectangle2D(Point2D);</code> method,
-	 * then <code>addAnimationRectangle2D(AnimationRectangle2D);</code>.
-	 */
-	public abstract void maybeAddNewAnimationRectangle();
+  /**
+   * Implement to decide whether or not to add a new shape to the animation. To
+   * do so, call the <code>getNewAnimationRectangle2D(Point2D);</code> method,
+   * then <code>addAnimationRectangle2D(AnimationRectangle2D);</code>.
+   */
+  public abstract void maybeAddNewAnimationRectangle();
 
-	/**
-	 * Call this method to add the specified shape to the animation.
-	 *
-	 * @param shape
-	 *          the shape
-	 */
-	protected synchronized void add(AnimationRectangle2D shape) {
-		shapes.add(shape);
-	}
+  /**
+   * Call this method to add the specified shape to the animation.
+   *
+   * @param shape
+   *          the shape
+   */
+  protected synchronized void add(AnimationRectangle2D shape) {
+    shapes.add(shape);
+  }
 
-	/**
-	 * Call this method to remove all shapes from the animation.
-	 */
-	public synchronized void clearAnimation() {
-		shapes.clear();
-	}
+  /**
+   * Call this method to remove all shapes from the animation.
+   */
+  public synchronized void clearAnimation() {
+    shapes.clear();
+  }
 
-	/**
-	 * Do not call this directly; it is invoked from {@link AnimationWindow}.
-	 * Iterates thru the added shapes and calls the
-	 * <code>moveAnimationRectangle2D(Graphics2D, AnimationRectangle2D);</code>
-	 * method for each.
-	 *
-	 * @param gc
-	 *          the gc
-	 */
-	public synchronized void animate(GraphicsContext gc) {
-		maybeAddNewAnimationRectangle();
+  /**
+   * Do not call this directly; it is invoked from {@link AnimationWindow}.
+   * Iterates thru the added shapes and calls the
+   * <code>moveAnimationRectangle2D(Graphics2D, AnimationRectangle2D);</code>
+   * method for each.
+   *
+   * @param gc
+   *          the gc
+   */
+  public synchronized void animate(GraphicsContext gc) {
+    maybeAddNewAnimationRectangle();
 
-		super.animate(gc);
-	}
+    super.animate(gc);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.gui.jfx.animation.AbstractJFXAnimation#animateImpl
-	 * (javafx.scene.canvas.GraphicsContext)
-	 */
-	@Override
-	protected void animateImpl(GraphicsContext gc) {
-		for (AnimationRectangle2D shape : getCopy()) {
-			move(gc, shape);
-		}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.gui.jfx.animation.AbstractJFXAnimation#
+   * animateImpl (javafx.scene.canvas.GraphicsContext)
+   */
+  @Override
+  protected void animateImpl(GraphicsContext gc) {
+    for (AnimationRectangle2D shape : getCopy()) {
+      move(gc, shape);
+    }
 
-		removeRemovables();
-	}
+    removeRemovables();
+  }
 
-	/**
-	 * Returns true if the shape is intersecting (touching) the Entrainer frame.
-	 *
-	 * @param shape
-	 *          the shape
-	 * @return true, if is intersecting with entrainer frame
-	 */
-	protected boolean isIntersectingWithEntrainerFrame(AnimationRectangle2D shape) {
-		Rectangle2D r = getEntrainerFramePosition();
-		return shape.intersects(r.getMinX(), r.getMinY(), r.getMaxX(), r.getMaxY());
-	}
+  /**
+   * Returns true if the shape is intersecting (touching) the Entrainer frame.
+   *
+   * @param shape
+   *          the shape
+   * @return true, if is intersecting with entrainer frame
+   */
+  protected boolean isIntersectingWithEntrainerFrame(AnimationRectangle2D shape) {
+    Rectangle2D r = getEntrainerFramePosition();
+    return shape.intersects(r.getMinX(), r.getMinY(), r.getMaxX(), r.getMaxY());
+  }
 
-	/**
-	 * Returns a copy of the list of animations currently being rendered.
-	 *
-	 * @return the copy
-	 */
-	protected List<AnimationRectangle2D> getCopy() {
-		return new ArrayList<AnimationRectangle2D>(shapes);
-	}
+  /**
+   * Returns a copy of the list of animations currently being rendered.
+   *
+   * @return the copy
+   */
+  protected List<AnimationRectangle2D> getCopy() {
+    return new ArrayList<AnimationRectangle2D>(shapes);
+  }
 
-	/**
-	 * Returns the number of shapes currently being rendered.
-	 *
-	 * @return the count
-	 */
-	protected int getCount() {
-		return getCopy().size();
-	}
+  /**
+   * Returns the number of shapes currently being rendered.
+   *
+   * @return the count
+   */
+  protected int getCount() {
+    return getCopy().size();
+  }
 
-	/**
-	 * Returns the current center point of the Entrainer frame.
-	 *
-	 * @return the center of entrainer frame
-	 */
-	protected Point2D getCenterOfEntrainerFrame() {
-		Rectangle2D r = getEntrainerFramePosition();
+  /**
+   * Returns the current center point of the Entrainer frame.
+   *
+   * @return the center of entrainer frame
+   */
+  protected Point2D getCenterOfEntrainerFrame() {
+    Rectangle2D r = getEntrainerFramePosition();
 
-		double centerX = r.getMinX() + r.getWidth() / 2;
-		double centerY = r.getMinY() + r.getHeight() / 2;
+    double centerX = r.getMinX() + r.getWidth() / 2;
+    double centerY = r.getMinY() + r.getHeight() / 2;
 
-		return new Point2D(centerX, centerY);
-	}
+    return new Point2D(centerX, centerY);
+  }
 
-	private void removeRemovables() {
-		for (AnimationRectangle2D shape : removables) {
-			shapes.remove(shape);
-		}
+  private void removeRemovables() {
+    for (AnimationRectangle2D shape : removables) {
+      shapes.remove(shape);
+    }
 
-		removables.clear();
-	}
+    removables.clear();
+  }
 
-	/**
-	 * Returns a rectangle representing the current position of the Entrainer
-	 * frame.
-	 *
-	 * @return the entrainer frame position
-	 */
-	public Rectangle2D getEntrainerFramePosition() {
-		return entrainerFramePosition;
-	}
+  /**
+   * Returns a rectangle representing the current position of the Entrainer
+   * frame.
+   *
+   * @return the entrainer frame position
+   */
+  public Rectangle2D getEntrainerFramePosition() {
+    return entrainerFramePosition;
+  }
 
-	/**
-	 * Sets the entrainer frame position.
-	 *
-	 * @param entrainerFramePosition
-	 *          the new entrainer frame position
-	 */
-	public void setEntrainerFramePosition(Rectangle2D entrainerFramePosition) {
-		this.entrainerFramePosition = entrainerFramePosition;
-	}
+  /**
+   * Sets the entrainer frame position.
+   *
+   * @param entrainerFramePosition
+   *          the new entrainer frame position
+   */
+  public void setEntrainerFramePosition(Rectangle2D entrainerFramePosition) {
+    this.entrainerFramePosition = entrainerFramePosition;
+  }
 
-	/**
-	 * Call this method to remove the specified shape from the animation.
-	 *
-	 * @param shape
-	 *          the shape
-	 */
-	protected void removeFromAnimation(AnimationRectangle2D shape) {
-		removables.add(shape);
-	}
+  /**
+   * Call this method to remove the specified shape from the animation.
+   *
+   * @param shape
+   *          the shape
+   */
+  protected void removeFromAnimation(AnimationRectangle2D shape) {
+    removables.add(shape);
+  }
 
 }

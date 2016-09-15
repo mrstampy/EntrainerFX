@@ -70,149 +70,149 @@ import net.sourceforge.entrainer.guitools.GuiUtil;
  * 
  */
 public class EntrainerClassLoader extends URLClassLoader {
-	private Map<String, Class<?>> classes = new HashMap<String, Class<?>>();
+  private Map<String, Class<?>> classes = new HashMap<String, Class<?>>();
 
-	/**
-	 * Instantiates a new entrainer class loader.
-	 *
-	 * @param filename
-	 *          the filename
-	 * @throws MalformedURLException
-	 *           the malformed url exception
-	 */
-	public EntrainerClassLoader(String filename) throws MalformedURLException {
-		this(new File(filename).toURI().toURL());
-	}
+  /**
+   * Instantiates a new entrainer class loader.
+   *
+   * @param filename
+   *          the filename
+   * @throws MalformedURLException
+   *           the malformed url exception
+   */
+  public EntrainerClassLoader(String filename) throws MalformedURLException {
+    this(new File(filename).toURI().toURL());
+  }
 
-	/**
-	 * Instantiates a new entrainer class loader.
-	 *
-	 * @param url
-	 *          the url
-	 */
-	public EntrainerClassLoader(URL url) {
-		this(new URL[] { url });
-	}
+  /**
+   * Instantiates a new entrainer class loader.
+   *
+   * @param url
+   *          the url
+   */
+  public EntrainerClassLoader(URL url) {
+    this(new URL[] { url });
+  }
 
-	/**
-	 * Instantiates a new entrainer class loader.
-	 *
-	 * @param urls
-	 *          the urls
-	 */
-	public EntrainerClassLoader(URL[] urls) {
-		super(urls);
-	}
+  /**
+   * Instantiates a new entrainer class loader.
+   *
+   * @param urls
+   *          the urls
+   */
+  public EntrainerClassLoader(URL[] urls) {
+    super(urls);
+  }
 
-	/**
-	 * Instantiates a new entrainer class loader.
-	 *
-	 * @param urls
-	 *          the urls
-	 * @param parent
-	 *          the parent
-	 */
-	public EntrainerClassLoader(URL[] urls, ClassLoader parent) {
-		super(urls, parent);
-	}
+  /**
+   * Instantiates a new entrainer class loader.
+   *
+   * @param urls
+   *          the urls
+   * @param parent
+   *          the parent
+   */
+  public EntrainerClassLoader(URL[] urls, ClassLoader parent) {
+    super(urls, parent);
+  }
 
-	/**
-	 * Instantiates a new entrainer class loader.
-	 *
-	 * @param urls
-	 *          the urls
-	 * @param parent
-	 *          the parent
-	 * @param factory
-	 *          the factory
-	 */
-	public EntrainerClassLoader(URL[] urls, ClassLoader parent, URLStreamHandlerFactory factory) {
-		super(urls, parent, factory);
-	}
+  /**
+   * Instantiates a new entrainer class loader.
+   *
+   * @param urls
+   *          the urls
+   * @param parent
+   *          the parent
+   * @param factory
+   *          the factory
+   */
+  public EntrainerClassLoader(URL[] urls, ClassLoader parent, URLStreamHandlerFactory factory) {
+    super(urls, parent, factory);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.ClassLoader#loadClass(java.lang.String)
-	 */
-	public Class<?> loadClass(String className) throws ClassNotFoundException {
-		Class<?> cls = classes.get(className);
-		if (cls == null) {
-			cls = super.loadClass(className);
-			classes.put(className, cls);
-		}
-		return cls;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.ClassLoader#loadClass(java.lang.String)
+   */
+  public Class<?> loadClass(String className) throws ClassNotFoundException {
+    Class<?> cls = classes.get(className);
+    if (cls == null) {
+      cls = super.loadClass(className);
+      classes.put(className, cls);
+    }
+    return cls;
+  }
 
-	/**
-	 * Gets the assignable classes.
-	 *
-	 * @param type
-	 *          the type
-	 * @return the assignable classes
-	 * @throws IOException
-	 *           Signals that an I/O exception has occurred.
-	 */
-	public Class<?>[] getAssignableClasses(Class<?> type) throws IOException {
-		List<Class<?>> classes = new ArrayList<Class<?>>();
-		URL[] urls = getURLs();
-		for (int i = 0; i < urls.length; ++i) {
-			URL url = urls[i];
-			File file = new File(url.getFile());
-			if (!file.isDirectory() && file.exists() && file.canRead()) {
-				ZipFile zipFile = null;
-				try {
-					zipFile = new ZipFile(file);
-				} catch (IOException ex) {
-					GuiUtil.handleProblem(ex);
-				}
-				for (Enumeration<? extends ZipEntry> en = zipFile.entries(); en.hasMoreElements();) {
-					Class<?> cls = null;
-					String entryName = en.nextElement().getName();
-					String className = changeFileNameToClassName(entryName);
-					if (className != null) {
-						try {
-							cls = loadClass(className);
-						} catch (Throwable th) {
-							System.out.println("Could not load class " + className);
-						}
-						if (cls != null) {
-							if (type.isAssignableFrom(cls) && !classes.contains(cls)) {
-								classes.add(cls);
-							}
-						}
-					}
-				}
-			}
-		}
-		return (Class[]) classes.toArray(new Class[classes.size()]);
-	}
+  /**
+   * Gets the assignable classes.
+   *
+   * @param type
+   *          the type
+   * @return the assignable classes
+   * @throws IOException
+   *           Signals that an I/O exception has occurred.
+   */
+  public Class<?>[] getAssignableClasses(Class<?> type) throws IOException {
+    List<Class<?>> classes = new ArrayList<Class<?>>();
+    URL[] urls = getURLs();
+    for (int i = 0; i < urls.length; ++i) {
+      URL url = urls[i];
+      File file = new File(url.getFile());
+      if (!file.isDirectory() && file.exists() && file.canRead()) {
+        ZipFile zipFile = null;
+        try {
+          zipFile = new ZipFile(file);
+        } catch (IOException ex) {
+          GuiUtil.handleProblem(ex);
+        }
+        for (Enumeration<? extends ZipEntry> en = zipFile.entries(); en.hasMoreElements();) {
+          Class<?> cls = null;
+          String entryName = en.nextElement().getName();
+          String className = changeFileNameToClassName(entryName);
+          if (className != null) {
+            try {
+              cls = loadClass(className);
+            } catch (Throwable th) {
+              System.out.println("Could not load class " + className);
+            }
+            if (cls != null) {
+              if (type.isAssignableFrom(cls) && !classes.contains(cls)) {
+                classes.add(cls);
+              }
+            }
+          }
+        }
+      }
+    }
+    return (Class[]) classes.toArray(new Class[classes.size()]);
+  }
 
-	private String changeFileNameToClassName(String name) throws IllegalArgumentException {
-		if (name == null) {
-			throw new IllegalArgumentException("null File Name passed.");
-		}
-		String className = null;
-		if (name.toLowerCase().endsWith(".class")) {
-			className = name.replace('/', '.');
-			className = className.replace('\\', '.');
-			className = className.substring(0, className.length() - 6);
-		}
-		return className;
-	}
+  private String changeFileNameToClassName(String name) throws IllegalArgumentException {
+    if (name == null) {
+      throw new IllegalArgumentException("null File Name passed.");
+    }
+    String className = null;
+    if (name.toLowerCase().endsWith(".class")) {
+      className = name.replace('/', '.');
+      className = className.replace('\\', '.');
+      className = className.substring(0, className.length() - 6);
+    }
+    return className;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.net.URLClassLoader#findClass(java.lang.String)
-	 */
-	protected Class<?> findClass(String className) throws ClassNotFoundException {
-		Class<?> cls = classes.get(className);
-		if (cls == null) {
-			cls = super.findClass(className);
-			classes.put(className, cls);
-		}
-		return cls;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.net.URLClassLoader#findClass(java.lang.String)
+   */
+  protected Class<?> findClass(String className) throws ClassNotFoundException {
+    Class<?> cls = classes.get(className);
+    if (cls == null) {
+      cls = super.findClass(className);
+      classes.put(className, cls);
+    }
+    return cls;
+  }
 
 }

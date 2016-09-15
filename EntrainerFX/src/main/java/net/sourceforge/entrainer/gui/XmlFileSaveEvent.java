@@ -37,40 +37,40 @@ import java.util.EventObject;
  */
 public class XmlFileSaveEvent extends EventObject {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private File xmlFile;
+  private File xmlFile;
 
-	/**
-	 * Instantiates a new xml file save event.
-	 *
-	 * @param source
-	 *          the source
-	 * @param xmlFile
-	 *          the xml file
-	 */
-	public XmlFileSaveEvent(Object source, File xmlFile) {
-		super(source);
-		setXmlFile(xmlFile);
-	}
+  /**
+   * Instantiates a new xml file save event.
+   *
+   * @param source
+   *          the source
+   * @param xmlFile
+   *          the xml file
+   */
+  public XmlFileSaveEvent(Object source, File xmlFile) {
+    super(source);
+    setXmlFile(xmlFile);
+  }
 
-	/**
-	 * Gets the xml file.
-	 *
-	 * @return the xml file
-	 */
-	protected File getXmlFile() {
-		return xmlFile;
-	}
+  /**
+   * Gets the xml file.
+   *
+   * @return the xml file
+   */
+  protected File getXmlFile() {
+    return xmlFile;
+  }
 
-	/**
-	 * Sets the xml file.
-	 *
-	 * @param xmlFile
-	 *          the new xml file
-	 */
-	protected void setXmlFile(File xmlFile) {
-		this.xmlFile = xmlFile;
-	}
+  /**
+   * Sets the xml file.
+   *
+   * @param xmlFile
+   *          the new xml file
+   */
+  protected void setXmlFile(File xmlFile) {
+    this.xmlFile = xmlFile;
+  }
 
 }

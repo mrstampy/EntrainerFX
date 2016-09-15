@@ -70,319 +70,320 @@ import org.slf4j.LoggerFactory;
  * @author burton
  */
 public class JFXAnimationWindow extends Stage {
-	private static final Logger log = LoggerFactory.getLogger(JFXAnimationWindow.class);
+  private static final Logger log = LoggerFactory.getLogger(JFXAnimationWindow.class);
 
-	private AtomicReference<WritableImage> colour = new AtomicReference<>();
-	private JFXEntrainerAnimation entrainerAnimation;
+  private AtomicReference<WritableImage> colour = new AtomicReference<>();
+  private JFXEntrainerAnimation entrainerAnimation;
 
-	private AtomicReference<Image> customImage = new AtomicReference<>();
+  private AtomicReference<Image> customImage = new AtomicReference<>();
 
-	private Canvas canvas = new Canvas();
+  private Canvas canvas = new Canvas();
 
-	private Scene scene = new Scene(new Group(canvas));
+  private Scene scene = new Scene(new Group(canvas));
 
-	private boolean isAnimating;
+  private boolean isAnimating;
 
-	private Runnable animator;
+  private Runnable animator;
 
-	/** The flash animation. */
-	protected boolean flashAnimation;
+  /** The flash animation. */
+  protected boolean flashAnimation;
 
-	/** The started. */
-	protected boolean started;
+  /** The started. */
+  protected boolean started;
 
-	private boolean colourBackground;
+  private boolean colourBackground;
 
-	private ExecutorService svc = Executors.newCachedThreadPool();
+  private ExecutorService svc = Executors.newCachedThreadPool();
 
-	private boolean inited;
+  private boolean inited;
 
-	private ExecutorService pulseSvc = Executors.newSingleThreadExecutor();
-	
-	private AtomicBoolean fading = new AtomicBoolean();
+  private ExecutorService pulseSvc = Executors.newSingleThreadExecutor();
 
-	/**
-	 * Instantiates a new JFX animation window.
-	 */
-	public JFXAnimationWindow() {
-		super(StageStyle.TRANSPARENT);
-		initMediator();
-		setScene(scene);
-		setResizable(false);
-		setFullScreen(true);
+  private AtomicBoolean fading = new AtomicBoolean();
 
-		animator = new Runnable() {
+  /**
+   * Instantiates a new JFX animation window.
+   */
+  public JFXAnimationWindow() {
+    super(StageStyle.TRANSPARENT);
+    initMediator();
+    setScene(scene);
+    setResizable(false);
+    setFullScreen(true);
 
-			@Override
-			public void run() {
-				GraphicsContext gc = canvas.getGraphicsContext2D();
-				drawBackground(gc);
-				getEntrainerAnimation().animate(gc);
-			}
+    animator = new Runnable() {
 
-			private void drawBackground(GraphicsContext gc) {
-				if (!getEntrainerAnimation().useBackgroundColour()) {
-					if (colourBackground || getCustomImage() == null) {
-						gc.drawImage(getColour(), 0, 0);
-					} else {
-						gc.drawImage(getCustomImage(), 0, 0);
-					}
-				} else {
-					if (getEntrainerAnimation().getCustomImage() != null) {
-						gc.drawImage(getEntrainerAnimation().getCustomImage(), 0, 0);
-					}
-				}
-			}
-		};
+      @Override
+      public void run() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        drawBackground(gc);
+        getEntrainerAnimation().animate(gc);
+      }
 
-		canvas.setCache(true);
-		canvas.setCacheHint(CacheHint.SPEED);
+      private void drawBackground(GraphicsContext gc) {
+        if (!getEntrainerAnimation().useBackgroundColour()) {
+          if (colourBackground || getCustomImage() == null) {
+            gc.drawImage(getColour(), 0, 0);
+          } else {
+            gc.drawImage(getCustomImage(), 0, 0);
+          }
+        } else {
+          if (getEntrainerAnimation().getCustomImage() != null) {
+            gc.drawImage(getEntrainerAnimation().getCustomImage(), 0, 0);
+          }
+        }
+      }
+    };
 
-		setEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+    canvas.setCache(true);
+    canvas.setCacheHint(CacheHint.SPEED);
 
-			@Override
-			public void handle(MouseEvent event) {
-				if (MouseButton.SECONDARY == event.getButton()) {
-					EntrainerFX.getInstance().toFront();
-				}
-			}
-		});
-	}
+    setEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.Window#setVisible(boolean)
-	 */
-	/**
-	 * Sets the visible.
-	 *
-	 * @param b
-	 *          the new visible
-	 */
-	public void setVisible(boolean b) {
-		if(fading.get()) return;
-		
-		fading.set(true);
-		if (b) {
-			if (!inited) initGui();
-			fadeIn();
-		} else {
-			fadeOut();
-		}
-	}
+      @Override
+      public void handle(MouseEvent event) {
+        if (MouseButton.SECONDARY == event.getButton()) {
+          EntrainerFX.getInstance().toFront();
+        }
+      }
+    });
+  }
 
-	private void fadeIn() {
-		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 1)));
-		tl.currentTimeProperty().addListener(e -> EntrainerFX.getInstance().toFront());
-		tl.setOnFinished(e -> fading.set(false));
-		tl.play();
-		show();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.awt.Window#setVisible(boolean)
+   */
+  /**
+   * Sets the visible.
+   *
+   * @param b
+   *          the new visible
+   */
+  public void setVisible(boolean b) {
+    if (fading.get()) return;
 
-	private void fadeOut() {
-		getEntrainerAnimation().clearAnimation();
-		Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 0)));
-		tl.setOnFinished(e -> fadedOut());
-		tl.play();
-	}
-	
-	private void fadedOut() {
-		fading.set(false);
-		hide();
-	}
+    fading.set(true);
+    if (b) {
+      if (!inited) initGui();
+      fadeIn();
+    } else {
+      fadeOut();
+    }
+  }
 
-	private void paint() {
-		JFXUtils.runLater(animator);
-	}
+  private void fadeIn() {
+    Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 1)));
+    tl.currentTimeProperty().addListener(e -> EntrainerFX.getInstance().toFront());
+    tl.setOnFinished(e -> fading.set(false));
+    tl.play();
+    show();
+  }
 
-	/**
-	 * Gets the entrainer animation.
-	 *
-	 * @return the entrainer animation
-	 */
-	public JFXEntrainerAnimation getEntrainerAnimation() {
-		return entrainerAnimation;
-	}
+  private void fadeOut() {
+    getEntrainerAnimation().clearAnimation();
+    Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(opacityProperty(), 0)));
+    tl.setOnFinished(e -> fadedOut());
+    tl.play();
+  }
 
-	/**
-	 * Sets the entrainer animation.
-	 *
-	 * @param entrainerAnimation
-	 *          the new entrainer animation
-	 */
-	public void setEntrainerAnimation(JFXEntrainerAnimation entrainerAnimation) {
-		if (this.entrainerAnimation != null) {
-			this.entrainerAnimation.clearAnimation();
-		}
+  private void fadedOut() {
+    fading.set(false);
+    hide();
+  }
 
-		this.entrainerAnimation = entrainerAnimation;
+  private void paint() {
+    JFXUtils.runLater(animator);
+  }
 
-		if (null != entrainerAnimation && entrainerAnimation.useBackgroundColour()) {
-			scene.setFill(entrainerAnimation.getBackgroundColour());
-		}
-	}
+  /**
+   * Gets the entrainer animation.
+   *
+   * @return the entrainer animation
+   */
+  public JFXEntrainerAnimation getEntrainerAnimation() {
+    return entrainerAnimation;
+  }
 
-	private void initEntrainerAnimation(String stringRep) {
-		List<JFXEntrainerAnimation> animations = JFXAnimationRegister.getEntrainerAnimations();
-		if (null == stringRep && !animations.isEmpty()) {
-			setEntrainerAnimation(animations.get(0));
-		} else if (null == getEntrainerAnimation()) {
-			setEntrainerAnimation(JFXAnimationRegister.getEntrainerAnimation(stringRep));
-		} else if (!stringRep.equals(getEntrainerAnimation().toString())) {
-			setEntrainerAnimation(JFXAnimationRegister.getEntrainerAnimation(stringRep));
-		}
-	}
+  /**
+   * Sets the entrainer animation.
+   *
+   * @param entrainerAnimation
+   *          the new entrainer animation
+   */
+  public void setEntrainerAnimation(JFXEntrainerAnimation entrainerAnimation) {
+    if (this.entrainerAnimation != null) {
+      this.entrainerAnimation.clearAnimation();
+    }
 
-	/**
-	 * Inits the gui.
-	 */
-	public void initGui() {
-		Dimension size = getScreenSize();
+    this.entrainerAnimation = entrainerAnimation;
 
-		setWidth(size.getWidth());
-		setHeight(size.getHeight());
+    if (null != entrainerAnimation && entrainerAnimation.useBackgroundColour()) {
+      scene.setFill(entrainerAnimation.getBackgroundColour());
+    }
+  }
 
-		canvas.setWidth(size.getWidth());
-		canvas.setHeight(size.getHeight());
+  private void initEntrainerAnimation(String stringRep) {
+    List<JFXEntrainerAnimation> animations = JFXAnimationRegister.getEntrainerAnimations();
+    if (null == stringRep && !animations.isEmpty()) {
+      setEntrainerAnimation(animations.get(0));
+    } else if (null == getEntrainerAnimation()) {
+      setEntrainerAnimation(JFXAnimationRegister.getEntrainerAnimation(stringRep));
+    } else if (!stringRep.equals(getEntrainerAnimation().toString())) {
+      setEntrainerAnimation(JFXAnimationRegister.getEntrainerAnimation(stringRep));
+    }
+  }
 
-		if (getColour() == null) initDefaultBackground();
+  /**
+   * Inits the gui.
+   */
+  public void initGui() {
+    Dimension size = getScreenSize();
 
-		inited = true;
-	}
+    setWidth(size.getWidth());
+    setHeight(size.getHeight());
 
-	private Dimension getScreenSize() {
-		return GuiUtil.getScreenSize();
-	}
+    canvas.setWidth(size.getWidth());
+    canvas.setHeight(size.getHeight());
 
-	private void initDefaultBackground() {
-		setColour(createColourBackground());
-	}
+    if (getColour() == null) initDefaultBackground();
 
-	private WritableImage createColourBackground() {
-		Dimension size = getScreenSize();
-		Image image = Util.createBrushedMetalImage(size.getWidth(), size.getHeight(), ShimmerPaintUtils.generateColor(1));
+    inited = true;
+  }
 
-		return new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight());
-	}
+  private Dimension getScreenSize() {
+    return GuiUtil.getScreenSize();
+  }
 
-	private void initMediator() {
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {
+  private void initDefaultBackground() {
+    setColour(createColourBackground());
+  }
 
-			@Override
-			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				MediatorConstants parm = e.getParm();
-				switch (parm) {
+  private WritableImage createColourBackground() {
+    Dimension size = getScreenSize();
+    Image image = Util.createBrushedMetalImage(size.getWidth(), size.getHeight(), ShimmerPaintUtils.generateColor(1));
 
-				case ANIMATION_BACKGROUND:
-					svc.execute(() -> initAnimationBackground(e.getStringValue()));
-					break;
-				case ANIMATION_PROGRAM:
-					initEntrainerAnimation(e.getStringValue());
-					break;
-				case START_ENTRAINMENT:
-					started = e.getBooleanValue();
-					showAnimation();
-					break;
-				case IS_ANIMATION:
-					isAnimating = e.getBooleanValue();
-					showAnimation();
-					break;
-				case FLASH_EFFECT:
-					if (!isShowing()) break;
-					flashEffect(e.getEffect());
-					break;
-				case ENTRAINMENT_FREQUENCY_PULSE:
-					if (!isShowing()) break;
-					pulseSvc.execute(() -> pulseReceived(e.getBooleanValue()));
-					break;
-				case APPLY_FLASH_TO_ANIMATION:
-					evaluateFlash(e.getBooleanValue());
-					break;
-				case ANIMATION_COLOR_BACKGROUND:
-					initColourBackground(e.getBooleanValue());
-					break;
-				default:
-					break;
+    return new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight());
+  }
 
-				}
+  private void initMediator() {
+    EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {
 
-			}
+      @Override
+      protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+        MediatorConstants parm = e.getParm();
+        switch (parm) {
 
-			private void pulseReceived(boolean b) {
-				if (b && runAnimation()) {
-					paint();
-				} else {
-					getEntrainerAnimation().clearAnimation();
-					JFXUtils.resetEffects(canvas);
-				}
-			}
-		});
-	}
+        case ANIMATION_BACKGROUND:
+          svc.execute(() -> initAnimationBackground(e.getStringValue()));
+          break;
+        case ANIMATION_PROGRAM:
+          initEntrainerAnimation(e.getStringValue());
+          break;
+        case START_ENTRAINMENT:
+          started = e.getBooleanValue();
+          showAnimation();
+          break;
+        case IS_ANIMATION:
+          isAnimating = e.getBooleanValue();
+          showAnimation();
+          break;
+        case FLASH_EFFECT:
+          if (!isShowing()) break;
+          flashEffect(e.getEffect());
+          break;
+        case ENTRAINMENT_FREQUENCY_PULSE:
+          if (!isShowing()) break;
+          pulseSvc.execute(() -> pulseReceived(e.getBooleanValue()));
+          break;
+        case APPLY_FLASH_TO_ANIMATION:
+          evaluateFlash(e.getBooleanValue());
+          break;
+        case ANIMATION_COLOR_BACKGROUND:
+          initColourBackground(e.getBooleanValue());
+          break;
+        default:
+          break;
 
-	private boolean runAnimation() {
-		return entrainerAnimation != null && isAnimating && started;
-	}
+        }
 
-	private void initColourBackground(boolean b) {
-		colourBackground = b;
-		if (getColour() != null) return;
-		setColour(b ? createColourBackground() : null);
-	}
+      }
 
-	private void evaluateFlash(boolean b) {
-		flashAnimation = b;
+      private void pulseReceived(boolean b) {
+        if (b && runAnimation()) {
+          paint();
+        } else {
+          getEntrainerAnimation().clearAnimation();
+          JFXUtils.resetEffects(canvas);
+        }
+      }
+    });
+  }
 
-		if (!flashAnimation) JFXUtils.resetEffects(canvas);
-	}
+  private boolean runAnimation() {
+    return entrainerAnimation != null && isAnimating && started;
+  }
 
-	private void flashEffect(CurrentEffect currentEffect) {
-		if (!isAnimating || !flashAnimation) return;
+  private void initColourBackground(boolean b) {
+    colourBackground = b;
+    if (getColour() != null) return;
+    setColour(b ? createColourBackground() : null);
+  }
 
-		JFXUtils.setEffect(canvas, currentEffect);
-	}
+  private void evaluateFlash(boolean b) {
+    flashAnimation = b;
 
-	private void initAnimationBackground(String animationBackground) {
-		if (animationBackground == null || animationBackground.trim().length() == 0) {
-			setCustomImage(null);
-		} else {
-			Image image = new Image(animationBackground, getScreenSize().getWidth(), getScreenSize().getHeight(), false, true);
-			try {
-				setCustomImage(new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight()));
-			} catch (Exception e) {
-				log.error("Unexpected exception for image {}", animationBackground, e);
-				GuiUtil.handleProblem(e);
-			}
-		}
-	}
+    if (!flashAnimation) JFXUtils.resetEffects(canvas);
+  }
 
-	private Image getCustomImage() {
-		return customImage.get();
-	}
+  private void flashEffect(CurrentEffect currentEffect) {
+    if (!isAnimating || !flashAnimation) return;
 
-	private void setCustomImage(WritableImage backgroundImage) {
-		customImage.set(backgroundImage);
-	}
+    JFXUtils.setEffect(canvas, currentEffect);
+  }
 
-	private void showAnimation() {
-		boolean b = runAnimation();
-		if (b == isShowing()) return;
+  private void initAnimationBackground(String animationBackground) {
+    if (animationBackground == null || animationBackground.trim().length() == 0) {
+      setCustomImage(null);
+    } else {
+      Image image = new Image(animationBackground, getScreenSize().getWidth(), getScreenSize().getHeight(), false,
+          true);
+      try {
+        setCustomImage(new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight()));
+      } catch (Exception e) {
+        log.error("Unexpected exception for image {}", animationBackground, e);
+        GuiUtil.handleProblem(e);
+      }
+    }
+  }
 
-		showAnimation(b);
-	}
+  private Image getCustomImage() {
+    return customImage.get();
+  }
 
-	private void showAnimation(boolean b) {
-		svc.execute(() -> JFXUtils.runLater(() -> setVisible(b)));
+  private void setCustomImage(WritableImage backgroundImage) {
+    customImage.set(backgroundImage);
+  }
 
-		if (!b) svc.execute(() -> setColour(createColourBackground()));
-	}
+  private void showAnimation() {
+    boolean b = runAnimation();
+    if (b == isShowing()) return;
 
-	private WritableImage getColour() {
-		return colour.get();
-	}
+    showAnimation(b);
+  }
 
-	private void setColour(WritableImage colour) {
-		this.colour.set(colour);
-	}
+  private void showAnimation(boolean b) {
+    svc.execute(() -> JFXUtils.runLater(() -> setVisible(b)));
+
+    if (!b) svc.execute(() -> setColour(createColourBackground()));
+  }
+
+  private WritableImage getColour() {
+    return colour.get();
+  }
+
+  private void setColour(WritableImage colour) {
+    this.colour.set(colour);
+  }
 
 }

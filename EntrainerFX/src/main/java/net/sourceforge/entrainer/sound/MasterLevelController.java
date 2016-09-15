@@ -40,248 +40,248 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
  */
 public class MasterLevelController {
 
-	/** The lite. */
-	public static boolean lite = false;
+  /** The lite. */
+  public static boolean lite = false;
 
-	private BigDecimal amplitude = BigDecimal.ZERO;
-	private BigDecimal leftFrequency = BigDecimal.ZERO;
-	private BigDecimal entrainmentFrequency = BigDecimal.ZERO;
-	private BigDecimal pinkNoiseAmplitude = BigDecimal.ZERO;
-	private BigDecimal pinkPanAmplitude = BigDecimal.ZERO;
-	private BigDecimal pinkEntrainerMultiple = BigDecimal.ZERO;
+  private BigDecimal amplitude = BigDecimal.ZERO;
+  private BigDecimal leftFrequency = BigDecimal.ZERO;
+  private BigDecimal entrainmentFrequency = BigDecimal.ZERO;
+  private BigDecimal pinkNoiseAmplitude = BigDecimal.ZERO;
+  private BigDecimal pinkPanAmplitude = BigDecimal.ZERO;
+  private BigDecimal pinkEntrainerMultiple = BigDecimal.ZERO;
 
-	private BigDecimal mediaVolume = BigDecimal.ZERO;
-	private BigDecimal mediaEntrainmentStrength = BigDecimal.ZERO;
+  private BigDecimal mediaVolume = BigDecimal.ZERO;
+  private BigDecimal mediaEntrainmentStrength = BigDecimal.ZERO;
 
-	private final SoundControl soundControl;
+  private final SoundControl soundControl;
 
-	private Lock lock = new ReentrantLock(true);
+  private Lock lock = new ReentrantLock(true);
 
-	/**
-	 * Instantiates a new master level controller.
-	 *
-	 * @param soundControl
-	 *          the sound control
-	 */
-	public MasterLevelController(SoundControl soundControl) {
-		this.soundControl = soundControl;
-		init();
-	}
+  /**
+   * Instantiates a new master level controller.
+   *
+   * @param soundControl
+   *          the sound control
+   */
+  public MasterLevelController(SoundControl soundControl) {
+    this.soundControl = soundControl;
+    init();
+  }
 
-	/**
-	 * Instantiates a new master level controller.
-	 */
-	public MasterLevelController() {
-		this(null);
-	}
+  /**
+   * Instantiates a new master level controller.
+   */
+  public MasterLevelController() {
+    this(null);
+  }
 
-	/**
-	 * Gets the amplitude.
-	 *
-	 * @return the amplitude
-	 */
-	public double getAmplitude() {
-		return amplitude.doubleValue();
-	}
+  /**
+   * Gets the amplitude.
+   *
+   * @return the amplitude
+   */
+  public double getAmplitude() {
+    return amplitude.doubleValue();
+  }
 
-	/**
-	 * Gets the frequency.
-	 *
-	 * @return the frequency
-	 */
-	public double getFrequency() {
-		return leftFrequency.doubleValue();
-	}
+  /**
+   * Gets the frequency.
+   *
+   * @return the frequency
+   */
+  public double getFrequency() {
+    return leftFrequency.doubleValue();
+  }
 
-	/**
-	 * Gets the entrainment frequency.
-	 *
-	 * @return the entrainment frequency
-	 */
-	public double getEntrainmentFrequency() {
-		double val = entrainmentFrequency.doubleValue();
-		int precision = val < 10 ? 3 : 4;
-		return entrainmentFrequency.round(new MathContext(precision)).doubleValue();
-	}
+  /**
+   * Gets the entrainment frequency.
+   *
+   * @return the entrainment frequency
+   */
+  public double getEntrainmentFrequency() {
+    double val = entrainmentFrequency.doubleValue();
+    int precision = val < 10 ? 3 : 4;
+    return entrainmentFrequency.round(new MathContext(precision)).doubleValue();
+  }
 
-	/**
-	 * Gets the pink noise amplitude.
-	 *
-	 * @return the pink noise amplitude
-	 */
-	public double getPinkNoiseAmplitude() {
-		return pinkNoiseAmplitude.doubleValue();
-	}
+  /**
+   * Gets the pink noise amplitude.
+   *
+   * @return the pink noise amplitude
+   */
+  public double getPinkNoiseAmplitude() {
+    return pinkNoiseAmplitude.doubleValue();
+  }
 
-	/**
-	 * Gets the pink entrainer multiple.
-	 *
-	 * @return the pink entrainer multiple
-	 */
-	public double getPinkEntrainerMultiple() {
-		return pinkEntrainerMultiple.doubleValue();
-	}
+  /**
+   * Gets the pink entrainer multiple.
+   *
+   * @return the pink entrainer multiple
+   */
+  public double getPinkEntrainerMultiple() {
+    return pinkEntrainerMultiple.doubleValue();
+  }
 
-	/**
-	 * Gets the pink pan amplitude.
-	 *
-	 * @return the pink pan amplitude
-	 */
-	public double getPinkPanAmplitude() {
-		return pinkPanAmplitude.doubleValue();
-	}
+  /**
+   * Gets the pink pan amplitude.
+   *
+   * @return the pink pan amplitude
+   */
+  public double getPinkPanAmplitude() {
+    return pinkPanAmplitude.doubleValue();
+  }
 
-	/**
-	 * Gets the media volume.
-	 *
-	 * @return the media volume
-	 */
-	public double getMediaVolume() {
-		return mediaVolume.doubleValue();
-	}
+  /**
+   * Gets the media volume.
+   *
+   * @return the media volume
+   */
+  public double getMediaVolume() {
+    return mediaVolume.doubleValue();
+  }
 
-	/**
-	 * Gets the media entrainment strength.
-	 *
-	 * @return the media entrainment strength
-	 */
-	public double getMediaEntrainmentStrength() {
-		return mediaEntrainmentStrength.doubleValue();
-	}
+  /**
+   * Gets the media entrainment strength.
+   *
+   * @return the media entrainment strength
+   */
+  public double getMediaEntrainmentStrength() {
+    return mediaEntrainmentStrength.doubleValue();
+  }
 
-	/**
-	 * Clear mediator.
-	 */
-	public void clearMediator() {
-		EntrainerMediator.getInstance().removeReceiver(this);
-	}
+  /**
+   * Clear mediator.
+   */
+  public void clearMediator() {
+    EntrainerMediator.getInstance().removeReceiver(this);
+  }
 
-	private void init() {
-		EntrainerMediator.getInstance().addFirstReceiver(new ReceiverAdapter(this) {
+  private void init() {
+    EntrainerMediator.getInstance().addFirstReceiver(new ReceiverAdapter(this) {
 
-			@Override
-			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				if (!process(e)) return;
-				lock.lock();
-				double delta;
-				try {
-					switch (e.getParm()) {
-					case AMPLITUDE:
-						amplitude = new BigDecimal(e.getDoubleValue());
-						if (soundControl != null) soundControl.setAmplitude(amplitude.doubleValue());
-						break;
-					case FREQUENCY:
-						leftFrequency = new BigDecimal(e.getDoubleValue());
-						if (soundControl != null) {
-							soundControl.setLeftFrequency(leftFrequency.doubleValue());
-							soundControl.setRightFrequency(getRightFrequency().doubleValue());
-						}
-						break;
-					case ENTRAINMENT_FREQUENCY:
-						entrainmentFrequency = new BigDecimal(e.getDoubleValue());
-						if (soundControl != null) soundControl.setRightFrequency(getRightFrequency().doubleValue());
-						break;
-					case PINK_NOISE_AMPLITUDE:
-						pinkNoiseAmplitude = new BigDecimal(e.getDoubleValue());
-						if (soundControl != null) soundControl.setPinkNoiseAmplitude(pinkNoiseAmplitude.doubleValue());
-						break;
-					case PINK_PAN_AMPLITUDE:
-						pinkPanAmplitude = new BigDecimal(e.getDoubleValue());
-						break;
-					case PINK_PAN_VALUE:
-						if (soundControl != null) soundControl.setPinkPanAmplitude(e.getDoubleValue());
-						break;
-					case PINK_ENTRAINER_MULTIPLE:
-						pinkEntrainerMultiple = new BigDecimal(e.getDoubleValue());
-						break;
-					case DELTA_AMPLITUDE:
-						delta = getDelta(e, amplitude.doubleValue(), e.getEndValue());
-						amplitude = add(amplitude, delta);
-						if (soundControl != null) soundControl.setAmplitude(amplitude.doubleValue());
-						break;
-					case DELTA_FREQUENCY:
-						delta = getDelta(e, leftFrequency.doubleValue(), e.getEndValue());
-						leftFrequency = add(leftFrequency, delta);
-						if (soundControl != null) {
-							soundControl.setLeftFrequency(leftFrequency.doubleValue());
-							soundControl.setRightFrequency(getRightFrequency().doubleValue());
-						}
-						break;
-					case DELTA_ENTRAINMENT_FREQUENCY:
-						delta = getDelta(e, entrainmentFrequency.doubleValue(), e.getEndValue());
-						entrainmentFrequency = add(entrainmentFrequency, delta);
-						if (soundControl != null) soundControl.setRightFrequency(getRightFrequency().doubleValue());
-						break;
-					case DELTA_PINK_NOISE_AMPLITUDE:
-						delta = getDelta(e, pinkNoiseAmplitude.doubleValue(), e.getEndValue());
-						pinkNoiseAmplitude = add(pinkNoiseAmplitude, delta);
-						if (soundControl != null) soundControl.setPinkNoiseAmplitude(pinkNoiseAmplitude.doubleValue());
-						break;
-					case DELTA_PINK_PAN_AMPLITUDE:
-						delta = getDelta(e, pinkPanAmplitude.doubleValue(), e.getEndValue());
-						pinkPanAmplitude = add(pinkPanAmplitude, delta);
-						break;
-					case DELTA_PINK_ENTRAINER_MULTIPLE:
-						delta = getDelta(e, pinkEntrainerMultiple.doubleValue(), e.getEndValue());
-						pinkEntrainerMultiple = add(pinkEntrainerMultiple, delta);
-						break;
-					case MEDIA_AMPLITUDE:
-						mediaVolume = new BigDecimal(e.getDoubleValue());
-						break;
-					case MEDIA_ENTRAINMENT_STRENGTH:
-						mediaEntrainmentStrength = new BigDecimal(e.getDoubleValue());
-						break;
-					case DELTA_MEDIA_AMPLITUDE:
-						delta = getDelta(e, mediaVolume.doubleValue(), e.getEndValue());
-						mediaVolume = add(mediaVolume, delta);
-						break;
-					case DELTA_MEDIA_ENTRAINMENT_STRENGTH:
-						delta = getDelta(e, mediaEntrainmentStrength.doubleValue(), e.getEndValue());
-						mediaEntrainmentStrength = add(mediaEntrainmentStrength, delta);
-						break;
-					default:
-						break;
+      @Override
+      protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+        if (!process(e)) return;
+        lock.lock();
+        double delta;
+        try {
+          switch (e.getParm()) {
+          case AMPLITUDE:
+            amplitude = new BigDecimal(e.getDoubleValue());
+            if (soundControl != null) soundControl.setAmplitude(amplitude.doubleValue());
+            break;
+          case FREQUENCY:
+            leftFrequency = new BigDecimal(e.getDoubleValue());
+            if (soundControl != null) {
+              soundControl.setLeftFrequency(leftFrequency.doubleValue());
+              soundControl.setRightFrequency(getRightFrequency().doubleValue());
+            }
+            break;
+          case ENTRAINMENT_FREQUENCY:
+            entrainmentFrequency = new BigDecimal(e.getDoubleValue());
+            if (soundControl != null) soundControl.setRightFrequency(getRightFrequency().doubleValue());
+            break;
+          case PINK_NOISE_AMPLITUDE:
+            pinkNoiseAmplitude = new BigDecimal(e.getDoubleValue());
+            if (soundControl != null) soundControl.setPinkNoiseAmplitude(pinkNoiseAmplitude.doubleValue());
+            break;
+          case PINK_PAN_AMPLITUDE:
+            pinkPanAmplitude = new BigDecimal(e.getDoubleValue());
+            break;
+          case PINK_PAN_VALUE:
+            if (soundControl != null) soundControl.setPinkPanAmplitude(e.getDoubleValue());
+            break;
+          case PINK_ENTRAINER_MULTIPLE:
+            pinkEntrainerMultiple = new BigDecimal(e.getDoubleValue());
+            break;
+          case DELTA_AMPLITUDE:
+            delta = getDelta(e, amplitude.doubleValue(), e.getEndValue());
+            amplitude = add(amplitude, delta);
+            if (soundControl != null) soundControl.setAmplitude(amplitude.doubleValue());
+            break;
+          case DELTA_FREQUENCY:
+            delta = getDelta(e, leftFrequency.doubleValue(), e.getEndValue());
+            leftFrequency = add(leftFrequency, delta);
+            if (soundControl != null) {
+              soundControl.setLeftFrequency(leftFrequency.doubleValue());
+              soundControl.setRightFrequency(getRightFrequency().doubleValue());
+            }
+            break;
+          case DELTA_ENTRAINMENT_FREQUENCY:
+            delta = getDelta(e, entrainmentFrequency.doubleValue(), e.getEndValue());
+            entrainmentFrequency = add(entrainmentFrequency, delta);
+            if (soundControl != null) soundControl.setRightFrequency(getRightFrequency().doubleValue());
+            break;
+          case DELTA_PINK_NOISE_AMPLITUDE:
+            delta = getDelta(e, pinkNoiseAmplitude.doubleValue(), e.getEndValue());
+            pinkNoiseAmplitude = add(pinkNoiseAmplitude, delta);
+            if (soundControl != null) soundControl.setPinkNoiseAmplitude(pinkNoiseAmplitude.doubleValue());
+            break;
+          case DELTA_PINK_PAN_AMPLITUDE:
+            delta = getDelta(e, pinkPanAmplitude.doubleValue(), e.getEndValue());
+            pinkPanAmplitude = add(pinkPanAmplitude, delta);
+            break;
+          case DELTA_PINK_ENTRAINER_MULTIPLE:
+            delta = getDelta(e, pinkEntrainerMultiple.doubleValue(), e.getEndValue());
+            pinkEntrainerMultiple = add(pinkEntrainerMultiple, delta);
+            break;
+          case MEDIA_AMPLITUDE:
+            mediaVolume = new BigDecimal(e.getDoubleValue());
+            break;
+          case MEDIA_ENTRAINMENT_STRENGTH:
+            mediaEntrainmentStrength = new BigDecimal(e.getDoubleValue());
+            break;
+          case DELTA_MEDIA_AMPLITUDE:
+            delta = getDelta(e, mediaVolume.doubleValue(), e.getEndValue());
+            mediaVolume = add(mediaVolume, delta);
+            break;
+          case DELTA_MEDIA_ENTRAINMENT_STRENGTH:
+            delta = getDelta(e, mediaEntrainmentStrength.doubleValue(), e.getEndValue());
+            mediaEntrainmentStrength = add(mediaEntrainmentStrength, delta);
+            break;
+          default:
+            break;
 
-					}
-				} finally {
-					lock.unlock();
-				}
-			}
-		});
-	}
+          }
+        } finally {
+          lock.unlock();
+        }
+      }
+    });
+  }
 
-	private boolean process(ReceiverChangeEvent e) {
-		switch (e.getParm()) {
-		case AMPLITUDE:
-		case FREQUENCY:
-		case ENTRAINMENT_FREQUENCY:
-		case PINK_NOISE_AMPLITUDE:
-		case PINK_PAN_AMPLITUDE:
-		case PINK_PAN_VALUE:
-		case PINK_ENTRAINER_MULTIPLE:
-		case DELTA_AMPLITUDE:
-		case DELTA_FREQUENCY:
-		case DELTA_ENTRAINMENT_FREQUENCY:
-		case DELTA_PINK_NOISE_AMPLITUDE:
-		case DELTA_PINK_PAN_AMPLITUDE:
-		case DELTA_PINK_ENTRAINER_MULTIPLE:
-		case MEDIA_AMPLITUDE:
-		case MEDIA_ENTRAINMENT_STRENGTH:
-		case DELTA_MEDIA_AMPLITUDE:
-		case DELTA_MEDIA_ENTRAINMENT_STRENGTH:
-			return true;
-		default:
-			return false;
-		}
+  private boolean process(ReceiverChangeEvent e) {
+    switch (e.getParm()) {
+    case AMPLITUDE:
+    case FREQUENCY:
+    case ENTRAINMENT_FREQUENCY:
+    case PINK_NOISE_AMPLITUDE:
+    case PINK_PAN_AMPLITUDE:
+    case PINK_PAN_VALUE:
+    case PINK_ENTRAINER_MULTIPLE:
+    case DELTA_AMPLITUDE:
+    case DELTA_FREQUENCY:
+    case DELTA_ENTRAINMENT_FREQUENCY:
+    case DELTA_PINK_NOISE_AMPLITUDE:
+    case DELTA_PINK_PAN_AMPLITUDE:
+    case DELTA_PINK_ENTRAINER_MULTIPLE:
+    case MEDIA_AMPLITUDE:
+    case MEDIA_ENTRAINMENT_STRENGTH:
+    case DELTA_MEDIA_AMPLITUDE:
+    case DELTA_MEDIA_ENTRAINMENT_STRENGTH:
+      return true;
+    default:
+      return false;
+    }
 
-	}
+  }
 
-	private BigDecimal getRightFrequency() {
-		return leftFrequency.add(entrainmentFrequency);
-	}
+  private BigDecimal getRightFrequency() {
+    return leftFrequency.add(entrainmentFrequency);
+  }
 
-	private BigDecimal add(BigDecimal bd, double delta) {
-		return bd.add(new BigDecimal(delta));
-	}
+  private BigDecimal add(BigDecimal bd, double delta) {
+    return bd.add(new BigDecimal(delta));
+  }
 
 }

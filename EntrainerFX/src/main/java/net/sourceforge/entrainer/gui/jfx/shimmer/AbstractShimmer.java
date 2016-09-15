@@ -51,344 +51,344 @@ import org.pushingpixels.trident.callback.TimelineCallback;
  */
 public abstract class AbstractShimmer<P extends Paint> extends Rectangle {
 
-	private P p1;
-	private P p2;
+  private P p1;
+  private P p2;
 
-	private boolean canShimmer = true;
-	private boolean isStarted = false;
-	private boolean inUse = false;
+  private boolean canShimmer = true;
+  private boolean isStarted = false;
+  private boolean inUse = false;
 
-	/** The rand. */
-	protected Random rand = new Random(System.currentTimeMillis());
+  /** The rand. */
+  protected Random rand = new Random(System.currentTimeMillis());
 
-	private Timeline timeLine;
+  private Timeline timeLine;
 
-	/** The flash shimmer. */
-	protected boolean flashShimmer;
+  /** The flash shimmer. */
+  protected boolean flashShimmer;
 
-	/**
-	 * Instantiates a new abstract shimmer.
-	 */
-	protected AbstractShimmer() {
-		super();
-		preInit();
+  /**
+   * Instantiates a new abstract shimmer.
+   */
+  protected AbstractShimmer() {
+    super();
+    preInit();
 
-		initMediator();
+    initMediator();
 
-		setP1(createNewPaint(0));
-		resetProps();
+    setP1(createNewPaint(0));
+    resetProps();
 
-		setFill(null);
-		setCache(true);
-		setCacheHint(CacheHint.SPEED);
-		setId(getClass().getSimpleName());
-	}
+    setFill(null);
+    setCache(true);
+    setCacheHint(CacheHint.SPEED);
+    setId(getClass().getSimpleName());
+  }
 
-	/**
-	 * Pre init.
-	 */
-	protected void preInit() {
+  /**
+   * Pre init.
+   */
+  protected void preInit() {
 
-	}
+  }
 
-	/**
-	 * Implement to return the name of the shimmer effect.
-	 *
-	 * @return the string
-	 */
-	public abstract String toString();
+  /**
+   * Implement to return the name of the shimmer effect.
+   *
+   * @return the string
+   */
+  public abstract String toString();
 
-	private void initMediator() {
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {
+  private void initMediator() {
+    EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this, true) {
 
-			@Override
-			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				switch (e.getParm()) {
-				case START_ENTRAINMENT:
-					if (isStarted() == e.getBooleanValue()) return;
-					setStarted(e.getBooleanValue());
-					checkStarted();
-					break;
-				case IS_SHIMMER:
-					if (isCanShimmer() == e.getBooleanValue()) return;
-					setCanShimmer(e.getBooleanValue());
-					checkStarted();
-					break;
-				case FLASH_EFFECT:
-					if (!isStarted) break;
-					pulse(e.getEffect());
-					break;
-				case APPLY_FLASH_TO_SHIMMER:
-					evaluateFlashShimmer(e.getBooleanValue());
-					break;
-				default:
-					break;
-				}
-			}
+      @Override
+      protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+        switch (e.getParm()) {
+        case START_ENTRAINMENT:
+          if (isStarted() == e.getBooleanValue()) return;
+          setStarted(e.getBooleanValue());
+          checkStarted();
+          break;
+        case IS_SHIMMER:
+          if (isCanShimmer() == e.getBooleanValue()) return;
+          setCanShimmer(e.getBooleanValue());
+          checkStarted();
+          break;
+        case FLASH_EFFECT:
+          if (!isStarted) break;
+          pulse(e.getEffect());
+          break;
+        case APPLY_FLASH_TO_SHIMMER:
+          evaluateFlashShimmer(e.getBooleanValue());
+          break;
+        default:
+          break;
+        }
+      }
 
-		});
-	}
+    });
+  }
 
-	private void evaluateFlashShimmer(boolean b) {
-		flashShimmer = b;
-		if (!flashShimmer) JFXUtils.resetEffects(this);
-	}
+  private void evaluateFlashShimmer(boolean b) {
+    flashShimmer = b;
+    if (!flashShimmer) JFXUtils.resetEffects(this);
+  }
 
-	private void pulse(CurrentEffect currentEffect) {
-		if (!flashShimmer) return;
+  private void pulse(CurrentEffect currentEffect) {
+    if (!flashShimmer) return;
 
-		JFXUtils.setEffect(this, currentEffect);
-	}
+    JFXUtils.setEffect(this, currentEffect);
+  }
 
-	private void checkStarted() {
-		if (!isCanShimmer() || !isStarted() || !isInUse()) {
-			return;
-		}
+  private void checkStarted() {
+    if (!isCanShimmer() || !isStarted() || !isInUse()) {
+      return;
+    }
 
-		start();
-	}
+    start();
+  }
 
-	/**
-	 * Starts the animation. Should not be called by any class other than
-	 * {@link EntrainerFX}.
-	 */
-	public void start() {
-		JFXUtils.runLater(new Runnable() {
+  /**
+   * Starts the animation. Should not be called by any class other than
+   * {@link EntrainerFX}.
+   */
+  public void start() {
+    JFXUtils.runLater(new Runnable() {
 
-			@Override
-			public void run() {
-				fadeIn();
-			}
-		});
-	}
+      @Override
+      public void run() {
+        fadeIn();
+      }
+    });
+  }
 
-	private void fadeIn() {
-		timeLine = new Timeline(this);
+  private void fadeIn() {
+    timeLine = new Timeline(this);
 
-		timeLine.addPropertyToInterpolate("p1", getP1(), getP2());
+    timeLine.addPropertyToInterpolate("p1", getP1(), getP2());
 
-		timeLine.addCallback(new TimelineCallback() {
+    timeLine.addCallback(new TimelineCallback() {
 
-			@Override
-			public void onTimelineStateChanged(TimelineState arg0, TimelineState arg1, float arg2, float arg3) {
-				if (arg1.equals(TimelineState.DONE)) {
-					resetProps();
-					initTimeLine();
-				}
-			}
+      @Override
+      public void onTimelineStateChanged(TimelineState arg0, TimelineState arg1, float arg2, float arg3) {
+        if (arg1.equals(TimelineState.DONE)) {
+          resetProps();
+          initTimeLine();
+        }
+      }
 
-			@Override
-			public void onTimelinePulse(float arg0, float arg1) {
-				if (!isCanShimmer() || !isStarted()) {
-					stop();
-				} else {
-					fill();
-				}
-			}
-		});
+      @Override
+      public void onTimelinePulse(float arg0, float arg1) {
+        if (!isCanShimmer() || !isStarted()) {
+          stop();
+        } else {
+          fill();
+        }
+      }
+    });
 
-		timeLine.setDuration(1000);
-		timeLine.play();
-	}
+    timeLine.setDuration(1000);
+    timeLine.play();
+  }
 
-	private void fadeOut() {
-		timeLine = new Timeline(this);
+  private void fadeOut() {
+    timeLine = new Timeline(this);
 
-		setP2(createNewPaint(0));
+    setP2(createNewPaint(0));
 
-		timeLine.addPropertyToInterpolate("p1", getP1(), getP2());
+    timeLine.addPropertyToInterpolate("p1", getP1(), getP2());
 
-		timeLine.addCallback(new TimelineCallback() {
+    timeLine.addCallback(new TimelineCallback() {
 
-			@Override
-			public void onTimelineStateChanged(TimelineState arg0, TimelineState arg1, float arg2, float arg3) {
-				if (arg1.equals(TimelineState.DONE)) {
-					JFXUtils.runLater(new Runnable() {
+      @Override
+      public void onTimelineStateChanged(TimelineState arg0, TimelineState arg1, float arg2, float arg3) {
+        if (arg1.equals(TimelineState.DONE)) {
+          JFXUtils.runLater(new Runnable() {
 
-						@Override
-						public void run() {
-							setFill(null);
-						}
-					});
-				}
-			}
+            @Override
+            public void run() {
+              setFill(null);
+            }
+          });
+        }
+      }
 
-			@Override
-			public void onTimelinePulse(float arg0, float arg1) {
-				fill();
-			}
-		});
+      @Override
+      public void onTimelinePulse(float arg0, float arg1) {
+        fill();
+      }
+    });
 
-		timeLine.setDuration(1000);
-		timeLine.play();
-	}
+    timeLine.setDuration(1000);
+    timeLine.play();
+  }
 
-	/**
-	 * Inits the time line.
-	 */
-	protected void initTimeLine() {
-		timeLine = new Timeline(this);
+  /**
+   * Inits the time line.
+   */
+  protected void initTimeLine() {
+    timeLine = new Timeline(this);
 
-		timeLine.addPropertyToInterpolate("p1", getP1(), getP2());
+    timeLine.addPropertyToInterpolate("p1", getP1(), getP2());
 
-		timeLine.addCallback(new TimelineCallback() {
+    timeLine.addCallback(new TimelineCallback() {
 
-			@Override
-			public void onTimelineStateChanged(TimelineState arg0, TimelineState arg1, float arg2, float arg3) {
-				if (arg1.equals(TimelineState.DONE)) {
-					resetProps();
-					initTimeLine();
-				} else if (arg1.equals(TimelineState.CANCELLED)) {
-					fadeOut();
-				}
-			}
+      @Override
+      public void onTimelineStateChanged(TimelineState arg0, TimelineState arg1, float arg2, float arg3) {
+        if (arg1.equals(TimelineState.DONE)) {
+          resetProps();
+          initTimeLine();
+        } else if (arg1.equals(TimelineState.CANCELLED)) {
+          fadeOut();
+        }
+      }
 
-			@Override
-			public void onTimelinePulse(float arg0, float arg1) {
-				if (!isCanShimmer() || !isStarted()) {
-					stop();
-				} else {
-					fill();
-				}
-			}
-		});
+      @Override
+      public void onTimelinePulse(float arg0, float arg1) {
+        if (!isCanShimmer() || !isStarted()) {
+          stop();
+        } else {
+          fill();
+        }
+      }
+    });
 
-		timeLine.setDuration(1000);
-		modifyTimeline(timeLine);
+    timeLine.setDuration(1000);
+    modifyTimeline(timeLine);
 
-		timeLine.play();
-	}
+    timeLine.play();
+  }
 
-	/**
-	 * Modify timeline.
-	 *
-	 * @param timeLine
-	 *          the time line
-	 */
-	protected void modifyTimeline(Timeline timeLine) {
+  /**
+   * Modify timeline.
+   *
+   * @param timeLine
+   *          the time line
+   */
+  protected void modifyTimeline(Timeline timeLine) {
 
-	}
+  }
 
-	private void fill() {
-		JFXUtils.runLater(new Runnable() {
+  private void fill() {
+    JFXUtils.runLater(new Runnable() {
 
-			@Override
-			public void run() {
-				setFill(getP1());
-			}
-		});
-	}
+      @Override
+      public void run() {
+        setFill(getP1());
+      }
+    });
+  }
 
-	private void resetProps() {
-		setP2(createNewPaint());
-	}
+  private void resetProps() {
+    setP2(createNewPaint());
+  }
 
-	/**
-	 * Stops the shimmer animation.
-	 */
-	public void stop() {
-		if (timeLine != null) timeLine.cancel();
-	}
+  /**
+   * Stops the shimmer animation.
+   */
+  public void stop() {
+    if (timeLine != null) timeLine.cancel();
+  }
 
-	/**
-	 * Checks if is can shimmer.
-	 *
-	 * @return true, if is can shimmer
-	 */
-	protected boolean isCanShimmer() {
-		return canShimmer;
-	}
+  /**
+   * Checks if is can shimmer.
+   *
+   * @return true, if is can shimmer
+   */
+  protected boolean isCanShimmer() {
+    return canShimmer;
+  }
 
-	private void setCanShimmer(boolean canShimmer) {
-		this.canShimmer = canShimmer;
-	}
+  private void setCanShimmer(boolean canShimmer) {
+    this.canShimmer = canShimmer;
+  }
 
-	/**
-	 * Checks if is started.
-	 *
-	 * @return true, if is started
-	 */
-	protected boolean isStarted() {
-		return isStarted;
-	}
+  /**
+   * Checks if is started.
+   *
+   * @return true, if is started
+   */
+  protected boolean isStarted() {
+    return isStarted;
+  }
 
-	private void setStarted(boolean isStarted) {
-		this.isStarted = isStarted;
-	}
+  private void setStarted(boolean isStarted) {
+    this.isStarted = isStarted;
+  }
 
-	/**
-	 * Gets the p1.
-	 *
-	 * @return the p1
-	 */
-	public P getP1() {
-		return p1;
-	}
+  /**
+   * Gets the p1.
+   *
+   * @return the p1
+   */
+  public P getP1() {
+    return p1;
+  }
 
-	/**
-	 * Sets the p1.
-	 *
-	 * @param p1
-	 *          the new p1
-	 */
-	public void setP1(P p1) {
-		this.p1 = p1;
-	}
+  /**
+   * Sets the p1.
+   *
+   * @param p1
+   *          the new p1
+   */
+  public void setP1(P p1) {
+    this.p1 = p1;
+  }
 
-	/**
-	 * Gets the p2.
-	 *
-	 * @return the p2
-	 */
-	public P getP2() {
-		return p2;
-	}
+  /**
+   * Gets the p2.
+   *
+   * @return the p2
+   */
+  public P getP2() {
+    return p2;
+  }
 
-	/**
-	 * Sets the p2.
-	 *
-	 * @param p2
-	 *          the new p2
-	 */
-	public void setP2(P p2) {
-		this.p2 = p2;
-	}
+  /**
+   * Sets the p2.
+   *
+   * @param p2
+   *          the new p2
+   */
+  public void setP2(P p2) {
+    this.p2 = p2;
+  }
 
-	/**
-	 * Creates the new paint.
-	 *
-	 * @return the p
-	 */
-	protected P createNewPaint() {
-		return createNewPaint(rand.nextDouble());
-	}
+  /**
+   * Creates the new paint.
+   *
+   * @return the p
+   */
+  protected P createNewPaint() {
+    return createNewPaint(rand.nextDouble());
+  }
 
-	/**
-	 * Creates the new paint.
-	 *
-	 * @param opacity
-	 *          the opacity
-	 * @return the p
-	 */
-	protected abstract P createNewPaint(double opacity);
+  /**
+   * Creates the new paint.
+   *
+   * @param opacity
+   *          the opacity
+   * @return the p
+   */
+  protected abstract P createNewPaint(double opacity);
 
-	/**
-	 * Returns true if this shimmer implementation is currently in use.
-	 *
-	 * @return true, if is in use
-	 */
-	public boolean isInUse() {
-		return inUse;
-	}
+  /**
+   * Returns true if this shimmer implementation is currently in use.
+   *
+   * @return true, if is in use
+   */
+  public boolean isInUse() {
+    return inUse;
+  }
 
-	/**
-	 * Sets the in use.
-	 *
-	 * @param inUse
-	 *          the new in use
-	 */
-	public void setInUse(boolean inUse) {
-		this.inUse = inUse;
-	}
+  /**
+   * Sets the in use.
+   *
+   * @param inUse
+   *          the new in use
+   */
+  public void setInUse(boolean inUse) {
+    this.inUse = inUse;
+  }
 
 }

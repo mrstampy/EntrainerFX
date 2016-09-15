@@ -46,56 +46,56 @@ import net.sourceforge.entrainer.util.Utils;
  */
 public class License extends DialogPane {
 
-	private static String NOT_FOUND = "License not found.  Released under the GPL";
+  private static String NOT_FOUND = "License not found.  Released under the GPL";
 
-	private TextArea area = new TextArea();
+  private TextArea area = new TextArea();
 
-	/**
-	 * Instantiates a new license.
-	 */
-	public License() {
-		area.setPrefColumnCount(55);
-		area.setPrefRowCount(50);
-		area.setText(getLicense());
+  /**
+   * Instantiates a new license.
+   */
+  public License() {
+    area.setPrefColumnCount(55);
+    area.setPrefRowCount(50);
+    area.setText(getLicense());
 
-		getButtonTypes().add(ButtonType.OK);
+    getButtonTypes().add(ButtonType.OK);
 
-		setContent(area);
-	}
+    setContent(area);
+  }
 
-	private String getLicense() {
-		Optional<File> license = Utils.getLicenseFile();
-		if (!license.isPresent()) {
-			return NOT_FOUND;
-		}
+  private String getLicense() {
+    Optional<File> license = Utils.getLicenseFile();
+    if (!license.isPresent()) {
+      return NOT_FOUND;
+    }
 
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(license.get()));
+    BufferedReader reader = null;
+    try {
+      reader = new BufferedReader(new FileReader(license.get()));
 
-			String line = reader.readLine();
+      String line = reader.readLine();
 
-			StringBuffer buf = new StringBuffer();
-			while (line != null) {
-				buf.append(line);
-				buf.append("\n");
-				line = reader.readLine();
-			}
+      StringBuffer buf = new StringBuffer();
+      while (line != null) {
+        buf.append(line);
+        buf.append("\n");
+        line = reader.readLine();
+      }
 
-			return buf.toString();
-		} catch (Exception e) {
-			GuiUtil.handleProblem(e);
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					// ignore
-				}
-			}
-		}
+      return buf.toString();
+    } catch (Exception e) {
+      GuiUtil.handleProblem(e);
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          // ignore
+        }
+      }
+    }
 
-		return NOT_FOUND;
-	}
+    return NOT_FOUND;
+  }
 
 }

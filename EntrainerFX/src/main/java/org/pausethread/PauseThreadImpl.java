@@ -35,131 +35,131 @@ package org.pausethread;
  * canceled. For an example check the source of the FileThread class.
  */
 public abstract class PauseThreadImpl extends Thread implements PauseThread {
-	private static int NORMAL = 0;
-	private static int PAUSE = 1;
-	private static int RESUME = 2;
+  private static int NORMAL = 0;
+  private static int PAUSE = 1;
+  private static int RESUME = 2;
 
-	private int request;
+  private int request;
 
-	/**
-	 * Constructs a PauseThread without setting the name.
-	 */
-	public PauseThreadImpl() {
-		this("Pause Thread");
-		request = NORMAL;
-	}
+  /**
+   * Constructs a PauseThread without setting the name.
+   */
+  public PauseThreadImpl() {
+    this("Pause Thread");
+    request = NORMAL;
+  }
 
-	/**
-	 * Constructs a PauseThread with the given name.
-	 * 
-	 * @param name
-	 *          Pause Thread name
-	 */
-	public PauseThreadImpl(String name) {
-		super(name);
-	}
+  /**
+   * Constructs a PauseThread with the given name.
+   * 
+   * @param name
+   *          Pause Thread name
+   */
+  public PauseThreadImpl(String name) {
+    super(name);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.pausethread.Pause#cancelWork()
-	 */
-	public final synchronized void cancelWork() {
-		interrupt();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.pausethread.Pause#cancelWork()
+   */
+  public final synchronized void cancelWork() {
+    interrupt();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.pausethread.Pause#pauseWork()
-	 */
-	public final synchronized void pauseWork() {
-		request = PAUSE;
-		notify();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.pausethread.Pause#pauseWork()
+   */
+  public final synchronized void pauseWork() {
+    request = PAUSE;
+    notify();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.pausethread.Pause#resumeWork()
-	 */
-	public final synchronized void resumeWork() {
-		if (request == PAUSE) {
-			request = RESUME;
-			notify();
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.pausethread.Pause#resumeWork()
+   */
+  public final synchronized void resumeWork() {
+    if (request == PAUSE) {
+      request = RESUME;
+      notify();
+    }
+  }
 
-	/**
-	 * Checks if is paused.
-	 *
-	 * @return true, if is paused
-	 */
-	public final boolean isPaused() {
-		return request == PAUSE;
-	}
+  /**
+   * Checks if is paused.
+   *
+   * @return true, if is paused
+   */
+  public final boolean isPaused() {
+    return request == PAUSE;
+  }
 
-	/**
-	 * Checks if is resumed.
-	 *
-	 * @return true, if is resumed
-	 */
-	public final boolean isResumed() {
-		return request == RESUME;
-	}
+  /**
+   * Checks if is resumed.
+   *
+   * @return true, if is resumed
+   */
+  public final boolean isResumed() {
+    return request == RESUME;
+  }
 
-	/**
-	 * Calling this method will pause the thread if a pause has been requested by
-	 * calling the pauseWork() method. The thread will pause until resumeWork() is
-	 * called.
-	 * 
-	 * @throws InterruptedException
-	 *           thrown if the cancelWork() is called
-	 */
-	protected final void waitIfPauseRequest() throws InterruptedException {
-		synchronized (this) {
-			if (isInterrupted()) {
-				throw new InterruptedException("Thread has been stopped.");
-			} else if (request == PAUSE) {
-				while (request != RESUME) {
-					wait();
-				}
-				request = NORMAL;
-			}
-		}
-	}
+  /**
+   * Calling this method will pause the thread if a pause has been requested by
+   * calling the pauseWork() method. The thread will pause until resumeWork() is
+   * called.
+   * 
+   * @throws InterruptedException
+   *           thrown if the cancelWork() is called
+   */
+  protected final void waitIfPauseRequest() throws InterruptedException {
+    synchronized (this) {
+      if (isInterrupted()) {
+        throw new InterruptedException("Thread has been stopped.");
+      } else if (request == PAUSE) {
+        while (request != RESUME) {
+          wait();
+        }
+        request = NORMAL;
+      }
+    }
+  }
 
-	/**
-	 * This method invokes threadRun(). If cancelWork() is called threadStopped()
-	 * is invoked.
-	 */
-	public final void run() {
-		try {
-			doWork();
-			workDone();
-		} catch (InterruptedException e) {
-			workCanceled();
-		}
-	}
+  /**
+   * This method invokes threadRun(). If cancelWork() is called threadStopped()
+   * is invoked.
+   */
+  public final void run() {
+    try {
+      doWork();
+      workDone();
+    } catch (InterruptedException e) {
+      workCanceled();
+    }
+  }
 
-	/**
-	 * Implement this method to do the actual work. waitIfPauseRequest() has to be
-	 * called repeatingly so the thread will pause if a pause has been requested.
-	 *
-	 * @throws InterruptedException
-	 *           the interrupted exception
-	 */
-	public abstract void doWork() throws InterruptedException;
+  /**
+   * Implement this method to do the actual work. waitIfPauseRequest() has to be
+   * called repeatingly so the thread will pause if a pause has been requested.
+   *
+   * @throws InterruptedException
+   *           the interrupted exception
+   */
+  public abstract void doWork() throws InterruptedException;
 
-	/**
-	 * This method is invoked after doWork() has returned. Cleaning up any
-	 * resources used should be done in this method.
-	 */
-	public abstract void workDone();
+  /**
+   * This method is invoked after doWork() has returned. Cleaning up any
+   * resources used should be done in this method.
+   */
+  public abstract void workDone();
 
-	/**
-	 * This method is invoked after cancelWork() has been invoked. Cleaning up any
-	 * resources used should be done in this method.
-	 */
-	public abstract void workCanceled();
+  /**
+   * This method is invoked after cancelWork() has been invoked. Cleaning up any
+   * resources used should be done in this method.
+   */
+  public abstract void workCanceled();
 }

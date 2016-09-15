@@ -35,64 +35,64 @@ import javafx.scene.effect.ColorAdjust;
  */
 class ColourAdjustState {
 
-	/** The default colour adjust. */
-	static ColorAdjust DEFAULT_COLOUR_ADJUST = new ColorAdjust();
+  /** The default colour adjust. */
+  static ColorAdjust DEFAULT_COLOUR_ADJUST = new ColorAdjust();
 
-	private Random rand = new Random(System.nanoTime());
-	private boolean colourAdjusting;
+  private Random rand = new Random(System.nanoTime());
+  private boolean colourAdjusting;
 
-	private ColorAdjust colourAdjust = DEFAULT_COLOUR_ADJUST;
+  private ColorAdjust colourAdjust = DEFAULT_COLOUR_ADJUST;
 
-	/**
-	 * Instantiates a new colour adjust state.
-	 */
-	ColourAdjustState() {
-	}
+  /**
+   * Instantiates a new colour adjust state.
+   */
+  ColourAdjustState() {
+  }
 
-	/**
-	 * Checks if is colour adjusting.
-	 *
-	 * @return true, if is colour adjusting
-	 */
-	boolean isColourAdjusting() {
-		return colourAdjusting;
-	}
+  /**
+   * Checks if is colour adjusting.
+   *
+   * @return true, if is colour adjusting
+   */
+  boolean isColourAdjusting() {
+    return colourAdjusting;
+  }
 
-	/**
-	 * Sets the colour adjusting.
-	 *
-	 * @param colourAdjusting
-	 *          the new colour adjusting
-	 */
-	void setColourAdjusting(boolean colourAdjusting) {
-		this.colourAdjusting = colourAdjusting;
-	}
+  /**
+   * Sets the colour adjusting.
+   *
+   * @param colourAdjusting
+   *          the new colour adjusting
+   */
+  void setColourAdjusting(boolean colourAdjusting) {
+    this.colourAdjusting = colourAdjusting;
+  }
 
-	/**
-	 * Gets the color adjust.
-	 *
-	 * @return the color adjust
-	 */
-	ColorAdjust getColorAdjust() {
-		return colourAdjust;
-	}
+  /**
+   * Gets the color adjust.
+   *
+   * @return the color adjust
+   */
+  ColorAdjust getColorAdjust() {
+    return colourAdjust;
+  }
 
-	/**
-	 * Evaluate for pulse.
-	 *
-	 * @param b
-	 *          the b
-	 */
-	void evaluateForPulse(boolean b) {
-		if (!colourAdjusting || !b) {
-			colourAdjust = DEFAULT_COLOUR_ADJUST;
-			return;
-		}
+  /**
+   * Evaluate for pulse.
+   *
+   * @param b
+   *          the b
+   */
+  void evaluateForPulse(boolean b) {
+    if (!colourAdjusting || !b) {
+      colourAdjust = DEFAULT_COLOUR_ADJUST;
+      return;
+    }
 
-		colourAdjust = randomColourAdjust();
-	}
+    colourAdjust = randomColourAdjust();
+  }
 
-	private ColorAdjust randomColourAdjust() {
-		return new ColorAdjust(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), rand.nextDouble());
-	}
+  private ColorAdjust randomColourAdjust() {
+    return new ColorAdjust(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), rand.nextDouble());
+  }
 }

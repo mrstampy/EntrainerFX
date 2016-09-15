@@ -35,29 +35,29 @@ import io.netty.channel.ChannelHandlerContext;
 @Sharable
 public class NettyConnectionHandler extends AbstractNettyHandler<String> {
 
-	/** The marshal. */
-	protected EntrainerStateMessageMarshal marshal = new EntrainerStateMessageMarshal();
+  /** The marshal. */
+  protected EntrainerStateMessageMarshal marshal = new EntrainerStateMessageMarshal();
 
-	/**
-	 * Instantiates a new netty connection handler.
-	 *
-	 * @param currentState
-	 *          the current state
-	 */
-	public NettyConnectionHandler(EntrainerStateMessage currentState) {
-		super(currentState);
-	}
+  /**
+   * Instantiates a new netty connection handler.
+   *
+   * @param currentState
+   *          the current state
+   */
+  public NettyConnectionHandler(EntrainerStateMessage currentState) {
+    super(currentState);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.socket.AbstractNettyHandler#channelRead1(io.netty
-	 * .channel.ChannelHandlerContext, java.lang.Object)
-	 */
-	@Override
-	protected void channelRead1(ChannelHandlerContext ctx, String msg) throws Exception {
-		setEntrainerState(ctx, msg);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.socket.AbstractNettyHandler#channelRead1(io.netty
+   * .channel.ChannelHandlerContext, java.lang.Object)
+   */
+  @Override
+  protected void channelRead1(ChannelHandlerContext ctx, String msg) throws Exception {
+    setEntrainerState(ctx, msg);
+  }
 
 }

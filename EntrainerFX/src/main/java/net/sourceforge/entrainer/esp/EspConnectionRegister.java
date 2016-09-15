@@ -35,73 +35,73 @@ import com.github.mrstampy.esp.dsp.lab.RawEspConnection;
  */
 public final class EspConnectionRegister {
 
-	private static EspConnectionLoader loader = new EspConnectionLoader();
+  private static EspConnectionLoader loader = new EspConnectionLoader();
 
-	private static RawEspConnection connection;
+  private static RawEspConnection connection;
 
-	static {
-		loader.loadAllConnections();
-	}
+  static {
+    loader.loadAllConnections();
+  }
 
-	private EspConnectionRegister() {
-	}
+  private EspConnectionRegister() {
+  }
 
-	/**
-	 * Gets the esp connections.
-	 *
-	 * @return the esp connections
-	 */
-	public static List<RawEspConnection> getEspConnections() {
-		return loader.getEspConnections();
-	}
+  /**
+   * Gets the esp connections.
+   *
+   * @return the esp connections
+   */
+  public static List<RawEspConnection> getEspConnections() {
+    return loader.getEspConnections();
+  }
 
-	/**
-	 * Checks if is empty.
-	 *
-	 * @return true, if is empty
-	 */
-	public static boolean isEmpty() {
-		return loader.isEmpty();
-	}
+  /**
+   * Checks if is empty.
+   *
+   * @return true, if is empty
+   */
+  public static boolean isEmpty() {
+    return loader.isEmpty();
+  }
 
-	/**
-	 * Gets the current connection.
-	 *
-	 * @return the current connection
-	 */
-	public static RawEspConnection getCurrentConnection() {
-		if (connection == null) {
-			setDefaultConnection();
-		}
+  /**
+   * Gets the current connection.
+   *
+   * @return the current connection
+   */
+  public static RawEspConnection getCurrentConnection() {
+    if (connection == null) {
+      setDefaultConnection();
+    }
 
-		return connection;
-	}
+    return connection;
+  }
 
-	/**
-	 * Gets the esp connection.
-	 *
-	 * @param name
-	 *          the name
-	 * @return the esp connection
-	 */
-	public static RawEspConnection getEspConnection(String name) {
-		if (connection != null && connection.getName().equals(name)) return getCurrentConnection();
+  /**
+   * Gets the esp connection.
+   *
+   * @param name
+   *          the name
+   * @return the esp connection
+   */
+  public static RawEspConnection getEspConnection(String name) {
+    if (connection != null && connection.getName().equals(name)) return getCurrentConnection();
 
-		for (RawEspConnection conn : getEspConnections()) {
-			if (conn.getName().equals(name)) {
-				connection = conn;
-				return conn;
-			}
-		}
+    for (RawEspConnection conn : getEspConnections()) {
+      if (conn.getName().equals(name)) {
+        connection = conn;
+        return conn;
+      }
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	private static void setDefaultConnection() {
-		for (RawEspConnection conn : getEspConnections()) {
-			connection = conn;
-			break;
-		}
-	}
+  private static void setDefaultConnection() {
+    for (RawEspConnection conn : getEspConnections()) {
+      connection = conn;
+      break;
+    }
+  }
 
 }

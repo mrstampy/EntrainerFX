@@ -37,11 +37,11 @@ import java.util.EventListener;
  */
 public interface PauseListener extends EventListener {
 
-	/**
-	 * Pause event performed.
-	 *
-	 * @param e
-	 *          the e
-	 */
-	void pauseEventPerformed(PauseEvent e);
+  /**
+   * Pause event performed.
+   *
+   * @param e
+   *          the e
+   */
+  void pauseEventPerformed(PauseEvent e);
 }

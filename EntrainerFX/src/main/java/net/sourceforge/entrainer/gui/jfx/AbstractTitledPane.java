@@ -43,167 +43,167 @@ import net.sourceforge.entrainer.mediator.SenderAdapter;
  */
 public abstract class AbstractTitledPane extends TitledPane {
 
-	/** The Constant COLLAPSED_OPACITY. */
-	public static final double COLLAPSED_OPACITY = 0.5;
+  /** The Constant COLLAPSED_OPACITY. */
+  public static final double COLLAPSED_OPACITY = 0.5;
 
-	/** The Constant EXPANDED_OPACITY. */
-	public static final double EXPANDED_OPACITY = 0.75;
+  /** The Constant EXPANDED_OPACITY. */
+  public static final double EXPANDED_OPACITY = 0.75;
 
-	private Sender sender = new SenderAdapter();
+  private Sender sender = new SenderAdapter();
 
-	/**
-	 * Instantiates a new abstract titled pane.
-	 *
-	 * @param title
-	 *          the title
-	 */
-	public AbstractTitledPane(String title) {
-		super();
-		setText(title);
-		EntrainerMediator.getInstance().addSender(sender);
-		setId(getClass().getSimpleName());
-	}
+  /**
+   * Instantiates a new abstract titled pane.
+   *
+   * @param title
+   *          the title
+   */
+  public AbstractTitledPane(String title) {
+    super();
+    setText(title);
+    EntrainerMediator.getInstance().addSender(sender);
+    setId(getClass().getSimpleName());
+  }
 
-	/**
-	 * Clear mediator objects.
-	 */
-	public void clearMediatorObjects() {
-		EntrainerMediator.getInstance().removeReceiver(this);
-		EntrainerMediator.getInstance().removeSender(sender);
-	}
+  /**
+   * Clear mediator objects.
+   */
+  public void clearMediatorObjects() {
+    EntrainerMediator.getInstance().removeReceiver(this);
+    EntrainerMediator.getInstance().removeSender(sender);
+  }
 
-	/**
-	 * Sets the tooltip.
-	 *
-	 * @param node
-	 *          the node
-	 * @param tip
-	 *          the tip
-	 */
-	protected void setTooltip(Control node, String tip) {
-		node.setTooltip(new Tooltip(tip));
-	}
+  /**
+   * Sets the tooltip.
+   *
+   * @param node
+   *          the node
+   * @param tip
+   *          the tip
+   */
+  protected void setTooltip(Control node, String tip) {
+    node.setTooltip(new Tooltip(tip));
+  }
 
-	/**
-	 * Inits the.
-	 */
-	protected void init() {
-		Node contentPane = getContentPane();
+  /**
+   * Inits the.
+   */
+  protected void init() {
+    Node contentPane = getContentPane();
 
-		contentPane.setId(getClass().getSimpleName() + "-layout");
+    contentPane.setId(getClass().getSimpleName() + "-layout");
 
-		setContent(contentPane);
+    setContent(contentPane);
 
-		expandedProperty().addListener(e -> setOpacity(isExpanded() ? EXPANDED_OPACITY : COLLAPSED_OPACITY));
+    expandedProperty().addListener(e -> setOpacity(isExpanded() ? EXPANDED_OPACITY : COLLAPSED_OPACITY));
 
-		setOnMouseEntered(e -> determineOpacity());
+    setOnMouseEntered(e -> determineOpacity());
 
-		setOnMouseExited(e -> mouseExited());
+    setOnMouseExited(e -> mouseExited());
 
-		setOpacity(0);
-	}
+    setOpacity(0);
+  }
 
-	private void mouseExited() {
-		if (isExpanded()) return;
+  private void mouseExited() {
+    if (isExpanded()) return;
 
-		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
+    FadeTransition ft = new FadeTransition(Duration.millis(250), this);
 
-		ft.setFromValue(getOpacity());
-		ft.setToValue(0);
+    ft.setFromValue(getOpacity());
+    ft.setToValue(0);
 
-		ft.play();
-	}
+    ft.play();
+  }
 
-	private void determineOpacity() {
-		if (isExpanded()) return;
+  private void determineOpacity() {
+    if (isExpanded()) return;
 
-		FadeTransition ft = new FadeTransition(Duration.millis(250), this);
+    FadeTransition ft = new FadeTransition(Duration.millis(250), this);
 
-		ft.setFromValue(getOpacity());
-		ft.setToValue(COLLAPSED_OPACITY);
+    ft.setFromValue(getOpacity());
+    ft.setToValue(COLLAPSED_OPACITY);
 
-		ft.play();
-	}
+    ft.play();
+  }
 
-	/**
-	 * Gets the content pane.
-	 *
-	 * @return the content pane
-	 */
-	protected abstract Node getContentPane();
+  /**
+   * Gets the content pane.
+   *
+   * @return the content pane
+   */
+  protected abstract Node getContentPane();
 
-	/**
-	 * Fire receiver change event.
-	 *
-	 * @param value
-	 *          the value
-	 * @param parm
-	 *          the parm
-	 */
-	protected void fireReceiverChangeEvent(double value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
-	}
+  /**
+   * Fire receiver change event.
+   *
+   * @param value
+   *          the value
+   * @param parm
+   *          the parm
+   */
+  protected void fireReceiverChangeEvent(double value, MediatorConstants parm) {
+    sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
+  }
 
-	/**
-	 * Fire receiver change event.
-	 *
-	 * @param value
-	 *          the value
-	 * @param parm
-	 *          the parm
-	 */
-	protected void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
-	}
+  /**
+   * Fire receiver change event.
+   *
+   * @param value
+   *          the value
+   * @param parm
+   *          the parm
+   */
+  protected void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
+    sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
+  }
 
-	/**
-	 * Fire receiver change event.
-	 *
-	 * @param value
-	 *          the value
-	 * @param parm
-	 *          the parm
-	 */
-	protected void fireReceiverChangeEvent(String value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
-	}
+  /**
+   * Fire receiver change event.
+   *
+   * @param value
+   *          the value
+   * @param parm
+   *          the parm
+   */
+  protected void fireReceiverChangeEvent(String value, MediatorConstants parm) {
+    sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
+  }
 
-	/**
-	 * Fire receiver change event.
-	 *
-	 * @param value
-	 *          the value
-	 * @param parm
-	 *          the parm
-	 */
-	protected void fireReceiverChangeEvent(int value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
-	}
+  /**
+   * Fire receiver change event.
+   *
+   * @param value
+   *          the value
+   * @param parm
+   *          the parm
+   */
+  protected void fireReceiverChangeEvent(int value, MediatorConstants parm) {
+    sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
+  }
 
-	/**
-	 * Fire receiver change event.
-	 *
-	 * @param value
-	 *          the value
-	 * @param parm
-	 *          the parm
-	 */
-	protected void fireReceiverChangeEvent(java.awt.Color value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
-	}
+  /**
+   * Fire receiver change event.
+   *
+   * @param value
+   *          the value
+   * @param parm
+   *          the parm
+   */
+  protected void fireReceiverChangeEvent(java.awt.Color value, MediatorConstants parm) {
+    sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
+  }
 
-	/**
-	 * Fire receiver change event.
-	 *
-	 * @param e
-	 *          the e
-	 * @param b
-	 *          the b
-	 * @param parm
-	 *          the parm
-	 */
-	protected void fireReceiverChangeEvent(Enum<?> e, boolean b, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, e, b, parm));
-	}
+  /**
+   * Fire receiver change event.
+   *
+   * @param e
+   *          the e
+   * @param b
+   *          the b
+   * @param parm
+   *          the parm
+   */
+  protected void fireReceiverChangeEvent(Enum<?> e, boolean b, MediatorConstants parm) {
+    sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, e, b, parm));
+  }
 
 }

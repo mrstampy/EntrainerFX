@@ -61,143 +61,143 @@ import com.github.mrstampy.esp.dsp.lab.RawEspConnection;
  * The Class EspConnectionLoader.
  */
 public class EspConnectionLoader {
-	private static final Logger log = LoggerFactory.getLogger(EspConnectionLoader.class);
+  private static final Logger log = LoggerFactory.getLogger(EspConnectionLoader.class);
 
-	private List<RawEspConnection> connections = Collections.synchronizedList(new ArrayList<>());
-	private List<Path> jarFiles = Collections.synchronizedList(new ArrayList<Path>());
-	private Timer timer = new Timer("Raw Esp Connection Watch Timer", true);
+  private List<RawEspConnection> connections = Collections.synchronizedList(new ArrayList<>());
+  private List<Path> jarFiles = Collections.synchronizedList(new ArrayList<Path>());
+  private Timer timer = new Timer("Raw Esp Connection Watch Timer", true);
 
-	private Sender sender = new SenderAdapter();
+  private Sender sender = new SenderAdapter();
 
-	/**
-	 * Instantiates a new esp connection loader.
-	 */
-	public EspConnectionLoader() {
-		EntrainerMediator.getInstance().addSender(sender);
-	}
+  /**
+   * Instantiates a new esp connection loader.
+   */
+  public EspConnectionLoader() {
+    EntrainerMediator.getInstance().addSender(sender);
+  }
 
-	/**
-	 * Gets the esp connections.
-	 *
-	 * @return the esp connections
-	 */
-	public List<RawEspConnection> getEspConnections() {
-		return connections;
-	}
+  /**
+   * Gets the esp connections.
+   *
+   * @return the esp connections
+   */
+  public List<RawEspConnection> getEspConnections() {
+    return connections;
+  }
 
-	/**
-	 * Checks if is empty.
-	 *
-	 * @return true, if is empty
-	 */
-	public boolean isEmpty() {
-		return connections.isEmpty();
-	}
+  /**
+   * Checks if is empty.
+   *
+   * @return true, if is empty
+   */
+  public boolean isEmpty() {
+    return connections.isEmpty();
+  }
 
-	/**
-	 * Load all connections.
-	 */
-	void loadAllConnections() {
-		log.debug("Loading ESP Connections");
+  /**
+   * Load all connections.
+   */
+  void loadAllConnections() {
+    log.debug("Loading ESP Connections");
 
-		Optional<File> espDir = Utils.getEspDir();
+    Optional<File> espDir = Utils.getEspDir();
 
-		log.info("Loading ESP jars from {}", espDir.get().getAbsolutePath());
+    log.info("Loading ESP jars from {}", espDir.get().getAbsolutePath());
 
-		timer.schedule(getTimerTask(Paths.get(espDir.get().toURI())), 0);
+    timer.schedule(getTimerTask(Paths.get(espDir.get().toURI())), 0);
 
-		List<Path> jarPaths = EntrainerRegister.getJarFilesInDirectory(espDir.get().getAbsolutePath());
+    List<Path> jarPaths = EntrainerRegister.getJarFilesInDirectory(espDir.get().getAbsolutePath());
 
-		jarPaths = getNewJarPaths(jarPaths);
+    jarPaths = getNewJarPaths(jarPaths);
 
-		if (jarPaths.isEmpty()) {
-			log.debug("No new ESP Connections to load");
-			return;
-		}
+    if (jarPaths.isEmpty()) {
+      log.debug("No new ESP Connections to load");
+      return;
+    }
 
-		List<URL> jarUrls = new ArrayList<>();
+    List<URL> jarUrls = new ArrayList<>();
 
-		try {
-			for (Path path : jarPaths) {
-				log.debug("Loading " + path);
-				jarUrls.add(path.toUri().toURL());
-			}
+    try {
+      for (Path path : jarPaths) {
+        log.debug("Loading " + path);
+        jarUrls.add(path.toUri().toURL());
+      }
 
-			EntrainerRegister.loadClasses(jarUrls, RawEspConnection.class, connections);
-			sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, true, MediatorConstants.ESP_CONNECTIONS_RELOADED));
-		} catch (Exception e) {
-			log.error("Unexpected exception", e);
-		}
-	}
+      EntrainerRegister.loadClasses(jarUrls, RawEspConnection.class, connections);
+      sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, true, MediatorConstants.ESP_CONNECTIONS_RELOADED));
+    } catch (Exception e) {
+      log.error("Unexpected exception", e);
+    }
+  }
 
-	private TimerTask getTimerTask(final Path directory) {
-		TimerTask task = new TimerTask() {
+  private TimerTask getTimerTask(final Path directory) {
+    TimerTask task = new TimerTask() {
 
-			@Override
-			public void run() {
-				try {
-					WatchKey key = directory.register(getWatchService(),
-							StandardWatchEventKinds.ENTRY_CREATE,
-							StandardWatchEventKinds.ENTRY_DELETE,
-							StandardWatchEventKinds.ENTRY_MODIFY);
+      @Override
+      public void run() {
+        try {
+          WatchKey key = directory.register(getWatchService(),
+              StandardWatchEventKinds.ENTRY_CREATE,
+              StandardWatchEventKinds.ENTRY_DELETE,
+              StandardWatchEventKinds.ENTRY_MODIFY);
 
-					List<WatchEvent<?>> events = key.pollEvents();
-					while (events.isEmpty()) {
-						log.debug("No changes to esp directory");
-						Utils.snooze(5000);
-						events = key.pollEvents();
-					}
+          List<WatchEvent<?>> events = key.pollEvents();
+          while (events.isEmpty()) {
+            log.debug("No changes to esp directory");
+            Utils.snooze(5000);
+            events = key.pollEvents();
+          }
 
-					boolean shouldLoad = false;
-					for (WatchEvent<?> event : events) {
-						if (StandardWatchEventKinds.ENTRY_CREATE.equals(event.kind())
-								|| StandardWatchEventKinds.ENTRY_MODIFY.equals(event.kind())) {
-							shouldLoad = true;
-						}
-						if (StandardWatchEventKinds.ENTRY_DELETE.equals(event.kind())) {
-							Path jarFile = (Path) event.context();
-							shouldLoad = true;
-							fireConnectionRemoved(jarFile);
-						}
-					}
+          boolean shouldLoad = false;
+          for (WatchEvent<?> event : events) {
+            if (StandardWatchEventKinds.ENTRY_CREATE.equals(event.kind())
+                || StandardWatchEventKinds.ENTRY_MODIFY.equals(event.kind())) {
+              shouldLoad = true;
+            }
+            if (StandardWatchEventKinds.ENTRY_DELETE.equals(event.kind())) {
+              Path jarFile = (Path) event.context();
+              shouldLoad = true;
+              fireConnectionRemoved(jarFile);
+            }
+          }
 
-					if (shouldLoad) loadAllConnections();
-				} catch (Throwable e) {
-					log.error("Unexpected watch problem: ", e);
-				}
-			}
-		};
+          if (shouldLoad) loadAllConnections();
+        } catch (Throwable e) {
+          log.error("Unexpected watch problem: ", e);
+        }
+      }
+    };
 
-		return task;
-	}
+    return task;
+  }
 
-	private void fireConnectionRemoved(Path jarFile) {
-		// TODO Auto-generated method stub
-	}
+  private void fireConnectionRemoved(Path jarFile) {
+    // TODO Auto-generated method stub
+  }
 
-	private WatchService getWatchService() throws IOException {
-		FileSystem system = FileSystems.getDefault();
-		return system.newWatchService();
-	}
+  private WatchService getWatchService() throws IOException {
+    FileSystem system = FileSystems.getDefault();
+    return system.newWatchService();
+  }
 
-	@SuppressWarnings("unchecked")
-	private List<Path> getNewJarPaths(List<Path> jarPaths) {
-		if (jarPaths.isEmpty()) return Collections.EMPTY_LIST;
-		List<Path> paths = new ArrayList<Path>();
+  @SuppressWarnings("unchecked")
+  private List<Path> getNewJarPaths(List<Path> jarPaths) {
+    if (jarPaths.isEmpty()) return Collections.EMPTY_LIST;
+    List<Path> paths = new ArrayList<Path>();
 
-		if (jarFiles.isEmpty()) {
-			jarFiles.addAll(jarPaths);
-			paths.addAll(jarPaths);
-		} else {
-			for (Path path : jarPaths) {
-				if (!jarFiles.contains(path)) {
-					jarFiles.add(path);
+    if (jarFiles.isEmpty()) {
+      jarFiles.addAll(jarPaths);
+      paths.addAll(jarPaths);
+    } else {
+      for (Path path : jarPaths) {
+        if (!jarFiles.contains(path)) {
+          jarFiles.add(path);
 
-					paths.add(path);
-				}
-			}
-		}
+          paths.add(path);
+        }
+      }
+    }
 
-		return paths;
-	}
+    return paths;
+  }
 }

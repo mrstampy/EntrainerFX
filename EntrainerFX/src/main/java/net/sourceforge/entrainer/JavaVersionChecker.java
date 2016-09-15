@@ -34,113 +34,113 @@ import java.util.StringTokenizer;
  */
 public class JavaVersionChecker {
 
-	/** The Constant MIN_VERSION. */
-	public static final JavaVersion MIN_VERSION = new JavaVersion(1, 8, 0, 40);
+  /** The Constant MIN_VERSION. */
+  public static final JavaVersion MIN_VERSION = new JavaVersion(1, 8, 0, 40);
 
-	/** The Constant CURRENT. */
-	public static final JavaVersion CURRENT;
+  /** The Constant CURRENT. */
+  public static final JavaVersion CURRENT;
 
-	/** The Constant VERSION_OK. */
-	public static final boolean VERSION_OK;
+  /** The Constant VERSION_OK. */
+  public static final boolean VERSION_OK;
 
-	static {
-		CURRENT = JavaVersion.fromCurrent();
+  static {
+    CURRENT = JavaVersion.fromCurrent();
 
-		VERSION_OK = CURRENT.isOk(MIN_VERSION);
-	}
+    VERSION_OK = CURRENT.isOk(MIN_VERSION);
+  }
 
-	/**
-	 * The Class JavaVersion.
-	 */
-	public static class JavaVersion {
-		private DecimalFormat releaseFormat = new DecimalFormat("00");
+  /**
+   * The Class JavaVersion.
+   */
+  public static class JavaVersion {
+    private DecimalFormat releaseFormat = new DecimalFormat("00");
 
-		/** The major. */
-		public int major;
+    /** The major. */
+    public int major;
 
-		/** The minor. */
-		public int minor;
+    /** The minor. */
+    public int minor;
 
-		/** The milli. */
-		public int milli;
+    /** The milli. */
+    public int milli;
 
-		/** The release. */
-		public int release;
+    /** The release. */
+    public int release;
 
-		/**
-		 * Instantiates a new java version.
-		 *
-		 * @param major
-		 *          the major
-		 * @param minor
-		 *          the minor
-		 * @param milli
-		 *          the milli
-		 * @param release
-		 *          the release
-		 */
-		public JavaVersion(int major, int minor, int milli, int release) {
-			this.major = major;
-			this.minor = minor;
-			this.milli = milli;
-			this.release = release;
-		}
+    /**
+     * Instantiates a new java version.
+     *
+     * @param major
+     *          the major
+     * @param minor
+     *          the minor
+     * @param milli
+     *          the milli
+     * @param release
+     *          the release
+     */
+    public JavaVersion(int major, int minor, int milli, int release) {
+      this.major = major;
+      this.minor = minor;
+      this.milli = milli;
+      this.release = release;
+    }
 
-		/**
-		 * Checks if is ok.
-		 *
-		 * @param jv
-		 *          the jv
-		 * @return true, if is ok
-		 */
-		public boolean isOk(JavaVersion jv) {
-			if (jv.major > major) return false;
-			if (jv.major < major) return true;
-			if (jv.minor > minor) return false;
-			if (jv.minor < minor) return true;
-			if (jv.milli > milli) return false;
-			if (jv.milli < milli) return true;
-			if (jv.release > release) return false;
+    /**
+     * Checks if is ok.
+     *
+     * @param jv
+     *          the jv
+     * @return true, if is ok
+     */
+    public boolean isOk(JavaVersion jv) {
+      if (jv.major > major) return false;
+      if (jv.major < major) return true;
+      if (jv.minor > minor) return false;
+      if (jv.minor < minor) return true;
+      if (jv.milli > milli) return false;
+      if (jv.milli < milli) return true;
+      if (jv.release > release) return false;
 
-			return true;
-		}
+      return true;
+    }
 
-		/**
-		 * From current.
-		 *
-		 * @return the java version
-		 */
-		public static JavaVersion fromCurrent() {
-			StringTokenizer toker = new StringTokenizer(System.getProperty("java.version"), ".");
+    /**
+     * From current.
+     *
+     * @return the java version
+     */
+    public static JavaVersion fromCurrent() {
+      StringTokenizer toker = new StringTokenizer(System.getProperty("java.version"), ".");
 
-			int major = Integer.parseInt(toker.nextToken());
-			int minor = Integer.parseInt(toker.nextToken());
+      int major = Integer.parseInt(toker.nextToken());
+      int minor = Integer.parseInt(toker.nextToken());
 
-			StringTokenizer tokee = new StringTokenizer(toker.nextToken(), "_");
+      StringTokenizer tokee = new StringTokenizer(toker.nextToken(), "_");
 
-			int milli = Integer.parseInt(tokee.nextToken());
-			int release = tokee.hasMoreTokens() ? Integer.parseInt(tokee.nextToken()) : 0;
+      int milli = Integer.parseInt(tokee.nextToken());
+      int release = tokee.hasMoreTokens() ? Integer.parseInt(tokee.nextToken()) : 0;
 
-			return new JavaVersion(major, minor, milli, release);
-		}
+      return new JavaVersion(major, minor, milli, release);
+    }
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.lang.Object#toString()
-		 */
-		public String toString() {
-			return major + "." + minor + "." + milli + "_" + releaseFormat.format(release);
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+      return major + "." + minor + "." + milli + "_" + releaseFormat.format(release);
+    }
+  }
 
-	/**
-	 * The main method.
-	 *
-	 * @param args
-	 *          the arguments
-	 */
-	public static void main(String[] args) {
-		System.out.println(VERSION_OK);
-	}
+  /**
+   * The main method.
+   *
+   * @param args
+   *          the arguments
+   */
+  public static void main(String[] args) {
+    System.out.println(VERSION_OK);
+  }
 }

@@ -43,117 +43,117 @@ import net.sourceforge.entrainer.mediator.ReceiverChangeEvent;
  */
 public class FrequencyToHalfTimeCycle {
 
-	private static final BigDecimal oneHalfSecond = new BigDecimal(500000000, MathContext.DECIMAL64);
-	private static final BigDecimal lessThanZero = new BigDecimal(0.01, MathContext.DECIMAL64);
-	private static final BigDecimal oneMillion = new BigDecimal(1000000);
+  private static final BigDecimal oneHalfSecond = new BigDecimal(500000000, MathContext.DECIMAL64);
+  private static final BigDecimal lessThanZero = new BigDecimal(0.01, MathContext.DECIMAL64);
+  private static final BigDecimal oneMillion = new BigDecimal(1000000);
 
-	private long millis;
-	private long nanoValue;
-	private int nanos;
-	private double frequency;
+  private long millis;
+  private long nanoValue;
+  private int nanos;
+  private double frequency;
 
-	/**
-	 * Instantiates a new frequency to half time cycle.
-	 */
-	public FrequencyToHalfTimeCycle() {
-		initMediator();
-	}
+  /**
+   * Instantiates a new frequency to half time cycle.
+   */
+  public FrequencyToHalfTimeCycle() {
+    initMediator();
+  }
 
-	/**
-	 * Sets the frequency.
-	 *
-	 * @param frequency
-	 *          the new frequency
-	 */
-	public void setFrequency(double frequency) {
-		this.frequency = frequency;
+  /**
+   * Sets the frequency.
+   *
+   * @param frequency
+   *          the new frequency
+   */
+  public void setFrequency(double frequency) {
+    this.frequency = frequency;
 
-		BigDecimal denominator = frequency > 0 ? new BigDecimal(frequency, MathContext.DECIMAL64) : lessThanZero;
+    BigDecimal denominator = frequency > 0 ? new BigDecimal(frequency, MathContext.DECIMAL64) : lessThanZero;
 
-		BigDecimal result = oneHalfSecond.divide(denominator, MathContext.DECIMAL64);
+    BigDecimal result = oneHalfSecond.divide(denominator, MathContext.DECIMAL64);
 
-		setNanoValue(result.longValue());
+    setNanoValue(result.longValue());
 
-		setMillis(getNanoValue() / oneMillion.longValue());
+    setMillis(getNanoValue() / oneMillion.longValue());
 
-		setNanos((int) (getNanoValue() - (getMillis() * oneMillion.longValue())));
-	}
+    setNanos((int) (getNanoValue() - (getMillis() * oneMillion.longValue())));
+  }
 
-	/**
-	 * Cleanup.
-	 */
-	public void cleanup() {
-		EntrainerMediator.getInstance().removeReceiver(this);
-	}
+  /**
+   * Cleanup.
+   */
+  public void cleanup() {
+    EntrainerMediator.getInstance().removeReceiver(this);
+  }
 
-	private void initMediator() {
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
+  private void initMediator() {
+    EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
 
-			@Override
-			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				switch (e.getParm()) {
-				case ENTRAINMENT_FREQUENCY:
-					setFrequency(e.getDoubleValue());
-					break;
-				case DELTA_ENTRAINMENT_FREQUENCY:
-					double delta = getDelta(e, getFrequency(), e.getEndValue());
-					setFrequency(getFrequency() + delta);
-					break;
-				default:
-					break;
-				}
-			}
+      @Override
+      protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+        switch (e.getParm()) {
+        case ENTRAINMENT_FREQUENCY:
+          setFrequency(e.getDoubleValue());
+          break;
+        case DELTA_ENTRAINMENT_FREQUENCY:
+          double delta = getDelta(e, getFrequency(), e.getEndValue());
+          setFrequency(getFrequency() + delta);
+          break;
+        default:
+          break;
+        }
+      }
 
-		});
-	}
+    });
+  }
 
-	/**
-	 * Gets the millis.
-	 *
-	 * @return the millis
-	 */
-	public long getMillis() {
-		return millis;
-	}
+  /**
+   * Gets the millis.
+   *
+   * @return the millis
+   */
+  public long getMillis() {
+    return millis;
+  }
 
-	private void setMillis(long millis) {
-		this.millis = millis;
-	}
+  private void setMillis(long millis) {
+    this.millis = millis;
+  }
 
-	/**
-	 * Gets the nanos.
-	 *
-	 * @return the nanos
-	 */
-	public int getNanos() {
-		return nanos;
-	}
+  /**
+   * Gets the nanos.
+   *
+   * @return the nanos
+   */
+  public int getNanos() {
+    return nanos;
+  }
 
-	private void setNanos(int nanos) {
-		if (nanos < 0 || nanos > 999999) nanos = 0;
-		this.nanos = nanos;
-	}
+  private void setNanos(int nanos) {
+    if (nanos < 0 || nanos > 999999) nanos = 0;
+    this.nanos = nanos;
+  }
 
-	/**
-	 * Gets the frequency.
-	 *
-	 * @return the frequency
-	 */
-	public double getFrequency() {
-		return frequency;
-	}
+  /**
+   * Gets the frequency.
+   *
+   * @return the frequency
+   */
+  public double getFrequency() {
+    return frequency;
+  }
 
-	/**
-	 * Gets the nano value.
-	 *
-	 * @return the nano value
-	 */
-	public long getNanoValue() {
-		return nanoValue;
-	}
+  /**
+   * Gets the nano value.
+   *
+   * @return the nano value
+   */
+  public long getNanoValue() {
+    return nanoValue;
+  }
 
-	private void setNanoValue(long nanoValue) {
-		this.nanoValue = nanoValue;
-	}
+  private void setNanoValue(long nanoValue) {
+    this.nanoValue = nanoValue;
+  }
 
 }

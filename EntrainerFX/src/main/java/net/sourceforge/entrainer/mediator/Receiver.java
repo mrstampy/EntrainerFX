@@ -38,40 +38,40 @@ import java.util.EventListener;
  */
 public interface Receiver extends EventListener {
 
-	/**
-	 * Implement to process delta changes.
-	 *
-	 * @param e
-	 *          the e
-	 * @param current
-	 *          the current
-	 * @param end
-	 *          the end
-	 * @return the delta
-	 */
-	double getDelta(ReceiverChangeEvent e, double current, double end);
+  /**
+   * Implement to process delta changes.
+   *
+   * @param e
+   *          the e
+   * @param current
+   *          the current
+   * @param end
+   *          the end
+   * @return the delta
+   */
+  double getDelta(ReceiverChangeEvent e, double current, double end);
 
-	/**
-	 * Implement to deal with the {@link ReceiverChangeEvent} appropriately.
-	 *
-	 * @param e
-	 *          the e
-	 */
-	void receiverChangeEventPerformed(ReceiverChangeEvent e);
+  /**
+   * Implement to deal with the {@link ReceiverChangeEvent} appropriately.
+   *
+   * @param e
+   *          the e
+   */
+  void receiverChangeEventPerformed(ReceiverChangeEvent e);
 
-	/**
-	 * Implement to return the object which instantiated the implementation of
-	 * this interface.
-	 *
-	 * @return the source
-	 */
-	Object getSource();
+  /**
+   * Implement to return the object which instantiated the implementation of
+   * this interface.
+   *
+   * @return the source
+   */
+  Object getSource();
 
-	/**
-	 * Checks if is pulse receiver.
-	 *
-	 * @return true, if is pulse receiver
-	 */
-	boolean isPulseReceiver();
+  /**
+   * Checks if is pulse receiver.
+   *
+   * @return true, if is pulse receiver
+   */
+  boolean isPulseReceiver();
 
 }

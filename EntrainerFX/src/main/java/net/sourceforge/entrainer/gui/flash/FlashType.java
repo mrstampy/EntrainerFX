@@ -30,7 +30,7 @@ package net.sourceforge.entrainer.gui.flash;
  * The Enum FlashType.
  */
 public enum FlashType {
-	//@formatter:off
+  //@formatter:off
 	/** The opacity. */
 	OPACITY,
 	

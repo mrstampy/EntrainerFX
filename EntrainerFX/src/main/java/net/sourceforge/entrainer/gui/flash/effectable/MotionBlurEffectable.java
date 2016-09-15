@@ -33,23 +33,23 @@ import javafx.scene.effect.MotionBlur;
  */
 public class MotionBlurEffectable extends MotionBlur implements Effectable {
 
-	/**
-	 * Instantiates a new motion blur effectable.
-	 */
-	public MotionBlurEffectable() {
-		super();
-	}
+  /**
+   * Instantiates a new motion blur effectable.
+   */
+  public MotionBlurEffectable() {
+    super();
+  }
 
-	/**
-	 * Instantiates a new motion blur effectable.
-	 *
-	 * @param angle
-	 *          the angle
-	 * @param radius
-	 *          the radius
-	 */
-	public MotionBlurEffectable(double angle, double radius) {
-		super(angle, radius);
-	}
+  /**
+   * Instantiates a new motion blur effectable.
+   *
+   * @param angle
+   *          the angle
+   * @param radius
+   *          the radius
+   */
+  public MotionBlurEffectable(double angle, double radius) {
+    super(angle, radius);
+  }
 
 }

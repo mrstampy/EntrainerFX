@@ -33,19 +33,19 @@ import javafx.scene.effect.Effect;
  */
 public interface Effectable {
 
-	/**
-	 * Gets the input.
-	 *
-	 * @return the input
-	 */
-	Effect getInput();
+  /**
+   * Gets the input.
+   *
+   * @return the input
+   */
+  Effect getInput();
 
-	/**
-	 * Sets the input.
-	 *
-	 * @param effect
-	 *          the new input
-	 */
-	void setInput(Effect effect);
+  /**
+   * Sets the input.
+   *
+   * @param effect
+   *          the new input
+   */
+  void setInput(Effect effect);
 
 }

@@ -40,117 +40,117 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FlashColour {
 
-	@XmlElement
-	private int red;
+  @XmlElement
+  private int red;
 
-	@XmlElement
-	private int green;
+  @XmlElement
+  private int green;
 
-	@XmlElement
-	private int blue;
+  @XmlElement
+  private int blue;
 
-	@XmlElement
-	private int alpha;
+  @XmlElement
+  private int alpha;
 
-	/**
-	 * Gets the red.
-	 *
-	 * @return the red
-	 */
-	public int getRed() {
-		return red;
-	}
+  /**
+   * Gets the red.
+   *
+   * @return the red
+   */
+  public int getRed() {
+    return red;
+  }
 
-	/**
-	 * Sets the red.
-	 *
-	 * @param red
-	 *          the new red
-	 */
-	public void setRed(int red) {
-		this.red = red;
-	}
+  /**
+   * Sets the red.
+   *
+   * @param red
+   *          the new red
+   */
+  public void setRed(int red) {
+    this.red = red;
+  }
 
-	/**
-	 * Gets the green.
-	 *
-	 * @return the green
-	 */
-	public int getGreen() {
-		return green;
-	}
+  /**
+   * Gets the green.
+   *
+   * @return the green
+   */
+  public int getGreen() {
+    return green;
+  }
 
-	/**
-	 * Sets the green.
-	 *
-	 * @param green
-	 *          the new green
-	 */
-	public void setGreen(int green) {
-		this.green = green;
-	}
+  /**
+   * Sets the green.
+   *
+   * @param green
+   *          the new green
+   */
+  public void setGreen(int green) {
+    this.green = green;
+  }
 
-	/**
-	 * Gets the blue.
-	 *
-	 * @return the blue
-	 */
-	public int getBlue() {
-		return blue;
-	}
+  /**
+   * Gets the blue.
+   *
+   * @return the blue
+   */
+  public int getBlue() {
+    return blue;
+  }
 
-	/**
-	 * Sets the blue.
-	 *
-	 * @param blue
-	 *          the new blue
-	 */
-	public void setBlue(int blue) {
-		this.blue = blue;
-	}
+  /**
+   * Sets the blue.
+   *
+   * @param blue
+   *          the new blue
+   */
+  public void setBlue(int blue) {
+    this.blue = blue;
+  }
 
-	/**
-	 * Gets the alpha.
-	 *
-	 * @return the alpha
-	 */
-	public int getAlpha() {
-		return alpha;
-	}
+  /**
+   * Gets the alpha.
+   *
+   * @return the alpha
+   */
+  public int getAlpha() {
+    return alpha;
+  }
 
-	/**
-	 * Sets the alpha.
-	 *
-	 * @param alpha
-	 *          the new alpha
-	 */
-	public void setAlpha(int alpha) {
-		this.alpha = alpha;
-	}
+  /**
+   * Sets the alpha.
+   *
+   * @param alpha
+   *          the new alpha
+   */
+  public void setAlpha(int alpha) {
+    this.alpha = alpha;
+  }
 
-	/**
-	 * Gets the color.
-	 *
-	 * @return the color
-	 */
-	@JsonIgnore
-	public Color getColor() {
-		return new Color(getRed(), getGreen(), getBlue(), getAlpha());
-	}
+  /**
+   * Gets the color.
+   *
+   * @return the color
+   */
+  @JsonIgnore
+  public Color getColor() {
+    return new Color(getRed(), getGreen(), getBlue(), getAlpha());
+  }
 
-	/**
-	 * Sets the color.
-	 *
-	 * @param c
-	 *          the new color
-	 */
-	@JsonIgnore
-	public void setColor(Color c) {
-		if (c == null) return;
-		setRed(c.getRed());
-		setGreen(c.getGreen());
-		setBlue(c.getBlue());
-		setAlpha(c.getAlpha());
-	}
+  /**
+   * Sets the color.
+   *
+   * @param c
+   *          the new color
+   */
+  @JsonIgnore
+  public void setColor(Color c) {
+    if (c == null) return;
+    setRed(c.getRed());
+    setGreen(c.getGreen());
+    setBlue(c.getBlue());
+    setAlpha(c.getAlpha());
+  }
 
 }

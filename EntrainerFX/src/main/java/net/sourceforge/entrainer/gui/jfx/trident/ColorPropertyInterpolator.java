@@ -39,38 +39,38 @@ import org.pushingpixels.trident.interpolator.PropertyInterpolator;
  */
 public class ColorPropertyInterpolator implements PropertyInterpolator<Color> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#
-	 * getBasePropertyClass()
-	 */
-	@SuppressWarnings("rawtypes")
-	@Override
-	public Class getBasePropertyClass() {
-		return Color.class;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#
+   * getBasePropertyClass()
+   */
+  @SuppressWarnings("rawtypes")
+  @Override
+  public Class getBasePropertyClass() {
+    return Color.class;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.pushingpixels.trident.interpolator.PropertyInterpolator#interpolate
-	 * (java.lang.Object, java.lang.Object, float)
-	 */
-	@Override
-	public Color interpolate(Color from, Color to, float fraction) {
-		try {
-			double r = (to.getRed() - from.getRed()) * fraction;
-			double g = (to.getGreen() - from.getGreen()) * fraction;
-			double b = (to.getBlue() - from.getBlue()) * fraction;
-			double a = (to.getOpacity() - from.getOpacity()) * fraction;
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * org.pushingpixels.trident.interpolator.PropertyInterpolator#interpolate
+   * (java.lang.Object, java.lang.Object, float)
+   */
+  @Override
+  public Color interpolate(Color from, Color to, float fraction) {
+    try {
+      double r = (to.getRed() - from.getRed()) * fraction;
+      double g = (to.getGreen() - from.getGreen()) * fraction;
+      double b = (to.getBlue() - from.getBlue()) * fraction;
+      double a = (to.getOpacity() - from.getOpacity()) * fraction;
 
-			return new Color(from.getRed() + r, from.getGreen() + g, from.getBlue() + b, from.getOpacity() + a);
-		} catch (Throwable e) {
-			e.printStackTrace();
-			return to;
-		}
-	}
+      return new Color(from.getRed() + r, from.getGreen() + g, from.getBlue() + b, from.getOpacity() + a);
+    } catch (Throwable e) {
+      e.printStackTrace();
+      return to;
+    }
+  }
 
 }

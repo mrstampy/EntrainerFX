@@ -36,100 +36,100 @@ package net.sourceforge.entrainer.xml.program;
  */
 public interface UnitSetter {
 
-	/**
-	 * Sets the amplitude.
-	 *
-	 * @param d
-	 *          the new amplitude
-	 */
-	public void setAmplitude(double d);
+  /**
+   * Sets the amplitude.
+   *
+   * @param d
+   *          the new amplitude
+   */
+  public void setAmplitude(double d);
 
-	/**
-	 * Gets the amplitude.
-	 *
-	 * @return the amplitude
-	 */
-	public double getAmplitude();
+  /**
+   * Gets the amplitude.
+   *
+   * @return the amplitude
+   */
+  public double getAmplitude();
 
-	/**
-	 * Sets the entrainment frequency.
-	 *
-	 * @param d
-	 *          the new entrainment frequency
-	 */
-	public void setEntrainmentFrequency(double d);
+  /**
+   * Sets the entrainment frequency.
+   *
+   * @param d
+   *          the new entrainment frequency
+   */
+  public void setEntrainmentFrequency(double d);
 
-	/**
-	 * Gets the entrainment frequency.
-	 *
-	 * @return the entrainment frequency
-	 */
-	public double getEntrainmentFrequency();
+  /**
+   * Gets the entrainment frequency.
+   *
+   * @return the entrainment frequency
+   */
+  public double getEntrainmentFrequency();
 
-	/**
-	 * Sets the frequency.
-	 *
-	 * @param d
-	 *          the new frequency
-	 */
-	public void setFrequency(double d);
+  /**
+   * Sets the frequency.
+   *
+   * @param d
+   *          the new frequency
+   */
+  public void setFrequency(double d);
 
-	/**
-	 * Gets the frequency.
-	 *
-	 * @return the frequency
-	 */
-	public double getFrequency();
+  /**
+   * Gets the frequency.
+   *
+   * @return the frequency
+   */
+  public double getFrequency();
 
-	/**
-	 * Sets the pink entrainer multiple.
-	 *
-	 * @param d
-	 *          the new pink entrainer multiple
-	 */
-	public void setPinkEntrainerMultiple(double d);
+  /**
+   * Sets the pink entrainer multiple.
+   *
+   * @param d
+   *          the new pink entrainer multiple
+   */
+  public void setPinkEntrainerMultiple(double d);
 
-	/**
-	 * Gets the pink entrainer multiple.
-	 *
-	 * @return the pink entrainer multiple
-	 */
-	public double getPinkEntrainerMultiple();
+  /**
+   * Gets the pink entrainer multiple.
+   *
+   * @return the pink entrainer multiple
+   */
+  public double getPinkEntrainerMultiple();
 
-	/**
-	 * Sets the pink noise.
-	 *
-	 * @param d
-	 *          the new pink noise
-	 */
-	public void setPinkNoise(double d);
+  /**
+   * Sets the pink noise.
+   *
+   * @param d
+   *          the new pink noise
+   */
+  public void setPinkNoise(double d);
 
-	/**
-	 * Gets the pink noise.
-	 *
-	 * @return the pink noise
-	 */
-	public double getPinkNoise();
+  /**
+   * Gets the pink noise.
+   *
+   * @return the pink noise
+   */
+  public double getPinkNoise();
 
-	/**
-	 * Sets the pink pan amplitude.
-	 *
-	 * @param d
-	 *          the new pink pan amplitude
-	 */
-	public void setPinkPanAmplitude(double d);
+  /**
+   * Sets the pink pan amplitude.
+   *
+   * @param d
+   *          the new pink pan amplitude
+   */
+  public void setPinkPanAmplitude(double d);
 
-	/**
-	 * Gets the pink pan amplitude.
-	 *
-	 * @return the pink pan amplitude
-	 */
-	public double getPinkPanAmplitude();
+  /**
+   * Gets the pink pan amplitude.
+   *
+   * @return the pink pan amplitude
+   */
+  public double getPinkPanAmplitude();
 
-	/**
-	 * Gets the unit.
-	 *
-	 * @return the unit
-	 */
-	public EntrainerProgramUnit getUnit();
+  /**
+   * Gets the unit.
+   *
+   * @return the unit
+   */
+  public EntrainerProgramUnit getUnit();
 }

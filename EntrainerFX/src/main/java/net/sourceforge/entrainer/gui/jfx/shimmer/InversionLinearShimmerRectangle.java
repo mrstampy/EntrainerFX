@@ -36,33 +36,33 @@ import javafx.scene.paint.LinearGradient;
  */
 public class InversionLinearShimmerRectangle extends AbstractShimmer<LinearGradient> {
 
-	/**
-	 * Instantiates a new inversion linear shimmer rectangle.
-	 */
-	public InversionLinearShimmerRectangle() {
-		super();
-	}
+  /**
+   * Instantiates a new inversion linear shimmer rectangle.
+   */
+  public InversionLinearShimmerRectangle() {
+    super();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Inversion Linear Gradient";
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
+   */
+  @Override
+  public String toString() {
+    return "Inversion Linear Gradient";
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
-	 * (double)
-	 */
-	@Override
-	protected LinearGradient createNewPaint(double opacity) {
-		return ShimmerPaintUtils.createLinearGradient(opacity, getWidth(), getHeight());
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
+   * (double)
+   */
+  @Override
+  protected LinearGradient createNewPaint(double opacity) {
+    return ShimmerPaintUtils.createLinearGradient(opacity, getWidth(), getHeight());
+  }
 
 }

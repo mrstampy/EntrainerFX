@@ -42,61 +42,61 @@ import org.pushingpixels.trident.interpolator.PropertyInterpolator;
  * @author burton
  * @see TridentConfig#addPropertyInterpolator(PropertyInterpolator)
  */
-public class RadialGradientInterpolator extends AbstractGradientInterpolator implements
-		PropertyInterpolator<RadialGradient> {
+public class RadialGradientInterpolator extends AbstractGradientInterpolator
+    implements PropertyInterpolator<RadialGradient> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#
-	 * getBasePropertyClass()
-	 */
-	@SuppressWarnings("rawtypes")
-	@Override
-	public Class getBasePropertyClass() {
-		return RadialGradient.class;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.pushingpixels.trident.interpolator.PropertyInterpolator#
+   * getBasePropertyClass()
+   */
+  @SuppressWarnings("rawtypes")
+  @Override
+  public Class getBasePropertyClass() {
+    return RadialGradient.class;
+  }
 
-	/**
-	 * Only works for clockwise focus angle rotations!.
-	 *
-	 * @param rg1
-	 *          the rg1
-	 * @param rg2
-	 *          the rg2
-	 * @param f
-	 *          the f
-	 * @return the radial gradient
-	 */
-	@Override
-	public RadialGradient interpolate(RadialGradient rg1, RadialGradient rg2, float f) {
-		List<Stop> startStops = rg1.getStops();
-		List<Stop> endStops = rg2.getStops();
+  /**
+   * Only works for clockwise focus angle rotations!.
+   *
+   * @param rg1
+   *          the rg1
+   * @param rg2
+   *          the rg2
+   * @param f
+   *          the f
+   * @return the radial gradient
+   */
+  @Override
+  public RadialGradient interpolate(RadialGradient rg1, RadialGradient rg2, float f) {
+    List<Stop> startStops = rg1.getStops();
+    List<Stop> endStops = rg2.getStops();
 
-		validate(rg1.isProportional(),
-				rg2.isProportional(),
-				rg1.getCycleMethod(),
-				rg2.getCycleMethod(),
-				startStops,
-				endStops);
+    validate(rg1.isProportional(),
+        rg2.isProportional(),
+        rg1.getCycleMethod(),
+        rg2.getCycleMethod(),
+        startStops,
+        endStops);
 
-		List<Stop> newStops = interpolateStops(f, startStops, endStops);
+    List<Stop> newStops = interpolateStops(f, startStops, endStops);
 
-		double centerX = rg1.getCenterX() + ((rg2.getCenterX() - rg1.getCenterX()) * f);
-		double centerY = rg1.getCenterY() + ((rg2.getCenterY() - rg1.getCenterY()) * f);
+    double centerX = rg1.getCenterX() + ((rg2.getCenterX() - rg1.getCenterX()) * f);
+    double centerY = rg1.getCenterY() + ((rg2.getCenterY() - rg1.getCenterY()) * f);
 
-		double focus1 = rg1.getFocusAngle();
-		double focus2 = rg2.getFocusAngle();
-		if (focus2 < focus1) focus1 = focus1 - 360;
+    double focus1 = rg1.getFocusAngle();
+    double focus2 = rg2.getFocusAngle();
+    if (focus2 < focus1) focus1 = focus1 - 360;
 
-		double focusAngle = focus1 + ((focus2 - focus1) * f);
-		double focusDistance = rg1.getFocusDistance() + ((rg2.getFocusDistance() - rg1.getFocusDistance()) * f);
-		double radius = rg1.getRadius() + ((rg2.getRadius() - rg1.getRadius()) * f);
+    double focusAngle = focus1 + ((focus2 - focus1) * f);
+    double focusDistance = rg1.getFocusDistance() + ((rg2.getFocusDistance() - rg1.getFocusDistance()) * f);
+    double radius = rg1.getRadius() + ((rg2.getRadius() - rg1.getRadius()) * f);
 
-		RadialGradient rg = new RadialGradient(focusAngle, focusDistance, centerX, centerY, radius, rg1.isProportional(),
-				rg1.getCycleMethod(), newStops);
+    RadialGradient rg = new RadialGradient(focusAngle, focusDistance, centerX, centerY, radius, rg1.isProportional(),
+        rg1.getCycleMethod(), newStops);
 
-		return rg;
-	}
+    return rg;
+  }
 
 }

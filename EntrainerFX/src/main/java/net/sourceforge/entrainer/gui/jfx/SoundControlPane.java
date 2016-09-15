@@ -48,190 +48,190 @@ import net.sourceforge.entrainer.mediator.SenderAdapter;
  */
 public class SoundControlPane extends HBox {
 
-	/** The Constant CSS_ID. */
-	public static final String CSS_ID = "sound-control-pane";
-	private ButtonBase play;
-	private ButtonBase stop;
-	private ButtonBase record;
-	private ButtonBase pause;
+  /** The Constant CSS_ID. */
+  public static final String CSS_ID = "sound-control-pane";
+  private ButtonBase play;
+  private ButtonBase stop;
+  private ButtonBase record;
+  private ButtonBase pause;
 
-	private boolean playingEntrainerProgram;
-	private boolean recordingEntrainerProgram;
+  private boolean playingEntrainerProgram;
+  private boolean recordingEntrainerProgram;
 
-	private Sender sender = new SenderAdapter();
+  private Sender sender = new SenderAdapter();
 
-	/**
-	 * Instantiates a new sound control pane.
-	 */
-	public SoundControlPane() {
-		super();
-		initButtons();
-	}
+  /**
+   * Instantiates a new sound control pane.
+   */
+  public SoundControlPane() {
+    super();
+    initButtons();
+  }
 
-	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
-	}
+  private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
+    sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, value, parm));
+  }
 
-	private void initButtons() {
-		initReceiver();
-		setId(CSS_ID);
-		setAlignment(Pos.CENTER);
-		EntrainerMediator.getInstance().addSender(sender);
-		play = ControlButtonFactory.createButton("Play");
-		stop = ControlButtonFactory.createButton("Stop");
-		record = ControlButtonFactory.createButton("Record");
-		pause = ControlButtonFactory.createButton("Pause");
+  private void initButtons() {
+    initReceiver();
+    setId(CSS_ID);
+    setAlignment(Pos.CENTER);
+    EntrainerMediator.getInstance().addSender(sender);
+    play = ControlButtonFactory.createButton("Play");
+    stop = ControlButtonFactory.createButton("Stop");
+    record = ControlButtonFactory.createButton("Record");
+    pause = ControlButtonFactory.createButton("Pause");
 
-		setTooltips();
+    setTooltips();
 
-		stop.setDisable(true);
-		pause.setDisable(true);
+    stop.setDisable(true);
+    pause.setDisable(true);
 
-		play.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+    play.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
-			@Override
-			public void handle(ActionEvent arg0) {
-				fireReceiverChangeEvent(true, START_ENTRAINMENT);
+      @Override
+      public void handle(ActionEvent arg0) {
+        fireReceiverChangeEvent(true, START_ENTRAINMENT);
 
-				setPlaying(true);
-			}
-		});
+        setPlaying(true);
+      }
+    });
 
-		stop.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+    stop.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
-			@Override
-			public void handle(ActionEvent arg0) {
-				fireReceiverChangeEvent(false, START_ENTRAINMENT);
+      @Override
+      public void handle(ActionEvent arg0) {
+        fireReceiverChangeEvent(false, START_ENTRAINMENT);
 
-				setPlaying(false);
-			}
-		});
+        setPlaying(false);
+      }
+    });
 
-		getChildren().add(record);
-		getChildren().add(pause);
-		getChildren().add(play);
-		getChildren().add(stop);
-	}
+    getChildren().add(record);
+    getChildren().add(pause);
+    getChildren().add(play);
+    getChildren().add(stop);
+  }
 
-	private void initReceiver() {
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
+  private void initReceiver() {
+    EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
 
-			@Override
-			protected void processReceiverChangeEvent(final ReceiverChangeEvent e) {
-				switch (e.getParm()) {
-				case START_ENTRAINMENT:
-					setPlaying(e.getBooleanValue());
-					break;
-				default:
-					break;
-				}
-			}
-		});
-	}
+      @Override
+      protected void processReceiverChangeEvent(final ReceiverChangeEvent e) {
+        switch (e.getParm()) {
+        case START_ENTRAINMENT:
+          setPlaying(e.getBooleanValue());
+          break;
+        default:
+          break;
+        }
+      }
+    });
+  }
 
-	/**
-	 * Checks if is playing entrainer program.
-	 *
-	 * @return true, if is playing entrainer program
-	 */
-	public boolean isPlayingEntrainerProgram() {
-		return playingEntrainerProgram;
-	}
+  /**
+   * Checks if is playing entrainer program.
+   *
+   * @return true, if is playing entrainer program
+   */
+  public boolean isPlayingEntrainerProgram() {
+    return playingEntrainerProgram;
+  }
 
-	/**
-	 * Sets the playing entrainer program.
-	 *
-	 * @param playingEntrainerProgram
-	 *          the new playing entrainer program
-	 */
-	public void setPlayingEntrainerProgram(boolean playingEntrainerProgram) {
-		this.playingEntrainerProgram = playingEntrainerProgram;
-	}
+  /**
+   * Sets the playing entrainer program.
+   *
+   * @param playingEntrainerProgram
+   *          the new playing entrainer program
+   */
+  public void setPlayingEntrainerProgram(boolean playingEntrainerProgram) {
+    this.playingEntrainerProgram = playingEntrainerProgram;
+  }
 
-	private void setTooltips() {
-		setTooltip(play, "Start Entrainment");
-		setTooltip(record, "Flag/Clear Recording to '.wav' File");
-		setTooltip(stop, "Stop Entrainment");
-		setTooltip(pause, "Pause/Resume an EntrainerFX Program");
-	}
+  private void setTooltips() {
+    setTooltip(play, "Start Entrainment");
+    setTooltip(record, "Flag/Clear Recording to '.wav' File");
+    setTooltip(stop, "Stop Entrainment");
+    setTooltip(pause, "Pause/Resume an EntrainerFX Program");
+  }
 
-	private void setTooltip(Control node, String tip) {
-		node.setTooltip(new Tooltip(tip));
-	}
+  private void setTooltip(Control node, String tip) {
+    node.setTooltip(new Tooltip(tip));
+  }
 
-	/**
-	 * Sets the playing.
-	 *
-	 * @param playing
-	 *          the new playing
-	 */
-	public void setPlaying(final boolean playing) {
-		JFXUtils.runLater(new Runnable() {
+  /**
+   * Sets the playing.
+   *
+   * @param playing
+   *          the new playing
+   */
+  public void setPlaying(final boolean playing) {
+    JFXUtils.runLater(new Runnable() {
 
-			@Override
-			public void run() {
-				play.setDisable(playing);
-				stop.setDisable(!playing);
-				record.setDisable(playing);
-				pause.setDisable(!isPlayingEntrainerProgram() || !playing);
-				if (!playing) getRecord().setSelected(false);
-			}
-		});
-	}
+      @Override
+      public void run() {
+        play.setDisable(playing);
+        stop.setDisable(!playing);
+        record.setDisable(playing);
+        pause.setDisable(!isPlayingEntrainerProgram() || !playing);
+        if (!playing) getRecord().setSelected(false);
+      }
+    });
+  }
 
-	/**
-	 * Gets the play.
-	 *
-	 * @return the play
-	 */
-	public Button getPlay() {
-		return (Button) play;
-	}
+  /**
+   * Gets the play.
+   *
+   * @return the play
+   */
+  public Button getPlay() {
+    return (Button) play;
+  }
 
-	/**
-	 * Gets the stop.
-	 *
-	 * @return the stop
-	 */
-	public Button getStop() {
-		return (Button) stop;
-	}
+  /**
+   * Gets the stop.
+   *
+   * @return the stop
+   */
+  public Button getStop() {
+    return (Button) stop;
+  }
 
-	/**
-	 * Gets the record.
-	 *
-	 * @return the record
-	 */
-	public ToggleButton getRecord() {
-		return (ToggleButton) record;
-	}
+  /**
+   * Gets the record.
+   *
+   * @return the record
+   */
+  public ToggleButton getRecord() {
+    return (ToggleButton) record;
+  }
 
-	/**
-	 * Gets the pause.
-	 *
-	 * @return the pause
-	 */
-	public ToggleButton getPause() {
-		return (ToggleButton) pause;
-	}
+  /**
+   * Gets the pause.
+   *
+   * @return the pause
+   */
+  public ToggleButton getPause() {
+    return (ToggleButton) pause;
+  }
 
-	/**
-	 * Checks if is recording entrainer program.
-	 *
-	 * @return true, if is recording entrainer program
-	 */
-	public boolean isRecordingEntrainerProgram() {
-		return recordingEntrainerProgram;
-	}
+  /**
+   * Checks if is recording entrainer program.
+   *
+   * @return true, if is recording entrainer program
+   */
+  public boolean isRecordingEntrainerProgram() {
+    return recordingEntrainerProgram;
+  }
 
-	/**
-	 * Sets the recording entrainer program.
-	 *
-	 * @param recordingEntrainerProgram
-	 *          the new recording entrainer program
-	 */
-	public void setRecordingEntrainerProgram(boolean recordingEntrainerProgram) {
-		this.recordingEntrainerProgram = recordingEntrainerProgram;
-	}
+  /**
+   * Sets the recording entrainer program.
+   *
+   * @param recordingEntrainerProgram
+   *          the new recording entrainer program
+   */
+  public void setRecordingEntrainerProgram(boolean recordingEntrainerProgram) {
+    this.recordingEntrainerProgram = recordingEntrainerProgram;
+  }
 
 }

@@ -75,157 +75,157 @@ import org.slf4j.LoggerFactory;
  */
 public class GuiUtil {
 
-	private static Logger logger = LoggerFactory.getLogger(GuiUtil.class);
+  private static Logger logger = LoggerFactory.getLogger(GuiUtil.class);
 
-	/**
-	 * Returns a dimension representing the full size of the screen.
-	 *
-	 * @return the screen size
-	 */
-	public static Dimension getScreenSize() {
-		Toolkit kit = Toolkit.getDefaultToolkit();
+  /**
+   * Returns a dimension representing the full size of the screen.
+   *
+   * @return the screen size
+   */
+  public static Dimension getScreenSize() {
+    Toolkit kit = Toolkit.getDefaultToolkit();
 
-		return kit.getScreenSize();
-	}
+    return kit.getScreenSize();
+  }
 
-	/**
-	 * Returns a dimension representing the working area of the screen.
-	 *
-	 * @return the working screen size
-	 */
-	public static Dimension getWorkingScreenSize() {
-		Dimension full = getScreenSize();
+  /**
+   * Returns a dimension representing the working area of the screen.
+   *
+   * @return the working screen size
+   */
+  public static Dimension getWorkingScreenSize() {
+    Dimension full = getScreenSize();
 
-		if (isMac()) {
-			return new Dimension(full.width, full.height - 22);
-		}
+    if (isMac()) {
+      return new Dimension(full.width, full.height - 22);
+    }
 
-		return full;
-	}
+    return full;
+  }
 
-	private static boolean isMac() {
-		return System.getProperty("os.name").contains("Mac");
-	}
+  private static boolean isMac() {
+    return System.getProperty("os.name").contains("Mac");
+  }
 
-	/**
-	 * Returns an {@link ImageIcon} object from the given resource (representing
-	 * the image) name.
-	 *
-	 * @param name
-	 *          the name
-	 * @return the icon
-	 */
-	public static ImageIcon getIcon(String name) {
-		URL url = GuiUtil.class.getResource(name);
-		return new ImageIcon(url);
-	}
+  /**
+   * Returns an {@link ImageIcon} object from the given resource (representing
+   * the image) name.
+   *
+   * @param name
+   *          the name
+   * @return the icon
+   */
+  public static ImageIcon getIcon(String name) {
+    URL url = GuiUtil.class.getResource(name);
+    return new ImageIcon(url);
+  }
 
-	/**
-	 * Handle problem.
-	 *
-	 * @param e
-	 *          the e
-	 * @param useLatch
-	 *          the use latch
-	 */
-	public static void handleProblem(Throwable e, boolean useLatch) {
-		if (e instanceof UnsupportedOperationException) {
-			logger.debug("Expected exception (if one-off...)", e);
-			return;
-		}
+  /**
+   * Handle problem.
+   *
+   * @param e
+   *          the e
+   * @param useLatch
+   *          the use latch
+   */
+  public static void handleProblem(Throwable e, boolean useLatch) {
+    if (e instanceof UnsupportedOperationException) {
+      logger.debug("Expected exception (if one-off...)", e);
+      return;
+    }
 
-		e.printStackTrace();
+    e.printStackTrace();
 
-		final String msg = e.getMessage();
+    final String msg = e.getMessage();
 
-		logger.error(msg, e);
+    logger.error(msg, e);
 
-		CountDownLatch cdl = useLatch ? new CountDownLatch(1) : null;
-		JFXUtils.runLater(() -> showAlert(msg, cdl));
+    CountDownLatch cdl = useLatch ? new CountDownLatch(1) : null;
+    JFXUtils.runLater(() -> showAlert(msg, cdl));
 
-		if (useLatch) try {
-			cdl.await();
-		} catch (InterruptedException e1) {
-			logger.error("Unexpected exception", e1);
-		}
-	}
+    if (useLatch) try {
+      cdl.await();
+    } catch (InterruptedException e1) {
+      logger.error("Unexpected exception", e1);
+    }
+  }
 
-	private static void showAlert(String msg, CountDownLatch cdl) {
-		if (msg == null || msg.equals("null") || msg.isEmpty()) msg = "An unknown error has occurred";
+  private static void showAlert(String msg, CountDownLatch cdl) {
+    if (msg == null || msg.equals("null") || msg.isEmpty()) msg = "An unknown error has occurred";
 
-		Alert alert = new Alert(AlertType.ERROR, msg, ButtonType.OK);
-		alert.setHeaderText("Please see the ~/EntrainerFX-Settings/entrainer.log file for details");
-		alert.setTitle("Unexpected Exception");
-		EntrainerFX efx = EntrainerFX.getInstance();
-		alert.initOwner(efx == null ? null : efx.getStage());
-		if (cdl == null) {
-			alert.show();
-		} else {
-			alert.showAndWait();
-			cdl.countDown();
-		}
-	}
+    Alert alert = new Alert(AlertType.ERROR, msg, ButtonType.OK);
+    alert.setHeaderText("Please see the ~/EntrainerFX-Settings/entrainer.log file for details");
+    alert.setTitle("Unexpected Exception");
+    EntrainerFX efx = EntrainerFX.getInstance();
+    alert.initOwner(efx == null ? null : efx.getStage());
+    if (cdl == null) {
+      alert.show();
+    } else {
+      alert.showAndWait();
+      cdl.countDown();
+    }
+  }
 
-	/**
-	 * Displays a message pane for the user containing the error, prints the stack
-	 * trace and logs the error in the entrainer.log file.
-	 *
-	 * @param e
-	 *          the e
-	 */
-	public static void handleProblem(Throwable e) {
-		handleProblem(e, false);
-	}
+  /**
+   * Displays a message pane for the user containing the error, prints the stack
+   * trace and logs the error in the entrainer.log file.
+   *
+   * @param e
+   *          the e
+   */
+  public static void handleProblem(Throwable e) {
+    handleProblem(e, false);
+  }
 
-	/**
-	 * Unused currently.
-	 *
-	 * @param e
-	 *          the e
-	 * @return the string
-	 */
-	protected static String stackTraceToString(Throwable e) {
-		StringWriter writer = new StringWriter();
-		PrintWriter pw = new PrintWriter(writer);
-		e.printStackTrace(pw);
+  /**
+   * Unused currently.
+   *
+   * @param e
+   *          the e
+   * @return the string
+   */
+  protected static String stackTraceToString(Throwable e) {
+    StringWriter writer = new StringWriter();
+    PrintWriter pw = new PrintWriter(writer);
+    e.printStackTrace(pw);
 
-		return writer.toString();
-	}
+    return writer.toString();
+  }
 
-	/**
-	 * Gets the virtual screen size.
-	 *
-	 * @return the virtual screen size
-	 */
-	public static Dimension getVirtualScreenSize() {
-		Rectangle virtualBounds = new Rectangle();
+  /**
+   * Gets the virtual screen size.
+   *
+   * @return the virtual screen size
+   */
+  public static Dimension getVirtualScreenSize() {
+    Rectangle virtualBounds = new Rectangle();
 
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice[] devices = ge.getScreenDevices();
+    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    GraphicsDevice[] devices = ge.getScreenDevices();
 
-		for (GraphicsDevice device : devices) {
-			GraphicsConfiguration[] gc = device.getConfigurations();
-			for (GraphicsConfiguration config : gc) {
-				virtualBounds = virtualBounds.union(config.getBounds());
-			}
-		}
+    for (GraphicsDevice device : devices) {
+      GraphicsConfiguration[] gc = device.getConfigurations();
+      for (GraphicsConfiguration config : gc) {
+        virtualBounds = virtualBounds.union(config.getBounds());
+      }
+    }
 
-		return virtualBounds.getSize();
-	}
+    return virtualBounds.getSize();
+  }
 
-	/**
-	 * Gets the working virtual screen size.
-	 *
-	 * @return the working virtual screen size
-	 */
-	public static Dimension getWorkingVirtualScreenSize() {
-		Dimension virtual = getVirtualScreenSize();
+  /**
+   * Gets the working virtual screen size.
+   *
+   * @return the working virtual screen size
+   */
+  public static Dimension getWorkingVirtualScreenSize() {
+    Dimension virtual = getVirtualScreenSize();
 
-		if (isMac()) {
-			virtual = new Dimension(virtual.width, virtual.height - 22);
-		}
+    if (isMac()) {
+      virtual = new Dimension(virtual.width, virtual.height - 22);
+    }
 
-		return virtual.getSize();
-	}
+    return virtual.getSize();
+  }
 
 }

@@ -35,55 +35,55 @@ import javafx.scene.effect.Effect;
  * controls.
  */
 public class CurrentEffect implements Serializable {
-	private static final long serialVersionUID = -6880730514210377656L;
+  private static final long serialVersionUID = -6880730514210377656L;
 
-	private boolean opacity;
+  private boolean opacity;
 
-	private boolean pulse;
+  private boolean pulse;
 
-	private Effect effect;
+  private Effect effect;
 
-	/**
-	 * Instantiates a new current effect.
-	 *
-	 * @param opacity
-	 *          the opacity
-	 * @param pulse
-	 *          the pulse
-	 * @param effect
-	 *          the effect
-	 */
-	public CurrentEffect(boolean opacity, boolean pulse, Effect effect) {
-		this.opacity = opacity;
-		this.pulse = pulse;
-		this.effect = effect;
-	}
+  /**
+   * Instantiates a new current effect.
+   *
+   * @param opacity
+   *          the opacity
+   * @param pulse
+   *          the pulse
+   * @param effect
+   *          the effect
+   */
+  public CurrentEffect(boolean opacity, boolean pulse, Effect effect) {
+    this.opacity = opacity;
+    this.pulse = pulse;
+    this.effect = effect;
+  }
 
-	/**
-	 * Checks if is opacity.
-	 *
-	 * @return true, if is opacity
-	 */
-	public boolean isOpacity() {
-		return opacity;
-	}
+  /**
+   * Checks if is opacity.
+   *
+   * @return true, if is opacity
+   */
+  public boolean isOpacity() {
+    return opacity;
+  }
 
-	/**
-	 * Gets the effect.
-	 *
-	 * @return the effect
-	 */
-	public Effect getEffect() {
-		return effect;
-	}
+  /**
+   * Gets the effect.
+   *
+   * @return the effect
+   */
+  public Effect getEffect() {
+    return effect;
+  }
 
-	/**
-	 * Checks if is pulse.
-	 *
-	 * @return true, if is pulse
-	 */
-	public boolean isPulse() {
-		return pulse;
-	}
+  /**
+   * Checks if is pulse.
+   *
+   * @return true, if is pulse
+   */
+  public boolean isPulse() {
+    return pulse;
+  }
 
 }

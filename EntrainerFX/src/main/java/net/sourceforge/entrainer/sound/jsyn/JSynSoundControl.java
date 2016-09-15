@@ -398,10 +398,10 @@ public class JSynSoundControl extends AbstractSoundControl {
 
   private void init() {
     synth = JSyn.createSynthesizer();
-    
+
     initSineOscillators();
     initPinkNoise();
-    
+
     connect(out.input);
   }
 
@@ -409,7 +409,7 @@ public class JSynSoundControl extends AbstractSoundControl {
     synth.add(pinkNoise = new PinkNoise());
     synth.add(pinkPanLeft = new Pan());
     synth.add(pinkPanRight = new Pan());
-    
+
     pinkPanRight.input.connect(pinkNoise.output);
     pinkPanLeft.input.connect(pinkNoise.output);
   }
@@ -423,7 +423,7 @@ public class JSynSoundControl extends AbstractSoundControl {
   private void setMixerGains() {
     int numChannels = 4 + intervals.size();
     double d = 1.0 / numChannels;
-    
+
     pinkNoise.amplitude.set(d);
     leftChannel.amplitude.set(d);
     rightChannel.amplitude.set(d);
@@ -440,7 +440,7 @@ public class JSynSoundControl extends AbstractSoundControl {
 
   private void connectMixer(UnitOscillator output, int gain, int idx) {
     synth.add(output);
-    
+
     output.output.connect(0, out.input, IS_LEFT);
     output.output.connect(0, out.input, IS_RIGHT);
   }
@@ -456,12 +456,12 @@ public class JSynSoundControl extends AbstractSoundControl {
   private void initRecording() throws IOException {
     getWavFile().delete();
     recorder = new WaveRecorder(synth, getWavFile(), 2);
-    
+
     connect(recorder.getInput());
-    
+
     intervals.stream().forEach(ji -> attachInterval(ji, recorder.getInput()));
   }
-  
+
   private void attachInterval(JSynInterval ji, UnitInputPort input) {
     ji.getLeftChannel().output.connect(0, input, IS_LEFT);
     ji.getLeftChannel().output.connect(0, input, IS_RIGHT);
@@ -473,12 +473,12 @@ public class JSynSoundControl extends AbstractSoundControl {
 
   private void stopRecording() {
     recorder.stop();
-    
+
     disconnect(recorder.getInput());
-    
+
     intervals.stream().forEach(ji -> detachInterval(ji, recorder.getInput()));
   }
-  
+
   private void detachInterval(JSynInterval ji, UnitInputPort input) {
     ji.getLeftChannel().output.disconnect(input);
   }
@@ -489,7 +489,7 @@ public class JSynSoundControl extends AbstractSoundControl {
     pinkPanRight.output.connect(0, input, IS_RIGHT);
     pinkPanLeft.output.connect(0, input, IS_LEFT);
   }
-  
+
   private void disconnect(UnitInputPort input) {
     leftChannel.output.disconnect(input);
     rightChannel.output.disconnect(input);

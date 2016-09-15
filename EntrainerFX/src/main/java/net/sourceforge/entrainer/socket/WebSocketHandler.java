@@ -98,135 +98,136 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Sharable
 public class WebSocketHandler extends AbstractNettyHandler<Object> {
 
-	/** The json mapper. */
-	protected ObjectMapper jsonMapper = new ObjectMapper();
+  /** The json mapper. */
+  protected ObjectMapper jsonMapper = new ObjectMapper();
 
-	/**
-	 * Append '/entrainer/websocket' to the URI.
-	 */
-	public static final String WEBSOCKET_PATH = "/entrainer/websocket";
+  /**
+   * Append '/entrainer/websocket' to the URI.
+   */
+  public static final String WEBSOCKET_PATH = "/entrainer/websocket";
 
-	private WebSocketServerHandshaker handshaker;
+  private WebSocketServerHandshaker handshaker;
 
-	/**
-	 * Instantiates a new web socket handler.
-	 *
-	 * @param currentState
-	 *          the current state
-	 */
-	public WebSocketHandler(EntrainerStateMessage currentState) {
-		super(currentState);
-	}
+  /**
+   * Instantiates a new web socket handler.
+   *
+   * @param currentState
+   *          the current state
+   */
+  public WebSocketHandler(EntrainerStateMessage currentState) {
+    super(currentState);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.socket.AbstractNettyHandler#channelRead1(io.netty
-	 * .channel.ChannelHandlerContext, java.lang.Object)
-	 */
-	@Override
-	public void channelRead1(ChannelHandlerContext ctx, Object msg) throws Exception {
-		if (msg instanceof FullHttpRequest) {
-			handleHttpRequest(ctx, (FullHttpRequest) msg);
-		} else if (msg instanceof WebSocketFrame) {
-			handleWebSocketFrame(ctx, (WebSocketFrame) msg);
-		} else if (msg instanceof HttpRequest) {
-			HttpRequest dhr = (HttpRequest) msg;
-			DefaultFullHttpRequest req = new DefaultFullHttpRequest(dhr.getProtocolVersion(), dhr.getMethod(), dhr.getUri());
-			req.headers().add(dhr.headers());
-			handleHttpRequest(ctx, req);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.socket.AbstractNettyHandler#channelRead1(io.netty
+   * .channel.ChannelHandlerContext, java.lang.Object)
+   */
+  @Override
+  public void channelRead1(ChannelHandlerContext ctx, Object msg) throws Exception {
+    if (msg instanceof FullHttpRequest) {
+      handleHttpRequest(ctx, (FullHttpRequest) msg);
+    } else if (msg instanceof WebSocketFrame) {
+      handleWebSocketFrame(ctx, (WebSocketFrame) msg);
+    } else if (msg instanceof HttpRequest) {
+      HttpRequest dhr = (HttpRequest) msg;
+      DefaultFullHttpRequest req = new DefaultFullHttpRequest(dhr.getProtocolVersion(), dhr.getMethod(), dhr.getUri());
+      req.headers().add(dhr.headers());
+      handleHttpRequest(ctx, req);
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * io.netty.channel.ChannelInboundHandlerAdapter#channelReadComplete(io.netty
-	 * .channel.ChannelHandlerContext)
-	 */
-	@Override
-	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-		ctx.flush();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * io.netty.channel.ChannelInboundHandlerAdapter#channelReadComplete(io.netty
+   * .channel.ChannelHandlerContext)
+   */
+  @Override
+  public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+    ctx.flush();
+  }
 
-	private void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
-		// Handle a bad request.
-		if (!req.getDecoderResult().isSuccess()) {
-			sendHttpResponse(ctx, req, new DefaultFullHttpResponse(HTTP_1_1, BAD_REQUEST));
-			return;
-		}
+  private void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
+    // Handle a bad request.
+    if (!req.getDecoderResult().isSuccess()) {
+      sendHttpResponse(ctx, req, new DefaultFullHttpResponse(HTTP_1_1, BAD_REQUEST));
+      return;
+    }
 
-		// Allow only GET methods.
-		if (req.getMethod() != GET) {
-			sendHttpResponse(ctx, req, new DefaultFullHttpResponse(HTTP_1_1, FORBIDDEN));
-			return;
-		}
+    // Allow only GET methods.
+    if (req.getMethod() != GET) {
+      sendHttpResponse(ctx, req, new DefaultFullHttpResponse(HTTP_1_1, FORBIDDEN));
+      return;
+    }
 
-		// Handshake
-		WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(getWebSocketLocation(req), null,
-				false);
-		handshaker = wsFactory.newHandshaker(req);
-		if (handshaker == null) {
-			WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
-		} else {
-			handshaker.handshake(ctx.channel(), req);
-		}
-	}
+    // Handshake
+    WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(getWebSocketLocation(req), null,
+        false);
+    handshaker = wsFactory.newHandshaker(req);
+    if (handshaker == null) {
+      WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
+    } else {
+      handshaker.handshake(ctx.channel(), req);
+    }
+  }
 
-	private void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) throws Exception {
-		// Check for closing frame
-		if (frame instanceof CloseWebSocketFrame) {
-			handshaker.close(ctx.channel(), (CloseWebSocketFrame) frame.retain());
-			return;
-		}
+  private void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) throws Exception {
+    // Check for closing frame
+    if (frame instanceof CloseWebSocketFrame) {
+      handshaker.close(ctx.channel(), (CloseWebSocketFrame) frame.retain());
+      return;
+    }
 
-		if (frame instanceof PingWebSocketFrame) {
-			ctx.channel().write(new PongWebSocketFrame(frame.content().retain()));
-			return;
-		}
+    if (frame instanceof PingWebSocketFrame) {
+      ctx.channel().write(new PongWebSocketFrame(frame.content().retain()));
+      return;
+    }
 
-		if (!(frame instanceof TextWebSocketFrame)) {
-			throw new UnsupportedOperationException(String.format("%s frame types not supported", frame.getClass().getName()));
-		}
+    if (!(frame instanceof TextWebSocketFrame)) {
+      throw new UnsupportedOperationException(
+          String.format("%s frame types not supported", frame.getClass().getName()));
+    }
 
-		// Send the uppercase string back.
-		String request = ((TextWebSocketFrame) frame).text();
+    // Send the uppercase string back.
+    String request = ((TextWebSocketFrame) frame).text();
 
-		setEntrainerState(ctx, request);
-	}
+    setEntrainerState(ctx, request);
+  }
 
-	private static void sendHttpResponse(ChannelHandlerContext ctx, HttpRequest req, FullHttpResponse res) {
-		// Generate an error page if response getStatus code is not OK (200).
-		if (res.getStatus().code() != 200) {
-			ByteBuf buf = Unpooled.copiedBuffer(res.getStatus().toString(), CharsetUtil.UTF_8);
-			res.content().writeBytes(buf);
-			buf.release();
-			setContentLength(res, res.content().readableBytes());
-		}
+  private static void sendHttpResponse(ChannelHandlerContext ctx, HttpRequest req, FullHttpResponse res) {
+    // Generate an error page if response getStatus code is not OK (200).
+    if (res.getStatus().code() != 200) {
+      ByteBuf buf = Unpooled.copiedBuffer(res.getStatus().toString(), CharsetUtil.UTF_8);
+      res.content().writeBytes(buf);
+      buf.release();
+      setContentLength(res, res.content().readableBytes());
+    }
 
-		// Send the response and close the connection if necessary.
-		ChannelFuture f = ctx.channel().writeAndFlush(res);
-		if (!isKeepAlive(req) || res.getStatus().code() != 200) {
-			f.addListener(ChannelFutureListener.CLOSE);
-		}
-	}
+    // Send the response and close the connection if necessary.
+    ChannelFuture f = ctx.channel().writeAndFlush(res);
+    if (!isKeepAlive(req) || res.getStatus().code() != 200) {
+      f.addListener(ChannelFutureListener.CLOSE);
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.socket.AbstractNettyHandler#exceptionCaught(io
-	 * .netty.channel.ChannelHandlerContext, java.lang.Throwable)
-	 */
-	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		cause.printStackTrace();
-		ctx.close();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.socket.AbstractNettyHandler#exceptionCaught(io
+   * .netty.channel.ChannelHandlerContext, java.lang.Throwable)
+   */
+  @Override
+  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    cause.printStackTrace();
+    ctx.close();
+  }
 
-	private static String getWebSocketLocation(HttpRequest req) {
-		return "ws://" + req.headers().get(HOST) + WEBSOCKET_PATH;
-	}
+  private static String getWebSocketLocation(HttpRequest req) {
+    return "ws://" + req.headers().get(HOST) + WEBSOCKET_PATH;
+  }
 }

@@ -36,47 +36,47 @@ package org.pausethread;
  */
 public class PauseThreadAdapter extends PauseThreadImpl {
 
-	/**
-	 * Instantiates a new pause thread adapter.
-	 */
-	public PauseThreadAdapter() {
-		super();
-	}
+  /**
+   * Instantiates a new pause thread adapter.
+   */
+  public PauseThreadAdapter() {
+    super();
+  }
 
-	/**
-	 * Instantiates a new pause thread adapter.
-	 *
-	 * @param name
-	 *          the name
-	 */
-	public PauseThreadAdapter(String name) {
-		super(name);
-	}
+  /**
+   * Instantiates a new pause thread adapter.
+   *
+   * @param name
+   *          the name
+   */
+  public PauseThreadAdapter(String name) {
+    super(name);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.pausethread.PauseThreadImpl#doWork()
-	 */
-	@Override
-	public void doWork() throws InterruptedException {
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.pausethread.PauseThreadImpl#doWork()
+   */
+  @Override
+  public void doWork() throws InterruptedException {
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.pausethread.PauseThreadImpl#workDone()
-	 */
-	@Override
-	public void workDone() {
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.pausethread.PauseThreadImpl#workDone()
+   */
+  @Override
+  public void workDone() {
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.pausethread.PauseThreadImpl#workCanceled()
-	 */
-	@Override
-	public void workCanceled() {
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.pausethread.PauseThreadImpl#workCanceled()
+   */
+  @Override
+  public void workCanceled() {
+  }
 }

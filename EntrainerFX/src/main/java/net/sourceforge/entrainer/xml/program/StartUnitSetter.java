@@ -38,154 +38,154 @@ import static net.sourceforge.entrainer.mediator.MediatorConstants.PINK_PAN_AMPL
  */
 public class StartUnitSetter extends AbstractUnitSetter {
 
-	/**
-	 * Instantiates a new start unit setter.
-	 *
-	 * @param unit
-	 *          the unit
-	 */
-	public StartUnitSetter(EntrainerProgramUnit unit) {
-		super(unit);
-	}
+  /**
+   * Instantiates a new start unit setter.
+   *
+   * @param unit
+   *          the unit
+   */
+  public StartUnitSetter(EntrainerProgramUnit unit) {
+    super(unit);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.xml.program.UnitSetter#setAmplitude(double)
-	 */
-	public void setAmplitude(double d) {
-		double old = getUnit().getStartAmplitude();
-		getUnit().setStartAmplitude(d);
-		if (d != old) {
-			firePropertyChangeEvent(AMPLITUDE, old, d);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.xml.program.UnitSetter#setAmplitude(double)
+   */
+  public void setAmplitude(double d) {
+    double old = getUnit().getStartAmplitude();
+    getUnit().setStartAmplitude(d);
+    if (d != old) {
+      firePropertyChangeEvent(AMPLITUDE, old, d);
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.xml.program.UnitSetter#setEntrainmentFrequency
-	 * (double)
-	 */
-	public void setEntrainmentFrequency(double d) {
-		double old = getUnit().getStartEntrainmentFrequency();
-		getUnit().setStartEntrainmentFrequency(d);
-		if (d != old) {
-			firePropertyChangeEvent(ENTRAINMENT_FREQUENCY, old, d);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.xml.program.UnitSetter#setEntrainmentFrequency
+   * (double)
+   */
+  public void setEntrainmentFrequency(double d) {
+    double old = getUnit().getStartEntrainmentFrequency();
+    getUnit().setStartEntrainmentFrequency(d);
+    if (d != old) {
+      firePropertyChangeEvent(ENTRAINMENT_FREQUENCY, old, d);
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.xml.program.UnitSetter#setFrequency(double)
-	 */
-	public void setFrequency(double d) {
-		double old = getUnit().getStartFrequency();
-		getUnit().setStartFrequency(d);
-		if (d != old) {
-			firePropertyChangeEvent(FREQUENCY, old, d);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.xml.program.UnitSetter#setFrequency(double)
+   */
+  public void setFrequency(double d) {
+    double old = getUnit().getStartFrequency();
+    getUnit().setStartFrequency(d);
+    if (d != old) {
+      firePropertyChangeEvent(FREQUENCY, old, d);
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.xml.program.UnitSetter#setPinkEntrainerMultiple
-	 * (double)
-	 */
-	public void setPinkEntrainerMultiple(double d) {
-		double old = getUnit().getStartPinkEntrainerMultiple();
-		getUnit().setStartPinkEntrainerMultiple(d);
-		if (d != old) {
-			firePropertyChangeEvent(PINK_ENTRAINER_MULTIPLE, old, d);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.xml.program.UnitSetter#setPinkEntrainerMultiple
+   * (double)
+   */
+  public void setPinkEntrainerMultiple(double d) {
+    double old = getUnit().getStartPinkEntrainerMultiple();
+    getUnit().setStartPinkEntrainerMultiple(d);
+    if (d != old) {
+      firePropertyChangeEvent(PINK_ENTRAINER_MULTIPLE, old, d);
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.xml.program.UnitSetter#setPinkNoise(double)
-	 */
-	public void setPinkNoise(double d) {
-		double old = getUnit().getStartPinkNoise();
-		getUnit().setStartPinkNoise(d);
-		if (d != old) {
-			firePropertyChangeEvent(PINK_NOISE_AMPLITUDE, old, d);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.xml.program.UnitSetter#setPinkNoise(double)
+   */
+  public void setPinkNoise(double d) {
+    double old = getUnit().getStartPinkNoise();
+    getUnit().setStartPinkNoise(d);
+    if (d != old) {
+      firePropertyChangeEvent(PINK_NOISE_AMPLITUDE, old, d);
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.xml.program.UnitSetter#setPinkPanAmplitude(double
-	 * )
-	 */
-	public void setPinkPanAmplitude(double d) {
-		double old = getUnit().getStartPinkPan();
-		getUnit().setStartPinkPan(d);
-		if (d != old) {
-			firePropertyChangeEvent(PINK_PAN_AMPLITUDE, old, d);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.xml.program.UnitSetter#setPinkPanAmplitude(double
+   * )
+   */
+  public void setPinkPanAmplitude(double d) {
+    double old = getUnit().getStartPinkPan();
+    getUnit().setStartPinkPan(d);
+    if (d != old) {
+      firePropertyChangeEvent(PINK_PAN_AMPLITUDE, old, d);
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.xml.program.UnitSetter#getAmplitude()
-	 */
-	public double getAmplitude() {
-		return getUnit().getStartAmplitude();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.xml.program.UnitSetter#getAmplitude()
+   */
+  public double getAmplitude() {
+    return getUnit().getStartAmplitude();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.xml.program.UnitSetter#getEntrainmentFrequency()
-	 */
-	public double getEntrainmentFrequency() {
-		return getUnit().getStartEntrainmentFrequency();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.xml.program.UnitSetter#getEntrainmentFrequency()
+   */
+  public double getEntrainmentFrequency() {
+    return getUnit().getStartEntrainmentFrequency();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.xml.program.UnitSetter#getFrequency()
-	 */
-	public double getFrequency() {
-		return getUnit().getStartFrequency();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.xml.program.UnitSetter#getFrequency()
+   */
+  public double getFrequency() {
+    return getUnit().getStartFrequency();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.xml.program.UnitSetter#getPinkEntrainerMultiple()
-	 */
-	public double getPinkEntrainerMultiple() {
-		return getUnit().getStartPinkEntrainerMultiple();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.xml.program.UnitSetter#getPinkEntrainerMultiple()
+   */
+  public double getPinkEntrainerMultiple() {
+    return getUnit().getStartPinkEntrainerMultiple();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.xml.program.UnitSetter#getPinkNoise()
-	 */
-	public double getPinkNoise() {
-		return getUnit().getStartPinkNoise();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.xml.program.UnitSetter#getPinkNoise()
+   */
+  public double getPinkNoise() {
+    return getUnit().getStartPinkNoise();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.xml.program.UnitSetter#getPinkPanAmplitude()
-	 */
-	public double getPinkPanAmplitude() {
-		return getUnit().getStartPinkPan();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.xml.program.UnitSetter#getPinkPanAmplitude()
+   */
+  public double getPinkPanAmplitude() {
+    return getUnit().getStartPinkPan();
+  }
 
 }

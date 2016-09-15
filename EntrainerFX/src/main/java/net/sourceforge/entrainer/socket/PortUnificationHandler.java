@@ -44,46 +44,46 @@ import java.util.List;
  */
 public class PortUnificationHandler extends ByteToMessageDecoder {
 
-	private NettyConnectionHandler nettyConnectionHandler;
-	private WebSocketHandler webSocketHandler;
+  private NettyConnectionHandler nettyConnectionHandler;
+  private WebSocketHandler webSocketHandler;
 
-	/**
-	 * Instantiates a new port unification handler.
-	 *
-	 * @param nettyConnectionHandler
-	 *          the netty connection handler
-	 * @param webSocketHandler
-	 *          the web socket handler
-	 */
-	public PortUnificationHandler(NettyConnectionHandler nettyConnectionHandler, WebSocketHandler webSocketHandler) {
-		this.nettyConnectionHandler = nettyConnectionHandler;
-		this.webSocketHandler = webSocketHandler;
-	}
+  /**
+   * Instantiates a new port unification handler.
+   *
+   * @param nettyConnectionHandler
+   *          the netty connection handler
+   * @param webSocketHandler
+   *          the web socket handler
+   */
+  public PortUnificationHandler(NettyConnectionHandler nettyConnectionHandler, WebSocketHandler webSocketHandler) {
+    this.nettyConnectionHandler = nettyConnectionHandler;
+    this.webSocketHandler = webSocketHandler;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see io.netty.handler.codec.ByteToMessageDecoder#decode(io.netty.channel.
-	 * ChannelHandlerContext, io.netty.buffer.ByteBuf, java.util.List)
-	 */
-	@Override
-	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-		// Will use the first five bytes to detect a protocol.
-		if (in.readableBytes() < 5) {
-			return;
-		}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see io.netty.handler.codec.ByteToMessageDecoder#decode(io.netty.channel.
+   * ChannelHandlerContext, io.netty.buffer.ByteBuf, java.util.List)
+   */
+  @Override
+  protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+    // Will use the first five bytes to detect a protocol.
+    if (in.readableBytes() < 5) {
+      return;
+    }
 
-		final int magic1 = in.getUnsignedByte(in.readerIndex());
-		final int magic2 = in.getUnsignedByte(in.readerIndex() + 1);
-		if (isHttp(magic1, magic2)) {
-			switchToWebSockets(ctx);
-		} else {
-			switchToJava(ctx);
-		}
-	}
+    final int magic1 = in.getUnsignedByte(in.readerIndex());
+    final int magic2 = in.getUnsignedByte(in.readerIndex() + 1);
+    if (isHttp(magic1, magic2)) {
+      switchToWebSockets(ctx);
+    } else {
+      switchToJava(ctx);
+    }
+  }
 
-	private static boolean isHttp(int magic1, int magic2) {
-		return
+  private static boolean isHttp(int magic1, int magic2) {
+    return
 //@formatter:off
 	    magic1 == 'G' && magic2 == 'E' || // GET
 	    magic1 == 'P' && magic2 == 'O' || // POST
@@ -95,29 +95,29 @@ public class PortUnificationHandler extends ByteToMessageDecoder {
 	    magic1 == 'T' && magic2 == 'R' || // TRACE
 	    magic1 == 'C' && magic2 == 'O';   // CONNECT
 //@formatter:on
-	}
+  }
 
-	private void switchToWebSockets(ChannelHandlerContext ctx) throws Exception {
-		ChannelPipeline pipeline = ctx.pipeline();
+  private void switchToWebSockets(ChannelHandlerContext ctx) throws Exception {
+    ChannelPipeline pipeline = ctx.pipeline();
 
-		pipeline.addLast("decoder", new HttpRequestDecoder());
-		pipeline.addLast("encoder", new HttpResponseEncoder());
-		pipeline.addLast("handler", webSocketHandler);
-		webSocketHandler.channelActive(ctx);
+    pipeline.addLast("decoder", new HttpRequestDecoder());
+    pipeline.addLast("encoder", new HttpResponseEncoder());
+    pipeline.addLast("handler", webSocketHandler);
+    webSocketHandler.channelActive(ctx);
 
-		pipeline.remove(this);
-	}
+    pipeline.remove(this);
+  }
 
-	private void switchToJava(ChannelHandlerContext ctx) throws Exception {
-		ChannelPipeline pipeline = ctx.pipeline();
+  private void switchToJava(ChannelHandlerContext ctx) throws Exception {
+    ChannelPipeline pipeline = ctx.pipeline();
 
-		pipeline.addLast(new LengthFieldBasedFrameDecoder(10000, 0, 4, 0, 4));
-		pipeline.addLast(new StringDecoder());
-		pipeline.addLast(new LengthFieldPrepender(4));
-		pipeline.addLast(new StringEncoder());
-		pipeline.addLast(nettyConnectionHandler);
-		nettyConnectionHandler.channelActive(ctx);
+    pipeline.addLast(new LengthFieldBasedFrameDecoder(10000, 0, 4, 0, 4));
+    pipeline.addLast(new StringDecoder());
+    pipeline.addLast(new LengthFieldPrepender(4));
+    pipeline.addLast(new StringEncoder());
+    pipeline.addLast(nettyConnectionHandler);
+    nettyConnectionHandler.channelActive(ctx);
 
-		pipeline.remove(this);
-	}
+    pipeline.remove(this);
+  }
 }

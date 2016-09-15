@@ -31,60 +31,60 @@ package net.sourceforge.entrainer.gui;
  */
 public interface IntervalMenuConstants {
 
-	/** The imc first. */
-	String IMC_FIRST = "1/12";
+  /** The imc first. */
+  String IMC_FIRST = "1/12";
 
-	/** The imc second. */
-	String IMC_SECOND = "2/12";
+  /** The imc second. */
+  String IMC_SECOND = "2/12";
 
-	/** The imc third. */
-	String IMC_THIRD = "3/12";
+  /** The imc third. */
+  String IMC_THIRD = "3/12";
 
-	/** The imc fourth. */
-	String IMC_FOURTH = "4/12";
+  /** The imc fourth. */
+  String IMC_FOURTH = "4/12";
 
-	/** The imc fifth. */
-	String IMC_FIFTH = "5/12";
+  /** The imc fifth. */
+  String IMC_FIFTH = "5/12";
 
-	/** The imc sixth. */
-	String IMC_SIXTH = "6/12";
+  /** The imc sixth. */
+  String IMC_SIXTH = "6/12";
 
-	/** The imc seventh. */
-	String IMC_SEVENTH = "7/12";
+  /** The imc seventh. */
+  String IMC_SEVENTH = "7/12";
 
-	/** The imc eighth. */
-	String IMC_EIGHTH = "8/12";
+  /** The imc eighth. */
+  String IMC_EIGHTH = "8/12";
 
-	/** The imc ninth. */
-	String IMC_NINTH = "9/12";
+  /** The imc ninth. */
+  String IMC_NINTH = "9/12";
 
-	/** The imc tenth. */
-	String IMC_TENTH = "10/12";
+  /** The imc tenth. */
+  String IMC_TENTH = "10/12";
 
-	/** The imc eleventh. */
-	String IMC_ELEVENTH = "11/12";
+  /** The imc eleventh. */
+  String IMC_ELEVENTH = "11/12";
 
-	/** The imc octave. */
-	String IMC_OCTAVE = "12/12";
+  /** The imc octave. */
+  String IMC_OCTAVE = "12/12";
 
-	/** The imc golden. */
-	String IMC_GOLDEN = "1300000/2103444";
+  /** The imc golden. */
+  String IMC_GOLDEN = "1300000/2103444";
 
-	/** The imc golden inverse. */
-	String IMC_GOLDEN_INVERSE = "-800000/2103444";
+  /** The imc golden inverse. */
+  String IMC_GOLDEN_INVERSE = "-800000/2103444";
 
-	/** The imc delete menu name. */
-	String IMC_DELETE_MENU_NAME = "Delete";
+  /** The imc delete menu name. */
+  String IMC_DELETE_MENU_NAME = "Delete";
 
-	/** The imc custom menu name. */
-	String IMC_CUSTOM_MENU_NAME = "Custom...";
+  /** The imc custom menu name. */
+  String IMC_CUSTOM_MENU_NAME = "Custom...";
 
-	/** The imc remove menu name. */
-	String IMC_REMOVE_MENU_NAME = "Remove";
+  /** The imc remove menu name. */
+  String IMC_REMOVE_MENU_NAME = "Remove";
 
-	/** The imc add menu name. */
-	String IMC_ADD_MENU_NAME = "Add";
+  /** The imc add menu name. */
+  String IMC_ADD_MENU_NAME = "Add";
 
-	/** The imc intervals menu name. */
-	String IMC_INTERVALS_MENU_NAME = "Intervals";
+  /** The imc intervals menu name. */
+  String IMC_INTERVALS_MENU_NAME = "Intervals";
 }

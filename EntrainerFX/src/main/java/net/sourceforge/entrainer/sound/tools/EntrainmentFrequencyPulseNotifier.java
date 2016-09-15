@@ -41,75 +41,75 @@ import net.sourceforge.entrainer.util.Utils;
  */
 public class EntrainmentFrequencyPulseNotifier {
 
-	private FrequencyToHalfTimeCycle calculator = new FrequencyToHalfTimeCycle();
+  private FrequencyToHalfTimeCycle calculator = new FrequencyToHalfTimeCycle();
 
-	private AtomicBoolean run = new AtomicBoolean(false);
+  private AtomicBoolean run = new AtomicBoolean(false);
 
-	private Sender sender = new SenderAdapter();
+  private Sender sender = new SenderAdapter();
 
-	private Thread notificationThread;
+  private Thread notificationThread;
 
-	@SuppressWarnings("unused")
-	private static EntrainmentFrequencyPulseNotifier notifier;
+  @SuppressWarnings("unused")
+  private static EntrainmentFrequencyPulseNotifier notifier;
 
-	/**
-	 * Start.
-	 */
-	public static void start() {
-		notifier = new EntrainmentFrequencyPulseNotifier();
-	}
+  /**
+   * Start.
+   */
+  public static void start() {
+    notifier = new EntrainmentFrequencyPulseNotifier();
+  }
 
-	private EntrainmentFrequencyPulseNotifier() {
-		initMediator();
-	}
+  private EntrainmentFrequencyPulseNotifier() {
+    initMediator();
+  }
 
-	private void setRun(boolean b) {
-		if (b == isRun()) return;
+  private void setRun(boolean b) {
+    if (b == isRun()) return;
 
-		run.set(b);
-		if (b) startNofificationThread();
-	}
+    run.set(b);
+    if (b) startNofificationThread();
+  }
 
-	private boolean isRun() {
-		return run.get();
-	}
+  private boolean isRun() {
+    return run.get();
+  }
 
-	private void startNofificationThread() {
-		notificationThread = new Thread(() -> execute(), "Entrainment cycle notification thread");
+  private void startNofificationThread() {
+    notificationThread = new Thread(() -> execute(), "Entrainment cycle notification thread");
 
-		notificationThread.start();
-	}
+    notificationThread.start();
+  }
 
-	private void execute() {
-		notificationThread.setPriority(Thread.MAX_PRIORITY);
+  private void execute() {
+    notificationThread.setPriority(Thread.MAX_PRIORITY);
 
-		while (isRun()) {
-			Utils.snooze(calculator.getMillis(), calculator.getNanos());
+    while (isRun()) {
+      Utils.snooze(calculator.getMillis(), calculator.getNanos());
 
-			if (isRun()) sendFrequencyCycleEvent(true);
-		}
+      if (isRun()) sendFrequencyCycleEvent(true);
+    }
 
-		sendFrequencyCycleEvent(false);
-	}
+    sendFrequencyCycleEvent(false);
+  }
 
-	private void sendFrequencyCycleEvent(boolean b) {
-		sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, b, MediatorConstants.ENTRAINMENT_FREQUENCY_PULSE));
-	}
+  private void sendFrequencyCycleEvent(boolean b) {
+    sender.fireReceiverChangeEvent(new ReceiverChangeEvent(this, b, MediatorConstants.ENTRAINMENT_FREQUENCY_PULSE));
+  }
 
-	private void initMediator() {
-		EntrainerMediator.getInstance().addSender(sender);
-		EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
+  private void initMediator() {
+    EntrainerMediator.getInstance().addSender(sender);
+    EntrainerMediator.getInstance().addReceiver(new ReceiverAdapter(this) {
 
-			@Override
-			protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
-				switch (e.getParm()) {
-				case START_ENTRAINMENT:
-					setRun(e.getBooleanValue());
-					break;
-				default:
-					break;
-				}
-			}
-		});
-	}
+      @Override
+      protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
+        switch (e.getParm()) {
+        case START_ENTRAINMENT:
+          setRun(e.getBooleanValue());
+          break;
+        default:
+          break;
+        }
+      }
+    });
+  }
 }

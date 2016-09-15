@@ -36,53 +36,53 @@ import java.util.EventObject;
  */
 public class PauseEvent extends EventObject {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	/** The Constant PAUSE. */
-	public static final int PAUSE = 0;
+  /** The Constant PAUSE. */
+  public static final int PAUSE = 0;
 
-	/** The Constant RESUME. */
-	public static final int RESUME = 1;
+  /** The Constant RESUME. */
+  public static final int RESUME = 1;
 
-	private int action;
+  private int action;
 
-	/**
-	 * Instantiates a new pause event.
-	 *
-	 * @param source
-	 *          the source
-	 * @param action
-	 *          the action
-	 */
-	public PauseEvent(Object source, int action) {
-		super(source);
-		setAction(action);
-	}
+  /**
+   * Instantiates a new pause event.
+   *
+   * @param source
+   *          the source
+   * @param action
+   *          the action
+   */
+  public PauseEvent(Object source, int action) {
+    super(source);
+    setAction(action);
+  }
 
-	/**
-	 * Checks if is pause.
-	 *
-	 * @return true, if is pause
-	 */
-	public boolean isPause() {
-		return getAction() == PAUSE;
-	}
+  /**
+   * Checks if is pause.
+   *
+   * @return true, if is pause
+   */
+  public boolean isPause() {
+    return getAction() == PAUSE;
+  }
 
-	/**
-	 * Checks if is resume.
-	 *
-	 * @return true, if is resume
-	 */
-	public boolean isResume() {
-		return getAction() == RESUME;
-	}
+  /**
+   * Checks if is resume.
+   *
+   * @return true, if is resume
+   */
+  public boolean isResume() {
+    return getAction() == RESUME;
+  }
 
-	private int getAction() {
-		return action;
-	}
+  private int getAction() {
+    return action;
+  }
 
-	private void setAction(int action) {
-		this.action = action;
-	}
+  private void setAction(int action) {
+    this.action = action;
+  }
 
 }

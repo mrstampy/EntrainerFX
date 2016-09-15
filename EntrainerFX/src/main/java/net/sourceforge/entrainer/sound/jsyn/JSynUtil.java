@@ -38,140 +38,138 @@ import com.jsyn.unitgen.Add;
  */
 public class JSynUtil {
 
-	/** The Constant LEFT_CHANNEL. */
-	public static final int LEFT_CHANNEL = 0;
+  /** The Constant LEFT_CHANNEL. */
+  public static final int LEFT_CHANNEL = 0;
 
-	/** The Constant RIGHT_CHANNEL. */
-	public static final int RIGHT_CHANNEL = 1;
+  /** The Constant RIGHT_CHANNEL. */
+  public static final int RIGHT_CHANNEL = 1;
 
-	/**
-	 * Returns an AddUnit object adding both specified outputs.
-	 *
-	 * @param outputA
-	 *          the output a
-	 * @param outputB
-	 *          the output b
-	 * @return the adds the unit
-	 */
-	public static Add add(UnitOutputPort outputA, UnitOutputPort outputB) {
-		Add unit = new Add();
-		
-		unit.inputA.connect(outputA);
-		unit.inputB.connect(outputB);
+  /**
+   * Returns an AddUnit object adding both specified outputs.
+   *
+   * @param outputA
+   *          the output a
+   * @param outputB
+   *          the output b
+   * @return the adds the unit
+   */
+  public static Add add(UnitOutputPort outputA, UnitOutputPort outputB) {
+    Add unit = new Add();
 
-		return unit;
-	}
+    unit.inputA.connect(outputA);
+    unit.inputB.connect(outputB);
 
-	/**
-	 * Connects the output to the input.
-	 *
-	 * @param to
-	 *          the to
-	 * @param from
-	 *          the from
-	 */
-	public static void connect(UnitInputPort to, UnitOutputPort from) {
-		to.connect(from);
-	}
+    return unit;
+  }
 
-	/**
-	 * Connects the output to the left channel of the input.
-	 *
-	 * @param to
-	 *          the to
-	 * @param from
-	 *          the from
-	 */
-	public static void connectToLeftChannel(UnitInputPort to, UnitOutputPort from) {
-		connect(to, from, LEFT_CHANNEL);
-	}
+  /**
+   * Connects the output to the input.
+   *
+   * @param to
+   *          the to
+   * @param from
+   *          the from
+   */
+  public static void connect(UnitInputPort to, UnitOutputPort from) {
+    to.connect(from);
+  }
 
-	/**
-	 * Connects the output to the right channel of the input.
-	 *
-	 * @param to
-	 *          the to
-	 * @param from
-	 *          the from
-	 */
-	public static void connectToRightChannel(UnitInputPort to, UnitOutputPort from) {
-		connect(to, from, RIGHT_CHANNEL);
-	}
+  /**
+   * Connects the output to the left channel of the input.
+   *
+   * @param to
+   *          the to
+   * @param from
+   *          the from
+   */
+  public static void connectToLeftChannel(UnitInputPort to, UnitOutputPort from) {
+    connect(to, from, LEFT_CHANNEL);
+  }
 
-	/**
-	 * Connects the output to the specified channel of the input.
-	 *
-	 * @param to
-	 *          the to
-	 * @param from
-	 *          the from
-	 * @param channel
-	 *          the channel
-	 */
-	public static void connect(UnitInputPort to, UnitOutputPort from, int channel) {
-		to.connect(0, from, channel);
-	}
+  /**
+   * Connects the output to the right channel of the input.
+   *
+   * @param to
+   *          the to
+   * @param from
+   *          the from
+   */
+  public static void connectToRightChannel(UnitInputPort to, UnitOutputPort from) {
+    connect(to, from, RIGHT_CHANNEL);
+  }
 
-	/**
-	 * Connects the input to the output.
-	 *
-	 * @param to
-	 *          the to
-	 * @param from
-	 *          the from
-	 */
-	public static void connect(UnitOutputPort to, UnitInputPort from) {
-		to.connect(from);
-	}
+  /**
+   * Connects the output to the specified channel of the input.
+   *
+   * @param to
+   *          the to
+   * @param from
+   *          the from
+   * @param channel
+   *          the channel
+   */
+  public static void connect(UnitInputPort to, UnitOutputPort from, int channel) {
+    to.connect(0, from, channel);
+  }
 
-	/**
-	 * Connects the input to the left channel of the output.
-	 *
-	 * @param to
-	 *          the to
-	 * @param from
-	 *          the from
-	 */
-	public static void connectToLeftChannel(UnitOutputPort to, UnitInputPort from) {
-		connect(to, from, LEFT_CHANNEL);
-	}
+  /**
+   * Connects the input to the output.
+   *
+   * @param to
+   *          the to
+   * @param from
+   *          the from
+   */
+  public static void connect(UnitOutputPort to, UnitInputPort from) {
+    to.connect(from);
+  }
 
-	/**
-	 * Connects the input to the right channel of the output.
-	 *
-	 * @param to
-	 *          the to
-	 * @param from
-	 *          the from
-	 */
-	public static void connectToRightChannel(UnitOutputPort to, UnitInputPort from) {
-		connect(to, from, RIGHT_CHANNEL);
-	}
+  /**
+   * Connects the input to the left channel of the output.
+   *
+   * @param to
+   *          the to
+   * @param from
+   *          the from
+   */
+  public static void connectToLeftChannel(UnitOutputPort to, UnitInputPort from) {
+    connect(to, from, LEFT_CHANNEL);
+  }
 
-	/**
-	 * Connects the input to the specified channel of the output.
-	 *
-	 * @param to
-	 *          the to
-	 * @param from
-	 *          the from
-	 * @param channel
-	 *          the channel
-	 */
-	public static void connect(UnitOutputPort to, UnitInputPort from, int channel) {
-		to.connect(0, from, channel);
-	}
+  /**
+   * Connects the input to the right channel of the output.
+   *
+   * @param to
+   *          the to
+   * @param from
+   *          the from
+   */
+  public static void connectToRightChannel(UnitOutputPort to, UnitInputPort from) {
+    connect(to, from, RIGHT_CHANNEL);
+  }
 
-	/**
-	 * Connects the 'from' UnitInputPort to the 'to' UnitInputPort.
-	 *
-	 * @param to
-	 *          the to
-	 * @param from
-	 *          the from
-	public static void connect(UnitInputPort to, UnitInputPort from) {
-		to.connect(from);
-	}
-	 */
+  /**
+   * Connects the input to the specified channel of the output.
+   *
+   * @param to
+   *          the to
+   * @param from
+   *          the from
+   * @param channel
+   *          the channel
+   */
+  public static void connect(UnitOutputPort to, UnitInputPort from, int channel) {
+    to.connect(0, from, channel);
+  }
+
+  /**
+   * Connects the 'from' UnitInputPort to the 'to' UnitInputPort.
+   *
+   * @param to
+   *          the to
+   * @param from
+   *          the from public static void connect(UnitInputPort to,
+   *          UnitInputPort from) { to.connect(from); }
+   */
 
 }

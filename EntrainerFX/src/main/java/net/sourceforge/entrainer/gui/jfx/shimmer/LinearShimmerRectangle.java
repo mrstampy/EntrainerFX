@@ -36,35 +36,35 @@ import javafx.scene.paint.LinearGradient;
  */
 public class LinearShimmerRectangle extends AbstractShimmer<LinearGradient> {
 
-	/** The Constant NAME. */
-	public static final String NAME = "Linear Gradient";
+  /** The Constant NAME. */
+  public static final String NAME = "Linear Gradient";
 
-	/**
-	 * Instantiates a new linear shimmer rectangle.
-	 */
-	public LinearShimmerRectangle() {
-		super();
-	}
+  /**
+   * Instantiates a new linear shimmer rectangle.
+   */
+  public LinearShimmerRectangle() {
+    super();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
-	 * (double)
-	 */
-	@Override
-	protected LinearGradient createNewPaint(double opacity) {
-		return ShimmerPaintUtils.createLinearGradient(opacity, getWidth(), getHeight());
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#createNewPaint
+   * (double)
+   */
+  @Override
+  protected LinearGradient createNewPaint(double opacity) {
+    return ShimmerPaintUtils.createLinearGradient(opacity, getWidth(), getHeight());
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
-	 */
-	public String toString() {
-		return NAME;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.gui.jfx.shimmer.AbstractShimmer#toString()
+   */
+  public String toString() {
+    return NAME;
+  }
 
 }

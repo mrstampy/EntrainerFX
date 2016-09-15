@@ -39,89 +39,89 @@ import javax.xml.bind.Unmarshaller;
  */
 public class EntrainerProgramUtil {
 
-	private static Marshaller marshaller;
-	private static Unmarshaller unmarshaller;
+  private static Marshaller marshaller;
+  private static Unmarshaller unmarshaller;
 
-	static {
-		try {
-			JAXBContext context = JAXBContext.newInstance(EntrainerProgram.class);
-			marshaller = context.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			unmarshaller = context.createUnmarshaller();
-		} catch (JAXBException e) {
-			throw new RuntimeException(e);
-		}
-	}
+  static {
+    try {
+      JAXBContext context = JAXBContext.newInstance(EntrainerProgram.class);
+      marshaller = context.createMarshaller();
+      marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      unmarshaller = context.createUnmarshaller();
+    } catch (JAXBException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
-	/**
-	 * Unmarshal.
-	 *
-	 * @param fileName
-	 *          the file name
-	 * @return the entrainer program
-	 */
-	public static EntrainerProgram unmarshal(String fileName) {
-		File file = new File(fileName);
+  /**
+   * Unmarshal.
+   *
+   * @param fileName
+   *          the file name
+   * @return the entrainer program
+   */
+  public static EntrainerProgram unmarshal(String fileName) {
+    File file = new File(fileName);
 
-		return unmarshal(file);
-	}
+    return unmarshal(file);
+  }
 
-	/**
-	 * Unmarshal.
-	 *
-	 * @param file
-	 *          the file
-	 * @return the entrainer program
-	 */
-	public static EntrainerProgram unmarshal(File file) {
-		EntrainerProgram program;
-		try {
-			if (file != null && file.exists()) {
-				program = (EntrainerProgram) unmarshaller.unmarshal(file);
-			} else {
-				program = new EntrainerProgram();
-			}
-			program.setFile(file);
+  /**
+   * Unmarshal.
+   *
+   * @param file
+   *          the file
+   * @return the entrainer program
+   */
+  public static EntrainerProgram unmarshal(File file) {
+    EntrainerProgram program;
+    try {
+      if (file != null && file.exists()) {
+        program = (EntrainerProgram) unmarshaller.unmarshal(file);
+      } else {
+        program = new EntrainerProgram();
+      }
+      program.setFile(file);
 
-			return program;
-		} catch (JAXBException e) {
-			throw new RuntimeException(e);
-		}
-	}
+      return program;
+    } catch (JAXBException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
-	/**
-	 * Marshal.
-	 *
-	 * @param program
-	 *          the program
-	 * @param fileName
-	 *          the file name
-	 */
-	public static void marshal(EntrainerProgram program, String fileName) {
-		File file = new File(fileName);
+  /**
+   * Marshal.
+   *
+   * @param program
+   *          the program
+   * @param fileName
+   *          the file name
+   */
+  public static void marshal(EntrainerProgram program, String fileName) {
+    File file = new File(fileName);
 
-		try {
-			marshaller.marshal(program, file);
-		} catch (JAXBException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    try {
+      marshaller.marshal(program, file);
+    } catch (JAXBException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
-	/**
-	 * Marshal.
-	 *
-	 * @param program
-	 *          the program
-	 * @return the string
-	 */
-	public static String marshal(EntrainerProgram program) {
-		StringWriter writer = new StringWriter();
+  /**
+   * Marshal.
+   *
+   * @param program
+   *          the program
+   * @return the string
+   */
+  public static String marshal(EntrainerProgram program) {
+    StringWriter writer = new StringWriter();
 
-		try {
-			marshaller.marshal(program, writer);
-			return writer.toString();
-		} catch (JAXBException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    try {
+      marshaller.marshal(program, writer);
+      return writer.toString();
+    } catch (JAXBException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

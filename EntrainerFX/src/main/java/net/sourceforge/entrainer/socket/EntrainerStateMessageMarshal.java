@@ -41,74 +41,74 @@ import org.apache.log4j.Logger;
  * The Class EntrainerStateMessageMarshal.
  */
 public class EntrainerStateMessageMarshal {
-	private static final Logger log = Logger.getLogger(EntrainerStateMessageMarshal.class);
+  private static final Logger log = Logger.getLogger(EntrainerStateMessageMarshal.class);
 
-	private Marshaller marshal;
-	private Unmarshaller unmarshal;
+  private Marshaller marshal;
+  private Unmarshaller unmarshal;
 
-	private ReentrantLock marshalLock = new ReentrantLock(true);
-	private ReentrantLock unmarshalLock = new ReentrantLock(true);
+  private ReentrantLock marshalLock = new ReentrantLock(true);
+  private ReentrantLock unmarshalLock = new ReentrantLock(true);
 
-	/**
-	 * Instantiates a new entrainer state message marshal.
-	 */
-	public EntrainerStateMessageMarshal() {
-		try {
-			JAXBContext context = JAXBContext.newInstance(EntrainerStateMessage.class);
-			unmarshal = context.createUnmarshaller();
-			marshal = context.createMarshaller();
-			marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			marshal.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-		} catch (JAXBException e) {
-			throw new RuntimeException(e);
-		}
-	}
+  /**
+   * Instantiates a new entrainer state message marshal.
+   */
+  public EntrainerStateMessageMarshal() {
+    try {
+      JAXBContext context = JAXBContext.newInstance(EntrainerStateMessage.class);
+      unmarshal = context.createUnmarshaller();
+      marshal = context.createMarshaller();
+      marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+      marshal.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+    } catch (JAXBException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
-	/**
-	 * Marshal message.
-	 *
-	 * @param message
-	 *          the message
-	 * @return the string
-	 * @throws JAXBException
-	 *           the JAXB exception
-	 */
-	public String marshalMessage(EntrainerStateMessage message) throws JAXBException {
-		marshalLock.lock();
-		try {
-			StringWriter writer = new StringWriter();
+  /**
+   * Marshal message.
+   *
+   * @param message
+   *          the message
+   * @return the string
+   * @throws JAXBException
+   *           the JAXB exception
+   */
+  public String marshalMessage(EntrainerStateMessage message) throws JAXBException {
+    marshalLock.lock();
+    try {
+      StringWriter writer = new StringWriter();
 
-			marshal.marshal(message, writer);
+      marshal.marshal(message, writer);
 
-			return writer.toString();
-		} finally {
-			marshalLock.unlock();
-		}
-	}
+      return writer.toString();
+    } finally {
+      marshalLock.unlock();
+    }
+  }
 
-	/**
-	 * Unmarshal.
-	 *
-	 * @param message
-	 *          the message
-	 * @return the entrainer state message
-	 * @throws JAXBException
-	 *           the JAXB exception
-	 */
-	public EntrainerStateMessage unmarshal(Object message) throws JAXBException {
-		unmarshalLock.lock();
-		try {
-			if (!(message instanceof String)) {
-				log.error(message + " is not a string");
-				return null;
-			}
+  /**
+   * Unmarshal.
+   *
+   * @param message
+   *          the message
+   * @return the entrainer state message
+   * @throws JAXBException
+   *           the JAXB exception
+   */
+  public EntrainerStateMessage unmarshal(Object message) throws JAXBException {
+    unmarshalLock.lock();
+    try {
+      if (!(message instanceof String)) {
+        log.error(message + " is not a string");
+        return null;
+      }
 
-			StringReader reader = new StringReader((String) message);
+      StringReader reader = new StringReader((String) message);
 
-			return (EntrainerStateMessage) unmarshal.unmarshal(reader);
-		} finally {
-			unmarshalLock.unlock();
-		}
-	}
+      return (EntrainerStateMessage) unmarshal.unmarshal(reader);
+    } finally {
+      unmarshalLock.unlock();
+    }
+  }
 
 }

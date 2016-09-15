@@ -31,39 +31,39 @@ package net.sourceforge.entrainer.gui;
  */
 public enum UnitEditorParm {
 
-	/** The start frequency. */
-	START_FREQUENCY,
+  /** The start frequency. */
+  START_FREQUENCY,
 
-	/** The end frequency. */
-	END_FREQUENCY,
+  /** The end frequency. */
+  END_FREQUENCY,
 
-	/** The start entrainment frequency. */
-	START_ENTRAINMENT_FREQUENCY,
+  /** The start entrainment frequency. */
+  START_ENTRAINMENT_FREQUENCY,
 
-	/** The end entrainment frequency. */
-	END_ENTRAINMENT_FREQUENCY,
+  /** The end entrainment frequency. */
+  END_ENTRAINMENT_FREQUENCY,
 
-	/** The start amplitude. */
-	START_AMPLITUDE,
+  /** The start amplitude. */
+  START_AMPLITUDE,
 
-	/** The end amplitude. */
-	END_AMPLITUDE,
+  /** The end amplitude. */
+  END_AMPLITUDE,
 
-	/** The start pink noise. */
-	START_PINK_NOISE,
+  /** The start pink noise. */
+  START_PINK_NOISE,
 
-	/** The end pink noise. */
-	END_PINK_NOISE,
+  /** The end pink noise. */
+  END_PINK_NOISE,
 
-	/** The start pink pan amplitude. */
-	START_PINK_PAN_AMPLITUDE,
+  /** The start pink pan amplitude. */
+  START_PINK_PAN_AMPLITUDE,
 
-	/** The end pink pan amplitude. */
-	END_PINK_PAN_AMPLITUDE,
+  /** The end pink pan amplitude. */
+  END_PINK_PAN_AMPLITUDE,
 
-	/** The start pink entrainer multiple. */
-	START_PINK_ENTRAINER_MULTIPLE,
+  /** The start pink entrainer multiple. */
+  START_PINK_ENTRAINER_MULTIPLE,
 
-	/** The end pink entrainer multiple. */
-	END_PINK_ENTRAINER_MULTIPLE;
+  /** The end pink entrainer multiple. */
+  END_PINK_ENTRAINER_MULTIPLE;
 }

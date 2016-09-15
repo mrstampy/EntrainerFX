@@ -38,13 +38,13 @@ import java.io.Serializable;
  */
 public interface Sender extends Serializable, Cloneable {
 
-	/**
-	 * Implement to notify all {@link Receiver}'s of changes to properties
-	 * specified by the instance of the {@link ReceiverChangeEvent}.
-	 *
-	 * @param e
-	 *          the e
-	 */
-	void fireReceiverChangeEvent(ReceiverChangeEvent e);
+  /**
+   * Implement to notify all {@link Receiver}'s of changes to properties
+   * specified by the instance of the {@link ReceiverChangeEvent}.
+   *
+   * @param e
+   *          the e
+   */
+  void fireReceiverChangeEvent(ReceiverChangeEvent e);
 
 }

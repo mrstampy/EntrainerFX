@@ -36,36 +36,36 @@ import org.pausethread.PauseThreadAdapter;
  */
 public abstract class EntrainerPausibleThread extends PauseThreadAdapter implements PauseListener {
 
-	/**
-	 * Instantiates a new entrainer pausible thread.
-	 */
-	public EntrainerPausibleThread() {
-		super();
-	}
+  /**
+   * Instantiates a new entrainer pausible thread.
+   */
+  public EntrainerPausibleThread() {
+    super();
+  }
 
-	/**
-	 * Instantiates a new entrainer pausible thread.
-	 *
-	 * @param name
-	 *          the name
-	 */
-	public EntrainerPausibleThread(String name) {
-		super(name);
-	}
+  /**
+   * Instantiates a new entrainer pausible thread.
+   *
+   * @param name
+   *          the name
+   */
+  public EntrainerPausibleThread(String name) {
+    super(name);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.sourceforge.entrainer.pausethread.PauseListener#pauseEventPerformed
-	 * (net.sourceforge.entrainer.pausethread.PauseEvent)
-	 */
-	public void pauseEventPerformed(PauseEvent e) {
-		if (e.isPause()) {
-			pauseWork();
-		} else if (e.isResume()) {
-			resumeWork();
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * net.sourceforge.entrainer.pausethread.PauseListener#pauseEventPerformed
+   * (net.sourceforge.entrainer.pausethread.PauseEvent)
+   */
+  public void pauseEventPerformed(PauseEvent e) {
+    if (e.isPause()) {
+      pauseWork();
+    } else if (e.isResume()) {
+      resumeWork();
+    }
+  }
 
 }

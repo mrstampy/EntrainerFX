@@ -33,21 +33,21 @@ import javafx.scene.effect.GaussianBlur;
  */
 public class GaussianBlurEffectable extends GaussianBlur implements Effectable {
 
-	/**
-	 * Instantiates a new gaussian blur effectable.
-	 */
-	public GaussianBlurEffectable() {
-		super();
-	}
+  /**
+   * Instantiates a new gaussian blur effectable.
+   */
+  public GaussianBlurEffectable() {
+    super();
+  }
 
-	/**
-	 * Instantiates a new gaussian blur effectable.
-	 *
-	 * @param radius
-	 *          the radius
-	 */
-	public GaussianBlurEffectable(double radius) {
-		super(radius);
-	}
+  /**
+   * Instantiates a new gaussian blur effectable.
+   *
+   * @param radius
+   *          the radius
+   */
+  public GaussianBlurEffectable(double radius) {
+    super(radius);
+  }
 
 }

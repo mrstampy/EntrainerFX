@@ -42,74 +42,74 @@ import com.github.mrstampy.esp.dsp.lab.SignalProcessedListener;
  * @see NeuralNetwork#learn(org.neuroph.core.data.DataSet)
  */
 public class SignalDataAggregator implements SignalProcessedListener {
-	private List<double[]> samples = new ArrayList<double[]>();
+  private List<double[]> samples = new ArrayList<double[]>();
 
-	private Lock lock = new ReentrantLock(true);
+  private Lock lock = new ReentrantLock(true);
 
-	private static final int MAX_SAMPLES = 1000; // 1000 seconds! someone went
-																								// walkabout...
+  private static final int MAX_SAMPLES = 1000; // 1000 seconds! someone went
+                                               // walkabout...
 
-	/**
-	 * Clears the samples.
-	 */
-	public void clear() {
-		lock.lock();
-		try {
-			samples.clear();
-		} finally {
-			lock.unlock();
-		}
-	}
+  /**
+   * Clears the samples.
+   */
+  public void clear() {
+    lock.lock();
+    try {
+      samples.clear();
+    } finally {
+      lock.unlock();
+    }
+  }
 
-	/**
-	 * Gets the samples.
-	 *
-	 * @return the samples
-	 */
-	public double[][] getSamples() {
-		lock.lock();
-		try {
-			if (samples.isEmpty()) return null;
+  /**
+   * Gets the samples.
+   *
+   * @return the samples
+   */
+  public double[][] getSamples() {
+    lock.lock();
+    try {
+      if (samples.isEmpty()) return null;
 
-			List<double[]> list = new ArrayList<double[]>(samples);
+      List<double[]> list = new ArrayList<double[]>(samples);
 
-			int cols = list.get(0).length;
-			int rows = list.size();
+      int cols = list.get(0).length;
+      int rows = list.size();
 
-			double[][] d = new double[rows][cols];
+      double[][] d = new double[rows][cols];
 
-			for (int i = 0; i < rows; i++) {
-				double[] sample = list.get(i);
-				for (int j = 0; j < cols; j++) {
-					d[i][j] = sample[j];
-				}
-			}
+      for (int i = 0; i < rows; i++) {
+        double[] sample = list.get(i);
+        for (int j = 0; j < cols; j++) {
+          d[i][j] = sample[j];
+        }
+      }
 
-			return d;
-		} finally {
-			lock.unlock();
-		}
-	}
+      return d;
+    } finally {
+      lock.unlock();
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.github.mrstampy.esp.dsp.lab.SignalProcessedListener#signalProcessed
-	 * (double[])
-	 */
-	@Override
-	public void signalProcessed(double[] processed) {
-		double[] d = new double[Neuralizer.BUF_SIZE];
-		System.arraycopy(processed, 0, d, 0, d.length);
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.github.mrstampy.esp.dsp.lab.SignalProcessedListener#signalProcessed
+   * (double[])
+   */
+  @Override
+  public void signalProcessed(double[] processed) {
+    double[] d = new double[Neuralizer.BUF_SIZE];
+    System.arraycopy(processed, 0, d, 0, d.length);
 
-		lock.lock();
-		try {
-			samples.add(d);
-			if (samples.size() > MAX_SAMPLES) samples.remove(0);
-		} finally {
-			lock.unlock();
-		}
-	}
+    lock.lock();
+    try {
+      samples.add(d);
+      if (samples.size() > MAX_SAMPLES) samples.remove(0);
+    } finally {
+      lock.unlock();
+    }
+  }
 
 }

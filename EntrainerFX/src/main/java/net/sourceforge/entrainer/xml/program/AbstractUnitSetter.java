@@ -36,58 +36,58 @@ import net.sourceforge.entrainer.mediator.SenderAdapter;
  * The Class AbstractUnitSetter.
  */
 abstract class AbstractUnitSetter implements UnitSetter {
-	private EntrainerProgramUnit unit;
+  private EntrainerProgramUnit unit;
 
-	private Sender sender = new SenderAdapter();
+  private Sender sender = new SenderAdapter();
 
-	/**
-	 * Instantiates a new abstract unit setter.
-	 *
-	 * @param unit
-	 *          the unit
-	 */
-	public AbstractUnitSetter(EntrainerProgramUnit unit) {
-		super();
-		setUnit(unit);
-		initMediator();
-	}
+  /**
+   * Instantiates a new abstract unit setter.
+   *
+   * @param unit
+   *          the unit
+   */
+  public AbstractUnitSetter(EntrainerProgramUnit unit) {
+    super();
+    setUnit(unit);
+    initMediator();
+  }
 
-	private void initMediator() {
-		EntrainerMediator.getInstance().addSender(sender);
-	}
+  private void initMediator() {
+    EntrainerMediator.getInstance().addSender(sender);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.entrainer.xml.program.UnitSetter#getUnit()
-	 */
-	public EntrainerProgramUnit getUnit() {
-		return unit;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see net.sourceforge.entrainer.xml.program.UnitSetter#getUnit()
+   */
+  public EntrainerProgramUnit getUnit() {
+    return unit;
+  }
 
-	/**
-	 * Sets the unit.
-	 *
-	 * @param unit
-	 *          the new unit
-	 */
-	public void setUnit(EntrainerProgramUnit unit) {
-		this.unit = unit;
-	}
+  /**
+   * Sets the unit.
+   *
+   * @param unit
+   *          the new unit
+   */
+  public void setUnit(EntrainerProgramUnit unit) {
+    this.unit = unit;
+  }
 
-	/**
-	 * Fire property change event.
-	 *
-	 * @param name
-	 *          the name
-	 * @param oldValue
-	 *          the old value
-	 * @param newValue
-	 *          the new value
-	 */
-	protected void firePropertyChangeEvent(MediatorConstants name, double oldValue, double newValue) {
-		ReceiverChangeEvent e = new ReceiverChangeEvent(this, newValue, name);
-		sender.fireReceiverChangeEvent(e);
-	}
+  /**
+   * Fire property change event.
+   *
+   * @param name
+   *          the name
+   * @param oldValue
+   *          the old value
+   * @param newValue
+   *          the new value
+   */
+  protected void firePropertyChangeEvent(MediatorConstants name, double oldValue, double newValue) {
+    ReceiverChangeEvent e = new ReceiverChangeEvent(this, newValue, name);
+    sender.fireReceiverChangeEvent(e);
+  }
 
 }
