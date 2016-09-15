@@ -38,6 +38,7 @@ import static net.sourceforge.entrainer.xml.program.EntrainerProgramUtil.unmarsh
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sourceforge.entrainer.gui.EntrainerFX;
 import net.sourceforge.entrainer.mediator.EntrainerMediator;
@@ -60,228 +61,239 @@ import net.sourceforge.entrainer.xml.program.EntrainerProgramUnit;
  */
 public class SleeperManager {
 
-	private EntrainerProgram xml;
-	private UnitSleeper sleeper;
+  private EntrainerProgram xml;
+  private UnitSleeper sleeper;
 
-	private List<SleeperManagerListener> listeners = new ArrayList<SleeperManagerListener>();
+  private List<SleeperManagerListener> listeners = new ArrayList<SleeperManagerListener>();
 
-	private Sender sender = new SenderAdapter();
+  private Sender sender = new SenderAdapter();
 
-	/**
-	 * Instantiates a new sleeper manager.
-	 *
-	 * @param fileName
-	 *          the file name
-	 */
-	public SleeperManager(String fileName) {
-		super();
-		initMediator();
-		setEntrainerXml(fileName);
-		createSleepers();
-		fireStartParameters();
-	}
+  /**
+   * Instantiates a new sleeper manager.
+   *
+   * @param fileName
+   *          the file name
+   */
+  public SleeperManager(String fileName) {
+    super();
+    initMediator();
+    setEntrainerXml(fileName);
+    createSleepers();
+    fireStartParameters();
+  }
 
-	/**
-	 * Inits the global settings.
-	 */
-	public void initGlobalSettings() {
-		getXml().initGlobalSettings();
-		fireStartParameters();
-	}
+  /**
+   * Inits the global settings.
+   */
+  public void initGlobalSettings() {
+    getXml().initGlobalSettings();
+    fireStartParameters();
+  }
 
-	private void initMediator() {
-		EntrainerMediator.getInstance().addSender(sender);
-	}
+  private void initMediator() {
+    EntrainerMediator.getInstance().addSender(sender);
+  }
 
-	/**
-	 * Fire start parameters.
-	 */
-	public void fireStartParameters() {
-		if (getUnits().size() > 0) {
-			fireReceiverChangeEvent(getStartAmplitude(), AMPLITUDE);
-			fireReceiverChangeEvent(getStartEntrainmentFrequency(), ENTRAINMENT_FREQUENCY);
-			fireReceiverChangeEvent(getStartFrequency(), FREQUENCY);
-			fireReceiverChangeEvent(getStartPinkEntrainerMultiple(), PINK_ENTRAINER_MULTIPLE);
-			fireReceiverChangeEvent(getStartPinkNoise(), PINK_NOISE_AMPLITUDE);
-			fireReceiverChangeEvent(getStartPinkPan(), PINK_PAN_AMPLITUDE);
-			fireReceiverChangeEvent(xml.isPinkPan(), PINK_PAN);
-			for (EntrainerProgramInterval i : getXml().getIntervals()) {
-				fireReceiverChangeEvent(i.getValue(), INTERVAL_ADD);
-			}
-		}
-	}
+  /**
+   * Fire start parameters.
+   */
+  public void fireStartParameters() {
+    if (getUnits().size() <= 0) return;
 
-	private void fireReceiverChangeEvent(String value, MediatorConstants parm) {
-		ReceiverChangeEvent e = new ReceiverChangeEvent(this, value, parm);
-		sender.fireReceiverChangeEvent(e);
-	}
+    fireReceiverChangeEvent(getStartAmplitude(), AMPLITUDE);
+    fireReceiverChangeEvent(getStartEntrainmentFrequency(), ENTRAINMENT_FREQUENCY);
+    fireReceiverChangeEvent(getStartFrequency(), FREQUENCY);
+    fireReceiverChangeEvent(getStartPinkEntrainerMultiple(), PINK_ENTRAINER_MULTIPLE);
+    fireReceiverChangeEvent(getStartPinkNoise(), PINK_NOISE_AMPLITUDE);
+    fireReceiverChangeEvent(getStartPinkPan(), PINK_PAN_AMPLITUDE);
+    fireReceiverChangeEvent(xml.isPinkPan(), PINK_PAN);
+    for (EntrainerProgramInterval i : getXml().getIntervals()) {
+      fireReceiverChangeEvent(i.getValue(), INTERVAL_ADD);
+    }
+    
+    AtomicInteger seconds = new AtomicInteger(0);
+    getUnits().forEach(epu -> seconds.addAndGet((int)(epu.getTimeInMillis() / 1000)));
+    
+    fireReceiverChangeEvent(seconds.get(), MediatorConstants.PROGRAM_END_TIME_SECONDS);
+    
+    String name = getXml().getFile().getName();
+    int idx = name.lastIndexOf(".");
+    name = idx > 0 ? name.substring(0, idx) : name;
+    
+    fireReceiverChangeEvent(name, MediatorConstants.PROGRAM_NAME);
+  }
 
-	private void fireReceiverChangeEvent(double value, MediatorConstants parm) {
-		ReceiverChangeEvent e = new ReceiverChangeEvent(this, value, parm);
-		sender.fireReceiverChangeEvent(e);
-	}
+  private void fireReceiverChangeEvent(String value, MediatorConstants parm) {
+    ReceiverChangeEvent e = new ReceiverChangeEvent(this, value, parm);
+    sender.fireReceiverChangeEvent(e);
+  }
 
-	private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
-		ReceiverChangeEvent e = new ReceiverChangeEvent(this, value, parm);
-		sender.fireReceiverChangeEvent(e);
-	}
+  private void fireReceiverChangeEvent(double value, MediatorConstants parm) {
+    ReceiverChangeEvent e = new ReceiverChangeEvent(this, value, parm);
+    sender.fireReceiverChangeEvent(e);
+  }
 
-	/**
-	 * Adds the sleeper manager listener.
-	 *
-	 * @param l
-	 *          the l
-	 */
-	public void addSleeperManagerListener(SleeperManagerListener l) {
-		listeners.add(l);
-	}
+  private void fireReceiverChangeEvent(boolean value, MediatorConstants parm) {
+    ReceiverChangeEvent e = new ReceiverChangeEvent(this, value, parm);
+    sender.fireReceiverChangeEvent(e);
+  }
 
-	/**
-	 * Fire sleeper manager event.
-	 *
-	 * @param action
-	 *          the action
-	 */
-	protected void fireSleeperManagerEvent(int action) {
-		SleeperManagerEvent e = new SleeperManagerEvent(this, action);
-		for (SleeperManagerListener l : listeners) {
-			l.sleeperManagerEventPerformed(e);
-		}
-	}
+  /**
+   * Adds the sleeper manager listener.
+   *
+   * @param l
+   *          the l
+   */
+  public void addSleeperManagerListener(SleeperManagerListener l) {
+    listeners.add(l);
+  }
 
-	/**
-	 * Call this method to start the automation of {@link EntrainerFX}.
-	 *
-	 * @return the entrainer pausible thread
-	 */
-	public EntrainerPausibleThread start() {
-		EntrainerPausibleThread t = new EntrainerPausibleThread("SleeperManager Thread") {
-			private EntrainerPausibleThread sleeperThread;
+  /**
+   * Fire sleeper manager event.
+   *
+   * @param action
+   *          the action
+   */
+  protected void fireSleeperManagerEvent(int action) {
+    SleeperManagerEvent e = new SleeperManagerEvent(this, action);
+    for (SleeperManagerListener l : listeners) {
+      l.sleeperManagerEventPerformed(e);
+    }
+  }
 
-			@Override
-			public void doWork() {
-				sleeperThread = sleeper.start();
-				Utils.snooze(50);
+  /**
+   * Call this method to start the automation of {@link EntrainerFX}.
+   *
+   * @return the entrainer pausible thread
+   */
+  public EntrainerPausibleThread start() {
+    EntrainerPausibleThread t = new EntrainerPausibleThread("SleeperManager Thread") {
+      private EntrainerPausibleThread sleeperThread;
 
-				fireSleeperManagerEvent(SleeperManagerEvent.STARTED);
-				boolean isRunning = true;
+      @Override
+      public void doWork() {
+        sleeperThread = sleeper.start();
+        Utils.snooze(50);
 
-				while (isRunning) {
-					Utils.snooze(1000);
-					isRunning = sleeper.isRunning();
-				}
+        fireSleeperManagerEvent(SleeperManagerEvent.STARTED);
+        boolean isRunning = true;
 
-				fireSleeperManagerEvent(SleeperManagerEvent.STOPPED);
-			}
+        while (isRunning) {
+          Utils.snooze(1000);
+          isRunning = sleeper.isRunning();
+        }
 
-			@Override
-			public void pauseEventPerformed(PauseEvent e) {
-				sleeperThread.pauseEventPerformed(e);
-				super.pauseEventPerformed(e);
-			}
-		};
+        fireSleeperManagerEvent(SleeperManagerEvent.STOPPED);
+      }
 
-		t.start();
+      @Override
+      public void pauseEventPerformed(PauseEvent e) {
+        sleeperThread.pauseEventPerformed(e);
+        super.pauseEventPerformed(e);
+      }
+    };
 
-		return t;
-	}
+    t.start();
 
-	/**
-	 * Call this method to stop {@link EntrainerFX} automation.
-	 */
-	public void stop() {
-		sleeper.stop();
-	}
+    return t;
+  }
 
-	/**
-	 * Gets the starting frequency from the {@link EntrainerProgramUnit} list.
-	 *
-	 * @return the start frequency
-	 */
-	public double getStartFrequency() {
-		return getUnits().get(0).getStartFrequency();
-	}
+  /**
+   * Call this method to stop {@link EntrainerFX} automation.
+   */
+  public void stop() {
+    sleeper.stop();
+  }
 
-	/**
-	 * Gets the starting entrainment frequency from the
-	 * {@link EntrainerProgramUnit} list.
-	 *
-	 * @return the start entrainment frequency
-	 */
-	public double getStartEntrainmentFrequency() {
-		return getUnits().get(0).getStartEntrainmentFrequency();
-	}
+  /**
+   * Gets the starting frequency from the {@link EntrainerProgramUnit} list.
+   *
+   * @return the start frequency
+   */
+  public double getStartFrequency() {
+    return getUnits().get(0).getStartFrequency();
+  }
 
-	/**
-	 * Gets the starting amplitude from the {@link EntrainerProgramUnit} list.
-	 *
-	 * @return the start amplitude
-	 */
-	public double getStartAmplitude() {
-		return getUnits().get(0).getStartAmplitude();
-	}
+  /**
+   * Gets the starting entrainment frequency from the
+   * {@link EntrainerProgramUnit} list.
+   *
+   * @return the start entrainment frequency
+   */
+  public double getStartEntrainmentFrequency() {
+    return getUnits().get(0).getStartEntrainmentFrequency();
+  }
 
-	/**
-	 * Gets the starting pink noise value from the {@link EntrainerProgramUnit}
-	 * list.
-	 *
-	 * @return the start pink noise
-	 */
-	public double getStartPinkNoise() {
-		return getUnits().get(0).getStartPinkNoise();
-	}
+  /**
+   * Gets the starting amplitude from the {@link EntrainerProgramUnit} list.
+   *
+   * @return the start amplitude
+   */
+  public double getStartAmplitude() {
+    return getUnits().get(0).getStartAmplitude();
+  }
 
-	/**
-	 * Gets the starting pink noise panning from the {@link EntrainerProgramUnit}
-	 * list.
-	 *
-	 * @return the start pink pan
-	 */
-	public double getStartPinkPan() {
-		return getUnits().get(0).getStartPinkPan();
-	}
+  /**
+   * Gets the starting pink noise value from the {@link EntrainerProgramUnit}
+   * list.
+   *
+   * @return the start pink noise
+   */
+  public double getStartPinkNoise() {
+    return getUnits().get(0).getStartPinkNoise();
+  }
 
-	/**
-	 * Gets the starting pink noise entrainer multiple value from the
-	 * {@link EntrainerProgramUnit} list.
-	 *
-	 * @return the start pink entrainer multiple
-	 */
-	public double getStartPinkEntrainerMultiple() {
-		return getUnits().get(0).getStartPinkEntrainerMultiple();
-	}
+  /**
+   * Gets the starting pink noise panning from the {@link EntrainerProgramUnit}
+   * list.
+   *
+   * @return the start pink pan
+   */
+  public double getStartPinkPan() {
+    return getUnits().get(0).getStartPinkPan();
+  }
 
-	/**
-	 * Clear mediator objects.
-	 */
-	public void clearMediatorObjects() {
-		EntrainerMediator.getInstance().removeSender(sender);
-		sleeper.clearMediatorObjects();
-	}
+  /**
+   * Gets the starting pink noise entrainer multiple value from the
+   * {@link EntrainerProgramUnit} list.
+   *
+   * @return the start pink entrainer multiple
+   */
+  public double getStartPinkEntrainerMultiple() {
+    return getUnits().get(0).getStartPinkEntrainerMultiple();
+  }
 
-	private void createSleepers() {
-		sleeper = getUnitSleeper();
-	}
+  /**
+   * Clear mediator objects.
+   */
+  public void clearMediatorObjects() {
+    EntrainerMediator.getInstance().removeSender(sender);
+    sleeper.clearMediatorObjects();
+  }
 
-	private List<EntrainerProgramUnit> getUnits() {
-		return getXml().getUnits();
-	}
+  private void createSleepers() {
+    sleeper = getUnitSleeper();
+  }
 
-	private UnitSleeper getUnitSleeper() {
-		return new UnitSleeper(new LinkedList<EntrainerProgramUnit>(getXml().getUnits()));
-	}
+  private List<EntrainerProgramUnit> getUnits() {
+    return getXml().getUnits();
+  }
 
-	private void setEntrainerXml(String fileName) {
-		xml = unmarshal(fileName);
-	}
+  private UnitSleeper getUnitSleeper() {
+    return new UnitSleeper(new LinkedList<EntrainerProgramUnit>(getXml().getUnits()));
+  }
 
-	/**
-	 * Gets the xml.
-	 *
-	 * @return the xml
-	 */
-	public EntrainerProgram getXml() {
-		return xml;
-	}
+  private void setEntrainerXml(String fileName) {
+    xml = unmarshal(fileName);
+  }
+
+  /**
+   * Gets the xml.
+   *
+   * @return the xml
+   */
+  public EntrainerProgram getXml() {
+    return xml;
+  }
 
 }
