@@ -105,8 +105,7 @@ public class ProgramHUD extends VBox {
       protected void processReceiverChangeEvent(ReceiverChangeEvent e) {
         switch (e.getParm()) {
         case START_ENTRAINMENT:
-          if (!program.get()) return;
-          JFXUtils.runLater(() -> startStopDisplay(e.getBooleanValue()));
+          if (program.get()) JFXUtils.runLater(() -> startStopDisplay(e.getBooleanValue()));
           break;
         case PROGRAM_END_TIME_SECONDS:
           setEndTime((int) e.getDoubleValue());
