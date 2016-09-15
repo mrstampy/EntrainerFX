@@ -76,7 +76,7 @@ public class ProgramHUD extends VBox {
    * Instantiates a new program hud.
    */
   public ProgramHUD() {
-    super();
+    super(20);
 
     setOpacity(0.5);
 
