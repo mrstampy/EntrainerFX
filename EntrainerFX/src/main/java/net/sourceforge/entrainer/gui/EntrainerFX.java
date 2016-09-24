@@ -528,8 +528,10 @@ public class EntrainerFX extends Application {
   }
 
   private void initSettings() {
-    if (settings.getXmlProgram() != null && !settings.getXmlProgram().isEmpty() && stage.isShowing()) {
-      readXmlFile(settings.getXmlProgram());
+    String xmlProgram = settings.getXmlProgram();
+    
+    if (xmlProgram != null && !xmlProgram.isEmpty()) {
+      readXmlFile(xmlProgram);
     } else {
       enableControls(true);
     }

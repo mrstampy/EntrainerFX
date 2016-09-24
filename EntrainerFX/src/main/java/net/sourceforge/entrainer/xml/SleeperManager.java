@@ -267,6 +267,10 @@ public class SleeperManager {
    * Clear mediator objects.
    */
   public void clearMediatorObjects() {
+    for (EntrainerProgramInterval i : getXml().getIntervals()) {
+      fireReceiverChangeEvent(i.getValue(), MediatorConstants.INTERVAL_REMOVE);
+    }
+    
     EntrainerMediator.getInstance().removeSender(sender);
     sleeper.clearMediatorObjects();
   }

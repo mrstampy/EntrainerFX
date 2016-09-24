@@ -527,6 +527,8 @@ public class IntervalMenu extends Menu {
   }
 
   private void addInOrder(Menu menu, MenuItem item) {
+    if(menu.getItems().contains(item)) return;
+    
     List<MenuItem> comps = menu.getItems();
     int i = 0;
     for (MenuItem jmi : comps) {
