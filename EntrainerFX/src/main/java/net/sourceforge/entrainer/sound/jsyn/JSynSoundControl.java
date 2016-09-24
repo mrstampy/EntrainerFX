@@ -510,7 +510,7 @@ public class JSynSoundControl extends AbstractSoundControl {
       intervals.add(interval);
       setMixerGains();
       if (isPlaying()) {
-        interval.start();
+        interval.start(out);
       }
     }
   }
@@ -530,7 +530,7 @@ public class JSynSoundControl extends AbstractSoundControl {
   public void removeIntervalControl(int intervalNumerator, int intervalDenominator) {
     JSynInterval interval = getInterval(intervalNumerator, intervalDenominator);
     if (interval != null) {
-      interval.stop();
+      interval.stop(out);
       intervals.remove(interval);
       setMixerGains();
     }

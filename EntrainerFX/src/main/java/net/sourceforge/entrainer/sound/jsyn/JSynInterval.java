@@ -25,6 +25,7 @@
  */
 package net.sourceforge.entrainer.sound.jsyn;
 
+import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.UnitOscillator;
 
@@ -192,6 +193,10 @@ public class JSynInterval extends AbstractSoundInterval {
     leftChannel.start();
   }
 
+  public void start(LineOut out) {
+    leftChannel.output.connect(out.input);
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -199,6 +204,12 @@ public class JSynInterval extends AbstractSoundInterval {
    */
   public void stop() {
     leftChannel.stop();
+  }
+
+  public void stop(LineOut out) {
+    leftChannel.output.disconnect(out.input);
+    leftChannel.amplitude.set(0);
+    stop();
   }
 
   /*
