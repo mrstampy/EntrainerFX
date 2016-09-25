@@ -253,12 +253,20 @@ public class SliderControlPane extends AbstractTitledPane {
         case DELTA_PINK_PAN_AMPLITUDE:
           setPinkAmplitude(masterLevelController.getPinkPanAmplitude());
           break;
+        case START_ENTRAINMENT:
+          if(e.getBooleanValue()) fireStartVolumes();
+          break;
         default:
           break;
         }
       }
 
     });
+  }
+
+  private void fireStartVolumes() {
+    fireReceiverChangeEvent(amplitude.getValue(), MediatorConstants.AMPLITUDE);
+    fireReceiverChangeEvent(pinkNoise.getValue(), MediatorConstants.PINK_NOISE_AMPLITUDE);
   }
 
   private void addSlider(String label, Slider slider, Label value, int row) {
