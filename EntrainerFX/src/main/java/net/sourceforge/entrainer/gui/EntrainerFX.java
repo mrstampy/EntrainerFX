@@ -339,9 +339,12 @@ public class EntrainerFX extends Application {
   private void scaleSize() {
     Dimension screen = GuiUtil.getWorkingScreenSize();
     int height = MIN_HEIGHT > screen.getHeight() ? (int) (screen.getHeight() - 50) : MIN_HEIGHT;
+    
+    double maxWidth = screen.getWidth();
 
-    gp.setPrefHeight(height);
+    gp.setPrefSize(maxWidth, height);
     stage.setHeight(height);
+    stage.setMaxWidth(maxWidth);
 
     Rectangle2D r = new Rectangle2D(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight());
     resizer.setSize(r);
