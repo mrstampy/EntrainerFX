@@ -368,7 +368,21 @@ public class Settings {
   public void setPreserveState(boolean b) {
     log.debug("preserving state {}", b);
     this.preserveState = b;
-    if (!b) initState();
+
+    if (b) return;
+
+    Thread t = new Thread() {
+      public void run() {
+        try {
+          sleep(10);
+        } catch (InterruptedException e) {
+
+        }
+        initState();
+      }
+    };
+
+    t.start();
   }
 
   /**

@@ -1277,12 +1277,13 @@ public class EntrainerFX extends Application {
   }
 
   private void enableControls(final boolean enabled) {
-    JFXUtils.runLater(() -> setPanesDisabled(!enabled));
-
-    getFileMenuItem(MENU_NEW_ENTRAINER_FX_PROGRAM).setDisable(!enabled);
-    getFileMenuItem(MENU_EDIT_ENTRAINER_FX_PROGRAM).setDisable(!enabled);
-    getFileMenuItem(MENU_CLEAR_ENTRAINER_FX_PROGRAM).setDisable(enabled);
-    getFileMenuItem(MENU_LOAD_ENTRAINER_FX_PROGRAM).setDisable(!enabled);
+    JFXUtils.runLater(() ->  {
+      setPanesDisabled(!enabled); 
+      getFileMenuItem(MENU_NEW_ENTRAINER_FX_PROGRAM).setDisable(!enabled);
+      getFileMenuItem(MENU_EDIT_ENTRAINER_FX_PROGRAM).setDisable(!enabled);
+      getFileMenuItem(MENU_CLEAR_ENTRAINER_FX_PROGRAM).setDisable(enabled);
+      getFileMenuItem(MENU_LOAD_ENTRAINER_FX_PROGRAM).setDisable(!enabled);
+    });
   }
 
   private void setPanesDisabled(boolean b) {
