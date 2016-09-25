@@ -342,7 +342,8 @@ public class EntrainerFX extends Application {
     
     double maxWidth = screen.getWidth();
 
-    gp.setPrefSize(maxWidth, height);
+    gp.setPrefHeight(height);
+    gp.setMaxWidth(maxWidth);
     stage.setHeight(height);
     stage.setMaxWidth(maxWidth);
 
