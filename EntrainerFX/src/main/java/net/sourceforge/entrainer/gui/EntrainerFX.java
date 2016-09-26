@@ -319,7 +319,6 @@ public class EntrainerFX extends Application {
 
     JFXUtils.runLater(() -> initAnimationWindow());
     initSocket();
-    initSettings();
     SwingUtilities.invokeLater(() -> addSystemTrayIcon());
     setMessage("Started Entrainer");
   }
@@ -1520,7 +1519,6 @@ public class EntrainerFX extends Application {
     addMenu();
 
     createPanner();
-    initSettings();
   }
 
   /*
@@ -1602,6 +1600,7 @@ public class EntrainerFX extends Application {
     setShimmerSizes(resizer.getSize());
     Timeline tl = new Timeline(new KeyFrame(Duration.millis(500), new KeyValue(stage.opacityProperty(), 1)));
     tl.play();
+    initSettings();
   }
 
   private void startup() {
