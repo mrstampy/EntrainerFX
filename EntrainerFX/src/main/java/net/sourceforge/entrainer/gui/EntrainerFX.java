@@ -339,7 +339,7 @@ public class EntrainerFX extends Application {
   private void scaleSize() {
     Dimension screen = GuiUtil.getWorkingScreenSize();
     int height = MIN_HEIGHT > screen.getHeight() ? (int) (screen.getHeight() - 50) : MIN_HEIGHT;
-    
+
     double maxWidth = screen.getWidth();
 
     gp.setPrefHeight(height);
@@ -533,7 +533,7 @@ public class EntrainerFX extends Application {
 
   private void initSettings() {
     String xmlProgram = settings.getXmlProgram();
-    
+
     if (xmlProgram != null && !xmlProgram.isEmpty()) {
       readXmlFile(xmlProgram);
     } else {
@@ -1273,16 +1273,16 @@ public class EntrainerFX extends Application {
   }
 
   private void initializeControls() {
-    if (!entrainerProgramInitialized) {
-      sleeperManager.initGlobalSettings();
-      entrainerProgramInitialized = true;
-      soundControlPane.setPlayingEntrainerProgram(true);
-    }
+    if (entrainerProgramInitialized) return;
+
+    sleeperManager.initGlobalSettings();
+    entrainerProgramInitialized = true;
+    soundControlPane.setPlayingEntrainerProgram(true);
   }
 
   private void enableControls(final boolean enabled) {
-    JFXUtils.runLater(() ->  {
-      setPanesDisabled(!enabled); 
+    JFXUtils.runLater(() -> {
+      setPanesDisabled(!enabled);
       getFileMenuItem(MENU_NEW_ENTRAINER_FX_PROGRAM).setDisable(!enabled);
       getFileMenuItem(MENU_EDIT_ENTRAINER_FX_PROGRAM).setDisable(!enabled);
       getFileMenuItem(MENU_CLEAR_ENTRAINER_FX_PROGRAM).setDisable(enabled);
@@ -1412,13 +1412,17 @@ public class EntrainerFX extends Application {
     if (f == null) return;
 
     try {
-      clearXmlFile();
-      readXmlFile(f.getAbsolutePath());
+      resetProgram(f);
       soundControlPane.setPlayingEntrainerProgram(true);
     } catch (Exception e) {
       GuiUtil.handleProblem(e);
       soundControlPane.setPlayingEntrainerProgram(false);
     }
+  }
+
+  private void resetProgram(File f) {
+    clearXmlFile();
+    readXmlFile(f.getAbsolutePath());
   }
 
   private void readXmlFile(String fileName) {
@@ -1431,6 +1435,8 @@ public class EntrainerFX extends Application {
           fireReceiverChangeEvent(false, START_ENTRAINMENT);
           stopPressed();
           soundControlPane.setPlaying(false);
+
+          resetProgram(sleeperManager.getXml().getFile());
         }
       }
     });
