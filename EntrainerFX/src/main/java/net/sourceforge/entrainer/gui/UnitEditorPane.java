@@ -438,7 +438,7 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
   private Spinner<Double> createSpinner(double val, double min, double max, double incr) {
     Spinner<Double> spin = new Spinner<>(min, max, val, incr);
 
-    spin.setPrefWidth(70);
+    spin.setPrefWidth(90);
 
     return spin;
   }
@@ -446,7 +446,7 @@ public class UnitEditorPane extends Tab implements UnitEditorListener {
   private Spinner<Integer> createSpinner(int val, int min, int max, int incr) {
     Spinner<Integer> spin = new Spinner<>(min, max, val, incr);
 
-    spin.setPrefWidth(70);
+    spin.setPrefWidth(90);
 
     return spin;
   }
