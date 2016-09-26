@@ -110,7 +110,7 @@
 			<file src="animation/JFXHypnoAnimation-${EFX_VERSION}.jar" targetdir="$USER_HOME/EntrainerFX-Settings/animation" />
 
 		</pack>
-
+<!--  removed from 6.0.2 along with jportaudio-0.0.1.jar
 		<pack name="JSynBinaries" required="yes">
 			<description>
 				The PortAudio Platform-Specific Binaries
@@ -131,7 +131,7 @@
 				<os family="mac" name="Mac OS X" />
 			</file>
 		</pack>
-
+ -->
 		<pack name="Documentation" required="no">
 			<description>The Documentation for EntrainerFX installing to $USER_HOME/EntrainerFX-Settings/doc</description>
 			<fileset dir="doc" targetdir="$USER_HOME/EntrainerFX-Settings/doc"/>
