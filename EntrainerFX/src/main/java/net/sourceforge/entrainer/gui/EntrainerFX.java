@@ -535,7 +535,7 @@ public class EntrainerFX extends Application {
     String xmlProgram = settings.getXmlProgram();
 
     if (xmlProgram != null && !xmlProgram.isEmpty()) {
-      readXmlFile(xmlProgram);
+      resetProgram(xmlProgram);
     } else {
       enableControls(true);
     }
@@ -1421,8 +1421,12 @@ public class EntrainerFX extends Application {
   }
 
   private void resetProgram(File f) {
+    resetProgram(f.getAbsolutePath());
+  }
+
+  private void resetProgram(String programFile) {
     clearXmlFile();
-    readXmlFile(f.getAbsolutePath());
+    readXmlFile(programFile);
   }
 
   private void readXmlFile(String fileName) {
