@@ -35,5 +35,5 @@ public interface Version {
   public static final String VERSION = "6.0.2";
 
   /** The Constant RELEASE. */
-  public static final String RELEASE = "April 15, 2016";
+  public static final String RELEASE = "September 28, 2016";
 }
