@@ -424,10 +424,6 @@ public class JSynSoundControl extends AbstractSoundControl {
     int numChannels = 4 + intervals.size();
     double d = 1.0 / numChannels;
 
-    pinkNoise.amplitude.set(d);
-    leftChannel.amplitude.set(d);
-    rightChannel.amplitude.set(d);
-
     int i = 4;
     ListIterator<JSynInterval> li = intervals.listIterator();
     while (li.hasNext()) {
