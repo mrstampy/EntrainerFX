@@ -23,9 +23,9 @@ EntrainerFX will run on Windows, OS X and Linux and was built using Java 8 (1.8.
   - upgraded libraries
   - new heads-up display on the Sound Options panel for running EntrainerFX programs
   - bug fixes:
-    - wide picture on load bugfix
+    - wide picture on start bugfix
     - EntrainerFX program replay bugfix
-    - settings on load fix for EntrainerFX programs
+    - settings on start fix for EntrainerFX programs
 
 6.0.1 - August 31, 2015
   - upgraded libraries
