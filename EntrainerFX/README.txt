@@ -16,7 +16,7 @@ The sound output of EntrainerFX can also be saved as a .wav file.  Using your fa
 audio conversion tool (ie. iTunes) you can create mp3's of the EntrainerFX programs, for use 
 on your personal media device.
 
-EntrainerFX will run on Windows, OS X and Linux and was built using Java 8 (1.8.0_51).
+EntrainerFX will run on Windows, OS X and Linux and was built using Java 8 (1.8.0_74).
 
 6.0.2 - September 28, 2016
   - utilizing new JSyn sound library api
